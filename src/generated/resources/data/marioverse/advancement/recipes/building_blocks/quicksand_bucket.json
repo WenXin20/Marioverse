@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_sands/colorless": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:sands/colorless"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:quicksand_bucket"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_water_bucket": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:water_bucket"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sands/colorless",
+      "has_water_bucket"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:quicksand_bucket"
+    ]
+  }
+}

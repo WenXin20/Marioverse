@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_plastic_water_bucket": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:plastic_water_bucket"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sands/colorless": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:sands/colorless"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:plastic_quicksand_bucket"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sands/colorless",
+      "has_plastic_water_bucket"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:plastic_quicksand_bucket"
+    ]
+  }
+}

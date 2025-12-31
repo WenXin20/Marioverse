@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:quicksand_buckets",
+  "key": {
+    "A": {
+      "tag": "c:sands/colorless"
+    },
+    "B": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "pattern": [
+    "A",
+    "B"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:quicksand_bucket"
+  }
+}

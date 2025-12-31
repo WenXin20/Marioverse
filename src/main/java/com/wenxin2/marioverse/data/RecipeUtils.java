@@ -164,7 +164,8 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
-    public void twoByOneRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
+    public void twoByOneRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                               Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
                 .pattern("A")
                 .pattern("B")
