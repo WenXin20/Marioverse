@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-30T19:51:59.1466149	Tags for minecraft:item mod id marioverse
+// 1.21.1	2025-12-30T21:02:29.9735744	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -106,7 +106,7 @@ d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calci
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 532e872403aa544188f07e6de29a6fe73640e755 data/minecraft/tags/item/enchantable/armor.json
 0ec447bba75fb96978c4ba5fb744d2469ae19a34 data/minecraft/tags/item/enchantable/durability.json
-8c60a7e00fcd0cc2a66b4d121e551d7d9a458aee data/minecraft/tags/item/enchantable/equippable.json
+7206e9db10a9c6aa2baec0ee4a8ba1400f72fd66 data/minecraft/tags/item/enchantable/equippable.json
 391d783fca840d39745b17abeffb24ba90843808 data/minecraft/tags/item/enchantable/fire_aspect.json
 7206e9db10a9c6aa2baec0ee4a8ba1400f72fd66 data/minecraft/tags/item/enchantable/vanishing.json
 391d783fca840d39745b17abeffb24ba90843808 data/minecraft/tags/item/enchantable/weapon.json

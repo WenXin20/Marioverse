@@ -93,6 +93,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.EQUIPPABLE_ENCHANTABLE)
                 .add(ItemRegistry.POWDER_SNOW_PLASTIC_BUCKET.get())
                 .add(ItemRegistry.QUICKSAND_PLASTIC_BUCKET.get())
+                .add(ItemRegistry.RED_QUICKSAND_PLASTIC_BUCKET.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
