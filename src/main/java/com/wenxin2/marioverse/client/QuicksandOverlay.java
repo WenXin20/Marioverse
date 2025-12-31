@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client;
 
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -13,8 +14,9 @@ public final class QuicksandOverlay {
     public static void clientTick(Minecraft mc) {
         if (mc.player == null) return;
 
-        boolean inQuicksand = mc.level != null && mc.level.getBlockStates(mc.player.getBoundingBox())
-                        .anyMatch(state -> state.is(BlockRegistry.QUICKSAND.get()));
+        boolean inQuicksand = mc.level != null && mc.level
+                .getBlockState(BlockPos.containing(mc.player.getEyePosition()))
+                .is(BlockRegistry.QUICKSAND.get());
         float step = 1.0F / (FADE_TIME * 20.0F);
 
         if (inQuicksand)
