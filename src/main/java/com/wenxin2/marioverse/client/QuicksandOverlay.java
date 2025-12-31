@@ -10,6 +10,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 public final class QuicksandOverlay {
     private static float overlayProgress = 0.0F;
     private static final float FADE_TIME = 40.0F;
+    private static boolean wasInQuicksand = false;
 
     public static void clientTick(Minecraft mc) {
         if (mc.player == null) return;
@@ -19,9 +20,13 @@ public final class QuicksandOverlay {
                 .is(BlockRegistry.QUICKSAND.get());
         float step = 1.0F / (FADE_TIME * 20.0F);
 
-        if (inQuicksand)
+        if (!inQuicksand && wasInQuicksand)
+            overlayProgress = Math.max(0.0F, overlayProgress - step * 3.0F);
+        else if (inQuicksand)
             overlayProgress = Math.min(1.0F, overlayProgress + step);
         else overlayProgress = Math.max(0.0F, overlayProgress - step);
+
+        wasInQuicksand = inQuicksand;
     }
 
     public static float getOverlayProgress() {
