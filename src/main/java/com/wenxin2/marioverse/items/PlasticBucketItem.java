@@ -3,15 +3,14 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.client.renderers.costumes.PlasticBucketRenderer;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import io.wispforest.accessories.api.Accessory;
+import io.wispforest.accessories.api.slot.SlotReference;
 import java.util.function.Consumer;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -20,9 +19,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -33,7 +31,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -52,7 +50,7 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
+public class PlasticBucketItem extends BaseCostumeItem implements Accessory, GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public PlasticBucketItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
@@ -91,46 +89,33 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        HitResult hit = player.pick(5.0D, 0.0F, false);
         BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
         BlockPos pos = hitResult.getBlockPos();
         BlockState state = level.getBlockState(pos);
-//        if (hit.getType() == HitResult.Type.BLOCK) {
-//            BlockHitResult blockHit = (BlockHitResult) hit;
-//
-//            if (state.getBlock() instanceof BucketPickup)
-//                return InteractionResultHolder.pass(player.getItemInHand(hand));
-//        }
+        FluidState fluidState = level.getFluidState(pos);
 
-        if (hitResult.getType() == HitResult.Type.MISS)
-            return InteractionResultHolder.pass(stack);
-        else if (hitResult.getType() != HitResult.Type.BLOCK
+        if (hitResult.getType() != HitResult.Type.BLOCK
                 && state.getBlock() instanceof BucketPickup)
             return InteractionResultHolder.pass(stack);
-        else {
-            if (state.getBlock() instanceof BucketPickup bucketPickup && state.is(Blocks.WATER)) {
-                ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
+        else if (state.getBlock() instanceof BucketPickup bucketPickup && fluidState.is(Fluids.WATER)) {
+            ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
+            ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
 
-                if (!stackPickup.isEmpty()) {
-                    ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
-                    newStack.applyComponents(stack.getComponents());
+            if (!stackPickup.isEmpty()) {
+                newStack.applyComponents(stack.getComponents());
+                bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
+                player.setItemInHand(hand, newStack);
 
-                    bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
-                    player.setItemInHand(hand, newStack);
-                    stack.consume(1, player);
-
-                    if (!level.isClientSide)
-                        CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, stackPickup);
-                    player.awardStat(Stats.ITEM_USED.get(this));
-                    level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
-
-                    return InteractionResultHolder.sidedSuccess(newStack, level.isClientSide());
-                }
+                if (!level.isClientSide)
+                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, stackPickup);
+                player.awardStat(Stats.ITEM_USED.get(this));
+                level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
             }
+            return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
         }
 
         if (player.isShiftKeyDown())
-            return InteractionResultHolder.pass(player.getItemInHand(hand));
+            return InteractionResultHolder.pass(stack);
         return this.swapWithEquipmentSlot(this, level, player, hand);
     }
 
@@ -179,9 +164,28 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
         if (vanillaBucket.is(Items.WATER_BUCKET))
             return new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
 
-//        if (vanillaBucket.is(Items.LAVA_BUCKET))
-//            return new ItemStack(ItemRegistry.PLASTIC_LAVA_BUCKET.);
-
         return new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
+    }
+
+    @Override
+    public void onEquipFromUse(ItemStack stack, SlotReference reference) {
+        if (isPickingUpFluid(reference.entity())) {
+            reference.setStack(ItemStack.EMPTY);
+            if (reference.entity() instanceof Player player)
+                player.setItemInHand(InteractionHand.MAIN_HAND, stack);
+            return;
+        }
+        Accessory.super.onEquipFromUse(stack, reference);
+    }
+
+    private boolean isPickingUpFluid(LivingEntity entity) {
+        if (!(entity instanceof Player player))
+            return false;
+
+        BlockHitResult hit = Item.getPlayerPOVHitResult(player.level(), player, ClipContext.Fluid.SOURCE_ONLY);
+        if (hit.getType() != HitResult.Type.BLOCK)
+            return false;
+
+        return player.level().getFluidState(hit.getBlockPos()).is(Fluids.WATER);
     }
 }
