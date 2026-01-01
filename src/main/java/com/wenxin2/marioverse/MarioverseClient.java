@@ -150,6 +150,12 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tintIndex) -> {
+                    if (tintIndex == 1)
+                        return 0xFF3F76E4;
+                    return -1;
+                }, ItemRegistry.PLASTIC_WATER_BUCKET.get()
+        );
     }
 
     @SubscribeEvent
