@@ -97,7 +97,8 @@ public class PlasticBucketItem extends BaseCostumeItem implements Accessory, Geo
         if (hitResult.getType() != HitResult.Type.BLOCK
                 && state.getBlock() instanceof BucketPickup)
             return InteractionResultHolder.pass(stack);
-        else if (state.getBlock() instanceof BucketPickup bucketPickup && fluidState.is(Fluids.WATER)) {
+        else if (state.getBlock() instanceof BucketPickup bucketPickup && fluidState.is(Fluids.WATER)
+                && player.isShiftKeyDown()) {
             ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
             ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
 

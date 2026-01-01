@@ -39,40 +39,22 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        BlockHitResult hitResult = getPlayerPOVHitResult(level, player,
-                this.content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE);
+        BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+        BlockPos pos = hitResult.getBlockPos();
+        BlockState state = level.getBlockState(pos);
 
-        if (hitResult.getType() == HitResult.Type.MISS)
+        if (hitResult.getType() == HitResult.Type.MISS) {
             return InteractionResultHolder.pass(stack);
-        else if (hitResult.getType() != HitResult.Type.BLOCK)
+        } else if (hitResult.getType() != HitResult.Type.BLOCK
+                && state.getBlock() instanceof BucketPickup)
             return InteractionResultHolder.pass(stack);
         else {
-            BlockPos pos = hitResult.getBlockPos();
             Direction direction = hitResult.getDirection();
             BlockPos posRelative = pos.relative(direction);
 
             if (!level.mayInteract(player, pos) || !player.mayUseItemAt(posRelative, direction, stack))
                 return InteractionResultHolder.fail(stack);
-            else if (this.content == Fluids.EMPTY) {
-                BlockState state = level.getBlockState(pos);
-
-                if (state.getBlock() instanceof BucketPickup bucketPickup) {
-                    ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
-                    if (!stackPickup.isEmpty()) {
-                        player.awardStat(Stats.ITEM_USED.get(this));
-                        bucketPickup.getPickupSound(state).ifPresent(p_150709_ -> player.playSound(p_150709_, 1.0F, 1.0F));
-                        level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
-                        ItemStack itemstack2 = ItemUtils.createFilledResult(stack, player, stackPickup);
-                        if (!level.isClientSide)
-                            CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, stackPickup);
-
-                        return InteractionResultHolder.sidedSuccess(itemstack2, level.isClientSide());
-                    }
-                }
-
-                return InteractionResultHolder.fail(stack);
-            } else {
-                BlockState state = level.getBlockState(pos);
+            else {
                 BlockPos posFluid = canBlockContainFluid(player, level, pos, state) ? pos : posRelative;
                 if (this.emptyContents(player, level, posFluid, hitResult, stack)) {
                     this.checkExtraContent(player, level, stack, posFluid);
