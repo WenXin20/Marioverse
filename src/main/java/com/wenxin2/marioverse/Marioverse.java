@@ -100,7 +100,7 @@ public class Marioverse {
 
         // Register ourselves for server and other game events we are interested in
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
-        NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onPlayerRightClick);
+        NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onRightClickBlock);
         bus.addListener(this::commonSetup);
         bus.addListener(RegistryEventHandlers::gatherData);
     }
