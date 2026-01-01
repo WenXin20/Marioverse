@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DispensibleContainerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
@@ -29,14 +30,20 @@ public class SolidPlasticBucketItem extends SolidBucketItem implements Dispensib
             ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
             newStack.applyComponents(stack.getComponents());
 
-            player.awardStat(Stats.ITEM_USED.get(this));
             if (!player.isCreative())
                 player.setItemInHand(context.getHand(), newStack);
-            if (!player.isCreative())
-                stack.consume(1, player);
+            else ItemUtils.createFilledResult(stack, player, SolidPlasticBucketItem.getEmptySuccessItem(stack, player));
+
+            player.awardStat(Stats.ITEM_USED.get(this));
             this.place(new BlockPlaceContext(context));
             return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
+    }
+
+    public static ItemStack getEmptySuccessItem(ItemStack stack, Player player) {
+        ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
+        newStack.applyComponents(stack.getComponents());
+        return !player.hasInfiniteMaterials() ? newStack : stack;
     }
 }

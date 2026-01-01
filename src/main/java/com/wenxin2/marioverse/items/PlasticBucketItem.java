@@ -21,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -94,8 +95,8 @@ public class PlasticBucketItem extends BaseCostumeItem implements Accessory, Geo
         BlockState state = level.getBlockState(pos);
         FluidState fluidState = level.getFluidState(pos);
 
-        if (hitResult.getType() != HitResult.Type.BLOCK
-                && state.getBlock() instanceof BucketPickup)
+        if (hitResult.getType() != HitResult.Type.BLOCK && state.getBlock() instanceof BucketPickup
+                && player.isShiftKeyDown())
             return InteractionResultHolder.pass(stack);
         else if (state.getBlock() instanceof BucketPickup bucketPickup && fluidState.is(Fluids.WATER)
                 && player.isShiftKeyDown()) {
@@ -105,7 +106,10 @@ public class PlasticBucketItem extends BaseCostumeItem implements Accessory, Geo
             if (!stackPickup.isEmpty()) {
                 newStack.applyComponents(stack.getComponents());
                 bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
-                player.setItemInHand(hand, newStack);
+
+                if (!player.isCreative())
+                    player.setItemInHand(hand, newStack);
+                else ItemUtils.createFilledResult(stack, player, newStack);
 
                 if (!level.isClientSide)
                     CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, stackPickup);
@@ -129,7 +133,8 @@ public class PlasticBucketItem extends BaseCostumeItem implements Accessory, Geo
         Player player = context.getPlayer();
         ItemStack stack = context.getItemInHand();
 
-        if (player != null && state.getBlock() instanceof BucketPickup bucketPickup) {
+        if (player != null && state.getBlock() instanceof BucketPickup bucketPickup
+                && player.isShiftKeyDown()) {
             ItemStack newStack;
             if (state.is(BlockRegistry.QUICKSAND.get()))
                 newStack = new ItemStack(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get());
@@ -142,8 +147,10 @@ public class PlasticBucketItem extends BaseCostumeItem implements Accessory, Geo
 
             bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
-            player.setItemInHand(context.getHand(), newStack);
-            stack.consume(1, player);
+
+            if (!player.isCreative())
+                player.setItemInHand(context.getHand(), newStack);
+            else ItemUtils.createFilledResult(stack, player, newStack);
 
             if (!level.isClientSide)
                 level.levelEvent(2001, pos, Block.getId(state));
