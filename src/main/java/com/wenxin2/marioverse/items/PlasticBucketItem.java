@@ -5,11 +5,14 @@ import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import io.wispforest.accessories.api.Accessory;
 import io.wispforest.accessories.api.slot.SlotReference;
+import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -23,6 +26,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ClipContext;
@@ -53,9 +57,15 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PlasticBucketItem extends BaseCostumeItem implements Accessory, GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    int tooltipLineAmt = 0;
 
     public PlasticBucketItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
         super(repairIngredient, armorMaterial, armorType, properties);
+    }
+
+    public PlasticBucketItem(int tooltipLineAmt, Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
+        super(repairIngredient, armorMaterial, armorType, properties);
+        this.tooltipLineAmt = tooltipLineAmt;
     }
 
     @Override
@@ -86,11 +96,21 @@ public class PlasticBucketItem extends BaseCostumeItem implements Accessory, Geo
         return this.cache;
     }
 
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
+        if (Screen.hasShiftDown()) {
+            list.add(Component.literal(""));
+            for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt));
+            list.add(Component.literal(""));
+        } else list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+    }
+
     @NotNull
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
         BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
+        ItemStack stack = player.getItemInHand(hand);
         BlockPos pos = hitResult.getBlockPos();
         BlockState state = level.getBlockState(pos);
         FluidState fluidState = level.getFluidState(pos);

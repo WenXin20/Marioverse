@@ -752,7 +752,7 @@
   "item.marioverse.smithing_template.ice_costume.additions_slot_description": "Add Ice Flower",
   "item.marioverse.smithing_template.ice_costume.ingredients": "Ice Flower",
 
-  "item.marioverse.wrench.tooltip": "§e§o[Press Shift]",
+  "item.marioverse.wrench.tooltip": "§e§o[Shift for Info]",
   "item.marioverse.wrench.tooltip.bound": "§6Bound Location:",
   "item.marioverse.wrench.tooltip.bound.block": " §7• %1$s",
   "item.marioverse.wrench.tooltip.bound.painting": " §7• %1$s %2$s",
@@ -768,7 +768,7 @@
   "item.marioverse.wrench.tooltip.shift_right_click.trapdoor": "§7, trapdoors",
   "item.marioverse.wrench.tooltip.shift_right_click.painting": "§7, paintings",
 
-  "item.marioverse.warp_disruptor.tooltip": "§e§o[Press Shift]",
+  "item.marioverse.warp_disruptor.tooltip": "§e§o[Shift for Info]",
   "item.marioverse.warp_disruptor.tooltip.right_click": "§2Right-click:",
   "item.marioverse.warp_disruptor.tooltip.right_click.selected": " §7• Prevents selected ",
   "item.marioverse.warp_disruptor.tooltip.right_click.mob": "§7mob",
@@ -814,6 +814,29 @@
   "item.marioverse.wrench.message.painting_fuel_required": "§cAdd %3$s §r§cmore ender pearls to %1$s %2$s §r§cto link.",
   "item.marioverse.wrench.message.requires_creative": "Requires creative to link",
   "item.marioverse.wrench.message.waxed": "§6Cannot link, §r%1$s §6is waxed",
+
+  "item.marioverse.plastic_bucket.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.plastic_bucket.tooltip.line1": "§2Right-click:",
+  "item.marioverse.plastic_bucket.tooltip.line2": " §7• Equips Hat",
+  "item.marioverse.plastic_bucket.tooltip.line3": "§6Shift-right-click:",
+  "item.marioverse.plastic_bucket.tooltip.line4": " §7• Picks up powder snow, quicksand, water",
+
+  "item.marioverse.plastic_water_bucket.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.plastic_water_bucket.tooltip.line1": "§2Right-click:",
+  "item.marioverse.plastic_water_bucket.tooltip.line2": " §7• Places water",
+  "item.marioverse.plastic_water_bucket.tooltip.line3": " §7• Crafts quicksand",
+
+  "item.marioverse.plastic_powder_snow_bucket.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.plastic_powder_snow_bucket.tooltip.line1": "§2Right-click:",
+  "item.marioverse.plastic_powder_snow_bucket.tooltip.line2": " §7• Places powder snow",
+
+  "item.marioverse.plastic_quicksand_bucket.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.plastic_quicksand_bucket.tooltip.line1": "§2Right-click:",
+  "item.marioverse.plastic_quicksand_bucket.tooltip.line2": " §7• Places quicksand",
+
+  "item.marioverse.plastic_red_quicksand_bucket.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.plastic_red_quicksand_bucket.tooltip.line1": "§2Right-click:",
+  "item.marioverse.plastic_red_quicksand_bucket.tooltip.line2": " §7• Places red quicksand",
 
   "item.marioverse.button.ticksPressed": "§8Ticks Pressed: %1$s",
 

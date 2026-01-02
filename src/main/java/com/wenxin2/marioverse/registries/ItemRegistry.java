@@ -153,22 +153,22 @@ public class ItemRegistry {
                 () -> new SolidBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
-                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
+                () -> new PlasticBucketItem(4, Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
                         new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         PLASTIC_WATER_BUCKET = registerItem("plastic_water_bucket",
-                () -> new FluidPlasticBucketItem(Fluids.WATER, new Item.Properties().stacksTo(1)
+                () -> new FluidPlasticBucketItem(3, Fluids.WATER, new Item.Properties().stacksTo(1)
                         .durability(128)));
         PLASTIC_POWDER_SNOW_BUCKET = registerItem("plastic_powder_snow_bucket",
-                () -> new SolidPlasticBucketItem(Blocks.POWDER_SNOW, SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
+                () -> new SolidPlasticBucketItem(2, Blocks.POWDER_SNOW, SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
         PLASTIC_QUICKSAND_BUCKET = registerItem("plastic_quicksand_bucket",
-                () -> new SolidPlasticBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
+                () -> new SolidPlasticBucketItem(2, BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
         PLASTIC_RED_QUICKSAND_BUCKET = registerItem("plastic_red_quicksand_bucket",
-                () -> new SolidPlasticBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
+                () -> new SolidPlasticBucketItem(2, BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
 

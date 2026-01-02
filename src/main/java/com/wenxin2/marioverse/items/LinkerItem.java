@@ -367,6 +367,8 @@ public class LinkerItem extends TieredItem {
                     getWarpPos(stack).getY(), true).withStyle(ChatFormatting.GRAY));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z",
                     getWarpPos(stack).getZ(), true).withStyle(ChatFormatting.GRAY));
+
+            list.add(Component.literal(""));
         }
     }
 }

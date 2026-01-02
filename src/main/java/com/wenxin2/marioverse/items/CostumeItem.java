@@ -73,5 +73,6 @@ public class CostumeItem extends BaseCostumeItem implements GeoItem {
         list.add(Component.literal(""));
         for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
             list.add(Component.translatable("item.marioverse." + this.tooltipName + ".tooltip.line" + lineAmt));
+        list.add(Component.literal(""));
     }
 }

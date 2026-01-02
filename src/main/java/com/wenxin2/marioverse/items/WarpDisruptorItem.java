@@ -81,6 +81,8 @@ public class WarpDisruptorItem extends Item {
                 shiftRCx2Text = shiftRCx2Text.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click_2.warping"));
                 list.add(shiftRCx2Text);
             }
+
+            list.add(Component.literal(""));
         } else
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
 
