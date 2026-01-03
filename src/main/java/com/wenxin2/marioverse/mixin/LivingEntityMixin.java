@@ -897,7 +897,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         BlockState state = livingEntity.level().getBlockState(this.blockPosition());
 
-        if ((this.horizontalCollision || this.jumping) && (state.is(BlockRegistry.QUICKSAND)))
+        if ((this.horizontalCollision || this.jumping) && (state.getBlock() instanceof QuicksandBlock))
             return new Vec3(motion.x, 0.2D, motion.z);
         return motion;
     }
