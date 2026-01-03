@@ -1,9 +1,16 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +23,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -29,9 +37,39 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import org.jetbrains.annotations.NotNull;
 
 public class BasePowerUpItem extends DeferredSpawnEggItem {
+    int tooltipLineAmt = 0;
+
     public BasePowerUpItem(Supplier<? extends EntityType<? extends Mob>> entityType,
                            int primaryColor, int secondaryColor, Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);
+    }
+
+    public BasePowerUpItem(int tooltipLineAmt, Supplier<? extends EntityType<? extends Mob>> entityType,
+                           int primaryColor, int secondaryColor, Properties properties) {
+        super(entityType, primaryColor, secondaryColor, properties);
+        this.tooltipLineAmt = tooltipLineAmt;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
+        if (Screen.hasShiftDown() && this.tooltipLineAmt > 0) {
+            list.add(Component.literal(""));
+
+            for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++) {
+                MutableComponent abilityText = Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt);
+
+                if (stack.is(ItemRegistry.SUPER_MUSHROOM) && this.tooltipLineAmt == 1)
+                    abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
+                            ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue()).withStyle(ChatFormatting.RED));
+
+                if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && this.tooltipLineAmt == 3)
+                    abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
+                            ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue()).withStyle(ChatFormatting.GREEN));
+                list.add(abilityText);
+            }
+            list.add(Component.literal(""));
+
+        } else if (this.tooltipLineAmt > 0) list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
     @NotNull

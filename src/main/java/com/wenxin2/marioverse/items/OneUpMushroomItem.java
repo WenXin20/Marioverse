@@ -9,4 +9,10 @@ public class OneUpMushroomItem extends BasePowerUpItem {
                              int primaryColor, int secondaryColor, Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);
     }
+
+    public OneUpMushroomItem(int tooltipLineAmt, Supplier<? extends EntityType<? extends Mob>> entityType,
+                             int primaryColor, int secondaryColor, Properties properties) {
+        super(entityType, primaryColor, secondaryColor, properties);
+        this.tooltipLineAmt = tooltipLineAmt;
+    }
 }
