@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.accessories.PlasticBucketAccessory;
 import com.wenxin2.marioverse.blocks.behaviors.DispenserBehaviors;
 import com.wenxin2.marioverse.commands.PowerUpCommand;
 import com.wenxin2.marioverse.datagen.AdvancementDataGen;
@@ -22,6 +23,9 @@ import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import io.wispforest.accessories.api.AccessoriesAPI;
+import io.wispforest.accessories.api.Accessory;
+import io.wispforest.accessories.api.slot.SlotReference;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +67,8 @@ public class RegistryEventHandlers {
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(DispenserBehaviors::register);
+        event.enqueueWork(() -> AccessoriesAPI
+                .registerAccessory(ItemRegistry.PLASTIC_BUCKET.get(), new PlasticBucketAccessory()));
     }
 
     public static void gatherData(GatherDataEvent event) {

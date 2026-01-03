@@ -817,9 +817,7 @@
 
   "item.marioverse.plastic_bucket.tooltip": "§e§o[Shift for Info]",
   "item.marioverse.plastic_bucket.tooltip.line1": "§2Right-click:",
-  "item.marioverse.plastic_bucket.tooltip.line2": " §7• Equips Hat",
-  "item.marioverse.plastic_bucket.tooltip.line3": "§6Shift-right-click:",
-  "item.marioverse.plastic_bucket.tooltip.line4": " §7• Picks up powder snow, quicksand, water",
+  "item.marioverse.plastic_bucket.tooltip.line2": " §7• Picks up powder snow, quicksand, water",
 
   "item.marioverse.plastic_water_bucket.tooltip": "§e§o[Shift for Info]",
   "item.marioverse.plastic_water_bucket.tooltip.line1": "§2Right-click:",
