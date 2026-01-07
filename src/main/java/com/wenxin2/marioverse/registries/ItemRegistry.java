@@ -275,7 +275,7 @@ public class ItemRegistry {
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         FIRE_FLOWER = registerItem("fire_flower",
-                () -> new BasePowerUpItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BasePowerUpItem(1, EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MARIO_FIRE_HAT = registerItem("mario_fire_hat",
                 () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
                         "mario_costume", 4, new Item.Properties().stacksTo(1)
@@ -322,7 +322,7 @@ public class ItemRegistry {
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         ICE_FLOWER = registerItem("ice_flower",
-                () -> new BasePowerUpItem(EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BasePowerUpItem(1, EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MARIO_ICE_HAT = registerItem("mario_ice_hat",
                 () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
                         "mario_costume", 4, new Item.Properties().stacksTo(1)
