@@ -825,8 +825,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ItemStack stackCharm = containerCharm.getAccessories().getItem(0);
                     if (stackCharm.getItem() instanceof OneUpMushroomItem) {
                         this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), soundSource, 1.0F, 1.0F);
-//                        livingEntity.setHealth(1.0F);
-                        livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
+                        livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                         stackCharm.shrink(1);
 
                         if (livingEntity.level() instanceof ServerLevel serverWorld) {
@@ -848,8 +847,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
                 this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), soundSource, 1.0F, 1.0F);
-//                livingEntity.setHealth(1.0F);
-                livingEntity.heal(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
+                livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                 stack.shrink(1);
 
                 if (livingEntity.level() instanceof ServerLevel serverWorld) {

@@ -64,7 +64,7 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
 
                 if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && lineAmt == 3)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
-                            ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue()).withStyle(ChatFormatting.GREEN));
+                            ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue() / 2).withStyle(ChatFormatting.GREEN));
                 list.add(abilityText);
             }
             list.add(Component.literal(""));

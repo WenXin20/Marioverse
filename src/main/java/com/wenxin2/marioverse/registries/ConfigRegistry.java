@@ -894,7 +894,7 @@ public class ConfigRegistry
                     ONE_UP_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.one_up_health_healed")
                             .comment("Amount of health 1-Up Mushrooms heals.")
                             .comment("§9[Default: 8.0F]§b")
-                            .defineInRange("one_up_health_healed", 8.0F, 0.0F, 100.0F);
+                            .defineInRange("one_up_health_healed", 9.0F, 0.0F, 100.0F);
                     ONE_UP_HEALS_ALL_MOBS = BUILDER.translation("configuration.marioverse.one_up_heals_mobs")
                             .comment("Allow 1-Ups to heal all mobs.")
                             .comment("§9[Default: false]")
