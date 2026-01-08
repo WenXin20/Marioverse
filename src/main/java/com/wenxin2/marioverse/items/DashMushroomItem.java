@@ -47,7 +47,7 @@ public class DashMushroomItem extends Item {
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++) {
                 MutableComponent abilityText = Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt);
 
-                if (stack.is(ItemRegistry.DASH_MUSHROOM) && lineAmt == 2)
+                if (stack.is(ItemRegistry.DASH_MUSHROOM) && lineAmt == 3)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.DASH_MUSHROOM_HEALTH_HEALED.get().floatValue()).withStyle(ChatFormatting.RED));
 

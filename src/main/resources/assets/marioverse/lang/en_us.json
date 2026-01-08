@@ -837,25 +837,30 @@
   "item.marioverse.plastic_water_bucket.tooltip.line3": " §7• Crafts quicksand",
 
   "item.marioverse.dash_mushroom.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.dash_mushroom.tooltip.line1": " §7• Boosts the user's speed",
-  "item.marioverse.dash_mushroom.tooltip.line2": " §7• Heals",
-  "item.marioverse.dash_mushroom.tooltip.line2.hearts": " %1$s §chearts",
+  "item.marioverse.dash_mushroom.tooltip.line1": " §9Ability:",
+  "item.marioverse.dash_mushroom.tooltip.line2": " §7• Boosts the user's speed",
+  "item.marioverse.dash_mushroom.tooltip.line3": " §7• Heals",
+  "item.marioverse.dash_mushroom.tooltip.line3.hearts": " %1$s §chearts",
 
   "item.marioverse.fire_flower.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.fire_flower.tooltip.line1": " §7• Shoot §6fireballs",
+  "item.marioverse.fire_flower.tooltip.line1": " §9Ability:",
+  "item.marioverse.fire_flower.tooltip.line2": " §7• Shoot §6fireballs",
 
   "item.marioverse.ice_flower.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.ice_flower.tooltip.line1": " §7• Shoot §bice balls",
+  "item.marioverse.ice_flower.tooltip.line1": " §9Ability:",
+  "item.marioverse.ice_flower.tooltip.line2": " §7• Shoot §bice balls",
 
   "item.marioverse.one_up_mushroom.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.one_up_mushroom.tooltip.line1": " §7• Hold in offhand or charm slot",
-  "item.marioverse.one_up_mushroom.tooltip.line2": " §7• Activates on death",
-  "item.marioverse.one_up_mushroom.tooltip.line3": " §7• Heals",
-  "item.marioverse.one_up_mushroom.tooltip.line3.hearts": " %1$s §ahearts",
+  "item.marioverse.one_up_mushroom.tooltip.line1": " §9Ability:",
+  "item.marioverse.one_up_mushroom.tooltip.line2": " §7• Hold in offhand or charm slot",
+  "item.marioverse.one_up_mushroom.tooltip.line3": " §7• Activates on death",
+  "item.marioverse.one_up_mushroom.tooltip.line4": " §7• Heals",
+  "item.marioverse.one_up_mushroom.tooltip.line4.hearts": " %1$s §ahearts",
 
   "item.marioverse.super_mushroom.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.super_mushroom.tooltip.line1": " §7• Heals",
-  "item.marioverse.super_mushroom.tooltip.line1.hearts": " %1$s §chearts",
+  "item.marioverse.super_mushroom.tooltip.line1": " §9Ability:",
+  "item.marioverse.super_mushroom.tooltip.line2": " §7• Heals",
+  "item.marioverse.super_mushroom.tooltip.line2.hearts": " %1$s §chearts",
 
   "item.marioverse.button.ticksPressed": "§8Ticks Pressed: %1$s",
 

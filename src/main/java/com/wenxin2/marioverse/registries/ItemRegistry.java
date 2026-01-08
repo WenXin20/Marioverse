@@ -173,13 +173,17 @@ public class ItemRegistry {
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
 
         SUPER_MUSHROOM = registerItem("super_mushroom",
-                () -> new BasePowerUpItem(1, EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BasePowerUpItem(2, EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         DASH_MUSHROOM = registerItem("dash_mushroom",
-                () -> new DashMushroomItem(2, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
+                () -> new DashMushroomItem(3, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
-                () -> new OneUpMushroomItem(3, EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
+                () -> new OneUpMushroomItem(4, EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         SUPER_STAR = registerItem("super_star",
                 () -> new BasePowerUpItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        FIRE_FLOWER = registerItem("fire_flower",
+                () -> new BasePowerUpItem(2, EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        ICE_FLOWER = registerItem("ice_flower",
+                () -> new BasePowerUpItem(2, EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         LARGE_SNOWBALL = registerItem("large_snowball",
                 () -> new LargeSnowballItem(new Item.Properties().stacksTo(16)));
@@ -274,8 +278,6 @@ public class ItemRegistry {
                         "peach_costume", 5, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
-        FIRE_FLOWER = registerItem("fire_flower",
-                () -> new BasePowerUpItem(1, EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MARIO_FIRE_HAT = registerItem("mario_fire_hat",
                 () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
                         "mario_costume", 4, new Item.Properties().stacksTo(1)
@@ -321,8 +323,6 @@ public class ItemRegistry {
                         "peach_costume", 5, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
-        ICE_FLOWER = registerItem("ice_flower",
-                () -> new BasePowerUpItem(1, EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MARIO_ICE_HAT = registerItem("mario_ice_hat",
                 () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
                         "mario_costume", 4, new Item.Properties().stacksTo(1)
