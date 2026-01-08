@@ -862,6 +862,13 @@
   "item.marioverse.super_mushroom.tooltip.line2": " §7• Heals",
   "item.marioverse.super_mushroom.tooltip.line2.hearts": " %1$s §chearts",
 
+  "item.marioverse.super_star.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.super_star.tooltip.line1": " §9Ability:",
+  "item.marioverse.super_star.tooltip.line2": " §7• Grants",
+  "item.marioverse.super_star.tooltip.line2.instakill": " %1$s §7secs of §6instakill & §6invincibility",
+  "item.marioverse.super_star.tooltip.line3": " §7• Grants",
+  "item.marioverse.super_star.tooltip.line3.speed": " %1$s §7secs of §6speed",
+
   "item.marioverse.button.ticksPressed": "§8Ticks Pressed: %1$s",
 
 

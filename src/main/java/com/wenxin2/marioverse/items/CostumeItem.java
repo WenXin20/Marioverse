@@ -70,9 +70,11 @@ public class CostumeItem extends BaseCostumeItem implements GeoItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-        list.add(Component.literal(""));
-        for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
-            list.add(Component.translatable("item.marioverse." + this.tooltipName + ".tooltip.line" + lineAmt));
-        list.add(Component.literal(""));
+        if (this.tooltipLineAmt > 0) {
+            list.add(Component.literal(""));
+            for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
+                list.add(Component.translatable("item.marioverse." + this.tooltipName + ".tooltip.line" + lineAmt));
+            list.add(Component.literal(""));
+        }
     }
 }

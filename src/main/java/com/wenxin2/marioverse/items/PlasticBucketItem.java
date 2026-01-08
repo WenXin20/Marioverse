@@ -100,7 +100,8 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
                 list.add(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt));
             list.add(Component.literal(""));
-        } else if (this.tooltipLineAmt > 0) list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+        } else if (this.tooltipLineAmt > 0)
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
     @NotNull

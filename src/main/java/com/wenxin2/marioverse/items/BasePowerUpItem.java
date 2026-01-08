@@ -65,11 +65,20 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
                 if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && lineAmt == 4)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue() / 2).withStyle(ChatFormatting.GREEN));
+
+                if (stack.is(ItemRegistry.SUPER_STAR) && lineAmt == 2)
+                    abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".instakill",
+                            Math.round(ConfigRegistry.SUPER_STAR_DURATION.get() / 20.0F * 10.0F) / 10.0F).withStyle(ChatFormatting.GRAY));
+
+                if (stack.is(ItemRegistry.SUPER_STAR) && lineAmt == 3)
+                    abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".speed",
+                            Math.round(ConfigRegistry.SUPER_STAR_SPEED_DURATION.get() / 20.0F * 10.0F) / 10.0F)).withStyle(ChatFormatting.GRAY);
                 list.add(abilityText);
             }
             list.add(Component.literal(""));
 
-        } else if (this.tooltipLineAmt > 0) list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+        } else if (this.tooltipLineAmt > 0)
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
     @NotNull

@@ -179,7 +179,7 @@ public class ItemRegistry {
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
                 () -> new OneUpMushroomItem(4, EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         SUPER_STAR = registerItem("super_star",
-                () -> new BasePowerUpItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BasePowerUpItem(3, EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_FLOWER = registerItem("fire_flower",
                 () -> new BasePowerUpItem(2, EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         ICE_FLOWER = registerItem("ice_flower",

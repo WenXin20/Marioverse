@@ -55,7 +55,8 @@ public class DashMushroomItem extends Item {
             }
             list.add(Component.literal(""));
 
-        } else if (this.tooltipLineAmt > 0) list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+        } else if (this.tooltipLineAmt > 0)
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
     @NotNull
