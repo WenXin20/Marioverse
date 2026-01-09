@@ -201,6 +201,14 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
         if (this.attackCooldown > 0)
             this.attackCooldown--;
+
+        LivingEntity head = this.getHeadSegment();
+        if (this.isPassenger() && this == head) {
+            LivingEntity bottom = this.getBottomSegment();
+
+            this.setYHeadRot(bottom.getYHeadRot());
+            this.yHeadRotO = bottom.yHeadRotO;
+        }
     }
 
     @NotNull
