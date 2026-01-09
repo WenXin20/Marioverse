@@ -815,6 +815,36 @@
   "item.marioverse.wrench.message.requires_creative": "Requires creative to link",
   "item.marioverse.wrench.message.waxed": "§6Cannot link, §r%1$s §6is waxed",
 
+  "item.marioverse.dash_mushroom.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.dash_mushroom.tooltip.line1": " §9Ability:",
+  "item.marioverse.dash_mushroom.tooltip.line2": " §7• Boosts the user's speed",
+  "item.marioverse.dash_mushroom.tooltip.line3": " §7• Heals",
+  "item.marioverse.dash_mushroom.tooltip.line3.hearts": " %1$s §chearts",
+
+  "item.marioverse.fire_flower.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.fire_flower.tooltip.line1": " §9Ability:",
+  "item.marioverse.fire_flower.tooltip.line2": " §7• Shoot §6fireballs",
+
+  "item.marioverse.gold_koopa_shell.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.gold_koopa_shell.tooltip.line1": " §9Ability:",
+  "item.marioverse.gold_koopa_shell.tooltip.line2": " §7• Moves straight",
+  "item.marioverse.gold_koopa_shell.tooltip.line3": " §7• Leaves a §6coin §7trail",
+
+  "item.marioverse.green_koopa_shell.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.green_koopa_shell.tooltip.line1": " §9Ability:",
+  "item.marioverse.green_koopa_shell.tooltip.line2": " §7• Shoots §astraight",
+
+  "item.marioverse.ice_flower.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.ice_flower.tooltip.line1": " §9Ability:",
+  "item.marioverse.ice_flower.tooltip.line2": " §7• Shoot §bice balls",
+
+  "item.marioverse.one_up_mushroom.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.one_up_mushroom.tooltip.line1": " §9Ability:",
+  "item.marioverse.one_up_mushroom.tooltip.line2": " §7• Hold in offhand or charm slot",
+  "item.marioverse.one_up_mushroom.tooltip.line3": " §7• Activates on death",
+  "item.marioverse.one_up_mushroom.tooltip.line4": " §7• Heals",
+  "item.marioverse.one_up_mushroom.tooltip.line4.hearts": " %1$s §ahearts",
+
   "item.marioverse.plastic_bucket.tooltip": "§e§o[Shift for Info]",
   "item.marioverse.plastic_bucket.tooltip.line1": "§2Right-click:",
   "item.marioverse.plastic_bucket.tooltip.line2": " §7• Picks up powder snow, quicksand, water",
@@ -836,26 +866,9 @@
   "item.marioverse.plastic_water_bucket.tooltip.line2": " §7• Places water",
   "item.marioverse.plastic_water_bucket.tooltip.line3": " §7• Crafts quicksand",
 
-  "item.marioverse.dash_mushroom.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.dash_mushroom.tooltip.line1": " §9Ability:",
-  "item.marioverse.dash_mushroom.tooltip.line2": " §7• Boosts the user's speed",
-  "item.marioverse.dash_mushroom.tooltip.line3": " §7• Heals",
-  "item.marioverse.dash_mushroom.tooltip.line3.hearts": " %1$s §chearts",
-
-  "item.marioverse.fire_flower.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.fire_flower.tooltip.line1": " §9Ability:",
-  "item.marioverse.fire_flower.tooltip.line2": " §7• Shoot §6fireballs",
-
-  "item.marioverse.ice_flower.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.ice_flower.tooltip.line1": " §9Ability:",
-  "item.marioverse.ice_flower.tooltip.line2": " §7• Shoot §bice balls",
-
-  "item.marioverse.one_up_mushroom.tooltip": "§e§o[Shift for Info]",
-  "item.marioverse.one_up_mushroom.tooltip.line1": " §9Ability:",
-  "item.marioverse.one_up_mushroom.tooltip.line2": " §7• Hold in offhand or charm slot",
-  "item.marioverse.one_up_mushroom.tooltip.line3": " §7• Activates on death",
-  "item.marioverse.one_up_mushroom.tooltip.line4": " §7• Heals",
-  "item.marioverse.one_up_mushroom.tooltip.line4.hearts": " %1$s §ahearts",
+  "item.marioverse.red_koopa_shell.tooltip": "§e§o[Shift for Info]",
+  "item.marioverse.red_koopa_shell.tooltip.line1": " §9Ability:",
+  "item.marioverse.red_koopa_shell.tooltip.line2": " §7• Aims for §4hostiles §7nearby",
 
   "item.marioverse.super_mushroom.tooltip": "§e§o[Shift for Info]",
   "item.marioverse.super_mushroom.tooltip.line1": " §9Ability:",

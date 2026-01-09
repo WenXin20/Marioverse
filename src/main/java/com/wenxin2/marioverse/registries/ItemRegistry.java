@@ -188,11 +188,11 @@ public class ItemRegistry {
         LARGE_SNOWBALL = registerItem("large_snowball",
                 () -> new LargeSnowballItem(new Item.Properties().stacksTo(16)));
         GOLD_KOOPA_SHELL = registerItem("gold_koopa_shell",
-                () -> new KoopaShellItem(EntityRegistry.GOLD_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
+                () -> new KoopaShellItem(3, EntityRegistry.GOLD_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
         GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",
-                () -> new KoopaShellItem(EntityRegistry.GREEN_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
+                () -> new KoopaShellItem(2, EntityRegistry.GREEN_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
         RED_KOOPA_SHELL = registerItem("red_koopa_shell",
-                () -> new KoopaShellItem(EntityRegistry.RED_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
+                () -> new KoopaShellItem(2, EntityRegistry.RED_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
 
         WARP_DISRUPTOR = registerItem("warp_disruptor",
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
