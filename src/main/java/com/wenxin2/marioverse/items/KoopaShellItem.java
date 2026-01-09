@@ -29,8 +29,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class KoopaShellItem extends BetterSpawnEggItem {
-    int tooltipLineAmt = 0;
-
     public KoopaShellItem(Supplier<? extends EntityType<? extends Mob>> entityType,
                           int primaryColor, int secondaryColor, Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);
@@ -40,17 +38,6 @@ public class KoopaShellItem extends BetterSpawnEggItem {
                           int primaryColor, int secondaryColor, Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);
         this.tooltipLineAmt = tooltipLineAmt;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-        if (Screen.hasShiftDown() && this.tooltipLineAmt > 0) {
-            list.add(Component.literal(""));
-            for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt));
-            list.add(Component.literal(""));
-        } else if (this.tooltipLineAmt > 0)
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
     @NotNull

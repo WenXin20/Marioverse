@@ -23,6 +23,12 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
         super(entityType, primaryColor, secondaryColor, properties);
     }
 
+    public PiranhaPlantPodItem(int tooltipLineAmt, Supplier<? extends EntityType<? extends Mob>> entityType,
+                              int primaryColor, int secondaryColor, Properties properties) {
+        super(entityType, primaryColor, secondaryColor, properties);
+        this.tooltipLineAmt = tooltipLineAmt;
+    }
+
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level world = context.getLevel();
