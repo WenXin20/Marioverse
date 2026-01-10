@@ -29,6 +29,8 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
     public static final TagKey<Biome> HAS_POKEY = biomeTags("has_pokey");
     public static final TagKey<Biome> HAS_POKEY_RARE = biomeTags("has_pokey_rare");
+    public static final TagKey<Biome> HAS_QUICKSAND = biomeTags("has_quicksand");
+    public static final TagKey<Biome> HAS_RED_QUICKSAND = biomeTags("has_red_quicksand");
     public static final TagKey<Biome> HAS_SNOW_POKEY = biomeTags("has_snow_pokey");
     public static final TagKey<Biome> HAS_SPLUNKIN = biomeTags("has_splunkin");
     public static final TagKey<Biome> HAS_SUBMERGED_PIPES = biomeTags("has_submerged_pipes");

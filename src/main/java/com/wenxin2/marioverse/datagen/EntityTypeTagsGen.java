@@ -315,6 +315,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_WALK_ON_QUICKSAND)
                 .addTag(TagRegistry.POKEY_ENTITIES)
+                .add(EntityType.CAMEL)
                 .add(EntityType.HUSK);
 
         tag(TagRegistry.CAN_WEAR_COSTUMES)

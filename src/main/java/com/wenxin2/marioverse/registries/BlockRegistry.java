@@ -805,7 +805,7 @@ public class BlockRegistry {
 
         QUICKSAND = registerNoItemBlock("quicksand",
                 () -> new QuicksandBlock(new ColorRGBA(14406560), BlockBehaviour.Properties.ofFullCopy(Blocks.SAND)
-                        .dynamicShape().isRedstoneConductor(BlockRegistry::never)));
+                        .dynamicShape().isRedstoneConductor(BlockRegistry::never).isViewBlocking(BlockRegistry::never)));
 
         SANDSTONE_BRICKS = registerBlock("sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SANDSTONE)));
@@ -839,7 +839,7 @@ public class BlockRegistry {
 
         RED_QUICKSAND = registerNoItemBlock("red_quicksand",
                 () -> new QuicksandBlock(new ColorRGBA(11098145), BlockBehaviour.Properties.ofFullCopy(Blocks.RED_SAND)
-                        .dynamicShape().isRedstoneConductor(BlockRegistry::never)));
+                        .dynamicShape().isRedstoneConductor(BlockRegistry::never).isViewBlocking(BlockRegistry::never)));
 
         RED_SANDSTONE_BRICKS = registerBlock("red_sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_SANDSTONE)));
