@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-30T13:26:51.1493389	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-01-09T21:39:20.5738021	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
@@ -23,7 +23,7 @@ bb5bd7b027d1bb8941ccc3f06f3627805426cc8c data/marioverse/tags/entity_type/can_pi
 34c775d6a5fcf75ba1b2542746b9e42705724ca2 data/marioverse/tags/entity_type/can_shoot_supplementaries_cannon.json
 264242a1fc3d36595fd3d2653ec136681e9feb63 data/marioverse/tags/entity_type/can_smash_blocks.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_stomp_enemies.json
-dc47821e4103805e72319d462c58d2e1f2d07091 data/marioverse/tags/entity_type/can_walk_on_quicksand.json
+e3d8570427ea8d8e4f7527e2c9f60982d26d47de data/marioverse/tags/entity_type/can_walk_on_quicksand.json
 6d6a1f59b8be5d33e1f564b40d2ce20b97270af7 data/marioverse/tags/entity_type/can_wear_costumes.json
 4b5bf06918409f4ea17a4c97bf641aaf85baf01c data/marioverse/tags/entity_type/can_wear_hats.json
 cb5ec3613f4da6bbd6c7700eda601e92b706c660 data/marioverse/tags/entity_type/can_wear_pants.json
