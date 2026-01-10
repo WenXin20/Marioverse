@@ -114,7 +114,7 @@ public class ClientEventHandlers {
 
     private static boolean isInQuicksand(Camera camera) {
         BlockPos pos = BlockPos.containing(camera.getPosition());
-        return camera.getEntity().level().getBlockState(pos).getBlock() instanceof QuicksandBlock;
+        return !camera.getEntity().isSpectator() && camera.getEntity().level().getBlockState(pos).getBlock() instanceof QuicksandBlock;
     }
 
     @SubscribeEvent

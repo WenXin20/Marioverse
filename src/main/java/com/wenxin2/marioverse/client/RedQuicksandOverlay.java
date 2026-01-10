@@ -16,8 +16,9 @@ public final class RedQuicksandOverlay {
         boolean inRedQuicksand = mc.level != null && mc.level
                 .getBlockState(BlockPos.containing(mc.player.getEyePosition()))
                 .is(BlockRegistry.RED_QUICKSAND.get());
-        boolean inWater = mc.level != null && mc.level
-                .getFluidState(mc.player.blockPosition()).is(FluidTags.WATER);
+        boolean inWater = mc.level != null
+                && mc.level.getFluidState(mc.player.blockPosition()).is(FluidTags.WATER)
+                && !mc.player.isSpectator();
         float step = 1.0F / (FADE_TIME * 20.0F);
 
         if (!inRedQuicksand && wasInRedQuicksand || inWater)
