@@ -16,12 +16,12 @@ public final class QuicksandOverlay {
     public static void clientTick(Minecraft mc) {
         if (mc.player == null) return;
 
-        boolean inQuicksand = mc.level != null && mc.level
-                .getBlockState(BlockPos.containing(mc.player.getEyePosition()))
-                .is(BlockRegistry.QUICKSAND.get());
+        boolean inQuicksand = mc.level != null
+                && !mc.player.isSpectator()
+                && mc.level.getBlockState(BlockPos.containing(mc.player.getEyePosition()))
+                    .is(BlockRegistry.QUICKSAND.get());
         boolean inWater = mc.level != null
-                && mc.level.getFluidState(mc.player.blockPosition()).is(FluidTags.WATER)
-                && !mc.player.isSpectator();
+                && mc.level.getFluidState(mc.player.blockPosition()).is(FluidTags.WATER);
         float step = 1.0F / (FADE_TIME * 20.0F);
 
         if (!inQuicksand && wasInQuicksand || inWater)
