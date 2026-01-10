@@ -1370,6 +1370,7 @@
   "configuration.marioverse.warp_painting_cooldown": "Warp Cooldown Duration",
   "configuration.marioverse.warp_painting_fuel_amt": "Fuel Amount",
   "configuration.marioverse.warp_pipe_cooldown": "Warp Cooldown Duration",
+  "configuration.marioverse.warp_pipe_spawns_mobs": "Spawn Mobs",
   "configuration.marioverse.warp_trapdoor_cooldown": "Warp Cooldown Duration",
   "configuration.marioverse.warp_trapdoor_fuel_amt": "Fuel Amount",
   "configuration.marioverse.water_spouts_bucketable": "Bucketable",

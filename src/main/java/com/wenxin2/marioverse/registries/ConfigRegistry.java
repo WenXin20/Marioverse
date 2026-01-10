@@ -144,6 +144,7 @@ public class ConfigRegistry
     public static ModConfigSpec.BooleanValue WARP_COOLDOWN_MESSAGE;
     public static ModConfigSpec.BooleanValue WARP_COOLDOWN_MESSAGE_TICKS;
     public static ModConfigSpec.BooleanValue WATER_SPOUTS_BUCKETABLE;
+    public static ModConfigSpec.BooleanValue WARP_PIPE_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_BUBBLES;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_CLOSING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_RENAMING;
@@ -434,6 +435,10 @@ public class ConfigRegistry
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 50]§b")
                             .defineInRange("warp_pipe_cooldown", 50, 0, 72000);
+                    WARP_PIPE_SPAWNS_MOBS = BUILDER.translation("configuration.marioverse.warp_pipe_spawns_mobs")
+                            .comment("Allow warp pipes to spawn mobs.")
+                            .comment("§9[Default: true]")
+                            .define("warp_pipe_spawns_mobs", true);
                     WAX_DISABLES_BUBBLES = BUILDER.translation("configuration.marioverse.wax_disables_bubbles")
                             .comment("Allows waxing pipes to disable the Pipe Bubbles button.")
                             .comment("§9[Default: true]")

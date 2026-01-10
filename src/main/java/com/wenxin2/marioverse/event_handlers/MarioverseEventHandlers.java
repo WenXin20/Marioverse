@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
+import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
@@ -82,6 +83,7 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -459,6 +461,14 @@ public class MarioverseEventHandlers {
             player.awardStat(Stats.POT_FLOWER);
             player.swing(InteractionHand.MAIN_HAND);
             heldItem.consume(1, player);
+        }
+
+        if (heldItem.getItem() instanceof SpawnEggItem && state.getBlock() instanceof WarpPipeBlock
+                && world.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE) {
+            if (warpBE.isWaxed() || !ConfigRegistry.WARP_PIPE_SPAWNS_MOBS.get()) {
+                event.setCancellationResult(InteractionResult.FAIL);
+                event.setCanceled(true);
+            }
         }
 
         if (heldItem.getItem() instanceof HoneycombItem && world.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
