@@ -884,9 +884,9 @@
 
   "item.marioverse.super_star.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.super_star.tooltip.line1": "§9Ability:",
-  "item.marioverse.super_star.tooltip.line2": " §7• Grants §6instakill §7& §6invincibility for",
+  "item.marioverse.super_star.tooltip.line2": " §7• Grants §6instakill §7& §6invincibility §7for",
   "item.marioverse.super_star.tooltip.line2.instakill": " %1$s§7s",
-  "item.marioverse.super_star.tooltip.line3": " §7• Grants §6speed",
+  "item.marioverse.super_star.tooltip.line3": " §7• Grants §6speed §7for",
   "item.marioverse.super_star.tooltip.line3.speed": " %1$s§7s",
 
   "item.marioverse.button.ticksPressed": "§8Ticks Pressed: %1$s",
