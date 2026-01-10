@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:ore",
+  "config": {
+    "discard_chance_on_air_exposure": 0,
+    "size": 54,
+    "targets": [
+      {
+        "state": {
+          "Name": "marioverse:red_quicksand"
+        },
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "red_sand"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "red_sandstone"
+        },
+        "state": {
+          "Name": "marioverse:red_quicksand"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "orange_terracotta"
+        },
+        "state": {
+          "Name": "marioverse:red_quicksand"
+        }
+      }
+    ]
+  }
+}

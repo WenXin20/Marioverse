@@ -1,9 +1,9 @@
 {
-  "feature": "marioverse:blob_red_quicksand",
+  "feature": "marioverse:ore_quicksand",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 1
+      "type": "minecraft:rarity_filter",
+      "chance": 25
     },
     {
       "type": "minecraft:in_square"
@@ -16,9 +16,13 @@
           "below_top": 0
         },
         "min_inclusive": {
-          "above_bottom": 0
+          "absolute": 64
         }
       }
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "WORLD_SURFACE"
     },
     {
       "type": "minecraft:biome"

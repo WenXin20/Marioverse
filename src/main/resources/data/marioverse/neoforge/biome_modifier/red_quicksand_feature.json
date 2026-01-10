@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
   "biomes": "#marioverse:has_red_quicksand",
-  "features": ["marioverse:blob_red_quicksand"],
+  "features": ["marioverse:ore_red_quicksand"],
   "step": "underground_ores"
 }
