@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
-import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -46,10 +45,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
+public class CoinBlock extends Block implements EntityBlock, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    protected static final VoxelShape COIN_SHAPE = Block.box(3.0, 2.5, 3.0, 14.0, 14.5, 14.0).optimize();
+    protected static final VoxelShape COIN_SHAPE =
+            Block.box(3.0, 2.5, 3.0, 14.0, 14.5, 14.0).optimize();
 
     public CoinBlock(Properties properties) {
         super(properties);
@@ -93,6 +93,12 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
             worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
 
         return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
+    }
+
+    @NotNull
+    @Override
+    public FluidState getFluidState(final BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
@@ -164,11 +170,5 @@ public class CoinBlock extends Block implements SimpleWaterloggedBlock, EntityBl
 
         if (!itemAdded)
             entity.spawnAtLocation(coinItem);
-    }
-
-    @NotNull
-    @Override
-    public FluidState getFluidState(final BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 }
