@@ -34,7 +34,7 @@ public class DispenserBehaviors {
 
             @Override
             public ItemStack execute(BlockSource blockSource, ItemStack stack) {
-                DispensibleContainerItem dispensibleContainerItem = (DispensibleContainerItem)stack.getItem();
+                DispensibleContainerItem dispensibleContainerItem = (DispensibleContainerItem) stack.getItem();
                 BlockPos pos = blockSource.pos().relative(blockSource.state().getValue(DispenserBlock.FACING));
                 Level level = blockSource.level();
 
@@ -50,7 +50,7 @@ public class DispenserBehaviors {
 
             @Override
             public ItemStack execute(BlockSource blockSource, ItemStack stack) {
-                DispensibleContainerItem dispensibleContainerItem = (DispensibleContainerItem)stack.getItem();
+                DispensibleContainerItem dispensibleContainerItem = (DispensibleContainerItem) stack.getItem();
                 BlockPos pos = blockSource.pos().relative(blockSource.state().getValue(DispenserBlock.FACING));
                 Level level = blockSource.level();
 
@@ -68,6 +68,7 @@ public class DispenserBehaviors {
         DispenserBlock.registerBehavior(ItemRegistry.RED_QUICKSAND_BUCKET, dispenseBucketBehavior);
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET, dispensePlasticBucketBehavior);
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, dispensePlasticBucketBehavior);
+        DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_WATER_BUCKET, dispensePlasticBucketBehavior);
 
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_BUCKET, new DefaultDispenseItemBehavior() {
             @Override
@@ -87,6 +88,8 @@ public class DispenserBehaviors {
                     newStack = new ItemStack(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
                 else if (state.is(Blocks.POWDER_SNOW))
                     newStack = new ItemStack(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
+                else if (state.is(Blocks.WATER))
+                    newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
                 else return super.execute(blockSource, stack);
                 newStack.applyComponents(stack.getComponents());
 
