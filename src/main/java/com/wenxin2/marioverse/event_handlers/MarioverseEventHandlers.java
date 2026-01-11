@@ -465,7 +465,7 @@ public class MarioverseEventHandlers {
 
         if (heldItem.getItem() instanceof SpawnEggItem && state.getBlock() instanceof WarpPipeBlock
                 && world.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE) {
-            if (warpBE.isWaxed() || !ConfigRegistry.WARP_PIPE_SPAWNS_MOBS.get()) {
+            if (warpBE.isWaxed() || !ConfigRegistry.WARP_PIPE_SPAWNS_MOBS.get() || !player.isCreative()) {
                 event.setCancellationResult(InteractionResult.FAIL);
                 event.setCanceled(true);
             }
