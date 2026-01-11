@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.world;
 
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Optional;
 import javax.annotation.Nullable;
@@ -76,6 +77,10 @@ public abstract class PipeSpawner extends BaseSpawner {
 
     @Override
     public void serverTick(@NotNull ServerLevel serverWorld, BlockPos pos) {
+        BlockState state = serverWorld.getBlockState(pos);
+
+        if (state.getBlock() instanceof WarpPipeBlock && !ConfigRegistry.WARP_PIPE_SPAWNS_MOBS.get())
+            return;
         if (this.isNearPlayer(serverWorld, pos)) {
             if (this.spawnDelay == -1)
                 this.delay(serverWorld, pos);
@@ -86,8 +91,6 @@ public abstract class PipeSpawner extends BaseSpawner {
                 boolean spawned = false;
                 RandomSource random = serverWorld.getRandom();
                 SpawnData spawnData = this.getOrCreateNextSpawnData(serverWorld, random, pos);
-                BlockState state = serverWorld.getBlockState(pos);
-                boolean hasFacing = state.hasProperty(BlockStateProperties.FACING);
                 Direction facing = state.getOptionalValue(BlockStateProperties.FACING).orElse(Direction.UP);
 
                 for (int i = 0; i < this.spawnCount; i++) {
