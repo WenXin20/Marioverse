@@ -1,16 +1,19 @@
 package com.wenxin2.marioverse;
 
+import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -463,6 +466,14 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CALCITE_CHECKERED_TILE_SLAB);
             add(event, BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS);
             add(event, BlockRegistry.CALCITE_CHECKERED_TILE_WALL);
+
+            RegistryEventHandlers.WARP_DOORS.entrySet().stream()
+                    .sorted(Comparator.comparing((Map.Entry<Block, Block> e) -> BuiltInRegistries.BLOCK.getKey(e.getKey()).getNamespace())
+                            .thenComparing(e -> BuiltInRegistries.BLOCK.getKey(e.getKey()).getPath()))
+                    .forEach(block -> {
+                        Block warpDoor = block.getValue();
+                        add(event, warpDoor);
+                    });
         }
 
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
