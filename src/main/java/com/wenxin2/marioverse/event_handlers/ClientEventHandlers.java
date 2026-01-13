@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
-import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
@@ -17,10 +16,7 @@ import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
@@ -28,8 +24,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -46,6 +43,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
@@ -78,43 +76,38 @@ public class ClientEventHandlers {
     public static void onModelBake(ModelEvent.ModifyBakingResult event) {
         Map<ModelResourceLocation, BakedModel> models = event.getModels();
 
-        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.SOURCE_TO_WARP.entrySet()) {
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
             Block source = entry.getKey();
             Block warp = entry.getValue();
-
-//            ModelResourceLocation sourceMrl = BlockModelShaper.stateToModelLocation(source.defaultBlockState());
-//            BakedModel sourceModel = models.get(sourceMrl);
-//            if (sourceModel == null)
-//                continue;
-
-//            WarpDoorModel warpModel = WarpDoorModel.MODEL_CACHE.computeIfAbsent(source, b -> new WarpDoorModel(sourceModel));
             ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
             ResourceLocation warpId = BuiltInRegistries.BLOCK.getKey(warp);
 
-//            models.replaceAll((rl, existing) -> {
-//                if (rl instanceof ModelResourceLocation mrl) {
-//                    ResourceLocation modelId = mrl.id();
-//                    String path = modelId.getPath();
-//
-//                    if (modelId.getNamespace().equals(warpId.getNamespace()) && path.startsWith(warpId.getPath()))
-//                        return warpModel;
-//                }
-//                return existing;
-//            });
-
-            for (Map.Entry<ModelResourceLocation, BakedModel> modelEntry : models.entrySet()) {
-                ModelResourceLocation warpMrl = modelEntry.getKey();
+            for (Map.Entry<ModelResourceLocation, BakedModel> model : models.entrySet()) {
+                ModelResourceLocation warpMrl = model.getKey();
                 if (!warpMrl.id().equals(warpId))
                     continue;
 
                 ModelResourceLocation sourceMrl = new ModelResourceLocation(sourceId, warpMrl.getVariant());
                 BakedModel sourceModel = models.get(sourceMrl);
+
+                if (sourceModel == null) {
+                    for (Map.Entry<ModelResourceLocation, BakedModel> candidate : models.entrySet()) {
+                        ModelResourceLocation candidateMrl = candidate.getKey();
+                        if (!candidateMrl.id().equals(sourceId))
+                            continue;
+                        String v = candidateMrl.getVariant();
+
+                        if (v.contains("facing=") && v.contains("half=") && v.contains("hinge=")
+                                && v.contains("open=") && v.contains("powered=")) {
+                            sourceModel = candidate.getValue();
+                            break;
+                        }
+                    }
+                }
                 if (sourceModel == null)
                     continue;
-
-                modelEntry.setValue(new WarpDoorModel(sourceModel));
+                model.setValue(new WarpDoorModel(sourceModel));
             }
-
         }
     }
 
@@ -128,6 +121,19 @@ public class ClientEventHandlers {
                     }
                 }, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get().asItem()
         );
+    }
+
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
+                Block source = entry.getKey();
+                Block warp = entry.getValue();
+
+                for (RenderType layer : ItemBlockRenderTypes.getRenderLayers(source.defaultBlockState()))
+                    ItemBlockRenderTypes.setRenderLayer(warp, layer);
+            }
+        });
     }
 
     @SubscribeEvent
