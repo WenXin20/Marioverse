@@ -19,6 +19,7 @@ import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.FluidTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
+import com.wenxin2.marioverse.items.WarpDoorBlockItem;
 import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
 import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -112,10 +113,11 @@ public class RegistryEventHandlers {
 
         event.register(Registries.ITEM, helper -> {
             for (Map.Entry<Block, Block> block : WARP_DOORS.entrySet()) {
+                Block source = block.getKey();
                 Block warp = block.getValue();
-                ResourceLocation id = BuiltInRegistries.BLOCK.getKey(warp);
+                ResourceLocation warpID = BuiltInRegistries.BLOCK.getKey(warp);
 
-                helper.register(id, new BlockItem(warp, new Item.Properties()));
+                helper.register(warpID, new WarpDoorBlockItem(warp, source, new Item.Properties()));
             }
         });
     }
