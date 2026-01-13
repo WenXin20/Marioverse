@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import java.util.UUID;
@@ -16,6 +17,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 
 @Mixin(TrapDoorBlock.class)
 public class TrapDoorBlockMixin extends Block implements EntityBlock {

@@ -5,8 +5,10 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
+import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -15,7 +17,10 @@ import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
@@ -24,7 +29,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.block.BlockModelShaper;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -32,11 +41,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
@@ -61,6 +72,50 @@ public class ClientEventHandlers {
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_shader"),
                 DefaultVertexFormat.POSITION_TEX_COLOR),
                 shader -> SuperStarRenderType.SUPER_STAR_SHADER = shader);
+    }
+
+    @SubscribeEvent
+    public static void onModelBake(ModelEvent.ModifyBakingResult event) {
+        Map<ModelResourceLocation, BakedModel> models = event.getModels();
+
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.SOURCE_TO_WARP.entrySet()) {
+            Block source = entry.getKey();
+            Block warp = entry.getValue();
+
+//            ModelResourceLocation sourceMrl = BlockModelShaper.stateToModelLocation(source.defaultBlockState());
+//            BakedModel sourceModel = models.get(sourceMrl);
+//            if (sourceModel == null)
+//                continue;
+
+//            WarpDoorModel warpModel = WarpDoorModel.MODEL_CACHE.computeIfAbsent(source, b -> new WarpDoorModel(sourceModel));
+            ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
+            ResourceLocation warpId = BuiltInRegistries.BLOCK.getKey(warp);
+
+//            models.replaceAll((rl, existing) -> {
+//                if (rl instanceof ModelResourceLocation mrl) {
+//                    ResourceLocation modelId = mrl.id();
+//                    String path = modelId.getPath();
+//
+//                    if (modelId.getNamespace().equals(warpId.getNamespace()) && path.startsWith(warpId.getPath()))
+//                        return warpModel;
+//                }
+//                return existing;
+//            });
+
+            for (Map.Entry<ModelResourceLocation, BakedModel> modelEntry : models.entrySet()) {
+                ModelResourceLocation warpMrl = modelEntry.getKey();
+                if (!warpMrl.id().equals(warpId))
+                    continue;
+
+                ModelResourceLocation sourceMrl = new ModelResourceLocation(sourceId, warpMrl.getVariant());
+                BakedModel sourceModel = models.get(sourceMrl);
+                if (sourceModel == null)
+                    continue;
+
+                modelEntry.setValue(new WarpDoorModel(sourceModel));
+            }
+
+        }
     }
 
     @SubscribeEvent

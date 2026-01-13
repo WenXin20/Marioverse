@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.accessories.PlasticBucketAccessory;
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.behaviors.DispenserBehaviors;
 import com.wenxin2.marioverse.commands.PowerUpCommand;
 import com.wenxin2.marioverse.datagen.AdvancementDataGen;
@@ -24,26 +25,30 @@ import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import io.wispforest.accessories.api.AccessoriesAPI;
-import io.wispforest.accessories.api.Accessory;
-import io.wispforest.accessories.api.slot.SlotReference;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -56,12 +61,44 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class RegistryEventHandlers {
+    public static final Map<Block, Block> SOURCE_TO_WARP = new IdentityHashMap<>();
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         PowerUpCommand.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void onRegisterBlocks(RegisterEvent event) {
+        event.register(Registries.BLOCK, helper -> {
+            for (Block block : BuiltInRegistries.BLOCK) {
+                if (!(block instanceof DoorBlock source))
+                    continue;
+                if (block instanceof WarpDoorBlock)
+                    continue;
+
+                ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
+                ResourceLocation warpId = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_" + sourceId.getPath());
+                WarpDoorBlock warpDoor = new WarpDoorBlock(source);
+
+                helper.register(warpId, warpDoor);
+
+                SOURCE_TO_WARP.put(source, warpDoor);
+            }
+        });
+
+        event.register(Registries.ITEM, helper -> {
+            for (Map.Entry<Block, Block> e : SOURCE_TO_WARP.entrySet()) {
+                Block warp = e.getValue();
+
+                ResourceLocation id = BuiltInRegistries.BLOCK.getKey(warp);
+
+                helper.register(id, new BlockItem(warp, new Item.Properties()));
+            }
+        });
     }
 
     @SubscribeEvent

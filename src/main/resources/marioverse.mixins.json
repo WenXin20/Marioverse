@@ -8,8 +8,6 @@
     "BlockMixin",
     "ContainersMixin",
     "DecoratedPotPatternsMixin",
-    "DoorBlockCompatMixin",
-    "DoorBlockMixin",
     "EntityMixin",
     "LivingEntityMixin",
     "PaintingMixin",
