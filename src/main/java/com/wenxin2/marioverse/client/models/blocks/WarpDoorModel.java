@@ -21,9 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WarpDoorModel implements BakedModel {
-
     private final BakedModel source;
-    public static final Map<ModelResourceLocation, WarpDoorModel> MODEL_CACHE = new IdentityHashMap<>();
 
     public WarpDoorModel(BakedModel sourceModel) {
         this.source = sourceModel;
@@ -32,57 +30,57 @@ public class WarpDoorModel implements BakedModel {
     @NotNull
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random, ModelData data, @Nullable RenderType renderType) {
-        return source.getQuads(state, direction, random, data, renderType);
+        return this.source.getQuads(state, direction, random, data, renderType);
     }
 
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random) {
-        return source.getQuads(state, direction, random);
+        return this.source.getQuads(state, direction, random);
     }
 
     @NotNull
     @Override
     public ModelData getModelData(BlockAndTintGetter level, BlockPos pos, BlockState state, ModelData modelData) {
-        return source.getModelData(level, pos, state, modelData);
+        return this.source.getModelData(level, pos, state, modelData);
     }
 
     @Override
     public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
-        return source.getRenderTypes(state, rand, data);
+        return this.source.getRenderTypes(state, rand, data);
     }
 
     @Override
     public List<RenderType> getRenderTypes(ItemStack stack, boolean fabulous) {
-        return source.getRenderTypes(stack, fabulous);
+        return this.source.getRenderTypes(stack, fabulous);
     }
 
     @Override
     public boolean useAmbientOcclusion() {
-        return source.useAmbientOcclusion();
+        return this.source.useAmbientOcclusion();
     }
 
     @Override
     public boolean isGui3d() {
-        return source.isGui3d();
+        return this.source.isGui3d();
     }
 
     @Override
     public boolean usesBlockLight() {
-        return source.usesBlockLight();
+        return this.source.usesBlockLight();
     }
 
     @Override
     public boolean isCustomRenderer() {
-        return source.isCustomRenderer();
+        return this.source.isCustomRenderer();
     }
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return source.getParticleIcon();
+        return this.source.getParticleIcon();
     }
 
     @Override
     public ItemOverrides getOverrides() {
-        return source.getOverrides();
+        return this.source.getOverrides();
     }
 }
