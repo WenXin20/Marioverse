@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -72,6 +73,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 public class RegistryEventHandlers {
     public static final Map<Block, Block> WARP_DOORS = new IdentityHashMap<>();
     private static final Set<String> VANILLA_DOOR_PROPERTY_NAMES = Set.of("facing", "half", "hinge", "open", "powered");
+    private static final String WATERLOGGED = "waterlogged";
 
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
@@ -92,15 +94,18 @@ public class RegistryEventHandlers {
                 Set<String> propertyNames = stateDefinition.getProperties().stream()
                         .map(Property::getName)
                         .collect(Collectors.toSet());
+                boolean hasStates = propertyNames.equals(VANILLA_DOOR_PROPERTY_NAMES)
+                        || propertyNames.equals(Stream.concat(VANILLA_DOOR_PROPERTY_NAMES.stream(),
+                                Stream.of(WATERLOGGED)).collect(Collectors.toSet()));
 
-                if (!propertyNames.equals(VANILLA_DOOR_PROPERTY_NAMES))
+                if (!hasStates)
                     continue;
 
-                ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
-                ResourceLocation warpId = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_" + sourceId.getPath());
+                ResourceLocation sourceID = BuiltInRegistries.BLOCK.getKey(source);
+                ResourceLocation warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_" + sourceID.getPath());
                 WarpDoorBlock warpDoor = new WarpDoorBlock(source);
 
-                helper.register(warpId, warpDoor);
+                helper.register(warpID, warpDoor);
                 WARP_DOORS.put(source, warpDoor);
             }
         });
