@@ -81,6 +81,8 @@ public class ClientEventHandlers {
             Block warp = entry.getValue();
             ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
             ResourceLocation warpId = BuiltInRegistries.BLOCK.getKey(warp);
+            ModelResourceLocation sourceItemMrl = new ModelResourceLocation(sourceId, "inventory");
+            BakedModel sourceItemModel = models.get(sourceItemMrl);
 
             for (Map.Entry<ModelResourceLocation, BakedModel> model : models.entrySet()) {
                 ModelResourceLocation warpMrl = model.getKey();
@@ -88,9 +90,9 @@ public class ClientEventHandlers {
                     continue;
 
                 ModelResourceLocation sourceMrl = new ModelResourceLocation(sourceId, warpMrl.getVariant());
-                BakedModel sourceModel = models.get(sourceMrl);
+                BakedModel sourceBlockModel = models.get(sourceMrl);
 
-                if (sourceModel == null) {
+                if (sourceBlockModel == null) {
                     for (Map.Entry<ModelResourceLocation, BakedModel> candidate : models.entrySet()) {
                         ModelResourceLocation candidateMrl = candidate.getKey();
                         if (!candidateMrl.id().equals(sourceId))
@@ -99,14 +101,14 @@ public class ClientEventHandlers {
 
                         if (v.contains("facing=") && v.contains("half=") && v.contains("hinge=")
                                 && v.contains("open=") && v.contains("powered=")) {
-                            sourceModel = candidate.getValue();
+                            sourceBlockModel = candidate.getValue();
                             break;
                         }
                     }
                 }
-                if (sourceModel == null)
+                if (sourceBlockModel == null)
                     continue;
-                model.setValue(new WarpDoorModel(sourceModel));
+                model.setValue(new WarpDoorModel(sourceBlockModel, sourceItemModel != null ? sourceItemModel : sourceBlockModel));
             }
         }
     }
