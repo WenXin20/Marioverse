@@ -42,6 +42,7 @@ import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperStarRende
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireballRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
+import com.wenxin2.marioverse.data.WarpDoorTagResources;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -50,6 +51,7 @@ import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -58,7 +60,11 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackLocationInfo;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackSelectionConfig;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.EntityType;
@@ -67,6 +73,7 @@ import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -74,6 +81,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforgespi.language.IModInfo;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
@@ -137,6 +145,38 @@ public class MarioverseClient {
 
             event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
                     PackSource.BUILT_IN, false, Pack.Position.TOP);
+        }
+
+        if (event.getPackType() == PackType.SERVER_DATA) {
+
+            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_tags");
+            Component packNameDisplay = Component.translatable("datapack.marioverse.warp_tags");
+            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_warp_tags", packNameDisplay, PackSource.BUILT_IN,
+                    Optional.of(new KnownPack("marioverse", "mod/" + packLocation, "22")));
+            IModInfo modInfo = ModList.get().getModContainerById(packLocation.getNamespace())
+                    .orElseThrow(() -> new IllegalArgumentException("Mod not found: " + packLocation.getNamespace())).getModInfo();
+            var resourcePath = modInfo.getOwningFile().getFile().findResource(packLocation.getPath());
+
+            event.addRepositorySource((consumer) -> {
+                consumer.accept(
+                        Pack.readMetaAndCreate(
+                                packLocationInfo,
+                                new Pack.ResourcesSupplier() {
+                                    @Override
+                                    public PackResources openPrimary(PackLocationInfo info) {
+                                        return new WarpDoorTagResources(info, resourcePath);
+                                    }
+
+                                    @Override
+                                    public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
+                                        return new WarpDoorTagResources(info, resourcePath);
+                                    }
+                                },
+                                PackType.SERVER_DATA,
+                                new PackSelectionConfig(true, Pack.Position.TOP, false)
+                        )
+                );
+            });
         }
     }
 

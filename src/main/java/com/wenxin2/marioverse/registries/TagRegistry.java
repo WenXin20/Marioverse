@@ -74,6 +74,7 @@ public class TagRegistry {
     public static final TagKey<Block> SNOWBALL_EXTINGUISHES = blockTags("snowball_extinguishes");
     public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
+    public static final TagKey<Block> WARP_DOOR_BLOCKS = blockTags("warp_doors");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
     public static final TagKey<Block> WOODEN_BRIDGE_BLOCKS = blockTags("wooden_bridges");
     public static final TagKey<Block> WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("wooden_bridge_stairs");
@@ -176,6 +177,7 @@ public class TagRegistry {
     public static final TagKey<Item> STORAGE_BRICK_ITEMS = itemTags("storage_bricks");
     public static final TagKey<Item> STORAGE_CALCITE_BRICK_ITEMS = itemTags("storage_calcite_bricks");
     public static final TagKey<Item> WARP_FUEL = itemTags("warp_fuel");
+    public static final TagKey<Item> WARP_DOOR_ITEMS = itemTags("warp_doors");
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
     public static final TagKey<Item> WOODEN_BRIDGE_ITEMS = itemTags("wooden_bridges");
