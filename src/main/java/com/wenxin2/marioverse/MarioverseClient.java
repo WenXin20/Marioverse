@@ -42,7 +42,7 @@ import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperStarRende
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireballRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
-import com.wenxin2.marioverse.data.WarpDoorTagResources;
+import com.wenxin2.marioverse.data.DynamicResources;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -149,34 +149,27 @@ public class MarioverseClient {
 
         if (event.getPackType() == PackType.SERVER_DATA) {
 
-            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_tags");
-            Component packNameDisplay = Component.translatable("datapack.marioverse.warp_tags");
-            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_warp_tags", packNameDisplay, PackSource.BUILT_IN,
+            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dynamic_resources");
+            Component packNameDisplay = Component.translatable("datapack.marioverse.dynamic_resources");
+            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_resources", packNameDisplay, PackSource.BUILT_IN,
                     Optional.of(new KnownPack("marioverse", "mod/" + packLocation, "22")));
-            IModInfo modInfo = ModList.get().getModContainerById(packLocation.getNamespace())
-                    .orElseThrow(() -> new IllegalArgumentException("Mod not found: " + packLocation.getNamespace())).getModInfo();
-            var resourcePath = modInfo.getOwningFile().getFile().findResource(packLocation.getPath());
 
-            event.addRepositorySource((consumer) -> {
-                consumer.accept(
-                        Pack.readMetaAndCreate(
-                                packLocationInfo,
-                                new Pack.ResourcesSupplier() {
-                                    @Override
-                                    public PackResources openPrimary(PackLocationInfo info) {
-                                        return new WarpDoorTagResources(info, resourcePath);
-                                    }
+            event.addRepositorySource((consumer) -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
+                            new Pack.ResourcesSupplier() {
+                                @Override
+                                public PackResources openPrimary(PackLocationInfo info) {
+                                    return new DynamicResources(info);
+                                }
 
-                                    @Override
-                                    public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
-                                        return new WarpDoorTagResources(info, resourcePath);
-                                    }
-                                },
-                                PackType.SERVER_DATA,
-                                new PackSelectionConfig(true, Pack.Position.TOP, false)
-                        )
-                );
-            });
+                                @Override
+                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
+                                    return new DynamicResources(info);
+                                }
+                            },
+                            PackType.SERVER_DATA,
+                            new PackSelectionConfig(true, Pack.Position.TOP, false)
+                    )
+            ));
         }
     }
 

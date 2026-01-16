@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.SharedConstants;
@@ -30,19 +29,16 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-public final class WarpDoorTagResources implements PackResources {
+public final class DynamicResources implements PackResources {
     private static final Logger LOGGER = LogUtils.getLogger();
     private final PackLocationInfo location;
-    private final Path root;
 
-    public WarpDoorTagResources(PackLocationInfo location, Path path) {
+    public DynamicResources(PackLocationInfo location) {
         this.location = location;
-        this.root = path;
     }
 
     private static final Set<TagKey<Block>> BLOCK_TAGS = Set.of(
@@ -65,7 +61,7 @@ public final class WarpDoorTagResources implements PackResources {
             JsonObject pack = new JsonObject();
 
             pack.addProperty("pack_format", SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA));
-            pack.addProperty("description", "Warp Door & Trapdoor Tags");
+            pack.addProperty("description", "Dynamic Resources");
 
             root.add("pack", pack);
 
@@ -79,7 +75,6 @@ public final class WarpDoorTagResources implements PackResources {
     public IoSupplier<InputStream> getResource(PackType type, ResourceLocation location) {
         if (type != PackType.SERVER_DATA)
             return null;
-        LOGGER.info("Resource requested: {}", location);
 
         for (TagKey<Block> tag : BLOCK_TAGS) {
             if (location.equals(tag.location().withPrefix("tags/block/").withSuffix(".json"))) {
@@ -99,7 +94,6 @@ public final class WarpDoorTagResources implements PackResources {
     public void listResources(PackType type, String namespace, String path, ResourceOutput output) {
         if (type != PackType.SERVER_DATA)
             return;
-        LOGGER.info("Listing resources for namespace={} path={}", namespace, path);
 
         if (path.equals("tags/block")) {
             for (TagKey<Block> tag : BLOCK_TAGS) {
@@ -110,7 +104,6 @@ public final class WarpDoorTagResources implements PackResources {
                 ResourceLocation out = ResourceLocation
                         .fromNamespaceAndPath(namespace, "tags/block/" + id.getPath() + ".json");
 
-                LOGGER.info("Exposing block tag {}", out);
                 output.accept(out, () -> buildBlockTag(tag).get());
             }
         }
@@ -124,8 +117,6 @@ public final class WarpDoorTagResources implements PackResources {
                 ResourceLocation out = ResourceLocation
                         .fromNamespaceAndPath(namespace, "tags/item/" + id.getPath() + ".json");
 
-                LOGGER.info("Exposing item tag {}", out);
-
                 output.accept(out, () -> buildItemTag(tag).get());
             }
         }
@@ -134,18 +125,16 @@ public final class WarpDoorTagResources implements PackResources {
     @NotNull
     @Override
     public Set<String> getNamespaces(PackType type) {
-        return type == PackType.SERVER_DATA
-                ? Set.of("minecraft", Marioverse.MOD_ID)
-                : Set.of();
+        return type == PackType.SERVER_DATA ? Set.of("minecraft", Marioverse.MOD_ID) : Set.of();
     }
 
     @Nullable
     @Override
     public <T> T getMetadataSection(MetadataSectionSerializer<T> serializer) throws IOException {
-        IoSupplier<InputStream> iosupplier = this.getRootResource(new String[]{"pack.mcmeta"});
-        if (iosupplier == null) {
+        IoSupplier<InputStream> iosupplier = this.getRootResource("pack.mcmeta");
+        if (iosupplier == null)
             return null;
-        } else {
+        else {
             Object object;
             try (InputStream inputstream = iosupplier.get()) {
                 object = getMetadataFromStream(serializer, inputstream);
