@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.Set;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,6 +29,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -43,13 +46,16 @@ public final class WarpDoorTagResources implements PackResources {
     }
 
     private static final Set<TagKey<Block>> BLOCK_TAGS = Set.of(
-            BlockTags.WOODEN_DOORS,
-            TagRegistry.WARP_DOOR_BLOCKS
+            TagRegistry.WARP_DOOR_BLOCKS,
+            BlockTags.DOORS,
+            BlockTags.MINEABLE_WITH_PICKAXE,
+            BlockTags.WOODEN_DOORS
     );
 
     private static final Set<TagKey<Item>> ITEM_TAGS = Set.of(
-            ItemTags.WOODEN_DOORS,
-            TagRegistry.WARP_DOOR_ITEMS
+            TagRegistry.WARP_DOOR_ITEMS,
+            ItemTags.DOORS,
+            ItemTags.WOODEN_DOORS
     );
 
     @Override
@@ -161,8 +167,22 @@ public final class WarpDoorTagResources implements PackResources {
         JsonObject json = new JsonObject();
         JsonArray values = new JsonArray();
 
-        for (Block warp : RegistryEventHandlers.WARP_DOORS.values()) {
-            values.add(BuiltInRegistries.BLOCK.getKey(warp).toString());
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
+            Block source = entry.getKey();
+            Block warp = entry.getValue();
+
+            if (source instanceof DoorBlock door) {
+                boolean isWooden = door.type().canOpenByHand();
+
+                if (tag.equals(BlockTags.DOORS) && isWooden)
+                    continue;
+                if (tag.equals(BlockTags.MINEABLE_WITH_PICKAXE) && isWooden)
+                    continue;
+                if (tag.equals(BlockTags.WOODEN_DOORS) && !isWooden)
+                    continue;
+
+                values.add(BuiltInRegistries.BLOCK.getKey(warp).toString());
+            }
         }
 
         json.addProperty("replace", false);
@@ -176,8 +196,20 @@ public final class WarpDoorTagResources implements PackResources {
         JsonObject json = new JsonObject();
         JsonArray values = new JsonArray();
 
-        for (Block warp : RegistryEventHandlers.WARP_DOORS.values()) {
-            values.add(BuiltInRegistries.ITEM.getKey(warp.asItem()).toString());
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
+            Block source = entry.getKey();
+            Block warp = entry.getValue();
+
+            if (source instanceof DoorBlock door) {
+                boolean isWooden = door.type().canOpenByHand();
+
+                if (tag.equals(ItemTags.DOORS) && isWooden)
+                    continue;
+                if (tag.equals(ItemTags.WOODEN_DOORS) && !isWooden)
+                    continue;
+
+                values.add(BuiltInRegistries.ITEM.getKey(warp.asItem()).toString());
+            }
         }
 
         json.addProperty("replace", false);
