@@ -125,6 +125,7 @@ public class TagRegistry {
     public static final TagKey<Item> COSTUME_SHIRT = itemTags("accessories", "costume_shirt");
     public static final TagKey<Item> COSTUME_SHOES = itemTags("accessories", "costume_shoes");
     public static final TagKey<Item> CRACKED_CALCITE_BRICK_ITEMS = itemTags("cracked_calcite_bricks");
+    public static final TagKey<Item> CRAFTS_WARP_DOOR = itemTags("crafts_warp_door");
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
@@ -176,7 +177,6 @@ public class TagRegistry {
     public static final TagKey<Item> SMASHABLE_BLOCK_ITEMS = itemTags("smashable_blocks");
     public static final TagKey<Item> STORAGE_BRICK_ITEMS = itemTags("storage_bricks");
     public static final TagKey<Item> STORAGE_CALCITE_BRICK_ITEMS = itemTags("storage_calcite_bricks");
-    public static final TagKey<Item> WARP_FUEL = itemTags("warp_fuel");
     public static final TagKey<Item> WARP_DOOR_ITEMS = itemTags("warp_doors");
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");

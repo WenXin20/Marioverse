@@ -7,6 +7,7 @@
   "gui.marioverse.controls": "Marioverse",
   "key.marioverse.activate_power_up": "Activate Power Up",
 
+  "datapack.marioverse.dynamic_resources" : "Marioverse Dynamic Data Resources",
   "resource_pack.marioverse.truly_invisible": "Truly Invisible",
   "resource_pack.marioverse.truly_invisible.description": "Invisible Question Blocks are completely invisible",
 
@@ -746,7 +747,7 @@
   "block.marioverse.warp_door.tooltip.ability": "§6Ability:",
   "block.marioverse.warp_door.tooltip.description": " §7• Warps players, mobs, & items",
   "block.marioverse.warp_door.tooltip.guide": " §7• Link with a wrench",
-  "block.marioverse.warp_door.tooltip.mod": "§7Source Mod:",
+  "block.marioverse.warp_door.tooltip.mod": "§eSource Mod:",
   "block.marioverse.warp_door.tooltip.source_mod": " §9• %1$s",
 
   "upgrade.marioverse.mario_costume": "Mario's Costume",

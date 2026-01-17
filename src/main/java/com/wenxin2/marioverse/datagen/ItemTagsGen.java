@@ -206,6 +206,9 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
 
+        tag(TagRegistry.CRAFTS_WARP_DOOR)
+                .addTag(Tags.Items.ENDER_PEARLS);
+
         tag(TagRegistry.HALLOWEEN_MASKS)
                 .addTag(Tags.Items.PUMPKINS_CARVED)
                 .addTag(Tags.Items.PUMPKINS_JACK_O_LANTERNS)
@@ -230,9 +233,6 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(ItemTags.FISHES)
                 .addTag(ItemTags.MEAT)
                 .add(Items.BONE_MEAL);
-
-        tag(TagRegistry.WARP_FUEL)
-                .addTag(Tags.Items.ENDER_PEARLS);
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 .addTag(Tags.Items.DYES)
