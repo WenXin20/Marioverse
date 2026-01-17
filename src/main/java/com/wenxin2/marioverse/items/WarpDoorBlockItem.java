@@ -35,6 +35,9 @@ public class WarpDoorBlockItem extends BlockItem {
         if (Screen.hasShiftDown()) {
             list.add(Component.literal(""));
 
+            list.add(Component.translatable("block.marioverse.warp_door.tooltip.ability"));
+            list.add(Component.translatable("block.marioverse.warp_door.tooltip.description"));
+            list.add(Component.translatable("block.marioverse.warp_door.tooltip.guide"));
             list.add(Component.translatable("block.marioverse.warp_door.tooltip.mod"));
             list.add(Component.translatable("block.marioverse.warp_door.tooltip.source_mod", modName).withStyle(ChatFormatting.BLUE));
 

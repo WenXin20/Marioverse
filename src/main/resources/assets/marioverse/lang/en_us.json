@@ -743,6 +743,9 @@
   "item.marioverse.smithing_template.character_costume.ingredients": "Dyed Wool",
 
   "block.marioverse.warp_door.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.warp_door.tooltip.ability": "§6Ability:",
+  "block.marioverse.warp_door.tooltip.description": " §7• Warps players, mobs, & items",
+  "block.marioverse.warp_door.tooltip.guide": " §7• Link with a wrench",
   "block.marioverse.warp_door.tooltip.mod": "§7Source Mod:",
   "block.marioverse.warp_door.tooltip.source_mod": " §9• %1$s",
 
