@@ -16,7 +16,8 @@ public class WarpDoorCraftingDisplay extends DefaultCraftingDisplay<WarpDoorReci
                         EntryIngredients.ofTag(WarpDoorRecipe.INGREDIENTS,
                                 holder -> EntryStacks.of(holder.value()))),
 
-                RegistryEventHandlers.WARP_DOORS.values().stream().map(EntryIngredients::of).toList(),
+                List.of(EntryIngredients.ofItems(RegistryEventHandlers.WARP_DOORS.values()
+                        .stream().map(block -> (ItemLike) block).toList())),
 
                 Optional.empty()
         );
