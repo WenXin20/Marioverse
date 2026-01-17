@@ -24,7 +24,7 @@ public class WarpDoorCraftingExtension implements ICraftingCategoryExtension<War
 
     public WarpDoorCraftingExtension(IGuiHelper guiHelper) {
         this.inputSlot = guiHelper.getSlotDrawable();
-        this.outputSlot = guiHelper.drawableBuilder(OUTPUT_SLOT, 135, 30, 26, 26).build();
+        this.outputSlot = guiHelper.drawableBuilder(OUTPUT_SLOT, 119, 30, 26, 26).build();
     }
 
     @Override
