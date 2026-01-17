@@ -65,7 +65,7 @@ dependencies {
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:inspectability-1312917:6805145"
     implementation "curse.maven:jade-324717:6853386"
-    compileOnly "curse.maven:roughly-enough-items-${rei_version}"
+    implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:5699076"
     implementation "curse.maven:vista-1368607:7168947" // Requires Moonlight
@@ -88,7 +88,7 @@ dependencies {
     // implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
     // implementation "curse.maven:itemzoom-261725:5536959"
-    implementation "curse.maven:jei-${jei_version}"
+    compileOnly "curse.maven:jei-${jei_version}"
     implementation "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_spef_version}"
     // implementation "curse.maven:pehkui-${pehkui_version}"
     // implementation "curse.maven:structure-gel-api-${structure_gel_version}"

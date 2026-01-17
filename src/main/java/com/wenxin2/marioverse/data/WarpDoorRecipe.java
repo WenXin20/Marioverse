@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class WarpDoorRecipe extends CustomRecipe {
+    public static final WarpDoorRecipe INSTANCE = new WarpDoorRecipe(CraftingBookCategory.BUILDING);
     public static final TagKey<Item> INGREDIENTS = TagRegistry.CRAFTS_WARP_DOOR;
 
     public WarpDoorRecipe(CraftingBookCategory category) {
