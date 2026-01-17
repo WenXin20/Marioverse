@@ -1,11 +1,14 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
@@ -50,15 +53,22 @@ public class WarpDoorBlock extends DoorBlock implements EntityBlock {
         UUID uuid = UUID.randomUUID();
 
         if (blockEntity instanceof WarpDoorBlockEntity doorBE) {
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos, 16);
             CustomData data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+
             if (data != null && data.copyTag().hasUUID("UUID")) {
                 doorBE.setUUID(data.copyTag().getUUID("UUID"));
                 doorBE.setChanged();
 
                 if (blockEntityAbove instanceof WarpDoorBlockEntity doorBEAbove) {
+                    if (world instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos.above(), 16);
                     doorBEAbove.setUUID(data.copyTag().getUUID("UUID"));
                     doorBEAbove.setChanged();
                 } else if (blockEntityBelow instanceof WarpDoorBlockEntity doorBEBelow) {
+                    if (world instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos.below(), 16);
                     doorBEBelow.setUUID(data.copyTag().getUUID("UUID"));
                     doorBEBelow.setChanged();
                 }
@@ -67,9 +77,13 @@ public class WarpDoorBlock extends DoorBlock implements EntityBlock {
                 doorBE.setChanged();
 
                 if (blockEntityAbove instanceof WarpDoorBlockEntity doorBEAbove) {
+                    if (world instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos.above(), 16);
                     doorBEAbove.setUUID(uuid);
                     doorBEAbove.setChanged();
                 } else if (blockEntityBelow instanceof WarpDoorBlockEntity doorBEBelow) {
+                    if (world instanceof ServerLevel serverWorld)
+                        ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos.below(), 16);
                     doorBEBelow.setUUID(uuid);
                     doorBEBelow.setChanged();
                 }
