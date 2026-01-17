@@ -4,6 +4,8 @@ import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
@@ -13,6 +15,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WarpDoorBlock extends DoorBlock implements EntityBlock {
@@ -25,6 +28,12 @@ public class WarpDoorBlock extends DoorBlock implements EntityBlock {
 
     public DoorBlock source() {
         return this.source;
+    }
+
+    @NotNull
+    @Override
+    public MutableComponent getName() {
+        return Component.translatable("block.marioverse.warp_door", Component.translatable(this.source.getDescriptionId()));
     }
 
     @Nullable
