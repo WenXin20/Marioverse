@@ -88,7 +88,8 @@ dependencies {
     // implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
     // implementation "curse.maven:itemzoom-261725:5536959"
-    implementation "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    implementation "curse.maven:jei-${jei_version}"
+    implementation "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_spef_version}"
     // implementation "curse.maven:pehkui-${pehkui_version}"
     // implementation "curse.maven:structure-gel-api-${structure_gel_version}"
 }
