@@ -10,9 +10,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
@@ -517,54 +515,6 @@ public class MarioverseEventHandlers {
             }
         }
 
-        if (heldItem.is(TagRegistry.WARP_FUEL) && player.isShiftKeyDown()
-                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity doorBE
-                && doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
-            doorBE.setWarpFuelCount(doorBE.getWarpFuelCount() + 1);
-            if (doorBE.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
-            else if (doorBE.getWarpFuelCount() == ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos, 16);
-            player.swing(player.getUsedItemHand());
-            heldItem.consume(1, player);
-            event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
-
-            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
-                    && world.getBlockEntity(pos.above()) instanceof WarpDoorBlockEntity doorBEAbove
-                    && doorBEAbove.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
-                doorBEAbove.setWarpFuelCount(doorBEAbove.getWarpFuelCount() + 1);
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos.above(), 16);
-            }
-
-            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
-                    && world.getBlockEntity(pos.below()) instanceof WarpDoorBlockEntity doorBEBelow
-                    && doorBEBelow.getWarpFuelCount() < ConfigRegistry.WARP_DOOR_FUEL_AMT.getAsInt()) {
-                doorBEBelow.setWarpFuelCount(doorBEBelow.getWarpFuelCount() + 1);
-                if (world instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos.below(), 16);
-            }
-        }
-
-        if (heldItem.is(TagRegistry.WARP_FUEL) && player.isShiftKeyDown()
-                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity trapDoorBE
-                && trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt()) {
-            trapDoorBE.setWarpFuelCount(trapDoorBE.getWarpFuelCount() + 1);
-            if (trapDoorBE.getWarpFuelCount() < ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
-            else if (trapDoorBE.getWarpFuelCount() == ConfigRegistry.WARP_TRAPDOOR_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, null, pos, 16);
-            player.swing(player.getUsedItemHand());
-            heldItem.consume(1, player);
-            event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
-        }
-
         if (world.isClientSide()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof WarpPipeBlockEntity) {
@@ -730,7 +680,7 @@ public class MarioverseEventHandlers {
                 player.swing(player.getUsedItemHand());
             }
         } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
-                && stack.is(TagRegistry.WARP_FUEL)
+                && stack.is(TagRegistry.CRAFTS_WARP_PAINTING)
                 && target instanceof WarpLinkableEntity warpLinkableEntity
                 && warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
             warpLinkableEntity.mv$setWarpFuelCount(warpLinkableEntity.mv$getWarpFuelCount() + 1);
@@ -750,7 +700,7 @@ public class MarioverseEventHandlers {
                 if (!linkableEntity.mv$isWaxed()) {
                     if (world instanceof ServerLevel serverWorld) {
                         world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 0.5, 64); // TODO: fix pos
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 0.5, 64);
                         stack.consume(1, player);
                     }
                     linkableEntity.mv$setWaxed(true);

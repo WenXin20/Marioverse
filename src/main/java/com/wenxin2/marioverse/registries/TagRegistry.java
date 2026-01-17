@@ -126,6 +126,7 @@ public class TagRegistry {
     public static final TagKey<Item> COSTUME_SHOES = itemTags("accessories", "costume_shoes");
     public static final TagKey<Item> CRACKED_CALCITE_BRICK_ITEMS = itemTags("cracked_calcite_bricks");
     public static final TagKey<Item> CRAFTS_WARP_DOOR = itemTags("crafts_warp_door");
+    public static final TagKey<Item> CRAFTS_WARP_PAINTING = itemTags("crafts_warp_painting");
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");

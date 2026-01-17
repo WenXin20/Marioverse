@@ -209,6 +209,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.CRAFTS_WARP_DOOR)
                 .addTag(Tags.Items.ENDER_PEARLS);
 
+        tag(TagRegistry.CRAFTS_WARP_PAINTING)
+                .addTag(Tags.Items.ENDER_PEARLS);
+
         tag(TagRegistry.HALLOWEEN_MASKS)
                 .addTag(Tags.Items.PUMPKINS_CARVED)
                 .addTag(Tags.Items.PUMPKINS_JACK_O_LANTERNS)
