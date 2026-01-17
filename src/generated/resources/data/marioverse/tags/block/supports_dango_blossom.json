@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#minecraft:leaves",
+    "minecraft:cactus",
+    {
+      "id": "pokecube_legends:crystallized_cactus",
+      "required": false
+    }
+  ]
+}

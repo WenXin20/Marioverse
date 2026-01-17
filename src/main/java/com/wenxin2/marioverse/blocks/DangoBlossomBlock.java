@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -61,14 +63,14 @@ public class DangoBlossomBlock extends Block implements SimpleWaterloggedBlock {
         if (state.getValue(WATERLOGGED))
             worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
 
-        return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
+        return direction == Direction.DOWN && !this.canSurvive(state, worldAccessor, pos) ? Blocks.AIR.defaultBlockState()
+                : super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
     }
 
     @Override
     protected boolean canSurvive(BlockState state, LevelReader worldReader, BlockPos pos) {
         return Block.canSupportCenter(worldReader, pos.below(), Direction.UP)
-                || worldReader.getBlockState(pos.below()).getBlock() instanceof CactusBlock
-                || worldReader.getBlockState(pos.below()).getBlock() instanceof LeavesBlock;
+                || worldReader.getBlockState(pos.below()).is(TagRegistry.SUPPORTS_DANGO_BLOSSOM);
     }
 
     @Override

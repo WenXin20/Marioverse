@@ -20,6 +20,7 @@ public class BlockTagsGen extends BlockTagsProvider {
     private static final ResourceLocation CREATE_POLISHED_CALCITE = ResourceLocation.fromNamespaceAndPath("create", "polished_cut_calcite");
     private static final ResourceLocation DT_BROWN_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "brown_mushroom_cap");
     private static final ResourceLocation DT_RED_MUSHROOM_CAP = ResourceLocation.fromNamespaceAndPath("dynamictreesplus", "red_mushroom_cap");
+    private static final ResourceLocation PC_CRYSTALLIZED_CACTUS = ResourceLocation.fromNamespaceAndPath("pokecube_legends", "crystallized_cactus");
     private static final ResourceLocation SUPP_FIRE_PIT = ResourceLocation.fromNamespaceAndPath("supplementaries", "fire_pit");
 
     public BlockTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
@@ -462,6 +463,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get())
                 .add(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get())
                 .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get());
+
+        tag(TagRegistry.SUPPORTS_DANGO_BLOSSOM)
+                .addTag(BlockTags.LEAVES)
+                .add(Blocks.CACTUS)
+                .addOptional(PC_CRYSTALLIZED_CACTUS);
 
         tag(TagRegistry.WARP_PIPE_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)

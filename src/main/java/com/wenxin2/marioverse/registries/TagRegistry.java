@@ -74,6 +74,7 @@ public class TagRegistry {
     public static final TagKey<Block> SNOWBALL_EXTINGUISHES = blockTags("snowball_extinguishes");
     public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
+    public static final TagKey<Block> SUPPORTS_DANGO_BLOSSOM = blockTags("supports_dango_blossom");
     public static final TagKey<Block> WARP_DOOR_BLOCKS = blockTags("warp_doors");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
     public static final TagKey<Block> WOODEN_BRIDGE_BLOCKS = blockTags("wooden_bridges");
