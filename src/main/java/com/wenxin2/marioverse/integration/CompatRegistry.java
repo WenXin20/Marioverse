@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 public class CompatRegistry {
     public static final Supplier<Block> BROWN_MUSHROOM_CAP = make("dynamictreesplus:brown_mushroom_cap", BuiltInRegistries.BLOCK);
     public static final Supplier<Block> RED_MUSHROOM_CAP = make("dynamictreesplus:red_mushroom_cap", BuiltInRegistries.BLOCK);
+    public static final Supplier<Block> MV_FRAMED_GLASS_TRAPDOOR = make("marioverse:create_warp_framed_glass_trapdoor", BuiltInRegistries.BLOCK);
 
     public static final Supplier<Item> ANTIQUE_INK = make("supplementaries:antique_ink", BuiltInRegistries.ITEM);
     public static final Supplier<Item> BOMB_ITEM = make("supplementaries:bomb", BuiltInRegistries.ITEM);

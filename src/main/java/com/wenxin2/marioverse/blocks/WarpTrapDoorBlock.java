@@ -1,12 +1,14 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,6 +26,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Half;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -92,6 +95,33 @@ public class WarpTrapDoorBlock extends TrapDoorBlock implements EntityBlock {
             doorBE.onLoad();
         }
         super.setPlacedBy(world, pos, state, entity, stack);
+    }
+
+    @Override
+    public boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
+        return state.is(CompatRegistry.MV_FRAMED_GLASS_TRAPDOOR.get()) == neighborState.is(CompatRegistry.MV_FRAMED_GLASS_TRAPDOOR.get())
+                && isConnected(state, neighborState, direction);
+    }
+
+    public static boolean isConnected(BlockState state, BlockState neighborState, Direction direction) {
+        state = state.setValue(WATERLOGGED, false).setValue(POWERED, false);
+        neighborState = neighborState.setValue(WATERLOGGED, false).setValue(POWERED, false);
+
+        boolean isOpen = state.getValue(OPEN);
+        Half half = state.getValue(HALF);
+        Direction facing = state.getValue(FACING);
+
+        if (isOpen != neighborState.getValue(OPEN))
+            return false;
+        else if (!isOpen && half == neighborState.getValue(HALF))
+            return direction.getAxis() != Direction.Axis.Y;
+        else if (!isOpen && half != neighborState.getValue(HALF) && direction.getAxis() == Direction.Axis.Y)
+            return true;
+        else if (isOpen && facing.getOpposite() == neighborState.getValue(FACING) && direction.getAxis() == facing.getAxis())
+            return true;
+        else if ((isOpen ? state.setValue(HALF, Half.TOP) : state) != (isOpen ? neighborState.setValue(HALF, Half.TOP) : neighborState))
+            return false;
+        else return direction.getAxis() != facing.getAxis();
     }
 }
 

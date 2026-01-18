@@ -6,8 +6,7 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-public class ConfigRegistry
-{
+public class ConfigRegistry {
     public static final ConfigRegistry INSTANCE = new ConfigRegistry();
 
     public static final String CATEGORY_CLIENT = "client";
@@ -68,7 +67,8 @@ public class ConfigRegistry
     public static final String CATEGORY_CHRISTMAS = "christmas";
     public static final String CATEGORY_HALLOWEEN = "halloween";
 
-    private final ModConfigSpec CONFIG_SPEC;
+    private final ModConfigSpec COMMON_SPEC;
+
     public static ModConfigSpec.BooleanValue ALLOW_FAST_TRAVEL;
     public static ModConfigSpec.BooleanValue ALLOW_WARP_UNWAXING;
     public static ModConfigSpec.BooleanValue ALL_MOBS_CAN_STOMP;
@@ -223,6 +223,7 @@ public class ConfigRegistry
 
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+
         BUILDER.push(CATEGORY_CLIENT);
             DANGO_BLOSSOM_PARTICLES = BUILDER.translation("configuration.marioverse.dango_blossom_particles")
                     .comment("Enables particles for the Dango Blossom.")
@@ -992,11 +993,11 @@ public class ConfigRegistry
                     .define("debug_water_spout_selection_box", false);
         BUILDER.pop();
 
-        CONFIG_SPEC = BUILDER.build();
+        COMMON_SPEC = BUILDER.build();
     }
 
     public static void register(ModContainer container) {
-        container.registerConfig(ModConfig.Type.COMMON, INSTANCE.CONFIG_SPEC, "marioverse-common.toml");
+        container.registerConfig(ModConfig.Type.COMMON, INSTANCE.COMMON_SPEC, "marioverse-common.toml");
     }
 
     public static void registerClient(ModContainer container) {

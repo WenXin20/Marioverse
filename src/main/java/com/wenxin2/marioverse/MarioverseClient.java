@@ -138,7 +138,6 @@ public class MarioverseClient {
 
     public static void addPackFinder(final AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-
             ResourceLocation packLocation = ResourceLocation
                     .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/truly_invisible");
             Component packNameDisplay = Component.translatable("resource_pack.marioverse.truly_invisible");
@@ -171,7 +170,6 @@ public class MarioverseClient {
         }
 
         if (event.getPackType() == PackType.SERVER_DATA) {
-
             ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dynamic_resources");
             Component packNameDisplay = Component.translatable("datapack.marioverse.dynamic_resources");
             PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_resources",
