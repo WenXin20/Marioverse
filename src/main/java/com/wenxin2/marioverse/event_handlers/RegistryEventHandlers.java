@@ -20,6 +20,7 @@ import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.FluidTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
 import com.wenxin2.marioverse.items.WarpTrapDoorBlockItem;
 import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
@@ -118,6 +119,10 @@ public class RegistryEventHandlers {
                 if (!(block instanceof TrapDoorBlock source))
                     continue;
                 if (block instanceof WarpTrapDoorBlock)
+                    continue;
+                if (block.defaultBlockState().is(CompatRegistry.COPYCATS_IRON_TRAPDOOR.get()))
+                    continue;
+                if (block.defaultBlockState().is(CompatRegistry.COPYCATS_TRAPDOOR.get()))
                     continue;
 
                 StateDefinition<Block, BlockState> stateDefinition = source.getStateDefinition();
