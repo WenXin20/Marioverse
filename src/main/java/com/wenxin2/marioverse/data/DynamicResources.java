@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.SharedConstants;
@@ -35,10 +36,12 @@ import org.slf4j.Logger;
 
 public final class DynamicResources implements PackResources {
     private static final Logger LOGGER = LogUtils.getLogger();
+    private final Map<ResourceLocation, byte[]> lootTables = new HashMap<>();
     private final PackLocationInfo location;
 
     public DynamicResources(PackLocationInfo location) {
         this.location = location;
+        this.generateLootTables();
     }
 
     private static final Set<TagKey<Block>> BLOCK_TAGS = Set.of(
@@ -54,6 +57,18 @@ public final class DynamicResources implements PackResources {
             ItemTags.WOODEN_DOORS
     );
 
+    private void generateLootTables() {
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
+            ResourceLocation warpId   = BuiltInRegistries.BLOCK.getKey(entry.getValue());
+
+            ResourceLocation lootId = ResourceLocation
+                    .fromNamespaceAndPath(Marioverse.MOD_ID, "blocks/" + warpId.getPath() + ".json");
+
+            JsonObject json = createSelfDropTable(warpId);
+            lootTables.put(lootId, json.toString().getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
     @Override
     public IoSupplier<InputStream> getRootResource(String... path) {
         if (path.length == 1 && path[0].equals("pack.mcmeta")) {
@@ -61,7 +76,7 @@ public final class DynamicResources implements PackResources {
             JsonObject pack = new JsonObject();
 
             pack.addProperty("pack_format", SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA));
-            pack.addProperty("description", "Dynamic Resources");
+            pack.addProperty("description", "Marioverse dynamic data for warp doors & trapdoors");
 
             root.add("pack", pack);
 
@@ -87,6 +102,11 @@ public final class DynamicResources implements PackResources {
                 return buildItemTag(tag);
             }
         }
+
+        byte[] data = lootTables.get(location);
+        if (data != null)
+            return () -> new ByteArrayInputStream(data);
+
         return null;
     }
 
@@ -120,6 +140,19 @@ public final class DynamicResources implements PackResources {
                 output.accept(out, () -> buildItemTag(tag).get());
             }
         }
+
+        if (path.equals("loot_table")) {
+            for (Map.Entry<ResourceLocation, byte[]> entry : lootTables.entrySet()) {
+                ResourceLocation blockID = entry.getKey();
+                if (!blockID.getNamespace().equals(namespace))
+                    continue;
+
+                ResourceLocation out = ResourceLocation
+                        .fromNamespaceAndPath(namespace, "loot_table/" + blockID.getPath());
+
+                output.accept(out, () -> new ByteArrayInputStream(entry.getValue()));
+            }
+        }
     }
 
     @NotNull
@@ -140,6 +173,28 @@ public final class DynamicResources implements PackResources {
                 object = getMetadataFromStream(serializer, inputstream);
             }
             return (T)object;
+        }
+    }
+
+    @Nullable
+    public static <T> T getMetadataFromStream(MetadataSectionSerializer<T> serializer, InputStream input) {
+        JsonObject jsonobject;
+        try (BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
+            jsonobject = GsonHelper.parse(bufferedreader);
+        } catch (Exception exception1) {
+            LOGGER.error("Couldn't load {} metadata", serializer.getMetadataSectionName(), exception1);
+            return null;
+        }
+
+        if (!jsonobject.has(serializer.getMetadataSectionName())) {
+            return null;
+        } else {
+            try {
+                return serializer.fromJson(GsonHelper.getAsJsonObject(jsonobject, serializer.getMetadataSectionName()));
+            } catch (Exception exception) {
+                LOGGER.error("Couldn't load {} metadata", serializer.getMetadataSectionName(), exception);
+                return null;
+            }
         }
     }
 
@@ -208,25 +263,46 @@ public final class DynamicResources implements PackResources {
         return () -> new ByteArrayInputStream(data);
     }
 
-    @Nullable
-    public static <T> T getMetadataFromStream(MetadataSectionSerializer<T> serializer, InputStream input) {
-        JsonObject jsonobject;
-        try (BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
-            jsonobject = GsonHelper.parse(bufferedreader);
-        } catch (Exception exception1) {
-            LOGGER.error("Couldn't load {} metadata", serializer.getMetadataSectionName(), exception1);
-            return null;
-        }
+    private static JsonObject createSelfDropTable(ResourceLocation blockId) {
+        JsonObject root = new JsonObject();
+        root.addProperty("type", "minecraft:block");
 
-        if (!jsonobject.has(serializer.getMetadataSectionName())) {
-            return null;
-        } else {
-            try {
-                return serializer.fromJson(GsonHelper.getAsJsonObject(jsonobject, serializer.getMetadataSectionName()));
-            } catch (Exception exception) {
-                LOGGER.error("Couldn't load {} metadata", serializer.getMetadataSectionName(), exception);
-                return null;
-            }
-        }
+        JsonObject pool = new JsonObject();
+        pool.addProperty("rolls", 1.0);
+        pool.addProperty("bonus_rolls", 0.0);
+
+        JsonArray poolConditions = new JsonArray();
+        JsonObject survivesExplosion = new JsonObject();
+        survivesExplosion.addProperty("condition", "minecraft:survives_explosion");
+        poolConditions.add(survivesExplosion);
+        pool.add("conditions", poolConditions);
+
+        JsonObject entry = new JsonObject();
+        entry.addProperty("type", "minecraft:item");
+        entry.addProperty("name", blockId.toString());
+
+        JsonArray entryConditions = new JsonArray();
+        JsonObject blockStateCondition = new JsonObject();
+        blockStateCondition.addProperty("condition", "minecraft:block_state_property");
+        blockStateCondition.addProperty("block", blockId.toString());
+
+        JsonObject properties = new JsonObject();
+        properties.addProperty("half", "lower");
+        blockStateCondition.add("properties", properties);
+
+        entryConditions.add(blockStateCondition);
+        entry.add("conditions", entryConditions);
+
+        JsonArray entries = new JsonArray();
+        entries.add(entry);
+        pool.add("entries", entries);
+
+        JsonArray pools = new JsonArray();
+        pools.add(pool);
+        root.add("pools", pools);
+
+        root.addProperty("random_sequence", "marioverse:blocks/" + blockId.getPath());
+
+        return root;
     }
 }

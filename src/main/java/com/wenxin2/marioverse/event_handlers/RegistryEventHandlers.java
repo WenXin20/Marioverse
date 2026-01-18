@@ -43,7 +43,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -103,7 +102,7 @@ public class RegistryEventHandlers {
                     continue;
 
                 ResourceLocation sourceID = BuiltInRegistries.BLOCK.getKey(source);
-                ResourceLocation warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, sourceID.getNamespace() + "/warp_" + sourceID.getPath());
+                ResourceLocation warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, sourceID.getNamespace() + "_warp_" + sourceID.getPath());
                 WarpDoorBlock warpDoor = new WarpDoorBlock(source);
 
                 helper.register(warpID, warpDoor);
