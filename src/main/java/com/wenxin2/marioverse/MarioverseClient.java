@@ -43,6 +43,7 @@ import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireb
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
 import com.wenxin2.marioverse.data.DynamicResources;
+import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -140,19 +141,43 @@ public class MarioverseClient {
     public static void addPackFinder(final AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
 
-            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/truly_invisible");
+            ResourceLocation packLocation = ResourceLocation
+                    .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/truly_invisible");
             Component packNameDisplay = Component.translatable("resource_pack.marioverse.truly_invisible");
 
             event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
                     PackSource.BUILT_IN, false, Pack.Position.TOP);
+
+            ResourceLocation dynamicPackLocation = ResourceLocation
+                    .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/dynamic_client_resources");
+            Component  dynamicPackNameDisplay = Component.translatable("resource_pack.marioverse.dynamic_client_resources");
+            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_client_resources",
+                    dynamicPackNameDisplay, PackSource.BUILT_IN, Optional.of(new KnownPack(Marioverse.MOD_ID, "mod/" + dynamicPackLocation, "22")));
+
+            event.addRepositorySource(consumer -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
+                            new Pack.ResourcesSupplier() {
+                                @Override
+                                public PackResources openPrimary(PackLocationInfo info) {
+                                    return new DynamicClientResources(info);
+                                }
+
+                                @Override
+                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
+                                    return new DynamicClientResources(info);
+                                }
+                            },
+                            PackType.CLIENT_RESOURCES,
+                            new PackSelectionConfig(true, Pack.Position.TOP, false)
+                    )
+            ));
         }
 
         if (event.getPackType() == PackType.SERVER_DATA) {
 
             ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dynamic_resources");
             Component packNameDisplay = Component.translatable("datapack.marioverse.dynamic_resources");
-            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_resources", packNameDisplay, PackSource.BUILT_IN,
-                    Optional.of(new KnownPack("marioverse", "mod/" + packLocation, "22")));
+            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_resources",
+                    packNameDisplay, PackSource.BUILT_IN, Optional.of(new KnownPack("marioverse", "mod/" + packLocation, "22")));
 
             event.addRepositorySource((consumer) -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
                             new Pack.ResourcesSupplier() {
