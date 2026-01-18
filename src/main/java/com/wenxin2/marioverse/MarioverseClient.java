@@ -42,7 +42,7 @@ import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperStarRende
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireballRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
-import com.wenxin2.marioverse.data.DynamicResources;
+import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -181,12 +181,12 @@ public class MarioverseClient {
                             new Pack.ResourcesSupplier() {
                                 @Override
                                 public PackResources openPrimary(PackLocationInfo info) {
-                                    return new DynamicResources(info);
+                                    return new DynamicServerResources(info);
                                 }
 
                                 @Override
                                 public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
-                                    return new DynamicResources(info);
+                                    return new DynamicServerResources(info);
                                 }
                             },
                             PackType.SERVER_DATA,

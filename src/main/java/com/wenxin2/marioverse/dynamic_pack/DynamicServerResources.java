@@ -1,4 +1,4 @@
-package com.wenxin2.marioverse.data;
+package com.wenxin2.marioverse.dynamic_pack;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -34,12 +34,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-public final class DynamicResources implements PackResources {
+public final class DynamicServerResources implements PackResources {
     private static final Logger LOGGER = LogUtils.getLogger();
     private final Map<ResourceLocation, byte[]> lootTables = new HashMap<>();
     private final PackLocationInfo location;
 
-    public DynamicResources(PackLocationInfo location) {
+    public DynamicServerResources(PackLocationInfo location) {
         this.location = location;
         this.generateLootTables();
     }
