@@ -104,24 +104,26 @@ public class WarpTrapDoorBlock extends TrapDoorBlock implements EntityBlock {
     }
 
     public static boolean isConnected(BlockState state, BlockState neighborState, Direction direction) {
-        state = state.setValue(WATERLOGGED, false).setValue(POWERED, false);
-        neighborState = neighborState.setValue(WATERLOGGED, false).setValue(POWERED, false);
+        if (state.is(CompatRegistry.MV_FRAMED_GLASS_TRAPDOOR.get()) && neighborState.is(CompatRegistry.MV_FRAMED_GLASS_TRAPDOOR.get())) {
+            state = state.setValue(WATERLOGGED, false).setValue(POWERED, false);
+            neighborState = neighborState.setValue(WATERLOGGED, false).setValue(POWERED, false);
 
-        boolean isOpen = state.getValue(OPEN);
-        Half half = state.getValue(HALF);
-        Direction facing = state.getValue(FACING);
+            boolean isOpen = state.getValue(OPEN);
+            Half half = state.getValue(HALF);
+            Direction facing = state.getValue(FACING);
 
-        if (isOpen != neighborState.getValue(OPEN))
-            return false;
-        else if (!isOpen && half == neighborState.getValue(HALF))
-            return direction.getAxis() != Direction.Axis.Y;
-        else if (!isOpen && half != neighborState.getValue(HALF) && direction.getAxis() == Direction.Axis.Y)
-            return true;
-        else if (isOpen && facing.getOpposite() == neighborState.getValue(FACING) && direction.getAxis() == facing.getAxis())
-            return true;
-        else if ((isOpen ? state.setValue(HALF, Half.TOP) : state) != (isOpen ? neighborState.setValue(HALF, Half.TOP) : neighborState))
-            return false;
-        else return direction.getAxis() != facing.getAxis();
+            if (isOpen != neighborState.getValue(OPEN))
+                return false;
+            else if (!isOpen && half == neighborState.getValue(HALF))
+                return direction.getAxis() != Direction.Axis.Y;
+            else if (!isOpen && half != neighborState.getValue(HALF) && direction.getAxis() == Direction.Axis.Y)
+                return true;
+            else if (isOpen && facing.getOpposite() == neighborState.getValue(FACING) && direction.getAxis() == facing.getAxis())
+                return true;
+            else if ((isOpen ? state.setValue(HALF, Half.TOP) : state) != (isOpen ? neighborState.setValue(HALF, Half.TOP) : neighborState))
+                return false;
+            else return direction.getAxis() != facing.getAxis();
+        } else return false;
     }
 }
 
