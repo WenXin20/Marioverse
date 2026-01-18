@@ -74,7 +74,6 @@ dependencies {
     implementation "curse.maven:xaeros-world-map-317780:6778114"
 
     implementation "curse.maven:guard-villagers-360203:6066966"
-    implementation "curse.maven:villager-armor-layer-843236:6325890"
 
     // Libraries
     implementation "curse.maven:architectury-api-${architectury_api_version}"
