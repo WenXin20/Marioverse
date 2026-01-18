@@ -129,13 +129,13 @@ public final class DynamicServerResources implements PackResources {
 
         for (TagKey<Block> tag : TRAPDOOR_BLOCK_TAGS) {
             if (location.equals(tag.location().withPrefix("tags/block/").withSuffix(".json"))) {
-                return buildDoorBlockTag(tag);
+                return buildTrapDoorBlockTag(tag);
             }
         }
 
         for (TagKey<Item> tag : TRAPDOOR_ITEM_TAGS) {
             if (location.equals(tag.location().withPrefix("tags/item/").withSuffix(".json"))) {
-                return buildDoorItemTag(tag);
+                return buildTrapDoorItemTag(tag);
             }
         }
 
@@ -360,8 +360,8 @@ public final class DynamicServerResources implements PackResources {
             Block source = entry.getKey();
             Block warp = entry.getValue();
 
-            if (source instanceof DoorBlock door) {
-                boolean isWooden = door.type().canOpenByHand();
+            if (source instanceof TrapDoorBlock trapDoor) {
+                boolean isWooden = trapDoor.getType().canOpenByHand();
 
                 if (tag.equals(ItemTags.TRAPDOORS) && isWooden)
                     continue;

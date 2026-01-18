@@ -132,10 +132,10 @@ public class RegistryEventHandlers {
 
                 ResourceLocation sourceID = BuiltInRegistries.BLOCK.getKey(source);
                 ResourceLocation warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, sourceID.getNamespace() + "_warp_" + sourceID.getPath());
-                WarpTrapDoorBlock warpTrapdoor = new WarpTrapDoorBlock(source);
+                WarpTrapDoorBlock warpTrapDoor = new WarpTrapDoorBlock(source);
 
-                helper.register(warpID, warpTrapdoor);
-                WARP_TRAPDOORS.put(source, warpTrapdoor);
+                helper.register(warpID, warpTrapDoor);
+                WARP_TRAPDOORS.put(source, warpTrapDoor);
             }
         });
 

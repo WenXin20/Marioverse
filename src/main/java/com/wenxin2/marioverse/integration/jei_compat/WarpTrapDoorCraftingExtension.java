@@ -45,7 +45,7 @@ public class WarpTrapDoorCraftingExtension implements ICraftingCategoryExtension
         builder.setShapeless();
 
         builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
-                .setBackground(inputSlot, -1, -1).setSlotName("Any Door")
+                .setBackground(inputSlot, -1, -1).setSlotName("Any Trapdoor")
                 .addIngredients(VanillaTypes.ITEM_STACK, RegistryEventHandlers.WARP_TRAPDOORS.keySet()
                         .stream().map(ItemStack::new).toList());
 
