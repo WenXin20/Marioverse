@@ -2,7 +2,9 @@ package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.WarpDoorRecipe;
+import com.wenxin2.marioverse.data.WarpTrapDoorRecipe;
 import com.wenxin2.marioverse.integration.jei_compat.WarpDoorCraftingExtension;
+import com.wenxin2.marioverse.integration.jei_compat.WarpTrapDoorCraftingExtension;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
@@ -23,5 +25,7 @@ public class JEICompat implements IModPlugin {
     public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
         registration.getCraftingCategory().addExtension(WarpDoorRecipe.class,
                 new WarpDoorCraftingExtension(registration.getJeiHelpers().getGuiHelper()));
+        registration.getCraftingCategory().addExtension(WarpTrapDoorRecipe.class,
+                new WarpTrapDoorCraftingExtension(registration.getJeiHelpers().getGuiHelper()));
     }
 }

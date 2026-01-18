@@ -13,8 +13,7 @@
     "PaintingMixin",
     "PlayerMixin",
     "PowderSnowBlockMixin",
-    "ServerPlayerMixin",
-    "TrapDoorBlockMixin"
+    "ServerPlayerMixin"
   ],
   "client": [
     "ButtonBlockMixin",

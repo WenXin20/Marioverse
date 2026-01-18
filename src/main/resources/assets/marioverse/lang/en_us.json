@@ -54,6 +54,7 @@
   "block.marioverse.splunkin_o_lantern": "Splunkin O' Lantern",
   "block.marioverse.star_coin": "Star Coin",
   "block.marioverse.warp_door": "Warp %1$s",
+  "block.marioverse.warp_trapdoor": "Warp %1$s",
 
   "block.marioverse.acacia_log_bridge": "Acacia Log Bridge",
   "block.marioverse.bamboo_bridge": "Bamboo Bridge",
@@ -750,6 +751,13 @@
   "block.marioverse.warp_door.tooltip.guide": " §7• Link with a wrench",
   "block.marioverse.warp_door.tooltip.mod": "§eSource Mod:",
   "block.marioverse.warp_door.tooltip.source_mod": " §9• %1$s",
+
+  "block.marioverse.warp_trapdoor.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.warp_trapdoor.tooltip.ability": "§6Ability:",
+  "block.marioverse.warp_trapdoor.tooltip.description": " §7• Warps players, mobs, & items",
+  "block.marioverse.warp_trapdoor.tooltip.guide": " §7• Link with a wrench",
+  "block.marioverse.warp_trapdoor.tooltip.mod": "§eSource Mod:",
+  "block.marioverse.warp_trapdoor.tooltip.source_mod": " §9• %1$s",
 
   "upgrade.marioverse.mario_costume": "Mario's Costume",
   "upgrade.marioverse.fire_costume": "Fire Costume",

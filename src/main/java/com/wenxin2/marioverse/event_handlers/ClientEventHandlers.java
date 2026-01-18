@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
+import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -111,6 +112,42 @@ public class ClientEventHandlers {
                 model.setValue(new WarpDoorModel(sourceBlockModel, sourceItemModel != null ? sourceItemModel : sourceBlockModel));
             }
         }
+
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_TRAPDOORS.entrySet()) {
+            Block source = entry.getKey();
+            Block warp = entry.getValue();
+            ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
+            ResourceLocation warpId = BuiltInRegistries.BLOCK.getKey(warp);
+            ModelResourceLocation sourceItemMrl = new ModelResourceLocation(sourceId, "inventory");
+            BakedModel sourceItemModel = models.get(sourceItemMrl);
+
+            for (Map.Entry<ModelResourceLocation, BakedModel> model : models.entrySet()) {
+                ModelResourceLocation warpMrl = model.getKey();
+                if (!warpMrl.id().equals(warpId))
+                    continue;
+
+                ModelResourceLocation sourceMrl = new ModelResourceLocation(sourceId, warpMrl.getVariant());
+                BakedModel sourceBlockModel = models.get(sourceMrl);
+
+                if (sourceBlockModel == null) {
+                    for (Map.Entry<ModelResourceLocation, BakedModel> candidate : models.entrySet()) {
+                        ModelResourceLocation candidateMrl = candidate.getKey();
+                        if (!candidateMrl.id().equals(sourceId))
+                            continue;
+                        String v = candidateMrl.getVariant();
+
+                        if (v.contains("facing=") && v.contains("half=") && v.contains("open=")
+                                && v.contains("powered=") && v.contains("waterlogged=")) {
+                            sourceBlockModel = candidate.getValue();
+                            break;
+                        }
+                    }
+                }
+                if (sourceBlockModel == null)
+                    continue;
+                model.setValue(new WarpTrapDoorModel(sourceBlockModel, sourceItemModel != null ? sourceItemModel : sourceBlockModel));
+            }
+        }
     }
 
     @SubscribeEvent
@@ -129,6 +166,14 @@ public class ClientEventHandlers {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
+                Block source = entry.getKey();
+                Block warp = entry.getValue();
+
+                for (RenderType layer : ItemBlockRenderTypes.getRenderLayers(source.defaultBlockState()))
+                    ItemBlockRenderTypes.setRenderLayer(warp, layer);
+            }
+
+            for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_TRAPDOORS.entrySet()) {
                 Block source = entry.getKey();
                 Block warp = entry.getValue();
 

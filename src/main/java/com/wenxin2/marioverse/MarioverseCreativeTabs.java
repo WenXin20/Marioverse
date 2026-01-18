@@ -474,6 +474,14 @@ public class MarioverseCreativeTabs {
                         Block warpDoor = block.getValue();
                         add(event, warpDoor);
                     });
+
+            RegistryEventHandlers.WARP_TRAPDOORS.entrySet().stream()
+                    .sorted(Comparator.comparing((Map.Entry<Block, Block> e) -> BuiltInRegistries.BLOCK.getKey(e.getKey()).getNamespace())
+                            .thenComparing(e -> BuiltInRegistries.BLOCK.getKey(e.getKey()).getPath()))
+                    .forEach(block -> {
+                        Block warpTrapdoor = block.getValue();
+                        add(event, warpTrapdoor);
+                    });
         }
 
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {

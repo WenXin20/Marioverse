@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.event_handlers;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.accessories.PlasticBucketAccessory;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
+import com.wenxin2.marioverse.blocks.WarpTrapDoorBlock;
 import com.wenxin2.marioverse.blocks.behaviors.DispenserBehaviors;
 import com.wenxin2.marioverse.commands.PowerUpCommand;
 import com.wenxin2.marioverse.datagen.AdvancementDataGen;
@@ -20,6 +21,7 @@ import com.wenxin2.marioverse.datagen.FluidTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
+import com.wenxin2.marioverse.items.WarpTrapDoorBlockItem;
 import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
 import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -51,6 +53,7 @@ import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -72,7 +75,9 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class RegistryEventHandlers {
     public static final Map<Block, Block> WARP_DOORS = new IdentityHashMap<>();
-    private static final Set<String> VANILLA_DOOR_PROPERTY_NAMES = Set.of("facing", "half", "hinge", "open", "powered");
+    public static final Map<Block, Block> WARP_TRAPDOORS = new IdentityHashMap<>();
+    private static final Set<String> DOOR_STATES = Set.of("facing", "half", "hinge", "open", "powered");
+    private static final Set<String> TRAPDOOR_STATES = Set.of("facing", "half", "open", "powered");
     private static final String WATERLOGGED = "waterlogged";
 
     @SubscribeEvent
@@ -92,12 +97,10 @@ public class RegistryEventHandlers {
                 StateDefinition<Block, BlockState> stateDefinition = source.getStateDefinition();
 
                 Set<String> propertyNames = stateDefinition.getProperties().stream()
-                        .map(Property::getName)
-                        .collect(Collectors.toSet());
-                boolean hasStates = propertyNames.equals(VANILLA_DOOR_PROPERTY_NAMES)
-                        || propertyNames.equals(Stream.concat(VANILLA_DOOR_PROPERTY_NAMES.stream(),
+                        .map(Property::getName).collect(Collectors.toSet());
+                boolean hasStates = propertyNames.equals(DOOR_STATES)
+                        || propertyNames.equals(Stream.concat(DOOR_STATES.stream(),
                                 Stream.of(WATERLOGGED)).collect(Collectors.toSet()));
-
                 if (!hasStates)
                     continue;
 
@@ -110,6 +113,32 @@ public class RegistryEventHandlers {
             }
         });
 
+        event.register(Registries.BLOCK, helper -> {
+            for (Block block : BuiltInRegistries.BLOCK) {
+                if (!(block instanceof TrapDoorBlock source))
+                    continue;
+                if (block instanceof WarpTrapDoorBlock)
+                    continue;
+
+                StateDefinition<Block, BlockState> stateDefinition = source.getStateDefinition();
+
+                Set<String> propertyNames = stateDefinition.getProperties().stream()
+                        .map(Property::getName).collect(Collectors.toSet());
+                boolean hasStates = propertyNames.equals(TRAPDOOR_STATES)
+                        || propertyNames.equals(Stream.concat(TRAPDOOR_STATES.stream(),
+                                Stream.of(WATERLOGGED)).collect(Collectors.toSet()));
+                if (!hasStates)
+                    continue;
+
+                ResourceLocation sourceID = BuiltInRegistries.BLOCK.getKey(source);
+                ResourceLocation warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, sourceID.getNamespace() + "_warp_" + sourceID.getPath());
+                WarpTrapDoorBlock warpTrapdoor = new WarpTrapDoorBlock(source);
+
+                helper.register(warpID, warpTrapdoor);
+                WARP_TRAPDOORS.put(source, warpTrapdoor);
+            }
+        });
+
         event.register(Registries.ITEM, helper -> {
             for (Map.Entry<Block, Block> block : WARP_DOORS.entrySet()) {
                 Block source = block.getKey();
@@ -117,6 +146,16 @@ public class RegistryEventHandlers {
                 ResourceLocation warpID = BuiltInRegistries.BLOCK.getKey(warp);
 
                 helper.register(warpID, new WarpDoorBlockItem(warp, source, new Item.Properties()));
+            }
+        });
+
+        event.register(Registries.ITEM, helper -> {
+            for (Map.Entry<Block, Block> block : WARP_TRAPDOORS.entrySet()) {
+                Block source = block.getKey();
+                Block warp = block.getValue();
+                ResourceLocation warpID = BuiltInRegistries.BLOCK.getKey(warp);
+
+                helper.register(warpID, new WarpTrapDoorBlockItem(warp, source, new Item.Properties()));
             }
         });
     }

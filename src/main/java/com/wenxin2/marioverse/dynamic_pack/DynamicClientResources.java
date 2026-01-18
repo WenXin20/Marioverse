@@ -74,7 +74,6 @@ public final class DynamicClientResources implements PackResources {
 
             if (!blockID.getNamespace().equals(namespace))
                 continue;
-
             if (!blockID.getPath().startsWith(path))
                 continue;
 
@@ -152,6 +151,15 @@ public final class DynamicClientResources implements PackResources {
 
             resources.put(blockstateId, bytes);
         }
+
+        for (Block warp : RegistryEventHandlers.WARP_TRAPDOORS.values()) {
+            ResourceLocation blockID = BuiltInRegistries.BLOCK.getKey(warp);
+
+            ResourceLocation blockstateId = ResourceLocation
+                    .fromNamespaceAndPath(blockID.getNamespace(), "blockstates/" + blockID.getPath() + ".json");
+
+            resources.put(blockstateId, bytes);
+        }
     }
 
     private void generateItemModels() {
@@ -165,7 +173,23 @@ public final class DynamicClientResources implements PackResources {
             json.addProperty("parent", "minecraft:item/generated");
 
             JsonObject textures = new JsonObject();
-            textures.addProperty("layer0", "minecraft:item/barrier");
+            textures.addProperty("layer0", "minecraft:item/oak_door");
+            json.add("textures", textures);
+
+            resources.put(modelId, json.toString().getBytes(StandardCharsets.UTF_8));
+        }
+
+        for (Block warp : RegistryEventHandlers.WARP_TRAPDOORS.values()) {
+            ResourceLocation blockID = BuiltInRegistries.BLOCK.getKey(warp);
+
+            ResourceLocation modelId = ResourceLocation
+                    .fromNamespaceAndPath(blockID.getNamespace(), "models/item/" + blockID.getPath() + ".json");
+
+            JsonObject json = new JsonObject();
+            json.addProperty("parent", "minecraft:item/generated");
+
+            JsonObject textures = new JsonObject();
+            textures.addProperty("layer0", "minecraft:item/oak_door");
             json.add("textures", textures);
 
             resources.put(modelId, json.toString().getBytes(StandardCharsets.UTF_8));

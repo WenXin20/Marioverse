@@ -30,6 +30,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -44,17 +45,30 @@ public final class DynamicServerResources implements PackResources {
         this.generateLootTables();
     }
 
-    private static final Set<TagKey<Block>> BLOCK_TAGS = Set.of(
+    private static final Set<TagKey<Block>> DOOR_BLOCK_TAGS = Set.of(
             TagRegistry.WARP_DOOR_BLOCKS,
             BlockTags.DOORS,
             BlockTags.MINEABLE_WITH_PICKAXE,
             BlockTags.WOODEN_DOORS
     );
 
-    private static final Set<TagKey<Item>> ITEM_TAGS = Set.of(
+    private static final Set<TagKey<Item>> DOOR_ITEM_TAGS = Set.of(
             TagRegistry.WARP_DOOR_ITEMS,
             ItemTags.DOORS,
             ItemTags.WOODEN_DOORS
+    );
+
+    private static final Set<TagKey<Block>> TRAPDOOR_BLOCK_TAGS = Set.of(
+            TagRegistry.WARP_TRAPDOOR_BLOCKS,
+            BlockTags.TRAPDOORS,
+            BlockTags.MINEABLE_WITH_PICKAXE,
+            BlockTags.WOODEN_TRAPDOORS
+    );
+
+    private static final Set<TagKey<Item>> TRAPDOOR_ITEM_TAGS = Set.of(
+            TagRegistry.WARP_TRAPDOOR_ITEMS,
+            ItemTags.TRAPDOORS,
+            ItemTags.WOODEN_TRAPDOORS
     );
 
     private void generateLootTables() {
@@ -64,7 +78,17 @@ public final class DynamicServerResources implements PackResources {
             ResourceLocation lootId = ResourceLocation
                     .fromNamespaceAndPath(Marioverse.MOD_ID, "blocks/" + warpId.getPath() + ".json");
 
-            JsonObject json = createSelfDropTable(warpId);
+            JsonObject json = createDoorLootTable(warpId);
+            lootTables.put(lootId, json.toString().getBytes(StandardCharsets.UTF_8));
+        }
+
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_TRAPDOORS.entrySet()) {
+            ResourceLocation warpId   = BuiltInRegistries.BLOCK.getKey(entry.getValue());
+
+            ResourceLocation lootId = ResourceLocation
+                    .fromNamespaceAndPath(Marioverse.MOD_ID, "blocks/" + warpId.getPath() + ".json");
+
+            JsonObject json = createTrapDoorLootTable(warpId);
             lootTables.put(lootId, json.toString().getBytes(StandardCharsets.UTF_8));
         }
     }
@@ -91,15 +115,27 @@ public final class DynamicServerResources implements PackResources {
         if (type != PackType.SERVER_DATA)
             return null;
 
-        for (TagKey<Block> tag : BLOCK_TAGS) {
+        for (TagKey<Block> tag : DOOR_BLOCK_TAGS) {
             if (location.equals(tag.location().withPrefix("tags/block/").withSuffix(".json"))) {
-                return buildBlockTag(tag);
+                return buildDoorBlockTag(tag);
             }
         }
 
-        for (TagKey<Item> tag : ITEM_TAGS) {
+        for (TagKey<Item> tag : DOOR_ITEM_TAGS) {
             if (location.equals(tag.location().withPrefix("tags/item/").withSuffix(".json"))) {
-                return buildItemTag(tag);
+                return buildDoorItemTag(tag);
+            }
+        }
+
+        for (TagKey<Block> tag : TRAPDOOR_BLOCK_TAGS) {
+            if (location.equals(tag.location().withPrefix("tags/block/").withSuffix(".json"))) {
+                return buildDoorBlockTag(tag);
+            }
+        }
+
+        for (TagKey<Item> tag : TRAPDOOR_ITEM_TAGS) {
+            if (location.equals(tag.location().withPrefix("tags/item/").withSuffix(".json"))) {
+                return buildDoorItemTag(tag);
             }
         }
 
@@ -116,7 +152,7 @@ public final class DynamicServerResources implements PackResources {
             return;
 
         if (path.equals("tags/block")) {
-            for (TagKey<Block> tag : BLOCK_TAGS) {
+            for (TagKey<Block> tag : DOOR_BLOCK_TAGS) {
                 ResourceLocation id = tag.location();
                 if (!id.getNamespace().equals(namespace))
                     continue;
@@ -124,12 +160,23 @@ public final class DynamicServerResources implements PackResources {
                 ResourceLocation out = ResourceLocation
                         .fromNamespaceAndPath(namespace, "tags/block/" + id.getPath() + ".json");
 
-                output.accept(out, () -> buildBlockTag(tag).get());
+                output.accept(out, () -> buildDoorBlockTag(tag).get());
+            }
+
+            for (TagKey<Block> tag : TRAPDOOR_BLOCK_TAGS) {
+                ResourceLocation id = tag.location();
+                if (!id.getNamespace().equals(namespace))
+                    continue;
+
+                ResourceLocation out = ResourceLocation
+                        .fromNamespaceAndPath(namespace, "tags/block/" + id.getPath() + ".json");
+
+                output.accept(out, () -> buildTrapDoorBlockTag(tag).get());
             }
         }
 
         if (path.equals("tags/item")) {
-            for (TagKey<Item> tag : ITEM_TAGS) {
+            for (TagKey<Item> tag : DOOR_ITEM_TAGS) {
                 ResourceLocation id = tag.location();
                 if (!id.getNamespace().equals(namespace))
                     continue;
@@ -137,7 +184,20 @@ public final class DynamicServerResources implements PackResources {
                 ResourceLocation out = ResourceLocation
                         .fromNamespaceAndPath(namespace, "tags/item/" + id.getPath() + ".json");
 
-                output.accept(out, () -> buildItemTag(tag).get());
+                output.accept(out, () -> buildDoorItemTag(tag).get());
+            }
+        }
+
+        if (path.equals("tags/item")) {
+            for (TagKey<Item> tag : TRAPDOOR_ITEM_TAGS) {
+                ResourceLocation id = tag.location();
+                if (!id.getNamespace().equals(namespace))
+                    continue;
+
+                ResourceLocation out = ResourceLocation
+                        .fromNamespaceAndPath(namespace, "tags/item/" + id.getPath() + ".json");
+
+                output.accept(out, () -> buildTrapDoorItemTag(tag).get());
             }
         }
 
@@ -207,7 +267,7 @@ public final class DynamicServerResources implements PackResources {
     public void close() {
     }
 
-    private IoSupplier<InputStream> buildBlockTag(TagKey<Block> tag) {
+    private IoSupplier<InputStream> buildDoorBlockTag(TagKey<Block> tag) {
         JsonObject json = new JsonObject();
         JsonArray values = new JsonArray();
 
@@ -236,7 +296,36 @@ public final class DynamicServerResources implements PackResources {
         return () -> new ByteArrayInputStream(data);
     }
 
-    private IoSupplier<InputStream> buildItemTag(TagKey<Item> tag) {
+    private IoSupplier<InputStream> buildTrapDoorBlockTag(TagKey<Block> tag) {
+        JsonObject json = new JsonObject();
+        JsonArray values = new JsonArray();
+
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_TRAPDOORS.entrySet()) {
+            Block source = entry.getKey();
+            Block warp = entry.getValue();
+
+            if (source instanceof TrapDoorBlock trapDoor) {
+                boolean isWooden = trapDoor.getType().canOpenByHand();
+
+                if (tag.equals(BlockTags.TRAPDOORS) && isWooden)
+                    continue;
+                if (tag.equals(BlockTags.MINEABLE_WITH_PICKAXE) && isWooden)
+                    continue;
+                if (tag.equals(BlockTags.WOODEN_TRAPDOORS) && !isWooden)
+                    continue;
+
+                values.add(BuiltInRegistries.BLOCK.getKey(warp).toString());
+            }
+        }
+
+        json.addProperty("replace", false);
+        json.add("values", values);
+
+        byte[] data = json.toString().getBytes(StandardCharsets.UTF_8);
+        return () -> new ByteArrayInputStream(data);
+    }
+
+    private IoSupplier<InputStream> buildDoorItemTag(TagKey<Item> tag) {
         JsonObject json = new JsonObject();
         JsonArray values = new JsonArray();
 
@@ -263,7 +352,34 @@ public final class DynamicServerResources implements PackResources {
         return () -> new ByteArrayInputStream(data);
     }
 
-    private static JsonObject createSelfDropTable(ResourceLocation blockId) {
+    private IoSupplier<InputStream> buildTrapDoorItemTag(TagKey<Item> tag) {
+        JsonObject json = new JsonObject();
+        JsonArray values = new JsonArray();
+
+        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_TRAPDOORS.entrySet()) {
+            Block source = entry.getKey();
+            Block warp = entry.getValue();
+
+            if (source instanceof DoorBlock door) {
+                boolean isWooden = door.type().canOpenByHand();
+
+                if (tag.equals(ItemTags.TRAPDOORS) && isWooden)
+                    continue;
+                if (tag.equals(ItemTags.WOODEN_TRAPDOORS) && !isWooden)
+                    continue;
+
+                values.add(BuiltInRegistries.ITEM.getKey(warp.asItem()).toString());
+            }
+        }
+
+        json.addProperty("replace", false);
+        json.add("values", values);
+
+        byte[] data = json.toString().getBytes(StandardCharsets.UTF_8);
+        return () -> new ByteArrayInputStream(data);
+    }
+
+    private static JsonObject createDoorLootTable(ResourceLocation blockId) {
         JsonObject root = new JsonObject();
         root.addProperty("type", "minecraft:block");
 
@@ -283,8 +399,8 @@ public final class DynamicServerResources implements PackResources {
 
         JsonArray entryConditions = new JsonArray();
         JsonObject blockStateCondition = new JsonObject();
-        blockStateCondition.addProperty("condition", "minecraft:block_state_property");
         blockStateCondition.addProperty("block", blockId.toString());
+        blockStateCondition.addProperty("condition", "minecraft:block_state_property");
 
         JsonObject properties = new JsonObject();
         properties.addProperty("half", "lower");
@@ -292,6 +408,37 @@ public final class DynamicServerResources implements PackResources {
 
         entryConditions.add(blockStateCondition);
         entry.add("conditions", entryConditions);
+
+        JsonArray entries = new JsonArray();
+        entries.add(entry);
+        pool.add("entries", entries);
+
+        JsonArray pools = new JsonArray();
+        pools.add(pool);
+        root.add("pools", pools);
+
+        root.addProperty("random_sequence", "marioverse:blocks/" + blockId.getPath());
+
+        return root;
+    }
+
+    private static JsonObject createTrapDoorLootTable(ResourceLocation blockId) {
+        JsonObject root = new JsonObject();
+        root.addProperty("type", "minecraft:block");
+
+        JsonObject pool = new JsonObject();
+        pool.addProperty("rolls", 1.0);
+        pool.addProperty("bonus_rolls", 0.0);
+
+        JsonArray poolConditions = new JsonArray();
+        JsonObject survivesExplosion = new JsonObject();
+        survivesExplosion.addProperty("condition", "minecraft:survives_explosion");
+        poolConditions.add(survivesExplosion);
+        pool.add("conditions", poolConditions);
+
+        JsonObject entry = new JsonObject();
+        entry.addProperty("type", "minecraft:item");
+        entry.addProperty("name", blockId.toString());
 
         JsonArray entries = new JsonArray();
         entries.add(entry);

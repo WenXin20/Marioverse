@@ -77,6 +77,7 @@ public class TagRegistry {
     public static final TagKey<Block> SUPPORTS_DANGO_BLOSSOM = blockTags("supports_dango_blossom");
     public static final TagKey<Block> WARP_DOOR_BLOCKS = blockTags("warp_doors");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
+    public static final TagKey<Block> WARP_TRAPDOOR_BLOCKS = blockTags("warp_trapdoors");
     public static final TagKey<Block> WOODEN_BRIDGE_BLOCKS = blockTags("wooden_bridges");
     public static final TagKey<Block> WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("wooden_bridge_stairs");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
@@ -183,6 +184,7 @@ public class TagRegistry {
     public static final TagKey<Item> WARP_DOOR_ITEMS = itemTags("warp_doors");
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
+    public static final TagKey<Item> WARP_TRAPDOOR_ITEMS = itemTags("warp_trapdoors");
     public static final TagKey<Item> WOODEN_BRIDGE_ITEMS = itemTags("wooden_bridges");
     public static final TagKey<Item> WOODEN_BRIDGE_STAIR_ITEMS = itemTags("wooden_bridge_stairs");
     public static final TagKey<Item> WRENCHES = itemTags("tools/wrenches");
