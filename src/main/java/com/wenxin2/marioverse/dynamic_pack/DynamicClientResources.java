@@ -15,13 +15,11 @@ import java.util.Map;
 import java.util.Set;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.block.Block;
@@ -36,7 +34,7 @@ public final class DynamicClientResources implements PackResources {
     public DynamicClientResources(PackLocationInfo location) {
         this.location = location;
         generateBlockstates();
-        generateItemModels(); // optional, if you want
+        generateItemModels();
     }
 
     @Override
@@ -46,13 +44,14 @@ public final class DynamicClientResources implements PackResources {
             JsonObject pack = new JsonObject();
 
             pack.addProperty("pack_format", SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES));
-            pack.addProperty("description", "Dynamic Client Resources");
+            pack.addProperty("description", "Prevents \"Unable to find model\" for warp doors & trapdoors");
 
             root.add("pack", pack);
 
             byte[] bytes = root.toString().getBytes(StandardCharsets.UTF_8);
             return () -> new ByteArrayInputStream(bytes);
         }
+
         return null;
     }
 
