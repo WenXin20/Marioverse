@@ -1,12 +1,9 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousStrollGoal;
-import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.List;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -22,7 +19,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
-    protected static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.super_mushroom.walk");
+    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.super_mushroom.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public MushroomEntity(EntityType<? extends MushroomEntity> entityType, Level world) {
@@ -43,7 +40,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
         if (this.isMoving()) {
-            event.setAndContinue(WALK_ANIM);
+            event.setAndContinue(WALK);
             return PlayState.CONTINUE;
         } else return PlayState.CONTINUE;
     }
@@ -78,7 +75,5 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
-            handler.applyMushroomPowerUp(this.level(), livingEntity, this, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
     }
 }

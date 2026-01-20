@@ -27,6 +27,7 @@ import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
@@ -64,8 +65,8 @@ public class EntityRegistry {
             register("fire_flower", FireFlowerEntity::new, MobCategory.AMBIENT, 0.6f, 0.6f);
     public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER =
             register("ice_flower", IceFlowerEntity::new, MobCategory.AMBIENT, 0.6f, 0.6f);
-    public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> SUPER_MUSHROOM =
-            register("super_mushroom", MushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
+    public static final DeferredHolder<EntityType<?>, EntityType<SuperMushroomEntity>> SUPER_MUSHROOM =
+            register("super_mushroom", SuperMushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM =
             register("one_up_mushroom", OneUpMushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
     public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR =
