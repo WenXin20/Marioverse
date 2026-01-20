@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -45,10 +44,8 @@ public class SuperMushroomEntity extends MushroomEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
             handler.applySuperMushroomPowerUp(this.level(), livingEntity, this,
                     ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-            entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
-        }
     }
 }

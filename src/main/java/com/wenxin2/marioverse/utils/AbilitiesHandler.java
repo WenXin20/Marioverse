@@ -120,6 +120,7 @@ public interface AbilitiesHandler extends CostumeHandler {
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             this.mv$setSuperMushroom(true);
+            entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
@@ -140,6 +141,7 @@ public interface AbilitiesHandler extends CostumeHandler {
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS) // TODO
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, true);
+            this.mv$setSuperMushroom(false);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
