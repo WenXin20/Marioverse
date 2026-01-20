@@ -960,7 +960,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 if (spawnedEntity != null && entity instanceof AbilitiesHandler handler) {
                     if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()
                             && spawnedEntity instanceof MushroomEntity powerUp) {
-                        handler.applyMushroomPowerUp(world, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                        handler.applySuperMushroomPowerUp(world, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
                     } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()
                             && spawnedEntity instanceof OneUpMushroomEntity powerUp) {
                         handler.applyOneUpMushroomPowerUp(world, stack, entity, powerUp);

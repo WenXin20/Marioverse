@@ -115,7 +115,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         else return ConfigRegistry.EQUIP_COSTUMES_MOBS.get();
     }
 
-    default void applyMushroomPowerUp(Level world, LivingEntity entity, @Nullable MushroomEntity powerUp, float healthHealed) {
+    default void applySuperMushroomPowerUp(Level world, LivingEntity entity, @Nullable MushroomEntity powerUp, float healthHealed) {
         if (!entity.isSpectator() && getDamageShrinksConfig(entity)
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
