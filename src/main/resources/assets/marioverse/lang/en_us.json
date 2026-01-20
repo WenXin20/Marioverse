@@ -602,8 +602,9 @@
 
   "entity.marioverse.fire_flower": "Fire Flower",
   "entity.marioverse.ice_flower": "Ice Flower",
-  "entity.marioverse.super_mushroom": "Super Mushroom",
+  "entity.marioverse.mini_mushroom": "Mini Mushroom",
   "entity.marioverse.one_up_mushroom": "1-Up Mushroom",
+  "entity.marioverse.super_mushroom": "Super Mushroom",
   "entity.marioverse.super_star": "Super Star",
 
   "entity.marioverse.boo": "Boo",
@@ -659,6 +660,7 @@
   "item.marioverse.green_koopa_shell": "Green Koopa Shell",
   "item.marioverse.ice_flower": "Ice Flower",
   "item.marioverse.large_snowball": "Large Snowball",
+  "item.marioverse.mini_mushroom": "Mini Mushroom",
   "item.marioverse.one_up_mushroom": "1-Up Mushroom",
   "item.marioverse.piranha_plant_pod": "Piranha Plant Pod",
   "item.marioverse.plastic_bucket": "Plastic Bucket",
@@ -854,6 +856,10 @@
   "item.marioverse.ice_flower.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.ice_flower.tooltip.line1": "§9Ability:",
   "item.marioverse.ice_flower.tooltip.line2": " §7• Shoot §bice balls",
+
+  "item.marioverse.mini_mushroom.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "item.marioverse.mini_mushroom.tooltip.line1": "§9Ability:",
+  "item.marioverse.mini_mushroom.tooltip.line2": " §7• Shrinks the user",
 
   "item.marioverse.one_up_mushroom.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.one_up_mushroom.tooltip.line1": "§9Ability:",

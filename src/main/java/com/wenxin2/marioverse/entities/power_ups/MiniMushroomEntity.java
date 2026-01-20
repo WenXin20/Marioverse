@@ -1,7 +1,5 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
-import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -17,11 +15,11 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class SuperMushroomEntity extends MushroomEntity implements GeoEntity {
-    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.super_mushroom.walk");
+public class MiniMushroomEntity extends MushroomEntity implements GeoEntity {
+    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.mini_mushroom.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public SuperMushroomEntity(EntityType<? extends SuperMushroomEntity> entityType, Level world) {
+    public MiniMushroomEntity(EntityType<? extends MiniMushroomEntity> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -45,10 +43,7 @@ public class SuperMushroomEntity extends MushroomEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-            handler.applySuperMushroomPowerUp(this.level(), livingEntity, this,
-                    ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-            entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
-        }
+        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
+            handler.applyMiniMushroomPowerUp(this.level(), livingEntity, this);
     }
 }

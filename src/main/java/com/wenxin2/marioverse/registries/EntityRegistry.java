@@ -25,6 +25,7 @@ import com.wenxin2.marioverse.entities.SnowPokeyEntity;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
@@ -62,13 +63,20 @@ public class EntityRegistry {
                     .sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER =
-            register("fire_flower", FireFlowerEntity::new, MobCategory.AMBIENT, 0.6f, 0.6f);
+            Marioverse.ENTITIES.register("fire_flower", () -> EntityType.Builder.of(FireFlowerEntity::new, MobCategory.AMBIENT)
+                    .sized(0.6F, 0.6F).build("fire_flower"));
     public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER =
-            register("ice_flower", IceFlowerEntity::new, MobCategory.AMBIENT, 0.6f, 0.6f);
-    public static final DeferredHolder<EntityType<?>, EntityType<SuperMushroomEntity>> SUPER_MUSHROOM =
-            register("super_mushroom", SuperMushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
+            Marioverse.ENTITIES.register("ice_flower", () -> EntityType.Builder.of(IceFlowerEntity::new, MobCategory.AMBIENT)
+                    .sized(0.6F, 0.6F).build("ice_flower"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MiniMushroomEntity>> MINI_MUSHROOM =
+            Marioverse.ENTITIES.register("mini_mushroom", () -> EntityType.Builder.of(MiniMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(0.5F, 0.5F).build("mini_mushroom"));
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM =
-            register("one_up_mushroom", OneUpMushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
+            Marioverse.ENTITIES.register("one_up_mushroom", () -> EntityType.Builder.of(OneUpMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(0.8F, 0.8F).build("one_up_mushroom"));
+    public static final DeferredHolder<EntityType<?>, EntityType<SuperMushroomEntity>> SUPER_MUSHROOM =
+            Marioverse.ENTITIES.register("super_mushroom", () -> EntityType.Builder.of(SuperMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(0.8F, 0.8F).build("super_mushroom"));
     public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR =
             Marioverse.ENTITIES.register("super_star", () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
                     .sized(0.8F, 0.8F).eyeHeight(0.625F).fireImmune().build("super_star"));
@@ -265,8 +273,9 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
         event.put(EntityRegistry.ICE_FLOWER.get(), powerUpAttributes.build());
-        event.put(EntityRegistry.SUPER_MUSHROOM.get(), mushroomAttributes.build());
+        event.put(EntityRegistry.MINI_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
+        event.put(EntityRegistry.SUPER_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_STAR.get(), starAttributes.build());
 
         event.put(EntityRegistry.DRY_BONES_HEAD.get(), dryBonesHeadAttributes.build());

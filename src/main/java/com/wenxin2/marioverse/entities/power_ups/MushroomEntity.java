@@ -19,8 +19,6 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
-    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.super_mushroom.walk");
-    private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public MushroomEntity(EntityType<? extends MushroomEntity> entityType, Level world) {
         super(entityType, world);
@@ -33,30 +31,12 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     }
 
     @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimController));
-    }
-
-    @Override
-    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
-        if (this.isMoving()) {
-            event.setAndContinue(WALK);
-            return PlayState.CONTINUE;
-        } else return PlayState.CONTINUE;
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.geoCache;
-    }
-
-    @Override
     public void tick() {
         super.tick();
         this.checkForCollisions();
     }
 
-    private boolean isMoving() {
+    public boolean isMoving() {
         return this.getDeltaMovement().lengthSqr() > 0.01;
     }
 
