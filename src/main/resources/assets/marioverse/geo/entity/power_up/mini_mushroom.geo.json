@@ -1,0 +1,25 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.mini_mushroom",
+				"texture_width": 32,
+				"texture_height": 32,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 3,
+				"visible_bounds_offset": [0, 0.5, 0]
+			},
+			"bones": [
+				{
+					"name": "body",
+					"pivot": [-0.75, 0, 0.75],
+					"cubes": [
+						{"origin": [-1.75, 0, -3.25], "size": [5, 3, 5], "uv": [0, 14]},
+						{"origin": [-3.25, 2.25, -4.75], "size": [8, 6, 8], "pivot": [-0.25, 3.25, 0.25], "rotation": [-10, 0, 0], "uv": [0, 0]}
+					]
+				}
+			]
+		}
+	]
+}
