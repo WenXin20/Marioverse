@@ -232,8 +232,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         RandomSource rand = RandomSource.create();
 
         this.mv$characterAbilities(entity);
-        this.mv$miniMushroomScale(entity);
-        this.mv$superMushroomScale(entity);
+        this.mv$mushroomScale(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
@@ -1068,40 +1067,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void mv$miniMushroomScale(LivingEntity entity) {
-        AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-        AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-        AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasMiniMushroom = entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
-        float scalingSpeed = 0.1F;
-
-        double targetEyeHeightScale = hasMiniMushroom ? 0.25D : 1.0D;
-        double targetHeightScale = hasMiniMushroom ? 0.2D : 1.0D;
-        double targetWidthScale = hasMiniMushroom ? 0.3D : 1.0D;
-
-        if (hasMiniMushroom && mv$currentEyeHeightScale != targetEyeHeightScale
-                && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
-            if (entity.getLastDamageSource() != null
-                    && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
-                return;
-            mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
-            mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
-            mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
-        }
-
-        if (!hasMiniMushroom && mv$currentEyeHeightScale != targetEyeHeightScale
-                && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
-            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
-            if (heightScale != null && heightScale.getValue() != 1.0D)
-                mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
-            if (widthScale != null && widthScale.getValue() != 1.0D)
-                mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
-        }
-    }
-
-    @Unique
-    public void mv$superMushroomScale(LivingEntity entity) {
+    public void mv$mushroomScale(LivingEntity entity) {
         Level world = entity.level();
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
@@ -1111,12 +1077,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float health = entity.getHealth();
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
-        double targetHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
-        double targetWidthScale = hasSuperMushroom ? 1.0D : 0.75D;
+        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.25D : 0.55D;
+        double targetHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.2D : 0.5D;
+        double targetWidthScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.3D : 0.75D;
 
         boolean isPlayer = entity instanceof Player;
-        boolean shouldShrink = !hasSuperMushroom
+        boolean shouldShrink = (!hasSuperMushroom || hasMiniMushroom)
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 && (isPlayer && this.mv$hasSuperMushroomOverride()
                     || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
@@ -1127,7 +1093,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
                         || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))));
 
-        boolean shouldReset = hasSuperMushroom
+        boolean shouldReset = (hasSuperMushroom || !hasMiniMushroom)
                 && (isPlayer && this.mv$hasSuperMushroomOverride()
                     || (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
                         && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
@@ -1142,19 +1108,27 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (entity.getLastDamageSource() != null
                     && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
-            mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
-            mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
-            mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
+            mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale,
+                    targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
+            mv$updateScale(heightScale, mv$currentHeightScale,
+                    targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
+            mv$updateScale(widthScale, mv$currentWidthScale,
+                    targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
         }
 
         if (shouldReset && mv$currentEyeHeightScale != targetEyeHeightScale
                 && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
             if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
+                mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale,
+                        targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
+
             if (heightScale != null && heightScale.getValue() != 1.0D)
-                mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
+                mv$updateScale(heightScale, mv$currentHeightScale,
+                        targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
+
             if (widthScale != null && widthScale.getValue() != 1.0D)
-                mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
+                mv$updateScale(widthScale, mv$currentWidthScale,
+                        targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
         }
     }
 

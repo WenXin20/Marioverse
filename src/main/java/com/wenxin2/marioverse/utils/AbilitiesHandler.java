@@ -119,17 +119,16 @@ public interface AbilitiesHandler extends CostumeHandler {
         if (!entity.isSpectator() && getDamageShrinksConfig(entity)
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
-            this.mv$setSuperMushroom(true);
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
+            this.mv$setSuperMushroom(true);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
             if (!world.isClientSide) {
                 if (entity.getHealth() < entity.getMaxHealth())
                     entity.heal(healthHealed);
-                if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
+                if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS))
                     world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
-                }
             }
             if (powerUp != null)
                 powerUp.remove(Entity.RemovalReason.DISCARDED);
