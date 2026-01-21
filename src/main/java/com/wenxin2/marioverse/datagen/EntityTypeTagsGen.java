@@ -234,6 +234,14 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(TEST_DUMMY)
                 .addOptional(HAT_STAND);
 
+        tag(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
+
         tag(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
@@ -711,6 +719,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())
                 .add(EntityRegistry.ICE_FLOWER.get())
+                .add(EntityRegistry.MINI_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_MUSHROOM.get())
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_STAR.get());

@@ -61,6 +61,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_ICE_FLOWER = "ice_flower";
     public static final String CATEGORY_ONE_UP = "one_up";
+    public static final String CATEGORY_MINI_MUSHROOM = "mini_mushroom";
     public static final String CATEGORY_SUPER_MUSHROOM = "super_mushroom";
     public static final String CATEGORY_SUPER_STAR = "super_star";
 
@@ -121,6 +122,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
+    public static ModConfigSpec.BooleanValue MINI_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue SUPER_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
@@ -876,6 +878,13 @@ public class ConfigRegistry {
                     DASH_MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.dash_mushroom_health_healed")
                             .comment("Amount of health Dash Mushrooms heals.§b")
                             .defineInRange("dash_mushroom_health_healed", 2.0F, 0.0F, 100.0F);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_MINI_MUSHROOM);
+                    MINI_MUSHROOM_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.mini_mushroom_powers_all_mobs")
+                            .comment("Allow Mini Mushrooms to power all mobs.")
+                            .comment("§9[Default: false]")
+                            .define("mini_mushroom_powers_all_mobs", false);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SUPER_MUSHROOM);

@@ -137,8 +137,8 @@ public interface AbilitiesHandler extends CostumeHandler {
 
     default void applyMiniMushroomPowerUp(Level world, LivingEntity entity, @Nullable MushroomEntity powerUp) {
         if (!entity.isSpectator()
-                && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS) // TODO
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
+                && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get())) {
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, true);
             this.mv$setSuperMushroom(false);
             if (world instanceof ServerLevel serverWorld)
