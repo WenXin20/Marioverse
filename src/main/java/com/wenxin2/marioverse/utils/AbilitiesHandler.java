@@ -205,6 +205,7 @@ public interface AbilitiesHandler extends CostumeHandler {
             this.mv$clearAllPowerUps();
             this.mv$setSuperMushroom(true);
             this.mv$setFireFlower(true);
+            entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
             this.applyCostumeChange(entity, powerUp);
@@ -223,6 +224,7 @@ public interface AbilitiesHandler extends CostumeHandler {
             this.mv$clearAllPowerUps();
             this.mv$setSuperMushroom(true);
             this.mv$setIceFlower(true);
+            entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
             this.applyCostumeChange(entity, powerUp);
