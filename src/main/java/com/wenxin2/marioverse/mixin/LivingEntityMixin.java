@@ -1077,12 +1077,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float health = entity.getHealth();
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.25D : 0.55D;
-        double targetHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.2D : 0.5D;
-        double targetWidthScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.3D : 0.75D;
+        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.225D : 0.475D;
+        double targetHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.25D : 0.5D;
+        double targetWidthScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.35D : 0.75D;
 
         boolean isPlayer = entity instanceof Player;
-        boolean shouldShrink = (!hasSuperMushroom || hasMiniMushroom)
+        boolean shouldShrink = !hasSuperMushroom
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 && (isPlayer && this.mv$hasSuperMushroomOverride()
                     || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
@@ -1091,9 +1091,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 || (!isPlayer && this.mv$hasSuperMushroomOverride()
                     || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
                     && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))));
+                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))))
+                || !hasSuperMushroom && hasMiniMushroom;
 
-        boolean shouldReset = (hasSuperMushroom || !hasMiniMushroom)
+        boolean shouldReset = hasSuperMushroom
                 && (isPlayer && this.mv$hasSuperMushroomOverride()
                     || (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
                         && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
@@ -1101,10 +1102,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 || (!isPlayer && this.mv$hasSuperMushroomOverride()
                     || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
                     && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))));
+                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))))
+                || hasSuperMushroom && !hasMiniMushroom;
 
-        if (shouldShrink && mv$currentEyeHeightScale != targetEyeHeightScale
-                && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
+        if (shouldShrink && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
             if (entity.getLastDamageSource() != null
                     && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
@@ -1116,8 +1117,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
         }
 
-        if (shouldReset && mv$currentEyeHeightScale != targetEyeHeightScale
-                && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
+        if (shouldReset && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
             if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
                 mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale,
                         targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
