@@ -62,6 +62,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
@@ -92,6 +93,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -190,7 +192,9 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void postEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
-        UUID uuid = entity.getUUID();
+        Level level = entity.level();
+        BlockPos pos = entity.blockPosition();
+        Vec3 motion = entity.getDeltaMovement();
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
 
         if (entity.isVehicle() && spinningTicks > 0) {
@@ -199,6 +203,14 @@ public class MarioverseEventHandlers {
 
             for (Entity rider : entity.getPassengers())
                 rider.setYHeadRot(rider.getYHeadRot() + 30);
+        }
+
+        if (entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM) && entity.isSprinting()
+                && level.getFluidState(pos).is(FluidTags.WATER) && !level.getFluidState(pos.above()).is(FluidTags.WATER)) {
+            if (motion.y < 0)
+                entity.setDeltaMovement(motion.x, 0.0D, motion.z);
+            entity.setOnGround(true);
+            entity.fallDistance = 0.0F;
         }
     }
 
