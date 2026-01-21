@@ -187,7 +187,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
-                || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
+                || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
+                && !entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)) {
             this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
             this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
         }
@@ -237,6 +238,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                     || world.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
+                && !entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.fallDistance > 0 || entity.isInWaterOrBubble())
                 && !(entity instanceof Player)
                 && !entity.isSpectator())
@@ -687,25 +689,39 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         Vec3 motion = entity.getDeltaMovement();
 
         if (jumpAttribute != null) {
-            double normalJumpBoost = 0.4;
-            double runningJumpBoost = 0.5;
+            double normalJumpBoost = 0.0;
+            double runningJumpBoost = 0.0;
             boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST) != null;
             boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
 
-            if (this.mv$hasPeachCostume(entity)) {
+            if (this.mv$hasMarioCostume(entity)) {
+                normalJumpBoost = 0.5;
+                runningJumpBoost = 0.6;
+            } else if (this.mv$hasLuigiCostume(entity)) {
+                normalJumpBoost = 0.5;
+                runningJumpBoost = 0.6;
+            } else if (this.mv$hasPeachCostume(entity)) {
                 normalJumpBoost = 0.3;
                 runningJumpBoost = 0.4;
             }
 
-            if (this.mv$hasLuigiCostume(entity)) {
-                normalJumpBoost = 0.5;
-                runningJumpBoost = 0.6;
+            if (entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)) {
+                if (this.mv$hasMarioCostume(entity)
+                        || this.mv$hasLuigiCostume(entity)
+                        || this.mv$hasPeachCostume(entity)) {
+                    normalJumpBoost *= 1.2;
+                    runningJumpBoost *= 1.3;
+                } else {
+                    normalJumpBoost = 0.5;
+                    runningJumpBoost = 0.6;
+                }
             }
 
             if (!entity.isShiftKeyDown() && (this.mv$hasMarioCostume(entity)
                     || this.mv$hasLuigiCostume(entity)
-                    || this.mv$hasPeachCostume(entity))) {
+                    || this.mv$hasPeachCostume(entity)
+                    || entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))) {
                 if (isRunning) {
                     if (!hasRunningJumpModifier)
                         jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
@@ -1077,7 +1093,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float health = entity.getHealth();
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.225D : 0.475D;
+        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.235D : 0.485D;
         double targetHeightScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.25D : 0.5D;
         double targetWidthScale = hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.35D : 0.75D;
 
