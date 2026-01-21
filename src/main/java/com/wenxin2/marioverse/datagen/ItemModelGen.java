@@ -86,6 +86,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.MARIO_SHOES.get());
         this.basicItem(ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.MINI_MUSHROOM.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
         this.basicItem(ItemRegistry.PEACH_BODICE.get());
         this.basicItem(ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get());
