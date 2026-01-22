@@ -16,7 +16,6 @@ import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import java.util.List;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -109,11 +108,15 @@ public class SquashEntityPacket {
                         }
 
                         if (!stompingPlayer.level().isClientSide() && damagedEntity.isAlive()) {
-                            if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor && damagedEntity instanceof LivingEntity livingEntity)
+                            if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor
+                                    && damagedEntity instanceof LivingEntity livingEntity
+                                    && !stompingPlayer.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), livingEntity.getHealth());
                             else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
                                     || damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
-                                if (damagedEntity instanceof KoopaTroopaEntity || damagedEntity instanceof KoopaShellEntity)
+                                if (stompingPlayer.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                                        || damagedEntity instanceof KoopaTroopaEntity
+                                        || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), 0);
                                 else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
