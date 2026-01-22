@@ -686,77 +686,98 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     private void mv$characterAbilities(LivingEntity entity) {
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
+        boolean isMini = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
         Vec3 motion = entity.getDeltaMovement();
+        boolean hasCostume = this.mv$hasMarioCostume(entity)
+                || this.mv$hasLuigiCostume(entity)
+                || this.mv$hasPeachCostume(entity);
 
         if (jumpAttribute != null) {
-            double normalJumpBoost = 0.0;
-            double runningJumpBoost = 0.0;
             boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST) != null;
             boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
+            double normalJumpBoost = 0.0;
+            double runningJumpBoost = 0.0;
 
-            if (this.mv$hasMarioCostume(entity)) {
-                normalJumpBoost = 0.5;
-                runningJumpBoost = 0.6;
-            } else if (this.mv$hasLuigiCostume(entity)) {
-                normalJumpBoost = 0.5;
-                runningJumpBoost = 0.6;
-            } else if (this.mv$hasPeachCostume(entity)) {
-                normalJumpBoost = 0.3;
-                runningJumpBoost = 0.4;
-            }
-
-            if (entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)) {
-                if (this.mv$hasMarioCostume(entity)
-                        || this.mv$hasLuigiCostume(entity)
-                        || this.mv$hasPeachCostume(entity)) {
-                    normalJumpBoost *= 1.2;
-                    runningJumpBoost *= 1.3;
+            if (hasCostume) {
+                if (this.mv$hasPeachCostume(entity)) {
+                    normalJumpBoost = 0.3;
+                    runningJumpBoost = 0.4;
                 } else {
                     normalJumpBoost = 0.5;
                     runningJumpBoost = 0.6;
                 }
             }
 
-            if (!entity.isShiftKeyDown() && (this.mv$hasMarioCostume(entity)
-                    || this.mv$hasLuigiCostume(entity)
-                    || this.mv$hasPeachCostume(entity)
-                    || entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))) {
-                if (isRunning) {
-                    if (!hasRunningJumpModifier)
-                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
-                    if (hasJumpModifier)
-                        jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
+            if (isMini) {
+                if (hasCostume) {
+                    normalJumpBoost *= 1.4;
+                    runningJumpBoost *= 1.6;
                 } else {
-                    if (!hasJumpModifier)
-                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.JUMP_BOOST, normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
-                    if (hasRunningJumpModifier)
-                        jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
+                    normalJumpBoost = 0.5;
+                    runningJumpBoost = 0.6;
+                }
+            }
+
+            if (!entity.isShiftKeyDown() && (hasCostume || isMini)) {
+                if (isRunning) {
+                    mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost);
+                    mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, 0);
+                } else {
+                    mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, normalJumpBoost);
+                    mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, 0);
                 }
             } else {
-                if (hasRunningJumpModifier)
-                    jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
-                if (hasJumpModifier)
-                    jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
+                mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, 0);
+                mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, 0);
             }
         }
 
         if (safeFallAttribute != null) {
-            if (this.mv$hasMarioCostume(entity)
-                    || this.mv$hasLuigiCostume(entity)
-                    || this.mv$hasPeachCostume(entity)) {
-                boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.SAFE_FALL_DISTANCE) != null;
-                if (!hasSafeFallModifier)
-                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SAFE_FALL_DISTANCE, 7, AttributeModifier.Operation.ADD_VALUE));
-            }
-            else safeFallAttribute.removeModifier(AttributesRegistry.SAFE_FALL_DISTANCE);
+            double safeFallDistance = 0;
+
+            if (isMini) {
+                if (hasCostume)
+                    safeFallDistance= 16;
+                else safeFallDistance = 14;
+            } else if (hasCostume)
+                safeFallDistance= 7;
+
+            if (hasCostume)
+                mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, safeFallDistance);
+            else mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, 0);
         }
 
         if (this.mv$hasPeachCostume(entity)) {
             if (motion.y < 0)
                 entity.setDeltaMovement(motion.x, motion.y * 0.7, motion.z);
         }
+
+        if (isMini) {
+            if (motion.y < 0)
+                entity.setDeltaMovement(motion.x, motion.y * 0.8, motion.z);
+        }
     }
+
+    @Unique
+    private static void mv$setModifier(AttributeInstance attribute, ResourceLocation id, double amount) {
+        AttributeModifier modifier = attribute.getModifier(id);
+
+        if (amount == 0.0) {
+            if (modifier != null)
+                attribute.removeModifier(id);
+            return;
+        }
+
+        if (modifier != null) {
+            if (modifier.amount() == amount)
+                return;
+            attribute.removeModifier(id);
+        }
+
+        attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
+    }
+
 
     @ModifyReturnValue(method = "getArmorValue", at = @At("RETURN"))
     private int getArmorValue(int original) {
