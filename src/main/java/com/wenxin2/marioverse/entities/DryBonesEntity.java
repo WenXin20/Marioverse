@@ -436,6 +436,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         if (this.isPersistenceRequired())
             entity.setPersistenceRequired();
 
+        this.copyAttributeWithModifiers(entity, Attributes.MAX_HEALTH);
         this.copyAttributeWithModifiers(entity, Attributes.SCALE);
         this.copyAttributeWithModifiers(entity, AttributesRegistry.EYE_HEIGHT_SCALE);
         this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
@@ -479,13 +480,13 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     }
 
     public void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
-        AttributeInstance fromAttr = this.getAttribute(attribute);
-        AttributeInstance toAttr = entity.getAttribute(attribute);
+        AttributeInstance originalAttribute = this.getAttribute(attribute);
+        AttributeInstance newAttribute = entity.getAttribute(attribute);
 
-        if (fromAttr != null && toAttr != null) {
-            toAttr.setBaseValue(fromAttr.getBaseValue());
-            for (AttributeModifier modifier : fromAttr.getModifiers())
-                toAttr.addPermanentModifier(modifier);
+        if (originalAttribute != null && newAttribute != null) {
+            newAttribute.setBaseValue(originalAttribute.getBaseValue());
+            for (AttributeModifier modifier : originalAttribute.getModifiers())
+                newAttribute.addPermanentModifier(modifier);
         }
     }
 
