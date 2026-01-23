@@ -702,6 +702,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 if (this.mv$hasPeachCostume(entity)) {
                     normalJumpBoost = 0.3;
                     runningJumpBoost = 0.4;
+                } else if (this.mv$hasLuigiCostume(entity)) {
+                    normalJumpBoost = 0.6;
+                    runningJumpBoost = 0.7;
                 } else {
                     normalJumpBoost = 0.5;
                     runningJumpBoost = 0.6;
