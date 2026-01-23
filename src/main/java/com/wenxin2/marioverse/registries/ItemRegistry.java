@@ -175,7 +175,7 @@ public class ItemRegistry {
         SUPER_MUSHROOM = registerItem("super_mushroom",
                 () -> new BasePowerUpItem(2, EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MINI_MUSHROOM = registerItem("mini_mushroom",
-                () -> new BasePowerUpItem(2, EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BasePowerUpItem(5, EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         DASH_MUSHROOM = registerItem("dash_mushroom",
                 () -> new DashMushroomItem(3, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
