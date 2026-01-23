@@ -110,17 +110,17 @@ public class SquashEntityPacket {
                         if (!stompingPlayer.level().isClientSide() && damagedEntity.isAlive()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor
                                     && damagedEntity instanceof LivingEntity livingEntity
-                                    && !stompingPlayer.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
+                                    && !stompingPlayer.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), livingEntity.getHealth());
                             else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
                                     || damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
-                                if (stompingPlayer.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                                if (stompingPlayer.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                                         || damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), 0);
                                 else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
-                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
+                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingPlayer.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 this.consecutiveReward(stompingPlayer, damagedEntity);
                             break;
                         }

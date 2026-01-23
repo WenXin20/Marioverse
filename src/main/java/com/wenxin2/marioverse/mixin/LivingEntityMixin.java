@@ -238,7 +238,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                     || world.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
-                && !entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.fallDistance > 0 || entity.isInWaterOrBubble())
                 && !(entity instanceof Player)
                 && !entity.isSpectator())
@@ -1273,17 +1272,17 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
                         if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor
-                                    && !stompingEntity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
+                                    && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
                             else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
                                     || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
-                                if (stompingEntity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                                if (stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                                         || damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
                                 else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
-                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
+                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 this.mv$consecutiveReward(stompingEntity, damagedEntity);
                             break;
                         }
