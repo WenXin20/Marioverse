@@ -62,6 +62,10 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue()).withStyle(ChatFormatting.RED));
 
+                if (stack.is(ItemRegistry.MINI_MUSHROOM) && lineAmt == 3)
+                    abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
+                            ConfigRegistry.MINI_MUSHROOM_HEALTH.get() / 2).withStyle(ChatFormatting.RED));
+
                 if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && lineAmt == 4)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue() / 2).withStyle(ChatFormatting.GREEN));
