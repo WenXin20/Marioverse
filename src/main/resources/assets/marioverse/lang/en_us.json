@@ -1343,6 +1343,7 @@
   "configuration.marioverse.max_snow_pokey_height": "Max Height",
   "configuration.marioverse.mini_goombas_attach_all_mobs": "Attach to All Mobs",
   "configuration.marioverse.mini_goombas_push": "Push Mobs",
+  "configuration.marioverse.mini_mushroom_health": "Max Health",
   "configuration.marioverse.mini_mushroom_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.one_up_heals_mobs": "Heals All Mobs",
   "configuration.marioverse.one_up_health_healed": "Health Healed",

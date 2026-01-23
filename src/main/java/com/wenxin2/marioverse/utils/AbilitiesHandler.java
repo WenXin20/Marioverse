@@ -161,11 +161,11 @@ public interface AbilitiesHandler extends CostumeHandler {
             if (attribute != null) {
                 AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
                 if (modifier == null)
-                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MINI_HEATH, -entity.getMaxHealth() + 2, AttributeModifier.Operation.ADD_VALUE));
+                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MINI_HEATH,
+                            -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
             }
 
             if (!world.isClientSide) {
-//                entity.setHealth(entity.getMaxHealth() / 10);
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) // TODO
                     world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
             }

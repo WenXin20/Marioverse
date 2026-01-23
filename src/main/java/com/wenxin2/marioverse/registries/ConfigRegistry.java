@@ -162,6 +162,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
     public static ModConfigSpec.DoubleValue IRON_SPIKE_DAMAGE;
+    public static ModConfigSpec.DoubleValue MINI_MUSHROOM_HEALTH;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -877,6 +878,7 @@ public class ConfigRegistry {
                             .defineInRange("vehicle_mushroom_boost_strength", 3.0F, 1.0F, 50.0F);
                     DASH_MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.dash_mushroom_health_healed")
                             .comment("Amount of health Dash Mushrooms heals.§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("dash_mushroom_health_healed", 2.0F, 0.0F, 100.0F);
                 BUILDER.pop();
 
@@ -885,6 +887,10 @@ public class ConfigRegistry {
                             .comment("Allow Mini Mushrooms to power all mobs.")
                             .comment("§9[Default: false]")
                             .define("mini_mushroom_powers_all_mobs", false);
+                    MINI_MUSHROOM_HEALTH = BUILDER.translation("configuration.marioverse.mini_mushroom_health")
+                            .comment("Amount of health Mini Mushrooms sets your max hearts to.§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("mini_mushroom_health", 2.0F, 1.0F, 25.0F);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SUPER_MUSHROOM);
@@ -894,6 +900,7 @@ public class ConfigRegistry {
                             .define("super_mushroom_powers_all_mobs", false);
                     SUPER_MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.super_mushroom_health_healed")
                             .comment("Amount of health Super Mushrooms heals.§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("super_mushroom_health_healed", 5.0F, 0.0F, 100.0F);
                 BUILDER.pop();
 
