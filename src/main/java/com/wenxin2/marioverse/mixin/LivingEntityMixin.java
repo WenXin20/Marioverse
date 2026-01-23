@@ -745,7 +745,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             } else if (hasCostume)
                 safeFallDistance= 7;
 
-            if (hasCostume)
+            if (hasCostume || isMini)
                 mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, safeFallDistance);
             else mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, 0);
         }
