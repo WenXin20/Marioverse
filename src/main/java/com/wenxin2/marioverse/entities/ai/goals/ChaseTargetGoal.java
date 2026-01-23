@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -93,7 +94,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
             this.mob.getNavigation().moveTo(this.target, speedModifier);
 
             if (this.mob.distanceToSqr(this.target) < mob.getBbWidth() + 2.5 && this.mob instanceof AbilitiesHandler handler) {
-                if (this.target instanceof MushroomEntity powerUp && !handler.mv$hasSuperMushroom())
+                if (this.target instanceof SuperMushroomEntity powerUp && !handler.mv$hasSuperMushroom())
                     handler.applySuperMushroomPowerUp(world, this.mob, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
                 else if (this.target instanceof FireFlowerEntity powerUp && !handler.mv$hasFireFlower())
                     handler.applyFireFlowerPowerUp(world, this.mob, powerUp);

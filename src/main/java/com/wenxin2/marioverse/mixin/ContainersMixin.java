@@ -270,8 +270,7 @@ public class ContainersMixin {
                     entity.setDeltaMovement(new Vec3(
                             world.random.triangle(0.0, 0.3),
                             world.random.triangle(0.5, 0.3),
-                            world.random.triangle(0.0, 0.3)
-                    ));
+                            world.random.triangle(0.0, 0.3)));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
                 } else mv$spawnItem(world, pos, stack);
