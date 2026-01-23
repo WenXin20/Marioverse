@@ -68,12 +68,17 @@
         {
           "type": "minecraft:item",
           "name": "marioverse:fire_flower",
-          "weight": 2
+          "weight": 3
         },
         {
           "type": "minecraft:item",
           "name": "marioverse:ice_flower",
-          "weight": 2
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:mini_mushroom",
+          "weight": 3
         },
         {
           "type": "minecraft:item",
