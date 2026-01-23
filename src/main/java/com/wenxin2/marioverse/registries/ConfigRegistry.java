@@ -890,7 +890,7 @@ public class ConfigRegistry {
                     MINI_MUSHROOM_HEALTH = BUILDER.translation("configuration.marioverse.mini_mushroom_health")
                             .comment("Amount of health Mini Mushrooms sets your max hearts to.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")
-                            .defineInRange("mini_mushroom_health", 2.0F, 1.0F, 25.0F);
+                            .defineInRange("mini_mushroom_health", 2.0F, 1.0F, 40.0F);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SUPER_MUSHROOM);
