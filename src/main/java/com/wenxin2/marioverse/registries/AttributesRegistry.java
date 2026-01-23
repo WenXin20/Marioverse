@@ -11,15 +11,16 @@ public class AttributesRegistry {
     public static final DeferredHolder<Attribute, Attribute> HEIGHT_SCALE;
     public static final DeferredHolder<Attribute, Attribute> WIDTH_SCALE;
 
+    public static final ResourceLocation COSTUME_ARMOR_KNOCKBACK_RESISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_knockback_resistance");
+    public static final ResourceLocation COSTUME_ARMOR_TOUGHNESS = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_toughness");
     public static final ResourceLocation DAMAGED_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "damaged_scale");
+    public static final ResourceLocation JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_jump_boost");
+    public static final ResourceLocation MINI_HEATH = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_health");
     public static final ResourceLocation MINI_MUSHROOM_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_mushroom_scale");
     public static final ResourceLocation RESET_SCALE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "reset_scale");
-    public static final ResourceLocation JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_jump_boost");
     public static final ResourceLocation RUNNING_JUMP_BOOST = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_running_jump_boost");
     public static final ResourceLocation SAFE_FALL_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_safe_fall_distance");
     public static final ResourceLocation SLOW_GRAVITY = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "character_gravity");
-    public static final ResourceLocation COSTUME_ARMOR_TOUGHNESS = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_toughness");
-    public static final ResourceLocation COSTUME_ARMOR_KNOCKBACK_RESISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_knockback_resistance");
 
     static {
         EYE_HEIGHT_SCALE = Marioverse.ATTRIBUTES.register("eye_height_scale",

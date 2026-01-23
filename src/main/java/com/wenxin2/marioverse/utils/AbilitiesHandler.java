@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -34,6 +35,9 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -119,10 +123,18 @@ public interface AbilitiesHandler extends CostumeHandler {
         if (!entity.isSpectator() && getDamageShrinksConfig(entity)
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
+            AttributeInstance attribute = entity.getAttribute(Attributes.MAX_HEALTH);
+
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             this.mv$setSuperMushroom(true);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
+
+            if (attribute != null) {
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
+                if (modifier != null)
+                    attribute.removeModifier(modifier);
+            }
 
             if (!world.isClientSide) {
                 if (entity.getHealth() < entity.getMaxHealth())
@@ -139,13 +151,21 @@ public interface AbilitiesHandler extends CostumeHandler {
         if (!entity.isSpectator()
                 && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get())) {
+            AttributeInstance attribute = entity.getAttribute(Attributes.MAX_HEALTH);
+
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, true);
             this.mv$setSuperMushroom(false);
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
+            if (attribute != null) {
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
+                if (modifier == null)
+                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MINI_HEATH, -entity.getMaxHealth() + 2, AttributeModifier.Operation.ADD_VALUE));
+            }
+
             if (!world.isClientSide) {
-                entity.setHealth(entity.getMaxHealth() / 10);
+//                entity.setHealth(entity.getMaxHealth() / 10);
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) // TODO
                     world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
             }

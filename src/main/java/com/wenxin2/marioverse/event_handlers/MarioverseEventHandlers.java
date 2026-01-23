@@ -218,7 +218,7 @@ public class MarioverseEventHandlers {
     public static void onEntityHeal(LivingHealEvent event) {
         Entity entity = event.getEntity();
 
-        if (entity instanceof AbilitiesHandler handler
+        if (entity instanceof AbilitiesHandler handler && !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                     || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (entity instanceof Player player) {
