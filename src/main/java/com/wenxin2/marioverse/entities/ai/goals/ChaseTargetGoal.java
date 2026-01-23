@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.entities.power_ups.BaseMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.BasePowerUpEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
@@ -44,6 +45,9 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
             else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower())
                 return true;
             else if (this.target instanceof IceFlowerEntity && !handler.mv$hasIceFlower())
+                return true;
+            else if (this.target instanceof MiniMushroomEntity
+                    && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get()))
                 return true;
             else if (this.target instanceof OneUpMushroomEntity
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()))
@@ -95,6 +99,9 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
                     handler.applyFireFlowerPowerUp(world, this.mob, powerUp);
                 else if (this.target instanceof IceFlowerEntity powerUp && !handler.mv$hasIceFlower())
                     handler.applyIceFlowerPowerUp(world, this.mob, powerUp);
+                else if (this.target instanceof MiniMushroomEntity powerUp
+                        && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get()))
+                    handler.applyMiniMushroomPowerUp(world, this.mob, powerUp);
                 else if (this.target instanceof OneUpMushroomEntity powerUp
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()))
                     handler.applyOneUpMushroomPowerUp(world, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), this.mob, powerUp);
