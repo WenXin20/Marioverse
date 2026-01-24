@@ -8,6 +8,8 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
@@ -15,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -156,6 +159,19 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (f7 != this.mv$appliedWidthScale) {
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
+        }
+    }
+
+    @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
+    private void playStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
+        Entity entity = (Entity) (Object) this;
+        Level level = entity.level();
+
+        if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
+                && level.getFluidState(pos).is(FluidTags.WATER) && !level.getFluidState(pos.above()).is(FluidTags.WATER)) {
+            entity.playSound(SoundRegistry.WATER_MINI_STEP.get(), 1.0F, 1.0F + (entity.getRandom().nextFloat() - 0.5F) * 0.2F);
+            ci.cancel();
         }
     }
 

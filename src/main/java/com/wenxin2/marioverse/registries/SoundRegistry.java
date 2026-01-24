@@ -89,6 +89,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_HURT;
     public static final DeferredHolder<SoundEvent, SoundEvent> PLAYER_JUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP_MINI_MUSHROOM;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP_SUPER_STAR;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> QUESTION_PANEL_ACTIVATED;
@@ -108,6 +109,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_HIT;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_PLACE;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_STEP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WATER_MINI_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_BOUND;
 
     static {
@@ -187,6 +189,9 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.warp_fuel.completed")));
         WARP_FUEL_FILLS = Marioverse.SOUNDS.register("block.warp_fuel.fills",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.warp_fuel.fills")));
+
+        WATER_MINI_STEP = Marioverse.SOUNDS.register("block.water_mini_step",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_mini_step")));
 
         WATER_SPOUT_BREAK = Marioverse.SOUNDS.register("block.water_spout.break",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.water_spout.break")));
@@ -309,6 +314,8 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.one_up_collected")));
         POWERS_UP = Marioverse.SOUNDS.register("entity.powers_up",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.powers_up")));
+        POWERS_UP_MINI_MUSHROOM = Marioverse.SOUNDS.register("entity.powers_up_mini_mushroom",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.powers_up_mini_mushroom")));
         POWERS_UP_SUPER_STAR = Marioverse.SOUNDS.register("entity.powers_up_super_star",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.powers_up_super_star")));
 
