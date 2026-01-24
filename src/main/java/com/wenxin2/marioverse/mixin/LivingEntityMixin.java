@@ -713,8 +713,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             if (isMini) {
                 if (hasCostume) {
-                    normalJumpBoost *= 1.4;
-                    runningJumpBoost *= 1.6;
+                    normalJumpBoost *= 1.2;
+                    runningJumpBoost *= 1.4;
                 } else {
                     normalJumpBoost = 0.5;
                     runningJumpBoost = 0.6;
