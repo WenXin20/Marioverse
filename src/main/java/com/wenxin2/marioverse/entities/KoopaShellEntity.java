@@ -907,10 +907,12 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
             entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
             entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+            troopa.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
             troopa.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
             troopa.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
         }
 
+        this.copyAttributeWithModifiers(troopa, Attributes.MAX_HEALTH);
         this.copyAttributeWithModifiers(troopa, Attributes.SAFE_FALL_DISTANCE);
         this.copyAttributeWithModifiers(troopa, Attributes.SCALE);
         this.copyAttributeWithModifiers(troopa, AttributesRegistry.EYE_HEIGHT_SCALE);
@@ -940,13 +942,13 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
-        AttributeInstance fromAttr = this.getAttribute(attribute);
-        AttributeInstance toAttr = entity.getAttribute(attribute);
+        AttributeInstance originalAttribute = this.getAttribute(attribute);
+        AttributeInstance newAttribute = entity.getAttribute(attribute);
 
-        if (fromAttr != null && toAttr != null) {
-            toAttr.setBaseValue(fromAttr.getBaseValue());
-            for (AttributeModifier modifier : fromAttr.getModifiers())
-                toAttr.addPermanentModifier(modifier);
+        if (originalAttribute != null && newAttribute != null) {
+            newAttribute.setBaseValue(originalAttribute.getBaseValue());
+            for (AttributeModifier modifier : originalAttribute.getModifiers())
+                newAttribute.addPermanentModifier(modifier);
         }
     }
 

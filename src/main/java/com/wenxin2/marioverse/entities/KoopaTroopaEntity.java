@@ -554,6 +554,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             shell.emergeAnimationTicks = emergeAnimationTicks;
             shell.setNoAi(this.isNoAi());
 
+            this.copyAttributeWithModifiers(shell, Attributes.MAX_HEALTH);
             this.copyAttributeWithModifiers(shell, Attributes.SAFE_FALL_DISTANCE);
             this.copyAttributeWithModifiers(shell, Attributes.SCALE);
             this.copyAttributeWithModifiers(shell, AttributesRegistry.EYE_HEIGHT_SCALE);
@@ -571,6 +572,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
                     entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
                     entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
                     entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+                    shell.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
                     shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
                     shell.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
                 }
@@ -597,13 +599,13 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     }
 
     public void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
-        AttributeInstance fromAttr = this.getAttribute(attribute);
-        AttributeInstance toAttr = entity.getAttribute(attribute);
+        AttributeInstance originalAttribute = this.getAttribute(attribute);
+        AttributeInstance newAttribute = entity.getAttribute(attribute);
 
-        if (fromAttr != null && toAttr != null) {
-            toAttr.setBaseValue(fromAttr.getBaseValue());
-            for (AttributeModifier modifier : fromAttr.getModifiers())
-                toAttr.addPermanentModifier(modifier);
+        if (originalAttribute != null && newAttribute != null) {
+            newAttribute.setBaseValue(originalAttribute.getBaseValue());
+            for (AttributeModifier modifier : originalAttribute.getModifiers())
+                newAttribute.addPermanentModifier(modifier);
         }
     }
 }
