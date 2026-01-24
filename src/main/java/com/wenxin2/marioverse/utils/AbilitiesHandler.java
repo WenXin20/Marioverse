@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.utils;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
@@ -10,6 +9,7 @@ import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -104,24 +104,14 @@ public interface AbilitiesHandler extends CostumeHandler {
     void mv$setOneUpsRewarded(int oneUpsRewarded);
 
     @NotNull
-    private static Boolean getDamageShrinksConfig(LivingEntity entity) {
-        if (entity instanceof Player)
-            return (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                    || entity.level().getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS));
-        else return (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                || entity.level().getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS));
-    }
-
-    @NotNull
     private static Boolean equipCostumes(LivingEntity entity) {
         if (entity instanceof Player)
             return ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get();
         else return ConfigRegistry.EQUIP_COSTUMES_MOBS.get();
     }
 
-    default void applySuperMushroomPowerUp(Level world, LivingEntity entity, @Nullable MushroomEntity powerUp, float healthHealed) {
-        if (!entity.isSpectator() && getDamageShrinksConfig(entity)
-                && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+    default void applySuperMushroomPowerUp(Level world, LivingEntity entity, @Nullable SuperMushroomEntity powerUp, float healthHealed) {
+        if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             AttributeInstance attribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
@@ -137,7 +127,7 @@ public interface AbilitiesHandler extends CostumeHandler {
             }
 
             if (!world.isClientSide) {
-                if (entity.getHealth() < entity.getMaxHealth())
+                if (entity.getHealth() < entity.getMaxHealth() || entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                     entity.heal(healthHealed);
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS))
                     world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
@@ -148,8 +138,7 @@ public interface AbilitiesHandler extends CostumeHandler {
     }
 
     default void applyMiniMushroomPowerUp(Level world, LivingEntity entity, @Nullable MushroomEntity powerUp) {
-        if (!entity.isSpectator()
-                && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+        if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get())) {
             AttributeInstance attribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
