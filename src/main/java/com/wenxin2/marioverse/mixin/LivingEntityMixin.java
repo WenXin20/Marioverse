@@ -757,7 +757,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (isMini) {
             if (motion.y < 0)
-                entity.setDeltaMovement(motion.x, motion.y * 0.8, motion.z);
+                entity.setDeltaMovement(motion.x, motion.y * 0.9, motion.z);
         }
     }
 
