@@ -45,14 +45,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpEntityHandler {
+    @Shadow protected abstract float nextStep();
+    @Shadow protected abstract void playStepSound(BlockPos p_20135_, BlockState p_20136_);
+    @Shadow protected float moveDist;
+    @Shadow protected float nextStep;
+    @Shadow public abstract BlockPos blockPosition();
+    @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract Level level();
     @Shadow public abstract double getX();
     @Shadow public abstract double getY();
     @Shadow public abstract double getZ();
     @Shadow public abstract float getBbHeight();
     @Shadow public abstract int getId();
-    @Shadow public abstract BlockPos blockPosition();
-    @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract void setPos(Vec3 vec3);
 
     @Unique protected float mv$appliedHeightScale = 1.0F;
@@ -103,6 +107,13 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
+
+        if (this.moveDist > this.nextStep && entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
+                && world.getFluidState(pos).is(FluidTags.WATER) && !world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+            this.playStepSound(pos, state);
+            this.nextStep = this.nextStep();
+        }
 
         if (this.mv$getWarpCooldown() > 0)
             this.mv$setWarpCooldown(this.mv$getWarpCooldown() - 1);
@@ -166,10 +177,11 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     private void playStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         Level level = entity.level();
+        BlockPos posEntity = entity.blockPosition();
 
         if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
-                && level.getFluidState(pos).is(FluidTags.WATER) && !level.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                && level.getFluidState(posEntity).is(FluidTags.WATER) && !level.getFluidState(posEntity.above()).is(FluidTags.WATER)) {
             entity.playSound(SoundRegistry.WATER_MINI_STEP.get(), 1.0F, 1.0F + (entity.getRandom().nextFloat() - 0.5F) * 0.2F);
             ci.cancel();
         }
