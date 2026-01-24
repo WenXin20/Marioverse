@@ -205,7 +205,7 @@ public class MarioverseEventHandlers {
                 rider.setYHeadRot(rider.getYHeadRot() + 30);
         }
 
-        if (entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+        if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
                 && level.getFluidState(pos).is(FluidTags.WATER) && !level.getFluidState(pos.above()).is(FluidTags.WATER)) {
             if (motion.y < 0)
