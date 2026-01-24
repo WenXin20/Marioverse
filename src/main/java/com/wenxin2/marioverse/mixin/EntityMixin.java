@@ -13,10 +13,12 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -182,6 +184,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
                 && level.getFluidState(posEntity).is(FluidTags.WATER) && !level.getFluidState(posEntity.above()).is(FluidTags.WATER)) {
+            if (level instanceof ServerLevel serverLevel)
+                ServerParticleUtils.spawnParticleTrail(ParticleTypes.SPLASH, serverLevel, entity, false, true, 5, 0.1);
             entity.playSound(SoundRegistry.WATER_MINI_STEP.get(), 1.0F, 1.0F + (entity.getRandom().nextFloat() - 0.5F) * 0.2F);
             ci.cancel();
         }

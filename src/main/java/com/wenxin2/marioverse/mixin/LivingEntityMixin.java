@@ -552,7 +552,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (vehicle instanceof Boat && speed > 0) {
                 if (vehicle.level() instanceof ServerLevel serverWorld) {
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
-                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10, 0.1);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, false, 10, 0.1);
                 }
                 if (vehicle.level().isClientSide) {
                     ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.POWERED_UP.get(), vehicle, true, 5, 0.1, 0.0);
@@ -566,7 +566,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), vehicle, true, 10, 0.1, 0.0);
                 } else if (vehicle.level() instanceof ServerLevel serverWorld && !(entity instanceof Player)) {
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
-                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10, 0.1);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, false, 10, 0.1);
                 }
             } else this.mv$setDashMushroomBoost(false);
         } else if (speed >= minimumBoostSpeed) {
@@ -575,7 +575,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), entity, true, 10, 0.1, 0.0);
             } else if (entity.level() instanceof ServerLevel serverWorld) {
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
-                ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 10, 0.1);
+                ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, false, 10, 0.1);
             }
         } else this.mv$setDashMushroomBoost(false);
     }
@@ -692,8 +692,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 || this.mv$hasPeachCostume(entity);
 
         if (jumpAttribute != null) {
-            boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST) != null;
-            boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
             double normalJumpBoost = 0.0;
             double runningJumpBoost = 0.0;
