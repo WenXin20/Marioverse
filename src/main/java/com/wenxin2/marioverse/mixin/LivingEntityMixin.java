@@ -1111,7 +1111,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM).;
+        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
         boolean hasSuperMushroom = this.mv$hasSuperMushroom();
         float health = entity.getHealth();
         float scalingSpeed = 0.1F;
