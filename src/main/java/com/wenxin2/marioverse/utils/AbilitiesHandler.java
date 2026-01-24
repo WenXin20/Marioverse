@@ -206,6 +206,8 @@ public interface AbilitiesHandler extends CostumeHandler {
     default void applyFireFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
+            AttributeInstance attribute = entity.getAttribute(Attributes.MAX_HEALTH);
+
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.FIRE_POWERED_UP.get(), serverWorld, entity, 10);
 
@@ -217,6 +219,13 @@ public interface AbilitiesHandler extends CostumeHandler {
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
+            if (attribute != null) {
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
+                if (modifier == null)
+                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MINI_HEATH,
+                            -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
+            }
+
             this.applyCostumeChange(entity, powerUp);
             powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
@@ -225,6 +234,8 @@ public interface AbilitiesHandler extends CostumeHandler {
     default void applyIceFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
+            AttributeInstance attribute = entity.getAttribute(Attributes.MAX_HEALTH);
+            
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, entity, 10);
 
@@ -235,6 +246,13 @@ public interface AbilitiesHandler extends CostumeHandler {
             this.mv$setIceFlower(true);
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
+
+            if (attribute != null) {
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
+                if (modifier == null)
+                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MINI_HEATH,
+                            -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
+            }
 
             this.applyCostumeChange(entity, powerUp);
             powerUp.remove(Entity.RemovalReason.DISCARDED);
