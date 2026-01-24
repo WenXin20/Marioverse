@@ -18,12 +18,6 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        checkForCollisions();
-    }
-
-    @Override
     public void collideWithEntity(Entity entity) {
         if (!this.level().isClientSide) {
             ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;

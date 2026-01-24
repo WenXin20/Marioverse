@@ -26,11 +26,11 @@ public class SuperMushroomEntity extends MushroomEntity implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimController));
+        controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimation));
     }
 
     @Override
-    protected <E extends GeoAnimatable> PlayState walkAnimController(final AnimationState<E> event) {
+    protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
         if (this.isMoving()) {
             event.setAndContinue(WALK);
             return PlayState.CONTINUE;
