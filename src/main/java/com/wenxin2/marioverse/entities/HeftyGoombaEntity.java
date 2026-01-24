@@ -120,6 +120,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
                         goomba.move(MoverType.SELF, goomba.getDeltaMovement());
 
                         this.copyAttributeWithModifiers(goomba, Attributes.MAX_HEALTH);
+                        this.copyAttributeWithModifiers(goomba, Attributes.SAFE_FALL_DISTANCE);
                         this.copyAttributeWithModifiers(goomba, Attributes.SCALE);
                         this.copyAttributeWithModifiers(goomba, AttributesRegistry.EYE_HEIGHT_SCALE);
                         this.copyAttributeWithModifiers(goomba, AttributesRegistry.HEIGHT_SCALE);

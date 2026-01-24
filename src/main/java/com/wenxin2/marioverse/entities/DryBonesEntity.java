@@ -437,6 +437,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
             entity.setPersistenceRequired();
 
         this.copyAttributeWithModifiers(entity, Attributes.MAX_HEALTH);
+        this.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);
         this.copyAttributeWithModifiers(entity, Attributes.SCALE);
         this.copyAttributeWithModifiers(entity, AttributesRegistry.EYE_HEIGHT_SCALE);
         this.copyAttributeWithModifiers(entity, AttributesRegistry.HEIGHT_SCALE);
