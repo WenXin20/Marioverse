@@ -948,25 +948,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float heightScale = this.mv$getHeightScale();
         float widthScale = this.mv$getWidthScale();
 
-        if (heightScale > 1) heightScale /= 2;
-        if (widthScale > 1) widthScale /= 2;
-        if (eyeScale > 1) eyeScale /= 2;
-
-        float newWidth = original.width() * widthScale;
-        float newHeight = original.height() * heightScale;
-        float newEyeHeight = original.eyeHeight() * eyeScale;
-
-        EntityDimensions resized = original.fixed()
-                ? EntityDimensions.fixed(newWidth, newHeight)
-                : EntityDimensions.scalable(newWidth, newHeight);
-
-        if (eyeScale == 1.0F && heightScale == 1.0F && widthScale == 1.0F)
-            return original;
-
         if (pose == Pose.SLEEPING)
             return original;
 
-        return resized.withEyeHeight(newEyeHeight);
+        return EntityDimensions.scalable(original.width()  * widthScale, original.height() * heightScale)
+                .withEyeHeight(original.eyeHeight() * eyeScale);
     }
 
 //    @Inject(method = "getPassengerRidingPosition", at = @At("TAIL"), cancellable = true)
