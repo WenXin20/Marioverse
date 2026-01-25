@@ -14,34 +14,23 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class CameraMixin {
     @Shadow protected abstract void move(float x, float y, float z);
 
-    @ModifyExpressionValue(
-            method = "setup",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/neoforged/neoforge/client/ClientHooks;getDetachedCameraDistance" +
-                            "(Lnet/minecraft/client/Camera;ZFF)F"
-            )
-    )
-    private float marioverse$scaleCameraDistance(
-            float originalDistance,
-            BlockGetter level,
-            Entity entity,
-            boolean detached,
-            boolean thirdPersonReverse,
-            float partialTick
-    ) {
-        if (!(entity instanceof LivingEntity living)) {
+    @ModifyExpressionValue(method = "setup", at = @At(value = "INVOKE",
+            target = "Lnet/neoforged/neoforge/client/ClientHooks;getDetachedCameraDistance" + "(Lnet/minecraft/client/Camera;ZFF)F"))
+    private float marioverse$scaleCameraDistance(float originalDistance, BlockGetter level, Entity entity,
+                                                 boolean detached, boolean thirdPersonReverse, float partialTick) {
+        if (!(entity instanceof LivingEntity living))
             return originalDistance;
-        }
 
         float height = 1.0F;
         float width  = 1.0F;
 
-        var h = living.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-        if (h != null) height = (float) h.getValue();
+        var heightScale = living.getAttribute(AttributesRegistry.HEIGHT_SCALE);
+        if (heightScale != null)
+            height = (float) heightScale.getValue();
 
-        var w = living.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        if (w != null) width = (float) w.getValue();
+        var widthScale = living.getAttribute(AttributesRegistry.WIDTH_SCALE);
+        if (widthScale != null)
+            width = (float) widthScale.getValue();
 
         float cameraScale = Math.max(height, width);
 
