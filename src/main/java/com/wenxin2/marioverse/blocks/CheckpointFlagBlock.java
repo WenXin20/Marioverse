@@ -7,8 +7,8 @@ import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
-import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
@@ -963,6 +963,9 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()
                             && spawnedEntity instanceof SuperMushroomEntity powerUp) {
                         handler.applySuperMushroomPowerUp(world, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                    } else if (stack.getItem() == ItemRegistry.MEGA_MUSHROOM.get()
+                            && spawnedEntity instanceof MegaMushroomEntity powerUp) {
+                        handler.applyMegaMushroomPowerUp(world, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.MINI_MUSHROOM.get()
                             && spawnedEntity instanceof MiniMushroomEntity powerUp) {
                         handler.applyMiniMushroomPowerUp(world, entity, powerUp);

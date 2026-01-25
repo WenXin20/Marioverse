@@ -25,6 +25,7 @@ import com.wenxin2.marioverse.entities.SnowPokeyEntity;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
@@ -68,6 +69,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER =
             Marioverse.ENTITIES.register("ice_flower", () -> EntityType.Builder.of(IceFlowerEntity::new, MobCategory.AMBIENT)
                     .sized(0.6F, 0.6F).build("ice_flower"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MegaMushroomEntity>> MEGA_MUSHROOM =
+            Marioverse.ENTITIES.register("mega_mushroom", () -> EntityType.Builder.of(MegaMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(1.875F, 1.75F).build("mega_mushroom"));
     public static final DeferredHolder<EntityType<?>, EntityType<MiniMushroomEntity>> MINI_MUSHROOM =
             Marioverse.ENTITIES.register("mini_mushroom", () -> EntityType.Builder.of(MiniMushroomEntity::new, MobCategory.AMBIENT)
                     .sized(0.5F, 0.5F).build("mini_mushroom"));
@@ -273,6 +277,7 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
         event.put(EntityRegistry.ICE_FLOWER.get(), powerUpAttributes.build());
+        event.put(EntityRegistry.MEGA_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.MINI_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_MUSHROOM.get(), mushroomAttributes.build());

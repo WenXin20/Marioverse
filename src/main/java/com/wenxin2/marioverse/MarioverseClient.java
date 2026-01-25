@@ -36,6 +36,7 @@ import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.IceFlowerRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.power_ups.MegaMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.MiniMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.OneUpMushroomRenderer;
@@ -237,6 +238,7 @@ public class MarioverseClient {
 
         event.registerEntityRenderer(EntityRegistry.FIRE_FLOWER.get(), FireFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_FLOWER.get(), IceFlowerRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.MEGA_MUSHROOM.get(), MegaMushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MINI_MUSHROOM.get(), MiniMushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ONE_UP_MUSHROOM.get(), OneUpMushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SUPER_MUSHROOM.get(), SuperMushroomRenderer::new);

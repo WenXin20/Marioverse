@@ -1,0 +1,18 @@
+{
+  "values": [
+    "#marioverse:question_blocks",
+    "#marioverse:smashable_blocks",
+    "#marioverse:warp_pipes",
+    "#marioverse:wooden_bridges",
+    "#marioverse:wooden_bridge_stairs",
+    "#minecraft:flowers",
+    "#minecraft:ice",
+    "#minecraft:mineable/axe",
+    "#minecraft:mineable/hoe",
+    "#minecraft:mineable/shovel",
+    "#minecraft:replaceable",
+    "#minecraft:sword_efficient",
+    "minecraft:short_grass",
+    "minecraft:tall_grass"
+  ]
+}

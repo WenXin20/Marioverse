@@ -283,6 +283,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.DASH_MUSHROOM.get())
                 .add(ItemRegistry.FIRE_FLOWER.get())
                 .add(ItemRegistry.ICE_FLOWER.get())
+                .add(ItemRegistry.MEGA_MUSHROOM.get())
                 .add(ItemRegistry.MINI_MUSHROOM.get())
                 .add(ItemRegistry.SUPER_MUSHROOM.get())
                 .add(ItemRegistry.ONE_UP_MUSHROOM.get())

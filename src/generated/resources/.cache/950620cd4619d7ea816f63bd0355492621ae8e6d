@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-20T23:49:52.5787371	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-01-24T20:52:40.3309665	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
@@ -14,6 +14,7 @@ dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/cannot
 92033637b79b11d409a2e111df0289d7af78f3a4 data/marioverse/tags/entity_type/can_collect_star_coins.json
 71a67f53f03235e22005423f3fe6781668e360a3 data/marioverse/tags/entity_type/can_consume_fire_flowers.json
 b4f218b11ee078ee1b724f7821b4c09de7f4218e data/marioverse/tags/entity_type/can_consume_ice_flowers.json
+6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_consume_mega_mushrooms.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_consume_mini_mushrooms.json
 1b74541f2ea56b1b75a2f92664fc134fcf56ee71 data/marioverse/tags/entity_type/can_consume_one_ups.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_consume_super_mushrooms.json
@@ -62,6 +63,7 @@ bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/entity_type/koopa_
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/koopa_shell_cannot_damage.json
 ad4b8aa42c1186a921a8ba5cbbbbd51e0272a618 data/marioverse/tags/entity_type/koopa_troopas.json
 1b74541f2ea56b1b75a2f92664fc134fcf56ee71 data/marioverse/tags/entity_type/mega_goomba_can_attack.json
+bc66dace79cff32ccb4e0e38aa35946f0e97bfa4 data/marioverse/tags/entity_type/mega_mushroom_can_instakill.json
 07ed73c99e2158c686bb232ddde29fed5cf22fbb data/marioverse/tags/entity_type/mini_goomba_can_attach.json
 ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranha_plant_can_attack.json
 45bbf1961986f223f34bd5fbba2dfde40ad2c7bc data/marioverse/tags/entity_type/pokeys.json

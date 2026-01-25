@@ -310,6 +310,22 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get());
 
+        tag(TagRegistry.MEGA_MUSHROOM_CAN_BREAK)
+                .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.SMASHABLE_BLOCKS)
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
+                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
+                .addTag(BlockTags.FLOWERS)
+                .addTag(BlockTags.ICE)
+                .addTag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(BlockTags.MINEABLE_WITH_HOE)
+                .addTag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .addTag(BlockTags.REPLACEABLE)
+                .addTag(BlockTags.SWORD_EFFICIENT)
+                .add(Blocks.SHORT_GRASS)
+                .add(Blocks.TALL_GRASS);
+
         tag(TagRegistry.MELTS)
                 .add(Blocks.POWDER_SNOW)
                 .add(Blocks.SNOW);

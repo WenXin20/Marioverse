@@ -58,6 +58,7 @@ public class TagRegistry {
     public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");
     public static final TagKey<Block> ICE_CUBE_EXTINGUISHES = blockTags("ice_cube_extinguishes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
+    public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK = blockTags("mega_mushroom_can_break");
     public static final TagKey<Block> MELTS = blockTags("melts");
     public static final TagKey<Block> MELTS_ICE_CUBE = blockTags("melts_ice_cube");
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");
@@ -204,6 +205,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_COLLECT_STAR_COINS = entityTypeTags("can_collect_star_coins");
     public static final TagKey<EntityType<?>> CAN_CONSUME_FIRE_FLOWERS = entityTypeTags("can_consume_fire_flowers");
     public static final TagKey<EntityType<?>> CAN_CONSUME_ICE_FLOWERS = entityTypeTags("can_consume_ice_flowers");
+    public static final TagKey<EntityType<?>> CAN_CONSUME_MEGA_MUSHROOMS = entityTypeTags("can_consume_mega_mushrooms");
     public static final TagKey<EntityType<?>> CAN_CONSUME_MINI_MUSHROOMS = entityTypeTags("can_consume_mini_mushrooms");
     public static final TagKey<EntityType<?>> CAN_CONSUME_ONE_UPS = entityTypeTags("can_consume_one_ups");
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_MUSHROOMS = entityTypeTags("can_consume_super_mushrooms");
@@ -253,6 +255,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> KOOPA_SHELL_ENTITIES = entityTypeTags("koopa_shells");
     public static final TagKey<EntityType<?>> KOOPA_TROOPA_ENTITIES = entityTypeTags("koopa_troopas");
     public static final TagKey<EntityType<?>> MEGA_GOOMBA_CAN_ATTACK = entityTypeTags("mega_goomba_can_attack");
+    public static final TagKey<EntityType<?>> MEGA_MUSHROOM_CAN_INSTAKILL = entityTypeTags("mega_mushroom_can_instakill");
     public static final TagKey<EntityType<?>> MINI_GOOMBA_CAN_ATTACH = entityTypeTags("mini_goomba_can_attach");
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
     public static final TagKey<EntityType<?>> POKEY_CAN_ATTACK = entityTypeTags("pokey_can_attack");

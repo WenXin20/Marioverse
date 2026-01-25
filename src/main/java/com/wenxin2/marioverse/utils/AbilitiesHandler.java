@@ -7,7 +7,8 @@ import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
-import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
@@ -117,11 +118,12 @@ public interface AbilitiesHandler extends CostumeHandler {
 
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             this.mv$setSuperMushroom(true);
+
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
             if (attribute != null) {
-                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
                 if (modifier != null)
                     attribute.removeModifier(modifier);
             }
@@ -137,20 +139,49 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void applyMiniMushroomPowerUp(Level world, LivingEntity entity, @Nullable MushroomEntity powerUp) {
+    default void applyMegaMushroomPowerUp(Level world, LivingEntity entity, @Nullable MegaMushroomEntity powerUp) {
+        if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
+                && (entity.getType().is(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS) || ConfigRegistry.MEGA_MUSHROOM_POWERS_ALL_MOBS.get())) {
+            AttributeInstance attribute = entity.getAttribute(Attributes.MAX_HEALTH);
+
+            entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, true);
+            entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, ConfigRegistry.MEGA_MUSHROOM_DURATION.get());
+            this.mv$setSuperMushroom(true);
+
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
+
+            if (attribute != null) {
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
+                if (modifier == null)
+                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
+                            ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
+            }
+
+            if (!world.isClientSide) {
+                if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) // TODO
+                    world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
+            }
+            if (powerUp != null)
+                powerUp.remove(Entity.RemovalReason.DISCARDED);
+        }
+    }
+
+    default void applyMiniMushroomPowerUp(Level world, LivingEntity entity, @Nullable MiniMushroomEntity powerUp) {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get())) {
             AttributeInstance attribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, true);
             this.mv$setSuperMushroom(false);
+
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
             if (attribute != null) {
-                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
                 if (modifier == null)
-                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MINI_HEATH,
+                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
                             -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
             }
 
@@ -220,9 +251,9 @@ public interface AbilitiesHandler extends CostumeHandler {
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
             if (attribute != null) {
-                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
                 if (modifier == null)
-                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MINI_HEATH,
+                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
                             -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
             }
 
@@ -248,9 +279,9 @@ public interface AbilitiesHandler extends CostumeHandler {
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 
             if (attribute != null) {
-                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MINI_HEATH);
+                AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
                 if (modifier == null)
-                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MINI_HEATH,
+                    attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
                             -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
             }
 

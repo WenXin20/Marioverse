@@ -314,6 +314,11 @@ public class MarioverseEventHandlers {
                     event.setCanceled(true);
             }
 
+            if (event.getEntity().getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
+                if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR)) // TODO
+                    event.setCanceled(true);
+            }
+
             if (healthAfterDamage <= threshold)
                 handler.mv$setSuperMushroom(false);
 

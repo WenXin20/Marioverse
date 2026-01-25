@@ -61,6 +61,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
     public static final String CATEGORY_ICE_FLOWER = "ice_flower";
     public static final String CATEGORY_ONE_UP = "one_up";
+    public static final String CATEGORY_MEGA_MUSHROOM = "mega_mushroom";
     public static final String CATEGORY_MINI_MUSHROOM = "mini_mushroom";
     public static final String CATEGORY_SUPER_MUSHROOM = "super_mushroom";
     public static final String CATEGORY_SUPER_STAR = "super_star";
@@ -120,6 +121,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue FORCE_CHRISTMAS_HATS;
     public static ModConfigSpec.BooleanValue FORCE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
     public static ModConfigSpec.BooleanValue MINI_MUSHROOM_POWERS_ALL_MOBS;
@@ -162,6 +164,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
     public static ModConfigSpec.DoubleValue IRON_SPIKE_DAMAGE;
+    public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_HEALTH;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_HEALTH;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
@@ -207,6 +210,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue MAX_SNOW_POKEY_HEIGHT;
+    public static ModConfigSpec.IntValue MEGA_MUSHROOM_DURATION;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_FREQUENCY;
@@ -880,6 +884,22 @@ public class ConfigRegistry {
                             .comment("Amount of health Dash Mushrooms heals.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("dash_mushroom_health_healed", 2.0F, 0.0F, 100.0F);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_MEGA_MUSHROOM);
+                    MEGA_MUSHROOM_POWERS_ALL_MOBS = BUILDER.translation("configuration.marioverse.mega_mushroom_powers_all_mobs")
+                            .comment("Allow Mega Mushrooms to power all mobs.")
+                            .comment("§9[Default: false]")
+                            .define("mega_mushroom_powers_all_mobs", false);
+                    MEGA_MUSHROOM_HEALTH = BUILDER.translation("configuration.marioverse.mega_mushroom_health")
+                            .comment("Additional health MEga Mushrooms sets your max hearts to.§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("mega_mushroom_health", 20.0F, 1.0F, 100.0F);
+                    MEGA_MUSHROOM_DURATION = BUILDER.translation("configuration.marioverse.mega_mushroom_duration")
+                            .comment("Duration until the Mega Mushroom runs out.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 300]§b")
+                            .defineInRange("mega_mushroom_duration", 300, 1, 72000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MINI_MUSHROOM);

@@ -53,6 +53,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.DASH_MUSHROOM);
             add(event, ItemRegistry.ONE_UP_MUSHROOM);
             add(event, ItemRegistry.MINI_MUSHROOM);
+            add(event, ItemRegistry.MEGA_MUSHROOM);
             add(event, ItemRegistry.FIRE_FLOWER);
             add(event, ItemRegistry.ICE_FLOWER);
             add(event, ItemRegistry.SUPER_STAR);
@@ -527,7 +528,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.SUPER_MUSHROOM, ItemRegistry.DASH_MUSHROOM);
                 addAfter(event, ItemRegistry.DASH_MUSHROOM, ItemRegistry.ONE_UP_MUSHROOM);
                 addAfter(event, ItemRegistry.ONE_UP_MUSHROOM, ItemRegistry.MINI_MUSHROOM);
-                addAfter(event, ItemRegistry.MINI_MUSHROOM, ItemRegistry.FIRE_FLOWER);
+                addAfter(event, ItemRegistry.MINI_MUSHROOM, ItemRegistry.MEGA_MUSHROOM);
+                addAfter(event, ItemRegistry.MEGA_MUSHROOM, ItemRegistry.FIRE_FLOWER);
                 addAfter(event, ItemRegistry.FIRE_FLOWER, ItemRegistry.ICE_FLOWER);
                 addAfter(event, ItemRegistry.ICE_FLOWER, ItemRegistry.SUPER_STAR);
                 addAfter(event, ItemRegistry.SUPER_STAR, ItemRegistry.GREEN_KOOPA_SHELL);

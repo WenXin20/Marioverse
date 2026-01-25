@@ -4,8 +4,8 @@ import com.wenxin2.marioverse.entities.power_ups.BaseMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.BasePowerUpEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
-import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
@@ -41,11 +41,14 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
         this.target = this.findTarget();
 
         if (this.mob instanceof AbilitiesHandler handler) {
-            if (this.target instanceof MushroomEntity && !handler.mv$hasSuperMushroom())
+            if (this.target instanceof SuperMushroomEntity && !handler.mv$hasSuperMushroom())
                 return true;
             else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower())
                 return true;
             else if (this.target instanceof IceFlowerEntity && !handler.mv$hasIceFlower())
+                return true;
+            else if (this.target instanceof MegaMushroomEntity
+                    && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS) || ConfigRegistry.MEGA_MUSHROOM_POWERS_ALL_MOBS.get()))
                 return true;
             else if (this.target instanceof MiniMushroomEntity
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get()))
@@ -100,6 +103,9 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
                     handler.applyFireFlowerPowerUp(world, this.mob, powerUp);
                 else if (this.target instanceof IceFlowerEntity powerUp && !handler.mv$hasIceFlower())
                     handler.applyIceFlowerPowerUp(world, this.mob, powerUp);
+                else if (this.target instanceof MegaMushroomEntity powerUp
+                        && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS) || ConfigRegistry.MEGA_MUSHROOM_POWERS_ALL_MOBS.get()))
+                    handler.applyMegaMushroomPowerUp(world, this.mob, powerUp);
                 else if (this.target instanceof MiniMushroomEntity powerUp
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get()))
                     handler.applyMiniMushroomPowerUp(world, this.mob, powerUp);

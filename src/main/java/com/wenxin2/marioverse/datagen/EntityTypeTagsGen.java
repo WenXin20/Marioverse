@@ -234,6 +234,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(TEST_DUMMY)
                 .addOptional(HAT_STAND);
 
+        tag(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS)
+                .add(EntityType.PLAYER);
+
         tag(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
@@ -685,6 +688,15 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(GUARD_VILLAGER)
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.MEGA_MUSHROOM_CAN_INSTAKILL)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .addTag(TagRegistry.POKEY_ENTITIES)
+                .addTag(TagRegistry.SNOW_POKEY_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.PIRANHA_PLANT.get());
 
         tag(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                 .add(EntityType.ARMOR_STAND)
