@@ -31,7 +31,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
     public SuperStarEntity(EntityType<? extends SuperStarEntity> entityType, Level world) {
         super(entityType, world);
-        this.moveControl = new BounceMoveControl(this, 1, getJumpSound(), 1.0F, 1.0F);
+        this.moveControl = new BounceMoveControl(this, 1, this.getJumpSound(), 1.0F, 1.0F);
     }
 
     @Override
