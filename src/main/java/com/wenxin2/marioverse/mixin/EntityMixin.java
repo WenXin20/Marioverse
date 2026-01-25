@@ -26,6 +26,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -33,10 +34,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.Shapes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -256,6 +254,12 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
     }
 
+    @ModifyReturnValue(method = "getEyeHeight(Lnet/minecraft/world/entity/Pose;)F", at = @At("TAIL"))
+    private float getEyeHeight(float original, Pose pose) {
+        float eyeScale = this.mv$getEyeHeightScale();
+        return original * eyeScale;
+    }
+
     @Inject(method = "getBbHeight", at = @At("HEAD"), cancellable = true)
     private void getBbHeight(CallbackInfoReturnable<Float> cir) {
         Entity entity = (Entity) (Object) this;
@@ -280,40 +284,14 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
     }
 
-    @Inject(method = "isInWall", at = @At("HEAD"), cancellable = true)
-    public void isInWall(CallbackInfoReturnable<Boolean> cir) {
+    @Unique
+    public float mv$getEyeHeightScale() {
         Entity entity = (Entity) (Object) this;
-        if (entity.noPhysics) {
-            cir.setReturnValue(false);
-            return;
-        }
+        if (!(entity instanceof LivingEntity livingEntity))
+            return 1.0F;
 
-        if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributeMap = livingEntity.getAttributes();
-            if (attributeMap != null) {
-                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
-
-                if (widthScale != 1.0F) {
-                    float scaledWidth = entity.getDimensions(entity.getPose()).width() * 0.8F * widthScale;
-                    AABB aabb = AABB.ofSize(entity.getEyePosition(), scaledWidth, 1.0E-6, scaledWidth);
-
-                    boolean isInWall = BlockPos.betweenClosedStream(aabb)
-                            .anyMatch(
-                                    pos -> {
-                                        BlockState blockState = entity.level().getBlockState(pos);
-                                        return !blockState.isAir()
-                                                && blockState.isSuffocating(entity.level(), pos)
-                                                && Shapes.joinIsNotEmpty(
-                                                blockState.getCollisionShape(entity.level(), pos)
-                                                        .move(pos.getX(), pos.getY(), pos.getZ()),
-                                                Shapes.create(aabb), BooleanOp.AND
-                                        );
-                                    }
-                            );
-                    cir.setReturnValue(isInWall);
-                } else cir.setReturnValue(cir.getReturnValue());
-            }
-        }
+        AttributeMap attributemap = livingEntity.getAttributes();
+        return attributemap == null ? 1.0F : this.mv$sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
     }
 
     @Unique
