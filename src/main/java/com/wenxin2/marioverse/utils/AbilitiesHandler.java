@@ -160,6 +160,7 @@ public interface AbilitiesHandler extends CostumeHandler {
             }
 
             if (!world.isClientSide) {
+                entity.heal(ConfigRegistry.MEGA_MUSHROOM_HEALTH.get().floatValue());
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) // TODO
                     world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
             }
