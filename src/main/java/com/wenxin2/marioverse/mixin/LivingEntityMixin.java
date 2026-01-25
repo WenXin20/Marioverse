@@ -347,7 +347,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float f5 = this.mv$getEyeHeightScale();
         if (f5 != this.mv$appliedEyeHeightScale) {
             this.mv$appliedEyeHeightScale = f5;
-            this.refreshDimensions();
+            entity.refreshDimensions();
         }
 
         float f6 = this.mv$getHeightScale();
@@ -1109,7 +1109,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float health = entity.getHealth();
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasMegaMushroom ? 3.0D : hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.235D : 0.485D;
+        double targetEyeHeightScale = hasMegaMushroom ? 3.0D : hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.25D : 0.5D;
         double targetHeightScale = hasMegaMushroom ? 3.0D : hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.25D : 0.5D;
         double targetWidthScale = hasMegaMushroom ? 3.0D : hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.35D : 0.75D;
 
@@ -1143,47 +1143,43 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (entity.getLastDamageSource() != null
                     && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
-            mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale,
-                    targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
-            mv$updateScale(heightScale, mv$currentHeightScale,
-                    targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
-            mv$updateScale(widthScale, mv$currentWidthScale,
-                    targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
+            mv$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
+            mv$updateScale(heightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
+            mv$updateScale(widthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
         }
 
         if (shouldReset && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
             if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale,
-                        targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
+                mv$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
 
             if (heightScale != null && heightScale.getValue() != 1.0D)
-                mv$updateScale(heightScale, mv$currentHeightScale,
-                        targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
+                mv$updateScale(heightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
 
             if (widthScale != null && widthScale.getValue() != 1.0D)
-                mv$updateScale(widthScale, mv$currentWidthScale,
-                        targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
+                mv$updateScale(widthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
         }
     }
 
     @Unique
-    private void mv$updateScale(AttributeInstance scaleAttribute, double currentScale, double targetScale, float scalingSpeed, Consumer<Double> setter) {
+    private void mv$updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed, Consumer<Double> setter) {
         ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
 
         if (scaleAttribute != null) {
-            double lerpedScale = Mth.lerp(scalingSpeed, currentScale, targetScale);
+            double actualScale = scaleAttribute.getValue();
+            double lerpedScale = Mth.lerp(scalingSpeed, actualScale, targetScale);
+            double modifierAmount = lerpedScale - 1.0D;
 
-            if (Math.abs(currentScale - targetScale) < 0.0001)
+            if (Math.abs(actualScale - targetScale) < 0.0001)
                 lerpedScale = targetScale;
 
-            if (scaleAttribute.hasModifier(modifier) && (Math.abs(lerpedScale - 1.0D) < 0.0001 || targetScale == 1.0D))
+            if (scaleAttribute.hasModifier(modifier) && (Math.abs(modifierAmount) < 0.0001 || targetScale == 1.0D))
                 scaleAttribute.removeModifier(modifier);
 
             if (lerpedScale != targetScale) {
                 scaleAttribute.removeModifier(modifier);
-                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, lerpedScale - 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, modifierAmount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
-                if (Math.abs(currentScale - targetScale) < 0.01)
+                if (Math.abs(actualScale - targetScale) < 0.01)
                     setter.accept(targetScale);
                 else setter.accept(lerpedScale);
             }
