@@ -85,6 +85,7 @@ public class TagRegistry {
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
     public static final TagKey<DamageType> BYPASSES_BOO_INVULNERABILITY = damageTypeTags("bypasses_boo_invulnerability");
+    public static final TagKey<DamageType> BYPASSES_MEGA_MUSHROOM = damageTypeTags("bypasses_super_star");
     public static final TagKey<DamageType> BYPASSES_SUPER_STAR = damageTypeTags("bypasses_super_star");
     public static final TagKey<DamageType> FLIPS_KOOPA_SHELL = damageTypeTags("flips_koopa_shell");
     public static final TagKey<DamageType> HIDES_KOOPA_TROOPA = damageTypeTags("hides_koopa_troopa");
@@ -92,7 +93,8 @@ public class TagRegistry {
     public static final TagKey<DamageType> IS_DEFEATED = damageTypeTags("is_defeated");
     public static final TagKey<DamageType> IS_FIREBALL = damageTypeTags("is_fireball");
     public static final TagKey<DamageType> IS_ICE_BALL = damageTypeTags("ice_ball");
-    public static final TagKey<DamageType> IS_ICE_CUBE_CRUSHED = damageTypeTags("ice_cube_crushed");
+    public static final TagKey<DamageType> IS_ICE_CUBE_CRUSHED = damageTypeTags("is_ice_cube_crushed");
+    public static final TagKey<DamageType> IS_MEGA_MUSHROOM_SQUASH = damageTypeTags("is_mega_mushroom_squash");
     public static final TagKey<DamageType> IS_PIRANHA_CHOMP = damageTypeTags("is_piranha_chomp");
     public static final TagKey<DamageType> IS_SHRAPNEL = damageTypeTags("is_shrapnel");
     public static final TagKey<DamageType> IS_SPINNING_SHELL = damageTypeTags("is_spinning_shell");

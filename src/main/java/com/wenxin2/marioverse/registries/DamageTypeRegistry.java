@@ -41,10 +41,10 @@ public class DamageTypeRegistry extends DamageSources {
     public static final ResourceKey<DamageType> LIGHT =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "light"));
 
-    public static final ResourceKey<DamageType> MEGA_MUSHROOM =
-            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mega_mushroom"));
-    public static final ResourceKey<DamageType> PLAYER_MEGA_MUSHROOM =
-            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_mega_mushroom"));
+    public static final ResourceKey<DamageType> MEGA_MUSHROOM_SQUASH =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mega_mushroom_squash"));
+    public static final ResourceKey<DamageType> PLAYER_MEGA_MUSHROOM_SQUASH =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_mega_mushroom_squash"));
 
     public static final ResourceKey<DamageType> MINI_GOOMBA_DEFEATED =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_defeated"));
@@ -113,9 +113,9 @@ public class DamageTypeRegistry extends DamageSources {
         context.register(LIGHT, new DamageType(Marioverse.MOD_ID + ".light",
                 DamageScaling.ALWAYS, 0.0F, DamageEffects.HURT));
 
-        context.register(MEGA_MUSHROOM, new DamageType(Marioverse.MOD_ID + ".mega_mushroom",
+        context.register(MEGA_MUSHROOM_SQUASH, new DamageType(Marioverse.MOD_ID + ".mega_mushroom",
                 DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.0F, DamageEffects.HURT));
-        context.register(PLAYER_MEGA_MUSHROOM, new DamageType(Marioverse.MOD_ID + ".mega_mushroom.player",
+        context.register(PLAYER_MEGA_MUSHROOM_SQUASH, new DamageType(Marioverse.MOD_ID + ".mega_mushroom.player",
                 DamageScaling.ALWAYS, 0.0F, DamageEffects.HURT));
 
         context.register(MINI_GOOMBA_DEFEATED, new DamageType(Marioverse.MOD_ID + ".mini_goomba_defeated",

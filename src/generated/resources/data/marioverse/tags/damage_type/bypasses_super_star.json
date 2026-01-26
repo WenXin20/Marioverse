@@ -1,6 +1,14 @@
 {
   "values": [
     "#minecraft:bypasses_invulnerability",
+    "minecraft:player_attack",
+    "minecraft:drown",
+    "minecraft:fly_into_wall",
+    "minecraft:lava",
+    "minecraft:outside_border",
+    "minecraft:sonic_boom",
+    "minecraft:starve",
+    "#minecraft:bypasses_invulnerability",
     "minecraft:drown",
     "minecraft:fly_into_wall",
     "minecraft:lava",

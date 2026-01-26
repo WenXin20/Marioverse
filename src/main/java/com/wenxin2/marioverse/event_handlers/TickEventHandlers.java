@@ -102,7 +102,7 @@ public class TickEventHandlers {
 
                     if (hasNoArmor && attackingEntity.getType().is(TagRegistry.MEGA_MUSHROOM_CAN_INSTAKILL))
                         collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity), collidedLivingEntity.getHealth());
-                    else collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
+                    else collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity), ConfigRegistry.MEGA_MUSHROOM_DAMAGE.get().floatValue());
 
                     if (attackingEntity instanceof NeutralMob neutralMob) {
                         neutralMob.isAngryAt(livingEntity);

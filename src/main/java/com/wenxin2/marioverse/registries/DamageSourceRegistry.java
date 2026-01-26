@@ -64,9 +64,9 @@ public class DamageSourceRegistry {
 
     public static DamageSource megaMushroom(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
         if (damagedEntity != null && attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.PLAYER_MEGA_MUSHROOM), damagedEntity, attackingEntity);
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.PLAYER_MEGA_MUSHROOM_SQUASH), damagedEntity, attackingEntity);
         } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.MEGA_MUSHROOM), null, attackingEntity);
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.MEGA_MUSHROOM_SQUASH), null, attackingEntity);
         } else return null;
     }
 

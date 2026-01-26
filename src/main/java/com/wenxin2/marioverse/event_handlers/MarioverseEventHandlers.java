@@ -289,7 +289,7 @@ public class MarioverseEventHandlers {
             }
 
             if (event.getEntity().getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
-                if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR)) // TODO
+                if (!source.is(TagRegistry.BYPASSES_MEGA_MUSHROOM) && !source.is(TagRegistry.IS_MEGA_MUSHROOM_SQUASH)) // TODO
                     event.setCanceled(true);
             }
 

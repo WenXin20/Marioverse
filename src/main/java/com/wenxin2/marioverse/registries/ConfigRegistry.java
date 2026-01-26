@@ -165,6 +165,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
     public static ModConfigSpec.DoubleValue IRON_SPIKE_DAMAGE;
+    public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_DAMAGE;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_HEALTH;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_HEALTH;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
@@ -897,11 +898,16 @@ public class ConfigRegistry {
                             .comment("§9[Default: true]")
                             .define("mega_mushroom_breaks_blocks", true);
                     MEGA_MUSHROOM_HEALTH = BUILDER.translation("configuration.marioverse.mega_mushroom_health")
-                            .comment("Additional health MEga Mushrooms sets your max hearts to.§b")
+                            .comment("Additional health Mega Mushrooms sets your max hearts to.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("mega_mushroom_health", 20.0F, 1.0F, 100.0F);
+                    MEGA_MUSHROOM_DAMAGE = BUILDER.translation("configuration.marioverse.mega_mushroom_damage")
+                            .comment("Amount of damage Mega Mushrooms causes.")
+                            .comment("§6[1 point = 1/2 Heart]")
+                            .comment("§9[Default: 20]§b")
+                            .defineInRange("mega_mushroom_damage", 20, 0.0, Float.MAX_VALUE);
                     MEGA_MUSHROOM_DURATION = BUILDER.translation("configuration.marioverse.mega_mushroom_duration")
-                            .comment("Duration until the Mega Mushroom runs out.")
+                            .comment("Duration until Mega Mushrooms runs out.")
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 300]§b")
                             .defineInRange("mega_mushroom_duration", 300, 1, 72000);
