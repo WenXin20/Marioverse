@@ -89,6 +89,11 @@ public class TickEventHandlers {
                     if (attackingEntity.isSpectator() || !collidedEntity.isAlive()
                             || collidedEntity.getType().is(TagRegistry.MEGA_MUSHROOM_CANNOT_DAMAGE))
                         continue;
+                    if (attackingEntity.getVehicle() == collidedEntity
+                            || collidedEntity.getVehicle() == attackingEntity
+                            || attackingEntity.isPassengerOfSameVehicle(collidedEntity)) {
+                        continue;
+                    }
 
                     Vec3 knockbackDirection = attackingEntity.position().subtract(attackingEntity.position()).normalize();
                     double knockbackStrength = 5.0;
