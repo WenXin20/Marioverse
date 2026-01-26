@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-25T22:38:46.7474188	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-01-26T00:18:18.3564845	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 8af1dce4fda0e4688dffa31e7838e65be06b926f data/create/tags/block/movable_empty_collider.json
@@ -49,8 +49,8 @@ eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/block/flammable_wo
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_ball_extinguishes.json
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_cube_extinguishes.json
 63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/block/invisible_question_blocks.json
-b2e3ae7695d92738e57d265b59288c9fa132d0ee data/marioverse/tags/block/mega_mushroom_can_break.json
-c3d7595e82588b9cea5725ac3635288c87eda7f9 data/marioverse/tags/block/mega_mushroom_can_break_when_falling.json
+5b56d9fbd72dea0b67f73dbbfca705f20b4681c7 data/marioverse/tags/block/mega_mushroom_can_break.json
+11bcfbe303c6dc312dda58598be28d186e443594 data/marioverse/tags/block/mega_mushroom_can_break_when_falling.json
 e6a968de6c4bf32c65f2aaf5943a8af49adefda7 data/marioverse/tags/block/melts.json
 5deb9af770fdad544511740089e3a3075ff82b32 data/marioverse/tags/block/melts_ice_cube.json
 4342dbe120758da700a1d9f914789a75c43c98e9 data/marioverse/tags/block/melts_into_ice.json
