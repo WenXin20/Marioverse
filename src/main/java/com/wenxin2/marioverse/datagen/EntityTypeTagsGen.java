@@ -695,6 +695,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
 
+        tag(TagRegistry.MEGA_MUSHROOM_CANNOT_DAMAGE)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
+
         tag(TagRegistry.MEGA_MUSHROOM_CAN_INSTAKILL)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)

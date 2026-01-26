@@ -83,10 +83,12 @@ public class TickEventHandlers {
                     if (!(attackingEntity instanceof LivingEntity livingEntity))
                         return;
                     if (!(collidedEntity instanceof LivingEntity collidedLivingEntity))
+                        continue;
+                    if (attackingEntity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) > 0)
                         return;
-                    if (attackingEntity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) > 0
-                            || attackingEntity.isSpectator() || !collidedEntity.isAlive())
-                        return;
+                    if (attackingEntity.isSpectator() || !collidedEntity.isAlive()
+                            || collidedEntity.getType().is(TagRegistry.MEGA_MUSHROOM_CANNOT_DAMAGE))
+                        continue;
 
                     Vec3 knockbackDirection = attackingEntity.position().subtract(attackingEntity.position()).normalize();
                     double knockbackStrength = 5.0;
