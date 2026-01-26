@@ -55,8 +55,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface AbilitiesHandler extends CostumeHandler {
-    void mv$clearAllPowerUps();
-
     boolean mv$hasSuperMushroom();
     void mv$setSuperMushroom(boolean hasSuperMushroom);
 
@@ -109,6 +107,11 @@ public interface AbilitiesHandler extends CostumeHandler {
         if (entity instanceof Player)
             return ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get();
         else return ConfigRegistry.EQUIP_COSTUMES_MOBS.get();
+    }
+
+    default void mv$clearAllPowerUps() {
+        this.mv$setFireFlower(false);
+        this.mv$setIceFlower(false);
     }
 
     default void applySuperMushroomPowerUp(Level world, LivingEntity entity, @Nullable SuperMushroomEntity powerUp, float healthHealed) {
