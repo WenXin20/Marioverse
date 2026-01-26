@@ -2,13 +2,18 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,11 +33,18 @@ public class TickEventHandlers {
             return;
 
         if (!entity.level().isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
-                && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
-                && entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
-                && ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get()) {
-            TickEventHandlers.breakBlocks(entity);
+                && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
+            if (entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
+                    && ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get())
+                TickEventHandlers.breakBlocks(entity);
+            TickEventHandlers.collideWithEntity(entity);
         }
+
+        if (entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) == 0)
+            entity.removeData(DataAttachmentRegistry.ATTACK_COOLDOWN);
+
+        if (entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) > 0)
+            entity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) - 1);
     }
 
     @SubscribeEvent
@@ -58,6 +70,51 @@ public class TickEventHandlers {
                 entity.setDeltaMovement(motion.x, 0.0D, motion.z);
             entity.setOnGround(true);
             entity.fallDistance = 0.0F;
+        }
+    }
+
+    public static void collideWithEntity(Entity attackingEntity) {
+        AABB boundingBox = attackingEntity.getBoundingBox().inflate(0.15);
+        List<Entity> entities = attackingEntity.level().getEntities(attackingEntity, boundingBox, entityList -> entityList != attackingEntity);
+
+        if (!entities.isEmpty()) {
+            for (Entity collidedEntity : entities) {
+                if (!collidedEntity.level().isClientSide) {
+                    if (!(attackingEntity instanceof LivingEntity livingEntity))
+                        return;
+                    if (!(collidedEntity instanceof LivingEntity collidedLivingEntity))
+                        return;
+                    if (attackingEntity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) > 0
+                            || attackingEntity.isSpectator() || !collidedEntity.isAlive())
+                        return;
+
+                    Vec3 knockbackDirection = attackingEntity.position().subtract(attackingEntity.position()).normalize();
+                    double knockbackStrength = 5.0;
+                    Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
+
+                    boolean hasNoArmor = true;
+                    for (ItemStack armorSlot : collidedLivingEntity.getArmorSlots()) {
+                        if (!armorSlot.isEmpty()) {
+                            hasNoArmor = false;
+                            break;
+                        }
+                    }
+
+                    if (hasNoArmor && attackingEntity.getType().is(TagRegistry.MEGA_MUSHROOM_CAN_INSTAKILL))
+                        collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity), collidedLivingEntity.getHealth());
+                    else collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
+
+                    if (attackingEntity instanceof NeutralMob neutralMob) {
+                        neutralMob.isAngryAt(livingEntity);
+                        neutralMob.setTarget(livingEntity);
+                        neutralMob.setPersistentAngerTarget(attackingEntity.getUUID());
+                    }
+
+                    collidedEntity.setDeltaMovement(knockbackVelocity);
+                    attackingEntity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, 20);
+                }
+                break;
+            }
         }
     }
 

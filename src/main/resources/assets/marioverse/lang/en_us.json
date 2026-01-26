@@ -975,6 +975,8 @@
   "death.attack.marioverse.large_snowball": "%1$s was steamrolled by a large snowball",
   "death.attack.marioverse.large_snowball.player": "%1$s was steamrolled by a large snowball shot by %2$s",
   "death.attack.marioverse.light": "%1$s was vaporized by light",
+  "death.attack.marioverse.mega_mushroom": "%1$s was squashed",
+  "death.attack.marioverse.mega_mushroom.player": "%1$s was squashed by a mega-sized %2$s",
   "death.attack.marioverse.mini_goomba_defeated": "%1$s was flung to death",
   "death.attack.marioverse.mini_goomba_defeated.player": "%1$s was flung to death by %2$s",
   "death.attack.marioverse.piranha_chomp": "%1$s was chomped on by Piranha Plant",
