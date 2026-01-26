@@ -27,7 +27,7 @@ public class TickEventHandlers {
                 && !entity.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING))
             return;
 
-        if (!entity.level().isClientSide && !entity.isSpectator()
+        if (!entity.level().isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                 && entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
                 && ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get()) {
