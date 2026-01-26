@@ -114,7 +114,7 @@ public class TickEventHandlers {
                 BlockPos posBelow = pos.below();
                 BlockState stateBelow = level.getBlockState(posBelow);
 
-                if (!stateBelow.isAir() && stateBelow.is(TagRegistry.MEGA_MUSHROOM_CAN_BREAK))
+                if (!stateBelow.isAir() && stateBelow.is(TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING))
                     level.destroyBlock(posBelow, true, entity);
             }
         }

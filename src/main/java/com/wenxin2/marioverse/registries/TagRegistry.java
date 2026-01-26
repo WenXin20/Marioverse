@@ -59,6 +59,7 @@ public class TagRegistry {
     public static final TagKey<Block> ICE_CUBE_EXTINGUISHES = blockTags("ice_cube_extinguishes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK = blockTags("mega_mushroom_can_break");
+    public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING = blockTags("mega_mushroom_can_break_when_falling");
     public static final TagKey<Block> MELTS = blockTags("melts");
     public static final TagKey<Block> MELTS_ICE_CUBE = blockTags("melts_ice_cube");
     public static final TagKey<Block> MELTS_INTO_ICE = blockTags("melts_into_ice");
