@@ -190,32 +190,6 @@ public class MarioverseEventHandlers {
     }
 
     @SubscribeEvent
-    public static void postEntityTick(EntityTickEvent.Post event) {
-        Entity entity = event.getEntity();
-        Level level = entity.level();
-        BlockPos pos = entity.blockPosition();
-        Vec3 motion = entity.getDeltaMovement();
-        int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
-
-        if (entity.isVehicle() && spinningTicks > 0) {
-            entity.setYRot(entity.getYRot() + 30);
-            entity.getPersistentData().putInt("marioverse:spinning_ticks", spinningTicks - 1);
-
-            for (Entity rider : entity.getPassengers())
-                rider.setYHeadRot(rider.getYHeadRot() + 30);
-        }
-
-        if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
-                && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
-                && level.getFluidState(pos).is(FluidTags.WATER) && !level.getFluidState(pos.above()).is(FluidTags.WATER)) {
-            if (motion.y < 0)
-                entity.setDeltaMovement(motion.x, 0.0D, motion.z);
-            entity.setOnGround(true);
-            entity.fallDistance = 0.0F;
-        }
-    }
-
-    @SubscribeEvent
     public static void onEntityHeal(LivingHealEvent event) {
         Entity entity = event.getEntity();
 

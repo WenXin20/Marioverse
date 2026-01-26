@@ -200,6 +200,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_BE_INSTAKILL_STOMPED = entityTypeTags("can_be_instakill_stomped");
     public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags("can_be_stomped");
     public static final TagKey<EntityType<?>> CAN_BONK_BLOCKS = entityTypeTags("can_bonk_blocks");
+    public static final TagKey<EntityType<?>> CAN_BREAK_BLOCKS_AS_MEGA = entityTypeTags("can_break_blocks_as_mega");
     public static final TagKey<EntityType<?>> CAN_CLAIM_CHECKPOINT_FLAGS = entityTypeTags("can_claim_checkpoint_flags");
     public static final TagKey<EntityType<?>> CAN_COLLECT_COINS = entityTypeTags("can_collect_coins");
     public static final TagKey<EntityType<?>> CAN_COLLECT_STAR_COINS = entityTypeTags("can_collect_star_coins");

@@ -138,6 +138,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(GUARD_VILLAGER);
 
+        tag(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
+                .add(EntityType.PLAYER);
+
         tag(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
@@ -235,7 +238,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(HAT_STAND);
 
         tag(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS)
-                .add(EntityType.PLAYER);
+                .addTag(Tags.EntityTypes.BOSSES)
+                .add(EntityType.ELDER_GUARDIAN)
+                .add(EntityType.PLAYER)
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);;
 
         tag(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS)
                 .add(EntityType.PLAYER)

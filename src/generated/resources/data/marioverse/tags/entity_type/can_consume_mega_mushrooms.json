@@ -1,5 +1,11 @@
 {
   "values": [
-    "minecraft:player"
+    "#c:bosses",
+    "minecraft:elder_guardian",
+    "minecraft:player",
+    {
+      "id": "#twilightforest:bosses",
+      "required": false
+    }
   ]
 }

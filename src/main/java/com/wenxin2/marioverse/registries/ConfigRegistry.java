@@ -122,6 +122,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue FORCE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_BREAKS_BLOCKS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
     public static ModConfigSpec.BooleanValue MINI_MUSHROOM_POWERS_ALL_MOBS;
@@ -891,6 +892,10 @@ public class ConfigRegistry {
                             .comment("Allow Mega Mushrooms to power all mobs.")
                             .comment("§9[Default: false]")
                             .define("mega_mushroom_powers_all_mobs", false);
+                    MEGA_MUSHROOM_BREAKS_BLOCKS = BUILDER.translation("configuration.marioverse.mega_mushroom_breaks_blocks")
+                            .comment("Allow Mega Mushrooms users to break blocks.")
+                            .comment("§9[Default: true]")
+                            .define("mega_mushroom_breaks_blocks", true);
                     MEGA_MUSHROOM_HEALTH = BUILDER.translation("configuration.marioverse.mega_mushroom_health")
                             .comment("Additional health MEga Mushrooms sets your max hearts to.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")

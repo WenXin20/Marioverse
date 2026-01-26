@@ -1357,6 +1357,7 @@
   "configuration.marioverse.max_player_ice_balls": "Max Player Ice Balls",
   "configuration.marioverse.max_pokey_height": "Max Height",
   "configuration.marioverse.max_snow_pokey_height": "Max Height",
+  "configuration.marioverse.mega_mushroom_breaks_blocks": "Break Blocks",
   "configuration.marioverse.mega_mushroom_duration": "Mega Mushroom Duration",
   "configuration.marioverse.mega_mushroom_health": "Additional Health",
   "configuration.marioverse.mega_mushroom_powers_all_mobs": "Powers All Mobs",

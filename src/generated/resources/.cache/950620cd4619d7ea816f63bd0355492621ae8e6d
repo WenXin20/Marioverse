@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-24T20:52:40.3309665	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-01-25T19:34:08.6050063	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
@@ -9,12 +9,13 @@ dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/cannot
 8f6e13d5a2eee7c7fee3711e56102c51d23f46bf data/marioverse/tags/entity_type/can_be_instakill_stomped.json
 272aad546b77e5035b5c5fab20daa73ae2f25d36 data/marioverse/tags/entity_type/can_be_stomped.json
 545aac97a38ff6c405233fbb17d4ea33d610a861 data/marioverse/tags/entity_type/can_bonk_blocks.json
+6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_break_blocks_as_mega.json
 35be3414a9d660de98305b94c0568d090a77bd0d data/marioverse/tags/entity_type/can_claim_checkpoint_flags.json
 92033637b79b11d409a2e111df0289d7af78f3a4 data/marioverse/tags/entity_type/can_collect_coins.json
 92033637b79b11d409a2e111df0289d7af78f3a4 data/marioverse/tags/entity_type/can_collect_star_coins.json
 71a67f53f03235e22005423f3fe6781668e360a3 data/marioverse/tags/entity_type/can_consume_fire_flowers.json
 b4f218b11ee078ee1b724f7821b4c09de7f4218e data/marioverse/tags/entity_type/can_consume_ice_flowers.json
-6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_consume_mega_mushrooms.json
+c9f4414b5bbec274d3bb4145f75bca2de6c80a22 data/marioverse/tags/entity_type/can_consume_mega_mushrooms.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_consume_mini_mushrooms.json
 1b74541f2ea56b1b75a2f92664fc134fcf56ee71 data/marioverse/tags/entity_type/can_consume_one_ups.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_consume_super_mushrooms.json
