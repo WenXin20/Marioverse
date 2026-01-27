@@ -32,10 +32,9 @@ public class TickEventHandlers {
 
         if (!level.isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
-            if (entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
-                    && ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get()
-                    && (ConfigRegistry.MEGA_MOBS_BREAK_BLOCKS.get() || entity instanceof Player)
-                    && (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || entity instanceof Player))
+            if (ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get()
+                    && (ConfigRegistry.MEGA_MOBS_BREAK_BLOCKS.get() || entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))
+                    && (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || (entity instanceof Player && entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))))
                 TickEventHandlers.breakBlocks(entity);
             TickEventHandlers.collideWithEntity(entity);
         }
@@ -111,7 +110,7 @@ public class TickEventHandlers {
                         }
                     }
 
-                    if (ConfigRegistry.MEGA_MOBS_DO_DAMAGE.get() || attackingEntity instanceof Player) {
+                    if (ConfigRegistry.MEGA_MOBS_DO_DAMAGE.get() || attackingEntity.getType().is(TagRegistry.CAN_DO_DAMAGE_AS_MEGA)) {
                         if (hasNoArmor && attackingEntity.getType().is(TagRegistry.MEGA_MUSHROOM_CAN_INSTAKILL))
                             collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity),
                                     collidedLivingEntity.getHealth());

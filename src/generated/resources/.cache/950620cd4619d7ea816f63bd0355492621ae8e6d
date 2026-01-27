@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-27T12:56:17.5619845	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-01-27T14:07:27.8229776	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -21,6 +21,7 @@ aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_co
 1b74541f2ea56b1b75a2f92664fc134fcf56ee71 data/marioverse/tags/entity_type/can_consume_one_ups.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_consume_super_mushrooms.json
 c7fd1f8616fb56c8cae444c5d96893d90faad166 data/marioverse/tags/entity_type/can_consume_super_stars.json
+6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_do_damage_as_mega.json
 1ed1e67ddc03a36f0bbcd76b723fe6bf2411fd78 data/marioverse/tags/entity_type/can_hit_question_blocks.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_lower_flags.json
 bb5bd7b027d1bb8941ccc3f06f3627805426cc8c data/marioverse/tags/entity_type/can_pickup_and_throw_shells.json

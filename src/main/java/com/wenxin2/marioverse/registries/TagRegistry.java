@@ -215,6 +215,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_CONSUME_ONE_UPS = entityTypeTags("can_consume_one_ups");
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_MUSHROOMS = entityTypeTags("can_consume_super_mushrooms");
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_STARS = entityTypeTags("can_consume_super_stars");
+    public static final TagKey<EntityType<?>> CAN_DO_DAMAGE_AS_MEGA = entityTypeTags("can_do_damage_as_mega");
     public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS = entityTypeTags("can_hit_question_blocks");
     public static final TagKey<EntityType<?>> CAN_LOWER_FLAGS = entityTypeTags("can_lower_flags");
     public static final TagKey<EntityType<?>> CAN_PICKUP_AND_THROW_SHELLS = entityTypeTags("can_pickup_and_throw_shells");

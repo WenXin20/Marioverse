@@ -144,6 +144,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
                 .add(EntityType.PLAYER);
 
+        tag(TagRegistry.CAN_DO_DAMAGE_AS_MEGA)
+                .add(EntityType.PLAYER);
+
         tag(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
