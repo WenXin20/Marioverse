@@ -34,5 +34,26 @@ public class EntityRenderDispatcherMixin {
                 aabb.maxY + aabb.getYsize() * height,
                 aabb.maxZ + aabb.getZsize() * width / 2);
     }
+
+    @ModifyArgs(method = "renderHitbox", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/renderer/LevelRenderer;renderLineBox(" + "Lcom/mojang/blaze3d/vertex/PoseStack;"
+                    + "Lcom/mojang/blaze3d/vertex/VertexConsumer;" + "DDDDDDFFFF)V"))
+    private static void renderEyeHitbox(Args args, PoseStack poseStack, VertexConsumer buffer, Entity entity,
+                                        float tickDelta, float red, float green, float blue) {
+        if (!(entity instanceof LivingEntity livingEntity)) return;
+
+        double heightScale = livingEntity.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
+        double eyeHeightScale = livingEntity.getAttributeValue(AttributesRegistry.EYE_HEIGHT_SCALE);
+        if (heightScale == 1.0D && eyeHeightScale == 1.0D)
+            return;
+
+        double minY = args.get(3);
+        double maxY = args.get(6);
+
+        double thickness = (maxY - minY) * 0.5;
+        double eyeY = minY + (heightScale * eyeHeightScale);
+
+        args.set(3, eyeY - thickness);
+        args.set(6, eyeY + thickness);
     }
 }
