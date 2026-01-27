@@ -689,6 +689,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     private void mv$characterAbilities(LivingEntity entity) {
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
+        boolean isMega = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
         boolean isMini = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
         Vec3 motion = entity.getDeltaMovement();
         boolean hasCostume = this.mv$hasMarioCostume(entity)
@@ -713,6 +714,16 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 }
             }
 
+            if (isMega) {
+                if (hasCostume) {
+                    normalJumpBoost *= 0.8;
+                    runningJumpBoost *= 1.0;
+                } else {
+                    normalJumpBoost = 0.3;
+                    runningJumpBoost = 0.4;
+                }
+            }
+
             if (isMini) {
                 if (hasCostume) {
                     normalJumpBoost *= 1.2;
@@ -723,7 +734,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 }
             }
 
-            if (!entity.isShiftKeyDown() && (hasCostume || isMini)) {
+            if (!entity.isShiftKeyDown() && (hasCostume || isMini || isMega)) {
                 if (isRunning) {
                     mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost);
                     mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, 0);
@@ -740,14 +751,18 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (safeFallAttribute != null) {
             double safeFallDistance = 0;
 
-            if (isMini) {
+            if (isMega) {
+                if (hasCostume)
+                    safeFallDistance= 7;
+                else safeFallDistance = 4;
+            } else if (isMini) {
                 if (hasCostume)
                     safeFallDistance= 16;
                 else safeFallDistance = 14;
             } else if (hasCostume)
                 safeFallDistance= 7;
 
-            if (hasCostume || isMini)
+            if (hasCostume || isMega || isMini)
                 mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, safeFallDistance);
             else mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, 0);
         }
