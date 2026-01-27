@@ -18,7 +18,7 @@ public abstract class EntityRendererMixin<T extends Entity> {
             AttributeMap attributemap = livingEntity.getAttributes();
             float widthScale = (float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE);
 
-            if (widthScale != 1)
+            if (widthScale >= 1.5)
                 cir.setReturnValue(cir.getReturnValue() * widthScale / 2.25F);
         }
     }
