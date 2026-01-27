@@ -1,8 +1,8 @@
 {
   "values": [
     "#minecraft:bypasses_invulnerability",
+    "#minecraft:is_lightning",
     "minecraft:drown",
-    "minecraft:fly_into_wall",
     "minecraft:lava",
     "minecraft:outside_border",
     "minecraft:sonic_boom",

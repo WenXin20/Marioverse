@@ -38,9 +38,8 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
 
         tag(TagRegistry.BYPASSES_MEGA_MUSHROOM)
                 .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
-                .add(DamageTypes.PLAYER_ATTACK)
+                .addTag(DamageTypeTags.IS_LIGHTNING)
                 .add(DamageTypes.DROWN)
-                .add(DamageTypes.FLY_INTO_WALL)
                 .add(DamageTypes.LAVA)
                 .add(DamageTypes.OUTSIDE_BORDER)
                 .add(DamageTypes.SONIC_BOOM)
