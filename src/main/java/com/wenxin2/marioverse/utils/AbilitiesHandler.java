@@ -159,13 +159,14 @@ public interface AbilitiesHandler extends CostumeHandler {
                 AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
                 if (modifier != null && !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                     attribute.removeModifier(modifier);
-                if (modifier == null)
+                if (modifier == null && !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH))
                     attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
                             ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
             }
 
             if (!world.isClientSide) {
-                entity.heal(ConfigRegistry.MEGA_MUSHROOM_HEALTH.get().floatValue());
+                if (!entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH))
+                    entity.heal(ConfigRegistry.MEGA_MUSHROOM_HEALTH.get().floatValue());
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) // TODO
                     world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
             }
@@ -195,7 +196,7 @@ public interface AbilitiesHandler extends CostumeHandler {
                 AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
                 if (modifier != null && !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM))
                     attribute.removeModifier(modifier);
-                if (modifier == null)
+                if (modifier == null && !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH))
                     attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
                             -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(), AttributeModifier.Operation.ADD_VALUE));
             }

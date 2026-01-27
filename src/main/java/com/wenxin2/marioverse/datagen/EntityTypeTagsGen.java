@@ -86,6 +86,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
+        tag(TagRegistry.CANNOT_CHANGE_MAX_HEALTH)
+                .addOptional(TEST_DUMMY);
+
         tag(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
