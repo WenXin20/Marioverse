@@ -687,6 +687,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     private void mv$characterAbilities(LivingEntity entity) {
+        AttributeInstance blockReachAttribute = entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
+        AttributeInstance entityReachAttribute = entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
         boolean isMega = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
@@ -765,6 +767,32 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (hasCostume || isMega || isMini)
                 mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, safeFallDistance);
             else mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, 0);
+        }
+
+        if (blockReachAttribute != null) {
+            double reachDistance = 0;
+
+            if (isMega)
+                reachDistance = 3;
+            else if (isMini)
+                reachDistance = -1;
+
+            if (isMega || isMini)
+                mv$setModifier(blockReachAttribute, AttributesRegistry.BLOCK_REACH_DISTANCE, reachDistance);
+            else mv$setModifier(blockReachAttribute, AttributesRegistry.BLOCK_REACH_DISTANCE, 0);
+        }
+
+        if (entityReachAttribute != null) {
+            double reachDistance = 0;
+
+            if (isMega)
+                reachDistance = 3;
+            else if (isMini)
+                reachDistance = -1;
+
+            if (isMega || isMini)
+                mv$setModifier(entityReachAttribute, AttributesRegistry.ENTITY_REACH_DISTANCE, reachDistance);
+            else mv$setModifier(entityReachAttribute, AttributesRegistry.ENTITY_REACH_DISTANCE, 0);
         }
 
         if (this.mv$hasPeachCostume(entity)) {

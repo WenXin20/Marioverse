@@ -130,7 +130,7 @@ public class TickEventHandlers {
                     Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
 
                     collidedEntity.setDeltaMovement(knockbackVelocity);
-                    attackingEntity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, 5);
+                    attackingEntity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, 1);
                 }
                 break;
             }
