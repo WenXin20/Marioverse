@@ -91,8 +91,16 @@ public class TickEventHandlers {
                         continue;
                     if (attackingEntity.getVehicle() == collidedEntity
                             || collidedEntity.getVehicle() == attackingEntity
-                            || attackingEntity.isPassengerOfSameVehicle(collidedEntity)) {
+                            || attackingEntity.isPassengerOfSameVehicle(collidedEntity))
                         continue;
+                    if (attackingEntity.isPassenger()) {
+                        Entity vehicle = attackingEntity.getVehicle();
+                        if (vehicle != null) {
+                            Vec3 ridingPos = vehicle.getPassengerRidingPosition(attackingEntity);
+
+                            if (collidedLivingEntity.getBoundingBox().maxY <= ridingPos.y)
+                                continue;
+                        }
                     }
 
                     Vec3 knockbackDirection = attackingEntity.position().subtract(attackingEntity.position()).normalize();
@@ -168,6 +176,16 @@ public class TickEventHandlers {
             } else {
                 if (!state.is(TagRegistry.MEGA_MUSHROOM_CAN_BREAK))
                     continue;
+
+                if (entity.isPassenger()) {
+                    Entity vehicle = entity.getVehicle();
+                    if (vehicle != null) {
+                        Vec3 ridingPos = vehicle.getPassengerRidingPosition(entity);
+
+                        if (pos.getY() <= ridingPos.y)
+                            continue;
+                    }
+                }
             }
 
             level.destroyBlock(pos, true, entity);
