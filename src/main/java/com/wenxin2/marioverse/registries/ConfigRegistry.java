@@ -169,7 +169,9 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue IRON_SPIKE_DAMAGE;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_DAMAGE;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_HEALTH;
+    public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_REACH_DISTANCE;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_HEALTH;
+    public static ModConfigSpec.DoubleValue MINI_MUSHROOM_REACH_DISTANCE;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -816,21 +818,17 @@ public class ConfigRegistry {
                             .define("fire_flower_powers_all_mobs", false);
                     FIREBALL_COOLDOWN = BUILDER.translation("configuration.marioverse.fireball_cooldown")
                             .comment("Cooldown between max amount of fireballs shot.")
-                            .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 50]§b")
+                            .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("fireball_cooldown", 50, 1, 72000);
                     MAX_PLAYER_FIREBALLS = BUILDER.translation("configuration.marioverse.max_player_fireballs")
-                            .comment("Max amount of fireballs that can be shot before a cooldown for the player.")
-                            .comment("§9[Default: 2]§b")
+                            .comment("Max amount of fireballs that can be shot before a cooldown for the player.§b")
                             .defineInRange("max_player_fireballs", 2, 0, 100);
                     MAX_MOB_FIREBALLS = BUILDER.translation("configuration.marioverse.max_mob_fireballs")
-                            .comment("Base amount of fireballs that can be shot before a cooldown for mobs.")
-                            .comment("§9[Default: 2]§b")
+                            .comment("Base amount of fireballs that can be shot before a cooldown for mobs.§b")
                             .defineInRange("max_mob_fireballs", 2, 0, 100);
                     FIREBALL_DAMAGE = BUILDER.translation("configuration.marioverse.fireball_damage")
                             .comment("Amount of damage fireballs cause.")
-                            .comment("§6[1 point = 1/2 Heart]")
-                            .comment("§9[Default: 4.0]§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("fireball_damage", 4.0, 0.0, 16.0);
                 BUILDER.pop();
 
@@ -841,16 +839,13 @@ public class ConfigRegistry {
                             .define("ice_flower_powers_all_mobs", false);
                     ICE_BALL_COOLDOWN = BUILDER.translation("configuration.marioverse.ice_ball_cooldown")
                             .comment("Cooldown between max amount of ice_balls shot.")
-                            .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 50]§b")
+                            .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("ice_ball_cooldown", 50, 1, 72000);
                     MAX_ICE_BALL_BOUNCES = BUILDER.translation("configuration.marioverse.max_ice_ball_bounces")
-                            .comment("Max amount that ice_balls can bounce before disintegrating.")
-                            .comment("§9[Default: 1]§b")
+                            .comment("Max amount that ice_balls can bounce before disintegrating.§b")
                             .defineInRange("max_ice_ball_bounces", 1, 0, 100);
                     MAX_PLAYER_ICE_BALLS = BUILDER.translation("configuration.marioverse.max_player_ice_balls")
-                            .comment("Max amount of ice_balls that can be shot before a cooldown for the player.")
-                            .comment("§9[Default: 2]§b")
+                            .comment("Max amount of ice_balls that can be shot before a cooldown for the player.§b")
                             .defineInRange("max_player_ice_balls", 2, 0, 100);
                     MAX_MOB_ICE_BALLS = BUILDER.translation("configuration.marioverse.max_mob_ice_balls")
                             .comment("Base amount of ice_balls that can be shot before a cooldown for mobs.")
@@ -858,18 +853,15 @@ public class ConfigRegistry {
                             .defineInRange("max_mob_ice_balls", 2, 0, 100);
                     ICE_BALL_DAMAGE = BUILDER.translation("configuration.marioverse.ice_ball_damage")
                             .comment("Amount of damage ice balls cause.")
-                            .comment("§6[1 point = 1/2 Heart]")
-                            .comment("§9[Default: 2.0]§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("ice_ball_damage", 2.0, 0.0, 16.0);
                     ICE_CUBE_LIFESPAN = BUILDER.translation("configuration.marioverse.ice_cube_lifespan")
                             .comment("Lifespan of ice cubes before it shatters in ticks.")
-                            .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 500]§b")
+                            .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("ice_cube_lifespan", 500, 0, 72000);
                     ICE_CUBE_DAMAGE = BUILDER.translation("configuration.marioverse.ice_cube_damage")
                             .comment("Amount of damage ice cubes cause when crushing mobs.")
-                            .comment("§6[1 point = 1/2 Heart]")
-                            .comment("§9[Default: 2.0]§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("ice_cube_damage", 5.0, 0.0, 32.0);
                     ICE_CUBE_FREEZE_DURATION = BUILDER.translation("configuration.marioverse.ice_cube_freeze_duration")
                             .comment("Duration mobs experience the freeze effect in ticks.")
@@ -899,20 +891,21 @@ public class ConfigRegistry {
                             .comment("Allow Mega Mushrooms users to break blocks.")
                             .comment("§9[Default: true]")
                             .define("mega_mushroom_breaks_blocks", true);
+                    MEGA_MUSHROOM_DURATION = BUILDER.translation("configuration.marioverse.mega_mushroom_duration")
+                            .comment("Duration until Mega Mushrooms runs out.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("mega_mushroom_duration", 600, 1, 72000);
                     MEGA_MUSHROOM_HEALTH = BUILDER.translation("configuration.marioverse.mega_mushroom_health")
                             .comment("Additional health Mega Mushrooms sets your max hearts to.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("mega_mushroom_health", 20.0F, 1.0F, 100.0F);
                     MEGA_MUSHROOM_DAMAGE = BUILDER.translation("configuration.marioverse.mega_mushroom_damage")
                             .comment("Amount of damage Mega Mushrooms causes.")
-                            .comment("§6[1 point = 1/2 Heart]")
-                            .comment("§9[Default: 20]§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("mega_mushroom_damage", 20, 0.0, Float.MAX_VALUE);
-                    MEGA_MUSHROOM_DURATION = BUILDER.translation("configuration.marioverse.mega_mushroom_duration")
-                            .comment("Duration until Mega Mushrooms runs out.")
-                            .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 300]§b")
-                            .defineInRange("mega_mushroom_duration", 300, 1, 72000);
+                    MEGA_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mega_mushroom_reach_distance")
+                            .comment("Additional reach distance Mega Mushrooms provide on top of the normal reach distance.§b")
+                            .defineInRange("mega_mushroom_reach_distance", 3.0, -5.0, 20.0);
                     MEGA_MOBS_BREAK_BLOCKS = BUILDER.translation("configuration.marioverse.mega_mobs_break_blocks")
                             .comment("Allow mega-sized mobs to break blocks.")
                             .comment("§9[Default: false]")
@@ -932,6 +925,9 @@ public class ConfigRegistry {
                             .comment("Amount of health Mini Mushrooms sets your max hearts to.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("mini_mushroom_health", 2.0F, 1.0F, 40.0F);
+                    MINI_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mini_mushroom_reach_distance")
+                            .comment("Additional reach distance Mini Mushrooms provide on top of the normal reach distance.§b")
+                            .defineInRange("mini_mushroom_reach_distance", -1.0, -5.0, 20.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SUPER_MUSHROOM);
@@ -947,8 +943,7 @@ public class ConfigRegistry {
 
                 BUILDER.push(CATEGORY_ONE_UP);
                     ONE_UP_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.one_up_health_healed")
-                            .comment("Amount of health 1-Up Mushrooms heals.")
-                            .comment("§9[Default: 8.0F]§b")
+                            .comment("Amount of health 1-Up Mushrooms heals.§b")
                             .defineInRange("one_up_health_healed", 9.0F, 0.0F, 100.0F);
                     ONE_UP_HEALS_ALL_MOBS = BUILDER.translation("configuration.marioverse.one_up_heals_mobs")
                             .comment("Allow 1-Ups to heal all mobs.")
@@ -963,18 +958,15 @@ public class ConfigRegistry {
                             .define("super_star_powers_all_mobs", false);
                     SUPER_STAR_DURATION = BUILDER.translation("configuration.marioverse.super_star_duration")
                             .comment("Duration until the Super Star runs out.")
-                            .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 300]§b")
+                            .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("super_star_duration", 300, 1, 72000);
                     SUPER_STAR_SPEED_DURATION = BUILDER.translation("configuration.marioverse.super_star_speed_duration")
                             .comment("Duration until the speed effect runs out.")
-                            .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 300]§b")
+                            .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("super_star_speed_duration", 300, 1, 72000);
                     SUPER_STAR_DAMAGE = BUILDER.translation("configuration.marioverse.super_star_damage")
                             .comment("Amount of damage super star causes.")
-                            .comment("§6[1 point = 1/2 Heart]")
-                            .comment("§9[Default: 1000]§b")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("super_star_damage", 1000, 0.0, Float.MAX_VALUE);
                 BUILDER.pop();
 

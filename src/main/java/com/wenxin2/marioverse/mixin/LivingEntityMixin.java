@@ -773,9 +773,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             double reachDistance = 0;
 
             if (isMega)
-                reachDistance = 3;
+                reachDistance = ConfigRegistry.MEGA_MUSHROOM_REACH_DISTANCE.get();
             else if (isMini)
-                reachDistance = -1;
+                reachDistance = ConfigRegistry.MINI_MUSHROOM_REACH_DISTANCE.get();
 
             if (isMega || isMini)
                 mv$setModifier(blockReachAttribute, AttributesRegistry.BLOCK_REACH_DISTANCE, reachDistance);
@@ -786,9 +786,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             double reachDistance = 0;
 
             if (isMega)
-                reachDistance = 3;
+                reachDistance = ConfigRegistry.MEGA_MUSHROOM_REACH_DISTANCE.get();
             else if (isMini)
-                reachDistance = -1;
+                reachDistance = ConfigRegistry.MINI_MUSHROOM_REACH_DISTANCE.get();
 
             if (isMega || isMini)
                 mv$setModifier(entityReachAttribute, AttributesRegistry.ENTITY_REACH_DISTANCE, reachDistance);
