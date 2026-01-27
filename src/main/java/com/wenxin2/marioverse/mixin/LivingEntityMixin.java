@@ -48,6 +48,8 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
+import net.minecraft.world.entity.EntityAttachments;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -361,12 +363,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
-    }
-
-    @Override
-    public void mv$clearAllPowerUps() {
-        mv$setFireFlower(false);
-        mv$setIceFlower(false);
     }
 
     @Override
@@ -948,31 +944,20 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float heightScale = this.mv$getHeightScale();
         float widthScale = this.mv$getWidthScale();
 
-        if (pose == Pose.SLEEPING)
-            return original;
-
         return EntityDimensions.scalable(original.width()  * widthScale, original.height() * heightScale)
-                .withEyeHeight(original.eyeHeight() * eyeScale);
+                .withEyeHeight(original.eyeHeight() * eyeScale)
+                .withAttachments(EntityAttachments.builder().attach(EntityAttachment.VEHICLE,
+                        new Vec3(0.0, 0.6 * heightScale, 0.0)));
     }
 
-//    @Inject(method = "getPassengerRidingPosition", at = @At("TAIL"), cancellable = true)
-//    private void getPassengerRidingPosition(Entity entity, CallbackInfoReturnable<Vec3> cir) {
-//        if (entity instanceof LivingEntity livingEntity)
-//            cir.setReturnValue(cir.getReturnValue().add(this.getPassengerAttachmentPoint(entity, entity
-//                    .getDimensions(entity.getPose()), this.getHeightScale() * livingEntity.getAgeScale())));
-//    }
-
-    @Unique
-    private static final ResourceLocation SLOWDOWN_MODIFIER =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
     @Inject(method = "jumpFromGround", at = @At("HEAD"))
     private void jumpFromGround(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         // Remove the speed modifier when the entity jumps
         AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER))
-            speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
+        if (speedAttribute != null && speedAttribute.hasModifier(AttributesRegistry.MINI_GOOMBA_SLOWDOWN))
+            speedAttribute.removeModifier(AttributesRegistry.MINI_GOOMBA_SLOWDOWN);
     }
 
     @Inject(method = "canFreeze", at = @At("HEAD"), cancellable = true)
@@ -1172,7 +1157,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (Math.abs(actualScale - targetScale) < 0.0001)
                 lerpedScale = targetScale;
 
-            if (scaleAttribute.hasModifier(modifier) && (Math.abs(modifierAmount) < 0.0001 || targetScale == 1.0D))
+            if (scaleAttribute.hasModifier(modifier) && (Math.abs(modifierAmount) < 0.001 || targetScale == 1.0D))
                 scaleAttribute.removeModifier(modifier);
 
             if (lerpedScale != targetScale) {
