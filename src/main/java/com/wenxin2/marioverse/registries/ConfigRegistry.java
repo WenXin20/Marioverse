@@ -905,7 +905,7 @@ public class ConfigRegistry {
                             .defineInRange("mega_mushroom_damage", 20, 0.0, Float.MAX_VALUE);
                     MEGA_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mega_mushroom_reach_distance")
                             .comment("Additional reach distance Mega Mushrooms provide on top of the normal reach distance.§b")
-                            .defineInRange("mega_mushroom_reach_distance", 3.0, -5.0, 20.0);
+                            .defineInRange("mega_mushroom_reach_distance", 3.0, -4.0, 20.0);
                     MEGA_MOBS_BREAK_BLOCKS = BUILDER.translation("configuration.marioverse.mega_mobs_break_blocks")
                             .comment("Allow mega-sized mobs to break blocks.")
                             .comment("§9[Default: false]")
@@ -927,7 +927,7 @@ public class ConfigRegistry {
                             .defineInRange("mini_mushroom_health", 2.0F, 1.0F, 40.0F);
                     MINI_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mini_mushroom_reach_distance")
                             .comment("Additional reach distance Mini Mushrooms provide on top of the normal reach distance.§b")
-                            .defineInRange("mini_mushroom_reach_distance", -1.0, -5.0, 20.0);
+                            .defineInRange("mini_mushroom_reach_distance", -1.0, -4.0, 20.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SUPER_MUSHROOM);
