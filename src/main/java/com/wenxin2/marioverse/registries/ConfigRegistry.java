@@ -121,6 +121,8 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue FORCE_CHRISTMAS_HATS;
     public static ModConfigSpec.BooleanValue FORCE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue MEGA_MOBS_BREAK_BLOCKS;
+    public static ModConfigSpec.BooleanValue MEGA_MOBS_DO_DAMAGE;
     public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_BREAKS_BLOCKS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
@@ -911,6 +913,14 @@ public class ConfigRegistry {
                             .comment("§6[20 ticks = 1 second]")
                             .comment("§9[Default: 300]§b")
                             .defineInRange("mega_mushroom_duration", 300, 1, 72000);
+                    MEGA_MOBS_BREAK_BLOCKS = BUILDER.translation("configuration.marioverse.mega_mobs_break_blocks")
+                            .comment("Allow mega-sized mobs to break blocks.")
+                            .comment("§9[Default: false]")
+                            .define("mega_mobs_break_blocks", false);
+                    MEGA_MOBS_DO_DAMAGE = BUILDER.translation("configuration.marioverse.mega_mobs_do_damage")
+                            .comment("Allow mega-sized mobs to damage other mobs.")
+                            .comment("§9[Default: true]")
+                            .define("mega_mobs_do_damage", true);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MINI_MUSHROOM);

@@ -28,14 +28,14 @@ public class TickEventHandlers {
     @SubscribeEvent
     public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
-        if (!(entity instanceof Player)
-                && !entity.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING))
-            return;
+        Level level = entity.level();
 
-        if (!entity.level().isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
+        if (!level.isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
             if (entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
-                    && ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get())
+                    && ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get()
+                    && (ConfigRegistry.MEGA_MOBS_BREAK_BLOCKS.get() || entity instanceof Player)
+                    && (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || entity instanceof Player))
                 TickEventHandlers.breakBlocks(entity);
             TickEventHandlers.collideWithEntity(entity);
         }
@@ -103,10 +103,6 @@ public class TickEventHandlers {
                         }
                     }
 
-                    Vec3 knockbackDirection = attackingEntity.position().subtract(attackingEntity.position()).normalize();
-                    double knockbackStrength = 5.0;
-                    Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
-
                     boolean hasNoArmor = true;
                     for (ItemStack armorSlot : collidedLivingEntity.getArmorSlots()) {
                         if (!armorSlot.isEmpty()) {
@@ -115,9 +111,13 @@ public class TickEventHandlers {
                         }
                     }
 
-                    if (hasNoArmor && attackingEntity.getType().is(TagRegistry.MEGA_MUSHROOM_CAN_INSTAKILL))
-                        collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity), collidedLivingEntity.getHealth());
-                    else collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity), ConfigRegistry.MEGA_MUSHROOM_DAMAGE.get().floatValue());
+                    if (ConfigRegistry.MEGA_MOBS_DO_DAMAGE.get() || attackingEntity instanceof Player) {
+                        if (hasNoArmor && attackingEntity.getType().is(TagRegistry.MEGA_MUSHROOM_CAN_INSTAKILL))
+                            collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity),
+                                    collidedLivingEntity.getHealth());
+                        else collidedEntity.hurt(DamageSourceRegistry.megaMushroom(collidedLivingEntity, attackingEntity),
+                                    ConfigRegistry.MEGA_MUSHROOM_DAMAGE.get().floatValue());
+                    }
 
                     if (attackingEntity instanceof NeutralMob neutralMob) {
                         neutralMob.isAngryAt(livingEntity);
@@ -125,8 +125,12 @@ public class TickEventHandlers {
                         neutralMob.setPersistentAngerTarget(attackingEntity.getUUID());
                     }
 
+                    double knockbackStrength = 3.0;
+                    Vec3 knockbackDirection = collidedEntity.position().subtract(attackingEntity.position()).normalize();
+                    Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
+
                     collidedEntity.setDeltaMovement(knockbackVelocity);
-                    attackingEntity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, 20);
+                    attackingEntity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, 5);
                 }
                 break;
             }
