@@ -19,7 +19,7 @@ public abstract class EntityRendererMixin<T extends Entity> {
             float widthScale = (float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE);
 
             if (widthScale != 1)
-                cir.setReturnValue(cir.getReturnValue() * widthScale / 1.25F);
+                cir.setReturnValue(cir.getReturnValue() * widthScale / 2.25F);
         }
     }
 }
