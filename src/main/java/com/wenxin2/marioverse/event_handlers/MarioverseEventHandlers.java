@@ -289,7 +289,7 @@ public class MarioverseEventHandlers {
             }
 
             if (event.getEntity().getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
-                if (!source.is(TagRegistry.BYPASSES_MEGA_MUSHROOM) && !source.is(TagRegistry.IS_MEGA_MUSHROOM_SQUASH)) // TODO
+                if (!source.is(TagRegistry.BYPASSES_MEGA_MUSHROOM) && !source.is(TagRegistry.IS_MEGA_MUSHROOM_SQUASH))
                     event.setCanceled(true);
             }
 
@@ -321,16 +321,6 @@ public class MarioverseEventHandlers {
             if (event.getEntity().getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.POWER_UP_COSTUMES))
                 event.getEntity().getItemBySlot(EquipmentSlot.FEET).shrink(1);
         }
-
-//        if (tag.getBoolean("marioverse:has_mega_mushroom")) {
-//            tag.putBoolean("marioverse:has_mega_mushroom", false);
-//            ScaleTypes.WIDTH.getScaleData(event.getEntity()).setTargetScale(1.0F);
-//            ScaleTypes.HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
-//            ScaleTypes.JUMP_HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
-//            ScaleTypes.STEP_HEIGHT.getScaleData(event.getEntity()).setTargetScale(1.0F);
-//            ScaleTypes.REACH.getScaleData(event.getEntity()).setTargetScale(1.0F);
-//            ScaleTypes.ATTACK.getScaleData(event.getEntity()).setTargetScale(1.0F);
-//        }
     }
 
     public static void onDeath(LivingDeathEvent event) {
