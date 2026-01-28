@@ -84,6 +84,8 @@
   "block.pipe_warps": { "category": "block", "sounds": [{ "name": "marioverse:block/pipe_warps", "volume": 0.8 }],
     "subtitle": "subtitles.marioverse.block.pipe_warps" },
 
+  "block.mega_mushroom_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/mega_mushroom_spawns" }],
+    "subtitle": "subtitles.marioverse.block.mega_mushroom_spawns" },
   "block.power_up_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
     "subtitle": "subtitles.marioverse.block.power_up_spawns" },
 
@@ -303,6 +305,8 @@
     "subtitle": "subtitles.marioverse.entity.one_up_collected" },
   "entity.powers_up": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/powers_up" }],
     "subtitle": "subtitles.marioverse.entity.powers_up" },
+  "entity.powers_up_mega_mushroom": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/powers_up_mega_mushroom" }],
+    "subtitle": "subtitles.marioverse.entity.powers_up_mega_mushroom" },
   "entity.powers_up_mini_mushroom": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/powers_up_mini_mushroom" }],
     "subtitle": "subtitles.marioverse.entity.powers_up_mini_mushroom" },
   "entity.powers_up_super_star": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/powers_up_super_star" }],

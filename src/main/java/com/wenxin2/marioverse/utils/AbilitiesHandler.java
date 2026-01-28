@@ -167,8 +167,8 @@ public interface AbilitiesHandler extends CostumeHandler {
             if (!world.isClientSide) {
                 if (!entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH))
                     entity.heal(ConfigRegistry.MEGA_MUSHROOM_HEALTH.get().floatValue());
-                if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) // TODO
-                    world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
+                if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS))
+                    world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MEGA_MUSHROOM.get(), SoundSource.AMBIENT);
             }
             if (powerUp != null)
                 powerUp.remove(Entity.RemovalReason.DISCARDED);

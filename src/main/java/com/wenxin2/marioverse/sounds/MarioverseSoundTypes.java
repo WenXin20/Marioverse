@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -45,6 +46,8 @@ public class MarioverseSoundTypes {
             world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof ArmorStandItem)
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.is(ItemRegistry.MEGA_MUSHROOM))
+            world.playSound(null, pos, SoundRegistry.MEGA_MUSHROOM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof BasePowerUpItem || stack.getItem() instanceof DashMushroomItem)
             world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof BoatItem)
