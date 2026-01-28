@@ -81,7 +81,7 @@ public class PowerUpCommand {
                                                 .executes(ctx -> applyMegaMushroom(ctx.getSource(),
                                                         EntityArgument.getEntities(ctx, "targets"),
                                                         BoolArgumentType.getBool(ctx, "enablePowerUp"),
-                                                        IntegerArgumentType.getInteger(ctx, "cooldownTicks")
+                                                        IntegerArgumentType.getInteger(ctx, "durationTicks")
                                                 ))
                                         )
                                         .executes(ctx -> applyMegaMushroom(ctx.getSource(),
@@ -260,7 +260,7 @@ public class PowerUpCommand {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
                 AttributeInstance attribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, enablePowerUp);
-                handler.mv$setSuperMushroom(enablePowerUp);
+                handler.mv$setSuperMushroom(!enablePowerUp);
                 count++;
 
                 if (entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
