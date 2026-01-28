@@ -6,28 +6,33 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "marioverse:mega_mushroom",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
           "name": "marioverse:mini_mushroom",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "name": "marioverse:ice_flower",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "name": "marioverse:fire_flower",
           "weight": 5
         },
         {
           "type": "minecraft:item",
-          "name": "marioverse:super_mushroom",
+          "name": "marioverse:ice_flower",
           "weight": 10
         },
         {
           "type": "minecraft:item",
+          "name": "marioverse:fire_flower",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:super_mushroom",
+          "weight": 20
+        },
+        {
+          "type": "minecraft:item",
           "name": "marioverse:dash_mushroom",
-          "weight": 8,
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
