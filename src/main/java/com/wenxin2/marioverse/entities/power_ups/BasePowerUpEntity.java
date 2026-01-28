@@ -106,6 +106,10 @@ public class BasePowerUpEntity extends PathfinderMob {
         return true;
     }
 
+    public boolean isMoving() {
+        return this.getDeltaMovement().lengthSqr() > 0.01;
+    }
+
     public void checkForCollision() {
         AABB boundingBox = this.getBoundingBox().inflate(0.15);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
