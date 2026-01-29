@@ -19,6 +19,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -217,6 +218,8 @@ public class PowerUpCommand {
         int count = 0;
         Component powerUpBoolean = Component.translatable(enablePowerUp
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
+        Component maxHealthStyle = Component.translatable("commands.marioverse.power_up.max_health",
+                maxHealth / 2).withStyle(ChatFormatting.RED);
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
@@ -249,15 +252,19 @@ public class PowerUpCommand {
                     if (enablePowerUp) {
                         if (maxHealth != 0.0D)
                             source.sendSuccess(() ->
-                                    Component.translatable("commands.marioverse.power_up.mega_mushroom.max_health.ticks", powerUpBoolean, entity.getDisplayName(), maxHealth / 2, durationTicks), true);
+                                    Component.translatable("commands.marioverse.power_up.mega_mushroom.max_health.ticks",
+                                            powerUpBoolean, entity.getDisplayName(), maxHealthStyle, durationTicks), true);
                         else source.sendSuccess(() ->
-                                    Component.translatable("commands.marioverse.power_up.mega_mushroom.ticks", powerUpBoolean, entity.getDisplayName(), durationTicks), true);
+                                    Component.translatable("commands.marioverse.power_up.mega_mushroom.ticks",
+                                            powerUpBoolean, entity.getDisplayName(), durationTicks), true);
                     } else {
                         if (maxHealth != 0.0D)
                             source.sendSuccess(() ->
-                                    Component.translatable("commands.marioverse.power_up.mega_mushroom.max_health", powerUpBoolean, entity.getDisplayName(), maxHealth / 2), true);
+                                    Component.translatable("commands.marioverse.power_up.mega_mushroom.max_health",
+                                            powerUpBoolean, entity.getDisplayName(), maxHealthStyle), true);
                         else source.sendSuccess(() ->
-                                    Component.translatable("commands.marioverse.power_up.mega_mushroom", powerUpBoolean, entity.getDisplayName()), true);
+                                    Component.translatable("commands.marioverse.power_up.mega_mushroom",
+                                            powerUpBoolean, entity.getDisplayName()), true);
                     }
                 }
             } else source.sendSuccess(() ->
@@ -270,12 +277,15 @@ public class PowerUpCommand {
             if (enablePowerUp) {
                 if (maxHealth != 0.0D)
                     source.sendSuccess(() ->
-                            Component.translatable("commands.marioverse.power_up.mega_mushroom.max_health.ticks.count", powerUpBoolean, finalCount, maxHealth / 2, durationTicks), true);
+                            Component.translatable("commands.marioverse.power_up.mega_mushroom.max_health.ticks.count",
+                                    powerUpBoolean, finalCount, maxHealthStyle, durationTicks), true);
                 else source.sendSuccess(() ->
-                            Component.translatable("commands.marioverse.power_up.mega_mushroom.ticks.count", powerUpBoolean, finalCount, durationTicks), true);
+                            Component.translatable("commands.marioverse.power_up.mega_mushroom.ticks.count",
+                                    powerUpBoolean, finalCount, durationTicks), true);
             } else {
                 source.sendSuccess(() ->
-                        Component.translatable("commands.marioverse.power_up.mega_mushroom.count", powerUpBoolean, finalCount), true);
+                        Component.translatable("commands.marioverse.power_up.mega_mushroom.count",
+                                powerUpBoolean, finalCount), true);
             }
         }
 
@@ -286,6 +296,8 @@ public class PowerUpCommand {
         int count = 0;
         Component powerUpBoolean = Component.translatable(enablePowerUp
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
+        Component maxHealthStyle = Component.translatable("commands.marioverse.power_up.max_health",
+                maxHealth / 2).withStyle(ChatFormatting.RED);
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
@@ -315,9 +327,11 @@ public class PowerUpCommand {
                 if (count == 1) {
                     if (maxHealth != 0.0D)
                         source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.mini_mushroom.max_health", powerUpBoolean, entity.getDisplayName(), maxHealth / 2), true);
+                                Component.translatable("commands.marioverse.power_up.mini_mushroom.max_health",
+                                        powerUpBoolean, entity.getDisplayName(), maxHealthStyle), true);
                     else source.sendSuccess(() ->
-                                Component.translatable("commands.marioverse.power_up.mini_mushroom", powerUpBoolean, entity.getDisplayName()), true);
+                                Component.translatable("commands.marioverse.power_up.mini_mushroom",
+                                        powerUpBoolean, entity.getDisplayName()), true);
                 }
             } else source.sendSuccess(() ->
                     Component.translatable("commands.marioverse.power_up.fail"), true);
@@ -328,9 +342,11 @@ public class PowerUpCommand {
         if (finalCount > 1) {
             if (maxHealth != 0.0D)
                 source.sendSuccess(() ->
-                        Component.translatable("commands.marioverse.power_up.mini_mushroom.max_health.count", powerUpBoolean, finalCount, maxHealth / 2), true);
+                        Component.translatable("commands.marioverse.power_up.mini_mushroom.max_health.count",
+                                powerUpBoolean, finalCount, maxHealthStyle), true);
             else source.sendSuccess(() ->
-                        Component.translatable("commands.marioverse.power_up.mini_mushroom.count", powerUpBoolean, finalCount), true);
+                        Component.translatable("commands.marioverse.power_up.mini_mushroom.count",
+                                powerUpBoolean, finalCount), true);
         }
 
         return count;
@@ -423,6 +439,8 @@ public class PowerUpCommand {
                 boolean hasPowerUp = switch (powerUpName) {
                     case "fire_flower" -> handler.mv$hasFireFlower();
                     case "ice_flower" -> handler.mv$hasIceFlower();
+                    case "mega_mushroom" -> entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
+                    case "mini_mushroom" -> entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
                     case "super_mushroom" -> handler.mv$hasSuperMushroom();
                     case "super_star" -> entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR);
                     default -> false;
