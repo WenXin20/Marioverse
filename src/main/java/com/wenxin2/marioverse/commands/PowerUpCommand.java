@@ -103,7 +103,7 @@ public class PowerUpCommand {
                                         )
                                         .executes(ctx -> applyMegaMushroom(ctx.getSource(),
                                                 EntityArgument.getEntities(ctx, "targets"),
-                                                BoolArgumentType.getBool(ctx, "enablePowerUp"), 0, 0.0, -1
+                                                BoolArgumentType.getBool(ctx, "enablePowerUp"), 0.0, 0.0, -1
                                         ))
                                 )
                         )
@@ -307,7 +307,6 @@ public class PowerUpCommand {
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
                 AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
-                AttributeInstance stepAttribute = livingEntity.getAttribute(Attributes.STEP_HEIGHT);
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, enablePowerUp);
                 handler.mv$setSuperMushroom(!enablePowerUp);
                 livingEntity.heal((float) maxHealth * 2);

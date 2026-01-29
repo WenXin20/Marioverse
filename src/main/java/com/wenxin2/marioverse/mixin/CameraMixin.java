@@ -37,7 +37,7 @@ public abstract class CameraMixin {
     @Unique
     private static float mv$getScaleFromAttributes(LivingEntity living) {
         float height = 1.0F;
-        float width  = 1.0F;
+        float width = 1.0F;
 
         var heightScale = living.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         if (heightScale != null)
