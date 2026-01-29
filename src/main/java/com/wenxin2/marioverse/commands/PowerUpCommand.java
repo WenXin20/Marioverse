@@ -6,7 +6,6 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
-import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -19,14 +18,12 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 
@@ -79,24 +76,34 @@ public class PowerUpCommand {
                                 .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "mega_mushroom"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
                                         .then(Commands.argument("maxHealth", DoubleArgumentType.doubleArg(0.0, 100.0))
-                                                .then(Commands.argument("durationTicks", IntegerArgumentType.integer(-1))
+                                                .then(Commands.argument("stepHeight", DoubleArgumentType.doubleArg(0.0, 10.0))
+                                                        .then(Commands.argument("durationTicks", IntegerArgumentType.integer(-1))
+                                                                .executes(ctx -> applyMegaMushroom(ctx.getSource(),
+                                                                        EntityArgument.getEntities(ctx, "targets"),
+                                                                        BoolArgumentType.getBool(ctx, "enablePowerUp"),
+                                                                        DoubleArgumentType.getDouble(ctx, "maxHealth"),
+                                                                        DoubleArgumentType.getDouble(ctx, "stepHeight"),
+                                                                        IntegerArgumentType.getInteger(ctx, "durationTicks")
+                                                                ))
+                                                        )
                                                         .executes(ctx -> applyMegaMushroom(ctx.getSource(),
                                                                 EntityArgument.getEntities(ctx, "targets"),
                                                                 BoolArgumentType.getBool(ctx, "enablePowerUp"),
                                                                 DoubleArgumentType.getDouble(ctx, "maxHealth"),
-                                                                IntegerArgumentType.getInteger(ctx, "durationTicks")
+                                                                DoubleArgumentType.getDouble(ctx, "stepHeight"),
+                                                                -1
                                                         ))
                                                 )
                                                 .executes(ctx -> applyMegaMushroom(ctx.getSource(),
                                                         EntityArgument.getEntities(ctx, "targets"),
                                                         BoolArgumentType.getBool(ctx, "enablePowerUp"),
                                                         DoubleArgumentType.getDouble(ctx, "maxHealth"),
-                                                        -1
+                                                        0.0, -1
                                                 ))
                                         )
                                         .executes(ctx -> applyMegaMushroom(ctx.getSource(),
                                                 EntityArgument.getEntities(ctx, "targets"),
-                                                BoolArgumentType.getBool(ctx, "enablePowerUp"), 0, -1
+                                                BoolArgumentType.getBool(ctx, "enablePowerUp"), 0, 0.0, -1
                                         ))
                                 )
                         )
@@ -214,7 +221,7 @@ public class PowerUpCommand {
         return count;
     }
 
-    private static int applyMegaMushroom(CommandSourceStack source, Collection<? extends Entity> targets, boolean enablePowerUp, double maxHealth, int durationTicks) {
+    private static int applyMegaMushroom(CommandSourceStack source, Collection<? extends Entity> targets, boolean enablePowerUp, double maxHealth, double stepHeight, int durationTicks) {
         int count = 0;
         Component powerUpBoolean = Component.translatable(enablePowerUp
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
@@ -223,7 +230,8 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-                AttributeInstance attribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
+                AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
+                AttributeInstance stepAttribute = livingEntity.getAttribute(Attributes.STEP_HEIGHT);
                 entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, enablePowerUp);
                 handler.mv$setSuperMushroom(enablePowerUp);
                 livingEntity.heal((float) maxHealth * 2);
@@ -232,14 +240,11 @@ public class PowerUpCommand {
                 if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                     entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
 
-                if (attribute != null) {
-                    AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
-                    if (modifier != null && (!entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM) || !enablePowerUp))
-                        attribute.removeModifier(modifier);
-                    if (modifier == null && !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && maxHealth != 0.0D)
-                        attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
-                                -livingEntity.getMaxHealth() + maxHealth, AttributeModifier.Operation.ADD_VALUE));
-                }
+                handler.mv$updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, stepHeight, stepHeight != 0.0D, false);
+                handler.mv$updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH,
+                        -livingEntity.getMaxHealth() + maxHealth,
+                        !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && maxHealth != 0.0D,
+                        !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM) || !enablePowerUp);
 
                 if (enablePowerUp)
                     entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MEGA_MUSHROOM.get(), SoundSource.AMBIENT);
@@ -301,7 +306,8 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-                AttributeInstance attribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
+                AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
+                AttributeInstance stepAttribute = livingEntity.getAttribute(Attributes.STEP_HEIGHT);
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, enablePowerUp);
                 handler.mv$setSuperMushroom(!enablePowerUp);
                 livingEntity.heal((float) maxHealth * 2);
@@ -312,14 +318,10 @@ public class PowerUpCommand {
                     entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, 0);
                 }
 
-                if (attribute != null) {
-                    AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
-                    if (modifier != null && (!entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM) || !enablePowerUp))
-                        attribute.removeModifier(modifier);
-                    if (modifier == null && !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && maxHealth != 0.0D)
-                        attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
-                                -livingEntity.getMaxHealth() + maxHealth, AttributeModifier.Operation.ADD_VALUE));
-                }
+                handler.mv$updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH,
+                        -livingEntity.getMaxHealth() + maxHealth,
+                        !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && maxHealth != 0.0D,
+                        !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM) || !enablePowerUp);
 
                 if (enablePowerUp)
                     entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MINI_MUSHROOM.get(), SoundSource.AMBIENT);
