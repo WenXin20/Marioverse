@@ -167,6 +167,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
     public static ModConfigSpec.DoubleValue IRON_SPIKE_DAMAGE;
+    public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_AUTO_STEP;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_DAMAGE;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_HEALTH;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_REACH_DISTANCE;
@@ -872,14 +873,14 @@ public class ConfigRegistry {
                 BUILDER.push(CATEGORY_DASH_MUSHROOM);
                     DASH_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.dash_mushroom_boost_strength")
                             .comment("Strength of Dash Mushroom boost.§b")
-                            .defineInRange("dash_mushroom_boost_strength", 4.0F, 1.0F, 50.0F);
+                            .defineInRange("dash_mushroom_boost_strength", 4.0, 1.0, 50.0);
                     VEHICLE_MUSHROOM_BOOST_STRENGTH = BUILDER.translation("configuration.marioverse.vehicle_mushroom_boost_strength")
                             .comment("Strength of Dash Mushroom boost for vehicles.§b")
-                            .defineInRange("vehicle_mushroom_boost_strength", 3.0F, 1.0F, 50.0F);
+                            .defineInRange("vehicle_mushroom_boost_strength", 3.0, 1.0, 50.0);
                     DASH_MUSHROOM_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.dash_mushroom_health_healed")
                             .comment("Amount of health Dash Mushrooms heals.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")
-                            .defineInRange("dash_mushroom_health_healed", 2.0F, 0.0F, 100.0F);
+                            .defineInRange("dash_mushroom_health_healed", 2.0, 0.0, 100.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_MEGA_MUSHROOM);
@@ -895,10 +896,15 @@ public class ConfigRegistry {
                             .comment("Duration until Mega Mushrooms runs out.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("mega_mushroom_duration", 600, 1, 72000);
+                    MEGA_MUSHROOM_AUTO_STEP = BUILDER.translation("configuration.marioverse.mega_mushroom_auto_step")
+                            .comment("Additional step height Mega Mushrooms sets your step height to.§b")
+                            .comment("§aPlayers default step height is 0.6F")
+                            .comment("§6[0.5 added = 1 block step height]§b")
+                            .defineInRange("mega_mushroom_auto_step", 0.5, 0.0, 10.0);
                     MEGA_MUSHROOM_HEALTH = BUILDER.translation("configuration.marioverse.mega_mushroom_health")
                             .comment("Additional health Mega Mushrooms sets your max hearts to.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")
-                            .defineInRange("mega_mushroom_health", 20.0F, 1.0F, 100.0F);
+                            .defineInRange("mega_mushroom_health", 20.0, 1.0, 100.0);
                     MEGA_MUSHROOM_DAMAGE = BUILDER.translation("configuration.marioverse.mega_mushroom_damage")
                             .comment("Amount of damage Mega Mushrooms causes.")
                             .comment("§6[1 point = 1/2 Heart]§b")
@@ -924,7 +930,7 @@ public class ConfigRegistry {
                     MINI_MUSHROOM_HEALTH = BUILDER.translation("configuration.marioverse.mini_mushroom_health")
                             .comment("Amount of health Mini Mushrooms sets your max hearts to.§b")
                             .comment("§6[1 point = 1/2 Heart]§b")
-                            .defineInRange("mini_mushroom_health", 2.0F, 1.0F, 40.0F);
+                            .defineInRange("mini_mushroom_health", 2.0, 1.0, 40.0);
                     MINI_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mini_mushroom_reach_distance")
                             .comment("Additional reach distance Mini Mushrooms provide on top of the normal reach distance.§b")
                             .defineInRange("mini_mushroom_reach_distance", -1.0, -4.0, 20.0);

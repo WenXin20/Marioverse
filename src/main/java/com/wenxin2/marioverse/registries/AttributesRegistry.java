@@ -11,6 +11,7 @@ public class AttributesRegistry {
     public static final DeferredHolder<Attribute, Attribute> HEIGHT_SCALE;
     public static final DeferredHolder<Attribute, Attribute> WIDTH_SCALE;
 
+    public static final ResourceLocation AUTO_STEP_HEIGHT = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "auto_step_height");
     public static final ResourceLocation BLOCK_REACH_DISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block_reach_distance");
     public static final ResourceLocation COSTUME_ARMOR_KNOCKBACK_RESISTANCE = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_knockback_resistance");
     public static final ResourceLocation COSTUME_ARMOR_TOUGHNESS = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_toughness");
