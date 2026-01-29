@@ -18,7 +18,7 @@ public abstract class CameraMixin {
     @ModifyExpressionValue(method = "setup", at = @At(value = "INVOKE",
             target = "Lnet/neoforged/neoforge/client/ClientHooks;getDetachedCameraDistance" + "(Lnet/minecraft/client/Camera;ZFF)F"))
     private float setup(float originalDistance, BlockGetter level, Entity entity,
-                                                 boolean detached, boolean thirdPersonReverse, float partialTick) {
+                        boolean detached, boolean thirdPersonReverse, float partialTick) {
         float cameraScale = 1.0F;
 
         if (entity instanceof LivingEntity living)
