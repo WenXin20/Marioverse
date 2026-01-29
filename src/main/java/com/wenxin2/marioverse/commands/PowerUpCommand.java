@@ -78,7 +78,7 @@ public class PowerUpCommand {
                                 .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "mega_mushroom"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
                                         .then(Commands.argument("maxHealth", DoubleArgumentType.doubleArg(0.0, 100.0))
-                                                .then(Commands.argument("durationTicks", IntegerArgumentType.integer(0))
+                                                .then(Commands.argument("durationTicks", IntegerArgumentType.integer(-1))
                                                         .executes(ctx -> applyMegaMushroom(ctx.getSource(),
                                                                 EntityArgument.getEntities(ctx, "targets"),
                                                                 BoolArgumentType.getBool(ctx, "enablePowerUp"),
@@ -116,7 +116,7 @@ public class PowerUpCommand {
                         .then(Commands.literal("super_star")
                                 .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "super_star"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
-                                        .then(Commands.argument("durationTicks", IntegerArgumentType.integer(0))
+                                        .then(Commands.argument("durationTicks", IntegerArgumentType.integer(-1))
                                                 .executes(ctx -> applySuperStar(ctx.getSource(),
                                                         EntityArgument.getEntities(ctx, "targets"),
                                                         BoolArgumentType.getBool(ctx, "enablePowerUp"),
@@ -243,7 +243,7 @@ public class PowerUpCommand {
 
                 if (durationTicks >= 0)
                     entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, durationTicks);
-                else entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, ConfigRegistry.MEGA_MUSHROOM_DURATION.get());
+                else entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, -1);
 
                 if (count == 1) {
                     if (enablePowerUp) {
@@ -384,8 +384,8 @@ public class PowerUpCommand {
                     entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, durationTicks);
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, durationTicks, 4, true, false));
                 } else {
-                    entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, ConfigRegistry.SUPER_STAR_DURATION.get());
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
+                    entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, -1);
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 4, true, false));
                 }
 
                 if (count == 1) {
@@ -464,5 +464,4 @@ public class PowerUpCommand {
 
         return count + falseCount;
     }
-
 }
