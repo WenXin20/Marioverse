@@ -223,7 +223,7 @@ public class PowerUpCommand {
                 AttributeInstance attribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
                 entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, enablePowerUp);
                 handler.mv$setSuperMushroom(enablePowerUp);
-                livingEntity.heal((float) maxHealth);
+                livingEntity.heal((float) maxHealth * 2);
                 count++;
 
                 if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
@@ -231,7 +231,7 @@ public class PowerUpCommand {
 
                 if (attribute != null) {
                     AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
-                    if (modifier != null && !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
+                    if (modifier != null && (!entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM) || !enablePowerUp))
                         attribute.removeModifier(modifier);
                     if (modifier == null && !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && maxHealth != 0.0D)
                         attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
@@ -292,7 +292,7 @@ public class PowerUpCommand {
                 AttributeInstance attribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, enablePowerUp);
                 handler.mv$setSuperMushroom(!enablePowerUp);
-                livingEntity.heal((float) maxHealth);
+                livingEntity.heal((float) maxHealth * 2);
                 count++;
 
                 if (entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
@@ -302,7 +302,7 @@ public class PowerUpCommand {
 
                 if (attribute != null) {
                     AttributeModifier modifier = attribute.getModifier(AttributesRegistry.MAX_HEATH);
-                    if (modifier != null && !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM))
+                    if (modifier != null && (!entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM) || !enablePowerUp))
                         attribute.removeModifier(modifier);
                     if (modifier == null && !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && maxHealth != 0.0D)
                         attribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.MAX_HEATH,
