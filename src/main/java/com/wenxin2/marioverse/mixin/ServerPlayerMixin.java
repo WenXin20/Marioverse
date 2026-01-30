@@ -22,9 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, AbilitiesHandler {
-    @Unique private boolean mv$hasFireFlower;
-    @Unique private boolean mv$hasIceFlower;
-    @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasSuperMushroom;
     @Unique private boolean mv$hasDashMushroomBoost;
     @Unique private boolean mv$hasSuperMushroomOverride;
@@ -69,12 +66,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     }
 
     @Override
-    public void mv$clearAllPowerUps(Entity entity) {
-        mv$setFireFlower(false);
-        entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
-    }
-
-    @Override
     public boolean mv$hasSuperMushroom() {
         return this.mv$hasSuperMushroom;
     }
@@ -102,16 +93,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setDashMushroomBoost(boolean hasDashMushroomBoost) {
         this.mv$hasDashMushroomBoost = hasDashMushroomBoost;
-    }
-
-    @Override
-    public boolean mv$hasFireFlower() {
-        return this.mv$hasFireFlower;
-    }
-
-    @Override
-    public void mv$setFireFlower(boolean hasFireFlower) {
-        this.mv$hasFireFlower = hasFireFlower;
     }
 
     @Override

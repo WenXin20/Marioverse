@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -177,7 +178,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
             if (this.getOwner() != null && player.isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasFireFlower())) {
+                        || entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
@@ -206,7 +207,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
             if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasFireFlower())) {
+                        || entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
@@ -230,7 +231,7 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
 
             if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageSourceRegistry.fireball(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasFireFlower())) {
+                        || entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));

@@ -45,7 +45,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
             if (this.target instanceof SuperMushroomEntity && !handler.mv$hasSuperMushroom()
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()))
                 return true;
-            else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower()
+            else if (this.target instanceof FireFlowerEntity && !this.mob.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
                 return true;
             else if (this.target instanceof IceFlowerEntity && !this.mob.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)
@@ -104,7 +104,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
                 if (this.target instanceof SuperMushroomEntity powerUp && !handler.mv$hasSuperMushroom()
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()))
                     handler.applySuperMushroomPowerUp(world, this.mob, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-                else if (this.target instanceof FireFlowerEntity powerUp && !handler.mv$hasFireFlower()
+                else if (this.target instanceof FireFlowerEntity powerUp && !this.mob.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
                     handler.applyFireFlowerPowerUp(world, this.mob, powerUp);
                 else if (this.target instanceof IceFlowerEntity powerUp && !this.mob.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -48,7 +49,7 @@ public class ShootBouncingFireballGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        boolean canShoot = !requireFireFlower || (livingEntity instanceof AbilitiesHandler handler && handler.mv$hasFireFlower());
+        boolean canShoot = !requireFireFlower || (livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
         return livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
     }
 
@@ -86,7 +87,7 @@ public class ShootBouncingFireballGoal extends Goal {
                 handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);
             } else if (handler.mv$getFireballCooldown() == 0
                     && handler.mv$getFireballCount() < maxFireballs + addFireballsWithFireFlower
-                    && handler.mv$hasFireFlower()) {
+                    && livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
                 this.shootFireball();
                 handler.mv$setFireballCooldown(FIREBALL_COOLDOWN);
                 handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);

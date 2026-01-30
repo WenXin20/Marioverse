@@ -94,9 +94,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float mv$appliedEyeHeightScale = 1.0F;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
-    @Unique private boolean mv$hasFireFlower;
-    @Unique private boolean mv$hasIceFlower;
-    @Unique private boolean mv$hasMegaMushroom;
     @Unique private boolean mv$hasSuperMushroom;
     @Unique private boolean mv$hasDashMushroomBoost;
     @Unique private boolean mv$hasSuperMushroomOverride;
@@ -132,7 +129,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         LivingEntity entity = (LivingEntity) (Object) this;
 
         tag.putBoolean("marioverse:has_dash_mushroom_boost", this.mv$hasDashMushroomBoost());
-        tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
         tag.putBoolean("marioverse:has_super_mushroom", this.mv$hasSuperMushroom());
         tag.putBoolean("marioverse:has_super_mushroom_override", this.mv$hasSuperMushroomOverride());
         tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
@@ -175,7 +171,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         LivingEntity entity = (LivingEntity) (Object) this;
 
         this.mv$setDashMushroomBoost(tag.getBoolean("marioverse:has_dash_mushroom_boost"));
-        this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
         this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
         this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
         this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
@@ -183,11 +178,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_super_mushroom_override"));
         this.mv$setSuperMushroom(tag.getBoolean("marioverse:has_super_mushroom"));
 
-        if (tag.contains("marioverse:has_ice_flower")) {
-            if (tag.getBoolean("marioverse:has_ice_flower"))
-                entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
-            tag.remove("marioverse:has_ice_flower");
-        }
+        if (tag.contains("marioverse:has_fire_flower"))
+            entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
+                    tag.getBoolean("marioverse:has_fire_flower"));
+
+        if (tag.contains("marioverse:has_ice_flower"))
+            entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
+                    tag.getBoolean("marioverse:has_ice_flower"));
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
@@ -394,16 +391,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setDashMushroomBoost(boolean hasDashMushroomBoost) {
         this.mv$hasDashMushroomBoost = hasDashMushroomBoost;
-    }
-
-    @Override
-    public boolean mv$hasFireFlower() {
-        return this.mv$hasFireFlower;
-    }
-
-    @Override
-    public void mv$setFireFlower(boolean hasFireFlower) {
-        this.mv$hasFireFlower = hasFireFlower;
     }
 
     @Override

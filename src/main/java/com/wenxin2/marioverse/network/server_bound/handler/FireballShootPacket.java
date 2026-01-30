@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.network.server_bound.handler;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
@@ -29,7 +30,7 @@ public class FireballShootPacket {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                if (player instanceof AbilitiesHandler handler && handler.mv$hasFireFlower())
+                if (player.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER))
                     this.handleFireballShooting(player);
             });
         }

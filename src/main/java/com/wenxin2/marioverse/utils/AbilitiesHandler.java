@@ -65,9 +65,6 @@ public interface AbilitiesHandler extends CostumeHandler {
     boolean mv$hasDashMushroomBoost();
     void mv$setDashMushroomBoost(boolean hasDashMushroom);
 
-    boolean mv$hasFireFlower();
-    void mv$setFireFlower(boolean hasFireFlower);
-
 
     int mv$getFireballCooldown();
     void mv$setFireballCooldown(int fireballCooldown);
@@ -105,7 +102,7 @@ public interface AbilitiesHandler extends CostumeHandler {
     }
 
     default void mv$clearAllPowerUps(Entity entity) {
-        this.mv$setFireFlower(false);
+        entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
         entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
     }
 
@@ -263,7 +260,7 @@ public interface AbilitiesHandler extends CostumeHandler {
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
             this.mv$clearAllPowerUps(entity);
             this.mv$setSuperMushroom(true);
-            this.mv$setFireFlower(true);
+            entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 

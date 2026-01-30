@@ -55,6 +55,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -62,7 +63,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
@@ -128,6 +128,20 @@ public class MarioverseEventHandlers {
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
         if (!(entity instanceof LivingEntity)) return;
+
+        CompoundTag tag = entity.getPersistentData();
+
+        if (tag.contains("marioverse:has_fire_flower")) {
+            if (tag.getBoolean("marioverse:has_fire_flower"))
+                entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
+            tag.remove("marioverse:has_fire_flower");
+        }
+
+        if (tag.contains("marioverse:has_ice_flower")) {
+            if (tag.getBoolean("marioverse:has_ice_flower"))
+                entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
+            tag.remove("marioverse:has_ice_flower");
+        }
 
         if (entity instanceof AbilitiesHandler handler && !handler.mv$hasSuperMushroomOverride()) {
             if (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
@@ -218,12 +232,13 @@ public class MarioverseEventHandlers {
             SoundSource soundSource = SoundSource.PLAYERS;
 
             if (world instanceof ServerLevel serverWorld) {
-                if (handler.mv$hasFireFlower() || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER))
+                if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
+                        || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER))
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
             }
 
-            if (handler.mv$hasFireFlower()) {
-                handler.mv$setFireFlower(false);
+            if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+                entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
                 world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         soundSource, 1.0F, 1.0F);
             }
@@ -266,13 +281,14 @@ public class MarioverseEventHandlers {
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
 
             if (world instanceof ServerLevel serverWorld) {
-                if (handler.mv$hasFireFlower() || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER))
+                if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
+                        || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER))
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, entity, 10);
             }
 
-            if (handler.mv$hasFireFlower()
+            if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                handler.mv$setFireFlower(false);
+                entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }

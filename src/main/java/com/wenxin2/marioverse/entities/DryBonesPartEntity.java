@@ -349,7 +349,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
         if (partSource instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
             entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-            entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
+            entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, partSource.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
             entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, partSource.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
             entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, partSource.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, partSource.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));

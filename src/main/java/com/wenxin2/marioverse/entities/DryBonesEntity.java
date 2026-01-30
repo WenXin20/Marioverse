@@ -264,23 +264,21 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
             this.setItemSlot(EquipmentSlot.FEET, new ItemStack(this.getKoopaShoes()));
 
-        if (this instanceof AbilitiesHandler handler) {
-            if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
-                int randomPowerUpInt = random.nextInt(6);
-                int randomCharacterInt = random.nextInt(1);
-                if (randomPowerUpInt == 0) {
-                    if (randomCharacterInt == 0)
-                        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
-                    else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
-                    handler.mv$setFireFlower(true);
-                } else if (randomPowerUpInt == 1) {
-                    if (randomCharacterInt == 0)
-                        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
-                    else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
-                    this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
-                } else {
-                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
-                }
+        if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+            int randomPowerUpInt = random.nextInt(6);
+            int randomCharacterInt = random.nextInt(1);
+            if (randomPowerUpInt == 0) {
+                if (randomCharacterInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
+                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
+                this.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
+            } else if (randomPowerUpInt == 1) {
+                if (randomCharacterInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
+                this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
+            } else {
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
             }
         }
     }
@@ -454,7 +452,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         if (savePowerUp) {
             if (this instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
                 entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-                entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
+                entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, this.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
                 entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, this.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
                 entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
