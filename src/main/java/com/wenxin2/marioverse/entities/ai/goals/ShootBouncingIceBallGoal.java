@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -10,7 +11,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.Monster;
@@ -48,7 +48,7 @@ public class ShootBouncingIceBallGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        boolean canShoot = !requireIceFlower|| (livingEntity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower());
+        boolean canShoot = !requireIceFlower || livingEntity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER);
         return livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
     }
 
@@ -86,7 +86,7 @@ public class ShootBouncingIceBallGoal extends Goal {
                 handler.mv$setIceBallCount(handler.mv$getIceBallCooldown() + 1);
             } else if (handler.mv$getIceBallCooldown() == 0
                     && handler.mv$getIceBallCount() < maxIceBalls + addIceBallsWithIceFlower
-                    && handler.mv$hasIceFlower()) {
+                    && livingEntity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
                 this.shootIceBall();
                 handler.mv$setIceBallCooldown(ICE_BALL_COOLDOWN);
                 handler.mv$setIceBallCount(handler.mv$getIceBallCooldown() + 1);

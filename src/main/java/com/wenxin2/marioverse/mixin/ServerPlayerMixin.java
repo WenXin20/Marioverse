@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.mixin;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.BlockWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.EntityWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -67,9 +69,9 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     }
 
     @Override
-    public void mv$clearAllPowerUps() {
+    public void mv$clearAllPowerUps(Entity entity) {
         mv$setFireFlower(false);
-        mv$setIceFlower(false);
+        entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
     }
 
     @Override
@@ -103,16 +105,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     }
 
     @Override
-    public boolean mv$hasMegaMushroom() {
-        return this.mv$hasMegaMushroom;
-    }
-
-    @Override
-    public void mv$setMegaMushroom(boolean hasMegaMushroom) {
-        this.mv$hasMegaMushroom = hasMegaMushroom;
-    }
-
-    @Override
     public boolean mv$hasFireFlower() {
         return this.mv$hasFireFlower;
     }
@@ -120,16 +112,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setFireFlower(boolean hasFireFlower) {
         this.mv$hasFireFlower = hasFireFlower;
-    }
-
-    @Override
-    public boolean mv$hasIceFlower() {
-        return this.mv$hasIceFlower;
-    }
-
-    @Override
-    public void mv$setIceFlower(boolean hasIceFlower) {
-        this.mv$hasIceFlower = hasIceFlower;
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -41,25 +42,28 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
         this.target = this.findTarget();
 
         if (this.mob instanceof AbilitiesHandler handler) {
-            if (this.target instanceof SuperMushroomEntity && !handler.mv$hasSuperMushroom())
+            if (this.target instanceof SuperMushroomEntity && !handler.mv$hasSuperMushroom()
+                    && (this.mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()))
                 return true;
-            else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower())
+            else if (this.target instanceof FireFlowerEntity && !handler.mv$hasFireFlower()
+                    && (this.mob.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
                 return true;
-            else if (this.target instanceof IceFlowerEntity && !handler.mv$hasIceFlower())
+            else if (this.target instanceof IceFlowerEntity && !this.mob.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)
+                    && (this.mob.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
                 return true;
-            else if (this.target instanceof MegaMushroomEntity
+            else if (this.target instanceof MegaMushroomEntity && !this.mob.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS) || ConfigRegistry.MEGA_MUSHROOM_POWERS_ALL_MOBS.get()))
                 return true;
-            else if (this.target instanceof MiniMushroomEntity
+            else if (this.target instanceof MiniMushroomEntity && !this.mob.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get()))
                 return true;
             else if (this.target instanceof OneUpMushroomEntity
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()))
                 return true;
-            else if (this.target instanceof SuperStarEntity
+            else if (this.target instanceof SuperStarEntity && !this.mob.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()))
                 return true;
-            else if (!(this.target instanceof BasePowerUpEntity) && !(this.target instanceof BaseMushroomEntity))
+            else if (!(this.target instanceof BasePowerUpEntity))
                 return this.target != null;
             else return false;
         } else return false;
@@ -97,22 +101,25 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
             this.mob.getNavigation().moveTo(this.target, speedModifier);
 
             if (this.mob.distanceToSqr(this.target) < mob.getBbWidth() + 2.5 && this.mob instanceof AbilitiesHandler handler) {
-                if (this.target instanceof SuperMushroomEntity powerUp && !handler.mv$hasSuperMushroom())
+                if (this.target instanceof SuperMushroomEntity powerUp && !handler.mv$hasSuperMushroom()
+                        && (this.mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()))
                     handler.applySuperMushroomPowerUp(world, this.mob, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-                else if (this.target instanceof FireFlowerEntity powerUp && !handler.mv$hasFireFlower())
+                else if (this.target instanceof FireFlowerEntity powerUp && !handler.mv$hasFireFlower()
+                        && (this.mob.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get()))
                     handler.applyFireFlowerPowerUp(world, this.mob, powerUp);
-                else if (this.target instanceof IceFlowerEntity powerUp && !handler.mv$hasIceFlower())
+                else if (this.target instanceof IceFlowerEntity powerUp && !this.mob.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)
+                        && (this.mob.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get()))
                     handler.applyIceFlowerPowerUp(world, this.mob, powerUp);
-                else if (this.target instanceof MegaMushroomEntity powerUp
+                else if (this.target instanceof MegaMushroomEntity powerUp && !this.mob.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS) || ConfigRegistry.MEGA_MUSHROOM_POWERS_ALL_MOBS.get()))
                     handler.applyMegaMushroomPowerUp(world, this.mob, powerUp);
-                else if (this.target instanceof MiniMushroomEntity powerUp
+                else if (this.target instanceof MiniMushroomEntity powerUp && !this.mob.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get()))
                     handler.applyMiniMushroomPowerUp(world, this.mob, powerUp);
                 else if (this.target instanceof OneUpMushroomEntity powerUp
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get()))
                     handler.applyOneUpMushroomPowerUp(world, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), this.mob, powerUp);
-                else if (this.target instanceof SuperStarEntity powerUp
+                else if (this.target instanceof SuperStarEntity powerUp && !this.mob.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
                         && (this.mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get()))
                     handler.applySuperStarPowerUp(world, this.mob, powerUp);
 

@@ -251,7 +251,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 return;
 
             if (this.getOwner() != null && player.isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner()))) {
-                if (shield.getItem() instanceof ShieldItem || handler.mv$hasIceFlower()) {
+                if (shield.getItem() instanceof ShieldItem || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
@@ -301,7 +301,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
             if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
+                        || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
@@ -373,7 +373,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
 
             if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageSourceRegistry.iceBall(entity, this.getOwner()))) {
                 if (shield.getItem() instanceof ShieldItem
-                        || (entity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower())) {
+                        || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));

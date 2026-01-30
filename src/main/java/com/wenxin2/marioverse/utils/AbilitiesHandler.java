@@ -65,14 +65,8 @@ public interface AbilitiesHandler extends CostumeHandler {
     boolean mv$hasDashMushroomBoost();
     void mv$setDashMushroomBoost(boolean hasDashMushroom);
 
-    boolean mv$hasMegaMushroom();
-    void mv$setMegaMushroom(boolean hasMegaMushroom);
-
     boolean mv$hasFireFlower();
     void mv$setFireFlower(boolean hasFireFlower);
-
-    boolean mv$hasIceFlower();
-    void mv$setIceFlower(boolean hasIceFlower);
 
 
     int mv$getFireballCooldown();
@@ -110,9 +104,9 @@ public interface AbilitiesHandler extends CostumeHandler {
         else return ConfigRegistry.EQUIP_COSTUMES_MOBS.get();
     }
 
-    default void mv$clearAllPowerUps() {
+    default void mv$clearAllPowerUps(Entity entity) {
         this.mv$setFireFlower(false);
-        this.mv$setIceFlower(false);
+        entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
     }
 
     default void mv$updateAttributeModifiers(@Nullable AttributeInstance attribute, ResourceLocation id, double amount, boolean shouldAdd, boolean shouldRemove) {
@@ -267,7 +261,7 @@ public interface AbilitiesHandler extends CostumeHandler {
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-            this.mv$clearAllPowerUps();
+            this.mv$clearAllPowerUps(entity);
             this.mv$setSuperMushroom(true);
             this.mv$setFireFlower(true);
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
@@ -291,9 +285,9 @@ public interface AbilitiesHandler extends CostumeHandler {
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-            this.mv$clearAllPowerUps();
+            this.mv$clearAllPowerUps(entity);
             this.mv$setSuperMushroom(true);
-            this.mv$setIceFlower(true);
+            entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
 

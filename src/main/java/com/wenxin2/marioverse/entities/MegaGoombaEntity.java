@@ -128,9 +128,9 @@ public class MegaGoombaEntity extends GoombaEntity implements GeoEntity {
 
                         if (this instanceof AbilitiesHandler handler && goomba instanceof AbilitiesHandler entityHandler) {
                             entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-                            entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
                             entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
-                            entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+                            goomba.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, this.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
+                            goomba.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
                             goomba.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
                             goomba.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
                             goomba.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));

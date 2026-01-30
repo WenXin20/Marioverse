@@ -277,7 +277,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
                     if (randomCharacterInt == 0)
                         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
                     else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
-                    handler.mv$setIceFlower(true);
+                    this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
                 } else {
                     this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
                 }
@@ -454,9 +454,9 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         if (savePowerUp) {
             if (this instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
                 entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-                entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
                 entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
-                entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+                entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, this.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
+                entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
                 entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));

@@ -397,7 +397,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                     if (randomInt == 0)
                         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
                     else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
-                    handler.mv$setIceFlower(true);
+                    this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
                 } else {
                     this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
                 }

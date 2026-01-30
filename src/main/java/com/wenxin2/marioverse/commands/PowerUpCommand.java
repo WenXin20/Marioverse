@@ -141,10 +141,10 @@ public class PowerUpCommand {
         );
     }
 
-    private static void applyPowerUpType(AbilitiesHandler handler, String powerUpName, boolean enablePowerUp) {
+    private static void applyPowerUpType(AbilitiesHandler handler, Entity entity, String powerUpName, boolean enablePowerUp) {
         switch (powerUpName) {
             case "fire_flower" -> handler.mv$setFireFlower(enablePowerUp);
-            case "ice_flower" -> handler.mv$setIceFlower(enablePowerUp);
+            case "ice_flower" -> entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, enablePowerUp);
         }
     }
 
@@ -155,7 +155,7 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
-                applyPowerUpType(handler, powerUpName, enablePowerUp);
+                applyPowerUpType(handler, entity, powerUpName, enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
@@ -439,7 +439,7 @@ public class PowerUpCommand {
             if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
                 boolean hasPowerUp = switch (powerUpName) {
                     case "fire_flower" -> handler.mv$hasFireFlower();
-                    case "ice_flower" -> handler.mv$hasIceFlower();
+                    case "ice_flower" -> entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER);
                     case "mega_mushroom" -> entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
                     case "mini_mushroom" -> entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
                     case "super_mushroom" -> handler.mv$hasSuperMushroom();

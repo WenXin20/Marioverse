@@ -208,16 +208,17 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onEntityDamaged(LivingIncomingDamageEvent event) {
-        Level world = event.getEntity().level();
+        LivingEntity entity = event.getEntity();
+        Level world = entity.level();
         DamageSource source = event.getSource();
 
-        if (event.getEntity() instanceof Player player && !player.isDamageSourceBlocked(event.getSource())
+        if (entity instanceof Player player && !player.isDamageSourceBlocked(event.getSource())
                 && player instanceof AbilitiesHandler handler) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
-            SoundSource soundSource = event.getEntity() instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
+            SoundSource soundSource = SoundSource.PLAYERS;
 
             if (world instanceof ServerLevel serverWorld) {
-                if (handler.mv$hasFireFlower() || handler.mv$hasIceFlower())
+                if (handler.mv$hasFireFlower() || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER))
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
             }
 
@@ -227,13 +228,13 @@ public class MarioverseEventHandlers {
                         soundSource, 1.0F, 1.0F);
             }
 
-            if (handler.mv$hasIceFlower()) {
-                handler.mv$setIceFlower(false);
+            if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
+                entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
                 world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         soundSource, 1.0F, 1.0F);
             }
 
-            if (event.getEntity().getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
+            if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }
@@ -258,15 +259,14 @@ public class MarioverseEventHandlers {
                     }
                 }
             }
-        } else if (event.getEntity() instanceof LivingEntity entity
-                && !entity.isDamageSourceBlocked(event.getSource())
+        } else if (!entity.isDamageSourceBlocked(event.getSource())
                 && entity instanceof AbilitiesHandler handler) {
             float maxHealth = entity.getMaxHealth();
             float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
 
             if (world instanceof ServerLevel serverWorld) {
-                if (handler.mv$hasFireFlower() || handler.mv$hasIceFlower())
+                if (handler.mv$hasFireFlower() || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER))
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, entity, 10);
             }
 
@@ -277,18 +277,19 @@ public class MarioverseEventHandlers {
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
 
-            if (handler.mv$hasIceFlower() && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                handler.mv$setIceFlower(false);
+            if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)
+                    && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
                 world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, 1.0F);
             }
 
-            if (event.getEntity().getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
+            if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
                 if (!source.is(TagRegistry.BYPASSES_SUPER_STAR) && !source.is(TagRegistry.IS_SUPER_STAR))
                     event.setCanceled(true);
             }
 
-            if (event.getEntity().getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
+            if (entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
                 if (!source.is(TagRegistry.BYPASSES_MEGA_MUSHROOM) && !source.is(TagRegistry.IS_MEGA_MUSHROOM_SQUASH))
                     event.setCanceled(true);
             }
@@ -311,15 +312,15 @@ public class MarioverseEventHandlers {
             }
         }
 
-        if (event.getEntity().getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)) {
-            if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUMES))
-                event.getEntity().getItemBySlot(EquipmentSlot.HEAD).shrink(1);
-            if (event.getEntity().getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.POWER_UP_COSTUMES))
-                event.getEntity().getItemBySlot(EquipmentSlot.CHEST).shrink(1);
-            if (event.getEntity().getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.POWER_UP_COSTUMES))
-                event.getEntity().getItemBySlot(EquipmentSlot.LEGS).shrink(1);
-            if (event.getEntity().getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.POWER_UP_COSTUMES))
-                event.getEntity().getItemBySlot(EquipmentSlot.FEET).shrink(1);
+        if (entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)) {
+            if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUMES))
+                entity.getItemBySlot(EquipmentSlot.HEAD).shrink(1);
+            if (entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.POWER_UP_COSTUMES))
+                entity.getItemBySlot(EquipmentSlot.CHEST).shrink(1);
+            if (entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.POWER_UP_COSTUMES))
+                entity.getItemBySlot(EquipmentSlot.LEGS).shrink(1);
+            if (entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.POWER_UP_COSTUMES))
+                entity.getItemBySlot(EquipmentSlot.FEET).shrink(1);
         }
     }
 

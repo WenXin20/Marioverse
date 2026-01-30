@@ -133,8 +133,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         tag.putBoolean("marioverse:has_dash_mushroom_boost", this.mv$hasDashMushroomBoost());
         tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
-        tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
-        tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
         tag.putBoolean("marioverse:has_super_mushroom", this.mv$hasSuperMushroom());
         tag.putBoolean("marioverse:has_super_mushroom_override", this.mv$hasSuperMushroomOverride());
         tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
@@ -182,10 +180,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
         this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
         this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
-        this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
-        this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
         this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_super_mushroom_override"));
         this.mv$setSuperMushroom(tag.getBoolean("marioverse:has_super_mushroom"));
+
+        if (tag.contains("marioverse:has_ice_flower")) {
+            if (tag.getBoolean("marioverse:has_ice_flower"))
+                entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
+            tag.remove("marioverse:has_ice_flower");
+        }
 
         if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
@@ -395,16 +397,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
-    public boolean mv$hasMegaMushroom() {
-        return this.mv$hasMegaMushroom;
-    }
-
-    @Override
-    public void mv$setMegaMushroom(boolean hasMegaMushroom) {
-        this.mv$hasMegaMushroom = hasMegaMushroom;
-    }
-
-    @Override
     public boolean mv$hasFireFlower() {
         return this.mv$hasFireFlower;
     }
@@ -412,16 +404,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setFireFlower(boolean hasFireFlower) {
         this.mv$hasFireFlower = hasFireFlower;
-    }
-
-    @Override
-    public boolean mv$hasIceFlower() {
-        return this.mv$hasIceFlower;
-    }
-
-    @Override
-    public void mv$setIceFlower(boolean hasIceFlower) {
-        this.mv$hasIceFlower = hasIceFlower;
     }
 
     @Override

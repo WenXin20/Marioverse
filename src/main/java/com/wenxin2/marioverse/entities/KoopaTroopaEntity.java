@@ -285,7 +285,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
                     if (randomInt == 0)
                         this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
                     else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
-                    handler.mv$setIceFlower(true);
+                    this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
                 } else {
                     this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
                 }
@@ -569,9 +569,9 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             if (savePowerUp) {
                 if (this instanceof AbilitiesHandler handler && shell instanceof AbilitiesHandler entityHandler) {
                     entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-                    entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
                     entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
-                    entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
+                    shell.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, this.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
+                    shell.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
                     shell.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
                     shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
                     shell.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
