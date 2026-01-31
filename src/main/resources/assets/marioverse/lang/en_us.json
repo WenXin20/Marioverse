@@ -844,7 +844,8 @@
 
   "item.marioverse.fire_flower.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.fire_flower.tooltip.line1": "§9Ability:",
-  "item.marioverse.fire_flower.tooltip.line2": " §7• Shoot §6fireballs",
+  "item.marioverse.fire_flower.tooltip.line2": " §7• Press",
+  "item.marioverse.fire_flower.tooltip.line2.keybind": " %1$s §7to shoot §6fireballs",
 
   "item.marioverse.gold_koopa_shell.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.gold_koopa_shell.tooltip.line1": "§9Ability:",
@@ -857,13 +858,14 @@
 
   "item.marioverse.ice_flower.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.ice_flower.tooltip.line1": "§9Ability:",
-  "item.marioverse.ice_flower.tooltip.line2": " §7• Shoot §bice balls",
+  "item.marioverse.ice_flower.tooltip.line2": " §7• Press",
+  "item.marioverse.ice_flower.tooltip.line2.keybind": " %1$s §7to shoot §bice balls",
 
   "item.marioverse.mega_mushroom.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.mega_mushroom.tooltip.line1": "§9Ability:",
   "item.marioverse.mega_mushroom.tooltip.line2": " §7• Makes the user mega sized",
-  "item.marioverse.mega_mushroom.tooltip.line3": " §7• Max §chearts §7set to",
-  "item.marioverse.mega_mushroom.tooltip.line3.hearts": " %1$s",
+  "item.marioverse.mega_mushroom.tooltip.line3": " §7• Added",
+  "item.marioverse.mega_mushroom.tooltip.line3.hearts": " %1$s §7extra §chearts",
   "item.marioverse.mega_mushroom.tooltip.line4": " §7• Breaks blocks",
 
   "item.marioverse.mini_mushroom.tooltip": "§e§o[Shift for §9ℹ§e§o]",

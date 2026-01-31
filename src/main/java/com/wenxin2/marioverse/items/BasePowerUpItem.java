@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.KeybindRegistry;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -58,9 +59,9 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++) {
                 MutableComponent abilityText = Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt);
 
-                if (stack.is(ItemRegistry.SUPER_MUSHROOM) && lineAmt == 2)
-                    abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
-                            ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue()).withStyle(ChatFormatting.RED));
+                if (stack.is(ItemRegistry.FIRE_FLOWER) && lineAmt == 2)
+                    abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".keybind",
+                            KeybindRegistry.ACTIVATE_POWER_UP.getKey().getDisplayName()).withStyle(ChatFormatting.GREEN));
 
                 if (stack.is(ItemRegistry.MEGA_MUSHROOM) && lineAmt == 3)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
@@ -73,6 +74,10 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
                 if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && lineAmt == 4)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue() / 2).withStyle(ChatFormatting.GREEN));
+
+                if (stack.is(ItemRegistry.SUPER_MUSHROOM) && lineAmt == 2)
+                    abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
+                            ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue()).withStyle(ChatFormatting.RED));
 
                 if (stack.is(ItemRegistry.SUPER_STAR) && lineAmt == 2)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".instakill",
