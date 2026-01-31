@@ -746,6 +746,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())
                 .add(EntityRegistry.ICE_FLOWER.get())
+                .add(EntityRegistry.MEGA_MUSHROOM.get())
                 .add(EntityRegistry.MINI_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_MUSHROOM.get())
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
