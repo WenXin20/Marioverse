@@ -54,10 +54,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface AbilitiesHandler extends CostumeHandler {
-    boolean mv$hasDashMushroomBoost();
-    void mv$setDashMushroomBoost(boolean hasDashMushroom);
-
-
     int mv$getFireballCooldown();
     void mv$setFireballCooldown(int fireballCooldown);
 

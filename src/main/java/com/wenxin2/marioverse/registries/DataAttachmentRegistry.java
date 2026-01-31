@@ -36,6 +36,9 @@ public class DataAttachmentRegistry {
             .register("is_sliding", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
+    public static final Supplier<AttachmentType<Boolean>> HAS_DASH_MUSHROOM_BOOST = Marioverse.ATTACHMENT_TYPES
+            .register("has_dash_mushroom_boost", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> HAS_FIRE_FLOWER = Marioverse.ATTACHMENT_TYPES
             .register("has_fire_flower", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());

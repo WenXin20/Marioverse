@@ -191,8 +191,8 @@ public class PowerUpCommand {
         int count = 0;
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
-                handler.mv$setDashMushroomBoost(true);
+            if (entity instanceof LivingEntity livingEntity) {
+                entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, true);
                 DashMushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
                 count++;
 

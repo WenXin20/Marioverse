@@ -128,7 +128,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        tag.putBoolean("marioverse:has_dash_mushroom_boost", this.mv$hasDashMushroomBoost());
         tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
         tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
         tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
@@ -168,7 +167,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        this.mv$setDashMushroomBoost(tag.getBoolean("marioverse:has_dash_mushroom_boost"));
         this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
         this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
         this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
@@ -345,7 +343,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             }
         }
 
-        if (this.mv$hasDashMushroomBoost())
+        if (entity.getData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST))
             this.mv$boostEntityParticles(entity.getVehicle(), entity);
 
         float f5 = this.mv$getEyeHeightScale();
@@ -524,7 +522,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
                     ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, false, 10, 0.1);
                 }
-            } else this.mv$setDashMushroomBoost(false);
+            } else entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, false);
         } else if (speed >= minimumBoostSpeed) {
             if (entity.level().isClientSide) {
                 ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.POWERED_UP.get(), entity, true, 5, 0.1, 0.0);
@@ -533,7 +531,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
                 ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, false, 10, 0.1);
             }
-        } else this.mv$setDashMushroomBoost(false);
+        } else entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, false);
     }
 
     @Unique
