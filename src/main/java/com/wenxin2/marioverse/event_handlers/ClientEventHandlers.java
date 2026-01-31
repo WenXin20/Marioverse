@@ -281,7 +281,7 @@ public class ClientEventHandlers {
         if (entity instanceof LivingEntity livingEntity && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME)) {
             Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(livingEntity, SoundRegistry.SUPER_STAR_THEME.get(),
-                    SoundSource.AMBIENT, entity.getRandom(), entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN), 100));
+                    SoundSource.AMBIENT, entity.getRandom(), entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION), 100));
             entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, true);
         }
 

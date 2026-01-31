@@ -570,7 +570,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
                 shell.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
                 shell.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
                 shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-                shell.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
+                shell.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, this.getData(DataAttachmentRegistry.SUPER_STAR_DURATION));
 
                 AccessoriesCapability capability = AccessoriesCapability.get(this);
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()

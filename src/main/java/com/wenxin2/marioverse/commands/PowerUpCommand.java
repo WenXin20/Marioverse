@@ -9,7 +9,6 @@ import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -398,10 +397,10 @@ public class PowerUpCommand {
                     entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
 
                 if (durationTicks >= 0) {
-                    entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, durationTicks);
+                    entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, durationTicks);
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, durationTicks, 4, true, false));
                 } else {
-                    entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, -1);
+                    entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, -1);
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, -1, 4, true, false));
                 }
 

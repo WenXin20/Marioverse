@@ -322,10 +322,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     false, !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
         }
 
-        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) - 1);
+        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) - 1);
 
-        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) == 0
+        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) == 0
                 && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, false);
             entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false);

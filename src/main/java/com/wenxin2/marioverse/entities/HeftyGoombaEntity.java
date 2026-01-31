@@ -122,7 +122,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
                         goomba.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
                         goomba.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
                         goomba.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-                        goomba.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
+                        goomba.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, this.getData(DataAttachmentRegistry.SUPER_STAR_DURATION));
 
                         this.copyAttributeWithModifiers(goomba, Attributes.MAX_HEALTH);
                         this.copyAttributeWithModifiers(goomba, Attributes.SAFE_FALL_DISTANCE);

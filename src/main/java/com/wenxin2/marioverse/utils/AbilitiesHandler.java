@@ -213,7 +213,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())) {
             entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, true);
-            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, ConfigRegistry.SUPER_STAR_DURATION.get());
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, ConfigRegistry.SUPER_STAR_DURATION.get());
 
             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
             if (world instanceof ServerLevel serverWorld)
