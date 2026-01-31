@@ -15,6 +15,7 @@ import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.GameEventRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -536,8 +537,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         BlockState statePart = world.getBlockState(statePos);
 
 
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS) && entity instanceof AbilitiesHandler handler
-                && handler.mv$getCheckpointFlagCooldown() <= 0) {
+        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
+                && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) > 0) {
             if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {
                 if (world.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                     checkpointFlagBE.markUpdated();
@@ -607,7 +608,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     world.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
                     ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
                     player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
-                    handler.mv$setCheckpointFlagCooldown(40);
+                    entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, 40);
 
                     if (world instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),

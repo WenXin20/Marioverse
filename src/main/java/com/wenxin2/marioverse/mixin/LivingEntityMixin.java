@@ -93,7 +93,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$preventWarp;
-    @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$fireballCooldown;
     @Unique private int mv$fireballCount;
     @Unique private int mv$freezeImmunityCooldown;
@@ -126,9 +125,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
-            tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
 
         if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
             tag.putInt("marioverse:freeze_immunity_cooldown", this.mv$getFreezeImmunityCooldown());
@@ -173,9 +169,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (tag.contains("marioverse:has_super_mushroom_override"))
             entity.getPersistentData().putBoolean("marioverse:has_super_mushroom_override",
                     tag.getBoolean("marioverse:has_super_mushroom_override"));
-
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
-            this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
 
         if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
             this.mv$setFreezeImmunityCooldown(tag.getInt("marioverse:freeze_immunity_cooldown"));
@@ -263,9 +256,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
             this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
-
-        if (this.mv$getCheckpointFlagCooldown() > 0)
-            this.mv$setCheckpointFlagCooldown(this.mv$getCheckpointFlagCooldown() - 1);
 
         if (this.mv$getFireballCooldown() > 0)
             this.mv$setFireballCooldown(this.mv$getFireballCooldown() - 1);
@@ -403,16 +393,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setWarpCooldown(int warpCooldown) {
         this.mv$warpCooldown = warpCooldown;
-    }
-
-    @Override
-    public int mv$getCheckpointFlagCooldown() {
-        return this.mv$checkpointFlagCooldown;
-    }
-
-    @Override
-    public void mv$setCheckpointFlagCooldown(int checkpointFlagCooldown) {
-        this.mv$checkpointFlagCooldown = checkpointFlagCooldown;
     }
 
     @Override

@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, AbilitiesHandler {
     @Unique private boolean mv$preventWarp;
-    @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$fireballCooldown;
     @Unique private int mv$fireballCount;
     @Unique private int mv$freezeImmunityCooldown;
@@ -126,16 +125,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setWarpCooldown(int warpCooldown) {
         this.mv$warpCooldown = warpCooldown;
-    }
-
-    @Override
-    public int mv$getCheckpointFlagCooldown() {
-        return this.mv$checkpointFlagCooldown;
-    }
-
-    @Override
-    public void mv$setCheckpointFlagCooldown(int checkpointFlagCooldown) {
-        this.mv$checkpointFlagCooldown = checkpointFlagCooldown;
     }
 
     @Override

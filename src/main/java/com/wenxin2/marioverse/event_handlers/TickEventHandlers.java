@@ -52,6 +52,10 @@ public class TickEventHandlers {
                 entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) - 1);
 
+        if (entity.hasData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) &&
+                entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) > 0)
+            entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) - 1);
+
         if (entity.hasData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) &&
                 entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) - 1);

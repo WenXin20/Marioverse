@@ -67,9 +67,6 @@ public interface AbilitiesHandler extends CostumeHandler {
     void mv$setIceBallCount(int iceBallCount);
 
 
-    int mv$getCheckpointFlagCooldown();
-    void mv$setCheckpointFlagCooldown(int checkpointFlagCooldown);
-
     int mv$getFreezeImmunityCooldown();
     void mv$setFreezeImmunityCooldown(int freezeImmunityCooldown);
 
