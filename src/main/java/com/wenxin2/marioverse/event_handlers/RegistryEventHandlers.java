@@ -240,12 +240,17 @@ public class RegistryEventHandlers {
         }
 
         if (event.getType() == VillagerProfession.CLERIC) {
-            trades.get(2).add((entity, random) -> new MerchantOffer(
+            trades.get(1).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 5),
-                    new ItemStack(ItemRegistry.DASH_MUSHROOM.get(), 1),
+                    new ItemStack(ItemRegistry.DASH_MUSHROOM.get(), 3),
                     5, 16, 0.05F));
 
-            trades.get(2).add((entity, random) -> new MerchantOffer(
+            trades.get(3).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 8),
+                    new ItemStack(ItemRegistry.MINI_MUSHROOM.get(), 1),
+                    3, 16, 0.2F));
+
+            trades.get(1).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 8),
                     new ItemStack(ItemRegistry.SUPER_MUSHROOM.get(), 1),
                     5, 16, 0.05F));
@@ -265,12 +270,27 @@ public class RegistryEventHandlers {
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 8),
                 new ItemStack(ItemRegistry.FIRE_FLOWER.get(), 1),
-                1, 16, 0.2F));
+                8, 16, 0.1F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 8),
                 new ItemStack(ItemRegistry.ICE_FLOWER.get(), 1),
-                1, 16, 0.2F));
+                8, 16, 0.1F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 5),
+                new ItemStack(ItemRegistry.DASH_MUSHROOM.get(), 3),
+                15, 10, 0.1F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 8),
+                new ItemStack(ItemRegistry.MINI_MUSHROOM.get(), 1),
+                3, 16, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 8),
+                new ItemStack(ItemRegistry.SUPER_MUSHROOM.get(), 1),
+                8, 16, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 1),
@@ -299,7 +319,12 @@ public class RegistryEventHandlers {
 
         rareTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 32),
+                new ItemStack(ItemRegistry.MEGA_MUSHROOM.get(), 1),
+                1, 30, 0.2F));
+
+        rareTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 32),
                 new ItemStack(ItemRegistry.SUPER_STAR.get(), 1),
-                8, 10, 0.2F));
+                1, 30, 0.2F));
     }
 }
