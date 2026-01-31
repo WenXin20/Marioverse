@@ -243,12 +243,12 @@ public class RegistryEventHandlers {
             trades.get(1).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 5),
                     new ItemStack(ItemRegistry.DASH_MUSHROOM.get(), 3),
-                    5, 16, 0.05F));
+                    5, 8, 0.05F));
 
             trades.get(3).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 8),
                     new ItemStack(ItemRegistry.MINI_MUSHROOM.get(), 1),
-                    3, 16, 0.2F));
+                    3, 25, 0.2F));
 
             trades.get(1).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 8),
@@ -259,6 +259,29 @@ public class RegistryEventHandlers {
                     new ItemCost(Items.EMERALD, 25),
                     new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get(), 1),
                     1, 30, 0.1F));
+        }
+
+        if (event.getType() == VillagerProfession.WEAPONSMITH) {
+            trades.get(2).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 3),
+                    new ItemStack(ItemRegistry.GREEN_KOOPA_SHELL.get(), 1),
+                    9, 16, 0.1F));
+            trades.get(2).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 9),
+                    new ItemStack(ItemRegistry.GREEN_KOOPA_SHELL.get(), 3),
+                    3, 16, 0.15F));
+            trades.get(3).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 16),
+                    new ItemStack(ItemRegistry.RED_KOOPA_SHELL.get(), 1),
+                    9, 24, 0.2F));
+            trades.get(3).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 16),
+                    new ItemStack(ItemRegistry.RED_KOOPA_SHELL.get(), 3),
+                    3, 24, 0.25F));
+            trades.get(4).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 32),
+                    new ItemStack(ItemRegistry.GOLD_KOOPA_SHELL.get(), 1),
+                    3, 30, 0.25F));
         }
     }
 
