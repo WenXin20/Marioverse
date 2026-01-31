@@ -28,7 +28,9 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
     private final Mob mob;
     private T target;
     private int chaseTick;
+    private int nextStartTick = 0;
     private final double speedModifier;
+    private static final int COOLDOWN = 200;
 
     public ChaseTargetGoal(Mob mob, double speedModifier, Class<T> targetClass) {
         this.mob = mob;
@@ -41,7 +43,13 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
     public boolean canUse() {
         this.target = this.findTarget();
 
-        if (this.mob instanceof AbilitiesHandler handler) {
+        if (nextStartTick > 0) {
+            nextStartTick--;
+            return false;
+        }
+
+        if (nextStartTick == 0) {
+            nextStartTick = COOLDOWN;
             if (this.target instanceof SuperMushroomEntity && !this.mob.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM)
                     && (this.mob.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()))
                 return true;
@@ -127,6 +135,7 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
                     this.target.discard();
                     this.mob.swing(this.mob.getUsedItemHand());
                 }
+                nextStartTick = COOLDOWN;
             }
         }
     }

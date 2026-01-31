@@ -42,13 +42,12 @@ public class TickEventHandlers {
             TickEventHandlers.collideWithEntity(entity);
         }
 
-        if (entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) == 0)
-            entity.removeData(DataAttachmentRegistry.ATTACK_COOLDOWN);
-
-        if (entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) > 0)
+        if (entity.hasData(DataAttachmentRegistry.ATTACK_COOLDOWN) &&
+                entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) - 1);
 
-        if (entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) > 0)
+        if (entity.hasData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) &&
+                entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) - 1);
     }
 

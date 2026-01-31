@@ -27,7 +27,7 @@ public class CollectBlockGoal extends Goal {
 
     private BlockPos targetPos;
     private int nextStartTick = 0;
-    private static final int cooldownTicks = 200;
+    private static final int COOLDOWN = 200;
 
     public CollectBlockGoal(Mob mob, float activationChance, int searchRadius, double speedModifier, Predicate<BlockState> targetBlockState) {
         this.mob = mob;
@@ -40,7 +40,8 @@ public class CollectBlockGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        targetPos = this.findBlock();
+        if (nextStartTick == 0)
+            targetPos = this.findBlock();
 
         if (nextStartTick > 0) {
             nextStartTick--;
@@ -50,10 +51,10 @@ public class CollectBlockGoal extends Goal {
         if (!EventHooks.canEntityGrief(this.mob.level(), this.mob))
             return false;
         else if (mob.getRandom().nextFloat() >= this.activationChance) {
-            nextStartTick = cooldownTicks;
+            nextStartTick = COOLDOWN;
             return false;
         } else if (targetPos == null) {
-            nextStartTick = cooldownTicks;
+            nextStartTick = COOLDOWN;
             return false;
         } else return true;
     }
@@ -77,7 +78,7 @@ public class CollectBlockGoal extends Goal {
             if (mob.blockPosition().closerToCenterThan(Vec3.atCenterOf(targetPos), mob.getBbWidth() + 1.2)) {
                 this.collectBlock();
                 targetPos = null;
-                nextStartTick = cooldownTicks;
+                nextStartTick = COOLDOWN;
             }
         }
     }
