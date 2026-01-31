@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, AbilitiesHandler {
-    @Unique private boolean mv$hasDashMushroomBoost;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
@@ -59,16 +58,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
 
             cir.setReturnValue(Optional.of(new ServerPlayer.RespawnPosAngle(spawnPos, angle)));
         }
-    }
-
-    @Override
-    public boolean mv$hasDashMushroomBoost() {
-        return this.mv$hasDashMushroomBoost;
-    }
-
-    @Override
-    public void mv$setDashMushroomBoost(boolean hasDashMushroomBoost) {
-        this.mv$hasDashMushroomBoost = hasDashMushroomBoost;
     }
 
     @Override

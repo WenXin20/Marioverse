@@ -94,9 +94,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float mv$appliedEyeHeightScale = 1.0F;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
-    @Unique private boolean mv$hasSuperMushroom;
-    @Unique private boolean mv$hasDashMushroomBoost;
-    @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
@@ -363,16 +360,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
-    }
-
-    @Override
-    public boolean mv$hasDashMushroomBoost() {
-        return this.mv$hasDashMushroomBoost;
-    }
-
-    @Override
-    public void mv$setDashMushroomBoost(boolean hasDashMushroomBoost) {
-        this.mv$hasDashMushroomBoost = hasDashMushroomBoost;
     }
 
     @Override
