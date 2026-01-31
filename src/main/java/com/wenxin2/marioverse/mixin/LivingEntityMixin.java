@@ -95,7 +95,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$fireballCooldown;
     @Unique private int mv$fireballCount;
-    @Unique private int mv$frozenCooldown;
     @Unique private int mv$iceBallCooldown;
     @Unique private int mv$iceBallCount;
     @Unique private int mv$preventWarpCooldown;
@@ -124,10 +123,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-
-        if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
-            tag.putInt("marioverse:frozen_cooldown", this.mv$getFrozenCooldown());
-        }
 
         if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
             if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
@@ -167,10 +162,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (tag.contains("marioverse:has_super_mushroom_override"))
             entity.getPersistentData().putBoolean("marioverse:has_super_mushroom_override",
                     tag.getBoolean("marioverse:has_super_mushroom_override"));
-
-        if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
-            this.mv$setFrozenCooldown(tag.getInt("marioverse:frozen_cooldown"));
-        }
 
         if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
             if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
@@ -259,9 +250,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (this.mv$getIceBallCooldown() > 0)
             this.mv$setIceBallCooldown(this.mv$getIceBallCooldown() - 1);
-
-        if (this.mv$getFrozenCooldown() > 0)
-            this.mv$setFrozenCooldown(this.mv$getFrozenCooldown() - 1);
 
         if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) - 1);
@@ -387,16 +375,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setWarpCooldown(int warpCooldown) {
         this.mv$warpCooldown = warpCooldown;
-    }
-
-    @Override
-    public int mv$getFrozenCooldown() {
-        return this.mv$frozenCooldown;
-    }
-
-    @Override
-    public void mv$setFrozenCooldown(int frozenCooldown) {
-        this.mv$frozenCooldown = frozenCooldown;
     }
 
     @Unique

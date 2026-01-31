@@ -66,10 +66,6 @@ public interface AbilitiesHandler extends CostumeHandler {
     int mv$getIceBallCount();
     void mv$setIceBallCount(int iceBallCount);
 
-
-    int mv$getFrozenCooldown();
-    void mv$setFrozenCooldown(int frozenCooldown);
-
     @NotNull
     private static Boolean equipCostumes(LivingEntity entity) {
         if (entity instanceof Player)

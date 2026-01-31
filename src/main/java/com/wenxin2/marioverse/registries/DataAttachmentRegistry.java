@@ -92,6 +92,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> FREEZE_IMMUNITY_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("freeze_immunity_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> FROZEN_DURATION = Marioverse.ATTACHMENT_TYPES
+            .register("frozen_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> MEGA_MUSHROOM_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("mega_mushroom_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
@@ -144,8 +147,8 @@ public class DataAttachmentRegistry {
             .register("type", () -> AttachmentType.builder(() -> "").serialize(Codec.STRING)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeUtf, FriendlyByteBuf::readUtf)).build());
 
-    public static final Supplier<AttachmentType<Integer>> ENTITY_FROZEN_COOLDOWN = Marioverse.ATTACHMENT_TYPES
-            .register("entity_frozen_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+    public static final Supplier<AttachmentType<Integer>> ENTITY_FROZEN_DURATION = Marioverse.ATTACHMENT_TYPES
+            .register("entity_frozen_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
 
     public static final Supplier<AttachmentType<Integer>> TICKS_IN_AIR = Marioverse.ATTACHMENT_TYPES

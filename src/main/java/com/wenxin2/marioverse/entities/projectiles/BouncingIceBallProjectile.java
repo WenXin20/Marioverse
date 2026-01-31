@@ -266,17 +266,17 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 }
                 player.extinguishFire();
 
-                if (player.isAlive() && handler.mv$getFrozenCooldown() == 0
+                if (player.isAlive()&& entity.getData(DataAttachmentRegistry.FROZEN_DURATION) == 0
                         && entity.getData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION) == 0) {
                     IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), player.level());
                     iceCube.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
                     if (player.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
                             || player.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)) {
-                        iceCube.setEntityFrozenCooldown(2);
-                        handler.mv$setFrozenCooldown(2);
+                        iceCube.setEntityFrozenDuration(2);
+                        entity.setData(DataAttachmentRegistry.FROZEN_DURATION, 2);
                     } else {
-                        iceCube.setEntityFrozenCooldown(ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-                        handler.mv$setFrozenCooldown(ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                        iceCube.setEntityFrozenDuration(ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                        entity.setData(DataAttachmentRegistry.FROZEN_DURATION, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                     }
                     if (!player.onGround() && !player.isInWaterOrBubble())
                         iceCube.setTicksInAir(120);

@@ -60,6 +60,10 @@ public class TickEventHandlers {
                 entity.getData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION, entity.getData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION) - 1);
 
+        if (entity.hasData(DataAttachmentRegistry.FROZEN_DURATION) &&
+                entity.getData(DataAttachmentRegistry.FROZEN_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.FROZEN_DURATION, entity.getData(DataAttachmentRegistry.FROZEN_DURATION) - 1);
+
         if (entity.hasData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) &&
                 entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) - 1);

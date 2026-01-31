@@ -8,7 +8,6 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
@@ -184,10 +183,10 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             this.leftOwner = this.checkLeftOwner();
 
         if (this.onGround() && this.getDeltaMovement().horizontalDistance() <= 0.005) {
-            if (this.getEntityFrozenCooldown() > 0)
-                this.setEntityFrozenCooldown(this.getEntityFrozenCooldown() - 1);
+            if (this.getEntityFrozenDuration() > 0)
+                this.setEntityFrozenDuration(this.getEntityFrozenDuration() - 1);
         }
-        if (this.getEntityFrozenCooldown() == 0)
+        if (this.getEntityFrozenDuration() == 0)
             this.shatterIceCube(this, false, false, false);
 
         if (!this.onGround() && this.getTicksInAir() > 0)
@@ -575,7 +574,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 entity.discard();
 
             this.refreshDimensions();
-            this.setEntityFrozenCooldown(ticksFrozen);
+            this.setEntityFrozenDuration(ticksFrozen);
         }
     }
 
@@ -684,7 +683,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             this.getControllingPassenger().setData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION, 20);
         this.ejectPassengers();
 
-        if (this.previousFallDistance > 3 || attackingEntity != null || this.getEntityFrozenCooldown() == 0) {
+        if (this.previousFallDistance > 3 || attackingEntity != null || this.getEntityFrozenDuration() == 0) {
             this.discard();
             this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
 
@@ -901,12 +900,12 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.setData(DataAttachmentRegistry.WIDTH_SCALE, widthScale);
     }
 
-    public int getEntityFrozenCooldown() {
-        return this.getData(DataAttachmentRegistry.ENTITY_FROZEN_COOLDOWN);
+    public int getEntityFrozenDuration() {
+        return this.getData(DataAttachmentRegistry.ENTITY_FROZEN_DURATION);
     }
 
-    public void setEntityFrozenCooldown(int frozenCooldown) {
-        this.setData(DataAttachmentRegistry.ENTITY_FROZEN_COOLDOWN, frozenCooldown);
+    public void setEntityFrozenDuration(int frozenCooldown) {
+        this.setData(DataAttachmentRegistry.ENTITY_FROZEN_DURATION, frozenCooldown);
     }
 
     public int getTicksInAir() {
