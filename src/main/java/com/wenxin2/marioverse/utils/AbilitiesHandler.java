@@ -54,12 +54,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface AbilitiesHandler extends CostumeHandler {
-    int mv$getFireballCooldown();
-    void mv$setFireballCooldown(int fireballCooldown);
-
-    int mv$getFireballCount();
-    void mv$setFireballCount(int fireballCount);
-
     int mv$getIceBallCooldown();
     void mv$setIceBallCooldown(int iceBallCooldown);
 

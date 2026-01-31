@@ -36,36 +36,37 @@ public class ShootBouncingFireballGoal extends Goal {
     @Override
     public void start() {
         super.start();
-        if (livingEntity instanceof Mob mob)
+        if (this.livingEntity instanceof Mob mob)
             mob.setAggressive(true);
     }
 
     @Override
     public void stop() {
         super.stop();
-        if (livingEntity instanceof Mob mob)
+        if (this.livingEntity instanceof Mob mob)
             mob.setAggressive(false);
     }
 
     @Override
     public boolean canUse() {
-        boolean canShoot = !requireFireFlower || (livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
-        return livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
+        boolean canShoot = !requireFireFlower || (this.livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
+        return this.livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
     }
 
     @Override
     public void tick() {
         if (canUse()) {
-            if ((livingEntity instanceof Monster monster && monster.getTarget() != null && monster.getSensing().hasLineOfSight(monster.getTarget()))
-                    || (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null && golem.getSensing().hasLineOfSight(golem.getTarget()))
-                    || !(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem))
-                handleFireballShooting();
+            if ((this.livingEntity instanceof Monster monster && monster.getTarget() != null && monster.getSensing().hasLineOfSight(monster.getTarget()))
+                    || (this.livingEntity instanceof AbstractGolem golem && golem.getTarget() != null && golem.getSensing().hasLineOfSight(golem.getTarget()))
+                    || !(this.livingEntity instanceof Monster) && !(this.livingEntity instanceof AbstractGolem))
+                this.handleFireballShooting();
         }
 
-        if (livingEntity instanceof AbilitiesHandler handler && handler.mv$getFireballCooldown() > 0)
-            handler.mv$setFireballCooldown(handler.mv$getFireballCooldown() - 1);
+        if (this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) > 0)
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN,
+                    this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) - 1);
 
-        if (livingEntity instanceof Mob mob) {
+        if (this.livingEntity instanceof Mob mob) {
             LivingEntity target = mob.getTarget();
             if (target != null) {
                 mob.getNavigation().moveTo(target, 1.2);
@@ -79,42 +80,40 @@ public class ShootBouncingFireballGoal extends Goal {
     }
 
     public void handleFireballShooting() {
-        if (livingEntity instanceof AbilitiesHandler handler) {
-            if (!requireFireFlower && handler.mv$getFireballCooldown() == 0
-                    && handler.mv$getFireballCount() < maxFireballs + addFireballsWithFireFlower) {
-                this.shootFireball();
-                handler.mv$setFireballCooldown(FIREBALL_COOLDOWN);
-                handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);
-            } else if (handler.mv$getFireballCooldown() == 0
-                    && handler.mv$getFireballCount() < maxFireballs + addFireballsWithFireFlower
-                    && livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
-                this.shootFireball();
-                handler.mv$setFireballCooldown(FIREBALL_COOLDOWN);
-                handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);
-            } else if (!requireFireFlower && handler.mv$getFireballCount() >= maxFireballs + addFireballsWithFireFlower) {
-                handler.mv$setFireballCooldown(ConfigRegistry.FIREBALL_COOLDOWN.get());
-                handler.mv$setFireballCount(0);
-            } else if (handler.mv$getFireballCount() >= maxFireballs) {
-                handler.mv$setFireballCooldown(ConfigRegistry.FIREBALL_COOLDOWN.get());
-                handler.mv$setFireballCount(0);
-            }
+        if (!requireFireFlower && this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) == 0
+                && this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) < maxFireballs + addFireballsWithFireFlower) {
+            this.shootFireball();
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, FIREBALL_COOLDOWN);
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) + 1);
+        } else if (this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) == 0
+                && this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) < maxFireballs + addFireballsWithFireFlower
+                && this.livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+            this.shootFireball();
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, FIREBALL_COOLDOWN);
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) + 1);
+        } else if (!requireFireFlower && this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) >= maxFireballs + addFireballsWithFireFlower) {
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, ConfigRegistry.FIREBALL_COOLDOWN.get());
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, 0);
+        } else if (this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) >= maxFireballs) {
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, ConfigRegistry.FIREBALL_COOLDOWN.get());
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, 0);
         }
     }
 
     public void shootFireball() {
-        Level world = livingEntity.level();
+        Level world = this.livingEntity.level();
         BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
-        fireball.setOwner(livingEntity);
-        fireball.setPos(livingEntity.getX(), livingEntity.getEyeY() - 0.5, livingEntity.getZ());
-        fireball.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+        fireball.setOwner(this.livingEntity);
+        fireball.setPos(this.livingEntity.getX(), this.livingEntity.getEyeY() - 0.5, this.livingEntity.getZ());
+        fireball.shootFromRotation(this.livingEntity, this.livingEntity.getXRot(), this.livingEntity.getYRot(), 0.0F, 1.2F, 1.0F);
+        world.playSound(null, this.livingEntity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
 
-        Vec3 look = livingEntity.getLookAngle();
+        Vec3 look = this.livingEntity.getLookAngle();
         fireball.setDeltaMovement(look.scale(0.5));
         fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90);
         fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
         world.addFreshEntity(fireball);
-        livingEntity.swing(InteractionHand.MAIN_HAND);
+        this.livingEntity.swing(InteractionHand.MAIN_HAND);
     }
 }

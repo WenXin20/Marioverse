@@ -536,7 +536,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         };
         BlockState statePart = world.getBlockState(statePos);
 
-
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
                 && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0) {
             if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {

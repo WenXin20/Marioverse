@@ -93,8 +93,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$preventWarp;
-    @Unique private int mv$fireballCooldown;
-    @Unique private int mv$fireballCount;
     @Unique private int mv$iceBallCooldown;
     @Unique private int mv$iceBallCount;
     @Unique private int mv$preventWarpCooldown;
@@ -118,8 +116,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
-        tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
         tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
@@ -142,8 +138,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
-        this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
         this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
         this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
 
@@ -239,9 +233,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
             this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
-        if (this.mv$getFireballCooldown() > 0)
-            this.mv$setFireballCooldown(this.mv$getFireballCooldown() - 1);
-
         if (this.mv$getIceBallCooldown() > 0)
             this.mv$setIceBallCooldown(this.mv$getIceBallCooldown() - 1);
 
@@ -274,26 +265,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
-    }
-
-    @Override
-    public int mv$getFireballCooldown() {
-        return this.mv$fireballCooldown;
-    }
-
-    @Override
-    public void mv$setFireballCooldown(int fireballCooldown) {
-        this.mv$fireballCooldown = fireballCooldown;
-    }
-
-    @Override
-    public int mv$getFireballCount() {
-        return this.mv$fireballCount;
-    }
-
-    @Override
-    public void mv$setFireballCount(int fireballCount) {
-        this.mv$fireballCount = fireballCount;
     }
 
     @Override
