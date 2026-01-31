@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, AbilitiesHandler {
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
-    @Unique private int mv$consecutiveBounces;
     @Unique private int mv$fireballCooldown;
     @Unique private int mv$fireballCount;
     @Unique private int mv$freezeImmunityCooldown;
@@ -97,16 +96,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setIceBallCount(int iceBallCount) {
         this.mv$iceBallCount = iceBallCount;
-    }
-
-    @Override
-    public int mv$getConsecutiveBounces() {
-        return this.mv$consecutiveBounces;
-    }
-
-    @Override
-    public void mv$setConsecutiveBounces(int consecutiveBounces) {
-        this.mv$consecutiveBounces = consecutiveBounces;
     }
 
     @Override

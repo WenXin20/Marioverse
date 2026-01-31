@@ -5,13 +5,11 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +29,14 @@ public class TickEventHandlers {
     public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
         Level level = entity.level();
+
+        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
+                && (entity.onGround() || entity.isInWaterOrBubble())
+                && entity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES) > 0
+                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
+            entity.setData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES, 0);
 
         if (!level.isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
