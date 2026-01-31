@@ -132,9 +132,8 @@ public class SquashEntityPacket {
 
     @Unique
     public void consecutiveReward(Player attackingPlayer, Entity damagedEntity) {
-
         if (attackingPlayer instanceof AbilitiesHandler handler) {
-            int oneUpsRewarded = handler.mv$getOneUpsRewarded();
+            int oneUpsRewarded = attackingPlayer.getData(DataAttachmentRegistry.ONE_UPS_REWARDED);
             int consecutiveBounces = handler.mv$getConsecutiveBounces();
             handler.mv$setConsecutiveBounces(consecutiveBounces + 1);
 
@@ -181,7 +180,7 @@ public class SquashEntityPacket {
                 } else
                     attackingPlayer.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
             } else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
-                handler.mv$setOneUpsRewarded(oneUpsRewarded + 1);
+                attackingPlayer.setData(DataAttachmentRegistry.ONE_UPS_REWARDED, oneUpsRewarded + 1);
                 this.bounceReward(attackingPlayer);
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)

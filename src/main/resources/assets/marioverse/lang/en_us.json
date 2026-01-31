@@ -1390,6 +1390,7 @@
   "configuration.marioverse.mini_mushroom_health": "Max Health",
   "configuration.marioverse.mini_mushroom_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.mini_mushroom_reach_distance": "Reach Distance",
+  "configuration.marioverse.one_up_cooldown": "Reward Cooldown",
   "configuration.marioverse.one_up_heals_mobs": "Heals All Mobs",
   "configuration.marioverse.one_up_health_healed": "Health Healed",
   "configuration.marioverse.piranha_plant_hide_duration": "Hide Duration",

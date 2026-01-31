@@ -29,7 +29,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Unique private int mv$frozenCooldown;
     @Unique private int mv$iceBallCooldown;
     @Unique private int mv$iceBallCount;
-    @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$warpCooldown;
 
@@ -108,16 +107,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
     @Override
     public void mv$setConsecutiveBounces(int consecutiveBounces) {
         this.mv$consecutiveBounces = consecutiveBounces;
-    }
-
-    @Override
-    public int mv$getOneUpsRewarded() {
-        return this.mv$oneUpsRewarded;
-    }
-
-    @Override
-    public void mv$setOneUpsRewarded(int oneUpsRewarded) {
-        this.mv$oneUpsRewarded = oneUpsRewarded;
     }
 
     @Override

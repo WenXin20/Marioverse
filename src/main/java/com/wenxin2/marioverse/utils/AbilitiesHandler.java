@@ -79,9 +79,6 @@ public interface AbilitiesHandler extends CostumeHandler {
     int mv$getFrozenCooldown();
     void mv$setFrozenCooldown(int frozenCooldown);
 
-    int mv$getOneUpsRewarded();
-    void mv$setOneUpsRewarded(int oneUpsRewarded);
-
     @NotNull
     private static Boolean equipCostumes(LivingEntity entity) {
         if (entity instanceof Player)

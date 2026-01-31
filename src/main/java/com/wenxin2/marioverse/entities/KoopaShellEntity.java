@@ -812,7 +812,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
     public void consecutiveReward(Entity attackingEntity, LivingEntity damagedEntity) {
         if (attackingEntity instanceof AbilitiesHandler handler) {
-            int oneUpsRewarded = handler.mv$getOneUpsRewarded();
+            int oneUpsRewarded = attackingEntity.getData(DataAttachmentRegistry.ONE_UPS_REWARDED);
             int killCount = this.getKillCount();
             handler.mv$setConsecutiveBounces(killCount + 1);
 
@@ -859,7 +859,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 } else if (attackingEntity instanceof Player player)
                     player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
             } else if (killCount >= 7 && ConfigRegistry.MAX_ONE_UP_SHELL_KILL_REWARD.get() > oneUpsRewarded) {
-                handler.mv$setOneUpsRewarded(oneUpsRewarded + 1);
+                attackingEntity.setData(DataAttachmentRegistry.ONE_UPS_REWARDED, oneUpsRewarded + 1);
                 this.oneUpReward(attackingEntity);
                 if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                     if (damagedEntity.level() instanceof ServerLevel serverWorld)

@@ -93,7 +93,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -111,7 +110,6 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
@@ -354,9 +352,9 @@ public class MarioverseEventHandlers {
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                     || entity.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
-                && entity instanceof AbilitiesHandler handler
-                && handler.mv$getOneUpsRewarded() > 0) {
-            handler.mv$setOneUpsRewarded(0);
+                && entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) > 0) {
+            entity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, 0);
+            entity.setData(DataAttachmentRegistry.ONE_UPS_REWARDED, 0);
         }
     }
 

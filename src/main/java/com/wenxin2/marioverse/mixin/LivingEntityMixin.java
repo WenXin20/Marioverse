@@ -103,7 +103,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private int mv$frozenCooldown;
     @Unique private int mv$iceBallCooldown;
     @Unique private int mv$iceBallCount;
-    @Unique private int mv$oneUpsRewarded;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$warpCooldown;
 
@@ -135,7 +134,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
                     || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
             tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
-            tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
         }
 
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
@@ -190,7 +188,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())
                 && !entity.hasData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)) {
             this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
-            this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
         }
 
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
@@ -410,16 +407,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setConsecutiveBounces(int consecutiveBounces) {
         this.mv$consecutiveBounces = consecutiveBounces;
-    }
-
-    @Override
-    public int mv$getOneUpsRewarded() {
-        return this.mv$oneUpsRewarded;
-    }
-
-    @Override
-    public void mv$setOneUpsRewarded(int oneUpsRewarded) {
-        this.mv$oneUpsRewarded = oneUpsRewarded;
     }
 
     @Override
@@ -1253,7 +1240,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     public void mv$consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity) {
-        int oneUpsRewarded = this.mv$getOneUpsRewarded();
+        int oneUpsRewarded = attackingEntity.getData(DataAttachmentRegistry.ONE_UPS_REWARDED);
         int consecutiveBounces = this.mv$getConsecutiveBounces();
         this.mv$setConsecutiveBounces(consecutiveBounces + 1);
 
@@ -1307,7 +1294,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
         }
         else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
-            this.mv$setOneUpsRewarded(oneUpsRewarded + 1);
+            attackingEntity.setData(DataAttachmentRegistry.ONE_UPS_REWARDED, oneUpsRewarded + 1);
+            attackingEntity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, ConfigRegistry.ONE_UP_COOLDOWN.get());
             this.mv$bounceReward(attackingEntity);
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
                 if (damagedEntity.level() instanceof ServerLevel serverWorld)

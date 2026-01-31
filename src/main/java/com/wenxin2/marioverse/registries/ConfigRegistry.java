@@ -218,6 +218,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue MAX_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue MAX_SNOW_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue MEGA_MUSHROOM_DURATION;
+    public static ModConfigSpec.IntValue ONE_UP_COOLDOWN;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_FREQUENCY;
@@ -555,15 +556,7 @@ public class ConfigRegistry {
                         .comment("Amount of damage stomping causes.")
                         .comment("§6[1 point = 1/2 Heart]")
                         .comment("§9[Default: 4.0]§b")
-                        .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
-                MAX_ONE_UP_BOUNCE_REWARD = BUILDER.translation("configuration.marioverse.max_one_up_bounce_reward")
-                        .comment("Max amount of 1-Ups that can be rewarded from consecutive bounces.")
-                        .comment("§9[Default: 2]§b")
-                        .defineInRange("max_one_up_bounce_reward", 2, 0, 64);
-                MAX_ONE_UP_SHELL_KILL_REWARD = BUILDER.translation("configuration.marioverse.max_one_up_shell_kill_reward")
-                        .comment("Max amount of 1-Ups that can be rewarded from shell kills.")
-                        .comment("§9[Default: 1]§b")
-                        .defineInRange("max_one_up_shell_kill_reward", 1, 0, 64);
+                                .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_HOLIDAY);
@@ -955,6 +948,18 @@ public class ConfigRegistry {
                             .comment("Allow 1-Ups to heal all mobs.")
                             .comment("§9[Default: false]")
                             .define("one_up_heals_mobs", false);
+                    MAX_ONE_UP_SHELL_KILL_REWARD = BUILDER.translation("configuration.marioverse.max_one_up_shell_kill_reward")
+                            .comment("Max amount of 1-Ups that can be rewarded from shell kills.§b")
+                            .defineInRange("max_one_up_shell_kill_reward", 1, 0, 64);
+                    MAX_ONE_UP_BOUNCE_REWARD = BUILDER.translation("configuration.marioverse.max_one_up_bounce_reward")
+                            .comment("Max amount of 1-Ups that can be rewarded from consecutive bounces before the cooldown is applied.§b")
+                            .defineInRange("max_one_up_bounce_reward", 2, 0, 64);
+                    ONE_UP_COOLDOWN = BUILDER.translation("configuration.marioverse.one_up_cooldown")
+                            .comment("Cooldown applied to 1-Ups that can be rewarded from consecutive bounces.")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .comment("§6[72,000 ticks = 1 hour]§b")
+                            .comment("§6[1,728,000 ticks = 24 hours]§b")
+                            .defineInRange("one_up_cooldown", 6000, 0, 1728000);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SUPER_STAR);
