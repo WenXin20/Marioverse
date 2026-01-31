@@ -1240,9 +1240,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     public void mv$consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity) {
+        int consecutiveBounces = attackingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES);
         int oneUpsRewarded = attackingEntity.getData(DataAttachmentRegistry.ONE_UPS_REWARDED);
-        int consecutiveBounces = this.mv$getConsecutiveBounces();
-        this.mv$setConsecutiveBounces(consecutiveBounces + 1);
+        attackingEntity.setData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES, consecutiveBounces + 1);
 
         if (consecutiveBounces == 0) {
             if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {

@@ -80,6 +80,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> ATTACK_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("attack_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> CONSECUTIVE_BOUNCES = Marioverse.ATTACHMENT_TYPES
+            .register("consecutive_bounces", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> DEATH_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("death_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());

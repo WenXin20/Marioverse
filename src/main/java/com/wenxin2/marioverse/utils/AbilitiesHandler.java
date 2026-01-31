@@ -154,6 +154,12 @@ public interface AbilitiesHandler extends CostumeHandler {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
             AttributeInstance stepAttribute = entity.getAttribute(Attributes.STEP_HEIGHT);
 
+            AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
+            AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH,
+                    -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(),
+                    !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM),
+                    entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
+
             if (entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
                 entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
                 entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, 0);
@@ -165,12 +171,6 @@ public interface AbilitiesHandler extends CostumeHandler {
 
             if (world instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
-
-            AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
-            AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH,
-                    -entity.getMaxHealth() + ConfigRegistry.MINI_MUSHROOM_HEALTH.get(),
-                    !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM),
-                    entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
 
             if (!world.isClientSide) {
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS))
