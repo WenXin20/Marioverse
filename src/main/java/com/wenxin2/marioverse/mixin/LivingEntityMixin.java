@@ -95,7 +95,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$fireballCooldown;
     @Unique private int mv$fireballCount;
-    @Unique private int mv$freezeImmunityCooldown;
     @Unique private int mv$frozenCooldown;
     @Unique private int mv$iceBallCooldown;
     @Unique private int mv$iceBallCount;
@@ -127,7 +126,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
 
         if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
-            tag.putInt("marioverse:freeze_immunity_cooldown", this.mv$getFreezeImmunityCooldown());
             tag.putInt("marioverse:frozen_cooldown", this.mv$getFrozenCooldown());
         }
 
@@ -171,7 +169,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     tag.getBoolean("marioverse:has_super_mushroom_override"));
 
         if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
-            this.mv$setFreezeImmunityCooldown(tag.getInt("marioverse:freeze_immunity_cooldown"));
             this.mv$setFrozenCooldown(tag.getInt("marioverse:frozen_cooldown"));
         }
 
@@ -262,9 +259,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (this.mv$getIceBallCooldown() > 0)
             this.mv$setIceBallCooldown(this.mv$getIceBallCooldown() - 1);
-
-        if (this.mv$getFreezeImmunityCooldown() > 0)
-            this.mv$setFreezeImmunityCooldown(this.mv$getFreezeImmunityCooldown() - 1);
 
         if (this.mv$getFrozenCooldown() > 0)
             this.mv$setFrozenCooldown(this.mv$getFrozenCooldown() - 1);
@@ -393,16 +387,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public void mv$setWarpCooldown(int warpCooldown) {
         this.mv$warpCooldown = warpCooldown;
-    }
-
-    @Override
-    public int mv$getFreezeImmunityCooldown() {
-        return this.mv$freezeImmunityCooldown;
-    }
-
-    @Override
-    public void mv$setFreezeImmunityCooldown(int freezeImmunityCooldown) {
-        this.mv$freezeImmunityCooldown = freezeImmunityCooldown;
     }
 
     @Override

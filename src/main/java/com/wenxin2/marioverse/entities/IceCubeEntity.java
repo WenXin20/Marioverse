@@ -679,8 +679,9 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 else this.spawnShatterParticles(serverWorld, entity, ParticleRegistry.ICE_CUBE_SHATTER.get());
             }
         }
-        if (this.getControllingPassenger() instanceof AbilitiesHandler handler)
-            handler.mv$setFreezeImmunityCooldown(20);
+
+        if (this.getControllingPassenger() != null)
+            this.getControllingPassenger().setData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION, 20);
         this.ejectPassengers();
 
         if (this.previousFallDistance > 3 || attackingEntity != null || this.getEntityFrozenCooldown() == 0) {
