@@ -12,7 +12,6 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.ArrayList;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -30,12 +29,10 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -119,22 +116,20 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
                         goomba.setDeltaMovement(xOffset * 0.5, upwardMotion, zOffset * 0.5);
                         goomba.move(MoverType.SELF, goomba.getDeltaMovement());
 
+                        goomba.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM));
+                        goomba.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, this.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
+                        goomba.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, this.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
+                        goomba.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
+                        goomba.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
+                        goomba.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+                        goomba.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
+
                         this.copyAttributeWithModifiers(goomba, Attributes.MAX_HEALTH);
                         this.copyAttributeWithModifiers(goomba, Attributes.SAFE_FALL_DISTANCE);
                         this.copyAttributeWithModifiers(goomba, Attributes.SCALE);
                         this.copyAttributeWithModifiers(goomba, AttributesRegistry.EYE_HEIGHT_SCALE);
                         this.copyAttributeWithModifiers(goomba, AttributesRegistry.HEIGHT_SCALE);
                         this.copyAttributeWithModifiers(goomba, AttributesRegistry.WIDTH_SCALE);
-
-                        if (this instanceof AbilitiesHandler handler && goomba instanceof AbilitiesHandler entityHandler) {
-                            entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-                            goomba.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, this.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
-                            goomba.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, this.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
-                            goomba.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
-                            goomba.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
-                            goomba.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-                            goomba.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
-                        }
 
                         spawnedGoombas.add(goomba);
                     }

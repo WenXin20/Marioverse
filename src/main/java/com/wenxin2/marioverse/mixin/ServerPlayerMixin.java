@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.mixin;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.BlockWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.EntityWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -11,7 +10,6 @@ import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,9 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, AbilitiesHandler {
-    @Unique private boolean mv$hasSuperMushroom;
     @Unique private boolean mv$hasDashMushroomBoost;
-    @Unique private boolean mv$hasSuperMushroomOverride;
     @Unique private boolean mv$preventWarp;
     @Unique private int mv$checkpointFlagCooldown;
     @Unique private int mv$consecutiveBounces;
@@ -63,26 +59,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
 
             cir.setReturnValue(Optional.of(new ServerPlayer.RespawnPosAngle(spawnPos, angle)));
         }
-    }
-
-    @Override
-    public boolean mv$hasSuperMushroom() {
-        return this.mv$hasSuperMushroom;
-    }
-
-    @Override
-    public void mv$setSuperMushroom(boolean hasSuperMushroom) {
-        this.mv$hasSuperMushroom = hasSuperMushroom;
-    }
-
-    @Override
-    public boolean mv$hasSuperMushroomOverride() {
-        return this.mv$hasSuperMushroomOverride;
-    }
-
-    @Override
-    public void mv$setMushroomOverride(boolean hasSuperMushroomOverride) {
-        this.mv$hasSuperMushroomOverride = hasSuperMushroomOverride;
     }
 
     @Override

@@ -143,17 +143,27 @@ public class MarioverseEventHandlers {
             tag.remove("marioverse:has_ice_flower");
         }
 
-        if (entity instanceof AbilitiesHandler handler && !handler.mv$hasSuperMushroomOverride()) {
+        if (tag.contains("marioverse:has_super_mushroom")) {
+            entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, tag.getBoolean("marioverse:has_super_mushroom"));
+            tag.remove("marioverse:has_super_mushroom");
+        }
+
+        if (tag.contains("marioverse:has_super_mushroom_override")) {
+            entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE, tag.getBoolean("marioverse:has_super_mushroom_override"));
+            tag.remove("marioverse:has_super_mushroom_override");
+        }
+
+        if (!entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)) {
             if (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                     || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()) {
                 if (entity instanceof Player player) {
                     if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                        handler.mv$setSuperMushroom(true);
+                        entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
                 } else if (entity instanceof LivingEntity livingEntity) {
                     if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
-                        handler.mv$setSuperMushroom(true);
+                        entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
                 }
-            } else handler.mv$setSuperMushroom(true);
+            } else entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
         }
 
         if (entity instanceof Mob mob) {
@@ -207,15 +217,15 @@ public class MarioverseEventHandlers {
     public static void onEntityHeal(LivingHealEvent event) {
         Entity entity = event.getEntity();
 
-        if (entity instanceof AbilitiesHandler handler && !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+        if (!entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                     || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             if (entity instanceof Player player) {
                 if (player.getHealth() > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
-                    handler.mv$setSuperMushroom(true);
+                    entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
             } else if (entity instanceof LivingEntity livingEntity) {
                 if (livingEntity.getHealth() > livingEntity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get())
-                    handler.mv$setSuperMushroom(true);
+                    entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
             }
         }
     }
@@ -226,8 +236,7 @@ public class MarioverseEventHandlers {
         Level world = entity.level();
         DamageSource source = event.getSource();
 
-        if (entity instanceof Player player && !player.isDamageSourceBlocked(event.getSource())
-                && player instanceof AbilitiesHandler handler) {
+        if (entity instanceof Player player && !player.isDamageSourceBlocked(event.getSource())) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
             SoundSource soundSource = SoundSource.PLAYERS;
 
@@ -255,8 +264,8 @@ public class MarioverseEventHandlers {
             }
 
             if (healthAfterDamage <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()) {
-                handler.mv$setSuperMushroom(false);
-                if (handler.mv$hasSuperMushroom())
+                entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, false);
+                if (entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM))
                     world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                             soundSource, 1.0F, 1.0F);
             }
@@ -274,8 +283,7 @@ public class MarioverseEventHandlers {
                     }
                 }
             }
-        } else if (!entity.isDamageSourceBlocked(event.getSource())
-                && entity instanceof AbilitiesHandler handler) {
+        } else if (!entity.isDamageSourceBlocked(event.getSource())) {
             float maxHealth = entity.getMaxHealth();
             float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
@@ -311,7 +319,7 @@ public class MarioverseEventHandlers {
             }
 
             if (healthAfterDamage <= threshold)
-                handler.mv$setSuperMushroom(false);
+                entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, false);
 
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
@@ -722,9 +730,8 @@ public class MarioverseEventHandlers {
                     if (ConfigRegistry.CHECKPOINT_FLAG_MODIFY_HEALTH.get()) {
                         player.setHealth(ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_HEALTH.get().floatValue());
                         player.getFoodData().setFoodLevel(ConfigRegistry.CHECKPOINT_FLAG_FOOD_AMT.get());
-                        if (player.getHealth() <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
-                                && player instanceof AbilitiesHandler handler)
-                            handler.mv$setSuperMushroom(false);
+                        if (player.getHealth() <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get())
+                            player.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, false);
                     }
 
                     if (world instanceof ServerLevel serverWorld)
@@ -733,7 +740,7 @@ public class MarioverseEventHandlers {
                                 10, 0.4, 0.5, 0.4, 0.6);
                 }
 
-                if (state.getBlock() instanceof CheckpointFlagBlock flagBlock
+                if (state.getBlock() instanceof CheckpointFlagBlock
                         && world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
                         && ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_USES_ITEMS.get()) {
                     ItemStack storedItem = flagBE.getTheItem();

@@ -36,7 +36,8 @@ public class TickEventHandlers {
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
             if (ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get()
                     && (ConfigRegistry.MEGA_MOBS_BREAK_BLOCKS.get() || entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))
-                    && (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) || (entity instanceof Player && entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))))
+                    && (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                        || (entity instanceof Player && entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))))
                 TickEventHandlers.breakBlocks(entity);
             TickEventHandlers.collideWithEntity(entity);
         }

@@ -141,7 +141,7 @@ public class PowerUpCommand {
         );
     }
 
-    private static void applyPowerUpType(AbilitiesHandler handler, Entity entity, String powerUpName, boolean enablePowerUp) {
+    private static void applyPowerUpType(Entity entity, String powerUpName, boolean enablePowerUp) {
         switch (powerUpName) {
             case "fire_flower" -> entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, enablePowerUp);
             case "ice_flower" -> entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, enablePowerUp);
@@ -154,8 +154,8 @@ public class PowerUpCommand {
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
-                applyPowerUpType(handler, entity, powerUpName, enablePowerUp);
+            if (entity instanceof LivingEntity) {
+                applyPowerUpType(entity, powerUpName, enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
@@ -229,19 +229,19 @@ public class PowerUpCommand {
                 maxHealth / 2).withStyle(ChatFormatting.RED);
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+            if (entity instanceof LivingEntity livingEntity) {
                 AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
                 AttributeInstance stepAttribute = livingEntity.getAttribute(Attributes.STEP_HEIGHT);
                 entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, enablePowerUp);
-                handler.mv$setSuperMushroom(enablePowerUp);
+                entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
                 livingEntity.heal((float) maxHealth * 2);
                 count++;
 
                 if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                     entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
 
-                handler.mv$updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, stepHeight, stepHeight != 0.0D, false);
-                handler.mv$updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH,
+                AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, stepHeight, stepHeight != 0.0D, false);
+                AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH,
                         -livingEntity.getMaxHealth() + maxHealth,
                         !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && maxHealth != 0.0D,
                         !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM) || !enablePowerUp);
@@ -305,10 +305,10 @@ public class PowerUpCommand {
                 maxHealth / 2).withStyle(ChatFormatting.RED);
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler) {
+            if (entity instanceof LivingEntity livingEntity) {
                 AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, enablePowerUp);
-                handler.mv$setSuperMushroom(!enablePowerUp);
+                entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, !enablePowerUp);
                 livingEntity.heal((float) maxHealth * 2);
                 count++;
 
@@ -317,7 +317,7 @@ public class PowerUpCommand {
                     entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, 0);
                 }
 
-                handler.mv$updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH,
+                AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH,
                         -livingEntity.getMaxHealth() + maxHealth,
                         !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH) && maxHealth != 0.0D,
                         !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM) || !enablePowerUp);
@@ -359,9 +359,9 @@ public class PowerUpCommand {
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
-                handler.mv$setSuperMushroom(enablePowerUp);
-                handler.mv$setMushroomOverride(manualOverride);
+            if (entity instanceof LivingEntity) {
+                entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, enablePowerUp);
+                entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE, manualOverride);
                 count++;
 
                 if (enablePowerUp)
@@ -436,13 +436,14 @@ public class PowerUpCommand {
         List<Component> singleResults = new ArrayList<>();
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity && entity instanceof AbilitiesHandler handler) {
+            if (entity instanceof LivingEntity) {
                 boolean hasPowerUp = switch (powerUpName) {
                     case "fire_flower" -> entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER);
                     case "ice_flower" -> entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER);
                     case "mega_mushroom" -> entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
                     case "mini_mushroom" -> entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
-                    case "super_mushroom" -> handler.mv$hasSuperMushroom();
+                    case "super_mushroom" -> entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM)
+                            || entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE);
                     case "super_star" -> entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR);
                     default -> false;
                 };

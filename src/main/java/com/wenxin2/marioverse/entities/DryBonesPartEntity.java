@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -347,15 +346,13 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
         if (partSource.getOwner() != null)
             entity.setUUID(partSource.getOwner().getUUID());
 
-        if (partSource instanceof AbilitiesHandler handler && entity instanceof AbilitiesHandler entityHandler) {
-            entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-            entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, partSource.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
-            entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, partSource.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
-            entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, partSource.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
-            entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, partSource.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
-            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, partSource.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, partSource.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
-        }
+        entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, partSource.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM));
+        entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, partSource.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
+        entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, partSource.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
+        entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, partSource.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
+        entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, partSource.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
+        entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, partSource.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+        entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, partSource.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
 
         partSource.copyAttributeWithModifiers(entity, Attributes.MAX_HEALTH);
         partSource.copyAttributeWithModifiers(entity, Attributes.SAFE_FALL_DISTANCE);

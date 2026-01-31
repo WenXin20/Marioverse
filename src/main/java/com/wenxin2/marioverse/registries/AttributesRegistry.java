@@ -3,8 +3,11 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.Nullable;
 
 public class AttributesRegistry {
     public static final DeferredHolder<Attribute, Attribute> EYE_HEIGHT_SCALE;
@@ -36,4 +39,18 @@ public class AttributesRegistry {
     }
 
     public static void init() {}
+
+    public static void updateAttributeModifiers(@Nullable AttributeInstance attribute, ResourceLocation id, double amount, boolean shouldAdd, boolean shouldRemove) {
+        if (attribute == null)
+            return;
+        AttributeModifier modifier = attribute.getModifier(id);
+
+        if (modifier != null && shouldRemove) {
+            attribute.removeModifier(modifier);
+            modifier = null;
+        }
+
+        if (modifier == null && shouldAdd && amount != 0)
+            attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
+    }
 }
