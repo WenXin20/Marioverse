@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -12,6 +13,8 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
@@ -29,6 +32,11 @@ public class TickEventHandlers {
     public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
         Level level = entity.level();
+        double deltaY = entity.getDeltaMovement().y;
+
+        if ((entity.onGround() || entity.isInWaterOrBubble())
+                && deltaY <= 0 && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
@@ -64,9 +72,38 @@ public class TickEventHandlers {
                 entity.getData(DataAttachmentRegistry.FROZEN_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.FROZEN_DURATION, entity.getData(DataAttachmentRegistry.FROZEN_DURATION) - 1);
 
+        if (entity.hasData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) &&
+                entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) - 1);
+
         if (entity.hasData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) &&
                 entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) - 1);
+
+        if (entity.hasData(DataAttachmentRegistry.SUPER_STAR_DURATION) &&
+                entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) - 1);
+
+
+        if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) == 0
+                && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
+                && entity instanceof LivingEntity livingEntity) {
+            AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
+            AttributeInstance stepAttribute = livingEntity.getAttribute(Attributes.STEP_HEIGHT);
+
+            entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
+//            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false); // TODO
+
+            AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
+            AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
+                    false, !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
+        }
+
+        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) == 0
+                && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
+            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, false);
+            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false);
+        }
     }
 
     @SubscribeEvent

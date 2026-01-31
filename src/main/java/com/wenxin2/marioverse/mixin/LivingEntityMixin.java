@@ -205,12 +205,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && !entity.isSpectator())
             this.mv$squashEntity(entity);
 
-        double deltaY = entity.getDeltaMovement().y;
-
-        if ((entity.onGround() || entity.isInWaterOrBubble())
-                && deltaY <= 0 && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
-            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
-
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player player && !player.mayFly())
@@ -250,31 +244,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (this.mv$getIceBallCooldown() > 0)
             this.mv$setIceBallCooldown(this.mv$getIceBallCooldown() - 1);
-
-        if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) > 0)
-            entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) - 1);
-
-        if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) == 0
-                && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
-            AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
-            AttributeInstance stepAttribute = entity.getAttribute(Attributes.STEP_HEIGHT);
-
-            entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
-//            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false); // TODO
-
-            AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
-            AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
-                    false, !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
-        }
-
-        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
-            entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) - 1);
-
-        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) == 0
-                && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
-            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, false);
-            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false);
-        }
 
         if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);
