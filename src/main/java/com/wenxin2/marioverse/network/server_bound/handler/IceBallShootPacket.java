@@ -7,10 +7,8 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -37,16 +35,14 @@ public class IceBallShootPacket {
     }
 
     public void handleIceballShooting(Player player) {
-        if (player instanceof AbilitiesHandler handler) {
-            if (handler.mv$getIceBallCooldown() == 0
-                    && handler.mv$getIceBallCount() < ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
-                shootIceBall(player);
-                handler.mv$setIceBallCooldown(ICE_BALL_COOLDOWN);
-                handler.mv$setIceBallCount(handler.mv$getIceBallCount() + 1);
-            } else if (handler.mv$getIceBallCount() >= ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
-                handler.mv$setIceBallCooldown(ConfigRegistry.ICE_BALL_COOLDOWN.get());
-                handler.mv$setIceBallCount(0);
-            }
+        if (player.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) == 0
+                && player.getData(DataAttachmentRegistry.ICE_BALL_COUNT) < ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
+            IceBallShootPacket.shootIceBall(player);
+            player.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, ICE_BALL_COOLDOWN);
+            player.setData(DataAttachmentRegistry.ICE_BALL_COUNT, player.getData(DataAttachmentRegistry.ICE_BALL_COUNT) + 1);
+        } else if (player.getData(DataAttachmentRegistry.ICE_BALL_COUNT) >= ConfigRegistry.MAX_PLAYER_ICE_BALLS.get()) {
+            player.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, ConfigRegistry.ICE_BALL_COOLDOWN.get());
+            player.setData(DataAttachmentRegistry.ICE_BALL_COUNT, 0);
         }
     }
 

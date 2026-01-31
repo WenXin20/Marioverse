@@ -54,12 +54,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface AbilitiesHandler extends CostumeHandler {
-    int mv$getIceBallCooldown();
-    void mv$setIceBallCooldown(int iceBallCooldown);
-
-    int mv$getIceBallCount();
-    void mv$setIceBallCount(int iceBallCount);
-
     @NotNull
     private static Boolean equipCostumes(LivingEntity entity) {
         if (entity instanceof Player)

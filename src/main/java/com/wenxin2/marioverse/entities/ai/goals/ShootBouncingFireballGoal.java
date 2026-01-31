@@ -49,7 +49,7 @@ public class ShootBouncingFireballGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        boolean canShoot = !requireFireFlower || (this.livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
+        boolean canShoot = !this.requireFireFlower || (this.livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
         return this.livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
     }
 
@@ -80,21 +80,24 @@ public class ShootBouncingFireballGoal extends Goal {
     }
 
     public void handleFireballShooting() {
-        if (!requireFireFlower && this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) == 0
-                && this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) < maxFireballs + addFireballsWithFireFlower) {
+        int fireballCooldown = this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN);
+        int fireballCount = this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT);
+
+        if (!this.requireFireFlower && fireballCooldown == 0
+                && fireballCount < this.maxFireballs + this.addFireballsWithFireFlower) {
             this.shootFireball();
             this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, FIREBALL_COOLDOWN);
-            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) + 1);
-        } else if (this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) == 0
-                && this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) < maxFireballs + addFireballsWithFireFlower
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, fireballCount + 1);
+        } else if (fireballCooldown == 0
+                && fireballCount < this.maxFireballs + this.addFireballsWithFireFlower
                 && this.livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
             this.shootFireball();
             this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, FIREBALL_COOLDOWN);
-            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) + 1);
-        } else if (!requireFireFlower && this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) >= maxFireballs + addFireballsWithFireFlower) {
+            this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, fireballCount + 1);
+        } else if (!this.requireFireFlower && fireballCount >= this.maxFireballs + this.addFireballsWithFireFlower) {
             this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, ConfigRegistry.FIREBALL_COOLDOWN.get());
             this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, 0);
-        } else if (this.livingEntity.getData(DataAttachmentRegistry.FIREBALL_COUNT) >= maxFireballs) {
+        } else if (fireballCount >= this.maxFireballs) {
             this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, ConfigRegistry.FIREBALL_COOLDOWN.get());
             this.livingEntity.setData(DataAttachmentRegistry.FIREBALL_COUNT, 0);
         }

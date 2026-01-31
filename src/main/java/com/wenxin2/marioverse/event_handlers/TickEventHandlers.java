@@ -76,6 +76,10 @@ public class TickEventHandlers {
                 entity.getData(DataAttachmentRegistry.FROZEN_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.FROZEN_DURATION, entity.getData(DataAttachmentRegistry.FROZEN_DURATION) - 1);
 
+        if (entity.hasData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) &&
+                entity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) > 0)
+            entity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, entity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) - 1);
+
         if (entity.hasData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) &&
                 entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) - 1);

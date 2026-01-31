@@ -21,8 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayer.class)
 public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlayerHandler, AbilitiesHandler {
     @Unique private boolean mv$preventWarp;
-    @Unique private int mv$iceBallCooldown;
-    @Unique private int mv$iceBallCount;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$warpCooldown;
 
@@ -51,26 +49,6 @@ public class ServerPlayerMixin implements BlockWarpPlayerHandler, EntityWarpPlay
 
             cir.setReturnValue(Optional.of(new ServerPlayer.RespawnPosAngle(spawnPos, angle)));
         }
-    }
-
-    @Override
-    public int mv$getIceBallCooldown() {
-        return this.mv$iceBallCooldown;
-    }
-
-    @Override
-    public void mv$setIceBallCooldown(int iceBallCooldown) {
-        this.mv$iceBallCooldown = iceBallCooldown;
-    }
-
-    @Override
-    public int mv$getIceBallCount() {
-        return this.mv$iceBallCount;
-    }
-
-    @Override
-    public void mv$setIceBallCount(int iceBallCount) {
-        this.mv$iceBallCount = iceBallCount;
     }
 
     @Override

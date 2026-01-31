@@ -93,8 +93,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
     @Unique private boolean mv$preventWarp;
-    @Unique private int mv$iceBallCooldown;
-    @Unique private int mv$iceBallCount;
     @Unique private int mv$preventWarpCooldown;
     @Unique private int mv$warpCooldown;
 
@@ -116,10 +114,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
-        tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-        tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-
         if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
             if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
                 tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
@@ -137,9 +131,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-
-        this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
-        this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
 
         if (tag.contains("marioverse:has_fire_flower"))
             entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
@@ -233,9 +224,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
             this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
-        if (this.mv$getIceBallCooldown() > 0)
-            this.mv$setIceBallCooldown(this.mv$getIceBallCooldown() - 1);
-
         if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);
             if (!entity.isInvisible()) {
@@ -265,26 +253,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
-    }
-
-    @Override
-    public int mv$getIceBallCooldown() {
-        return this.mv$iceBallCooldown;
-    }
-
-    @Override
-    public void mv$setIceBallCooldown(int iceBallCooldown) {
-        this.mv$iceBallCooldown = iceBallCooldown;
-    }
-
-    @Override
-    public int mv$getIceBallCount() {
-        return this.mv$iceBallCount;
-    }
-
-    @Override
-    public void mv$setIceBallCount(int iceBallCount) {
-        this.mv$iceBallCount = iceBallCount;
     }
 
     @Override
