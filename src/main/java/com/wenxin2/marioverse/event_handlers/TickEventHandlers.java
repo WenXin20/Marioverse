@@ -7,13 +7,17 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -25,14 +29,25 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import org.spongepowered.asm.mixin.Unique;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class TickEventHandlers {
+    private static double currentEyeHeightScale = 1.0;
+    private static double currentHeightScale = 1.0;
+    private static double currentWidthScale = 1.0;
+
     @SubscribeEvent
     public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
         Level level = entity.level();
         double deltaY = entity.getDeltaMovement().y;
+
+        if (entity instanceof LivingEntity livingEntity) {
+            TickEventHandlers.megaMushroomScale(livingEntity);
+            TickEventHandlers.miniMushroomScale(livingEntity);
+            TickEventHandlers.superMushroomScale(livingEntity);
+        }
 
         if ((entity.onGround() || entity.isInWaterOrBubble())
                 && deltaY <= 0 && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
@@ -289,6 +304,156 @@ public class TickEventHandlers {
 
                 if (!stateBelow.isAir() && stateBelow.is(TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING))
                     level.destroyBlock(posBelow, true, entity);
+            }
+        }
+    }
+
+    public static void megaMushroomScale(LivingEntity entity) {
+        AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
+        AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
+        AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
+        boolean hasMegaMushroom = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
+        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
+        boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
+        float scalingSpeed = 0.1F;
+
+        double targetEyeHeightScale = hasMegaMushroom ? 3.0D : 1.0D;
+        double targetHeightScale = hasMegaMushroom ? 3.0D : 1.0D;
+        double targetWidthScale = hasMegaMushroom ? 3.0D : 1.0D;
+
+        boolean shouldScale = hasMegaMushroom;
+        boolean shouldReset = !hasMegaMushroom && !hasMiniMushroom;
+
+        if (shouldScale && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+            if (entity.getLastDamageSource() != null && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
+                return;
+            updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+            updateScale(heightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+            updateScale(widthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+        }
+
+        if (shouldReset && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
+                updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+
+            if (heightScale != null && heightScale.getValue() != 1.0D)
+                updateScale(heightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+
+            if (widthScale != null && widthScale.getValue() != 1.0D)
+                updateScale(widthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+        }
+    }
+
+    public static void miniMushroomScale(LivingEntity entity) {
+        AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
+        AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
+        AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
+        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
+        boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
+        float scalingSpeed = 0.1F;
+
+        double targetEyeHeightScale = hasMiniMushroom ? 0.25D : 1.0D;
+        double targetHeightScale = hasMiniMushroom ? 0.25D : 1.0D;
+        double targetWidthScale = hasMiniMushroom ? 0.35D : 1.0D;
+
+        boolean shouldScale = !hasSuperMushroom && hasMiniMushroom;
+        boolean shouldReset = hasSuperMushroom && !hasMiniMushroom;
+
+        if (shouldScale && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+            if (entity.getLastDamageSource() != null && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
+                return;
+            updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+            updateScale(heightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+            updateScale(widthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+        }
+
+        if (shouldReset && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
+                updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+
+            if (heightScale != null && heightScale.getValue() != 1.0D)
+                updateScale(heightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+
+            if (widthScale != null && widthScale.getValue() != 1.0D)
+                updateScale(widthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+        }
+    }
+
+    public static void superMushroomScale(LivingEntity entity) {
+        Level world = entity.level();
+        AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
+        AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
+        AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
+        boolean hasMegaMushroom = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
+        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
+        boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
+        float health = entity.getHealth();
+        float scalingSpeed = 0.1F;
+
+        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
+        double targetHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
+        double targetWidthScale = hasSuperMushroom ? 1.0D : 0.75D;
+
+        boolean isPlayer = entity instanceof Player;
+        boolean shouldScale = !hasSuperMushroom && !hasMegaMushroom && !hasMiniMushroom
+                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
+                && (isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
+                    || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
+                        && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS))
+                    || (!isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
+                        || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
+                        && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)));
+
+        boolean shouldReset = hasSuperMushroom && !hasMegaMushroom && !hasMiniMushroom
+                && (isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
+                    || (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
+                        && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS))
+                    || (!isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
+                        || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
+                        && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)));
+
+        if (shouldScale && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+            if (entity.getLastDamageSource() != null && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
+                return;
+            updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+            updateScale(heightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+            updateScale(widthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+        }
+
+        if (shouldReset && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
+                updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+
+            if (heightScale != null && heightScale.getValue() != 1.0D)
+                updateScale(heightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+
+            if (widthScale != null && widthScale.getValue() != 1.0D)
+                updateScale(widthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+        }
+    }
+
+    @Unique
+    private static void updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed, Consumer<Double> setter) {
+        ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
+
+        if (scaleAttribute != null) {
+            double actualScale = scaleAttribute.getValue();
+            double lerpedScale = Mth.lerp(scalingSpeed, actualScale, targetScale);
+            double modifierAmount = lerpedScale - 1.0D;
+
+            if (Math.abs(actualScale - targetScale) < 0.0001)
+                lerpedScale = targetScale;
+
+            if (scaleAttribute.hasModifier(modifier) && (Math.abs(modifierAmount) < 0.001 || targetScale == 1.0D))
+                scaleAttribute.removeModifier(modifier);
+
+            if (lerpedScale != targetScale) {
+                scaleAttribute.removeModifier(modifier);
+                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, modifierAmount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+
+                if (Math.abs(actualScale - targetScale) < 0.01)
+                    setter.accept(targetScale);
+                else setter.accept(lerpedScale);
             }
         }
     }

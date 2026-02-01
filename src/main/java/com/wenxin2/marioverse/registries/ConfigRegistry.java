@@ -89,8 +89,6 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
     public static ModConfigSpec.BooleanValue CREATIVE_WRENCH_LINKING;
-    public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_ALL_MOBS;
-    public static ModConfigSpec.BooleanValue DAMAGE_SHRINKS_PLAYERS;
     public static ModConfigSpec.BooleanValue DANGO_BLOSSOM_PARTICLES;
     public static ModConfigSpec.BooleanValue DEBUG_PIPE_BUBBLES_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
@@ -511,14 +509,6 @@ public class ConfigRegistry {
                         .comment("§cMobs must whitelisted in the entity tag \"marioverse:costume_whitelist\".")
                         .comment("§9[Default: true]")
                         .define("equip_costumes_mobs", true);
-                DAMAGE_SHRINKS_PLAYERS = BUILDER.translation("configuration.marioverse.damage_shrinks_players")
-                        .comment("Allow damage to shrink players.")
-                        .comment("§9[Default: true]")
-                        .define("damage_shrinks_players", true);
-                DAMAGE_SHRINKS_ALL_MOBS = BUILDER.translation("configuration.marioverse.damage_shrinks_all_mobs")
-                        .comment("Allow damage to shrink all mobs.")
-                        .comment("§9[Default: false]")
-                        .define("damage_shrinks_all_mobs", false);
                 SHRINK_PLAYERS_AT_HEALTH = BUILDER.translation("configuration.marioverse.shrink_players_at_health")
                         .comment("Health to shrink player at.")
                         .comment("§9[Default: 10.0F]§b")

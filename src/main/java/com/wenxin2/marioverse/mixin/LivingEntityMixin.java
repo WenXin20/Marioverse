@@ -86,9 +86,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Shadow protected boolean jumping;
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
-    @Unique private double mv$currentEyeHeightScale = 1.0;
-    @Unique private double mv$currentHeightScale = 1.0;
-    @Unique private double mv$currentWidthScale = 1.0;
     @Unique protected float mv$appliedEyeHeightScale = 1.0F;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
@@ -154,7 +151,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         RandomSource rand = RandomSource.create();
 
         this.mv$characterAbilities(entity);
-        this.mv$mushroomScale(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
@@ -805,95 +801,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 this.level().addParticle(particleType, x, y + offsetY - 0.2, z, 0, 1.0, 0);
                 this.level().addParticle(particleType, x, y + offsetY / 2, z, 0, 1.0, 0);
                 this.level().addParticle(particleType, x, y + 0.2, z, 0, 1.0, 0);
-            }
-        }
-    }
-
-    @Unique
-    public void mv$mushroomScale(LivingEntity entity) {
-        Level world = entity.level();
-        AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-        AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-        AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasMegaMushroom = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
-        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
-        boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
-        float health = entity.getHealth();
-        float scalingSpeed = 0.1F;
-
-        double targetEyeHeightScale = hasMegaMushroom ? 3.0D : hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.25D : 0.5D;
-        double targetHeightScale = hasMegaMushroom ? 3.0D : hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.25D : 0.5D;
-        double targetWidthScale = hasMegaMushroom ? 3.0D : hasSuperMushroom ? 1.0D : hasMiniMushroom ? 0.35D : 0.75D;
-
-        boolean isPlayer = entity instanceof Player;
-        boolean shouldScale = !hasSuperMushroom
-                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && (isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
-                    || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
-                        && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                            || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS)))
-                || (!isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
-                    || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
-                    && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))))
-                || !hasSuperMushroom && hasMiniMushroom
-                || hasMegaMushroom;
-
-        boolean shouldReset = hasSuperMushroom
-                && (isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
-                    || (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
-                        && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                            || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS)))
-                || (!isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
-                    || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
-                    && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))))
-                || hasSuperMushroom && !hasMiniMushroom
-                || !hasMegaMushroom;
-
-        if (shouldScale && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
-            if (entity.getLastDamageSource() != null
-                    && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
-                return;
-            mv$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
-            mv$updateScale(heightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
-            mv$updateScale(widthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
-        }
-
-        if (shouldReset && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
-            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                mv$updateScale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
-
-            if (heightScale != null && heightScale.getValue() != 1.0D)
-                mv$updateScale(heightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
-
-            if (widthScale != null && widthScale.getValue() != 1.0D)
-                mv$updateScale(widthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
-        }
-    }
-
-    @Unique
-    private void mv$updateScale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed, Consumer<Double> setter) {
-        ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
-
-        if (scaleAttribute != null) {
-            double actualScale = scaleAttribute.getValue();
-            double lerpedScale = Mth.lerp(scalingSpeed, actualScale, targetScale);
-            double modifierAmount = lerpedScale - 1.0D;
-
-            if (Math.abs(actualScale - targetScale) < 0.0001)
-                lerpedScale = targetScale;
-
-            if (scaleAttribute.hasModifier(modifier) && (Math.abs(modifierAmount) < 0.001 || targetScale == 1.0D))
-                scaleAttribute.removeModifier(modifier);
-
-            if (lerpedScale != targetScale) {
-                scaleAttribute.removeModifier(modifier);
-                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, modifierAmount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-
-                if (Math.abs(actualScale - targetScale) < 0.01)
-                    setter.accept(targetScale);
-                else setter.accept(lerpedScale);
             }
         }
     }
