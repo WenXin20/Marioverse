@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -213,10 +213,10 @@ public class WarpDisruptorItem extends Item {
     @NotNull
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
-        if (livingEntity instanceof BlockWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
+        if (!livingEntity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (livingEntity instanceof Player && !ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get()) {
-                handler.mv$setPreventWarp(true);
-                handler.mv$setPreventWarpCooldown(ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get());
+                livingEntity.setData(DataAttachmentRegistry.PREVENT_WARP, true);
+                livingEntity.setData(DataAttachmentRegistry.PREVENT_WARP_COOLDOWN, ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get());
                 player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_player_warp",
                         player.getDisplayName(), ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get()).withStyle(ChatFormatting.RED), true);
                 this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, livingEntity.level(), 16);
@@ -225,7 +225,7 @@ public class WarpDisruptorItem extends Item {
                     stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
                 return InteractionResult.SUCCESS;
             } else if (!(livingEntity instanceof Player)) {
-                handler.mv$setPreventWarp(true);
+                livingEntity.setData(DataAttachmentRegistry.PREVENT_WARP, true);
                 player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_entity_warp",
                         livingEntity.getDisplayName()).withStyle(ChatFormatting.RED), true);
                 this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, livingEntity, livingEntity.level(), 16);
@@ -249,9 +249,9 @@ public class WarpDisruptorItem extends Item {
 
         if (hitResult.getType() == HitResult.Type.MISS) {
             if (!ConfigRegistry.DISABLE_PLAYER_WARP_DISRUPTING.get()) {
-                if (player instanceof BlockWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
-                    handler.mv$setPreventWarp(true);
-                    handler.mv$setPreventWarpCooldown(ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get());
+                if (!player.getData(DataAttachmentRegistry.PREVENT_WARP)) {
+                    player.setData(DataAttachmentRegistry.PREVENT_WARP, true);
+                    player.setData(DataAttachmentRegistry.PREVENT_WARP_COOLDOWN, ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get());
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_player_warp",
                             player.getDisplayName(), ConfigRegistry.WARP_DISRUPTING_COOLDOWN.get()).withStyle(ChatFormatting.RED), true);
                     this.spawnEntityParticles(ParticleTypes.CRIMSON_SPORE, player, world, 16);

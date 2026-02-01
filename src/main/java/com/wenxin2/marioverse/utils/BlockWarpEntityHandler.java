@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.ChatFormatting;
@@ -29,15 +30,6 @@ public interface BlockWarpEntityHandler {
         return (!entity.isShiftKeyDown() && !(entity instanceof Player))
                 || (entity.isShiftKeyDown() && entity instanceof Player);
     }
-
-    boolean mv$doPreventWarp();
-    void mv$setPreventWarp(boolean preventWarp);
-
-    int mv$getPreventWarpCooldown();
-    void mv$setPreventWarpCooldown(int preventWarpCooldown);
-
-    int mv$getWarpCooldown();
-    void mv$setWarpCooldown(int warpCooldown);
 
     default void enterWarp(Entity entity, Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
@@ -76,9 +68,9 @@ public interface BlockWarpEntityHandler {
     default void enterWarpDoor(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
         BlockState state = world.getBlockState(pos);
 
-        if (!this.mv$doPreventWarp()) {
+        if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
-                if (!warpBE.preventWarp && this.mv$getWarpCooldown() == 0 && !entity.isShiftKeyDown())
+                if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0 && !entity.isShiftKeyDown())
                     this.warp(entity, world, pos, state, warpPos, warpBE);
                 else if (warpBE.preventWarp && entity instanceof Player player)
                     this.displayWarpDisruptedMessage(player, state);
@@ -96,11 +88,11 @@ public interface BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (!this.mv$doPreventWarp()) {
+        if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && getShiftKeyForEntity(entity) && (entityY + entity.getBbHeight() >= blockY - 1)
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && this.mv$getWarpCooldown() == 0)
+                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                     else if (entity instanceof Player player) {
                         if (warpBE.preventWarp)
@@ -114,7 +106,7 @@ public interface BlockWarpEntityHandler {
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
-                    if (!warpBE.preventWarp && this.mv$getWarpCooldown() == 0)
+                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                     else if (entity instanceof Player player) {
                         if (warpBE.preventWarp)
@@ -128,7 +120,7 @@ public interface BlockWarpEntityHandler {
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
-                    if (!warpBE.preventWarp && this.mv$getWarpCooldown() == 0)
+                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                     else if (entity instanceof Player player) {
                         if (warpBE.preventWarp)
@@ -142,7 +134,7 @@ public interface BlockWarpEntityHandler {
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && this.mv$getWarpCooldown() == 0)
+                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                     else if (entity instanceof Player player) {
                         if (warpBE.preventWarp)
@@ -156,7 +148,7 @@ public interface BlockWarpEntityHandler {
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && this.mv$getWarpCooldown() == 0)
+                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                     else if (entity instanceof Player player) {
                         if (warpBE.preventWarp)
@@ -177,11 +169,11 @@ public interface BlockWarpEntityHandler {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
 
-        if (!this.mv$doPreventWarp()) {
+        if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && this.mv$getWarpCooldown() == 0)
+                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, stateAboveEntity, warpPos, warpBE);
                     else if (entity instanceof Player player) {
                         if (warpBE.preventWarp)
@@ -197,7 +189,7 @@ public interface BlockWarpEntityHandler {
     default void warp(Entity entity, Level world, BlockPos pos, BlockState state, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
         if (warpPos != null && !(world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
                 && entity instanceof Player player)
-            this.displayDestinationMissingMessage(player);
+            BlockWarpEntityHandler.displayDestinationMissingMessage(player);
 
         if (warpPos != null && world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity) {
             BlockState warpState = world.getBlockState(warpPos);
@@ -271,26 +263,26 @@ public interface BlockWarpEntityHandler {
     }
 
     default void displayCooldownMessage(Player player, BlockState state) {
-        if (this.mv$getWarpCooldown() >= 10) {
+        if (player.getData(DataAttachmentRegistry.WARP_COOLDOWN) >= 10) {
             if (state.getBlock() instanceof WarpPipeBlock) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_pipe_cooldown.ticks",
-                                this.mv$getWarpCooldown()), true);
+                                player.getData(DataAttachmentRegistry.WARP_COOLDOWN)), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_pipe_cooldown"), true);
                 }
             } else if (state.getBlock() instanceof DoorBlock) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_door_cooldown.ticks",
-                                this.mv$getWarpCooldown()), true);
+                                player.getData(DataAttachmentRegistry.WARP_COOLDOWN)), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_door_cooldown"), true);
                 }
             } else if (state.getBlock() instanceof TrapDoorBlock) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_trapdoor_cooldown.ticks",
-                                this.mv$getWarpCooldown()), true);
+                                player.getData(DataAttachmentRegistry.WARP_COOLDOWN)), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_trapdoor_cooldown"), true);
                 }
             }
@@ -302,7 +294,7 @@ public interface BlockWarpEntityHandler {
                 state.getBlock().getName()).withStyle(ChatFormatting.RED), true);
     }
 
-    default void displayDestinationMissingMessage(Player player) {
+    static void displayDestinationMissingMessage(Player player) {
         player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_missing"), true);
     }
 }

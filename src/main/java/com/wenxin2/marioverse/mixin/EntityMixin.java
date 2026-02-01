@@ -10,14 +10,12 @@ import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
@@ -61,9 +59,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
-    @Unique private boolean mv$preventWarp;
-    @Unique private int mv$preventWarpCooldown;
-    @Unique private int mv$warpCooldown;
 
     @Override
     public boolean mv$getBlockWarpTeleportConfig() {
@@ -73,28 +68,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
-    }
-
-    @Inject(method = "save", at = @At("TAIL"))
-    public void save(CompoundTag tag, CallbackInfoReturnable<Boolean> cir) {
-        Entity entity = (Entity) (Object) this;
-
-        if (!entity.getType().is(TagRegistry.CANNOT_WARP)
-                && ConfigRegistry.TELEPORT_NON_MOBS.get()) {
-            tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
-            tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
-        }
-    }
-
-    @Inject(method = "load", at = @At("TAIL"))
-    public void load(CompoundTag tag, CallbackInfo ci) {
-        Entity entity = (Entity) (Object) this;
-
-        if (!entity.getType().is(TagRegistry.CANNOT_WARP)
-                && ConfigRegistry.TELEPORT_NON_MOBS.get()) {
-            this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
-            this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
-        }
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
@@ -115,16 +88,13 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             this.nextStep = this.nextStep();
         }
 
-        if (this.mv$getWarpCooldown() > 0)
-            this.mv$setWarpCooldown(this.mv$getWarpCooldown() - 1);
-
         mv$rideIceCube(entity);
 
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (!this.mv$doPreventWarp() || entity instanceof Player) {
+            if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
                 if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
                     this.enterWarp(entity, world, offsetPos);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
@@ -133,30 +103,30 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
-                && !this.mv$doPreventWarp())
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
-                && !this.mv$doPreventWarp())
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
-                && !this.mv$doPreventWarp())
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
-                && !this.mv$doPreventWarp())
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, posInBlock);
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
-                && !this.mv$doPreventWarp()) {
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             this.enterWarp(entity, world);
         }
 
@@ -207,36 +177,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 return true;
         }
         return original;
-    }
-
-    @Override
-    public boolean mv$doPreventWarp() {
-        return this.mv$preventWarp;
-    }
-
-    @Override
-    public void mv$setPreventWarp(boolean preventWarp) {
-        this.mv$preventWarp = preventWarp;
-    }
-
-    @Override
-    public int mv$getPreventWarpCooldown() {
-        return this.mv$preventWarpCooldown;
-    }
-
-    @Override
-    public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
-        this.mv$preventWarpCooldown = preventWarpCooldown;
-    }
-
-    @Override
-    public int mv$getWarpCooldown() {
-        return this.mv$warpCooldown;
-    }
-
-    @Override
-    public void mv$setWarpCooldown(int warpCooldown) {
-        this.mv$warpCooldown = warpCooldown;
     }
 
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))

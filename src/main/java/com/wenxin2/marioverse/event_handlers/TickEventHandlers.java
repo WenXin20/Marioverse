@@ -92,6 +92,21 @@ public class TickEventHandlers {
                 entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) - 1);
 
+        if (entity.hasData(DataAttachmentRegistry.WARP_COOLDOWN) &&
+                entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0)
+            entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) - 1);
+
+        if (entity.hasData(DataAttachmentRegistry.PREVENT_WARP_COOLDOWN)) {
+            int preventWarpCooldown = entity.getData(DataAttachmentRegistry.PREVENT_WARP_COOLDOWN);
+
+            if (preventWarpCooldown > 0)
+                entity.setData(DataAttachmentRegistry.PREVENT_WARP_COOLDOWN, preventWarpCooldown - 1);
+
+            if (preventWarpCooldown == 0
+                    && entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+                entity.setData(DataAttachmentRegistry.PREVENT_WARP, false);
+        }
+
 
         if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) == 0
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)

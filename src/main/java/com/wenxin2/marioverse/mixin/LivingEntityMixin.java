@@ -92,9 +92,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Unique protected float mv$appliedEyeHeightScale = 1.0F;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
-    @Unique private boolean mv$preventWarp;
-    @Unique private int mv$preventWarpCooldown;
-    @Unique private int mv$warpCooldown;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -108,24 +105,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_MOBS.get();
-    }
-
-    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
-    public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        LivingEntity entity = (LivingEntity) (Object) this;
-
-        if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
-            if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
-                tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
-                tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
-            } else if (ConfigRegistry.TELEPORT_MOBS.get()) {
-                tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
-                tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
-            }
-
-            if (entity instanceof Player)
-                tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
-        }
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -148,18 +127,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             entity.getPersistentData().putBoolean("marioverse:has_super_mushroom_override",
                     tag.getBoolean("marioverse:has_super_mushroom_override"));
 
-        if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
-            if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
-                this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
-                this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
-            } else if (ConfigRegistry.TELEPORT_MOBS.get()) {
-                this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
-                this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
-            }
+        if (tag.contains("marioverse:prevent_warp"))
+            entity.getPersistentData().putBoolean("marioverse:prevent_warp",
+                    tag.getBoolean("marioverse:prevent_warp"));
 
-            if (entity instanceof Player)
-                this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
-        }
+        if (tag.contains("marioverse:warp_cooldown"))
+            entity.getPersistentData().putInt("marioverse:warp_cooldown",
+                    tag.getInt("marioverse:warp_cooldown"));
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -253,36 +227,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
-    }
-
-    @Override
-    public boolean mv$doPreventWarp() {
-        return this.mv$preventWarp;
-    }
-
-    @Override
-    public void mv$setPreventWarp(boolean preventWarp) {
-        this.mv$preventWarp = preventWarp;
-    }
-
-    @Override
-    public int mv$getPreventWarpCooldown() {
-        return this.mv$preventWarpCooldown;
-    }
-
-    @Override
-    public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
-        this.mv$preventWarpCooldown = preventWarpCooldown;
-    }
-
-    @Override
-    public int mv$getWarpCooldown() {
-        return this.mv$warpCooldown;
-    }
-
-    @Override
-    public void mv$setWarpCooldown(int warpCooldown) {
-        this.mv$warpCooldown = warpCooldown;
     }
 
     @Unique

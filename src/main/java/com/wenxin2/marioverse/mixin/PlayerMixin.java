@@ -27,14 +27,4 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_PLAYERS.get();
     }
-
-    @Inject(method = "tick", at = @At("TAIL"))
-    public void tick(CallbackInfo ci) {
-        int preventWarpCooldown = this.mv$getPreventWarpCooldown();
-        if (preventWarpCooldown > 0)
-            this.mv$setPreventWarpCooldown(this.mv$getPreventWarpCooldown() - 1);
-
-        if (preventWarpCooldown == 0 && this.mv$doPreventWarp())
-            this.mv$setPreventWarp(false);
-    }
 }

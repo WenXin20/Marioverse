@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import java.util.HashMap;
@@ -75,15 +76,15 @@ public interface WarpLinkableEntity {
     static void warp(Entity entity, double x, double y, double z, Level world) {
         Entity passengerEntity = entity.getControllingPassenger();
 
-        if (entity instanceof EntityWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
+        if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (entity instanceof Player player) {
                 entity.teleportTo(x, y, z);
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
                 if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
             } else {
                 entity.teleportTo(x, y, z);
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
                 if (passengerEntity instanceof Player player) {
                     if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));

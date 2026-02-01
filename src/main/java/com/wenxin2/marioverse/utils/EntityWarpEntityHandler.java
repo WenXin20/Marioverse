@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import java.util.UUID;
@@ -19,15 +20,6 @@ import net.minecraft.world.phys.AABB;
 public interface EntityWarpEntityHandler {
     boolean mv$getEntityWarpTeleportConfig();
 
-    boolean mv$doPreventWarp();
-    void mv$setPreventWarp(boolean preventWarp);
-
-    int mv$getPreventWarpCooldown();
-    void mv$setPreventWarpCooldown(int preventWarpCooldown);
-
-    int mv$getWarpCooldown();
-    void mv$setWarpCooldown(int warpCooldown);
-
     default void enterWarp(Entity entity, Level world) {
         List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox());
         for (Painting painting : nearbyPaintings) {
@@ -44,9 +36,9 @@ public interface EntityWarpEntityHandler {
     }
 
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
-        if (!this.mv$doPreventWarp()) {
+        if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
-                if (!warpLinkableEntity.mv$getPreventWarp() && this.mv$getWarpCooldown() == 0
+                if (!warpLinkableEntity.mv$getPreventWarp() && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0
                         && !entity.isShiftKeyDown())
                     this.warp(entity, world, warpLinkableEntity);
                 else if (entity instanceof Player player) {
@@ -122,12 +114,12 @@ public interface EntityWarpEntityHandler {
     }
 
     private void displayCooldownMessage(Player player, Entity warpEntity) {
-        if (this.mv$getWarpCooldown() >= 10) {
+        if (player.getData(DataAttachmentRegistry.WARP_COOLDOWN) >= 10) {
             if (warpEntity instanceof Painting) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_painting_cooldown.ticks",
-                                this.mv$getWarpCooldown()), true);
+                                player.getData(DataAttachmentRegistry.WARP_COOLDOWN)), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_painting_cooldown"), true);
                 }
             }
@@ -140,9 +132,5 @@ public interface EntityWarpEntityHandler {
                     Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                     warpPainting.getName()).withStyle(ChatFormatting.RED), true);
         }
-    }
-
-    default void displayEntityDestinationMissingMessage(Player player) {
-        player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_missing"), true);
     }
 }

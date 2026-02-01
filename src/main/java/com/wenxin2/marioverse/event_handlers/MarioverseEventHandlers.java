@@ -151,6 +151,16 @@ public class MarioverseEventHandlers {
             tag.remove("marioverse:has_super_mushroom_override");
         }
 
+        if (tag.contains("marioverse:prevent_warp")) {
+            entity.setData(DataAttachmentRegistry.PREVENT_WARP, tag.getBoolean("marioverse:prevent_warp"));
+            tag.remove("marioverse:prevent_warp");
+        }
+
+        if (tag.contains("marioverse:warp_cooldown")) {
+            entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, tag.getInt("marioverse:warp_cooldown"));
+            tag.remove("marioverse:warp_cooldown");
+        }
+
         if (!entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)) {
             if (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                     || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get()) {

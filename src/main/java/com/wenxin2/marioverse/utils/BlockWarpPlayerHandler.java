@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,7 +18,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
     @Override
     default void enterWarpDoor(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
         if (entity instanceof Player player && (!this.mv$getBlockWarpTeleportConfig()
-                || player.getType().is(TagRegistry.CANNOT_WARP) || this.mv$doPreventWarp())) {
+                || player.getType().is(TagRegistry.CANNOT_WARP) || entity.getData(DataAttachmentRegistry.PREVENT_WARP))) {
             this.displayNoTeleportMessage(player, world.getBlockState(pos));
         } else BlockWarpEntityHandler.super.enterWarpDoor(entity, world, pos, warpPos, warpBE);
     }
@@ -33,7 +34,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
         int blockZ = pos.getZ();
 
         if (entity instanceof Player player && (!this.mv$getBlockWarpTeleportConfig()
-                || entity.getType().is(TagRegistry.CANNOT_WARP) || this.mv$doPreventWarp())) {
+                || entity.getType().is(TagRegistry.CANNOT_WARP) || entity.getData(DataAttachmentRegistry.PREVENT_WARP))) {
             if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && entity.isShiftKeyDown() && (entityY + entity.getBbHeight() >= blockY - 1)
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 this.displayNoTeleportMessage(player, state);
@@ -68,7 +69,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
         int blockZ = pos.getZ();
 
         if (entity instanceof Player player && (!this.mv$getBlockWarpTeleportConfig()
-                || entity.getType().is(TagRegistry.CANNOT_WARP) || this.mv$doPreventWarp())) {
+                || entity.getType().is(TagRegistry.CANNOT_WARP) || entity.getData(DataAttachmentRegistry.PREVENT_WARP))) {
             if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN && (entity.getBlockY() < blockY)
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 this.displayNoTeleportMessage(player, stateAboveEntity);
@@ -87,7 +88,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
             }
         }
 
-        if (this.mv$doPreventWarp())
+        if (player.getData(DataAttachmentRegistry.PREVENT_WARP))
             player.displayClientMessage(Component.translatable("display.marioverse.warp_disrupted_player"), true);
     }
 }

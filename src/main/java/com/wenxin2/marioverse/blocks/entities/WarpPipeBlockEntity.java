@@ -12,13 +12,13 @@ import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
-import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.world.PipeSpawner;
 import java.util.HashMap;
 import java.util.List;
@@ -661,9 +661,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state) {
         Entity passengerEntity = entity.getControllingPassenger();
 
-        if (entity instanceof BlockWarpEntityHandler handler && !handler.mv$doPreventWarp()) {
+        if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - 1.0, warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120); // Enchant teleport particles
@@ -681,7 +681,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             }
 
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.UP && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() + 1.0, warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -698,7 +698,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.DOWN && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - entity.getBbHeight(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -715,7 +715,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.NORTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() - entity.getBbWidth());
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -732,7 +732,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.SOUTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + entity.getBbWidth() + 1.0);
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -749,7 +749,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.EAST && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() + entity.getBbWidth() + 1.0, warpPos.getY(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
@@ -766,7 +766,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.WEST && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                handler.mv$setWarpCooldown(ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
                     entity.teleportTo(warpPos.getX() - entity.getBbWidth(), warpPos.getY(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
