@@ -322,7 +322,7 @@ public class TickEventHandlers {
         double targetWidthScale = hasMegaMushroom ? 3.0D : 1.0D;
 
         boolean shouldScale = hasMegaMushroom;
-        boolean shouldReset = !hasMegaMushroom && !hasMiniMushroom;
+        boolean shouldReset = !hasMegaMushroom && !hasMiniMushroom && hasSuperMushroom;
 
         if (shouldScale && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
             if (entity.getLastDamageSource() != null && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
