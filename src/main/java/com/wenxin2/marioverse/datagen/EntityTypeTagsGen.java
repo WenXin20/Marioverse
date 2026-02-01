@@ -710,6 +710,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .addTag(TagRegistry.POKEY_ENTITIES)
                 .addTag(TagRegistry.SNOW_POKEY_ENTITIES)
+                .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 

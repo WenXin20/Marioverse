@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-30T21:50:01.855257	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-02-01T15:43:23.4747029	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -67,7 +67,7 @@ bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/koopa_
 ad4b8aa42c1186a921a8ba5cbbbbd51e0272a618 data/marioverse/tags/entity_type/koopa_troopas.json
 1b74541f2ea56b1b75a2f92664fc134fcf56ee71 data/marioverse/tags/entity_type/mega_goomba_can_attack.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/mega_mushroom_cannot_damage.json
-bc66dace79cff32ccb4e0e38aa35946f0e97bfa4 data/marioverse/tags/entity_type/mega_mushroom_can_instakill.json
+7d8195dc4cc183289fc6b2d2dad6980720b444cb data/marioverse/tags/entity_type/mega_mushroom_can_instakill.json
 07ed73c99e2158c686bb232ddde29fed5cf22fbb data/marioverse/tags/entity_type/mini_goomba_can_attach.json
 ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranha_plant_can_attack.json
 45bbf1961986f223f34bd5fbba2dfde40ad2c7bc data/marioverse/tags/entity_type/pokeys.json

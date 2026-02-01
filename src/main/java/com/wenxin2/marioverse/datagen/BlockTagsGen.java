@@ -315,6 +315,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(Tags.Blocks.GLASS_PANES)
                 .addTag(Tags.Blocks.FENCES_WOODEN)
                 .addTag(Tags.Blocks.FENCE_GATES_WOODEN)
+                .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
