@@ -13,12 +13,15 @@ public class FadingSoundInstance extends AbstractTickableSoundInstance {
     private final LivingEntity entity;
     private final float fadeDuration;
     private float remainingTicks;
+    private boolean fadeEarly;
 
-    public FadingSoundInstance(LivingEntity entity, SoundEvent soundEvent, SoundSource soundSource, RandomSource random, float totalDuration, float fadeDuration) {
+    public FadingSoundInstance(LivingEntity entity, SoundEvent soundEvent, SoundSource soundSource, RandomSource random,
+                               float totalDuration, float fadeDuration, boolean fadeEarly) {
         super(soundEvent, soundSource, random);
         this.entity = entity;
         this.fadeDuration = fadeDuration;
         this.remainingTicks = totalDuration;
+        this.fadeEarly = fadeEarly;
         this.looping = true;
         this.delay = 0;
         this.volume = 1.0F;
@@ -26,12 +29,12 @@ public class FadingSoundInstance extends AbstractTickableSoundInstance {
 
     @Override
     public void tick() {
-        if (remainingTicks < fadeDuration)
-            this.volume = Math.max(0.0F, remainingTicks / fadeDuration);
+        if (this.remainingTicks < this.fadeDuration || this.fadeEarly)
+            this.volume = Math.max(0.0F, this.remainingTicks / this.fadeDuration);
         else this.volume = 1.0F;
 
-        remainingTicks--;
-        if (remainingTicks <= 0)
+        this.remainingTicks--;
+        if (this.remainingTicks <= 0)
             this.stop();
 
         this.x = entity.getX();

@@ -70,6 +70,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_GOOMBA_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_GOOMBA_STOMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_MUSHROOM_SPAWNS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> MEGA_MUSHROOM_THEME;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_ATTACH;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_BUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_DEFEATED;
@@ -324,6 +325,9 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.powers_up_mini_mushroom")));
         POWERS_UP_SUPER_STAR = Marioverse.SOUNDS.register("entity.powers_up_super_star",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.powers_up_super_star")));
+
+        MEGA_MUSHROOM_THEME = Marioverse.SOUNDS.register("entity.mega_mushroom_theme",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.mega_mushroom_theme")));
 
         SUPER_STAR_BOUNCE = Marioverse.SOUNDS.register("entity.super_star_bounce",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.super_star_bounce")));

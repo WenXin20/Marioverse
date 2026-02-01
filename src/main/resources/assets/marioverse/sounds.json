@@ -312,6 +312,9 @@
   "entity.powers_up_super_star": { "category": "ambient", "sounds": [{ "name": "marioverse:entity/powers_up_super_star" }],
     "subtitle": "subtitles.marioverse.entity.powers_up_super_star" },
 
+  "entity.mega_mushroom_theme": { "category": "music", "sounds": [{ "name": "marioverse:power_up/mega_mushroom_theme", "volume": 0.75 }],
+    "subtitle": "subtitles.marioverse.entity.mega_mushroom_theme" },
+
   "entity.super_star_bounce": { "category": "neutral", "sounds": [{ "name": "marioverse:power_up/super_star_bounce" }],
     "subtitle": "subtitles.marioverse.entity.super_star_bounce" },
   "entity.super_star_theme": { "category": "music", "sounds": [{ "name": "marioverse:power_up/super_star_theme" }],

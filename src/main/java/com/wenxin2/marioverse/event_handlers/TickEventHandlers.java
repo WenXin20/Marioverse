@@ -122,7 +122,6 @@ public class TickEventHandlers {
                 entity.setData(DataAttachmentRegistry.PREVENT_WARP, false);
         }
 
-
         if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) == 0
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                 && entity instanceof LivingEntity livingEntity) {
@@ -130,7 +129,7 @@ public class TickEventHandlers {
             AttributeInstance stepAttribute = livingEntity.getAttribute(Attributes.STEP_HEIGHT);
 
             entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
-//            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false); // TODO
+            entity.setData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME, false);
 
             AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
