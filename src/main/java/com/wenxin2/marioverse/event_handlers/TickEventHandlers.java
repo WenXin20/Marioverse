@@ -317,9 +317,9 @@ public class TickEventHandlers {
         boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasMegaMushroom ? 3.0D : 1.0D;
-        double targetHeightScale = hasMegaMushroom ? 3.0D : 1.0D;
-        double targetWidthScale = hasMegaMushroom ? 3.0D : 1.0D;
+        double targetEyeHeightScale = hasMegaMushroom ? ConfigRegistry.MEGA_MUSHROOM_HEIGHT_SCALE.get() : 1.0D;
+        double targetHeightScale = hasMegaMushroom ? ConfigRegistry.MEGA_MUSHROOM_HEIGHT_SCALE.get() : 1.0D;
+        double targetWidthScale = hasMegaMushroom ? ConfigRegistry.MEGA_MUSHROOM_WIDTH_SCALE.get() : 1.0D;
 
         boolean shouldScale = hasMegaMushroom;
         boolean shouldReset = !hasMegaMushroom && !hasMiniMushroom && hasSuperMushroom;
@@ -336,9 +336,9 @@ public class TickEventHandlers {
         boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasMiniMushroom ? 0.25D : hasSuperMushroom ? 1.0D : 0.5D;
-        double targetHeightScale = hasMiniMushroom ? 0.25D : hasSuperMushroom ? 1.0D : 0.5D;
-        double targetWidthScale = hasMiniMushroom ? 0.35D : hasSuperMushroom ? 1.0D : 0.75D;
+        double targetEyeHeightScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_HEIGHT_SCALE.get() : hasSuperMushroom ? 1.0D : 0.5D;
+        double targetHeightScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_HEIGHT_SCALE.get() : hasSuperMushroom ? 1.0D : 0.5D;
+        double targetWidthScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_WIDTH_SCALE.get() : hasSuperMushroom ? 1.0D : 0.75D;
 
         boolean shouldScale = !hasSuperMushroom && hasMiniMushroom;
         boolean shouldReset = hasSuperMushroom && !hasMiniMushroom;

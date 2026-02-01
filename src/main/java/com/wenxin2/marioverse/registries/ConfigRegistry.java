@@ -168,9 +168,13 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_AUTO_STEP;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_DAMAGE;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_HEALTH;
+    public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_HEIGHT_SCALE;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_REACH_DISTANCE;
+    public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_HEALTH;
+    public static ModConfigSpec.DoubleValue MINI_MUSHROOM_HEIGHT_SCALE;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_REACH_DISTANCE;
+    public static ModConfigSpec.DoubleValue MINI_MUSHROOM_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -895,6 +899,14 @@ public class ConfigRegistry {
                     MEGA_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mega_mushroom_reach_distance")
                             .comment("Additional reach distance Mega Mushrooms provide on top of the normal reach distance.§b")
                             .defineInRange("mega_mushroom_reach_distance", 3.0, -4.0, 20.0);
+                    MEGA_MUSHROOM_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.mega_mushroom_height_scale")
+                            .comment("The height scale Mega Mushrooms resize the user.§b")
+                            .comment("§6[1.0 is normal height§b")
+                            .defineInRange("mega_mushroom_height_scale", 3.0, 0.2, 20.0);
+                    MEGA_MUSHROOM_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.mega_mushroom_width_scale")
+                            .comment("The width scale Mega Mushrooms resize the user.§b")
+                            .comment("§6[1.0 is normal height§b")
+                            .defineInRange("mega_mushroom_width_scale", 3.0, 0.2, 20.0);
                     MEGA_MOBS_BREAK_BLOCKS = BUILDER.translation("configuration.marioverse.mega_mobs_break_blocks")
                             .comment("Allow mega-sized mobs to break blocks.")
                             .comment("§9[Default: false]")
@@ -917,6 +929,14 @@ public class ConfigRegistry {
                     MINI_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mini_mushroom_reach_distance")
                             .comment("Additional reach distance Mini Mushrooms provide on top of the normal reach distance.§b")
                             .defineInRange("mini_mushroom_reach_distance", -1.0, -4.0, 20.0);
+                    MINI_MUSHROOM_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.mini_mushroom_height_scale")
+                            .comment("The height scale Mini Mushrooms resize the user.§b")
+                            .comment("§6[1.0 is normal height§b")
+                            .defineInRange("mega_mushroom_height_scale", 0.25, 0.3, 20.0);
+                    MINI_MUSHROOM_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.mini_mushroom_width_scale")
+                            .comment("The width scale Mini Mushrooms resize the user.§b")
+                            .comment("§6[1.0 is normal height§b")
+                            .defineInRange("mini_mushroom_width_scale", 0.35, 0.3, 20.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SUPER_MUSHROOM);
