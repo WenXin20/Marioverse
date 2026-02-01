@@ -204,11 +204,6 @@ public class EntityRegistry {
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        AttributeSupplier.Builder mushroomAttributes = PathfinderMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1)
-                .add(Attributes.MOVEMENT_SPEED, 0.4F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
-                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder dryBonesAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.3F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
@@ -265,20 +260,36 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.1F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F);
+        AttributeSupplier.Builder mushroomAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 6)
+                .add(Attributes.MOVEMENT_SPEED, 0.4F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
+        AttributeSupplier.Builder megaMushroomAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.JUMP_STRENGTH, 0.55F)
+                .add(Attributes.MAX_HEALTH, 20)
+                .add(Attributes.MOVEMENT_SPEED, 0.5F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 20.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.2F);
+        AttributeSupplier.Builder miniMushroomAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 2)
+                .add(Attributes.MOVEMENT_SPEED, 0.3F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.4F);
         AttributeSupplier.Builder powerUpAttributes = PathfinderMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.MAX_HEALTH, 2)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder starAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.JUMP_STRENGTH, 0.5F)
-                .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.MAX_HEALTH, 20)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 20.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
         event.put(EntityRegistry.ICE_FLOWER.get(), powerUpAttributes.build());
-        event.put(EntityRegistry.MEGA_MUSHROOM.get(), mushroomAttributes.build());
-        event.put(EntityRegistry.MINI_MUSHROOM.get(), mushroomAttributes.build());
+        event.put(EntityRegistry.MEGA_MUSHROOM.get(), megaMushroomAttributes.build());
+        event.put(EntityRegistry.MINI_MUSHROOM.get(), miniMushroomAttributes.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_STAR.get(), starAttributes.build());

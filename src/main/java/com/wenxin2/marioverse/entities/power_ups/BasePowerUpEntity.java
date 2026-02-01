@@ -92,20 +92,6 @@ public class BasePowerUpEntity extends PathfinderMob {
         }
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        // Poof particle effect
-        if (this.level().isClientSide) {
-            for (int i = 0; i < 10; i++) {
-                this.level().addParticle(ParticleTypes.POOF,
-                        this.getX() + this.getBbWidth() / 2.0, this.getY() + this.getBbHeight() / 2.0, this.getZ() + this.getBbWidth() / 2.0,
-                        0.0, 0.0, 0.0);
-            }
-        }
-        this.remove(RemovalReason.KILLED);
-        return true;
-    }
-
     public boolean isMoving() {
         return this.getDeltaMovement().lengthSqr() > 0.01;
     }
