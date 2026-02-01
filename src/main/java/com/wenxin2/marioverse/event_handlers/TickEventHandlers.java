@@ -336,9 +336,12 @@ public class TickEventHandlers {
         boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_HEIGHT_SCALE.get() : hasSuperMushroom ? 1.0D : 0.5D;
-        double targetHeightScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_HEIGHT_SCALE.get() : hasSuperMushroom ? 1.0D : 0.5D;
-        double targetWidthScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_WIDTH_SCALE.get() : hasSuperMushroom ? 1.0D : 0.75D;
+        double targetEyeHeightScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_HEIGHT_SCALE.get()
+                : hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_HEIGHT_SCALE.get();
+        double targetHeightScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_HEIGHT_SCALE.get()
+                : hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_HEIGHT_SCALE.get();
+        double targetWidthScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_WIDTH_SCALE.get()
+                : hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_WIDTH_SCALE.get();
 
         boolean shouldScale = !hasSuperMushroom && hasMiniMushroom;
         boolean shouldReset = hasSuperMushroom && !hasMiniMushroom;
@@ -358,9 +361,9 @@ public class TickEventHandlers {
         float health = entity.getHealth();
         float scalingSpeed = 0.1F;
 
-        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
-        double targetHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
-        double targetWidthScale = hasSuperMushroom ? 1.0D : 0.75D;
+        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_HEIGHT_SCALE.get();
+        double targetHeightScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_HEIGHT_SCALE.get();
+        double targetWidthScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_WIDTH_SCALE.get();
 
         boolean isPlayer = entity instanceof Player;
         boolean shouldScale = !hasSuperMushroom && !hasMegaMushroom && !hasMiniMushroom

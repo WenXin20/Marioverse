@@ -1418,6 +1418,8 @@
   "configuration.marioverse.select_invisible_question": "Select Invisible Blocks",
   "configuration.marioverse.shrink_mobs_at_health": "Health % to Shrink Mobs",
   "configuration.marioverse.shrink_players_at_health": "Health to Shrink Players",
+  "configuration.marioverse.shrink_height_scale": "Shrink Height Scale",
+  "configuration.marioverse.shrink_width_scale": "Shrink Width Scale",
   "configuration.marioverse.snow_pokey_drops_snowball": "Drop Large Snowball",
   "configuration.marioverse.snow_pokey_trail": "Snow Trail",
   "configuration.marioverse.spike_panel_damage": "Damage",

@@ -177,8 +177,10 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
+    public static ModConfigSpec.DoubleValue SHRINK_HEIGHT_SCALE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue SHRINK_PLAYERS_AT_HEALTH;
+    public static ModConfigSpec.DoubleValue SHRINK_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue LARGE_SNOWBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue SPIKE_PANEL_DAMAGE;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
@@ -514,13 +516,21 @@ public class ConfigRegistry {
                         .comment("§9[Default: true]")
                         .define("equip_costumes_mobs", true);
                 SHRINK_PLAYERS_AT_HEALTH = BUILDER.translation("configuration.marioverse.shrink_players_at_health")
-                        .comment("Health to shrink player at.")
+                        .comment("Health to shrink players at.")
                         .comment("§9[Default: 10.0F]§b")
                         .defineInRange("shrink_players_at_health", 10.0F, 0.0F, 100.0F);
                 SHRINK_MOBS_AT_HEALTH = BUILDER.translation("configuration.marioverse.shrink_mobs_at_health")
                         .comment("Health in percent to shrink mobs at.")
                         .comment("§9[Default: 2%]§b")
                         .defineInRange("shrink_mobs_at_health", 0.2F, 0.0F, 1.0F);
+                SHRINK_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.shrink_height_scale")
+                        .comment("The height scale shrinking will resize the user.§b")
+                        .comment("§6[1.0 is normal height§b")
+                        .defineInRange("shrink_height_scale", 0.5, 0.3, 20.0);
+                SHRINK_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.shrink_width_scale")
+                        .comment("The width scale shrinking will resize the user.§b")
+                        .comment("§6[1.0 is normal width§b")
+                        .defineInRange("shrink_width_scale", 0.75, 0.3, 20.0);
                 ENABLE_STOMPABLE_ENEMIES = BUILDER.translation("configuration.marioverse.enable_stompable_enemies")
                         .comment("Enable mobs to stomp other mobs.")
                         .comment("§cMobs must whitelisted in the entity tag \"marioverse:can_stomp_enemies\".")
@@ -905,7 +915,7 @@ public class ConfigRegistry {
                             .defineInRange("mega_mushroom_height_scale", 3.0, 0.2, 20.0);
                     MEGA_MUSHROOM_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.mega_mushroom_width_scale")
                             .comment("The width scale Mega Mushrooms resize the user.§b")
-                            .comment("§6[1.0 is normal height§b")
+                            .comment("§6[1.0 is normal width§b")
                             .defineInRange("mega_mushroom_width_scale", 3.0, 0.2, 20.0);
                     MEGA_MOBS_BREAK_BLOCKS = BUILDER.translation("configuration.marioverse.mega_mobs_break_blocks")
                             .comment("Allow mega-sized mobs to break blocks.")
@@ -935,7 +945,7 @@ public class ConfigRegistry {
                             .defineInRange("mega_mushroom_height_scale", 0.25, 0.3, 20.0);
                     MINI_MUSHROOM_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.mini_mushroom_width_scale")
                             .comment("The width scale Mini Mushrooms resize the user.§b")
-                            .comment("§6[1.0 is normal height§b")
+                            .comment("§6[1.0 is normal width§b")
                             .defineInRange("mini_mushroom_width_scale", 0.35, 0.3, 20.0);
                 BUILDER.pop();
 
