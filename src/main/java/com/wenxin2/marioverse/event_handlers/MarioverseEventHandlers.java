@@ -495,11 +495,9 @@ public class MarioverseEventHandlers {
 
                 if(!player.isCreative() && state.requiresCorrectToolForDrops() && !stack.isCorrectToolForDrops(state))
                     continue;
-                if (state.isAir())
+                if (state.isAir() || !state.canHarvestBlock(level, target, player))
                     continue;
                 if (!player.mayBuild())
-                    continue;
-                if (!state.canHarvestBlock(level, target, player))
                     continue;
 
                 if (player.isCreative())

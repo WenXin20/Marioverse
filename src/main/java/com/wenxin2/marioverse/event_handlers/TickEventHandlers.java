@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -291,13 +290,13 @@ public class TickEventHandlers {
                 }
             }
 
-            if (!state.canEntityDestroy(level, pos, entity))
-                continue;
             if (entity instanceof Player player && !level.mayInteract(player, pos))
+                continue;
+            if (entity instanceof Player player && !player.mayBuild())
                 continue;
 
             TagKey<Block> breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK;
-            if (entity instanceof ServerPlayer player && player.gameMode.getGameModeForPlayer() == GameType.ADVENTURE)
+            if (entity instanceof Player player && player.blockActionRestricted(level, pos, GameType.ADVENTURE))
                 breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE;
 
             if (!state.isAir() && state.is(breakTag)) {
@@ -322,7 +321,7 @@ public class TickEventHandlers {
                 BlockState stateBelow = level.getBlockState(posBelow);
 
                 TagKey<Block> fallingBreakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING;
-                if (entity instanceof ServerPlayer player && player.gameMode.getGameModeForPlayer() == GameType.ADVENTURE)
+                if (entity instanceof Player player && player.blockActionRestricted(level, pos, GameType.ADVENTURE))
                     fallingBreakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE;
 
                 if (!stateBelow.isAir() && stateBelow.is(fallingBreakTag)) {
