@@ -279,13 +279,7 @@ public class TickEventHandlers {
         for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
             BlockState state = level.getBlockState(pos);
 
-            if (isFalling) {
-                if (!state.is(TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING))
-                    continue;
-            } else {
-                if (!state.is(TagRegistry.MEGA_MUSHROOM_CAN_BREAK))
-                    continue;
-
+            if (!isFalling) {
                 if (entity.isPassenger()) {
                     Entity vehicle = entity.getVehicle();
                     if (vehicle != null) {
@@ -297,15 +291,25 @@ public class TickEventHandlers {
                 }
             }
 
-            level.destroyBlock(pos, true, entity);
+            if (!state.canEntityDestroy(level, pos, entity))
+                continue;
+            if (entity instanceof Player player && !level.mayInteract(player, pos))
+                continue;
+
+            TagKey<Block> breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK;
+            if (entity instanceof ServerPlayer player && player.gameMode.getGameModeForPlayer() == GameType.ADVENTURE)
+                breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE;
+
+            if (!state.isAir() && state.is(breakTag)) {
+                if (entity instanceof Player player && player.isCreative() || !ConfigRegistry.MEGA_MOBS_DROP_ITEMS.get())
+                    level.removeBlock(pos, true);
+                else level.destroyBlock(pos, true, entity);
+            }
 
             if (isJumping) {
                 BlockPos posAbove = pos.above();
                 BlockState stateAbove = level.getBlockState(posAbove);
 
-                TagKey<Block> breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK;
-                if (entity instanceof ServerPlayer player && player.gameMode.getGameModeForPlayer() == GameType.ADVENTURE)
-                    breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE;
 
                 if (!stateAbove.isAir() && stateAbove.is(breakTag)
                         && !stateAbove.getCollisionShape(level, posAbove).isEmpty()) {
@@ -317,11 +321,11 @@ public class TickEventHandlers {
                 BlockPos posBelow = pos.below();
                 BlockState stateBelow = level.getBlockState(posBelow);
 
-                TagKey<Block> breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING;
+                TagKey<Block> fallingBreakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING;
                 if (entity instanceof ServerPlayer player && player.gameMode.getGameModeForPlayer() == GameType.ADVENTURE)
-                    breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE;
+                    fallingBreakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE;
 
-                if (!stateBelow.isAir() && stateBelow.is(breakTag)) {
+                if (!stateBelow.isAir() && stateBelow.is(fallingBreakTag)) {
                     if (entity instanceof Player player && player.isCreative() || !ConfigRegistry.MEGA_MOBS_DROP_ITEMS.get())
                         level.removeBlock(posBelow, true);
                     else level.destroyBlock(posBelow, true, entity);
