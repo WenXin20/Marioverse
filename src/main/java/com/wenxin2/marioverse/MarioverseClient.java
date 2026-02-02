@@ -170,30 +170,6 @@ public class MarioverseClient {
                     )
             ));
         }
-
-        if (event.getPackType() == PackType.SERVER_DATA) {
-            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dynamic_resources");
-            Component packNameDisplay = Component.translatable("datapack.marioverse.dynamic_resources");
-            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_resources",
-                    packNameDisplay, PackSource.BUILT_IN, Optional.of(new KnownPack("marioverse", "mod/" + packLocation, "22")));
-
-            event.addRepositorySource((consumer) -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
-                            new Pack.ResourcesSupplier() {
-                                @Override
-                                public PackResources openPrimary(PackLocationInfo info) {
-                                    return new DynamicServerResources(info);
-                                }
-
-                                @Override
-                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
-                                    return new DynamicServerResources(info);
-                                }
-                            },
-                            PackType.SERVER_DATA,
-                            new PackSelectionConfig(true, Pack.Position.TOP, false)
-                    )
-            ));
-        }
     }
 
     @SubscribeEvent

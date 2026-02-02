@@ -20,6 +20,8 @@ import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.FluidTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
+import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
+import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
 import com.wenxin2.marioverse.items.WarpTrapDoorBlockItem;
@@ -33,6 +35,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -43,7 +46,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackLocationInfo;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackSelectionConfig;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.KnownPack;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.DyeColor;
@@ -67,6 +78,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
@@ -199,6 +211,32 @@ public class RegistryEventHandlers {
         generator.addProvider(event.includeServer(), new FluidTagsGen(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(), new RecipeGen(output, lookupProvider));
+    }
+
+    public static void addPackFinder(final AddPackFindersEvent event) {
+        if (event.getPackType() == PackType.SERVER_DATA) {
+            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dynamic_resources");
+            Component packNameDisplay = Component.translatable("datapack.marioverse.dynamic_resources");
+            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_resources",
+                    packNameDisplay, PackSource.BUILT_IN, Optional.of(new KnownPack("marioverse", "mod/" + packLocation, "22")));
+
+            event.addRepositorySource((consumer) -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
+                            new Pack.ResourcesSupplier() {
+                                @Override
+                                public PackResources openPrimary(PackLocationInfo info) {
+                                    return new DynamicServerResources(info);
+                                }
+
+                                @Override
+                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
+                                    return new DynamicServerResources(info);
+                                }
+                            },
+                            PackType.SERVER_DATA,
+                            new PackSelectionConfig(true, Pack.Position.TOP, false)
+                    )
+            ));
+        }
     }
 
     @SubscribeEvent

@@ -108,6 +108,7 @@ public class Marioverse {
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onRightClickBlock);
         bus.addListener(this::commonSetup);
         bus.addListener(RegistryEventHandlers::gatherData);
+        bus.addListener(RegistryEventHandlers::addPackFinder);
     }
 
     private static void everyCompatModule() {
