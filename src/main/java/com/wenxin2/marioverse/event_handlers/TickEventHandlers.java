@@ -278,7 +278,12 @@ public class TickEventHandlers {
         for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
             BlockState state = level.getBlockState(pos);
 
-            if (!isFalling) {
+            if (isFalling) {
+                if (!state.is(TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING))
+                    continue;
+            } else {
+                if (!state.is(TagRegistry.MEGA_MUSHROOM_CAN_BREAK))
+                    continue;
                 if (entity.isPassenger()) {
                     Entity vehicle = entity.getVehicle();
                     if (vehicle != null) {
