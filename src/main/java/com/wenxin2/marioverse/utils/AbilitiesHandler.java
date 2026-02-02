@@ -139,6 +139,7 @@ public interface AbilitiesHandler extends CostumeHandler {
                 entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
                 entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, 0);
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
+                entity.setData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME, false);
             } else {
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, true);
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, false);

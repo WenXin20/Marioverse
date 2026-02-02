@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.sounds;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.IntSupplier;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -12,16 +14,19 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class FadingSoundInstance extends AbstractTickableSoundInstance {
     private final LivingEntity entity;
     private final float fadeDuration;
-    private float remainingTicks;
-    private boolean fadeEarly;
+    private final IntSupplier duration;
+    private final BooleanSupplier hasPowerUp;
+    private int lastDuration;
+    private float fadeTicks = -1;
 
     public FadingSoundInstance(LivingEntity entity, SoundEvent soundEvent, SoundSource soundSource, RandomSource random,
-                               float totalDuration, float fadeDuration, boolean fadeEarly) {
+                               float fadeDuration, IntSupplier duration, BooleanSupplier hasPowerUp) {
         super(soundEvent, soundSource, random);
         this.entity = entity;
         this.fadeDuration = fadeDuration;
-        this.remainingTicks = totalDuration;
-        this.fadeEarly = fadeEarly;
+        this.duration = duration;
+        this.hasPowerUp = hasPowerUp;
+        this.lastDuration = duration.getAsInt();
         this.looping = true;
         this.delay = 0;
         this.volume = 1.0F;
@@ -29,13 +34,26 @@ public class FadingSoundInstance extends AbstractTickableSoundInstance {
 
     @Override
     public void tick() {
-        if (this.remainingTicks < this.fadeDuration || this.fadeEarly)
-            this.volume = Math.max(0.0F, this.remainingTicks / this.fadeDuration);
-        else this.volume = 1.0F;
+        int currentDuration = duration.getAsInt();
 
-        this.remainingTicks--;
-        if (this.remainingTicks <= 0)
-            this.stop();
+        if (currentDuration > lastDuration) {
+            fadeTicks = -1;
+            volume = 1.0F;
+        }
+
+        if (!hasPowerUp.getAsBoolean()) {
+            if (fadeTicks < 0)
+                fadeTicks = fadeDuration / 2;
+        }
+
+        if (fadeTicks >= 0) {
+            volume = Math.max(0.0F, fadeTicks / fadeDuration);
+            fadeTicks--;
+
+            if (fadeTicks <= 0)
+                stop();
+        }
+        lastDuration = currentDuration;
 
         this.x = entity.getX();
         this.y = entity.getY();
