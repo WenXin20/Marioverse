@@ -33,6 +33,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -171,6 +172,72 @@ public class TickEventHandlers {
                 entity.setDeltaMovement(motion.x, 0.0D, motion.z);
             entity.setOnGround(true);
             entity.fallDistance = 0.0F;
+        }
+    }
+
+    @SubscribeEvent
+    public static void breakBlockEvent(BlockEvent.BreakEvent event) {
+        Player player = event.getPlayer();
+        Level level = (Level) event.getLevel();
+        ItemStack stack = player.getMainHandItem();
+        BlockPos pos = event.getPos();
+        Direction face = TickEventHandlers.getBreakFace(player);
+
+        if (event.isCanceled()) return;
+
+        if (!level.isClientSide && !player.isSpectator() && !player.isShiftKeyDown()
+                && player.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
+            if (ConfigRegistry.MEGA_MUSHROOM_MINING_RADIUS.get() > 0 && player.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))
+                TickEventHandlers.break3x3(level, player, pos, face, stack);
+        }
+    }
+
+    private static Direction getBreakFace(Player player) {
+        Vec3 look = player.getLookAngle();
+
+        double x = Math.abs(look.x);
+        double y = Math.abs(look.y);
+        double z = Math.abs(look.z);
+
+        if (y > x && y > z)
+            return look.y > 0 ? Direction.UP : Direction.DOWN;
+        else if (x > z)
+            return look.x > 0 ? Direction.EAST : Direction.WEST;
+        else
+            return look.z > 0 ? Direction.SOUTH : Direction.NORTH;
+    }
+
+    private static void break3x3(Level level, Player player, BlockPos pos, Direction face, ItemStack stack) {
+        int radius = ConfigRegistry.MEGA_MUSHROOM_MINING_RADIUS.get();
+        for (int dx = -radius; dx <= radius; dx++) {
+            for (int dy = -radius; dy <= radius; dy++) {
+
+                BlockPos target = switch (face) {
+                    case UP, DOWN ->
+                            pos.offset(dx, 0, dy);
+                    case NORTH, SOUTH ->
+                            pos.offset(dx, dy, 0);
+                    case EAST, WEST ->
+                            pos.offset(0, dy, dx);
+                };
+
+                if (target.equals(pos))
+                    continue;
+                BlockState state = level.getBlockState(target);
+
+                if(!player.isCreative() && !stack.isCorrectToolForDrops(state))
+                    continue;
+                if (state.isAir())
+                    continue;
+                if (!player.mayBuild())
+                    continue;
+                if (!state.canHarvestBlock(level, target, player))
+                    continue;
+
+                if (player.isCreative())
+                    level.removeBlock(target, true);
+                else level.destroyBlock(target, true, player);
+            }
         }
     }
 

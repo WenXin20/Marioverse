@@ -222,6 +222,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue MAX_SNOW_POKEY_HEIGHT;
+    public static ModConfigSpec.IntValue MEGA_MUSHROOM_MINING_RADIUS;
     public static ModConfigSpec.IntValue MEGA_MUSHROOM_DURATION;
     public static ModConfigSpec.IntValue ONE_UP_COOLDOWN;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
@@ -907,9 +908,6 @@ public class ConfigRegistry {
                             .comment("Amount of damage Mega Mushrooms causes.")
                             .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("mega_mushroom_damage", 20, 0.0, Float.MAX_VALUE);
-                    MEGA_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mega_mushroom_reach_distance")
-                            .comment("Additional reach distance Mega Mushrooms provide on top of the normal reach distance.§b")
-                            .defineInRange("mega_mushroom_reach_distance", 3.0, -4.0, 20.0);
                     MEGA_MUSHROOM_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.mega_mushroom_height_scale")
                             .comment("The height scale Mega Mushrooms resize the user.§b")
                             .comment("§6[1.0 is normal height§b")
@@ -918,8 +916,15 @@ public class ConfigRegistry {
                             .comment("The width scale Mega Mushrooms resize the user.§b")
                             .comment("§6[1.0 is normal width§b")
                             .defineInRange("mega_mushroom_width_scale", 3.0, 0.2, 20.0);
+                    MEGA_MUSHROOM_REACH_DISTANCE = BUILDER.translation("configuration.marioverse.mega_mushroom_reach_distance")
+                            .comment("Additional reach distance Mega Mushrooms provide on top of the normal reach distance.§b")
+                            .defineInRange("mega_mushroom_reach_distance", 3.0, -4.0, 20.0);
+                    MEGA_MUSHROOM_MINING_RADIUS = BUILDER.translation("configuration.marioverse.mega_mushroom_mining_radius")
+                            .comment("The radius of blocks broken when mining if not sneaking.")
+                            .comment("§6Radius of 0 disables it§b")
+                            .defineInRange("mega_mushroom_mining_radius", 1, 0, 5);
                     MEGA_MOBS_BREAK_BLOCKS = BUILDER.translation("configuration.marioverse.mega_mobs_break_blocks")
-                            .comment("Allow mega-sized mobs to break blocks.")
+                            .comment("Allow mega-sized mobs to break blocks it collides with if not sneaking.")
                             .comment("§9[Default: false]")
                             .define("mega_mobs_break_blocks", false);
                     MEGA_MOBS_DROP_ITEMS = BUILDER.translation("configuration.marioverse.mega_mobs_drop_items")
