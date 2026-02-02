@@ -17,6 +17,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -250,6 +251,10 @@ public class TickEventHandlers {
 
         if (facing.getAxis().isVertical())
             return;
+        if (entity instanceof Mob mob && mob.isNoAi())
+            return;
+        if (entity.isSpectator())
+            return;
 
         AABB forwardBox = box.move(dx * 0.5D, 0, dz * 0.5D)
                 .inflate(Math.max(Math.abs(dx) * 1.15D, 0.25D), 0, Math.max(Math.abs(dz) * 1.15D, 0.25D));
@@ -303,8 +308,11 @@ public class TickEventHandlers {
                     breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE;
 
                 if (!stateAbove.isAir() && stateAbove.is(breakTag)
-                        && !stateAbove.getCollisionShape(level, posAbove).isEmpty())
-                    level.destroyBlock(posAbove, true, entity);
+                        && !stateAbove.getCollisionShape(level, posAbove).isEmpty()) {
+                    if (entity instanceof Player player && player.isCreative() || !ConfigRegistry.MEGA_MOBS_DROP_ITEMS.get())
+                        level.removeBlock(posAbove, true);
+                    else level.destroyBlock(posAbove, true, entity);
+                }
             } else if (isFalling) {
                 BlockPos posBelow = pos.below();
                 BlockState stateBelow = level.getBlockState(posBelow);
@@ -313,8 +321,11 @@ public class TickEventHandlers {
                 if (entity instanceof ServerPlayer player && player.gameMode.getGameModeForPlayer() == GameType.ADVENTURE)
                     breakTag = TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE;
 
-                if (!stateBelow.isAir() && stateBelow.is(breakTag))
-                    level.destroyBlock(posBelow, true, entity);
+                if (!stateBelow.isAir() && stateBelow.is(breakTag)) {
+                    if (entity instanceof Player player && player.isCreative() || !ConfigRegistry.MEGA_MOBS_DROP_ITEMS.get())
+                        level.removeBlock(posBelow, true);
+                    else level.destroyBlock(posBelow, true, entity);
+                }
             }
         }
     }

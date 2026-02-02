@@ -120,6 +120,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue FORCE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MEGA_MOBS_BREAK_BLOCKS;
+    public static ModConfigSpec.BooleanValue MEGA_MOBS_DROP_ITEMS;
     public static ModConfigSpec.BooleanValue MEGA_MOBS_DO_DAMAGE;
     public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_BREAKS_BLOCKS;
@@ -921,6 +922,10 @@ public class ConfigRegistry {
                             .comment("Allow mega-sized mobs to break blocks.")
                             .comment("§9[Default: false]")
                             .define("mega_mobs_break_blocks", false);
+                    MEGA_MOBS_DROP_ITEMS = BUILDER.translation("configuration.marioverse.mega_mobs_drop_items")
+                            .comment("Blocks broken while mega-sized drop items.")
+                            .comment("§9[Default: true]")
+                            .define("mega_mobs_drop_items", true);
                     MEGA_MOBS_DO_DAMAGE = BUILDER.translation("configuration.marioverse.mega_mobs_do_damage")
                             .comment("Allow mega-sized mobs to damage other mobs.")
                             .comment("§9[Default: true]")

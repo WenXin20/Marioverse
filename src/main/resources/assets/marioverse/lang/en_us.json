@@ -1380,6 +1380,7 @@
   "configuration.marioverse.max_snow_pokey_height": "Max Height",
   "configuration.marioverse.mega_mobs_break_blocks": "Mega Mobs Break Blocks",
   "configuration.marioverse.mega_mobs_do_damage": "Mega Mobs Do Damage",
+  "configuration.marioverse.mega_mobs_drop_items": "Broken Blocks Drop Items",
   "configuration.marioverse.mega_mushroom_auto_step": "Auto Step Height",
   "configuration.marioverse.mega_mushroom_breaks_blocks": "Break Blocks",
   "configuration.marioverse.mega_mushroom_damage": "Damage",
