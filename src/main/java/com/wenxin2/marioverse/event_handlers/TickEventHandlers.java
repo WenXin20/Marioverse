@@ -24,17 +24,21 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Unique;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
@@ -181,51 +185,44 @@ public class TickEventHandlers {
         Level level = (Level) event.getLevel();
         ItemStack stack = player.getMainHandItem();
         BlockPos pos = event.getPos();
-        Direction face = TickEventHandlers.getBreakFace(player);
+        Direction face = TickEventHandlers.getBreakFace(level, player);
 
         if (event.isCanceled()) return;
 
         if (!level.isClientSide && !player.isSpectator() && !player.isShiftKeyDown()
                 && player.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
             if (ConfigRegistry.MEGA_MUSHROOM_MINING_RADIUS.get() > 0 && player.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))
-                TickEventHandlers.break3x3(level, player, pos, face, stack);
+                TickEventHandlers.breakArea(level, player, pos, face, stack);
         }
     }
 
-    private static Direction getBreakFace(Player player) {
-        Vec3 look = player.getLookAngle();
+    @Nullable
+    private static Direction getBreakFace(Level level, Player player) {
+        double reach = player.blockInteractionRange();
+        Vec3 start = player.getEyePosition();
+        Vec3 end = start.add(player.getLookAngle().scale(reach));
+        ClipContext context = new ClipContext(start, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player);
 
-        double x = Math.abs(look.x);
-        double y = Math.abs(look.y);
-        double z = Math.abs(look.z);
-
-        if (y > x && y > z)
-            return look.y > 0 ? Direction.UP : Direction.DOWN;
-        else if (x > z)
-            return look.x > 0 ? Direction.EAST : Direction.WEST;
-        else
-            return look.z > 0 ? Direction.SOUTH : Direction.NORTH;
+        BlockHitResult result = level.clip(context);
+        return result.getType() == HitResult.Type.BLOCK ? result.getDirection() : null;
     }
 
-    private static void break3x3(Level level, Player player, BlockPos pos, Direction face, ItemStack stack) {
+    private static void breakArea(Level level, Player player, BlockPos pos, Direction face, ItemStack stack) {
         int radius = ConfigRegistry.MEGA_MUSHROOM_MINING_RADIUS.get();
         for (int dx = -radius; dx <= radius; dx++) {
             for (int dy = -radius; dy <= radius; dy++) {
 
                 BlockPos target = switch (face) {
-                    case UP, DOWN ->
-                            pos.offset(dx, 0, dy);
-                    case NORTH, SOUTH ->
-                            pos.offset(dx, dy, 0);
-                    case EAST, WEST ->
-                            pos.offset(0, dy, dx);
+                    case UP, DOWN -> pos.offset(dx, 0, dy);
+                    case NORTH, SOUTH -> pos.offset(dx, dy, 0);
+                    case EAST, WEST -> pos.offset(0, dy, dx);
                 };
 
                 if (target.equals(pos))
                     continue;
                 BlockState state = level.getBlockState(target);
 
-                if(!player.isCreative() && !stack.isCorrectToolForDrops(state))
+                if(!player.isCreative() && state.requiresCorrectToolForDrops() && !stack.isCorrectToolForDrops(state))
                     continue;
                 if (state.isAir())
                     continue;
