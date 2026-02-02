@@ -83,6 +83,7 @@ import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -93,6 +94,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -110,7 +114,9 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
@@ -441,6 +447,65 @@ public class MarioverseEventHandlers {
                 containerShoes.getAccessories().setItem(0, shoesItem);
 
             shoesItem.applyComponents(stack.getComponents());
+        }
+    }
+
+    @SubscribeEvent
+    public static void breakBlockEvent(BlockEvent.BreakEvent event) {
+        Player player = event.getPlayer();
+        Level level = (Level) event.getLevel();
+        ItemStack stack = player.getMainHandItem();
+        BlockPos pos = event.getPos();
+        Direction face = MarioverseEventHandlers.getBreakFace(level, player);
+
+        if (event.isCanceled()) return;
+
+        if (!level.isClientSide && !player.isSpectator() && !player.isShiftKeyDown()
+                && player.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
+            if (ConfigRegistry.MEGA_MUSHROOM_MINING_RADIUS.get() > 0 && player.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))
+                MarioverseEventHandlers.breakArea(level, player, pos, face, stack);
+        }
+    }
+
+    @Nullable
+    private static Direction getBreakFace(Level level, Player player) {
+        double reach = player.blockInteractionRange();
+        Vec3 start = player.getEyePosition();
+        Vec3 end = start.add(player.getLookAngle().scale(reach));
+        ClipContext context = new ClipContext(start, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player);
+
+        BlockHitResult result = level.clip(context);
+        return result.getType() == HitResult.Type.BLOCK ? result.getDirection() : null;
+    }
+
+    private static void breakArea(Level level, Player player, BlockPos pos, Direction face, ItemStack stack) {
+        int radius = ConfigRegistry.MEGA_MUSHROOM_MINING_RADIUS.get();
+        for (int dx = -radius; dx <= radius; dx++) {
+            for (int dy = -radius; dy <= radius; dy++) {
+
+                BlockPos target = switch (face) {
+                    case UP, DOWN -> pos.offset(dx, 0, dy);
+                    case NORTH, SOUTH -> pos.offset(dx, dy, 0);
+                    case EAST, WEST -> pos.offset(0, dy, dx);
+                };
+
+                if (target.equals(pos))
+                    continue;
+                BlockState state = level.getBlockState(target);
+
+                if(!player.isCreative() && state.requiresCorrectToolForDrops() && !stack.isCorrectToolForDrops(state))
+                    continue;
+                if (state.isAir())
+                    continue;
+                if (!player.mayBuild())
+                    continue;
+                if (!state.canHarvestBlock(level, target, player))
+                    continue;
+
+                if (player.isCreative())
+                    level.removeBlock(target, true);
+                else level.destroyBlock(target, true, player);
+            }
         }
     }
 
