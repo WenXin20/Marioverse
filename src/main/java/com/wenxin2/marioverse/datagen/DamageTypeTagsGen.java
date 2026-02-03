@@ -36,6 +36,15 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 .add(DamageTypeRegistry.LIGHT);
 
+        tag(TagRegistry.BYPASSES_MEGA_MUSHROOM)
+                .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                .addTag(DamageTypeTags.IS_LIGHTNING)
+                .add(DamageTypes.DROWN)
+                .add(DamageTypes.LAVA)
+                .add(DamageTypes.OUTSIDE_BORDER)
+                .add(DamageTypes.SONIC_BOOM)
+                .add(DamageTypes.STARVE);
+
         tag(TagRegistry.BYPASSES_SUPER_STAR)
                 .addTag(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 .add(DamageTypes.DROWN)
@@ -78,6 +87,10 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
         tag(TagRegistry.IS_ICE_CUBE_CRUSHED)
                 .add(DamageTypeRegistry.ICE_CUBE_CRUSHED)
                 .add(DamageTypeRegistry.PLAYER_ICE_CUBE_CRUSHED);
+
+        tag(TagRegistry.IS_MEGA_MUSHROOM_SQUASH)
+                .add(DamageTypeRegistry.MEGA_MUSHROOM_SQUASH)
+                .add(DamageTypeRegistry.PLAYER_MEGA_MUSHROOM_SQUASH);
 
         tag(TagRegistry.IS_PIRANHA_CHOMP)
                 .add(DamageTypeRegistry.PIRANHA_CHOMP)

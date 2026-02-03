@@ -16,6 +16,7 @@ import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -272,12 +273,12 @@ public class ServerParticleUtils {
         }
     }
 
-    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, boolean particlesInAir, int particleAmt, double particleHeight) {
+    public static void spawnParticleTrail(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity,
+                                          boolean particlesInAir, boolean particlesOnFluids, int particleAmt, double particleHeight) {
         BlockPos posLegacy = entity.getOnPosLegacy();
         BlockState state = entity.level().getBlockState(posLegacy);
-        RandomSource rand = RandomSource.create();
 
-        if (state.getRenderShape() != RenderShape.INVISIBLE || particlesInAir) {
+        if (state.getRenderShape() != RenderShape.INVISIBLE || particlesOnFluids || particlesInAir) {
             Vec3 vec3 = entity.getDeltaMovement();
             BlockPos pos = entity.blockPosition();
             double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5);

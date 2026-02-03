@@ -25,8 +25,11 @@ import com.wenxin2.marioverse.entities.SnowPokeyEntity;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
@@ -61,13 +64,23 @@ public class EntityRegistry {
                     .sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER =
-            register("fire_flower", FireFlowerEntity::new, MobCategory.AMBIENT, 0.6f, 0.6f);
+            Marioverse.ENTITIES.register("fire_flower", () -> EntityType.Builder.of(FireFlowerEntity::new, MobCategory.AMBIENT)
+                    .sized(0.6F, 0.6F).build("fire_flower"));
     public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER =
-            register("ice_flower", IceFlowerEntity::new, MobCategory.AMBIENT, 0.6f, 0.6f);
-    public static final DeferredHolder<EntityType<?>, EntityType<MushroomEntity>> SUPER_MUSHROOM =
-            register("super_mushroom", MushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
+            Marioverse.ENTITIES.register("ice_flower", () -> EntityType.Builder.of(IceFlowerEntity::new, MobCategory.AMBIENT)
+                    .sized(0.6F, 0.6F).build("ice_flower"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MegaMushroomEntity>> MEGA_MUSHROOM =
+            Marioverse.ENTITIES.register("mega_mushroom", () -> EntityType.Builder.of(MegaMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(1.875F, 1.75F).build("mega_mushroom"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MiniMushroomEntity>> MINI_MUSHROOM =
+            Marioverse.ENTITIES.register("mini_mushroom", () -> EntityType.Builder.of(MiniMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(0.5F, 0.5F).build("mini_mushroom"));
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM =
-            register("one_up_mushroom", OneUpMushroomEntity::new, MobCategory.AMBIENT, 0.8f, 0.8f);
+            Marioverse.ENTITIES.register("one_up_mushroom", () -> EntityType.Builder.of(OneUpMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(0.8F, 0.8F).build("one_up_mushroom"));
+    public static final DeferredHolder<EntityType<?>, EntityType<SuperMushroomEntity>> SUPER_MUSHROOM =
+            Marioverse.ENTITIES.register("super_mushroom", () -> EntityType.Builder.of(SuperMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(0.8F, 0.8F).build("super_mushroom"));
     public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR =
             Marioverse.ENTITIES.register("super_star", () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
                     .sized(0.8F, 0.8F).eyeHeight(0.625F).fireImmune().build("super_star"));
@@ -191,11 +204,6 @@ public class EntityRegistry {
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        AttributeSupplier.Builder mushroomAttributes = PathfinderMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1)
-                .add(Attributes.MOVEMENT_SPEED, 0.4F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
-                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder dryBonesAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.3F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
@@ -252,20 +260,38 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.1F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F);
+        AttributeSupplier.Builder mushroomAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 6)
+                .add(Attributes.MOVEMENT_SPEED, 0.4F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
+        AttributeSupplier.Builder megaMushroomAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.JUMP_STRENGTH, 0.55F)
+                .add(Attributes.MAX_HEALTH, 20)
+                .add(Attributes.MOVEMENT_SPEED, 0.5F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 20.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.2F);
+        AttributeSupplier.Builder miniMushroomAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 2)
+                .add(Attributes.MOVEMENT_SPEED, 0.3F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.4F);
         AttributeSupplier.Builder powerUpAttributes = PathfinderMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.MAX_HEALTH, 2)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder starAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.JUMP_STRENGTH, 0.5F)
-                .add(Attributes.MAX_HEALTH, 1)
+                .add(Attributes.MAX_HEALTH, 20)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 20.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
         event.put(EntityRegistry.ICE_FLOWER.get(), powerUpAttributes.build());
-        event.put(EntityRegistry.SUPER_MUSHROOM.get(), mushroomAttributes.build());
+        event.put(EntityRegistry.MEGA_MUSHROOM.get(), megaMushroomAttributes.build());
+        event.put(EntityRegistry.MINI_MUSHROOM.get(), miniMushroomAttributes.build());
         event.put(EntityRegistry.ONE_UP_MUSHROOM.get(), mushroomAttributes.build());
+        event.put(EntityRegistry.SUPER_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.SUPER_STAR.get(), starAttributes.build());
 
         event.put(EntityRegistry.DRY_BONES_HEAD.get(), dryBonesHeadAttributes.build());

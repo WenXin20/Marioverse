@@ -41,6 +41,11 @@
         },
         {
           "type": "minecraft:loot_table",
+          "value": "marioverse:question_blocks/mega_mushroom",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:loot_table",
           "value": "marioverse:question_blocks/super_star",
           "weight": 1
         },

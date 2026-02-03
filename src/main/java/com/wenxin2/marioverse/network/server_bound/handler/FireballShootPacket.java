@@ -2,14 +2,13 @@ package com.wenxin2.marioverse.network.server_bound.handler;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -29,22 +28,21 @@ public class FireballShootPacket {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                if (player instanceof AbilitiesHandler handler && handler.mv$hasFireFlower())
+                if (player.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER))
                     this.handleFireballShooting(player);
             });
         }
     }
 
     public void handleFireballShooting(Player player) {
-        if (player instanceof AbilitiesHandler handler) {
-            if (handler.mv$getFireballCooldown() == 0 && handler.mv$getFireballCount() < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
-                shootFireball(player);
-                handler.mv$setFireballCooldown(FIREBALL_COOLDOWN);
-                handler.mv$setFireballCount(handler.mv$getFireballCount() + 1);
-            } else if (handler.mv$getFireballCount() >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
-                handler.mv$setFireballCooldown(ConfigRegistry.FIREBALL_COOLDOWN.get());
-                handler.mv$setFireballCount(0);
-            }
+        if (player.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) == 0
+                && player.getData(DataAttachmentRegistry.FIREBALL_COUNT) < ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
+            FireballShootPacket.shootFireball(player);
+            player.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, FIREBALL_COOLDOWN);
+            player.setData(DataAttachmentRegistry.FIREBALL_COUNT, player.getData(DataAttachmentRegistry.FIREBALL_COUNT) + 1);
+        } else if (player.getData(DataAttachmentRegistry.FIREBALL_COUNT) >= ConfigRegistry.MAX_PLAYER_FIREBALLS.get()) {
+            player.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, ConfigRegistry.FIREBALL_COOLDOWN.get());
+            player.setData(DataAttachmentRegistry.FIREBALL_COUNT, 0);
         }
     }
 

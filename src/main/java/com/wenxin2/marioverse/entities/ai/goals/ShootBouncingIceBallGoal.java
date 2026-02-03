@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -10,7 +11,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.Monster;
@@ -35,36 +35,37 @@ public class ShootBouncingIceBallGoal extends Goal {
     @Override
     public void start() {
         super.start();
-        if (livingEntity instanceof Mob mob)
+        if (this.livingEntity instanceof Mob mob)
             mob.setAggressive(true);
     }
 
     @Override
     public void stop() {
         super.stop();
-        if (livingEntity instanceof Mob mob)
+        if (this.livingEntity instanceof Mob mob)
             mob.setAggressive(false);
     }
 
     @Override
     public boolean canUse() {
-        boolean canShoot = !requireIceFlower|| (livingEntity instanceof AbilitiesHandler handler && handler.mv$hasIceFlower());
-        return livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
+        boolean canShoot = !this.requireIceFlower || this.livingEntity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER);
+        return this.livingEntity.getDeltaMovement().horizontalDistance() > 0.0F && canShoot;
     }
 
     @Override
     public void tick() {
         if (canUse()) {
-            if ((livingEntity instanceof Monster monster && monster.getTarget() != null && monster.getSensing().hasLineOfSight(monster.getTarget()))
-                    || (livingEntity instanceof AbstractGolem golem && golem.getTarget() != null && golem.getSensing().hasLineOfSight(golem.getTarget()))
-                    || !(livingEntity instanceof Monster) && !(livingEntity instanceof AbstractGolem))
+            if ((this.livingEntity instanceof Monster monster && monster.getTarget() != null && monster.getSensing().hasLineOfSight(monster.getTarget()))
+                    || (this.livingEntity instanceof AbstractGolem golem && golem.getTarget() != null && golem.getSensing().hasLineOfSight(golem.getTarget()))
+                    || !(this.livingEntity instanceof Monster) && !(this.livingEntity instanceof AbstractGolem))
                 handleIceBallShooting();
         }
 
-        if (livingEntity instanceof AbilitiesHandler handler && handler.mv$getIceBallCooldown() > 0)
-            handler.mv$setIceBallCooldown(handler.mv$getIceBallCooldown() - 1);
+        if (this.livingEntity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) > 0)
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN,
+                    this.livingEntity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) - 1);
 
-        if (livingEntity instanceof Mob mob) {
+        if (this.livingEntity instanceof Mob mob) {
             LivingEntity target = mob.getTarget();
             if (target != null) {
                 mob.getNavigation().moveTo(target, 1.2);
@@ -78,43 +79,44 @@ public class ShootBouncingIceBallGoal extends Goal {
     }
 
     public void handleIceBallShooting() {
-        if (livingEntity instanceof AbilitiesHandler handler) {
-            if (!requireIceFlower && handler.mv$getIceBallCooldown() == 0
-                    && handler.mv$getIceBallCount() < maxIceBalls + addIceBallsWithIceFlower) {
-                this.shootIceBall();
-                handler.mv$setIceBallCooldown(ICE_BALL_COOLDOWN);
-                handler.mv$setIceBallCount(handler.mv$getIceBallCooldown() + 1);
-            } else if (handler.mv$getIceBallCooldown() == 0
-                    && handler.mv$getIceBallCount() < maxIceBalls + addIceBallsWithIceFlower
-                    && handler.mv$hasIceFlower()) {
-                this.shootIceBall();
-                handler.mv$setIceBallCooldown(ICE_BALL_COOLDOWN);
-                handler.mv$setIceBallCount(handler.mv$getIceBallCooldown() + 1);
-            } else if (!requireIceFlower && handler.mv$getIceBallCount() >= maxIceBalls + addIceBallsWithIceFlower) {
-                handler.mv$setIceBallCooldown(ConfigRegistry.ICE_BALL_COOLDOWN.get());
-                handler.mv$setIceBallCount(0);
-            } else if (handler.mv$getIceBallCount() >= maxIceBalls) {
-                handler.mv$setIceBallCooldown(ConfigRegistry.ICE_BALL_COOLDOWN.get());
-                handler.mv$setIceBallCount(0);
-            }
+        int iceBallCooldown = this.livingEntity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN);
+        int iceBallCount = this.livingEntity.getData(DataAttachmentRegistry.ICE_BALL_COUNT);
+
+        if (!this.requireIceFlower && iceBallCooldown == 0
+                && iceBallCount < this.maxIceBalls + this.addIceBallsWithIceFlower) {
+            this.shootIceBall();
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, ICE_BALL_COOLDOWN);
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COUNT, iceBallCount + 1);
+        } else if (iceBallCooldown == 0
+                && iceBallCount < this.maxIceBalls + this.addIceBallsWithIceFlower
+                && this.livingEntity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+            this.shootIceBall();
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, ICE_BALL_COOLDOWN);
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COUNT, iceBallCount + 1);
+        } else if (!this.requireIceFlower && iceBallCount >= this.maxIceBalls + this.addIceBallsWithIceFlower) {
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, ConfigRegistry.FIREBALL_COOLDOWN.get());
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COUNT, 0);
+        } else if (iceBallCount >= this.maxIceBalls) {
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, ConfigRegistry.FIREBALL_COOLDOWN.get());
+            this.livingEntity.setData(DataAttachmentRegistry.ICE_BALL_COUNT, 0);
         }
     }
 
     public void shootIceBall() {
-        Level world = livingEntity.level();
+        Level world = this.livingEntity.level();
         BouncingIceBallProjectile iceBall = new BouncingIceBallProjectile(EntityRegistry.BOUNCING_ICE_BALL.get(), world);
 
-        iceBall.setOwner(livingEntity);
-        iceBall.setPos(livingEntity.getX(), livingEntity.getEyeY() - 0.5, livingEntity.getZ());
-        iceBall.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, livingEntity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+        iceBall.setOwner(this.livingEntity);
+        iceBall.setPos(this.livingEntity.getX(), this.livingEntity.getEyeY() - 0.5, this.livingEntity.getZ());
+        iceBall.shootFromRotation(this.livingEntity, this.livingEntity.getXRot(), this.livingEntity.getYRot(), 0.0F, 1.2F, 1.0F);
+        world.playSound(null, this.livingEntity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
 
-        Vec3 look = livingEntity.getLookAngle();
+        Vec3 look = this.livingEntity.getLookAngle();
         iceBall.setDeltaMovement(look.scale(0.5));
         iceBall.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90);
         iceBall.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
         world.addFreshEntity(iceBall);
-        livingEntity.swing(InteractionHand.MAIN_HAND);
+        this.livingEntity.swing(InteractionHand.MAIN_HAND);
     }
 }

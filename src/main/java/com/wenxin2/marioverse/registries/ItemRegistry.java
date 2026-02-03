@@ -94,7 +94,9 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MARIO_SHIRT;
     public static final DeferredItem<Item> MARIO_SHOES;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
+    public static final DeferredItem<Item> MEGA_MUSHROOM;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
+    public static final DeferredItem<Item> MINI_MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PEACH_BODICE;
     public static final DeferredItem<Item> PEACH_COSTUME_SMITHING_TEMPLATE;
@@ -173,6 +175,10 @@ public class ItemRegistry {
 
         SUPER_MUSHROOM = registerItem("super_mushroom",
                 () -> new BasePowerUpItem(2, EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        MEGA_MUSHROOM = registerItem("mega_mushroom",
+                () -> new BasePowerUpItem(4, EntityRegistry.MEGA_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        MINI_MUSHROOM = registerItem("mini_mushroom",
+                () -> new BasePowerUpItem(5, EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         DASH_MUSHROOM = registerItem("dash_mushroom",
                 () -> new DashMushroomItem(3, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",

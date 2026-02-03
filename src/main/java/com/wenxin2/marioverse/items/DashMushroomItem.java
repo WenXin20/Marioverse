@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -91,7 +92,7 @@ public class DashMushroomItem extends Item {
                 Entity vehicle = entity.getVehicle();
                 if (stack != null)
                     stack.consume(1, entity);
-                handler.applyMushroomPowerUp(world, entity, null, ConfigRegistry.DASH_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                handler.applySuperMushroomPowerUp(world, entity, null, ConfigRegistry.DASH_MUSHROOM_HEALTH_HEALED.get().floatValue());
 
                 if (vehicle != null
                         && (!vehicle.getType().is(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST) || isCommand)) {
@@ -110,7 +111,7 @@ public class DashMushroomItem extends Item {
                     if (vehicle instanceof AbstractMinecart)
                         direction = entity.getLookAngle().normalize();
 
-                    handler.mv$setDashMushroomBoost(true);
+                    entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, true);
                     if (!(vehicle instanceof Boat))
                         vehicle.setDeltaMovement(direction.x * boost, 0, direction.z * boost);
                     if (entity instanceof Player player && stack != null)
@@ -121,7 +122,7 @@ public class DashMushroomItem extends Item {
 
                     return InteractionResultHolder.sidedSuccess(notNullStack, world.isClientSide());
                 } else {
-                    handler.mv$setDashMushroomBoost(true);
+                    entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, true);
                     entity.setDeltaMovement(direction.x * boost, entity.getDeltaMovement().y, direction.z * boost);
                     if (entity instanceof Player player && stack != null)
                         player.getCooldowns().addCooldown(stack.getItem(), (int) (boost));

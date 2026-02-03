@@ -7,9 +7,9 @@ import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
-import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -33,7 +33,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -49,9 +48,10 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
+import net.minecraft.world.entity.EntityAttachments;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -64,11 +64,8 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DecoratedPotBlock;
-import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -89,30 +86,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Shadow protected boolean jumping;
 
     @Unique private static final int MAX_PARTICLE_AMOUNT = 100;
-    @Unique private double mv$currentEyeHeightScale = 1.0;
-    @Unique private double mv$currentHeightScale = 1.0;
-    @Unique private double mv$currentWidthScale = 1.0;
     @Unique protected float mv$appliedEyeHeightScale = 1.0F;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
-    @Unique private boolean mv$hasFireFlower;
-    @Unique private boolean mv$hasIceFlower;
-    @Unique private boolean mv$hasMegaMushroom;
-    @Unique private boolean mv$hasSuperMushroom;
-    @Unique private boolean mv$hasDashMushroomBoost;
-    @Unique private boolean mv$hasSuperMushroomOverride;
-    @Unique private boolean mv$preventWarp;
-    @Unique private int mv$checkpointFlagCooldown;
-    @Unique private int mv$consecutiveBounces;
-    @Unique private int mv$fireballCooldown;
-    @Unique private int mv$fireballCount;
-    @Unique private int mv$freezeImmunityCooldown;
-    @Unique private int mv$frozenCooldown;
-    @Unique private int mv$iceBallCooldown;
-    @Unique private int mv$iceBallCount;
-    @Unique private int mv$oneUpsRewarded;
-    @Unique private int mv$preventWarpCooldown;
-    @Unique private int mv$warpCooldown;
 
     public LivingEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
@@ -128,93 +104,33 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         return ConfigRegistry.TELEPORT_MOBS.get();
     }
 
-    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
-    public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        LivingEntity entity = (LivingEntity) (Object) this;
-
-        tag.putBoolean("marioverse:has_dash_mushroom_boost", this.mv$hasDashMushroomBoost());
-        tag.putBoolean("marioverse:has_fire_flower", this.mv$hasFireFlower());
-        tag.putBoolean("marioverse:has_ice_flower", this.mv$hasIceFlower());
-        tag.putBoolean("marioverse:has_mega_mushroom", this.mv$hasMegaMushroom());
-        tag.putBoolean("marioverse:has_super_mushroom", this.mv$hasSuperMushroom());
-        tag.putBoolean("marioverse:has_super_mushroom_override", this.mv$hasSuperMushroomOverride());
-        tag.putInt("marioverse:fireball_cooldown", this.mv$getFireballCooldown());
-        tag.putInt("marioverse:fireball_count", this.mv$getFireballCount());
-        tag.putInt("marioverse:ice_ball_cooldown", this.mv$getIceBallCooldown());
-        tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-        tag.putInt("marioverse:ice_ball_count", this.mv$getIceBallCount());
-
-        if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
-                    || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
-            tag.putInt("marioverse:consecutive_bounces", this.mv$getConsecutiveBounces());
-            tag.putInt("marioverse:one_ups_rewarded", this.mv$getOneUpsRewarded());
-        }
-
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
-            tag.putInt("marioverse:checkpoint_flag_cooldown", this.mv$getCheckpointFlagCooldown());
-
-        if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
-            tag.putInt("marioverse:freeze_immunity_cooldown", this.mv$getFreezeImmunityCooldown());
-            tag.putInt("marioverse:frozen_cooldown", this.mv$getFrozenCooldown());
-        }
-
-        if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
-            if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
-                tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
-                tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
-            } else if (ConfigRegistry.TELEPORT_MOBS.get()) {
-                tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
-                tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
-            }
-
-            if (entity instanceof Player)
-                tag.putInt("marioverse:prevent_warp_cooldown", this.mv$getPreventWarpCooldown());
-        }
-    }
-
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
-        this.mv$setDashMushroomBoost(tag.getBoolean("marioverse:has_dash_mushroom_boost"));
-        this.mv$setFireFlower(tag.getBoolean("marioverse:has_fire_flower"));
-        this.mv$setFireballCooldown(tag.getInt("marioverse:fireball_cooldown"));
-        this.mv$setFireballCount(tag.getInt("marioverse:fireball_count"));
-        this.mv$setIceBallCooldown(tag.getInt("marioverse:ice_ball_cooldown"));
-        this.mv$setIceBallCount(tag.getInt("marioverse:ice_ball_count"));
-        this.mv$setIceFlower(tag.getBoolean("marioverse:has_ice_flower"));
-        this.mv$setMegaMushroom(tag.getBoolean("marioverse:has_mega_mushroom"));
-        this.mv$setMushroomOverride(tag.getBoolean("marioverse:has_super_mushroom_override"));
-        this.mv$setSuperMushroom(tag.getBoolean("marioverse:has_super_mushroom"));
+        if (tag.contains("marioverse:has_fire_flower"))
+            entity.getPersistentData().putBoolean("marioverse:has_fire_flower",
+                    tag.getBoolean("marioverse:has_fire_flower"));
 
-        if (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES)
-                && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS)
-                || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
-            this.mv$setConsecutiveBounces(tag.getInt("marioverse:consecutive_bounces"));
-            this.mv$setOneUpsRewarded(tag.getInt("marioverse:one_ups_rewarded"));
-        }
+        if (tag.contains("marioverse:has_ice_flower"))
+            entity.getPersistentData().putBoolean("marioverse:has_ice_flower",
+                    tag.getBoolean("marioverse:has_ice_flower"));
 
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS))
-            this.mv$setCheckpointFlagCooldown(tag.getInt("marioverse:checkpoint_flag_cooldown"));
+        if (tag.contains("marioverse:has_super_mushroom"))
+            entity.getPersistentData().putBoolean("marioverse:has_super_mushroom",
+                    tag.getBoolean("marioverse:has_super_mushroom"));
 
-        if (!entity.getType().is(TagRegistry.ICE_BALL_IMMUNE) && entity instanceof Player) {
-            this.mv$setFreezeImmunityCooldown(tag.getInt("marioverse:freeze_immunity_cooldown"));
-            this.mv$setFrozenCooldown(tag.getInt("marioverse:frozen_cooldown"));
-        }
+        if (tag.contains("marioverse:has_super_mushroom_override"))
+            entity.getPersistentData().putBoolean("marioverse:has_super_mushroom_override",
+                    tag.getBoolean("marioverse:has_super_mushroom_override"));
 
-        if (!entity.getType().is(TagRegistry.CANNOT_WARP)) {
-            if (entity instanceof Player && ConfigRegistry.TELEPORT_PLAYERS.get()) {
-                this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
-                this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
-            } else if (ConfigRegistry.TELEPORT_MOBS.get()) {
-                this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
-                this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
-            }
+        if (tag.contains("marioverse:prevent_warp"))
+            entity.getPersistentData().putBoolean("marioverse:prevent_warp",
+                    tag.getBoolean("marioverse:prevent_warp"));
 
-            if (entity instanceof Player)
-                this.mv$setPreventWarpCooldown(tag.getInt("marioverse:prevent_warp_cooldown"));
-        }
+        if (tag.contains("marioverse:warp_cooldown"))
+            entity.getPersistentData().putInt("marioverse:warp_cooldown",
+                    tag.getInt("marioverse:warp_cooldown"));
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -235,7 +151,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         RandomSource rand = RandomSource.create();
 
         this.mv$characterAbilities(entity);
-        this.mv$mushroomScale(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
@@ -244,20 +159,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && !(entity instanceof Player)
                 && !entity.isSpectator())
             this.mv$squashEntity(entity);
-
-        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
-                    || world.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
-                && (entity.onGround() || entity.isInWaterOrBubble())
-                && this.mv$getConsecutiveBounces() > 0
-                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
-            this.mv$setConsecutiveBounces(0);
-
-        double deltaY = entity.getDeltaMovement().y;
-
-        if ((entity.onGround() || entity.isInWaterOrBubble())
-                && deltaY <= 0 && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
-            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
 
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                  && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
@@ -293,30 +194,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
             this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
 
-        if (this.mv$getCheckpointFlagCooldown() > 0)
-            this.mv$setCheckpointFlagCooldown(this.mv$getCheckpointFlagCooldown() - 1);
-
-        if (this.mv$getFireballCooldown() > 0)
-            this.mv$setFireballCooldown(this.mv$getFireballCooldown() - 1);
-
-        if (this.mv$getIceBallCooldown() > 0)
-            this.mv$setIceBallCooldown(this.mv$getIceBallCooldown() - 1);
-
-        if (this.mv$getFreezeImmunityCooldown() > 0)
-            this.mv$setFreezeImmunityCooldown(this.mv$getFreezeImmunityCooldown() - 1);
-
-        if (this.mv$getFrozenCooldown() > 0)
-            this.mv$setFrozenCooldown(this.mv$getFrozenCooldown() - 1);
-
-        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) - 1);
-
-        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN) == 0
-                && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
-            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, false);
-            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false);
-        }
-
         if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);
             if (!entity.isInvisible()) {
@@ -326,13 +203,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             }
         }
 
-        if (this.mv$hasDashMushroomBoost())
+        if (entity.getData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST))
             this.mv$boostEntityParticles(entity.getVehicle(), entity);
 
         float f5 = this.mv$getEyeHeightScale();
         if (f5 != this.mv$appliedEyeHeightScale) {
             this.mv$appliedEyeHeightScale = f5;
-            this.refreshDimensions();
+            entity.refreshDimensions();
         }
 
         float f6 = this.mv$getHeightScale();
@@ -346,201 +223,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
         }
-
-//        if (this.getPersistentData().contains("marioverse:has_mega_mushroom") && this.getPersistentData().getBoolean("marioverse:has_mega_mushroom")) {
-//            ScaleTypes.WIDTH.getScaleData(this).setTargetScale(5.0F);
-//            ScaleTypes.HEIGHT.getScaleData(this).setTargetScale(5.0F);
-//            ScaleTypes.JUMP_HEIGHT.getScaleData(this).setTargetScale(20.0F);
-//            ScaleTypes.STEP_HEIGHT.getScaleData(this).setTargetScale(5.0F);
-//            ScaleTypes.REACH.getScaleData(this).setTargetScale(5.0F);
-//            ScaleTypes.ATTACK.getScaleData(this).setTargetScale(5.0F);
-//        }
-    }
-
-    @Override
-    public void mv$clearAllPowerUps() {
-        mv$setFireFlower(false);
-        mv$setIceFlower(false);
-    }
-
-    @Override
-    public boolean mv$hasSuperMushroom() {
-        return this.mv$hasSuperMushroom;
-    }
-
-    @Override
-    public void mv$setSuperMushroom(boolean hasSuperMushroom) {
-        this.mv$hasSuperMushroom = hasSuperMushroom;
-    }
-
-    @Override
-    public boolean mv$hasSuperMushroomOverride() {
-        return this.mv$hasSuperMushroomOverride;
-    }
-
-    @Override
-    public void mv$setMushroomOverride(boolean hasSuperMushroomOverride) {
-        this.mv$hasSuperMushroomOverride = hasSuperMushroomOverride;
-    }
-
-    @Override
-    public boolean mv$hasDashMushroomBoost() {
-        return this.mv$hasDashMushroomBoost;
-    }
-
-    @Override
-    public void mv$setDashMushroomBoost(boolean hasDashMushroomBoost) {
-        this.mv$hasDashMushroomBoost = hasDashMushroomBoost;
-    }
-
-    @Override
-    public boolean mv$hasMegaMushroom() {
-        return this.mv$hasMegaMushroom;
-    }
-
-    @Override
-    public void mv$setMegaMushroom(boolean hasMegaMushroom) {
-        this.mv$hasMegaMushroom = hasMegaMushroom;
-    }
-
-    @Override
-    public boolean mv$hasFireFlower() {
-        return this.mv$hasFireFlower;
-    }
-
-    @Override
-    public void mv$setFireFlower(boolean hasFireFlower) {
-        this.mv$hasFireFlower = hasFireFlower;
-    }
-
-    @Override
-    public boolean mv$hasIceFlower() {
-        return this.mv$hasIceFlower;
-    }
-
-    @Override
-    public void mv$setIceFlower(boolean hasIceFlower) {
-        this.mv$hasIceFlower = hasIceFlower;
-    }
-
-    @Override
-    public int mv$getFireballCooldown() {
-        return this.mv$fireballCooldown;
-    }
-
-    @Override
-    public void mv$setFireballCooldown(int fireballCooldown) {
-        this.mv$fireballCooldown = fireballCooldown;
-    }
-
-    @Override
-    public int mv$getFireballCount() {
-        return this.mv$fireballCount;
-    }
-
-    @Override
-    public void mv$setFireballCount(int fireballCount) {
-        this.mv$fireballCount = fireballCount;
-    }
-
-    @Override
-    public int mv$getIceBallCooldown() {
-        return this.mv$iceBallCooldown;
-    }
-
-    @Override
-    public void mv$setIceBallCooldown(int iceBallCooldown) {
-        this.mv$iceBallCooldown = iceBallCooldown;
-    }
-
-    @Override
-    public int mv$getIceBallCount() {
-        return this.mv$iceBallCount;
-    }
-
-    @Override
-    public void mv$setIceBallCount(int iceBallCount) {
-        this.mv$iceBallCount = iceBallCount;
-    }
-
-    @Override
-    public int mv$getConsecutiveBounces() {
-        return this.mv$consecutiveBounces;
-    }
-
-    @Override
-    public void mv$setConsecutiveBounces(int consecutiveBounces) {
-        this.mv$consecutiveBounces = consecutiveBounces;
-    }
-
-    @Override
-    public int mv$getOneUpsRewarded() {
-        return this.mv$oneUpsRewarded;
-    }
-
-    @Override
-    public void mv$setOneUpsRewarded(int oneUpsRewarded) {
-        this.mv$oneUpsRewarded = oneUpsRewarded;
-    }
-
-    @Override
-    public boolean mv$doPreventWarp() {
-        return this.mv$preventWarp;
-    }
-
-    @Override
-    public void mv$setPreventWarp(boolean preventWarp) {
-        this.mv$preventWarp = preventWarp;
-    }
-
-    @Override
-    public int mv$getPreventWarpCooldown() {
-        return this.mv$preventWarpCooldown;
-    }
-
-    @Override
-    public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
-        this.mv$preventWarpCooldown = preventWarpCooldown;
-    }
-
-    @Override
-    public int mv$getWarpCooldown() {
-        return this.mv$warpCooldown;
-    }
-
-    @Override
-    public void mv$setWarpCooldown(int warpCooldown) {
-        this.mv$warpCooldown = warpCooldown;
-    }
-
-    @Override
-    public int mv$getCheckpointFlagCooldown() {
-        return this.mv$checkpointFlagCooldown;
-    }
-
-    @Override
-    public void mv$setCheckpointFlagCooldown(int checkpointFlagCooldown) {
-        this.mv$checkpointFlagCooldown = checkpointFlagCooldown;
-    }
-
-    @Override
-    public int mv$getFreezeImmunityCooldown() {
-        return this.mv$freezeImmunityCooldown;
-    }
-
-    @Override
-    public void mv$setFreezeImmunityCooldown(int freezeImmunityCooldown) {
-        this.mv$freezeImmunityCooldown = freezeImmunityCooldown;
-    }
-
-    @Override
-    public int mv$getFrozenCooldown() {
-        return this.mv$frozenCooldown;
-    }
-
-    @Override
-    public void mv$setFrozenCooldown(int frozenCooldown) {
-        this.mv$frozenCooldown = frozenCooldown;
     }
 
     @Unique
@@ -554,7 +236,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             if (vehicle instanceof Boat && speed > 0) {
                 if (vehicle.level() instanceof ServerLevel serverWorld) {
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
-                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10, 0.1);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, false, 10, 0.1);
                 }
                 if (vehicle.level().isClientSide) {
                     ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.POWERED_UP.get(), vehicle, true, 5, 0.1, 0.0);
@@ -568,18 +250,18 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), vehicle, true, 10, 0.1, 0.0);
                 } else if (vehicle.level() instanceof ServerLevel serverWorld && !(entity instanceof Player)) {
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, vehicle);
-                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, 10, 0.1);
+                    ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, vehicle, true, false, 10, 0.1);
                 }
-            } else this.mv$setDashMushroomBoost(false);
+            } else entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, false);
         } else if (speed >= minimumBoostSpeed) {
             if (entity.level().isClientSide) {
                 ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.POWERED_UP.get(), entity, true, 5, 0.1, 0.0);
                 ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), entity, true, 10, 0.1, 0.0);
             } else if (entity.level() instanceof ServerLevel serverWorld) {
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.POWERED_UP.get(), serverWorld, entity);
-                ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, 10, 0.1);
+                ServerParticleUtils.spawnParticleTrail(ParticleRegistry.SUSPENDED_FIRE.get(), serverWorld, entity, true, false, 10, 0.1);
             }
-        } else this.mv$setDashMushroomBoost(false);
+        } else entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, false);
     }
 
     @Unique
@@ -685,65 +367,144 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
     @Unique
     private void mv$characterAbilities(LivingEntity entity) {
+        AttributeInstance blockReachAttribute = entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
+        AttributeInstance entityReachAttribute = entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
+        boolean isMega = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
+        boolean isMini = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
         Vec3 motion = entity.getDeltaMovement();
+        boolean hasCostume = this.mv$hasMarioCostume(entity)
+                || this.mv$hasLuigiCostume(entity)
+                || this.mv$hasPeachCostume(entity);
 
         if (jumpAttribute != null) {
-            double normalJumpBoost = 0.4;
-            double runningJumpBoost = 0.5;
-            boolean hasJumpModifier = jumpAttribute.getModifier(AttributesRegistry.JUMP_BOOST) != null;
-            boolean hasRunningJumpModifier = jumpAttribute.getModifier(AttributesRegistry.RUNNING_JUMP_BOOST) != null;
             boolean isRunning = entity.isSprinting();
+            double normalJumpBoost = 0.0;
+            double runningJumpBoost = 0.0;
 
-            if (this.mv$hasPeachCostume(entity)) {
-                normalJumpBoost = 0.3;
-                runningJumpBoost = 0.4;
-            }
-
-            if (this.mv$hasLuigiCostume(entity)) {
-                normalJumpBoost = 0.5;
-                runningJumpBoost = 0.6;
-            }
-
-            if (!entity.isShiftKeyDown() && (this.mv$hasMarioCostume(entity)
-                    || this.mv$hasLuigiCostume(entity)
-                    || this.mv$hasPeachCostume(entity))) {
-                if (isRunning) {
-                    if (!hasRunningJumpModifier)
-                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost, AttributeModifier.Operation.ADD_VALUE));
-                    if (hasJumpModifier)
-                        jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
+            if (hasCostume) {
+                if (this.mv$hasPeachCostume(entity)) {
+                    normalJumpBoost = 0.3;
+                    runningJumpBoost = 0.4;
+                } else if (this.mv$hasLuigiCostume(entity)) {
+                    normalJumpBoost = 0.6;
+                    runningJumpBoost = 0.7;
                 } else {
-                    if (!hasJumpModifier)
-                        jumpAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.JUMP_BOOST, normalJumpBoost, AttributeModifier.Operation.ADD_VALUE));
-                    if (hasRunningJumpModifier)
-                        jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
+                    normalJumpBoost = 0.5;
+                    runningJumpBoost = 0.6;
+                }
+            }
+
+            if (isMega) {
+                if (hasCostume) {
+                    normalJumpBoost *= 0.8;
+                    runningJumpBoost *= 1.0;
+                } else {
+                    normalJumpBoost = 0.3;
+                    runningJumpBoost = 0.4;
+                }
+            }
+
+            if (isMini) {
+                if (hasCostume) {
+                    normalJumpBoost *= 1.2;
+                    runningJumpBoost *= 1.4;
+                } else {
+                    normalJumpBoost = 0.5;
+                    runningJumpBoost = 0.6;
+                }
+            }
+
+            if (!entity.isShiftKeyDown() && (hasCostume || isMini || isMega)) {
+                if (isRunning) {
+                    mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost);
+                    mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, 0);
+                } else {
+                    mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, normalJumpBoost);
+                    mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, 0);
                 }
             } else {
-                if (hasRunningJumpModifier)
-                    jumpAttribute.removeModifier(AttributesRegistry.RUNNING_JUMP_BOOST);
-                if (hasJumpModifier)
-                    jumpAttribute.removeModifier(AttributesRegistry.JUMP_BOOST);
+                mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, 0);
+                mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, 0);
             }
         }
 
         if (safeFallAttribute != null) {
-            if (this.mv$hasMarioCostume(entity)
-                    || this.mv$hasLuigiCostume(entity)
-                    || this.mv$hasPeachCostume(entity)) {
-                boolean hasSafeFallModifier = safeFallAttribute.getModifier(AttributesRegistry.SAFE_FALL_DISTANCE) != null;
-                if (!hasSafeFallModifier)
-                    safeFallAttribute.addPermanentModifier(new AttributeModifier(AttributesRegistry.SAFE_FALL_DISTANCE, 7, AttributeModifier.Operation.ADD_VALUE));
-            }
-            else safeFallAttribute.removeModifier(AttributesRegistry.SAFE_FALL_DISTANCE);
+            double safeFallDistance = 0;
+
+            if (isMega) {
+                if (hasCostume)
+                    safeFallDistance= 7;
+                else safeFallDistance = 4;
+            } else if (isMini) {
+                if (hasCostume)
+                    safeFallDistance= 16;
+                else safeFallDistance = 14;
+            } else if (hasCostume)
+                safeFallDistance= 7;
+
+            if (hasCostume || isMega || isMini)
+                mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, safeFallDistance);
+            else mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, 0);
+        }
+
+        if (blockReachAttribute != null) {
+            double reachDistance = 0;
+
+            if (isMega)
+                reachDistance = ConfigRegistry.MEGA_MUSHROOM_REACH_DISTANCE.get();
+            else if (isMini)
+                reachDistance = ConfigRegistry.MINI_MUSHROOM_REACH_DISTANCE.get();
+
+            if (isMega || isMini)
+                mv$setModifier(blockReachAttribute, AttributesRegistry.BLOCK_REACH_DISTANCE, reachDistance);
+            else mv$setModifier(blockReachAttribute, AttributesRegistry.BLOCK_REACH_DISTANCE, 0);
+        }
+
+        if (entityReachAttribute != null) {
+            double reachDistance = 0;
+
+            if (isMega)
+                reachDistance = ConfigRegistry.MEGA_MUSHROOM_REACH_DISTANCE.get();
+            else if (isMini)
+                reachDistance = ConfigRegistry.MINI_MUSHROOM_REACH_DISTANCE.get();
+
+            if (isMega || isMini)
+                mv$setModifier(entityReachAttribute, AttributesRegistry.ENTITY_REACH_DISTANCE, reachDistance);
+            else mv$setModifier(entityReachAttribute, AttributesRegistry.ENTITY_REACH_DISTANCE, 0);
         }
 
         if (this.mv$hasPeachCostume(entity)) {
             if (motion.y < 0)
                 entity.setDeltaMovement(motion.x, motion.y * 0.7, motion.z);
         }
+
+        if (isMini) {
+            if (motion.y < 0)
+                entity.setDeltaMovement(motion.x, motion.y * 0.9, motion.z);
+        }
     }
+
+    @Unique
+    private static void mv$setModifier(AttributeInstance attribute, ResourceLocation id, double amount) {
+        AttributeModifier modifier = attribute.getModifier(id);
+
+        if (amount == 0.0) {
+            if (modifier != null)
+                attribute.removeModifier(id);
+            return;
+        }
+
+        if (modifier != null) {
+            if (modifier.amount() == amount)
+                return;
+            attribute.removeModifier(id);
+        }
+
+        attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
+    }
+
 
     @ModifyReturnValue(method = "getArmorValue", at = @At("RETURN"))
     private int getArmorValue(int original) {
@@ -906,45 +667,20 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float heightScale = this.mv$getHeightScale();
         float widthScale = this.mv$getWidthScale();
 
-        if (heightScale > 1) heightScale /= 2;
-        if (widthScale > 1) widthScale /= 2;
-        if (eyeScale > 1) eyeScale /= 2;
-
-        float newWidth = original.width() * widthScale;
-        float newHeight = original.height() * heightScale;
-        float newEyeHeight = original.eyeHeight() * eyeScale;
-
-        EntityDimensions resized = original.fixed()
-                ? EntityDimensions.fixed(newWidth, newHeight)
-                : EntityDimensions.scalable(newWidth, newHeight);
-
-        if (eyeScale == 1.0F && heightScale == 1.0F && widthScale == 1.0F)
-            return original;
-
-        if (pose == Pose.SLEEPING)
-            return original;
-
-        return resized.withEyeHeight(newEyeHeight);
+        return EntityDimensions.scalable(original.width()  * widthScale, original.height() * heightScale)
+                .withEyeHeight(original.eyeHeight() * eyeScale)
+                .withAttachments(EntityAttachments.builder().attach(EntityAttachment.VEHICLE,
+                        new Vec3(0.0, 0.7 * heightScale, 0.0)));
     }
 
-//    @Inject(method = "getPassengerRidingPosition", at = @At("TAIL"), cancellable = true)
-//    private void getPassengerRidingPosition(Entity entity, CallbackInfoReturnable<Vec3> cir) {
-//        if (entity instanceof LivingEntity livingEntity)
-//            cir.setReturnValue(cir.getReturnValue().add(this.getPassengerAttachmentPoint(entity, entity
-//                    .getDimensions(entity.getPose()), this.getHeightScale() * livingEntity.getAgeScale())));
-//    }
-
-    @Unique
-    private static final ResourceLocation SLOWDOWN_MODIFIER =
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
     @Inject(method = "jumpFromGround", at = @At("HEAD"))
     private void jumpFromGround(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
 
         // Remove the speed modifier when the entity jumps
         AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER))
-            speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
+        if (speedAttribute != null && speedAttribute.hasModifier(AttributesRegistry.MINI_GOOMBA_SLOWDOWN))
+            speedAttribute.removeModifier(AttributesRegistry.MINI_GOOMBA_SLOWDOWN);
     }
 
     @Inject(method = "canFreeze", at = @At("HEAD"), cancellable = true)
@@ -1070,87 +806,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    public void mv$mushroomScale(LivingEntity entity) {
-        Level world = entity.level();
-        AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-        AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-        AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasSuperMushroom = this.mv$hasSuperMushroom();
-        float health = entity.getHealth();
-        float scalingSpeed = 0.1F;
-
-        double targetEyeHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
-        double targetHeightScale = hasSuperMushroom ? 1.0D : 0.5D;
-        double targetWidthScale = hasSuperMushroom ? 1.0D : 0.75D;
-
-        boolean isPlayer = entity instanceof Player;
-        boolean shouldShrink = !hasSuperMushroom
-                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && (isPlayer && this.mv$hasSuperMushroomOverride()
-                    || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
-                        && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                            || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS)))
-                || (!isPlayer && this.mv$hasSuperMushroomOverride()
-                    || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
-                    && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))));
-
-        boolean shouldReset = hasSuperMushroom
-                && (isPlayer && this.mv$hasSuperMushroomOverride()
-                    || (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
-                        && (ConfigRegistry.DAMAGE_SHRINKS_PLAYERS.get()
-                            || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS)))
-                || (!isPlayer && this.mv$hasSuperMushroomOverride()
-                    || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
-                    && (ConfigRegistry.DAMAGE_SHRINKS_ALL_MOBS.get()
-                        || world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS))));
-
-        if (shouldShrink && mv$currentEyeHeightScale != targetEyeHeightScale
-                && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
-            if (entity.getLastDamageSource() != null
-                    && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
-                return;
-            mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
-            mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
-            mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
-        }
-
-        if (shouldReset && mv$currentEyeHeightScale != targetEyeHeightScale
-                && mv$currentHeightScale != targetHeightScale && mv$currentWidthScale != targetWidthScale) {
-            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                mv$updateScale(eyeHeightScale, mv$currentEyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> mv$currentEyeHeightScale = v);
-            if (heightScale != null && heightScale.getValue() != 1.0D)
-                mv$updateScale(heightScale, mv$currentHeightScale, targetHeightScale, scalingSpeed, v -> mv$currentHeightScale = v);
-            if (widthScale != null && widthScale.getValue() != 1.0D)
-                mv$updateScale(widthScale, mv$currentWidthScale, targetWidthScale, scalingSpeed, v -> mv$currentWidthScale = v);
-        }
-    }
-
-    @Unique
-    private void mv$updateScale(AttributeInstance scaleAttribute, double currentScale, double targetScale, float scalingSpeed, Consumer<Double> setter) {
-        ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
-
-        if (scaleAttribute != null) {
-            double lerpedScale = Mth.lerp(scalingSpeed, currentScale, targetScale);
-
-            if (Math.abs(currentScale - targetScale) < 0.0001)
-                lerpedScale = targetScale;
-
-            if (scaleAttribute.hasModifier(modifier) && (Math.abs(lerpedScale - 1.0D) < 0.0001 || targetScale == 1.0D))
-                scaleAttribute.removeModifier(modifier);
-
-            if (lerpedScale != targetScale) {
-                scaleAttribute.removeModifier(modifier);
-                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, lerpedScale - 1.0D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-
-                if (Math.abs(currentScale - targetScale) < 0.01)
-                    setter.accept(targetScale);
-                else setter.accept(lerpedScale);
-            }
-        }
-    }
-
-    @Unique
     public void mv$superStarKillEntity(LivingEntity attackingEntity) {
         List<Entity> nearbyEntities = attackingEntity.level().getEntities(attackingEntity, attackingEntity.getBoundingBox());
 
@@ -1168,7 +823,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         Vec3 knockbackVelocity = knockbackDirection.scale(knockbackStrength).add(0, 1.0, 0);
 
                         if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && entity.isAlive() && !entity.isInvulnerable())
-                            this.mv$consecutiveReward(attackingEntity, entity);
+                            OneUpMushroomEntity.consecutiveReward(attackingEntity, entity, attackingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));
                         entity.setDeltaMovement(knockbackVelocity);
                         entity.hurt(DamageSourceRegistry.superStar(collidedEntity, attackingEntity), ConfigRegistry.SUPER_STAR_DAMAGE.get().floatValue());
                     }
@@ -1229,107 +884,24 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         }
 
                         if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
-                            if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor)
+                            if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor
+                                    && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
                             else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
                                     || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
-                                if (damagedEntity instanceof KoopaTroopaEntity
+                                if (stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                                        || damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
                                 else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
-                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get())
-                                this.mv$consecutiveReward(stompingEntity, damagedEntity);
+                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
+                                OneUpMushroomEntity.consecutiveReward(stompingEntity, damagedEntity, stompingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));
                             break;
                         }
                     }
                 }
             }
-        }
-    }
-
-    @Unique
-    public void mv$consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity) {
-        int oneUpsRewarded = this.mv$getOneUpsRewarded();
-        int consecutiveBounces = this.mv$getConsecutiveBounces();
-        this.mv$setConsecutiveBounces(consecutiveBounces + 1);
-
-        if (consecutiveBounces == 0) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity, 1.0);
-            } else if (attackingEntity instanceof Player player)
-                player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 1) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity, 1.0);
-            } else if (attackingEntity instanceof Player player)
-                player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 2) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity, 1.0);
-            } else if (attackingEntity instanceof Player player)
-                player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 3) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity, 1.0);
-            } else if (attackingEntity instanceof Player player)
-                player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 4) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity, 1.0);
-            } else if (attackingEntity instanceof Player player)
-                player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 5) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity, 1.0);
-            } else if (attackingEntity instanceof Player player)
-                player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces == 6) {
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity, 1.0);
-            } else if (attackingEntity instanceof Player player)
-                player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
-        }
-        else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
-            this.mv$setOneUpsRewarded(oneUpsRewarded + 1);
-            this.mv$bounceReward(attackingEntity);
-            if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity, 1.0);
-            } else if (attackingEntity instanceof Player player)
-                player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
-        }
-    }
-
-    @Unique
-    public void mv$bounceReward(LivingEntity entity) {
-        ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
-        if (entity instanceof LivingEntity livingEntity
-                && (ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get() || entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS))) {
-            AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
-            ItemStack offhandStack = livingEntity.getOffhandItem();
-
-            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get()))
-                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
-            else if (offhandStack.isEmpty())
-                livingEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-            else if (offhandStack.getItem() instanceof OneUpMushroomItem)
-                offhandStack.grow(1);
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
-                    SoundSource.NEUTRAL, 1.0F, 1.0F);
         }
     }
 }

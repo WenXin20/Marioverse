@@ -20,6 +20,8 @@ import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.FluidTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
+import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
+import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
 import com.wenxin2.marioverse.items.WarpTrapDoorBlockItem;
@@ -33,6 +35,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -43,7 +46,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackLocationInfo;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackSelectionConfig;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.KnownPack;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.DyeColor;
@@ -67,6 +78,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
@@ -201,6 +213,32 @@ public class RegistryEventHandlers {
         generator.addProvider(event.includeServer(), new RecipeGen(output, lookupProvider));
     }
 
+    public static void addPackFinder(final AddPackFindersEvent event) {
+        if (event.getPackType() == PackType.SERVER_DATA) {
+            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dynamic_resources");
+            Component packNameDisplay = Component.translatable("datapack.marioverse.dynamic_resources");
+            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_resources",
+                    packNameDisplay, PackSource.BUILT_IN, Optional.of(new KnownPack("marioverse", "mod/" + packLocation, "22")));
+
+            event.addRepositorySource((consumer) -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
+                            new Pack.ResourcesSupplier() {
+                                @Override
+                                public PackResources openPrimary(PackLocationInfo info) {
+                                    return new DynamicServerResources(info);
+                                }
+
+                                @Override
+                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
+                                    return new DynamicServerResources(info);
+                                }
+                            },
+                            PackType.SERVER_DATA,
+                            new PackSelectionConfig(true, Pack.Position.TOP, false)
+                    )
+            ));
+        }
+    }
+
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerItem(Capabilities.FluidHandler.ITEM,
@@ -240,12 +278,17 @@ public class RegistryEventHandlers {
         }
 
         if (event.getType() == VillagerProfession.CLERIC) {
-            trades.get(2).add((entity, random) -> new MerchantOffer(
+            trades.get(1).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 5),
-                    new ItemStack(ItemRegistry.DASH_MUSHROOM.get(), 1),
-                    5, 16, 0.05F));
+                    new ItemStack(ItemRegistry.DASH_MUSHROOM.get(), 3),
+                    5, 8, 0.05F));
 
-            trades.get(2).add((entity, random) -> new MerchantOffer(
+            trades.get(3).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 8),
+                    new ItemStack(ItemRegistry.MINI_MUSHROOM.get(), 1),
+                    3, 25, 0.2F));
+
+            trades.get(1).add((entity, random) -> new MerchantOffer(
                     new ItemCost(Items.EMERALD, 8),
                     new ItemStack(ItemRegistry.SUPER_MUSHROOM.get(), 1),
                     5, 16, 0.05F));
@@ -254,6 +297,29 @@ public class RegistryEventHandlers {
                     new ItemCost(Items.EMERALD, 25),
                     new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get(), 1),
                     1, 30, 0.1F));
+        }
+
+        if (event.getType() == VillagerProfession.WEAPONSMITH) {
+            trades.get(2).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 3),
+                    new ItemStack(ItemRegistry.GREEN_KOOPA_SHELL.get(), 1),
+                    9, 16, 0.1F));
+            trades.get(2).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 9),
+                    new ItemStack(ItemRegistry.GREEN_KOOPA_SHELL.get(), 3),
+                    3, 16, 0.15F));
+            trades.get(3).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 16),
+                    new ItemStack(ItemRegistry.RED_KOOPA_SHELL.get(), 1),
+                    9, 24, 0.2F));
+            trades.get(3).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 16),
+                    new ItemStack(ItemRegistry.RED_KOOPA_SHELL.get(), 3),
+                    3, 24, 0.25F));
+            trades.get(4).add((entity, random) -> new MerchantOffer(
+                    new ItemCost(Items.EMERALD, 32),
+                    new ItemStack(ItemRegistry.GOLD_KOOPA_SHELL.get(), 1),
+                    3, 30, 0.25F));
         }
     }
 
@@ -265,12 +331,27 @@ public class RegistryEventHandlers {
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 8),
                 new ItemStack(ItemRegistry.FIRE_FLOWER.get(), 1),
-                1, 16, 0.2F));
+                8, 16, 0.1F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 8),
                 new ItemStack(ItemRegistry.ICE_FLOWER.get(), 1),
-                1, 16, 0.2F));
+                8, 16, 0.1F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 5),
+                new ItemStack(ItemRegistry.DASH_MUSHROOM.get(), 3),
+                15, 10, 0.1F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 8),
+                new ItemStack(ItemRegistry.MINI_MUSHROOM.get(), 1),
+                3, 16, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 8),
+                new ItemStack(ItemRegistry.SUPER_MUSHROOM.get(), 1),
+                8, 16, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 1),
@@ -299,7 +380,12 @@ public class RegistryEventHandlers {
 
         rareTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 32),
+                new ItemStack(ItemRegistry.MEGA_MUSHROOM.get(), 1),
+                1, 30, 0.2F));
+
+        rareTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 32),
                 new ItemStack(ItemRegistry.SUPER_STAR.get(), 1),
-                8, 10, 0.2F));
+                1, 30, 0.2F));
     }
 }

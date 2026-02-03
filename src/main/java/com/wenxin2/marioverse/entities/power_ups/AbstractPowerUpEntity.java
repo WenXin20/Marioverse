@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.entities.power_ups;
 import java.util.List;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -15,7 +15,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public abstract class AbstractPowerUpEntity extends BasePowerUpEntity implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public AbstractPowerUpEntity(EntityType<? extends Mob> entityType, Level world) {
+    public AbstractPowerUpEntity(EntityType<? extends PathfinderMob> entityType, Level world) {
         super(entityType, world);
     }
 

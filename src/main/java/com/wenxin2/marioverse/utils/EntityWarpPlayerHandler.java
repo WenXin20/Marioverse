@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -12,7 +13,7 @@ public interface EntityWarpPlayerHandler extends EntityWarpEntityHandler {
     @Override
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
         if (entity instanceof Player player && (!this.mv$getEntityWarpTeleportConfig()
-                || player.getType().is(TagRegistry.CANNOT_WARP) || this.mv$doPreventWarp())) {
+                || player.getType().is(TagRegistry.CANNOT_WARP) || entity.getData(DataAttachmentRegistry.PREVENT_WARP))) {
             this.displayNoTeleportMessage(player, warpEntity);
         } else EntityWarpEntityHandler.super.enterWarpPainting(entity, world, warpLinkableEntity, warpEntity);
     }
@@ -23,7 +24,7 @@ public interface EntityWarpPlayerHandler extends EntityWarpEntityHandler {
                 player.displayClientMessage(Component.translatable("display.marioverse.paintings_cannot_teleport_players"), true);
         }
 
-        if (this.mv$doPreventWarp())
+        if (player.getData(DataAttachmentRegistry.PREVENT_WARP))
             player.displayClientMessage(Component.translatable("display.marioverse.warp_disrupted_player"), true);
     }
 }

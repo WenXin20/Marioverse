@@ -8,19 +8,23 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -28,10 +32,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.Shapes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -42,21 +43,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpEntityHandler {
+    @Shadow protected abstract float nextStep();
+    @Shadow protected abstract void playStepSound(BlockPos p_20135_, BlockState p_20136_);
+    @Shadow protected float moveDist;
+    @Shadow protected float nextStep;
+    @Shadow public abstract BlockPos blockPosition();
+    @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract Level level();
     @Shadow public abstract double getX();
     @Shadow public abstract double getY();
     @Shadow public abstract double getZ();
     @Shadow public abstract float getBbHeight();
     @Shadow public abstract int getId();
-    @Shadow public abstract BlockPos blockPosition();
-    @Shadow public abstract EntityType<?> getType();
     @Shadow public abstract void setPos(Vec3 vec3);
 
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
-    @Unique private boolean mv$preventWarp;
-    @Unique private int mv$preventWarpCooldown;
-    @Unique private int mv$warpCooldown;
 
     @Override
     public boolean mv$getBlockWarpTeleportConfig() {
@@ -66,28 +68,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
-    }
-
-    @Inject(method = "save", at = @At("TAIL"))
-    public void save(CompoundTag tag, CallbackInfoReturnable<Boolean> cir) {
-        Entity entity = (Entity) (Object) this;
-
-        if (!entity.getType().is(TagRegistry.CANNOT_WARP)
-                && ConfigRegistry.TELEPORT_NON_MOBS.get()) {
-            tag.putBoolean("marioverse:prevent_warp", this.mv$doPreventWarp());
-            tag.putInt("marioverse:warp_cooldown", this.mv$getWarpCooldown());
-        }
-    }
-
-    @Inject(method = "load", at = @At("TAIL"))
-    public void load(CompoundTag tag, CallbackInfo ci) {
-        Entity entity = (Entity) (Object) this;
-
-        if (!entity.getType().is(TagRegistry.CANNOT_WARP)
-                && ConfigRegistry.TELEPORT_NON_MOBS.get()) {
-            this.mv$setPreventWarp(tag.getBoolean("marioverse:prevent_warp"));
-            this.mv$setWarpCooldown(tag.getInt("marioverse:warp_cooldown"));
-        }
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
@@ -101,8 +81,12 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
-        if (this.mv$getWarpCooldown() > 0)
-            this.mv$setWarpCooldown(this.mv$getWarpCooldown() - 1);
+        if (this.moveDist > this.nextStep && entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
+                && world.getFluidState(pos).is(FluidTags.WATER) && !world.getFluidState(pos.above()).is(FluidTags.WATER)) {
+            this.playStepSound(pos, state);
+            this.nextStep = this.nextStep();
+        }
 
         mv$rideIceCube(entity);
 
@@ -110,7 +94,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
 
-            if (!this.mv$doPreventWarp() || entity instanceof Player) {
+            if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
                 if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
                     this.enterWarp(entity, world, offsetPos);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
@@ -119,30 +103,30 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
-                && !this.mv$doPreventWarp())
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
-                && !this.mv$doPreventWarp())
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
-                && !this.mv$doPreventWarp())
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
-                && !this.mv$doPreventWarp())
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, posInBlock);
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
-                && !this.mv$doPreventWarp()) {
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             this.enterWarp(entity, world);
         }
 
@@ -156,6 +140,22 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (f7 != this.mv$appliedWidthScale) {
             this.mv$appliedWidthScale = f6;
             entity.refreshDimensions();
+        }
+    }
+
+    @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
+    private void playStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
+        Entity entity = (Entity) (Object) this;
+        Level level = entity.level();
+        BlockPos posEntity = entity.blockPosition();
+
+        if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
+                && level.getFluidState(posEntity).is(FluidTags.WATER) && !level.getFluidState(posEntity.above()).is(FluidTags.WATER)) {
+            if (level instanceof ServerLevel serverLevel)
+                ServerParticleUtils.spawnParticleTrail(ParticleTypes.SPLASH, serverLevel, entity, false, true, 5, 0.1);
+            entity.playSound(SoundRegistry.WATER_MINI_STEP.get(), 1.0F, 1.0F + (entity.getRandom().nextFloat() - 0.5F) * 0.2F);
+            ci.cancel();
         }
     }
 
@@ -179,36 +179,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         return original;
     }
 
-    @Override
-    public boolean mv$doPreventWarp() {
-        return this.mv$preventWarp;
-    }
-
-    @Override
-    public void mv$setPreventWarp(boolean preventWarp) {
-        this.mv$preventWarp = preventWarp;
-    }
-
-    @Override
-    public int mv$getPreventWarpCooldown() {
-        return this.mv$preventWarpCooldown;
-    }
-
-    @Override
-    public void mv$setPreventWarpCooldown(int preventWarpCooldown) {
-        this.mv$preventWarpCooldown = preventWarpCooldown;
-    }
-
-    @Override
-    public int mv$getWarpCooldown() {
-        return this.mv$warpCooldown;
-    }
-
-    @Override
-    public void mv$setWarpCooldown(int warpCooldown) {
-        this.mv$warpCooldown = warpCooldown;
-    }
-
     @Inject(method = "handleEntityEvent", at = @At("HEAD"))
     private void handleEntityEvent(byte id, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
@@ -222,6 +192,12 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                         (random.nextDouble() - 0.5D) * 2.0D);
             }
         }
+    }
+
+    @ModifyReturnValue(method = "getEyeHeight(Lnet/minecraft/world/entity/Pose;)F", at = @At("TAIL"))
+    private float getEyeHeight(float original, Pose pose) {
+        float eyeScale = this.mv$getEyeHeightScale();
+        return original * eyeScale;
     }
 
     @Inject(method = "getBbHeight", at = @At("HEAD"), cancellable = true)
@@ -248,40 +224,14 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         }
     }
 
-    @Inject(method = "isInWall", at = @At("HEAD"), cancellable = true)
-    public void isInWall(CallbackInfoReturnable<Boolean> cir) {
+    @Unique
+    public float mv$getEyeHeightScale() {
         Entity entity = (Entity) (Object) this;
-        if (entity.noPhysics) {
-            cir.setReturnValue(false);
-            return;
-        }
+        if (!(entity instanceof LivingEntity livingEntity))
+            return 1.0F;
 
-        if (entity instanceof LivingEntity livingEntity) {
-            AttributeMap attributeMap = livingEntity.getAttributes();
-            if (attributeMap != null) {
-                float widthScale = (float) attributeMap.getValue(AttributesRegistry.WIDTH_SCALE);
-
-                if (widthScale != 1.0F) {
-                    float scaledWidth = entity.getDimensions(entity.getPose()).width() * 0.8F * widthScale;
-                    AABB aabb = AABB.ofSize(entity.getEyePosition(), scaledWidth, 1.0E-6, scaledWidth);
-
-                    boolean isInWall = BlockPos.betweenClosedStream(aabb)
-                            .anyMatch(
-                                    pos -> {
-                                        BlockState blockState = entity.level().getBlockState(pos);
-                                        return !blockState.isAir()
-                                                && blockState.isSuffocating(entity.level(), pos)
-                                                && Shapes.joinIsNotEmpty(
-                                                blockState.getCollisionShape(entity.level(), pos)
-                                                        .move(pos.getX(), pos.getY(), pos.getZ()),
-                                                Shapes.create(aabb), BooleanOp.AND
-                                        );
-                                    }
-                            );
-                    cir.setReturnValue(isInWall);
-                } else cir.setReturnValue(cir.getReturnValue());
-            }
-        }
+        AttributeMap attributemap = livingEntity.getAttributes();
+        return attributemap == null ? 1.0F : this.mv$sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
     }
 
     @Unique

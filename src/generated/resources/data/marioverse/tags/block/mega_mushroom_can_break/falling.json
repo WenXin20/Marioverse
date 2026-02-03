@@ -1,0 +1,24 @@
+{
+  "values": [
+    "#c:glass_blocks",
+    "#c:glass_panes",
+    "#marioverse:question_blocks",
+    "#marioverse:smashable_blocks",
+    "#marioverse:storage_bricks",
+    "#minecraft:candles",
+    "#minecraft:cave_vines",
+    "#minecraft:crops",
+    "#minecraft:flowers",
+    "#minecraft:leaves",
+    "#minecraft:ice",
+    "#minecraft:replaceable",
+    "#minecraft:sword_efficient",
+    "#minecraft:wool_carpets",
+    "minecraft:frosted_ice",
+    "minecraft:ice",
+    "minecraft:short_grass",
+    "minecraft:tall_grass",
+    "minecraft:torch",
+    "minecraft:wall_torch"
+  ]
+}

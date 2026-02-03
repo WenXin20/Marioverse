@@ -62,6 +62,14 @@ public class DamageSourceRegistry {
         } else return null;
     }
 
+    public static DamageSource megaMushroom(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
+        if (damagedEntity != null && attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.PLAYER_MEGA_MUSHROOM_SQUASH), damagedEntity, attackingEntity);
+        } else if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.MEGA_MUSHROOM_SQUASH), null, attackingEntity);
+        } else return null;
+    }
+
     public static DamageSource shrapnel(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
         if (damagedEntity != null && attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.PLAYER_SHRAPNEL), damagedEntity, attackingEntity);

@@ -7,12 +7,15 @@ import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
-import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.GameEventRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -533,9 +536,8 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         };
         BlockState statePart = world.getBlockState(statePos);
 
-
-        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS) && entity instanceof AbilitiesHandler handler
-                && handler.mv$getCheckpointFlagCooldown() <= 0) {
+        if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
+                && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0) {
             if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {
                 if (world.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                     checkpointFlagBE.markUpdated();
@@ -605,7 +607,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     world.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
                     ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
                     player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
-                    handler.mv$setCheckpointFlagCooldown(40);
+                    entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, 40);
 
                     if (world instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
@@ -959,8 +961,14 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 Entity spawnedEntity = entityType.create(serverWorld);
                 if (spawnedEntity != null && entity instanceof AbilitiesHandler handler) {
                     if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()
-                            && spawnedEntity instanceof MushroomEntity powerUp) {
-                        handler.applyMushroomPowerUp(world, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                            && spawnedEntity instanceof SuperMushroomEntity powerUp) {
+                        handler.applySuperMushroomPowerUp(world, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                    } else if (stack.getItem() == ItemRegistry.MEGA_MUSHROOM.get()
+                            && spawnedEntity instanceof MegaMushroomEntity powerUp) {
+                        handler.applyMegaMushroomPowerUp(world, entity, powerUp);
+                    } else if (stack.getItem() == ItemRegistry.MINI_MUSHROOM.get()
+                            && spawnedEntity instanceof MiniMushroomEntity powerUp) {
+                        handler.applyMiniMushroomPowerUp(world, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()
                             && spawnedEntity instanceof OneUpMushroomEntity powerUp) {
                         handler.applyOneUpMushroomPowerUp(world, stack, entity, powerUp);

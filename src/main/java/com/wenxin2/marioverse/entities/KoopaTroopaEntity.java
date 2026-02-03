@@ -10,7 +10,6 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -272,23 +271,21 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             else this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
         }
 
-        if (this instanceof AbilitiesHandler handler) {
-            if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
-                int i = random.nextInt(6);
-                int randomInt = random.nextInt(1);
-                if (i == 0) {
-                    if (randomInt == 0)
-                        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
-                    else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
-                    handler.mv$setFireFlower(true);
-                } else if (i == 1) {
-                    if (randomInt == 0)
-                        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
-                    else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
-                    handler.mv$setIceFlower(true);
-                } else {
-                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
-                }
+        if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+            int i = random.nextInt(6);
+            int randomInt = random.nextInt(1);
+            if (i == 0) {
+                if (randomInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
+                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
+                this.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
+            } else if (i == 1) {
+                if (randomInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
+                this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
+            } else {
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
             }
         }
     }
@@ -554,6 +551,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             shell.emergeAnimationTicks = emergeAnimationTicks;
             shell.setNoAi(this.isNoAi());
 
+            this.copyAttributeWithModifiers(shell, Attributes.MAX_HEALTH);
             this.copyAttributeWithModifiers(shell, Attributes.SAFE_FALL_DISTANCE);
             this.copyAttributeWithModifiers(shell, Attributes.SCALE);
             this.copyAttributeWithModifiers(shell, AttributesRegistry.EYE_HEIGHT_SCALE);
@@ -566,14 +564,13 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             }
 
             if (savePowerUp) {
-                if (this instanceof AbilitiesHandler handler && shell instanceof AbilitiesHandler entityHandler) {
-                    entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-                    entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
-                    entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
-                    entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
-                    shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-                    shell.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
-                }
+                shell.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM));
+                shell.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, this.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
+                shell.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, this.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
+                shell.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
+                shell.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
+                shell.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+                shell.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, this.getData(DataAttachmentRegistry.SUPER_STAR_DURATION));
 
                 AccessoriesCapability capability = AccessoriesCapability.get(this);
                 if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
@@ -597,13 +594,13 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     }
 
     public void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
-        AttributeInstance fromAttr = this.getAttribute(attribute);
-        AttributeInstance toAttr = entity.getAttribute(attribute);
+        AttributeInstance originalAttribute = this.getAttribute(attribute);
+        AttributeInstance newAttribute = entity.getAttribute(attribute);
 
-        if (fromAttr != null && toAttr != null) {
-            toAttr.setBaseValue(fromAttr.getBaseValue());
-            for (AttributeModifier modifier : fromAttr.getModifiers())
-                toAttr.addPermanentModifier(modifier);
+        if (originalAttribute != null && newAttribute != null) {
+            newAttribute.setBaseValue(originalAttribute.getBaseValue());
+            for (AttributeModifier modifier : originalAttribute.getModifiers())
+                newAttribute.addPermanentModifier(modifier);
         }
     }
 }

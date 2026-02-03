@@ -41,6 +41,11 @@ public class DamageTypeRegistry extends DamageSources {
     public static final ResourceKey<DamageType> LIGHT =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "light"));
 
+    public static final ResourceKey<DamageType> MEGA_MUSHROOM_SQUASH =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mega_mushroom_squash"));
+    public static final ResourceKey<DamageType> PLAYER_MEGA_MUSHROOM_SQUASH =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_mega_mushroom_squash"));
+
     public static final ResourceKey<DamageType> MINI_GOOMBA_DEFEATED =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_defeated"));
     public static final ResourceKey<DamageType> PLAYER_MINI_GOOMBA_DEFEATED =
@@ -86,60 +91,65 @@ public class DamageTypeRegistry extends DamageSources {
 
     public static void bootstrap(BootstrapContext<DamageType> context) {
         context.register(BONKED, new DamageType(Marioverse.MOD_ID + ".bonked",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.HURT));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1F, DamageEffects.HURT));
         context.register(PLAYER_BONKED, new DamageType(Marioverse.MOD_ID + ".bonked.player",
-                DamageScaling.ALWAYS, 0.1f, DamageEffects.HURT));
+                DamageScaling.ALWAYS, 0.1F, DamageEffects.HURT));
 
         context.register(FIREBALL, new DamageType(Marioverse.MOD_ID + ".fireball",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.BURNING));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1F, DamageEffects.BURNING));
         context.register(PLAYER_FIREBALL, new DamageType(Marioverse.MOD_ID + ".fireball.player",
-                DamageScaling.ALWAYS, 0.1f, DamageEffects.BURNING));
+                DamageScaling.ALWAYS, 0.1F, DamageEffects.BURNING));
 
         context.register(ICE_BALL, new DamageType(Marioverse.MOD_ID + ".ice_ball",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.FREEZING));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1F, DamageEffects.FREEZING));
         context.register(PLAYER_ICE_BALL, new DamageType(Marioverse.MOD_ID + ".ice_ball.player",
-                DamageScaling.ALWAYS, 0.1f, DamageEffects.FREEZING));
+                DamageScaling.ALWAYS, 0.1F, DamageEffects.FREEZING));
 
         context.register(ICE_CUBE_CRUSHED, new DamageType(Marioverse.MOD_ID + ".ice_cube_crushed",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.FREEZING));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1F, DamageEffects.FREEZING));
         context.register(PLAYER_ICE_CUBE_CRUSHED, new DamageType(Marioverse.MOD_ID + ".ice_cube_crushed.player",
-                DamageScaling.ALWAYS, 0.1f, DamageEffects.FREEZING));
+                DamageScaling.ALWAYS, 0.1F, DamageEffects.FREEZING));
 
         context.register(LIGHT, new DamageType(Marioverse.MOD_ID + ".light",
-                DamageScaling.ALWAYS, 0.0f, DamageEffects.HURT));
+                DamageScaling.ALWAYS, 0.0F, DamageEffects.HURT));
+
+        context.register(MEGA_MUSHROOM_SQUASH, new DamageType(Marioverse.MOD_ID + ".mega_mushroom",
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.0F, DamageEffects.HURT));
+        context.register(PLAYER_MEGA_MUSHROOM_SQUASH, new DamageType(Marioverse.MOD_ID + ".mega_mushroom.player",
+                DamageScaling.ALWAYS, 0.0F, DamageEffects.HURT));
 
         context.register(MINI_GOOMBA_DEFEATED, new DamageType(Marioverse.MOD_ID + ".mini_goomba_defeated",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.HURT));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1F, DamageEffects.HURT));
         context.register(PLAYER_MINI_GOOMBA_DEFEATED, new DamageType(Marioverse.MOD_ID + ".mini_goomba_defeated.player",
-                DamageScaling.ALWAYS, 0.1f, DamageEffects.HURT));
+                DamageScaling.ALWAYS, 0.1F, DamageEffects.HURT));
 
         context.register(PIRANHA_CHOMP, new DamageType(Marioverse.MOD_ID + ".piranha_chomp",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.THORNS));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5F, DamageEffects.THORNS));
         context.register(PLAYER_PIRANHA_CHOMP, new DamageType(Marioverse.MOD_ID + ".piranha_chomp.player",
-                DamageScaling.ALWAYS, 0.5f, DamageEffects.THORNS));
+                DamageScaling.ALWAYS, 0.5F, DamageEffects.THORNS));
 
         context.register(POKEY_THORNS, new DamageType(Marioverse.MOD_ID + ".pokey_thorns",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.THORNS));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5F, DamageEffects.THORNS));
 
         context.register(SHRAPNEL, new DamageType(Marioverse.MOD_ID + ".shrapnel",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1f, DamageEffects.THORNS));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.1F, DamageEffects.THORNS));
         context.register(PLAYER_SHRAPNEL, new DamageType(Marioverse.MOD_ID + ".shrapnel.player",
-                DamageScaling.ALWAYS, 0.1f, DamageEffects.THORNS));
+                DamageScaling.ALWAYS, 0.1F, DamageEffects.THORNS));
 
         context.register(SNOW_POKEY_THORNS, new DamageType(Marioverse.MOD_ID + ".snow_pokey_thorns",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.THORNS));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5F, DamageEffects.THORNS));
 
         context.register(SPIKED, new DamageType(Marioverse.MOD_ID + ".spiked",
-                DamageScaling.ALWAYS, 0.1f, DamageEffects.THORNS));
+                DamageScaling.ALWAYS, 0.1F, DamageEffects.THORNS));
 
         context.register(STOMP, new DamageType(Marioverse.MOD_ID + ".stomp",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5f, DamageEffects.HURT));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.5F, DamageEffects.HURT));
         context.register(PLAYER_STOMP, new DamageType(Marioverse.MOD_ID + ".stomp.player",
-                DamageScaling.ALWAYS, 0.5f, DamageEffects.HURT));
+                DamageScaling.ALWAYS, 0.5F, DamageEffects.HURT));
 
         context.register(SUPER_STAR, new DamageType(Marioverse.MOD_ID + ".super_star",
-                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.75f, DamageEffects.HURT));
+                DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0.75F, DamageEffects.HURT));
         context.register(PLAYER_SUPER_STAR, new DamageType(Marioverse.MOD_ID + ".super_star.player",
-                DamageScaling.ALWAYS, 0.75f, DamageEffects.HURT));
+                DamageScaling.ALWAYS, 0.75F, DamageEffects.HURT));
     }
 }

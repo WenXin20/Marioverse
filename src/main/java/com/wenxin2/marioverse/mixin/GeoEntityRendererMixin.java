@@ -28,7 +28,8 @@ public abstract class GeoEntityRendererMixin<T extends Entity & GeoAnimatable> {
             float heightScale = (float) attributemap.getValue(AttributesRegistry.HEIGHT_SCALE);
             float widthScale = (float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE);
 
-            poseStack.scale(widthScale, heightScale, widthScale);
+            if (!isReRender)
+                poseStack.scale(widthScale, heightScale, widthScale);
         }
     }
 }

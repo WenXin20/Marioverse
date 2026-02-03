@@ -14,7 +14,6 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -384,23 +383,21 @@ public class GoombaEntity extends Monster implements GeoEntity {
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
         super.populateDefaultEquipmentSlots(random, difficulty);
 
-        if (this instanceof AbilitiesHandler handler) {
-            if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
-                int i = random.nextInt(6);
-                int randomInt = random.nextInt(1);
-                if (i == 0) {
-                    if (randomInt == 0)
-                        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
-                    else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
-                    handler.mv$setFireFlower(true);
-                } else if (i == 1) {
-                    if (randomInt == 0)
-                        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
-                    else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
-                    handler.mv$setIceFlower(true);
-                } else {
-                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
-                }
+        if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
+            int i = random.nextInt(6);
+            int randomInt = random.nextInt(1);
+            if (i == 0) {
+                if (randomInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
+                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
+                this.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
+            } else if (i == 1) {
+                if (randomInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
+                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
+                this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
+            } else {
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
             }
         }
     }

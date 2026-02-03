@@ -278,10 +278,21 @@ public class ClientEventHandlers {
         if (!(entity.level() instanceof ClientLevel))
             return;
 
+        if (entity instanceof LivingEntity livingEntity && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
+                && !entity.getData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME)) {
+            Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(livingEntity, SoundRegistry.MEGA_MUSHROOM_THEME.get(),
+                    SoundSource.AMBIENT, entity.getRandom(), 100,
+                    () -> livingEntity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION),
+                    () -> livingEntity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)));
+            entity.setData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME, true);
+        }
+
         if (entity instanceof LivingEntity livingEntity && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME)) {
             Minecraft.getInstance().getSoundManager().play(new FadingSoundInstance(livingEntity, SoundRegistry.SUPER_STAR_THEME.get(),
-                    SoundSource.AMBIENT, entity.getRandom(), entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN), 100));
+                    SoundSource.AMBIENT, entity.getRandom(), 100,
+                    () -> livingEntity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION),
+                    () -> livingEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)));
             entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, true);
         }
 

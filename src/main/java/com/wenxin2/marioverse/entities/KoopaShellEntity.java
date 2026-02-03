@@ -2,18 +2,16 @@ package com.wenxin2.marioverse.entities;
 
 import com.google.common.base.MoreObjects;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
-import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
-import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -30,7 +28,6 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
@@ -68,9 +65,7 @@ import net.minecraft.world.entity.monster.breeze.Breeze;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.RenderShape;
@@ -81,7 +76,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Unique;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -781,8 +775,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             else if (this.getOwner() == null) entityHit.hurt(DamageSourceRegistry.spinningShell(entityHit, this), shellDamage);
             this.getDamageFromKills();
 
-            if (this.getOwner() != null && this.leftOwner)
-                this.consecutiveReward(this.getOwner(), entityHit);
+            if (this.getOwner() instanceof LivingEntity entity && this.leftOwner)
+                OneUpMushroomEntity.consecutiveReward(entity, entityHit, this.getKillCount());
 
             if (entityHit.getType().is(this.getInstaKillEntityTag()))
                 this.setKillCount(this.getKillCount() + 1);
@@ -811,85 +805,6 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.setBounceCount(this.getBounceCount() + ConfigRegistry.KOOPA_SHELL_DAMAGE_FROM_KILLS.get());
     }
 
-    public void consecutiveReward(Entity attackingEntity, LivingEntity damagedEntity) {
-        if (attackingEntity instanceof AbilitiesHandler handler) {
-            int oneUpsRewarded = handler.mv$getOneUpsRewarded();
-            int killCount = this.getKillCount();
-            handler.mv$setConsecutiveBounces(killCount + 1);
-
-            if (killCount == 0) {
-                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GOOD.get(), serverWorld, damagedEntity, 0.0);
-                } else if (attackingEntity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.good"), Boolean.TRUE);
-            } else if (killCount == 1) {
-                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.GREAT.get(), serverWorld, damagedEntity, 0.0);
-                } else if (attackingEntity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.great"), Boolean.TRUE);
-            } else if (killCount == 2) {
-                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.SUPER.get(), serverWorld, damagedEntity, 0.0);
-                } else if (attackingEntity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.super"), Boolean.TRUE);
-            } else if (killCount == 3) {
-                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.FANTASTIC.get(), serverWorld, damagedEntity, 0.0);
-                } else if (attackingEntity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.fantastic"), Boolean.TRUE);
-            } else if (killCount == 4) {
-                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.EXCELLENT.get(), serverWorld, damagedEntity, 0.0);
-                } else if (attackingEntity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.excellent"), Boolean.TRUE);
-            } else if (killCount == 5) {
-                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.INCREDIBLE.get(), serverWorld, damagedEntity, 0.0);
-                } else if (attackingEntity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.incredible"), Boolean.TRUE);
-            } else if (killCount == 6) {
-                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity, 0.0);
-                } else if (attackingEntity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
-            } else if (killCount >= 7 && ConfigRegistry.MAX_ONE_UP_SHELL_KILL_REWARD.get() > oneUpsRewarded) {
-                handler.mv$setOneUpsRewarded(oneUpsRewarded + 1);
-                this.oneUpReward(attackingEntity);
-                if (!ConfigRegistry.DISABLE_REWARD_PARTICLES.get()) {
-                    if (damagedEntity.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, damagedEntity, 0.0);
-                } else if (attackingEntity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.one_up"), Boolean.TRUE);
-            }
-        }
-    }
-
-    @Unique
-    public void oneUpReward(Entity attackingEntity) {
-        ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
-        if (attackingEntity instanceof LivingEntity livingEntity
-                && (ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get() || attackingEntity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS))) {
-            AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
-            ItemStack offhandStack = livingEntity.getOffhandItem();
-
-            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get()))
-                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
-            else if (offhandStack.isEmpty())
-                livingEntity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-            else if (offhandStack.getItem() instanceof OneUpMushroomItem)
-                offhandStack.grow(1);
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
-                    SoundSource.NEUTRAL, 1.0F, 1.0F);
-        }
-    }
-
     private void spawnKoopaTroopa() {
         KoopaTroopaEntity troopa = this.getKoopaTroopaEntity();
 
@@ -902,15 +817,15 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         troopa.setHealth(this.getHealth());
         troopa.setNoAi(this.isNoAi());
 
-        if (this instanceof AbilitiesHandler handler && troopa instanceof AbilitiesHandler entityHandler) {
-            entityHandler.mv$setSuperMushroom(handler.mv$hasSuperMushroom());
-            entityHandler.mv$setMegaMushroom(handler.mv$hasMegaMushroom());
-            entityHandler.mv$setFireFlower(handler.mv$hasFireFlower());
-            entityHandler.mv$setIceFlower(handler.mv$hasIceFlower());
-            troopa.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
-            troopa.setData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN, this.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN));
-        }
+        troopa.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM));
+        troopa.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, this.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER));
+        troopa.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, this.getData(DataAttachmentRegistry.HAS_ICE_FLOWER));
+        troopa.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
+        troopa.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, this.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
+        troopa.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
+        troopa.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, this.getData(DataAttachmentRegistry.SUPER_STAR_DURATION));
 
+        this.copyAttributeWithModifiers(troopa, Attributes.MAX_HEALTH);
         this.copyAttributeWithModifiers(troopa, Attributes.SAFE_FALL_DISTANCE);
         this.copyAttributeWithModifiers(troopa, Attributes.SCALE);
         this.copyAttributeWithModifiers(troopa, AttributesRegistry.EYE_HEIGHT_SCALE);
@@ -940,13 +855,13 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
-        AttributeInstance fromAttr = this.getAttribute(attribute);
-        AttributeInstance toAttr = entity.getAttribute(attribute);
+        AttributeInstance originalAttribute = this.getAttribute(attribute);
+        AttributeInstance newAttribute = entity.getAttribute(attribute);
 
-        if (fromAttr != null && toAttr != null) {
-            toAttr.setBaseValue(fromAttr.getBaseValue());
-            for (AttributeModifier modifier : fromAttr.getModifiers())
-                toAttr.addPermanentModifier(modifier);
+        if (originalAttribute != null && newAttribute != null) {
+            newAttribute.setBaseValue(originalAttribute.getBaseValue());
+            for (AttributeModifier modifier : originalAttribute.getModifiers())
+                newAttribute.addPermanentModifier(modifier);
         }
     }
 

@@ -17,10 +17,12 @@
   ],
   "client": [
     "ButtonBlockMixin",
+    "CameraMixin",
     "EntityRenderDispatcherMixin",
     "EntityRendererMixin",
     "GeoEntityRendererMixin",
     "HumanoidArmorLayerMixin",
+    "InventoryScreenMixin",
     "LivingEntityClientMixin",
     "LivingEntityRendererMixin"
   ],

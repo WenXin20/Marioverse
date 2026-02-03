@@ -1,0 +1,30 @@
+{
+  "values": [
+    "#c:glass_blocks",
+    "#c:glass_panes",
+    "#c:fences/wooden",
+    "#c:fence_gates/wooden",
+    "#marioverse:goal_poles",
+    "#marioverse:question_blocks",
+    "#marioverse:smashable_blocks",
+    "#marioverse:storage_bricks",
+    "#marioverse:warp_pipes",
+    "#marioverse:wooden_bridges",
+    "#marioverse:wooden_bridge_stairs",
+    "#minecraft:candles",
+    "#minecraft:cave_vines",
+    "#minecraft:crops",
+    "#minecraft:flowers",
+    "#minecraft:mineable/axe",
+    "#minecraft:mineable/hoe",
+    "#minecraft:mineable/shovel",
+    "#minecraft:replaceable",
+    "#minecraft:sword_efficient",
+    "minecraft:frosted_ice",
+    "minecraft:ice",
+    "minecraft:short_grass",
+    "minecraft:tall_grass",
+    "minecraft:torch",
+    "minecraft:wall_torch"
+  ]
+}

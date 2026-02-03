@@ -8,7 +8,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,15 +26,5 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_PLAYERS.get();
-    }
-
-    @Inject(method = "tick", at = @At("TAIL"))
-    public void tick(CallbackInfo ci) {
-        int preventWarpCooldown = this.mv$getPreventWarpCooldown();
-        if (preventWarpCooldown > 0)
-            this.mv$setPreventWarpCooldown(this.mv$getPreventWarpCooldown() - 1);
-
-        if (preventWarpCooldown == 0 && this.mv$doPreventWarp())
-            this.mv$setPreventWarp(false);
     }
 }

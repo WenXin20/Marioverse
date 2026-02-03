@@ -1,46 +1,30 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
-import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class BasePowerUpEntity extends Mob implements GeoEntity {
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-
-    public BasePowerUpEntity(EntityType<? extends Mob> entityType, Level world) {
+public class BasePowerUpEntity extends PathfinderMob {
+    public BasePowerUpEntity(EntityType<? extends PathfinderMob> entityType, Level world) {
         super(entityType, world);
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {}
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return this.cache;
     }
 
     @Override
     public void tick() {
         super.tick();
-        this.checkForEntityCollision();
+        this.checkForCollision();
     }
 
     @Override
@@ -108,35 +92,23 @@ public class BasePowerUpEntity extends Mob implements GeoEntity {
         }
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        // Poof particle effect
-        if (this.level().isClientSide) {
-            for (int i = 0; i < 10; i++) {
-                this.level().addParticle(ParticleTypes.POOF,
-                        this.getX() + this.getBbWidth() / 2.0, this.getY() + this.getBbHeight() / 2.0, this.getZ() + this.getBbWidth() / 2.0,
-                        0.0, 0.0, 0.0);
-            }
-        }
-        this.remove(RemovalReason.KILLED);
-        return true;
+    public boolean isMoving() {
+        return this.getDeltaMovement().lengthSqr() > 0.01;
     }
 
-    public void checkForEntityCollision() {
-        AABB boundingBox = this.getBoundingBox().inflate(0.1);
+    public void checkForCollision() {
+        AABB boundingBox = this.getBoundingBox().inflate(0.15);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
 
         if (!entities.isEmpty()) {
             for (Entity entity : entities) {
-                this.collideWithEntity(entity);
+                if (!entity.level().isClientSide)
+                    this.collideWithEntity(entity);
                 break;
             }
         }
     }
 
     public void collideWithEntity(Entity entity) {
-        if (!this.level().isClientSide && entity instanceof Player player && !player.isSpectator()
-                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK))
-            this.remove(RemovalReason.DISCARDED);
     }
 }

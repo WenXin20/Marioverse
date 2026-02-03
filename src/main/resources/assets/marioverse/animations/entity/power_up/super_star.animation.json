@@ -4,6 +4,31 @@
 		"animation.fire_flower.idle": {
 			"loop": true,
 			"animation_length": 2
+		},
+		"animation.super_star.idle": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"main": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.5": {
+							"vector": [1, 0.9, 1]
+						},
+						"1.0": {
+							"vector": [1, 1.02, 1]
+						},
+						"1.5": {
+							"vector": [1, 0.9, 1]
+						},
+						"2.0": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2

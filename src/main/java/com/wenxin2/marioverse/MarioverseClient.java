@@ -36,7 +36,9 @@ import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.IceFlowerRenderer;
-import com.wenxin2.marioverse.client.renderers.entities.power_ups.MushroomRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.power_ups.MegaMushroomRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.power_ups.MiniMushroomRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.OneUpMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperStarRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireballRenderer;
@@ -168,30 +170,6 @@ public class MarioverseClient {
                     )
             ));
         }
-
-        if (event.getPackType() == PackType.SERVER_DATA) {
-            ResourceLocation packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dynamic_resources");
-            Component packNameDisplay = Component.translatable("datapack.marioverse.dynamic_resources");
-            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_resources",
-                    packNameDisplay, PackSource.BUILT_IN, Optional.of(new KnownPack("marioverse", "mod/" + packLocation, "22")));
-
-            event.addRepositorySource((consumer) -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
-                            new Pack.ResourcesSupplier() {
-                                @Override
-                                public PackResources openPrimary(PackLocationInfo info) {
-                                    return new DynamicServerResources(info);
-                                }
-
-                                @Override
-                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
-                                    return new DynamicServerResources(info);
-                                }
-                            },
-                            PackType.SERVER_DATA,
-                            new PackSelectionConfig(true, Pack.Position.TOP, false)
-                    )
-            ));
-        }
     }
 
     @SubscribeEvent
@@ -236,8 +214,10 @@ public class MarioverseClient {
 
         event.registerEntityRenderer(EntityRegistry.FIRE_FLOWER.get(), FireFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_FLOWER.get(), IceFlowerRenderer::new);
-        event.registerEntityRenderer(EntityRegistry.SUPER_MUSHROOM.get(), MushroomRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.MEGA_MUSHROOM.get(), MegaMushroomRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.MINI_MUSHROOM.get(), MiniMushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ONE_UP_MUSHROOM.get(), OneUpMushroomRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.SUPER_MUSHROOM.get(), SuperMushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SUPER_STAR.get(), SuperStarRenderer::new);
 
         event.registerEntityRenderer(EntityRegistry.BOO.get(), BooRenderer::new);

@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#minecraft:bypasses_invulnerability",
+    "#minecraft:is_lightning",
+    "minecraft:drown",
+    "minecraft:lava",
+    "minecraft:outside_border",
+    "minecraft:sonic_boom",
+    "minecraft:starve"
+  ]
+}

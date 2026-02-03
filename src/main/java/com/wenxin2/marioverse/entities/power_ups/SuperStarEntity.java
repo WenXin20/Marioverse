@@ -26,12 +26,12 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
-    protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.super_star.idle");
+    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.super_star.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public SuperStarEntity(EntityType<? extends SuperStarEntity> entityType, Level world) {
         super(entityType, world);
-        this.moveControl = new BounceMoveControl(this, 1, getJumpSound(), 1.0F, 1.0F);
+        this.moveControl = new BounceMoveControl(this, 1, this.getJumpSound(), 1.0F, 1.0F);
     }
 
     @Override
@@ -41,12 +41,14 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Idle", 0, this::idleAnimController));
+        controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimation));
     }
 
-    protected <E extends GeoAnimatable> PlayState idleAnimController(final AnimationState<E> event) {
-        event.setAndContinue(IDLE_ANIM);
-        return PlayState.CONTINUE;
+    protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
+        if (this.isMoving()) {
+            event.setAndContinue(WALK);
+            return PlayState.CONTINUE;
+        } else return PlayState.CONTINUE;
     }
 
     @Override

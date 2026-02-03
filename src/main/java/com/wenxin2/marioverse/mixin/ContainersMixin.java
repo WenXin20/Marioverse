@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
@@ -270,8 +271,7 @@ public class ContainersMixin {
                     entity.setDeltaMovement(new Vec3(
                             world.random.triangle(0.0, 0.3),
                             world.random.triangle(0.5, 0.3),
-                            world.random.triangle(0.0, 0.3)
-                    ));
+                            world.random.triangle(0.0, 0.3)));
                     world.addFreshEntity(entity);
                     stack.copyWithCount(1);
                 } else mv$spawnItem(world, pos, stack);
@@ -383,6 +383,8 @@ public class ContainersMixin {
             world.playSound(null, pos, SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof ArmorStandItem)
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (stack.is(ItemRegistry.MEGA_MUSHROOM))
+            world.playSound(null, pos, SoundRegistry.MEGA_MUSHROOM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof BasePowerUpItem || stack.getItem() instanceof DashMushroomItem)
             world.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof BoatItem)

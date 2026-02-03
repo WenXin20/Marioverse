@@ -86,6 +86,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
+        tag(TagRegistry.CANNOT_CHANGE_MAX_HEALTH)
+                .addOptional(TEST_DUMMY);
+
         tag(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
@@ -137,6 +140,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(GUARD_VILLAGER);
+
+        tag(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
+                .add(EntityType.PLAYER);
+
+        tag(TagRegistry.CAN_DO_DAMAGE_AS_MEGA)
+                .add(EntityType.PLAYER);
 
         tag(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
                 .add(EntityType.PLAYER)
@@ -233,6 +242,20 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(MALE_ZOMBIE_VILLAGER)
                 .addOptional(TEST_DUMMY)
                 .addOptional(HAT_STAND);
+
+        tag(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS)
+                .addTag(Tags.EntityTypes.BOSSES)
+                .add(EntityType.ELDER_GUARDIAN)
+                .add(EntityType.PLAYER)
+                .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);;
+
+        tag(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS)
                 .add(EntityType.PLAYER)
@@ -678,6 +701,19 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
 
+        tag(TagRegistry.MEGA_MUSHROOM_CANNOT_DAMAGE)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
+
+        tag(TagRegistry.MEGA_MUSHROOM_CAN_INSTAKILL)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .addTag(TagRegistry.POKEY_ENTITIES)
+                .addTag(TagRegistry.SNOW_POKEY_ENTITIES)
+                .add(EntityRegistry.BOO.get())
+                .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.PIRANHA_PLANT.get());
+
         tag(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.FROG)
@@ -711,6 +747,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())
                 .add(EntityRegistry.ICE_FLOWER.get())
+                .add(EntityRegistry.MEGA_MUSHROOM.get())
+                .add(EntityRegistry.MINI_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_MUSHROOM.get())
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_STAR.get());

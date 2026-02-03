@@ -8,24 +8,19 @@
 				"body": {
 					"scale": {
 						"0.0": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
+							"vector": [1, 1, 1]
 						},
 						"0.5": {
-							"vector": [1, 0.8, 1],
-							"easing": "linear"
+							"vector": [1, 0.8, 1]
 						},
 						"1.0": {
-							"vector": [1, 1.0333, 1],
-							"easing": "linear"
+							"vector": [1, 1.035, 1]
 						},
 						"1.5": {
-							"vector": [1, 0.8167, 1],
-							"easing": "linear"
+							"vector": [1, 0.8, 1]
 						},
 						"2.0": {
-							"vector": [1, 1, 1],
-							"easing": "linear"
+							"vector": [1, 1, 1]
 						}
 					}
 				}
