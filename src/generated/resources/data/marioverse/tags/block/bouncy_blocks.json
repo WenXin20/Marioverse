@@ -3,11 +3,31 @@
     "minecraft:brown_mushroom_block",
     "minecraft:red_mushroom_block",
     {
-      "id": "dynamictreesplus:brown_mushroom_cap",
+      "id": "superbb:blue_bigshroom_block",
       "required": false
     },
     {
-      "id": "dynamictreesplus:red_mushroom_cap",
+      "id": "superbb:green_bigshroom_block",
+      "required": false
+    },
+    {
+      "id": "superbb:lime_bigshroom_block",
+      "required": false
+    },
+    {
+      "id": "superbb:orange_bigshroom_block",
+      "required": false
+    },
+    {
+      "id": "superbb:purple_bigshroom_block",
+      "required": false
+    },
+    {
+      "id": "superbb:red_bigshroom_block",
+      "required": false
+    },
+    {
+      "id": "superbb:yellow_bigshroom_block",
       "required": false
     }
   ]
