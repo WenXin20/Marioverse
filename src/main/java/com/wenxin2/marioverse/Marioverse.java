@@ -144,7 +144,7 @@ public class Marioverse {
             DAMAGE_SHRINKS_ALL_MOBS = GameRules.register("marioverse:damage_shrinks_all_mobs",
                     GameRules.Category.MOBS, GameRules.BooleanValue.create(false));
             DAMAGE_SHRINKS_PLAYERS = GameRules.register("marioverse:damage_shrinks_players",
-                    GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
+                    GameRules.Category.PLAYER, GameRules.BooleanValue.create(true));
             STOMP_ALL_MOBS = GameRules.register("marioverse:stomp_all_mobs",
                     GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
         });
