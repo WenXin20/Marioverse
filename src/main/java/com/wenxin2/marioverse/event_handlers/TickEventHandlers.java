@@ -149,7 +149,7 @@ public class TickEventHandlers {
         Vec3 motion = entity.getDeltaMovement();
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
 
-        if (entity instanceof LivingEntity livingEntity) {
+        if (!level.isClientSide && entity instanceof LivingEntity livingEntity) {
             TickEventHandlers.megaMushroomScale(livingEntity);
             TickEventHandlers.miniMushroomScale(livingEntity);
             TickEventHandlers.superMushroomScale(livingEntity);
