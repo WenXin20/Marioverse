@@ -372,6 +372,30 @@ public class MarioverseEventHandlers {
             entity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, 0);
             entity.setData(DataAttachmentRegistry.ONE_UPS_REWARDED, 0);
         }
+
+        if (entity.hasData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
+                && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM))
+            entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
+
+        if (entity.hasData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME)
+                && entity.getData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME))
+            entity.setData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME, false);
+
+        if (entity.hasData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION)
+                && entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, 0);
+
+        if (entity.hasData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
+            entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, false);
+
+        if (entity.hasData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME)
+                && entity.getData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME))
+            entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false);
+
+        if (entity.hasData(DataAttachmentRegistry.SUPER_STAR_DURATION)
+                && entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, 0);
     }
 
     private static void removeCostume(LivingEntity entity, AccessoriesCapability capability) {
