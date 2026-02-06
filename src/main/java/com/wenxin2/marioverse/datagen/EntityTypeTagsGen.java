@@ -129,6 +129,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
+                .add(EntityType.PLAYER)
                 .add(EntityType.SLIME)
                 .add(EntityType.TURTLE)
                 .addOptional(TEST_DUMMY);
