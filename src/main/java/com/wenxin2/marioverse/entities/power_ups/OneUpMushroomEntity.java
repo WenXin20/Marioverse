@@ -75,7 +75,8 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                     ServerParticleUtils.spawnRewardParticle(ParticleRegistry.WONDERFUL.get(), serverWorld, damagedEntity, 1.0);
             } else if (attackingEntity instanceof Player player)
                 player.displayClientMessage(Component.translatable("display.marioverse.consecutive_bounce.wonderful"), Boolean.TRUE);
-        } else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded) {
+        } else if (consecutiveBounces >= 7 && ConfigRegistry.MAX_ONE_UP_BOUNCE_REWARD.get() > oneUpsRewarded
+                && !attackingEntity.getType().is(TagRegistry.CANNOT_REWARD_ONE_UPS)) {
             attackingEntity.setData(DataAttachmentRegistry.ONE_UPS_REWARDED, oneUpsRewarded + 1);
             attackingEntity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, ConfigRegistry.ONE_UP_COOLDOWN.get());
             OneUpMushroomEntity.bounceReward(attackingEntity);
