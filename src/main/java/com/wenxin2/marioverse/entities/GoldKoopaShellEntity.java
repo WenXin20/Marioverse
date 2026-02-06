@@ -141,7 +141,8 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
     private BlockPos findValidCoinPosition(Level world, BlockPos basePos) {
         BlockPos pos = basePos;
         BlockState state = world.getBlockState(pos);
-        boolean isAirOrWater = state.canBeReplaced() || state.getFluidState().is(FluidTags.WATER)
+        boolean isAirOrWater = (state.canBeReplaced() && !state.getFluidState().is(FluidTags.LAVA))
+                || state.getFluidState().is(FluidTags.WATER)
                 || state.getBlock() == BlockRegistry.COIN.get();
 
         if (isAirOrWater) {
