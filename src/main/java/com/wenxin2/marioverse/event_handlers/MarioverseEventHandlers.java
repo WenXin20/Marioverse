@@ -362,6 +362,7 @@ public class MarioverseEventHandlers {
         }
     }
 
+    @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
         LivingEntity entity = event.getEntity();
 
