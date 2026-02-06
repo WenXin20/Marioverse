@@ -668,9 +668,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float widthScale = this.mv$getWidthScale();
 
         return EntityDimensions.scalable(original.width()  * widthScale, original.height() * heightScale)
-                .withEyeHeight(original.eyeHeight() * eyeScale)
-                .withAttachments(EntityAttachments.builder().attach(EntityAttachment.VEHICLE,
-                        new Vec3(0.0, 0.7 * heightScale, 0.0)));
+                .withEyeHeight(original.eyeHeight() * eyeScale);
     }
 
     @Inject(method = "jumpFromGround", at = @At("HEAD"))
