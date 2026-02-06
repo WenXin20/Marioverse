@@ -844,8 +844,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                             || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
-                            || ConfigRegistry.STOMP_ALL_MOBS.get()
-                            || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS))) {
+                            || (ConfigRegistry.STOMP_ALL_MOBS.get() && damagedEntity instanceof LivingEntity)
+                            || (damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)
+                                && damagedEntity instanceof LivingEntity))) {
 
                     if (stompingEntity instanceof Player player && player.getAbilities().flying)
                         return;
