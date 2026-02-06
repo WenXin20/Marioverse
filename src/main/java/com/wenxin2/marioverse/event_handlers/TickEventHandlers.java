@@ -58,6 +58,7 @@ public class TickEventHandlers {
             entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && entity instanceof LivingEntity
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                 || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                 && (entity.onGround() || entity.isInWaterOrBubble())
