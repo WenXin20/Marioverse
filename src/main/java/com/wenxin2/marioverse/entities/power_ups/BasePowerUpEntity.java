@@ -24,7 +24,9 @@ public class BasePowerUpEntity extends PathfinderMob {
     @Override
     public void tick() {
         super.tick();
-        this.checkForCollision();
+
+        if (!this.isInvulnerable())
+            this.checkForCollision();
     }
 
     @Override
