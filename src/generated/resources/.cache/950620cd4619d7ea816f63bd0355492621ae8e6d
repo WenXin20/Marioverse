@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-01T15:43:23.4747029	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-02-05T23:35:59.1509772	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -6,9 +6,10 @@ ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/cannot_quick_travel.json
+6d1a66aa70d5a1805de9f33fe2bdcb966c4c3b3a data/marioverse/tags/entity_type/cannot_reward_one_ups.json
 1b59d2089d2a804e3dce11a8628b32e62e6a9938 data/marioverse/tags/entity_type/cannot_warp.json
 8f6e13d5a2eee7c7fee3711e56102c51d23f46bf data/marioverse/tags/entity_type/can_be_instakill_stomped.json
-272aad546b77e5035b5c5fab20daa73ae2f25d36 data/marioverse/tags/entity_type/can_be_stomped.json
+3569fe9fbd8c8e62281f6c21f34e0b410a419504 data/marioverse/tags/entity_type/can_be_stomped.json
 545aac97a38ff6c405233fbb17d4ea33d610a861 data/marioverse/tags/entity_type/can_bonk_blocks.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_break_blocks_as_mega.json
 35be3414a9d660de98305b94c0568d090a77bd0d data/marioverse/tags/entity_type/can_claim_checkpoint_flags.json

@@ -105,6 +105,11 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CANNOT_QUICK_TRAVEL)
                 .add(EntityRegistry.PIRANHA_PLANT.get());
 
+        tag(TagRegistry.CANNOT_REWARD_ONE_UPS)
+                .add(EntityType.ARMOR_STAND)
+                .addOptional(HAT_STAND)
+                .addOptional(TEST_DUMMY);
+
         tag(TagRegistry.CANNOT_WARP)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .add(EntityType.ELDER_GUARDIAN)
@@ -129,6 +134,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
+                .add(EntityType.PLAYER)
                 .add(EntityType.SLIME)
                 .add(EntityType.TURTLE)
                 .addOptional(TEST_DUMMY);

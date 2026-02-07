@@ -668,9 +668,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float widthScale = this.mv$getWidthScale();
 
         return EntityDimensions.scalable(original.width()  * widthScale, original.height() * heightScale)
-                .withEyeHeight(original.eyeHeight() * eyeScale)
-                .withAttachments(EntityAttachments.builder().attach(EntityAttachment.VEHICLE,
-                        new Vec3(0.0, 0.7 * heightScale, 0.0)));
+                .withEyeHeight(original.eyeHeight() * eyeScale);
     }
 
     @Inject(method = "jumpFromGround", at = @At("HEAD"))
@@ -844,8 +842,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                             || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
-                            || ConfigRegistry.STOMP_ALL_MOBS.get()
-                            || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS))) {
+                            || (ConfigRegistry.STOMP_ALL_MOBS.get() && damagedEntity instanceof LivingEntity)
+                            || (damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)
+                                && damagedEntity instanceof LivingEntity))) {
 
                     if (stompingEntity instanceof Player player && player.getAbilities().flying)
                         return;

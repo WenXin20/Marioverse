@@ -201,6 +201,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CANNOT_DROP_COINS = entityTypeTags("cannot_drop_coins");
     public static final TagKey<EntityType<?>> CANNOT_LOSE_POWER_UP = entityTypeTags("cannot_lose_power_up");
     public static final TagKey<EntityType<?>> CANNOT_QUICK_TRAVEL = entityTypeTags("cannot_quick_travel");
+    public static final TagKey<EntityType<?>> CANNOT_REWARD_ONE_UPS = entityTypeTags("cannot_reward_one_ups");
     public static final TagKey<EntityType<?>> CANNOT_WARP = entityTypeTags("cannot_warp");
     public static final TagKey<EntityType<?>> CAN_BE_INSTAKILL_STOMPED = entityTypeTags("can_be_instakill_stomped");
     public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags("can_be_stomped");

@@ -47,12 +47,6 @@ public class TickEventHandlers {
         Level level = entity.level();
         double deltaY = entity.getDeltaMovement().y;
 
-        if (entity instanceof LivingEntity livingEntity) {
-            TickEventHandlers.megaMushroomScale(livingEntity);
-            TickEventHandlers.miniMushroomScale(livingEntity);
-            TickEventHandlers.superMushroomScale(livingEntity);
-        }
-
         if ((entity.onGround() || entity.isInWaterOrBubble())
                 && deltaY <= 0 && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
             entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
@@ -154,6 +148,12 @@ public class TickEventHandlers {
         BlockPos pos = entity.blockPosition();
         Vec3 motion = entity.getDeltaMovement();
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
+
+        if (!level.isClientSide && entity instanceof LivingEntity livingEntity) {
+            TickEventHandlers.megaMushroomScale(livingEntity);
+            TickEventHandlers.miniMushroomScale(livingEntity);
+            TickEventHandlers.superMushroomScale(livingEntity);
+        }
 
         if (entity.isVehicle() && spinningTicks > 0) {
             entity.setYRot(entity.getYRot() + 30);

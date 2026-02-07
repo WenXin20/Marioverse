@@ -267,7 +267,6 @@ public class ClientEventHandlers {
     @SubscribeEvent
     public static void postEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
-
         UUID uuid = entity.getUUID();
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
