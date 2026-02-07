@@ -59,4 +59,9 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
     protected PathNavigation createNavigation(Level world) {
         return new GroundPathNavigation(this, world);
     }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return true;
+    }
 }
