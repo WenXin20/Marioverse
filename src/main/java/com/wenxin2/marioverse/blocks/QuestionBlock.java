@@ -96,7 +96,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -603,7 +602,7 @@ public class QuestionBlock extends BaseEntityBlock {
                 } else this.spawnItem(world, pos.below(), stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CheckpointFlagBlock block) {
-                int randomRotation = world.random.nextInt(17);
+                int randomRotation = world.random.nextInt(15);
 
                 if (world.getBlockState(pos.above()).canBeReplaced()
                         && world.getBlockState(pos.above(2)).canBeReplaced()
