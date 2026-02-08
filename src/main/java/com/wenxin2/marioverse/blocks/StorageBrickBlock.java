@@ -43,7 +43,7 @@ public class StorageBrickBlock extends QuestionBlock {
                 } else world.destroyBlock(pos, false);
             }
 
-            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), true);
+            entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 1);
             world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
 
             if (state.is(BlockTags.CRYSTAL_SOUND_BLOCKS))

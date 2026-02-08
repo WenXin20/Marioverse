@@ -954,7 +954,7 @@ public class MarioverseEventHandlers {
                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
                 && (EventHooks.canEntityGrief(world, entity))
                 && !entity.isSpectator() && !world.isClientSide
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())
+                && !entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get())
                 && entity instanceof AbilitiesHandler handler) {
             handler.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
         }
@@ -963,7 +963,7 @@ public class MarioverseEventHandlers {
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && (EventHooks.canEntityGrief(world, entity))
                 && !entity.isSpectator() && !world.isClientSide
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())
+                && !entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get())
                 && entity instanceof AbilitiesHandler handler) {
             handler.mv$hitQuestionBlock(world, posAboveEntity, entity, questionBlockEntity);
         }

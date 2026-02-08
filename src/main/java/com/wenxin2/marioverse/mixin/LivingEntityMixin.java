@@ -158,16 +158,15 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             this.mv$squashEntity(entity);
 
 
-        if ((entity.onGround() || entity.isInWaterOrBubble()) && motion.y <= 0
-                && entity.hasData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())
-                && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
-            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
+        if (entity.hasData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get())
+                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) > 0)
+            entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) - 1);
 
         if (entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
                 && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
                 && !entity.onGround() && entity.getY() > entity.yOld
                 && !entity.isSpectator() && !level.isClientSide
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
             OnOffSwitchBlock.hitSwitchBlock(level, posAboveEntity, entity);
 
         if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
@@ -180,7 +179,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
                 && !entity.onGround() && entity.getY() > entity.yOld
                 && !entity.isSpectator() && !level.isClientSide
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
             QuestionBlock.hitQuestionBlock(level, posAboveEntity, entity, questionBlockEntity);
 
         if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
@@ -193,14 +192,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
                 && !entity.onGround() && entity.getY() > entity.yOld
                 && !entity.isSpectator() && !level.isClientSide
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
+                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
             StorageBrickBlock.smashBlock(level, posAboveEntity, stateAboveEntity, entity);
         }
 
         if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)
                 && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
             StorageBrickBlock.smashBlockFromSide(stateNorth, entity, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)

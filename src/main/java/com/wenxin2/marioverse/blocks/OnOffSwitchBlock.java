@@ -1,12 +1,8 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
-import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.SwitchSavedData;
 import java.util.List;
@@ -18,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -48,6 +45,9 @@ public class OnOffSwitchBlock extends Block {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
+        Player player = placeContext.getPlayer();
+        if (player.isShiftKeyDown())
+            return this.defaultBlockState().setValue(ACTIVE, false);
         return this.defaultBlockState().setValue(ACTIVE, true);
     }
 
@@ -96,7 +96,7 @@ public class OnOffSwitchBlock extends Block {
 
             world.setBlock(pos, state.cycle(ACTIVE), 3);
             world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F); //TODO
-            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), true);
+            entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 4);
             if (!world.isClientSide && world instanceof ServerLevel serverWorld)
                 OnOffSwitchBlock.toggle(serverWorld);
         }
