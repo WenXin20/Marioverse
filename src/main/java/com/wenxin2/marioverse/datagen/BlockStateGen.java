@@ -1091,9 +1091,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.getVariantBuilder(block).forAllStates(state -> {
             boolean isActive = state.getValue(OnOffSwitchBlock.ACTIVE);;
 
-            return ConfiguredModel.builder()
-                    .modelFile(isActive ? model : modelOff)
-                    .build();
+            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
 

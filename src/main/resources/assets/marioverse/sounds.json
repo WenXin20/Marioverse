@@ -86,6 +86,11 @@
 
   "block.mega_mushroom_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/mega_mushroom_spawns" }],
     "subtitle": "subtitles.marioverse.block.mega_mushroom_spawns" },
+  
+  "block.item_spawns": { "category": "block", "sounds": [{ "name": "random/pop" }],
+    "subtitle": "subtitles.marioverse.block.item_spawns" },
+  "block.mob_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
+    "subtitle": "subtitles.marioverse.block.mob_spawns" },
   "block.power_up_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
     "subtitle": "subtitles.marioverse.block.power_up_spawns" },
 
@@ -101,11 +106,10 @@
   "block.spikes_retract": { "category": "block", "sounds": [{ "name": "marioverse:block/spikes_retract" }],
     "subtitle": "subtitles.marioverse.block.spikes_retract" },
 
-  "block.mob_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
-    "subtitle": "subtitles.marioverse.block.mob_spawns" },
-
-  "block.item_spawns": { "category": "block", "sounds": [{ "name": "random/pop" }],
-    "subtitle": "subtitles.marioverse.block.item_spawns" },
+  "block.switch_off": { "category": "block", "sounds": [{ "name": "marioverse:block/switch_off" }],
+    "subtitle": "subtitles.marioverse.block.switch_off" },
+  "block.switch_on": { "category": "block", "sounds": [{ "name": "marioverse:block/switch_on" }],
+    "subtitle": "subtitles.marioverse.block.switch_on" },
 
   "block.warp_fuel.completed": { "category": "block",
     "sounds": [{ "name": "block/end_portal/endportal", "pitch": 0.5, "volume": 0.5 }],

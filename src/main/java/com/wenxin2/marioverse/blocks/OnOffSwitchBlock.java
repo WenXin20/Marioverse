@@ -94,9 +94,13 @@ public class OnOffSwitchBlock extends Block {
                 ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
                         UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
 
+            if (state.getValue(ACTIVE))
+                world.playSound(null, pos, SoundRegistry.SWITCH_OFF.get(), SoundSource.BLOCKS);
+            else world.playSound(null, pos, SoundRegistry.SWITCH_ON.get(), SoundSource.BLOCKS);
+
             world.setBlock(pos, state.cycle(ACTIVE), 3);
-            world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F); //TODO
             entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 4);
+
             if (!world.isClientSide && world instanceof ServerLevel serverWorld)
                 OnOffSwitchBlock.toggle(serverWorld);
         }

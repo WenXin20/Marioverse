@@ -104,6 +104,8 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> SPLUNKIN_DEATH;
     public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SWITCH_OFF;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SWITCH_ON;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
     public static final DeferredHolder<SoundEvent, SoundEvent> WARP_COMPLETED;
     public static final DeferredHolder<SoundEvent, SoundEvent> WARP_FUEL_FILLS;
@@ -189,6 +191,11 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.spikes_peek")));
         SPIKES_RETRACT = Marioverse.SOUNDS.register("block.spikes_retract",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.spikes_retract")));
+
+        SWITCH_OFF = Marioverse.SOUNDS.register("block.switch_off",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.switch_off")));
+        SWITCH_ON = Marioverse.SOUNDS.register("block.switch_on",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.switch_on")));
 
         WARP_COMPLETED = Marioverse.SOUNDS.register("block.warp_fuel.completed",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.warp_fuel.completed")));
