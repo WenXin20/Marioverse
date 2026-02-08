@@ -928,8 +928,8 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("all", inActiveTexture).renderType("cutout_mipped");
 
         if (isItemOn)
-            simpleBlockItem(block, model);
-        else simpleBlockItem(block, modelOff);
+            simpleBlockItem(block, modelOff);
+        else simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
             boolean isActive = state.getValue(OnBlock.ACTIVE);;
