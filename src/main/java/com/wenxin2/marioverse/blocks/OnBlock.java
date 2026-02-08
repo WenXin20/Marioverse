@@ -49,14 +49,33 @@ public class OnBlock extends Block {
         return Shapes.empty();
     }
 
+    @NotNull
+    @Override
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (state.getValue(ACTIVE))
+            return Shapes.block();
+        return Shapes.empty();
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        if (state.getValue(ACTIVE))
+            return 1.0F;
+        return 0.0F;
+    }
+
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
-        SwitchSavedData data = SwitchSavedData.get((ServerLevel) placeContext.getLevel());
+        Level level = placeContext.getLevel();
         Player player = placeContext.getPlayer();
 
-        if (player.isShiftKeyDown())
-            return this.defaultBlockState().setValue(ACTIVE, !data.isActive());
-        return this.defaultBlockState().setValue(ACTIVE, data.isActive());
+        if (level instanceof ServerLevel serverLevel) {
+            SwitchSavedData data = SwitchSavedData.get(serverLevel);
+            if (player.isShiftKeyDown())
+                return this.defaultBlockState().setValue(ACTIVE, !data.isActive());
+            return this.defaultBlockState().setValue(ACTIVE, data.isActive());
+        }
+        return this.defaultBlockState().setValue(ACTIVE, true);
     }
 
     @Override

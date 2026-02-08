@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -28,13 +29,18 @@ public class OffBlock extends OnBlock {
         return Shapes.empty();
     }
 
+    @NotNull
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
-        SwitchSavedData data = SwitchSavedData.get((ServerLevel) placeContext.getLevel());
-        Player player = placeContext.getPlayer();
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (!state.getValue(ACTIVE))
+            return Shapes.block();
+        return Shapes.empty();
+    }
 
-        if (player.isShiftKeyDown())
-            return this.defaultBlockState().setValue(ACTIVE, data.isActive());
-        return this.defaultBlockState().setValue(ACTIVE, !data.isActive());
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        if (!state.getValue(ACTIVE))
+            return 1.0F;
+        return 0.0F;
     }
 }

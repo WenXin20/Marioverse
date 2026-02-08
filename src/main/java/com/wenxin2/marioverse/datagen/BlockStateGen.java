@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
-import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
@@ -86,8 +85,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
         this.blossomModel(BlockRegistry.DANGO_BLOSSOM.get(), modLoc("block/" + dangoBlossomName),
                 modLoc("block/" + dangoBlossomName + "_leaves"));
-        this.dottedLineBlockModel(BlockRegistry.RED_DOTTED_LINE_BLOCK.get(), modLoc("block/" + redBlockName), modLoc("block/" + redBlockName + "_off"));
-        this.dottedLineBlockModel(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get(), modLoc("block/" + blueBlockName + "_off"), modLoc("block/" + blueBlockName));
+        this.dottedLineBlockModel(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get(), modLoc("block/" + blueBlockName + "_off"), modLoc("block/" + blueBlockName), false);
+        this.dottedLineBlockModel(BlockRegistry.RED_DOTTED_LINE_BLOCK.get(), modLoc("block/" + redBlockName), modLoc("block/" + redBlockName + "_off"), true);
         this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
         this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
@@ -918,17 +917,19 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
-    private void dottedLineBlockModel(Block block, ResourceLocation activeTexture, ResourceLocation inActiveTexture) {
+    private void dottedLineBlockModel(Block block, ResourceLocation activeTexture, ResourceLocation inActiveTexture, boolean isItemOn) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("block/cube_all"))
-                .texture("all", activeTexture);
+                .texture("all", activeTexture).renderType("cutout_mipped");
         ModelFile modelOff = models()
-                .withExistingParent(modelName + "_off", mcLoc("block/cube_column"))
+                .withExistingParent(modelName + "_off", mcLoc("block/cube_all"))
                 .texture("all", inActiveTexture).renderType("cutout_mipped");
 
-        simpleBlockItem(block, model);
+        if (isItemOn)
+            simpleBlockItem(block, model);
+        else simpleBlockItem(block, modelOff);
 
         this.getVariantBuilder(block).forAllStates(state -> {
             boolean isActive = state.getValue(OnBlock.ACTIVE);;

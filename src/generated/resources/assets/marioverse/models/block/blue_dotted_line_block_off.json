@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_column",
+  "parent": "minecraft:block/cube_all",
   "render_type": "minecraft:cutout_mipped",
   "textures": {
     "all": "marioverse:block/blue_dotted_line_block"

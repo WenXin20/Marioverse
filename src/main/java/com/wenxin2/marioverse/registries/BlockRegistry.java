@@ -36,6 +36,7 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ColorRGBA;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -421,10 +422,16 @@ public class BlockRegistry {
                         .strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         RED_DOTTED_LINE_BLOCK = registerBlock("red_dotted_line_block",
                 () -> new OnBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)));
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)
+                        .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
+                        .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
+                        .noOcclusion()));
         BLUE_DOTTED_LINE_BLOCK = registerBlock("blue_dotted_line_block",
                 () -> new OffBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)));
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)
+                        .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
+                        .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
+                        .noOcclusion()));
 
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
@@ -1412,6 +1419,22 @@ public class BlockRegistry {
     }
 
     private static boolean never(BlockState state, BlockGetter block, BlockPos pos) {
+        return false;
+    }
+
+    public static Boolean isActive(BlockState state, BlockGetter blockGetter, BlockPos pos, EntityType<?> entity) {
+        if (blockGetter instanceof OffBlock)
+            return !state.getValue(OnBlock.ACTIVE);
+        if (blockGetter instanceof OnBlock)
+            return state.getValue(OnBlock.ACTIVE);
+        return false;
+    }
+
+    private static boolean isActive(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        if (blockGetter instanceof OffBlock)
+            return !state.getValue(OnBlock.ACTIVE);
+        if (blockGetter instanceof OnBlock)
+            return state.getValue(OnBlock.ACTIVE);
         return false;
     }
 

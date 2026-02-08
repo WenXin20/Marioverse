@@ -11,8 +11,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class OnOffSwitchBlock extends OnBlock {
@@ -26,6 +30,23 @@ public class OnOffSwitchBlock extends OnBlock {
 
     public OnOffSwitchBlock(Properties properties) {
         super(properties);
+    }
+
+    @NotNull
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        return Shapes.block();
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getVisualShape(BlockState p_309057_, BlockGetter p_308936_, BlockPos p_308956_, CollisionContext p_309006_) {
+        return Shapes.block();
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return 0.0F;
     }
 
     public static void hitSwitchBlock(Level world, BlockPos pos, Entity entity) {

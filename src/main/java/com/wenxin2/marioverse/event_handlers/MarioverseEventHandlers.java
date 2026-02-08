@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
@@ -138,13 +139,13 @@ public class MarioverseEventHandlers {
         for (BlockPos pos : List.copyOf(data.getPositions(event.getChunk().getPos()))) {
             BlockState state = level.getBlockState(pos);
 
-            if (!(state.getBlock() instanceof OnOffSwitchBlock)) {
-                data.remove(pos); // heal stale entry
+            if (!(state.getBlock() instanceof OnBlock)) {
+                data.remove(pos);
                 continue;
             }
-            if (state.getBlock() instanceof OnOffSwitchBlock
-                    && state.getValue(OnOffSwitchBlock.ACTIVE) != isActive)
-                level.setBlock(pos, state.setValue(OnOffSwitchBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
+            if (state.getBlock() instanceof OnBlock
+                    && state.getValue(OnBlock.ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
         }
     }
 
