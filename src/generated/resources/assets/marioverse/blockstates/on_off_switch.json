@@ -1,9 +1,15 @@
 {
   "variants": {
-    "active=false": {
+    "active=false,powered=false": {
       "model": "marioverse:block/on_off_switch_off"
     },
-    "active=true": {
+    "active=false,powered=true": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=true,powered=false": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true": {
       "model": "marioverse:block/on_off_switch"
     }
   }

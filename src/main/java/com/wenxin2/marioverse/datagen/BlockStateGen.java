@@ -69,6 +69,7 @@ public class BlockStateGen extends BlockStateProvider {
         String pumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
         String quicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.QUICKSAND.get()).getPath();
         String redBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_DOTTED_LINE_BLOCK.get()).getPath();
+        String redOnMushroomBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_ON_MUSHROOM_BLOCK.get()).getPath();
         String redQuicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_QUICKSAND.get()).getPath();
         String spikePanelName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPIKE_PANEL.get()).getPath();
         String splunkinCarvedPumpkinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get()).getPath();
@@ -96,6 +97,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), modLoc("block/" + splunkinCarvedPumpkinName),
                 mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
+        this.onOffMushroomBlockModel(BlockRegistry.RED_ON_MUSHROOM_BLOCK.get(), modLoc("block/" + redOnMushroomBlockName));
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/" + onSwitchName), modLoc("block/" + onSwitchName + "_top"),
                 modLoc("block/" + offSwitchName), modLoc("block/" + offSwitchName + "_top"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
@@ -1061,6 +1063,26 @@ public class BlockStateGen extends BlockStateProvider {
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
+    }
+
+    private void onOffMushroomBlockModel(Block block, ResourceLocation activeTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
+                .texture("bottom", activeTexture + "_bottom").texture("side", activeTexture)
+                .texture("top", activeTexture + "_top");
+        ModelFile modelOff = models()
+                .withExistingParent(modelName + "_off", mcLoc("block/cube_bottom_top"))
+                .texture("bottom", activeTexture + "_bottom_off").texture("side", activeTexture + "_off")
+                .texture("top", activeTexture + "_top_off");
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean isActive = state.getValue(OnBlock.ACTIVE);;
+            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
+        });
     }
 
     private void pedestalModel(Block block, ResourceLocation mainTexture) {

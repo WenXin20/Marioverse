@@ -4,13 +4,13 @@
   "group": "marioverse:on_off_switches",
   "key": {
     "B": {
-      "item": "minecraft:blue_concrete"
+      "item": "marioverse:blue_dotted_line_block"
     },
     "I": {
-      "tag": "c:ingots/iron"
+      "tag": "c:gems/quartz"
     },
     "R": {
-      "item": "minecraft:red_concrete"
+      "item": "marioverse:red_dotted_line_block"
     },
     "T": {
       "item": "minecraft:redstone_torch"

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BouncyOnBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.BridgeStairBlock;
@@ -262,6 +263,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> RED_ON_MUSHROOM_BLOCK;
     public static final DeferredBlock<Block> RED_QUICKSAND;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
@@ -432,6 +434,9 @@ public class BlockRegistry {
                         .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
                         .noOcclusion()));
+        RED_ON_MUSHROOM_BLOCK = registerBlock("red_on_mushroom_block",
+                () -> new BouncyOnBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
 
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",

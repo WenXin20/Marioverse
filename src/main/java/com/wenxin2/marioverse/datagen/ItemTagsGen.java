@@ -51,6 +51,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
+        copy(TagRegistry.ON_OFF_MUSHROOM_BLOCKS, TagRegistry.ON_OFF_MUSHROOM_BLOCK_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.QUESTION_PANEL_BLOCKS, TagRegistry.QUESTION_PANELS_ITEMS);

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:on_off_mushroom_blocks",
+  "ingredients": [
+    {
+      "item": "marioverse:red_dotted_line_block"
+    },
+    {
+      "item": "minecraft:brown_mushroom_block"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:red_on_mushroom_block"
+  }
+}

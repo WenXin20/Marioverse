@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-08T01:18:06.341838	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-02-08T16:24:27.7805886	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -76,6 +76,7 @@ eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/item/flammable_woo
 63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/item/invisible_question_blocks.json
 bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.json
 2bf71b8c33ad54da47f6204801153f8758427f38 data/marioverse/tags/item/koopa_shoes.json
+636ce1a99435db537e6072d69bb3d11bf85a29bf data/marioverse/tags/item/on_off_mushroom_blocks.json
 2abab234b9fe82a01874f77c9b38ca91e743e391 data/marioverse/tags/item/pants.json
 f7715c017ddffc880a389a06d288a8a315b075a8 data/marioverse/tags/item/pants/luigi.json
 7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/marioverse/tags/item/pants/mario.json

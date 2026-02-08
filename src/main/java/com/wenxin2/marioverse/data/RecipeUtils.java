@@ -407,8 +407,7 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     public void onOffBlockRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                                  Object concrete, Object redstone,
-                                  boolean uniqueFileName, RecipeOutput output) {
+                                 Object concrete, Object redstone, boolean uniqueFileName, RecipeOutput output) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
                 .pattern("CCC")
                 .pattern("CRC")
@@ -425,8 +424,26 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void onOffMushroomRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                 Object mushroom, Object dottedLineBlock, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .pattern("MMM")
+                .pattern("MDM")
+                .pattern("MMM")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'M', mushroom);
+        defineIngredient(builder, 'D', dottedLineBlock);
+
+        builder.unlockedBy(getUnlockName(mushroom), unlockCriterion(mushroom));
+
+        if (uniqueFileName && mushroom instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike) + outputAmt);
+        else builder.save(output);
+    }
+
     public void onOffSwitchRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                                  Object redConcrete, Object blueConcrete, Object ingot, Object torch,
+                                  Object redBlock, Object blueBlock, Object quartz, Object torch,
                                   boolean uniqueFileName, RecipeOutput output) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
                 .pattern("RRR")
@@ -434,14 +451,14 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("BBB")
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
-        defineIngredient(builder, 'R', redConcrete);
-        defineIngredient(builder, 'B', blueConcrete);
-        defineIngredient(builder, 'I', ingot);
+        defineIngredient(builder, 'R', redBlock);
+        defineIngredient(builder, 'B', blueBlock);
+        defineIngredient(builder, 'I', quartz);
         defineIngredient(builder, 'T', torch);
 
-        builder.unlockedBy(getUnlockName(ingot), unlockCriterion(ingot));
+        builder.unlockedBy(getUnlockName(quartz), unlockCriterion(quartz));
 
-        if (uniqueFileName && redConcrete instanceof ItemLike itemLike)
+        if (uniqueFileName && redBlock instanceof ItemLike itemLike)
             builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
         else builder.save(output);
     }

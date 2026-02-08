@@ -419,6 +419,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(Blocks.MAGMA_BLOCK)
                 .addOptional(SUPP_FIRE_PIT);
 
+        tag(TagRegistry.ON_OFF_MUSHROOM_BLOCKS)
+                .add(BlockRegistry.RED_ON_MUSHROOM_BLOCK.get());
+
         tag(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)
                 .add(Blocks.DECORATED_POT);
