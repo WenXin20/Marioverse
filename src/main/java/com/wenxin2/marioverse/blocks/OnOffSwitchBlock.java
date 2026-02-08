@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -53,7 +54,10 @@ public class OnOffSwitchBlock extends OnBlock {
 
     @Override
     protected void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
-        OnOffSwitchBlock.hitSwitchBlock(level, hitResult.getBlockPos(), projectile);
+        if (projectile.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
+                && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+            OnOffSwitchBlock.hitSwitchBlock(level, hitResult.getBlockPos(), projectile);
+
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
     }
 
