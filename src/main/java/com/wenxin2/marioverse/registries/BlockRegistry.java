@@ -413,7 +413,8 @@ public class BlockRegistry {
         ON_OFF_SWITCH = registerBlock("on_off_switch",
                 () -> new OnOffSwitchBlock(BlockBehaviour.Properties.of()
                         .mapColor(state -> state.getValue(OnOffSwitchBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
-                        .sound(SoundType.STONE).strength(0.3F)));
+                        .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                        .strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
 
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",

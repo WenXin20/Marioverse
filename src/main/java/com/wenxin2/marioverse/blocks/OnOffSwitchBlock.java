@@ -47,7 +47,7 @@ public class OnOffSwitchBlock extends Block {
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         SwitchSavedData data = SwitchSavedData.get((ServerLevel) placeContext.getLevel());
         Player player = placeContext.getPlayer();
-        
+
         if (player.isShiftKeyDown())
             return this.defaultBlockState().setValue(ACTIVE, !data.isActive());
         return this.defaultBlockState().setValue(ACTIVE, data.isActive());
