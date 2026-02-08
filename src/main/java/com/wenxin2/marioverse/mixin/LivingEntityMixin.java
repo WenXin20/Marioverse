@@ -165,8 +165,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if (entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
                 && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
                 && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !level.isClientSide
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                && !entity.isSpectator() && !level.isClientSide)
             OnOffSwitchBlock.hitSwitchBlock(level, posAboveEntity, entity);
 
         if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
