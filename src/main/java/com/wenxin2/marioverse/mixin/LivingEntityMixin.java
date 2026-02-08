@@ -171,7 +171,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
                 && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+                && entity.getDeltaMovement().horizontalDistance() > 0.01)
             OnOffSwitchBlock.hitSwitchBlockFromSide(level, posNorth, entity, posSouth, posEast, posWest);
 
         if (level.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
@@ -184,7 +184,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+                && entity.getDeltaMovement().horizontalDistance() > 0.01)
             QuestionBlock.hitQuestionBlockFromSide(level, posNorth, entity, posSouth, posEast, posWest);
 
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
@@ -198,7 +198,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)
-                && entity.getDeltaMovement().horizontalDistance() > 0.1
+                && entity.getDeltaMovement().horizontalDistance() > 0.01
                 && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
             StorageBrickBlock.smashBlockFromSide(stateNorth, entity, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
@@ -212,7 +212,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         }
 
         if (entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+                && entity.getDeltaMovement().horizontalDistance() > 0.01)
             StorageBrickBlock.bonkBlockFromSide(stateNorth, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
