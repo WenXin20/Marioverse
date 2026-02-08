@@ -12,6 +12,8 @@ import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
+import com.wenxin2.marioverse.blocks.OffBlock;
+import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
@@ -99,6 +101,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
@@ -255,6 +258,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUICKSAND;
+    public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_QUICKSAND;
@@ -412,9 +416,15 @@ public class BlockRegistry {
 
         ON_OFF_SWITCH = registerBlock("on_off_switch",
                 () -> new OnOffSwitchBlock(BlockBehaviour.Properties.of()
-                        .mapColor(state -> state.getValue(OnOffSwitchBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        RED_DOTTED_LINE_BLOCK = registerBlock("red_dotted_line_block",
+                () -> new OnBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)));
+        BLUE_DOTTED_LINE_BLOCK = registerBlock("blue_dotted_line_block",
+                () -> new OffBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)));
 
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",

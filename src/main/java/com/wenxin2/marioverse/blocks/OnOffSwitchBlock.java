@@ -4,9 +4,6 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import com.wenxin2.marioverse.world.SwitchSavedData;
-import java.util.List;
-import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,76 +11,21 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.NotNull;
 
-public class OnOffSwitchBlock extends Block {
-    public static final MapCodec<OnOffSwitchBlock> CODEC = simpleCodec(OnOffSwitchBlock::new);
-    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+public class OnOffSwitchBlock extends OnBlock {
+    public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
 
     @NotNull
     @Override
-    protected MapCodec<OnOffSwitchBlock> codec() {
+    protected MapCodec<OnBlock> codec() {
         return CODEC;
     }
 
     public OnOffSwitchBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(ACTIVE);
-    }
-
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
-        SwitchSavedData data = SwitchSavedData.get((ServerLevel) placeContext.getLevel());
-        Player player = placeContext.getPlayer();
-
-        if (player.isShiftKeyDown())
-            return this.defaultBlockState().setValue(ACTIVE, !data.isActive());
-        return this.defaultBlockState().setValue(ACTIVE, data.isActive());
-    }
-
-    @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
-        if (!level.isClientSide && level instanceof ServerLevel server)
-            SwitchSavedData.get(server).add(pos);
-    }
-
-    @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-        if (!level.isClientSide && level instanceof ServerLevel server)
-            SwitchSavedData.get(server).remove(pos);
-    }
-
-    public static void toggle(ServerLevel level) {
-        SwitchSavedData data = SwitchSavedData.get(level);
-        data.setOn(!data.isActive());
-
-        boolean isActive = data.isActive();
-
-        for (Set<BlockPos> set : List.copyOf(data.allPositions())) {
-            for (BlockPos pos : List.copyOf(set)) {
-                if (!level.isLoaded(pos)) continue;
-                BlockState state = level.getBlockState(pos);
-
-                if (!(state.getBlock() instanceof OnOffSwitchBlock)) {
-                    data.remove(pos);
-                    continue;
-                }
-                if (state.getValue(OnOffSwitchBlock.ACTIVE) != isActive)
-                    level.setBlock(pos, state.setValue(OnOffSwitchBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
-            }
-        }
     }
 
     public static void hitSwitchBlock(Level world, BlockPos pos, Entity entity) {

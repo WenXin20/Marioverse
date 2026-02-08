@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:dotted_line_blocks",
+  "key": {
+    "C": {
+      "item": "minecraft:blue_concrete"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "CRC",
+    "CCC"
+  ],
+  "result": {
+    "count": 8,
+    "id": "marioverse:blue_dotted_line_block"
+  }
+}

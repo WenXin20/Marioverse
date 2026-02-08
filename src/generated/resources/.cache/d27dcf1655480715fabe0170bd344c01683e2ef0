@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-07T21:35:33.6417976	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-02-08T01:18:06.330285	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 8af1dce4fda0e4688dffa31e7838e65be06b926f data/create/tags/block/movable_empty_collider.json
@@ -37,6 +37,7 @@ cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/block/calcite.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/block/checkpoint_flags.json
 8216809e2ce95f71085cc90bd77b7c41f0dae896 data/marioverse/tags/block/chiseled_calcite_bricks.json
 cc7691b6e87d0dc491b9e9b7106a5c012dd99e6d data/marioverse/tags/block/cracked_calcite_bricks.json
+bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/block/dotted_line_blocks.json
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/block/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/block/dyeable_warp_pipes.json
@@ -85,7 +86,7 @@ af49150d7ac74b33254a3d1d73c5604043b6f282 data/minecraft/tags/block/flower_pots.j
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
 e8574d77baa3b00c63553b068d3916d4f0602ae5 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-e771c32425e6592f8fb8b2fda696a377bdd895b9 data/minecraft/tags/block/mineable/pickaxe.json
+2872f3ad4c985f950812872f60632a0ee276797e data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json

@@ -155,9 +155,11 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
 
             add(event, BlockRegistry.GLOW_BLOCK);
-            add(event, BlockRegistry.ON_OFF_SWITCH);
             add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
             add(event, BlockRegistry.SPLUNKIN_O_LANTERN);
+            add(event, BlockRegistry.ON_OFF_SWITCH);
+            add(event, BlockRegistry.RED_DOTTED_LINE_BLOCK);
+            add(event, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
 
             add(event, BlockRegistry.CLEAR_WARP_PIPE);
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
@@ -583,6 +585,10 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
+                addAfter(event, Blocks.TARGET, BlockRegistry.ON_OFF_SWITCH);
+                addAfter(event, BlockRegistry.ON_OFF_SWITCH, BlockRegistry.RED_DOTTED_LINE_BLOCK);
+                addAfter(event, BlockRegistry.RED_DOTTED_LINE_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
+
                 addAfter(event, Blocks.STONE_BUTTON, BlockRegistry.FUNGAL_STONE_BUTTON);
                 addAfter(event, BlockRegistry.FUNGAL_STONE_BUTTON, BlockRegistry.DEEP_FUNGAL_STONE_BUTTON);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE_BUTTON, BlockRegistry.AMETHYST_BUTTON);

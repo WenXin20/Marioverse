@@ -13,7 +13,7 @@
       "item": "minecraft:red_concrete"
     },
     "T": {
-      "item": "minecraft:torch"
+      "item": "minecraft:redstone_torch"
     }
   },
   "pattern": [

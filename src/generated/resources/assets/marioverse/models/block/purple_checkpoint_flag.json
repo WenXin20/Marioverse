@@ -1,5 +1,5 @@
 {
-  "render_type": "minecraft:cutout",
+  "render_type": "minecraft:cutout_mipped",
   "textures": {
     "particle": "marioverse:item/purple_checkpoint_flag"
   }

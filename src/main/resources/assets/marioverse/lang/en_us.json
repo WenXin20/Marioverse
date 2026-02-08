@@ -41,6 +41,7 @@
   "block_type.marioverse.stripped_log_bridge": "Stripped %s Log Bridge",
   "block_type.marioverse.stripped_log_bridge_stairs": "Stripped %s Log Bridge Stairs",
 
+  "block.marioverse.blue_dotted_line_block": "Blue Dotted-Line Block",
   "block.marioverse.coin": "Coin",
   "block.marioverse.dango_blossom": "Dango Blossom",
   "block.marioverse.deep_fungal_question_panel": "Deep Fungal Question Panel",
@@ -49,6 +50,7 @@
   "block.marioverse.iron_spike": "Iron Spike",
   "block.marioverse.on_off_switch": "On/Off Switch",
   "block.marioverse.quicksand": "Quicksand",
+  "block.marioverse.red_dotted_line_block": "Red Dotted-Line Block",
   "block.marioverse.red_quicksand": "Red Quicksand",
   "block.marioverse.spike_panel": "Spike Panel",
   "block.marioverse.splunkin_carved_pumpkin": "Splunkin Carved Pumpkin",

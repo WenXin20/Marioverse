@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
@@ -54,6 +55,7 @@ public class BlockStateGen extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        String blueBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get()).getPath();
         String calciteCheckeredName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CALCITE_CHECKERED_TILES.get()).getPath();
         String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
@@ -63,10 +65,11 @@ public class BlockStateGen extends BlockStateProvider {
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
         String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
-        String onSwitchName = "on_switch";
         String offSwitchName = "off_switch";
+        String onSwitchName = "on_switch";
         String pumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
         String quicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.QUICKSAND.get()).getPath();
+        String redBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_DOTTED_LINE_BLOCK.get()).getPath();
         String redQuicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_QUICKSAND.get()).getPath();
         String spikePanelName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPIKE_PANEL.get()).getPath();
         String splunkinCarvedPumpkinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get()).getPath();
@@ -83,6 +86,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
         this.blossomModel(BlockRegistry.DANGO_BLOSSOM.get(), modLoc("block/" + dangoBlossomName),
                 modLoc("block/" + dangoBlossomName + "_leaves"));
+        this.dottedLineBlockModel(BlockRegistry.RED_DOTTED_LINE_BLOCK.get(), modLoc("block/" + redBlockName), modLoc("block/" + redBlockName + "_off"));
+        this.dottedLineBlockModel(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get(), modLoc("block/" + blueBlockName + "_off"), modLoc("block/" + blueBlockName));
         this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
         this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
         this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
@@ -913,10 +918,28 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
+    private void dottedLineBlockModel(Block block, ResourceLocation activeTexture, ResourceLocation inActiveTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/cube_all"))
+                .texture("all", activeTexture);
+        ModelFile modelOff = models()
+                .withExistingParent(modelName + "_off", mcLoc("block/cube_column"))
+                .texture("all", inActiveTexture).renderType("cutout_mipped");
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean isActive = state.getValue(OnBlock.ACTIVE);;
+            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
+        });
+    }
+
     private void emptyModel(Block block, ResourceLocation mainTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile model = models().getBuilder(modelName).texture("particle", mainTexture).renderType("cutout");
+        ModelFile model = models().getBuilder(modelName).texture("particle", mainTexture).renderType("cutout_mipped");
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
@@ -1089,8 +1112,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnOffSwitchBlock.ACTIVE);;
-
+            boolean isActive = state.getValue(OnBlock.ACTIVE);;
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }

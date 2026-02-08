@@ -406,6 +406,25 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void onOffBlockRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                  Object concrete, Object redstone,
+                                  boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .pattern("CCC")
+                .pattern("CRC")
+                .pattern("CCC")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'C', concrete);
+        defineIngredient(builder, 'R', redstone);
+
+        builder.unlockedBy(getUnlockName(concrete), unlockCriterion(concrete));
+
+        if (uniqueFileName && concrete instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
+    }
+
     public void onOffSwitchRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                                   Object redConcrete, Object blueConcrete, Object ingot, Object torch,
                                   boolean uniqueFileName, RecipeOutput output) {

@@ -200,6 +200,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
 
+        tag(TagRegistry.DOTTED_LINE_BLOCKS)
+                .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
+                .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get());
+
         tag(TagRegistry.DYED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
@@ -777,6 +781,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILES.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
@@ -847,6 +852,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
+                .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())

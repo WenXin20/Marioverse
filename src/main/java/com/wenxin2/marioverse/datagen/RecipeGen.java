@@ -97,7 +97,9 @@ public class RecipeGen extends RecipeUtils {
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
         dyeItemRecipe(1, "calcite_from_dye", Blocks.CALCITE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.CALCITE_ITEMS, output);
-        onOffSwitchRecipe(1, "on_off_switches", BlockRegistry.ON_OFF_SWITCH, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_CONCRETE, Blocks.BLUE_CONCRETE, Tags.Items.INGOTS_IRON, Blocks.TORCH, false, output);
+        onOffSwitchRecipe(1, "on_off_switches", BlockRegistry.ON_OFF_SWITCH, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_CONCRETE, Blocks.BLUE_CONCRETE, Tags.Items.INGOTS_IRON, Blocks.REDSTONE_TORCH, false, output);
+        onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.RED_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_CONCRETE, Tags.Items.DUSTS_REDSTONE, false, output);
+        onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.BLUE_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BLUE_CONCRETE, Tags.Items.DUSTS_REDSTONE, false, output);
         oneToOneRecipe(1, "large_snowballs", ItemRegistry.LARGE_SNOWBALL, RecipeCategory.MISC, Items.SNOW_BLOCK, output);
         oneToOneRecipe(1, "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
         oneToOneRecipe(4, "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);

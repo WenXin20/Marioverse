@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-07T21:35:33.599945	Loot Tables
+// 1.21.1	2026-02-08T01:18:06.3079011	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -28,6 +28,7 @@ bd5ae5aaa2f85b538b8b5678bfbfa3c74bde6c40 data/marioverse/loot_table/blocks/blue_
 61013dec9cf4e3c9d5b05e76b7539c18f34c113f data/marioverse/loot_table/blocks/blue_calcite_bricks.json
 e8ad5039b61a0930b99f32840dfabad85b82cebc data/marioverse/loot_table/blocks/blue_calcite_brick_pedestal.json
 a2c294a3721b0ca18767d9b8b75afd660cf8ffae data/marioverse/loot_table/blocks/blue_checkpoint_flag.json
+6d3816b840689fc0a7f85dfd229cffb4ec561cf4 data/marioverse/loot_table/blocks/blue_dotted_line_block.json
 9cdc3c2242a450c771cafab221c832758c199f06 data/marioverse/loot_table/blocks/blue_goal_pole.json
 cc3658065432c08845b5e46d29c7d68b7c9e5753 data/marioverse/loot_table/blocks/blue_warp_pipe.json
 8c0fca3b1be1d1abab25832d2aefede17a1bec0d data/marioverse/loot_table/blocks/brick_pedestal.json
@@ -303,6 +304,7 @@ fb59c512a2e22f10acf4deac1c89733c4427cead data/marioverse/loot_table/blocks/red_c
 39778f1acbe003f50cc32d25b1e02ff242f5fde5 data/marioverse/loot_table/blocks/red_calcite_bricks.json
 4c04ed8527914c5eca802aa9d4f3e5af2659afa1 data/marioverse/loot_table/blocks/red_calcite_brick_pedestal.json
 64d3b0b552dfc7aefb5d815b6c9acbde6e0c8d0e data/marioverse/loot_table/blocks/red_checkpoint_flag.json
+ca678fa3ec46799f2d26d0547ac86ca70e3fa32d data/marioverse/loot_table/blocks/red_dotted_line_block.json
 ecad661a56521cdd4d2257d23bb1f7150cb85c4c data/marioverse/loot_table/blocks/red_goal_pole.json
 00a288f2a82a2eb61eecc7e09e9d26db873d5f52 data/marioverse/loot_table/blocks/red_nether_brick_pedestal.json
 523ce1a73d1f715b553cb2cc43152d06924fb1c7 data/marioverse/loot_table/blocks/red_nether_question_bricks.json
