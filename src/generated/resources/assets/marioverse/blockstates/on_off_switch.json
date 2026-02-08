@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=true": {
+      "model": "marioverse:block/on_off_switch"
+    }
+  }
+}

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
@@ -46,9 +47,11 @@ import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import com.wenxin2.marioverse.world.SwitchSavedData;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import java.util.List;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -115,6 +118,7 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
@@ -126,6 +130,25 @@ public class MarioverseEventHandlers {
 
         if (stack.is(TagRegistry.SMASHABLE_BLOCK_ITEMS))
             event.getToolTip().add(Component.translatable("tooltip.marioverse.smashable_blocks"));
+    }
+
+    @SubscribeEvent
+    public static void onChunkLoad(ChunkEvent.Load event) {
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
+
+        SwitchSavedData data = SwitchSavedData.get(level);
+        boolean isActive = data.isActive();
+        for (BlockPos pos : List.copyOf(data.getPositions(event.getChunk().getPos()))) {
+            BlockState state = level.getBlockState(pos);
+
+            if (!(state.getBlock() instanceof OnOffSwitchBlock)) {
+                data.remove(pos); // heal stale entry
+                continue;
+            }
+            if (state.getBlock() instanceof OnOffSwitchBlock
+                    && state.getValue(OnOffSwitchBlock.ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(OnOffSwitchBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
+        }
     }
 
     @SubscribeEvent

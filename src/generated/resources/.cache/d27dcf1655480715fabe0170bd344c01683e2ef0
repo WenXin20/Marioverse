@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-04T23:13:55.2688828	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-02-07T21:35:33.6417976	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 8af1dce4fda0e4688dffa31e7838e65be06b926f data/create/tags/block/movable_empty_collider.json
@@ -85,7 +85,7 @@ af49150d7ac74b33254a3d1d73c5604043b6f282 data/minecraft/tags/block/flower_pots.j
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
 e8574d77baa3b00c63553b068d3916d4f0602ae5 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-320a8cdce9ca9231ad5ca279dd8551f21a6be83c data/minecraft/tags/block/mineable/pickaxe.json
+e771c32425e6592f8fb8b2fda696a377bdd895b9 data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
 8aace320dee804a511b36edeec26f7a21fa74394 data/minecraft/tags/block/needs_stone_tool.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json

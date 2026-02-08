@@ -2,8 +2,10 @@ package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
@@ -26,10 +28,8 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
-import java.util.function.Consumer;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -41,15 +41,12 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.Mth;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityAttachment;
-import net.minecraft.world.entity.EntityAttachments;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -65,7 +62,6 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DecoratedPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -136,68 +132,94 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        Level world = entity.level();
+        Level level = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
         BlockPos posNorth = pos.north(Math.round(this.getBbWidth() + 0.1F));
         BlockPos posSouth = pos.south(Math.round(this.getBbWidth() + 0.1F));
         BlockPos posEast = pos.east(Math.round(this.getBbWidth() + 0.1F));
         BlockPos posWest = pos.west(Math.round(this.getBbWidth() + 0.1F));
-        BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
-        BlockState stateNorth = world.getBlockState(posNorth);
-        BlockState stateSouth = world.getBlockState(posSouth);
-        BlockState stateEast = world.getBlockState(posEast);
-        BlockState stateWest = world.getBlockState(posWest);
+        BlockState stateAboveEntity = level.getBlockState(posAboveEntity);
+        BlockState stateNorth = level.getBlockState(posNorth);
+        BlockState stateSouth = level.getBlockState(posSouth);
+        BlockState stateEast = level.getBlockState(posEast);
+        BlockState stateWest = level.getBlockState(posWest);
         RandomSource rand = RandomSource.create();
+        Vec3 motion = entity.getDeltaMovement();
 
         this.mv$characterAbilities(entity);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
-                    || world.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
+                    || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                 && (entity.fallDistance > 0 || entity.isInWaterOrBubble())
                 && !(entity instanceof Player)
                 && !entity.isSpectator())
             this.mv$squashEntity(entity);
 
-        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
-                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player player && !player.mayFly())
+
+        if ((entity.onGround() || entity.isInWaterOrBubble()) && motion.y <= 0
+                && entity.hasData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())
+                && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
+
+        if (entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
+                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
                 && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !world.isClientSide
+                && !entity.isSpectator() && !level.isClientSide
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+            OnOffSwitchBlock.hitSwitchBlock(level, posAboveEntity, entity);
+
+        if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
+                && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            OnOffSwitchBlock.hitSwitchBlockFromSide(level, posNorth, entity, posSouth, posEast, posWest);
+
+        if (level.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
+                && !entity.onGround() && entity.getY() > entity.yOld
+                && !entity.isSpectator() && !level.isClientSide
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+            QuestionBlock.hitQuestionBlock(level, posAboveEntity, entity, questionBlockEntity);
+
+        if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            QuestionBlock.hitQuestionBlockFromSide(level, posNorth, entity, posSouth, posEast, posWest);
+
+        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
+                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
+                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
+                && !entity.onGround() && entity.getY() > entity.yOld
+                && !entity.isSpectator() && !level.isClientSide
                 && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
-            this.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
+            StorageBrickBlock.smashBlock(level, posAboveEntity, stateAboveEntity, entity);
         }
 
-        if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
-            this.mv$shellSmashBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
+        if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
+                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)
+                && entity.getDeltaMovement().horizontalDistance() > 0.1
+                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
+            StorageBrickBlock.smashBlockFromSide(stateNorth, entity, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
                 && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !world.isClientSide) {
+                && !entity.isSpectator() && !level.isClientSide) {
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            else level.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
 
-        this.mv$shellBonkBlock(stateNorth, entity, world, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
-
-        if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && (EventHooks.canEntityGrief(world, entity) || entity instanceof Player player && !player.mayFly())
-                && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !world.isClientSide
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
-            this.mv$hitQuestionBlock(world, posAboveEntity, entity, questionBlockEntity);
-
-        if ((EventHooks.canEntityGrief(world, entity) || entity instanceof Player) && !world.isClientSide)
-            this.mv$shellHitQuestionBlock(world, posNorth, entity, posSouth, posEast, posWest);
+        if (entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)
+                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+            StorageBrickBlock.bonkBlockFromSide(stateNorth, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);
             if (!entity.isInvisible()) {
-                if (this.level() instanceof ServerLevel serverWorld)
+                if (level instanceof ServerLevel serverWorld)
                     ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.RAINBOW_GLINT.get(), serverWorld, entity);
                 ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.RAINBOW_GLINT.get(), entity, true, 10, rand.nextDouble() * entity.getBbHeight(), 0.1);
             }
@@ -265,74 +287,23 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private void mv$shellSmashBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
-        if ((stateNorth.is(TagRegistry.SMASHABLE_BLOCKS) || stateNorth.getBlock() instanceof DecoratedPotBlock)
-                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && entity instanceof KoopaShellEntity shell
-                && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
-            this.mv$smashBlock(world, posNorth, stateNorth, entity);
-            shell.bounceShell(world, Direction.NORTH);
-        }
-
-        if ((stateSouth.is(TagRegistry.SMASHABLE_BLOCKS) || stateSouth.getBlock() instanceof DecoratedPotBlock)
-                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && entity instanceof KoopaShellEntity shell
-                && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
-            this.mv$smashBlock(world, posSouth, stateSouth, entity);
-            shell.bounceShell(world, Direction.SOUTH);
-        }
-
-        if ((stateEast.is(TagRegistry.SMASHABLE_BLOCKS) || stateEast.getBlock() instanceof DecoratedPotBlock)
-                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && entity instanceof KoopaShellEntity shell
-                && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
-            this.mv$smashBlock(world, posEast, stateEast, entity);
-            shell.bounceShell(world, Direction.EAST);
-        }
-
-        if ((stateWest.is(TagRegistry.SMASHABLE_BLOCKS) || stateWest.getBlock() instanceof DecoratedPotBlock)
-                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && entity instanceof KoopaShellEntity shell
-                && entity.getDeltaMovement().horizontalDistance() > 0.1
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
-            this.mv$smashBlock(world, posWest, stateWest, entity);
-            shell.bounceShell(world, Direction.WEST);
-        }
-    }
-
-    @Unique
-    private void mv$shellBonkBlock(BlockState stateNorth, LivingEntity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
-        if (stateNorth.is(TagRegistry.BONKABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && entity instanceof KoopaShellEntity
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+    private void mv$shellBonkBlock(BlockState stateNorth, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
+        if (stateNorth.is(TagRegistry.BONKABLE_BLOCKS))
             if (stateNorth.hasProperty(QuestionBlock.EMPTY) && stateNorth.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, posNorth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posNorth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
-        if (stateSouth.is(TagRegistry.BONKABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && entity instanceof KoopaShellEntity
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+        if (stateSouth.is(TagRegistry.BONKABLE_BLOCKS))
             if (stateSouth.hasProperty(QuestionBlock.EMPTY) && stateSouth.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, posSouth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posSouth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
-        if (stateEast.is(TagRegistry.BONKABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && entity instanceof KoopaShellEntity
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+        if (stateEast.is(TagRegistry.BONKABLE_BLOCKS))
             if (stateEast.hasProperty(QuestionBlock.EMPTY) && stateEast.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, posEast, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posEast, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
-        if (stateWest.is(TagRegistry.BONKABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && entity instanceof KoopaShellEntity
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
+        if (stateWest.is(TagRegistry.BONKABLE_BLOCKS))
             if (stateWest.hasProperty(QuestionBlock.EMPTY) && stateWest.getValue(QuestionBlock.EMPTY))
                 world.playSound(null, posWest, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else world.playSound(null, posWest, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);

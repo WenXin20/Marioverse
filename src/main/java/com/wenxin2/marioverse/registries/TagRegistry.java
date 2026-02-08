@@ -206,6 +206,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_BE_INSTAKILL_STOMPED = entityTypeTags("can_be_instakill_stomped");
     public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags("can_be_stomped");
     public static final TagKey<EntityType<?>> CAN_BONK_BLOCKS = entityTypeTags("can_bonk_blocks");
+    public static final TagKey<EntityType<?>> CAN_BONK_BLOCKS_FROM_SIDE = entityTypeTags("can_bonk_blocks_from_side");
     public static final TagKey<EntityType<?>> CAN_BREAK_BLOCKS_AS_MEGA = entityTypeTags("can_break_blocks_as_mega");
     public static final TagKey<EntityType<?>> CAN_CLAIM_CHECKPOINT_FLAGS = entityTypeTags("can_claim_checkpoint_flags");
     public static final TagKey<EntityType<?>> CAN_COLLECT_COINS = entityTypeTags("can_collect_coins");
@@ -218,11 +219,15 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_MUSHROOMS = entityTypeTags("can_consume_super_mushrooms");
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_STARS = entityTypeTags("can_consume_super_stars");
     public static final TagKey<EntityType<?>> CAN_DO_DAMAGE_AS_MEGA = entityTypeTags("can_do_damage_as_mega");
+    public static final TagKey<EntityType<?>> CAN_HIT_ON_OFF_SWITCHES = entityTypeTags("can_hit_on_off_switches");
+    public static final TagKey<EntityType<?>> CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE = entityTypeTags("can_hit_on_off_switches_from_side");
     public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS = entityTypeTags("can_hit_question_blocks");
+    public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS_FROM_SIDE = entityTypeTags("can_hit_question_blocks_from_side");
     public static final TagKey<EntityType<?>> CAN_LOWER_FLAGS = entityTypeTags("can_lower_flags");
     public static final TagKey<EntityType<?>> CAN_PICKUP_AND_THROW_SHELLS = entityTypeTags("can_pickup_and_throw_shells");
     public static final TagKey<EntityType<?>> CAN_SHOOT_SUPPLEMENTARIES_CANNON = entityTypeTags("can_shoot_supplementaries_cannon");
     public static final TagKey<EntityType<?>> CAN_SMASH_BLOCKS = entityTypeTags("can_smash_blocks");
+    public static final TagKey<EntityType<?>> CAN_SMASH_BLOCKS_FROM_SIDE = entityTypeTags("can_smash_blocks_from_side");
     public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags("can_stomp_enemies");
     public static final TagKey<EntityType<?>> CAN_WALK_ON_QUICKSAND = entityTypeTags("can_walk_on_quicksand");
     public static final TagKey<EntityType<?>> CAN_WEAR_COSTUMES = entityTypeTags("can_wear_costumes");

@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
@@ -62,6 +63,8 @@ public class BlockStateGen extends BlockStateProvider {
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
         String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
+        String onSwitchName = "on_switch";
+        String offSwitchName = "off_switch";
         String pumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
         String quicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.QUICKSAND.get()).getPath();
         String redQuicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_QUICKSAND.get()).getPath();
@@ -89,10 +92,12 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), modLoc("block/" + splunkinCarvedPumpkinName),
                 mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
-        this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
+        this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/" + onSwitchName), modLoc("block/" + onSwitchName + "_top"),
+                modLoc("block/" + offSwitchName), modLoc("block/" + offSwitchName + "_top"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
         this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/" + "potted_" + dangoBlossomName),
                 modLoc("block/" + "potted_" + dangoBlossomName + "_leaves"));
+        this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
         this.splunkinOLanternModel(BlockRegistry.SPLUNKIN_O_LANTERN.get(), modLoc("block/" + splunkinOLanternName),
                 mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"),
                 modLoc("block/" + splunkinOLanternName + "_cracked"),
@@ -1068,6 +1073,28 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
+    }
+
+    private void onOffSwitchModel(Block block, ResourceLocation onSideTexture, ResourceLocation onTopTexture,
+                                       ResourceLocation offSideTexture, ResourceLocation offTopTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/cube_column"))
+                .texture("side", onSideTexture).texture("end", onTopTexture);
+        ModelFile modelOff = models()
+                .withExistingParent(modelName + "_off", mcLoc("block/cube_column"))
+                .texture("side", offSideTexture).texture("end", offTopTexture);
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean isActive = state.getValue(OnOffSwitchBlock.ACTIVE);;
+
+            return ConfiguredModel.builder()
+                    .modelFile(isActive ? model : modelOff)
+                    .build();
+        });
     }
 
     private void pipeBubblesModel(Block block) {

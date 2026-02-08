@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:on_off_switches",
+  "key": {
+    "B": {
+      "item": "minecraft:blue_concrete"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "R": {
+      "item": "minecraft:red_concrete"
+    },
+    "T": {
+      "item": "minecraft:torch"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "ITI",
+    "BBB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:on_off_switch"
+  }
+}

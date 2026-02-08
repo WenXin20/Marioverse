@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
+import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
@@ -215,6 +216,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> ON_OFF_SWITCH;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
@@ -406,6 +408,13 @@ public class BlockRegistry {
         SPLUNKIN_O_LANTERN = registerBlock("splunkin_o_lantern",
                 () -> new SplunkinCarvedPumpkinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.JACK_O_LANTERN)
                         .lightLevel(state -> state.getValue(SplunkinCarvedPumpkinBlock.CRACKED) ? 15 : 10)));
+
+
+        ON_OFF_SWITCH = registerBlock("on_off_switch",
+                () -> new OnOffSwitchBlock(BlockBehaviour.Properties.of()
+                        .mapColor(state -> state.getValue(OnOffSwitchBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
+                        .sound(SoundType.STONE).strength(0.3F)));
+
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
                 () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));

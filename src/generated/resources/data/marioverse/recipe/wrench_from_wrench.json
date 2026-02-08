@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "group": "marioverse:wrench",
+  "group": "marioverse:wrenches",
   "ingredients": [
     {
       "item": "marioverse:wrench"
