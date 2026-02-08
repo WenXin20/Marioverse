@@ -25,7 +25,7 @@ public class MegaMushroomEntity extends MushroomEntity implements GeoEntity {
 
     public MegaMushroomEntity(EntityType<? extends MegaMushroomEntity> entityType, Level world) {
         super(entityType, world);
-        this.moveControl = new BounceMoveControl(this, 1, this.getJumpSound(), 1.0F, 1.0F);
+        this.moveControl = new BounceMoveControl(this, 1, null, 1.0F, 1.0F);
     }
 
     @Override
@@ -51,10 +51,6 @@ public class MegaMushroomEntity extends MushroomEntity implements GeoEntity {
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.geoCache;
     }
-
-    protected SoundEvent getJumpSound() {
-        return SoundEvents.RABBIT_JUMP;
-    } //TODO
 
     @Override
     public void collideWithEntity(Entity entity) {
