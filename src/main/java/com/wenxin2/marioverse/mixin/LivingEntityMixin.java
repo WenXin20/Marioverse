@@ -285,56 +285,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Unique
-    private void mv$shellBonkBlock(BlockState stateNorth, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
-        if (stateNorth.is(TagRegistry.BONKABLE_BLOCKS))
-            if (stateNorth.hasProperty(QuestionBlock.EMPTY) && stateNorth.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, posNorth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, posNorth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
-        if (stateSouth.is(TagRegistry.BONKABLE_BLOCKS))
-            if (stateSouth.hasProperty(QuestionBlock.EMPTY) && stateSouth.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, posSouth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, posSouth, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
-        if (stateEast.is(TagRegistry.BONKABLE_BLOCKS))
-            if (stateEast.hasProperty(QuestionBlock.EMPTY) && stateEast.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, posEast, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, posEast, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-
-        if (stateWest.is(TagRegistry.BONKABLE_BLOCKS))
-            if (stateWest.hasProperty(QuestionBlock.EMPTY) && stateWest.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, posWest, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, posWest, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
-
-    @Unique
-    private void mv$shellHitQuestionBlock(Level world, BlockPos posNorth, LivingEntity entity, BlockPos posSouth, BlockPos posEast, BlockPos posWest) {
-        if (world.getBlockEntity(posNorth) instanceof QuestionBlockEntity questionBlockEntity
-                && entity instanceof KoopaShellEntity
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.mv$hitQuestionBlock(world, posNorth, entity, questionBlockEntity);
-
-        if (world.getBlockEntity(posSouth) instanceof QuestionBlockEntity questionBlockEntity
-                && entity instanceof KoopaShellEntity
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.mv$hitQuestionBlock(world, posSouth, entity, questionBlockEntity);
-
-        if (world.getBlockEntity(posEast) instanceof QuestionBlockEntity questionBlockEntity
-                && entity instanceof KoopaShellEntity
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.mv$hitQuestionBlock(world, posEast, entity, questionBlockEntity);
-
-        if (world.getBlockEntity(posWest) instanceof QuestionBlockEntity questionBlockEntity
-                && entity instanceof KoopaShellEntity
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && entity.getDeltaMovement().horizontalDistance() > 0.1)
-            this.mv$hitQuestionBlock(world, posWest, entity, questionBlockEntity);
-    }
-
-    @Unique
     private void mv$characterAbilities(LivingEntity entity) {
         AttributeInstance blockReachAttribute = entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
         AttributeInstance entityReachAttribute = entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
