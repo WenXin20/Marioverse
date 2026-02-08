@@ -290,7 +290,7 @@ public class QuestionBlock extends BaseEntityBlock {
                     ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
                             UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
 
-                entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 4);
+                entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 2);
                 MarioverseSoundTypes.playSounds(world, pos, storedItem);
                 questionBlockEntity.splitTheItem(1);
                 questionBlockEntity.setChanged();

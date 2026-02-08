@@ -101,7 +101,7 @@ public class OnOffSwitchBlock extends Block {
             else world.playSound(null, pos, SoundRegistry.SWITCH_ON.get(), SoundSource.BLOCKS);
 
             world.setBlock(pos, state.cycle(ACTIVE), 3);
-            entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 4);
+            entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 2);
 
             if (!world.isClientSide && world instanceof ServerLevel serverWorld)
                 OnOffSwitchBlock.toggle(serverWorld);

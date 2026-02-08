@@ -86,7 +86,7 @@
 
   "block.mega_mushroom_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/mega_mushroom_spawns" }],
     "subtitle": "subtitles.marioverse.block.mega_mushroom_spawns" },
-  
+
   "block.item_spawns": { "category": "block", "sounds": [{ "name": "random/pop" }],
     "subtitle": "subtitles.marioverse.block.item_spawns" },
   "block.mob_spawns": { "category": "block", "sounds": [{ "name": "marioverse:power_up/power_up_spawns" }],
