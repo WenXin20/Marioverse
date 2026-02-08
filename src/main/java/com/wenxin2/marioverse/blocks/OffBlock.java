@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.world.SwitchSavedData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -39,8 +40,21 @@ public class OffBlock extends OnBlock {
 
     @Override
     protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        if (!state.getValue(ACTIVE))
+        if (state.getValue(ACTIVE))
             return 1.0F;
         return 0.0F;
+    }
+
+    @Override
+    protected boolean propagatesSkylightDown(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        if (!state.getValue(ACTIVE))
+            return false;
+        return true;
+    }
+
+    @Override
+    protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
+        return state.is(this) && neighborState.is(this)
+                && state.getValue(ACTIVE) && neighborState.getValue(ACTIVE);
     }
 }
