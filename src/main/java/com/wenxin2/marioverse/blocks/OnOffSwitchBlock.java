@@ -15,15 +15,21 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OnOffSwitchBlock extends OnBlock {
     public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     @NotNull
     @Override
@@ -33,6 +39,12 @@ public class OnOffSwitchBlock extends OnBlock {
 
     public OnOffSwitchBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true).setValue(POWERED, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
+        stateBuilder.add(ACTIVE, POWERED);
     }
 
     @NotNull
@@ -53,6 +65,19 @@ public class OnOffSwitchBlock extends OnBlock {
     }
 
     @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
+        super.onPlace(state, level, pos, oldState, moved);
+        if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel)
+            this.checkAndFlip(oldState, serverlevel, pos);
+    }
+
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighborPos, boolean notify) {
+        if (level instanceof ServerLevel serverlevel)
+            this.checkAndFlip(state, serverlevel, pos);
+    }
+
+    @Override
     protected void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
         if (projectile.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
                 && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
@@ -61,11 +86,28 @@ public class OnOffSwitchBlock extends OnBlock {
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
     }
 
-    public static void hitSwitchBlock(Level level, BlockPos pos, Entity entity) {
+    public void checkAndFlip(BlockState state, ServerLevel serverLevel, BlockPos pos) {
+        if (!(state.getBlock() instanceof OnOffSwitchBlock))
+            return;
+
+        boolean hasNeighborSignal = serverLevel.hasNeighborSignal(pos);
+        boolean wasPowered = state.getValue(POWERED);
+
+        if (hasNeighborSignal && !wasPowered)
+            OnOffSwitchBlock.hitSwitchBlock(serverLevel, pos, null);
+
+        if (hasNeighborSignal != wasPowered) {
+            BlockState newState = serverLevel.getBlockState(pos);
+            serverLevel.setBlock(pos, newState.setValue(POWERED, hasNeighborSignal), 3);
+        }
+    }
+
+    public static void hitSwitchBlock(Level level, BlockPos pos, @Nullable Entity entity) {
         BlockState state = level.getBlockState(pos);
 
         if (state.getBlock() instanceof OnOffSwitchBlock) {
-            QuestionBlock.hitEntityAbove(pos, level, entity);
+            if (entity != null)
+                QuestionBlock.hitEntityAbove(pos, level, entity);
 
             if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
