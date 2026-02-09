@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -29,6 +30,27 @@ public class BouncyOnBlock extends OnBlock {
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
         return Shapes.block();
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        return Shapes.block();
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return 0.0F;
+    }
+
+    @Override
+    protected boolean propagatesSkylightDown(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return false;
+    }
+
+    @Override
+    protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
+        return false;
     }
 
     @Override
