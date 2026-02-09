@@ -117,6 +117,8 @@ public class OnOffSwitchBlock extends OnBlock {
                 level.playSound(null, pos, SoundRegistry.SWITCH_OFF.get(), SoundSource.BLOCKS);
             else level.playSound(null, pos, SoundRegistry.SWITCH_ON.get(), SoundSource.BLOCKS);
 
+            if (entity != null)
+                entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 2);
             level.setBlock(pos, state.cycle(ACTIVE), 3);
 
             if (!level.isClientSide && level instanceof ServerLevel serverWorld)
