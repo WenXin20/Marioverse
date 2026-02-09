@@ -30,7 +30,7 @@ public class BlockMixin {
                 && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                 && !entity.isSuppressingBounce() && !entity.isNoGravity()
                 && !(entity instanceof Player)) {
-            BouncyOnBlock.bounceEntity(entity.level(), entity);
+            BouncyOnBlock.bounceEntity(entity.level(), entity, true);
             ci.cancel();
         }
     }

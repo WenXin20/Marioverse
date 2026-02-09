@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BouncyOnBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
@@ -889,12 +890,14 @@ public class MarioverseEventHandlers {
                 }
             }
 
-            if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
+            if ((stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
                     && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
-                    && !player.isSuppressingBounce() && !player.isNoGravity()) {
+                    && !player.isSuppressingBounce() && !player.isNoGravity())
+                        || (stateBelowEntity.getBlock() instanceof BouncyOnBlock
+                            && stateBelowEntity.getValue(OnBlock.ACTIVE))) {
                 if (Minecraft.getInstance().options.keyJump.isDown())
                     PacketDistributor.sendToServer(new BouncePayload(true));
-                else PacketDistributor.sendToServer(new BouncePayload(false)); // TODO: Add bounce sound
+                else PacketDistributor.sendToServer(new BouncePayload(false));
             }
 
             if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()

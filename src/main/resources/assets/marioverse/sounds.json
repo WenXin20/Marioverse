@@ -27,6 +27,8 @@
 
   "block.block_bonk": { "category": "block", "sounds": [{ "name": "marioverse:block/block_bonk" }],
     "subtitle": "subtitles.marioverse.block.block_bonk" },
+  "block.block_bounce": { "category": "block", "sounds": [{ "name": "marioverse:block/block_bounce" }],
+    "subtitle": "subtitles.marioverse.block.block_bounce" },
   "block.block_smash": { "category": "block", "sounds": [{ "name": "marioverse:block/block_smash" }],
     "subtitle": "subtitles.marioverse.block.block_smash" },
   "block.block_smash_fail": { "category": "block", "sounds": [{ "name": "marioverse:block/block_smash_fail" }],

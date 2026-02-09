@@ -11,6 +11,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_OFF;
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_ON;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH_FAIL;
     public static final DeferredHolder<SoundEvent, SoundEvent> BOO_DEATH;
@@ -129,6 +130,8 @@ public class SoundRegistry {
 
         BLOCK_BONK = Marioverse.SOUNDS.register("block.block_bonk",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_bonk")));
+        BLOCK_BOUNCE = Marioverse.SOUNDS.register("block.block_bounce",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_bounce")));
         BLOCK_SMASH = Marioverse.SOUNDS.register("block.block_smash",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_smash")));
         BLOCK_SMASH_FAIL = Marioverse.SOUNDS.register("block.block_smash_fail",
