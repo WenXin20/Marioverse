@@ -973,7 +973,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("bottom", activeTexture + "_bottom_off").texture("side", activeTexture + "_off")
                 .texture("top", activeTexture + "_top_off");
 
-        simpleBlockItem(block, modelOff);
+        simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
             boolean isActive = !state.getValue(OnBlock.ACTIVE);

@@ -11,17 +11,17 @@
     "bottom": {
       "type": "match_state",
       "block": "marioverse:blue_mushroom_trampoline",
-      "properties": { "active": "false" }
+      "properties": { "active": "true" }
     },
     "side": {
       "type": "match_state",
       "block": "marioverse:blue_mushroom_trampoline",
-      "properties": { "active": "false" }
+      "properties": { "active": "true" }
     },
     "top": {
       "type": "match_state",
       "block": "marioverse:blue_mushroom_trampoline",
-      "properties": { "active": "false" }
+      "properties": { "active": "true" }
     },
     "default": { "type": "is_same_block" }
   }
