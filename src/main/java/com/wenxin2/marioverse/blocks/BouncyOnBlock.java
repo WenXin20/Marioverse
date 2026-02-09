@@ -39,10 +39,11 @@ public class BouncyOnBlock extends OnBlock {
     public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
         BlockPos pos = entity.getOnPos();
         BlockState state = blockGetter.getBlockState(pos);
-        if (entity.isSuppressingBounce())
-            super.updateEntityAfterFallOn(blockGetter, entity);
-        else if (state.hasProperty(ACTIVE) && state.getValue(ACTIVE))
+
+        if (!entity.isSuppressingBounce()
+                && state.hasProperty(ACTIVE) && state.getValue(ACTIVE))
             BouncyOnBlock.bounceEntity(entity.level(), entity);
+        else super.updateEntityAfterFallOn(blockGetter, entity);
     }
 
     public static void bounceEntity(Level level, Entity entity) {
