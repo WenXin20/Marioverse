@@ -882,17 +882,17 @@ public class MarioverseEventHandlers {
         if (player != null) {
             BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
             BlockState stateBelowEntity = player.level().getBlockState(posBelowEntity);
-            Block block = stateBelowEntity.getBlock();
+            Block blockBelow = stateBelowEntity.getBlock();
 
             boolean canBounce = (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
                     && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                     && !player.isSuppressingBounce() && !player.isNoGravity())
 
-                    || (block instanceof BouncyOffBlock
+                    || (blockBelow instanceof BouncyOffBlock
                         && !stateBelowEntity.getValue(OnBlock.ACTIVE))
 
-                    || (block instanceof BouncyOnBlock
-                        && !(block instanceof BouncyOffBlock)
+                    || (blockBelow instanceof BouncyOnBlock
+                        && !(blockBelow instanceof BouncyOffBlock)
                         && stateBelowEntity.getValue(OnBlock.ACTIVE));
 
             if (canBounce)

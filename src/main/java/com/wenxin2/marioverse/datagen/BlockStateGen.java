@@ -965,13 +965,13 @@ public class BlockStateGen extends BlockStateProvider {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()
-                .withExistingParent(modelName + "_off", mcLoc("block/cube_bottom_top"))
-                .texture("bottom", activeTexture + "_bottom_off").texture("side", activeTexture + "_off")
-                .texture("top", activeTexture + "_top_off");
-        ModelFile modelOff = models()
                 .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
                 .texture("bottom", activeTexture + "_bottom").texture("side", activeTexture)
                 .texture("top", activeTexture + "_top");
+        ModelFile modelOff = models()
+                .withExistingParent(modelName + "_off", mcLoc("block/cube_bottom_top"))
+                .texture("bottom", activeTexture + "_bottom_off").texture("side", activeTexture + "_off")
+                .texture("top", activeTexture + "_top_off");
 
         simpleBlockItem(block, modelOff);
 

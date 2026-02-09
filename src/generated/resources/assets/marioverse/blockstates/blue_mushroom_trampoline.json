@@ -1,10 +1,10 @@
 {
   "variants": {
     "active=false": {
-      "model": "marioverse:block/blue_mushroom_trampoline_off"
+      "model": "marioverse:block/blue_mushroom_trampoline"
     },
     "active=true": {
-      "model": "marioverse:block/blue_mushroom_trampoline"
+      "model": "marioverse:block/blue_mushroom_trampoline_off"
     }
   }
 }
