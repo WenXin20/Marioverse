@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-08T16:24:27.7692584	Loot Tables
+// 1.21.1	2026-02-08T21:07:02.1365763	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -306,9 +306,9 @@ fb59c512a2e22f10acf4deac1c89733c4427cead data/marioverse/loot_table/blocks/red_c
 64d3b0b552dfc7aefb5d815b6c9acbde6e0c8d0e data/marioverse/loot_table/blocks/red_checkpoint_flag.json
 ca678fa3ec46799f2d26d0547ac86ca70e3fa32d data/marioverse/loot_table/blocks/red_dotted_line_block.json
 ecad661a56521cdd4d2257d23bb1f7150cb85c4c data/marioverse/loot_table/blocks/red_goal_pole.json
+5e74818feda745c703925eb81c8fdf51a923bbde data/marioverse/loot_table/blocks/red_mushroom_trampoline.json
 00a288f2a82a2eb61eecc7e09e9d26db873d5f52 data/marioverse/loot_table/blocks/red_nether_brick_pedestal.json
 523ce1a73d1f715b553cb2cc43152d06924fb1c7 data/marioverse/loot_table/blocks/red_nether_question_bricks.json
-dc6f27790443a26f8f735bd25d1842078e56ff13 data/marioverse/loot_table/blocks/red_mushroom_trampoline.json
 5a94e3165872468df92fa5020d4f0b413020a554 data/marioverse/loot_table/blocks/red_quicksand.json
 28223ce77a85343414c0f98d5f22cf5562a3ff38 data/marioverse/loot_table/blocks/red_sandstone_bricks.json
 b8e33db8794d641bf8080d7d4177ce4b0f2e71cc data/marioverse/loot_table/blocks/red_sandstone_brick_pedestal.json

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:red_mushroom_trampoline_from_brown_mushroom_block8"
+        "recipe": "marioverse:red_mushroom_trampoline_from_brown_mushroom_block_8"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "marioverse:red_mushroom_trampoline_from_brown_mushroom_block8"
+      "marioverse:red_mushroom_trampoline_from_brown_mushroom_block_8"
     ]
   }
 }

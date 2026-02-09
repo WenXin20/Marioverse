@@ -438,7 +438,7 @@ public class RecipeUtils extends RecipeProvider {
         builder.unlockedBy(getUnlockName(mushroom), unlockCriterion(mushroom));
 
         if (uniqueFileName && mushroom instanceof ItemLike itemLike)
-            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike) + outputAmt);
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike) + "_" + outputAmt);
         else builder.save(output);
     }
 
