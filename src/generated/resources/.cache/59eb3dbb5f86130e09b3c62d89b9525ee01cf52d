@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-08T21:07:02.1365763	Loot Tables
+// 1.21.1	2026-02-08T23:02:08.1079598	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -30,6 +30,7 @@ e8ad5039b61a0930b99f32840dfabad85b82cebc data/marioverse/loot_table/blocks/blue_
 a2c294a3721b0ca18767d9b8b75afd660cf8ffae data/marioverse/loot_table/blocks/blue_checkpoint_flag.json
 6d3816b840689fc0a7f85dfd229cffb4ec561cf4 data/marioverse/loot_table/blocks/blue_dotted_line_block.json
 9cdc3c2242a450c771cafab221c832758c199f06 data/marioverse/loot_table/blocks/blue_goal_pole.json
+0e14df700e047b5b0bc49b3e06ff636692d544e8 data/marioverse/loot_table/blocks/blue_mushroom_trampoline.json
 cc3658065432c08845b5e46d29c7d68b7c9e5753 data/marioverse/loot_table/blocks/blue_warp_pipe.json
 8c0fca3b1be1d1abab25832d2aefede17a1bec0d data/marioverse/loot_table/blocks/brick_pedestal.json
 629a4e9a5115749ecd114df823fd40116e5ed33f data/marioverse/loot_table/blocks/brown_calcite.json

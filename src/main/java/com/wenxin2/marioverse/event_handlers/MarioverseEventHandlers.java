@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BouncyOffBlock;
 import com.wenxin2.marioverse.blocks.BouncyOnBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
@@ -881,6 +882,21 @@ public class MarioverseEventHandlers {
         if (player != null) {
             BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
             BlockState stateBelowEntity = player.level().getBlockState(posBelowEntity);
+            Block block = stateBelowEntity.getBlock();
+
+            boolean canBounce = (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
+                    && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
+                    && !player.isSuppressingBounce() && !player.isNoGravity())
+
+                    || (block instanceof BouncyOffBlock
+                        && !stateBelowEntity.getValue(OnBlock.ACTIVE))
+
+                    || (block instanceof BouncyOnBlock
+                        && !(block instanceof BouncyOffBlock)
+                        && stateBelowEntity.getValue(OnBlock.ACTIVE));
+
+            if (canBounce)
+                PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
 
             if (!player.isSpectator()) {
                 if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
@@ -888,16 +904,6 @@ public class MarioverseEventHandlers {
                     PacketDistributor.sendToServer(new FireballShootPayload(player.blockPosition()));
                     PacketDistributor.sendToServer(new IceBallShootPayload(player.blockPosition()));
                 }
-            }
-
-            if ((stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
-                    && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
-                    && !player.isSuppressingBounce() && !player.isNoGravity())
-                        || (stateBelowEntity.getBlock() instanceof BouncyOnBlock
-                            && stateBelowEntity.getValue(OnBlock.ACTIVE))) {
-                if (Minecraft.getInstance().options.keyJump.isDown())
-                    PacketDistributor.sendToServer(new BouncePayload(true));
-                else PacketDistributor.sendToServer(new BouncePayload(false));
             }
 
             if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()

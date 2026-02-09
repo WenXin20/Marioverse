@@ -424,8 +424,8 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
-    public void onOffMushroomRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                                 Object mushroom, Object dottedLineBlock, boolean uniqueFileName, RecipeOutput output) {
+    public void mushroomTrampolineRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                         Object mushroom, Object dottedLineBlock, boolean uniqueFileName, RecipeOutput output) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
                 .pattern("MMM")
                 .pattern("MDM")

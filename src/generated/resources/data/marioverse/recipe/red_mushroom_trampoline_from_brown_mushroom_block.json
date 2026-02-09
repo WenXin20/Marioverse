@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "building",
-  "group": "marioverse:on_off_mushroom_blocks",
+  "group": "marioverse:mushroom_trampolines",
   "ingredients": [
     {
       "item": "marioverse:red_dotted_line_block"

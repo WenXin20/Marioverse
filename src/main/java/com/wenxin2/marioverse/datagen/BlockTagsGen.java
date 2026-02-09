@@ -420,6 +420,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS)
+                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get());
 
         tag(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
@@ -754,6 +755,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 

@@ -104,6 +104,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
+    public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
@@ -430,13 +431,16 @@ public class BlockRegistry {
                         .noOcclusion()));
         BLUE_DOTTED_LINE_BLOCK = registerBlock("blue_dotted_line_block",
                 () -> new OffBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)
+                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)
                         .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
                         .noOcclusion()));
         RED_MUSHROOM_TRAMPOLINE = registerBlock("red_mushroom_trampoline",
-                () -> new BouncyOnBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                () -> new BouncyOnBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
                         .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
+        BLUE_MUSHROOM_TRAMPOLINE = registerBlock("blue_mushroom_trampoline",
+                () -> new BouncyOnBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
+                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
 
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",

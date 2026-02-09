@@ -4,7 +4,7 @@
   "group": "marioverse:mushroom_trampolines",
   "ingredients": [
     {
-      "item": "marioverse:red_dotted_line_block"
+      "item": "marioverse:blue_dotted_line_block"
     },
     {
       "item": "minecraft:red_mushroom_block"
@@ -12,6 +12,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "marioverse:red_mushroom_trampoline"
+    "id": "marioverse:blue_mushroom_trampoline"
   }
 }
