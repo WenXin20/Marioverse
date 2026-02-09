@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/red_on_mushroom_block_bottom",
+    "side": "marioverse:block/red_on_mushroom_block",
+    "top": "marioverse:block/red_on_mushroom_block_top"
+  },
+  "connections": {
+    "bottom": {
+      "type": "match_state",
+      "block": "marioverse:red_on_mushroom_block",
+      "properties": { "active": "true" }
+    },
+    "side": {
+      "type": "match_state",
+      "block": "marioverse:red_on_mushroom_block",
+      "properties": { "active": "true" }
+    },
+    "top": {
+      "type": "match_state",
+      "block": "marioverse:red_on_mushroom_block",
+      "properties": { "active": "true" }
+    },
+    "default": { "type": "is_same_block" }
+  }
+}
