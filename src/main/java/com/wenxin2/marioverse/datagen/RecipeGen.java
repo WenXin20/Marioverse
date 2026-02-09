@@ -99,8 +99,8 @@ public class RecipeGen extends RecipeUtils {
         dyeItemRecipe(1, "calcite_from_dye", Blocks.CALCITE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.CALCITE_ITEMS, output);
         onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.BLUE_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BLUE_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
         onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.RED_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
-        onOffMushroomRecipe(8, "on_off_mushroom_blocks", BlockRegistry.RED_ON_MUSHROOM_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
-        onOffMushroomRecipe(8, "on_off_mushroom_blocks", BlockRegistry.RED_ON_MUSHROOM_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
+        onOffMushroomRecipe(8, "on_off_mushroom_blocks", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
+        onOffMushroomRecipe(8, "on_off_mushroom_blocks", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
         onOffSwitchRecipe(1, "on_off_switches", BlockRegistry.ON_OFF_SWITCH, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Tags.Items.GEMS_QUARTZ, Blocks.REDSTONE_TORCH, false, output);
         oneToOneRecipe(1, "large_snowballs", ItemRegistry.LARGE_SNOWBALL, RecipeCategory.MISC, Items.SNOW_BLOCK, output);
         oneToOneRecipe(1, "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
@@ -123,8 +123,8 @@ public class RecipeGen extends RecipeUtils {
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.VINE, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.VINE, output);
-        twoItemRecipe(1, "on_off_mushroom_blocks", BlockRegistry.RED_ON_MUSHROOM_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
-        twoItemRecipe(1, "on_off_mushroom_blocks", BlockRegistry.RED_ON_MUSHROOM_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "on_off_mushroom_blocks", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "on_off_mushroom_blocks", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
         twoItemRecipe(1, "question_blocks", BlockRegistry.MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "question_blocks", BlockRegistry.MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_QUESTION_BRICKS, Blocks.VINE, output);
         twoItemRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_STONE_BRICKS, Blocks.MOSS_BLOCK, output);

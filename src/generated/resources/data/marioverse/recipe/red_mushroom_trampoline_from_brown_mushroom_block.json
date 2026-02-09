@@ -7,11 +7,11 @@
       "item": "marioverse:red_dotted_line_block"
     },
     {
-      "item": "minecraft:red_mushroom_block"
+      "item": "minecraft:brown_mushroom_block"
     }
   ],
   "result": {
     "count": 1,
-    "id": "marioverse:red_on_mushroom_block"
+    "id": "marioverse:red_mushroom_trampoline"
   }
 }

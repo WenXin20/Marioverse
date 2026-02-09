@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:red_on_mushroom_block"
+          "name": "marioverse:red_mushroom_trampoline"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "marioverse:blocks/red_on_mushroom_block"
+  "random_sequence": "marioverse:blocks/red_mushroom_trampoline"
 }

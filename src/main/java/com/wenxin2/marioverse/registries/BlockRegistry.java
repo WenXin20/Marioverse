@@ -263,7 +263,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
-    public static final DeferredBlock<Block> RED_ON_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> RED_QUICKSAND;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
@@ -434,7 +434,7 @@ public class BlockRegistry {
                         .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
                         .noOcclusion()));
-        RED_ON_MUSHROOM_BLOCK = registerBlock("red_on_mushroom_block",
+        RED_MUSHROOM_TRAMPOLINE = registerBlock("red_mushroom_trampoline",
                 () -> new BouncyOnBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
                         .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
 

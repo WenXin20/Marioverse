@@ -3,24 +3,24 @@
   "loader": "fusion:model",
   "type": "connecting",
   "textures": {
-    "bottom": "marioverse:block/red_on_mushroom_block_bottom",
-    "side": "marioverse:block/red_on_mushroom_block",
-    "top": "marioverse:block/red_on_mushroom_block_top"
+    "bottom": "marioverse:block/red_mushroom_trampoline_bottom",
+    "side": "marioverse:block/red_mushroom_trampoline",
+    "top": "marioverse:block/red_mushroom_trampoline_top"
   },
   "connections": {
     "bottom": {
       "type": "match_state",
-      "block": "marioverse:red_on_mushroom_block",
+      "block": "marioverse:red_mushroom_trampoline",
       "properties": { "active": "true" }
     },
     "side": {
       "type": "match_state",
-      "block": "marioverse:red_on_mushroom_block",
+      "block": "marioverse:red_mushroom_trampoline",
       "properties": { "active": "true" }
     },
     "top": {
       "type": "match_state",
-      "block": "marioverse:red_on_mushroom_block",
+      "block": "marioverse:red_mushroom_trampoline",
       "properties": { "active": "true" }
     },
     "default": { "type": "is_same_block" }

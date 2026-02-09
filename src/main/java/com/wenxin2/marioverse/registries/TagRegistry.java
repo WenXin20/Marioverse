@@ -68,7 +68,7 @@ public class TagRegistry {
     public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags("melts_into_packed_ice");
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
     public static final TagKey<Block> MELTS_SNOWBALL = blockTags("melts_snowball");
-    public static final TagKey<Block> ON_OFF_MUSHROOM_BLOCKS = blockTags("on_off_mushroom_blocks");
+    public static final TagKey<Block> MUSHROOM_TRAMPOLINE_BLOCKS = blockTags("mushroom_trampoline_blocks");
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
@@ -169,7 +169,7 @@ public class TagRegistry {
     public static final TagKey<Item> MARIO_POWER_UP_COSTUMES = itemTags("power_up_costumes/mario");
     public static final TagKey<Item> MARIO_SHIRTS = itemTags("shirts/mario");
     public static final TagKey<Item> MARIO_SHOES = itemTags("shoes/mario");
-    public static final TagKey<Item> ON_OFF_MUSHROOM_BLOCK_ITEMS = itemTags("on_off_mushroom_blocks");
+    public static final TagKey<Item> MUSHROOM_TRAMPOLINE_BLOCK_ITEMS = itemTags("mushroom_trampoline_blocks");
     public static final TagKey<Item> PANTS = itemTags("pants");
     public static final TagKey<Item> PEACH_COSTUMES = itemTags("costumes/peach");;
     public static final TagKey<Item> PEACH_FIRE_COSTUMES = itemTags("costumes/fire/peach");
