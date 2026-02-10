@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-08T23:02:08.1360618	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-02-10T01:34:12.1954146	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -26,6 +26,7 @@ ba38bb2be287e31075c239056c8331767c2eb92a data/c/tags/item/dyed/pink.json
 4d9f699d9d77b53baeacffe533d43dc7dc6c6ce0 data/c/tags/item/dyed/white.json
 f94c0b6ce1981e49f0c7656ee7cf0559cc5eed94 data/c/tags/item/dyed/yellow.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/enchantables.json
+94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/c/tags/item/mushrooms.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/pumpkins/carved.json
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/item/pumpkins/jack_o_lanterns.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/item/stones.json

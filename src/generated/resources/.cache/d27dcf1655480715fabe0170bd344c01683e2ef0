@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-08T23:02:08.1277706	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-02-10T01:34:12.1932583	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 8af1dce4fda0e4688dffa31e7838e65be06b926f data/create/tags/block/movable_empty_collider.json
@@ -78,14 +78,14 @@ d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_effic
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
-2b735420cb1b262020d7d1554cac6f926a2966d5 data/minecraft/tags/block/enderman_holdable.json
+f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
 28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
 af49150d7ac74b33254a3d1d73c5604043b6f282 data/minecraft/tags/block/flower_pots.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
-fc1c100dc08ab9aece49bcf5f9a142083ea5a74f data/minecraft/tags/block/mineable/axe.json
+33888c331b3878eaceb10bc26f26e4b6c91b82a4 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 2872f3ad4c985f950812872f60632a0ee276797e data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
@@ -96,7 +96,7 @@ b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.
 3223c0ac80c228b7211696c27c13272e7e3288a8 data/minecraft/tags/block/stairs.json
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/block/stone_buttons.json
 da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
-9c7cad7c07468ee7043f7335f4e991578026c807 data/minecraft/tags/block/sword_efficient.json
+a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficient.json
 7b23db159d567133835a9e7c72691460e675fd78 data/minecraft/tags/block/walls.json
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/block/wooden_stairs.json

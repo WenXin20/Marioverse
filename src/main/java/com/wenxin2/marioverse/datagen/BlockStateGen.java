@@ -56,6 +56,7 @@ public class BlockStateGen extends BlockStateProvider {
     protected void registerStatesAndModels() {
         String blueBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get()).getPath();
         String blueMushroomTrampolineName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get()).getPath();
+        String blueTrampolineCapName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()).getPath();
         String calciteCheckeredName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CALCITE_CHECKERED_TILES.get()).getPath();
         String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
@@ -72,6 +73,7 @@ public class BlockStateGen extends BlockStateProvider {
         String redBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_DOTTED_LINE_BLOCK.get()).getPath();
         String redMushroomTrampolineName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()).getPath();
         String redQuicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_QUICKSAND.get()).getPath();
+        String redTrampolineCapName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_TRAMPOLINE_CAP.get()).getPath();
         String spikePanelName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPIKE_PANEL.get()).getPath();
         String splunkinCarvedPumpkinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get()).getPath();
         String splunkinOLanternName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_O_LANTERN.get()).getPath();
@@ -98,6 +100,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), modLoc("block/" + splunkinCarvedPumpkinName),
                 mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
+        this.mushroomTrampolineCapModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), modLoc("block/" + redTrampolineCapName));
+        this.mushroomTrampolineCapSwappedModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), modLoc("block/" + blueTrampolineCapName));
         this.mushroomTrampolineModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(), modLoc("block/" + redMushroomTrampolineName));
         this.mushroomTrampolineSwappedModel(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get(), modLoc("block/" + blueMushroomTrampolineName));
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/" + onSwitchName), modLoc("block/" + onSwitchName + "_top"),
@@ -937,6 +941,42 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.getVariantBuilder(block).forAllStates(state -> {
             boolean isActive = state.getValue(OnBlock.ACTIVE);
+            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
+        });
+    }
+
+    private void mushroomTrampolineCapModel(Block block, ResourceLocation activeTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_mushroom"))
+                .texture("mushroom", activeTexture);
+        ModelFile modelOff = models()
+                .withExistingParent(modelName + "_off", modLoc("block/template_mushroom"))
+                .texture("bottom", activeTexture + "_off");
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean isActive = state.getValue(OnBlock.ACTIVE);
+            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
+        });
+    }
+
+    private void mushroomTrampolineCapSwappedModel(Block block, ResourceLocation activeTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_mushroom"))
+                .texture("mushroom", activeTexture);
+        ModelFile modelOff = models()
+                .withExistingParent(modelName + "_off", modLoc("block/template_mushroom"))
+                .texture("bottom", activeTexture + "_off");
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean isActive = !state.getValue(OnBlock.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }

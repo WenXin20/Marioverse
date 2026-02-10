@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
 import com.wenxin2.marioverse.blocks.OffBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.OnMushroomBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
@@ -106,6 +107,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
@@ -266,6 +268,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> RED_QUICKSAND;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
@@ -442,6 +445,14 @@ public class BlockRegistry {
         BLUE_MUSHROOM_TRAMPOLINE = registerBlock("blue_mushroom_trampoline",
                 () -> new BouncyOffBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
                         .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
+        RED_TRAMPOLINE_CAP = registerBlock("red_trampoline_cap",
+                () -> new OnMushroomBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
+                        .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
+        BLUE_TRAMPOLINE_CAP = registerBlock("blue_trampoline_cap",
+                () -> new OnMushroomBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                        .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
 
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
@@ -1448,5 +1459,7 @@ public class BlockRegistry {
         return false;
     }
 
-    public static void init() {}
+    public static void init() {
+
+    }
 }

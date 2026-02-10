@@ -135,6 +135,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(Tags.Items.ENCHANTABLES)
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
+        tag(Tags.Items.MUSHROOMS)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
+
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 .addTag(TagRegistry.ICE_COSTUMES)
                 .add(ItemRegistry.CHRISTMAS_HAT.get());

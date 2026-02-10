@@ -20,7 +20,6 @@ import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.FluidTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
-import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
 import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
@@ -188,29 +187,29 @@ public class RegistryEventHandlers {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
-        BlockTagsGen blockTags = new BlockTagsGen(output, lookupProvider, existingFileHelper);
+        CompletableFuture<HolderLookup.Provider> provider = event.getLookupProvider();
+        BlockTagsGen blockTags = new BlockTagsGen(output, provider, existingFileHelper);
 
         generator.addProvider(event.includeClient(), new BlockStateGen(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModelGen(output, existingFileHelper));
 
-        generator.addProvider(event.includeServer(), new AdvancementDataGen(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new DataMapGen(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, lookupProvider,
+        generator.addProvider(event.includeServer(), new AdvancementDataGen(output, provider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new DataMapGen(output, provider));
+        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, provider,
                 new RegistrySetBuilder()
                 .add(Registries.BANNER_PATTERN, BannerPatternRegistry::bootstrap)
                 .add(Registries.DAMAGE_TYPE, DamageTypeRegistry::bootstrap), Set.of(Marioverse.MOD_ID)));
 
         generator.addProvider(event.includeServer(), blockTags);
-        generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new BiomeTagsGen(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new BlockLootTableGen(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new EnchantmentTagsGen(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new FluidTagsGen(output, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ItemTagsGen(output, lookupProvider, blockTags.contentsGetter(), existingFileHelper));
-        generator.addProvider(event.includeServer(), new RecipeGen(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, provider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new BiomeTagsGen(output, provider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new BlockLootTableGen(output, provider));
+        generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, provider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new EnchantmentTagsGen(output, provider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, provider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new FluidTagsGen(output, provider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ItemTagsGen(output, provider, blockTags.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new RecipeGen(output, provider));
     }
 
     public static void addPackFinder(final AddPackFindersEvent event) {

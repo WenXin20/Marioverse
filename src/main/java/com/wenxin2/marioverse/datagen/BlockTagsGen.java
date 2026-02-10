@@ -624,7 +624,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
 
         tag(BlockTags.ENDERMAN_HOLDABLE)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.GLOW_BLOCK.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
 
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
@@ -756,7 +758,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
                 .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
@@ -878,7 +882,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 

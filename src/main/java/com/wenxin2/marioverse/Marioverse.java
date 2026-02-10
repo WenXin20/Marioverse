@@ -21,6 +21,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -31,6 +32,9 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -57,6 +61,9 @@ public class Marioverse {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, Marioverse.MOD_ID);
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, Marioverse.MOD_ID);
+    public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registries.CONFIGURED_FEATURE, Marioverse.MOD_ID);
+    public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registries.PLACED_FEATURE, Marioverse.MOD_ID);
     public static final DeferredRegister<GameEvent> GAME_EVENTS = DeferredRegister.create(Registries.GAME_EVENT, Marioverse.MOD_ID);
     public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Marioverse.MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Marioverse.MOD_ID);
@@ -72,6 +79,9 @@ public class Marioverse {
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);
         ENTITIES.register(bus);
+        CONFIGURED_FEATURES.register(bus);
+        FEATURES.register(bus);
+        PLACED_FEATURES.register(bus);
         ATTRIBUTES.register(bus);
         PARTICLES.register(bus);
         MENUS.register(bus);
@@ -87,6 +97,7 @@ public class Marioverse {
         DataAttachmentRegistry.init();
         DataComponentRegistry.init();
         EntityRegistry.init();
+//        FeatureRegistry.init();
         GameEventRegistry.init();
         ItemRegistry.init();
         MenuRegistry.init();
@@ -109,6 +120,7 @@ public class Marioverse {
         bus.addListener(this::commonSetup);
         bus.addListener(RegistryEventHandlers::gatherData);
         bus.addListener(RegistryEventHandlers::addPackFinder);
+//        bus.addListener(TreesDataGen::gatherData);
     }
 
     private static void everyCompatModule() {
