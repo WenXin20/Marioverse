@@ -3,6 +3,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"render_type": "solid",
+	"textures": {
+		"particle": "#mushroom"
+	},
 	"elements": [
 		{
 			"from": [4, 8, 4],

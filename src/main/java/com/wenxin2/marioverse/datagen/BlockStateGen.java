@@ -953,7 +953,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("mushroom", activeTexture);
         ModelFile modelOff = models()
                 .withExistingParent(modelName + "_off", modLoc("block/template_mushroom"))
-                .texture("bottom", activeTexture + "_off");
+                .texture("mushroom", activeTexture + "_off");
 
         simpleBlockItem(block, model);
 
@@ -971,7 +971,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("mushroom", activeTexture);
         ModelFile modelOff = models()
                 .withExistingParent(modelName + "_off", modLoc("block/template_mushroom"))
-                .texture("bottom", activeTexture + "_off");
+                .texture("mushroom", activeTexture + "_off");
 
         simpleBlockItem(block, model);
 
