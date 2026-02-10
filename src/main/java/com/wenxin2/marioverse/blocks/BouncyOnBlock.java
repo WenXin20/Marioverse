@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import com.wenxin2.marioverse.utils.SwitchSavedDataHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -22,7 +21,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class BouncyOnBlock extends OnBlock implements SwitchSavedDataHolder {
+public class BouncyOnBlock extends OnBlock implements ToggleableBlock {
     public BouncyOnBlock(Properties properties) {
         super(properties);
     }

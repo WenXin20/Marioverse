@@ -1,6 +1,5 @@
-package com.wenxin2.marioverse.utils;
+package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.world.SwitchSavedData;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface SwitchSavedDataHolder {
+public interface ToggleableBlock {
     default void onPlaceSavedData(Level level, BlockPos pos) {
         if (!level.isClientSide && level instanceof ServerLevel server)
             SwitchSavedData.get(server).add(pos);
@@ -47,7 +46,7 @@ public interface SwitchSavedDataHolder {
                 if (!level.isLoaded(pos)) continue;
                 BlockState state = level.getBlockState(pos);
 
-                if (!(state.getBlock() instanceof SwitchSavedDataHolder)) {
+                if (!(state.getBlock() instanceof ToggleableBlock)) {
                     data.remove(pos);
                     continue;
                 }

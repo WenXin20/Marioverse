@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
-import com.wenxin2.marioverse.utils.SwitchSavedDataHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +16,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class OnBlock extends Block implements SwitchSavedDataHolder {
+public class OnBlock extends Block implements ToggleableBlock {
     public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
@@ -89,6 +88,6 @@ public class OnBlock extends Block implements SwitchSavedDataHolder {
     }
 
     public static void toggle(ServerLevel level) {
-        SwitchSavedDataHolder.toggle(level);
+        ToggleableBlock.toggle(level);
     }
 }

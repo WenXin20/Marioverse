@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
-import com.wenxin2.marioverse.utils.SwitchSavedDataHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -11,7 +10,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class OffBlock extends OnBlock implements SwitchSavedDataHolder {
+public class OffBlock extends OnBlock implements ToggleableBlock {
     public static final MapCodec<OffBlock> CODEC = simpleCodec(OffBlock::new);
 
     public OffBlock(Properties properties) {
