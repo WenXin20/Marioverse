@@ -1,12 +1,13 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.utils.SwitchSavedDataHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BouncyOffBlock extends BouncyOnBlock {
+public class BouncyOffBlock extends BouncyOnBlock implements SwitchSavedDataHolder {
     public BouncyOffBlock(Properties properties) {
         super(properties);
     }

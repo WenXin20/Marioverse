@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import com.wenxin2.marioverse.utils.SwitchSavedDataHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -27,7 +28,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class OnOffSwitchBlock extends OnBlock {
+public class OnOffSwitchBlock extends OnBlock implements SwitchSavedDataHolder {
     public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
@@ -122,7 +123,7 @@ public class OnOffSwitchBlock extends OnBlock {
             level.setBlock(pos, state.cycle(ACTIVE), 3);
 
             if (!level.isClientSide && level instanceof ServerLevel serverWorld)
-                OnOffSwitchBlock.toggle(serverWorld);
+                OnBlock.toggle(serverWorld);
         }
     }
 

@@ -5,28 +5,28 @@
 	"render_type": "solid",
 	"elements": [
 		{
-			"from": [4, 5, 4],
-			"to": [12, 7, 12],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 6, 8]},
+			"from": [4, 8, 4],
+			"to": [12, 10, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 9, 8]},
 			"faces": {
-				"north": {"uv": [4, 9, 12, 11], "texture": "#mushroom"},
-				"east": {"uv": [4, 9, 12, 11], "texture": "#mushroom"},
-				"south": {"uv": [4, 9, 12, 11], "texture": "#mushroom"},
-				"west": {"uv": [4, 9, 12, 11], "texture": "#mushroom"},
+				"north": {"uv": [8, 8, 16, 10], "texture": "#mushroom"},
+				"east": {"uv": [8, 8, 16, 10], "texture": "#mushroom"},
+				"south": {"uv": [8, 8, 16, 10], "texture": "#mushroom"},
+				"west": {"uv": [8, 8, 16, 10], "texture": "#mushroom"},
 				"up": {"uv": [0, 0, 8, 8], "texture": "#mushroom"},
 				"down": {"uv": [8, 0, 16, 8], "texture": "#mushroom"}
 			}
 		},
 		{
 			"from": [7, 0, 7],
-			"to": [9, 5, 9],
+			"to": [9, 8, 9],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
 			"faces": {
-				"north": {"uv": [7, 11, 9, 16], "texture": "#mushroom"},
-				"east": {"uv": [7, 11, 9, 16], "texture": "#mushroom"},
-				"south": {"uv": [7, 11, 9, 16], "texture": "#mushroom"},
-				"west": {"uv": [7, 11, 9, 16], "texture": "#mushroom"},
-				"down": {"uv": [7, 14, 9, 16], "texture": "#mushroom", "cullface": "down"}
+				"north": {"uv": [6, 8, 8, 16], "texture": "#mushroom"},
+				"east": {"uv": [6, 8, 8, 16], "texture": "#mushroom"},
+				"south": {"uv": [6, 8, 8, 16], "texture": "#mushroom"},
+				"west": {"uv": [6, 8, 8, 16], "texture": "#mushroom"},
+				"down": {"uv": [6, 14, 8, 16], "texture": "#mushroom", "cullface": "down"}
 			}
 		}
 	]
