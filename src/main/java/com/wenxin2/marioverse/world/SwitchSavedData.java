@@ -52,16 +52,16 @@ public class SwitchSavedData extends SavedData {
 
         ListTag chunks = new ListTag();
         for (var entry : blocksMap.entrySet()) {
-            CompoundTag c = new CompoundTag();
-            c.putInt("X", entry.getKey().x);
-            c.putInt("Z", entry.getKey().z);
+            CompoundTag newTag = new CompoundTag();
+            newTag.putInt("X", entry.getKey().x);
+            newTag.putInt("Z", entry.getKey().z);
 
             ListTag posList = new ListTag();
             for (BlockPos pos : entry.getValue()) {
                 posList.add(LongTag.valueOf(pos.asLong()));
             }
-            c.put("Pos", posList);
-            chunks.add(c);
+            newTag.put("Pos", posList);
+            chunks.add(newTag);
         }
 
         tag.put("Chunks", chunks);
@@ -80,9 +80,8 @@ public class SwitchSavedData extends SavedData {
     }
 
     public static SwitchSavedData get(ServerLevel level) {
-        return level.getDataStorage()
-                .computeIfAbsent(new SavedData.Factory<>(SwitchSavedData::create, SwitchSavedData::load),
-                        SwitchSavedData.ID);
+        return level.getDataStorage().computeIfAbsent(new SavedData
+                .Factory<>(SwitchSavedData::create, SwitchSavedData::load), SwitchSavedData.ID);
     }
 
     public void add(BlockPos pos) {

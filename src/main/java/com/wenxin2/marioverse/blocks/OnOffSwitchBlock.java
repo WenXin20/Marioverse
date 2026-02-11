@@ -122,7 +122,7 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
             level.setBlock(pos, state.cycle(ACTIVE), 3);
 
             if (!level.isClientSide && level instanceof ServerLevel serverWorld)
-                OnBlock.toggle(serverWorld);
+                ToggleableBlock.toggle(serverWorld);
         }
     }
 

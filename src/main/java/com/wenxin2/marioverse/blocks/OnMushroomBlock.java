@@ -46,15 +46,13 @@ public class OnMushroomBlock extends MushroomBlock implements BonemealableBlock,
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
-        if (oldState.getBlock() != state.getBlock())
-            this.onPlaceSavedData(level, pos);
+        this.onPlaceSavedData(level, pos);
         super.onPlace(state, level, pos, oldState, moved);
     }
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock())
-            this.onRemoveSavedData(level, pos);
+        this.onRemoveSavedData(level, pos);
         super.onRemove(state, level, pos, newState, moved);
     }
 

@@ -41,8 +41,8 @@ public interface ToggleableBlock {
 
         boolean isActive = data.isActive();
 
-        for (Set<BlockPos> set : List.copyOf(data.allPositions())) {
-            for (BlockPos pos : List.copyOf(set)) {
+        for (Set<BlockPos> posSet : List.copyOf(data.allPositions())) {
+            for (BlockPos pos : List.copyOf(posSet)) {
                 if (!level.isLoaded(pos)) continue;
                 BlockState state = level.getBlockState(pos);
 
@@ -51,7 +51,7 @@ public interface ToggleableBlock {
                     continue;
                 }
                 if (state.getValue(OnBlock.ACTIVE) != isActive)
-                    level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
+                    level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_ALL);
             }
         }
     }

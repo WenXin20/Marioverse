@@ -5,8 +5,8 @@ import com.wenxin2.marioverse.blocks.BouncyOffBlock;
 import com.wenxin2.marioverse.blocks.BouncyOnBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
-import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
+import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
@@ -141,11 +141,11 @@ public class MarioverseEventHandlers {
         for (BlockPos pos : List.copyOf(data.getPositions(event.getChunk().getPos()))) {
             BlockState state = level.getBlockState(pos);
 
-            if (!(state.getBlock() instanceof OnBlock)) {
+            if (!(state.getBlock() instanceof ToggleableBlock)) {
                 data.remove(pos);
                 continue;
             }
-            if (state.getBlock() instanceof OnBlock
+            if (state.getBlock() instanceof ToggleableBlock
                     && state.getValue(OnBlock.ACTIVE) != isActive)
                 level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
         }

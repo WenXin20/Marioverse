@@ -86,8 +86,4 @@ public class OnBlock extends Block implements ToggleableBlock {
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
         this.onRemoveSavedData(level, pos);
     }
-
-    public static void toggle(ServerLevel level) {
-        ToggleableBlock.toggle(level);
-    }
 }
