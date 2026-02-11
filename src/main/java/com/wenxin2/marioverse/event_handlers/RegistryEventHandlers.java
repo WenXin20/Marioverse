@@ -328,6 +328,26 @@ public class RegistryEventHandlers {
         List<VillagerTrades.ItemListing> rareTrades = event.getRareTrades();
 
         genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.RED_TRAMPOLINE_CAP, 1),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.BLUE_TRAMPOLINE_CAP, 1),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 1),
+                new ItemStack(BlockRegistry.COIN, 9),
+                8, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 1),
+                new ItemStack(BlockRegistry.STAR_COIN, 1),
+                8, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 8),
                 new ItemStack(ItemRegistry.FIRE_FLOWER.get(), 1),
                 8, 16, 0.1F));
@@ -351,16 +371,6 @@ public class RegistryEventHandlers {
                 new ItemCost(Items.EMERALD, 8),
                 new ItemStack(ItemRegistry.SUPER_MUSHROOM.get(), 1),
                 8, 16, 0.2F));
-
-        genericTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 1),
-                new ItemStack(BlockRegistry.COIN, 9),
-                8, 10, 0.2F));
-
-        genericTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 1),
-                new ItemStack(BlockRegistry.STAR_COIN, 1),
-                8, 10, 0.2F));
 
         rareTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 5),
