@@ -8,6 +8,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.MushroomBlock;
@@ -60,10 +61,7 @@ public class OnMushroomBlock extends MushroomBlock implements BonemealableBlock,
     protected boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
         BlockPos posBelow = pos.below();
         BlockState stateBelow = levelReader.getBlockState(posBelow);
-        TriState soilDecision = stateBelow.canSustainPlant(levelReader, posBelow, Direction.UP, state);
 
-        return stateBelow.is(BlockTags.MUSHROOM_GROW_BLOCK) || (soilDecision.isDefault()
-                ? (levelReader.getRawBrightness(pos, 0) < 15
-                && this.mayPlaceOn(stateBelow, levelReader, posBelow)) : soilDecision.isTrue());
+        return stateBelow.is(BlockTags.DIRT);
     }
 }
