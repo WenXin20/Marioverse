@@ -1,3 +1,6 @@
 {
-  "parent": "marioverse:block/blue_trampoline_cap"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/blue_trampoline_cap"
+  }
 }

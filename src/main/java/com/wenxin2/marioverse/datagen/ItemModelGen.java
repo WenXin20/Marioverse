@@ -32,9 +32,11 @@ public class ItemModelGen extends ItemModelProvider {
         this.genInvisibleQuestionBlockVariants();
         this.genStorageBrickVariants();
 
+        this.basicItem(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.COIN.asItem());
         this.basicItem(BlockRegistry.DANGO_BLOSSOM.asItem());
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
+        this.basicItem(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
@@ -136,22 +138,22 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     public void largeItem(Item item) {
-        largeItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
+        this.largeItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
     }
 
     public void plasticFluidBucketItem(Item item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
-        plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, applyTint, coverIsMask);
+        this.plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, applyTint, coverIsMask);
     }
 
 
     public void largeItem(ResourceLocation item) {
-        getBuilder(item.toString())
+        this.getBuilder(item.toString())
                 .parent(new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()));
     }
 
     public void plasticFluidBucketItem(ResourceLocation item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
-        ItemModelBuilder builder = getBuilder(item.getPath())
+        ItemModelBuilder builder = this.getBuilder(item.getPath())
                 .parent(new ModelFile.UncheckedModelFile("neoforge:item/default"))
                 .texture("base", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()))
                 .texture("fluid", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/plastic_bucket_fluid"));

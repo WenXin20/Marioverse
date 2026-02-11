@@ -1,8 +1,9 @@
-// 1.21.1	2026-01-24T20:52:40.347692	Item Models: marioverse
+// 1.21.1	2026-02-10T21:16:28.4599939	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
 7604aa5c9489fa9cfb52b226b622387902f3f70e assets/marioverse/models/item/blue_goal_pole.json
+e7f0a92aaf049babc19d83d53336bb305e746d33 assets/marioverse/models/item/blue_trampoline_cap.json
 19bf93a5b7752e78b5fa8ce30d0af2c2613d7a91 assets/marioverse/models/item/boo_spawn_egg.json
 1e88be9dc1710d4e0ec985de4696fc54df15dd4b assets/marioverse/models/item/bowser_banner_pattern.json
 afffda4529829c1e11ca56b1133f78c0e10f226f assets/marioverse/models/item/bowser_pottery_sherd.json
@@ -138,6 +139,7 @@ fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa
 1bb9296c4bad5253a71afcc87d5c146e2090a88d assets/marioverse/models/item/red_koopa_shoes.json
 2b32499357745ee1294ba49c0e0cfd9f01d4344c assets/marioverse/models/item/red_koopa_troopa_spawn_egg.json
 4a0a4e848187f29bee695a7f0281543b3c169b63 assets/marioverse/models/item/red_quicksand_bucket.json
+387c93ea223f8fb42fde90cf4a4cd6b19c440c5a assets/marioverse/models/item/red_trampoline_cap.json
 9531b08e9ecae755def0a6d9a27bc747800f58fc assets/marioverse/models/item/snow_pokey_spawn_egg.json
 69da874887dd83827e13d267f33145b1d99a6d78 assets/marioverse/models/item/spike_panel.json
 9e1b3a21851c4ddcf4f584766f7f2b107fde06a9 assets/marioverse/models/item/splunkin_spawn_egg.json

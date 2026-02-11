@@ -973,8 +973,6 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent(modelName + "_off", modLoc("block/template_mushroom"))
                 .texture("mushroom", activeTexture + "_off");
 
-        simpleBlockItem(block, model);
-
         this.getVariantBuilder(block).forAllStates(state -> {
             boolean isActive = !state.getValue(OnBlock.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
