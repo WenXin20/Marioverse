@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:random_boolean_selector",
+  "config": {
+    "feature_false": {
+      "feature": "marioverse:huge_red_trampoline_cap",
+      "placement": []
+    },
+    "feature_true": {
+      "feature": "marioverse:huge_blue_trampoline_cap",
+      "placement": []
+    }
+  }
+}

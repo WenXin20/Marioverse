@@ -34,6 +34,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_SNOW_POKEY = biomeTags("has_snow_pokey");
     public static final TagKey<Biome> HAS_SPLUNKIN = biomeTags("has_splunkin");
     public static final TagKey<Biome> HAS_SUBMERGED_PIPES = biomeTags("has_submerged_pipes");
+    public static final TagKey<Biome> HAS_TRAMPOLINE_CAPS = biomeTags("has_trampoline_caps");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");

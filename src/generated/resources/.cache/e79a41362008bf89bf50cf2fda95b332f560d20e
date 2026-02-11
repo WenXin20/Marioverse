@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-09T21:03:30.9984979	Tags for minecraft:worldgen/biome mod id marioverse
+// 1.21.1	2026-02-11T00:28:46.8702872	Tags for minecraft:worldgen/biome mod id marioverse
 7acd972b7a034b9ad9e174b14c2d0693c3d4481d data/marioverse/tags/worldgen/biome/has_boo.json
 7acd972b7a034b9ad9e174b14c2d0693c3d4481d data/marioverse/tags/worldgen/biome/has_dry_bones.json
 a24545b58f3f91c6c033586e2b2ae12f1e8131b1 data/marioverse/tags/worldgen/biome/has_fire_goomba.json
@@ -16,3 +16,4 @@ a2ef6080d33c29a10db059a25ae7597166de66e0 data/marioverse/tags/worldgen/biome/has
 3a53f3923b276caad9ab6a93a0242761f2aa1ce5 data/marioverse/tags/worldgen/biome/has_structure/has_brick_lanes.json
 f5975c55240e9fe09edb81c0e15335e7b385cf1e data/marioverse/tags/worldgen/biome/has_structure/has_classic_underground.json
 b020f6cdcd2d955793278b2f89a178a1d31e599a data/marioverse/tags/worldgen/biome/has_submerged_pipes.json
+ebf8fcf19de8793fb2f5aab5b14d1b39b9746809 data/marioverse/tags/worldgen/biome/has_trampoline_caps.json
