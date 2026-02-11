@@ -1,18 +1,23 @@
 package com.wenxin2.marioverse.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.util.TriState;
 
 public class OnMushroomBlock extends MushroomBlock implements BonemealableBlock, ToggleableBlock {
     protected static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 10.0, 12.0);
@@ -29,7 +34,9 @@ public class OnMushroomBlock extends MushroomBlock implements BonemealableBlock,
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        return SHAPE;
+        final Vec3 vec3 = state.getOffset(blockGetter, pos);
+
+        return SHAPE.move(vec3.x, vec3.y, vec3.z);
     }
 
     @Override
@@ -39,11 +46,26 @@ public class OnMushroomBlock extends MushroomBlock implements BonemealableBlock,
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
-        this.onPlaceSavedData(level, pos);
+        if (oldState.getBlock() != state.getBlock())
+            this.onPlaceSavedData(level, pos);
+        super.onPlace(state, level, pos, oldState, moved);
     }
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-        this.onRemoveSavedData(level, pos);
+        if (state.getBlock() != newState.getBlock())
+            this.onRemoveSavedData(level, pos);
+        super.onRemove(state, level, pos, newState, moved);
+    }
+
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
+        BlockPos posBelow = pos.below();
+        BlockState stateBelow = levelReader.getBlockState(posBelow);
+        TriState soilDecision = stateBelow.canSustainPlant(levelReader, posBelow, Direction.UP, state);
+
+        return stateBelow.is(BlockTags.MUSHROOM_GROW_BLOCK) || (soilDecision.isDefault()
+                ? (levelReader.getRawBrightness(pos, 0) < 15
+                && this.mayPlaceOn(stateBelow, levelReader, posBelow)) : soilDecision.isTrue());
     }
 }
