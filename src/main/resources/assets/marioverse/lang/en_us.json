@@ -1470,6 +1470,11 @@
   "configuration.marioverse.wax_disables_warp_linking": "Wax Disables Warp Linking",
   "configuration.marioverse.wax_disables_water_spouts": "Wax Disables Water Spout Button",
 
+  "gamerule.marioverse:all_mobs_can_stomp": "All mobs can stomp",
+  "gamerule.marioverse:damage_shrinks_all_mobs": "Damage shrinks all mobs",
+  "gamerule.marioverse:damage_shrinks_players": "Damage shrinks players",
+  "gamerule.marioverse:stomp_all_mobs": "Stomp all mobs",
+
   "block.everycomp.mv.aether_redux.blightwillow_log_bridge": "Blightwillow Stem Bridge",
   "block.everycomp.mv.aether_redux.cloudcap_log_bridge": "Cloudcap Stem Bridge",
   "block.everycomp.mv.aether_redux.crystal_log_bridge": "Crystsal Stem Bridge",
