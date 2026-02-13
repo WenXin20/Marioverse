@@ -1,17 +1,21 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.world.feature.HugeSwitchMushroomFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.HugeBrownMushroomFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FeatureRegistry {
-    public static final DeferredHolder<Feature<?>, Feature<HugeMushroomFeatureConfiguration>> HUGE_SWITCH_MUSHROOM;
+
+    public static final DeferredHolder<Feature<?>, Feature<HugeMushroomFeatureConfiguration>> HUGE_BLUE_TRAMPOLINE_CAP;
+    public static final DeferredHolder<Feature<?>, Feature<HugeMushroomFeatureConfiguration>> HUGE_RED_TRAMPOLINE_CAP;
 
     static {
-        HUGE_SWITCH_MUSHROOM = Marioverse.FEATURES.register("huge_switch_mushroom",
-                () -> new HugeSwitchMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
+        HUGE_BLUE_TRAMPOLINE_CAP = Marioverse.FEATURES.register("huge_blue_trampoline_cap",
+                () -> new HugeBrownMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
+        HUGE_RED_TRAMPOLINE_CAP = Marioverse.FEATURES.register("huge_red_trampoline_cap",
+                () -> new HugeBrownMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
     }
 
     public static void init() {
