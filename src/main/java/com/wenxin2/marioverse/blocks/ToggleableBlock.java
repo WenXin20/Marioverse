@@ -28,7 +28,7 @@ public interface ToggleableBlock {
 
         if (level instanceof ServerLevel serverLevel) {
             SwitchSavedData data = SwitchSavedData.get(serverLevel);
-            if (player.isShiftKeyDown())
+            if (player != null && player.isShiftKeyDown())
                 return defaultState.setValue(OnBlock.ACTIVE, !data.isActive());
             return defaultState.setValue(OnBlock.ACTIVE, data.isActive());
         }

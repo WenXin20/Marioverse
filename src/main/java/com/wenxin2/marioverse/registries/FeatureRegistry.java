@@ -14,5 +14,6 @@ public class FeatureRegistry {
                 () -> new HugeSwitchMushroomFeature(HugeMushroomFeatureConfiguration.CODEC));
     }
 
+    public static void init() {
     }
 }

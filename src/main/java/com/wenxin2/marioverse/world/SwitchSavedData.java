@@ -13,6 +13,7 @@ import net.minecraft.nbt.LongTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.saveddata.SavedData;
 
 public class SwitchSavedData extends SavedData {
@@ -86,15 +87,15 @@ public class SwitchSavedData extends SavedData {
 
     public void add(BlockPos pos) {
         blocksMap.computeIfAbsent(new ChunkPos(pos), k -> new HashSet<>()).add(pos);
-        setDirty();
+        this.setDirty();
     }
 
     public void remove(BlockPos pos) {
-        ChunkPos cp = new ChunkPos(pos);
-        Set<BlockPos> set = blocksMap.get(cp);
+        ChunkPos chunkPos = new ChunkPos(pos);
+        Set<BlockPos> set = blocksMap.get(chunkPos);
         if (set != null && set.remove(pos)) {
-            if (set.isEmpty()) blocksMap.remove(cp);
-            setDirty();
+            if (set.isEmpty()) blocksMap.remove(chunkPos);
+            this.setDirty();
         }
     }
 

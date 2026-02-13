@@ -21,4 +21,7 @@ public class TreeRegistry {
                         new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()),
                                 BlockStateProvider.simple(Blocks.MUSHROOM_STEM), 3)));
     }
+
+    public static void init() {
+    }
 }
