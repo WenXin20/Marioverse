@@ -13,11 +13,11 @@ public class TreeRegistry {
 
     static  {
         HUGE_BLUE_TRAMPOLINE_CAP = Marioverse.CONFIGURED_FEATURES.register("huge_blue_trampoline_cap",
-                () -> new ConfiguredFeature<>(FeatureRegistry.HUGE_BLUE_TRAMPOLINE_CAP.get(),
+                () -> new ConfiguredFeature<>(FeatureRegistry.HUGE_SWITCH_MUSHROOM.get(),
                         new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get()),
                                 BlockStateProvider.simple(Blocks.MUSHROOM_STEM), 3)));
         HUGE_RED_TRAMPOLINE_CAP = Marioverse.CONFIGURED_FEATURES.register("huge_red_trampoline_cap",
-                () -> new ConfiguredFeature<>(FeatureRegistry.HUGE_RED_TRAMPOLINE_CAP.get(),
+                () -> new ConfiguredFeature<>(FeatureRegistry.HUGE_SWITCH_MUSHROOM.get(),
                         new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()),
                                 BlockStateProvider.simple(Blocks.MUSHROOM_STEM), 3)));
     }
