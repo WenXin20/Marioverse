@@ -18,7 +18,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 public class SwitchSavedData extends SavedData {
     public static final String ID = "marioverse_switch_state";
     private final Map<ChunkPos, Set<BlockPos>> blocksMap = new HashMap<>();
-
     private boolean isOn;
 
     public static SwitchSavedData create() {
@@ -85,8 +84,11 @@ public class SwitchSavedData extends SavedData {
     }
 
     public void add(BlockPos pos) {
-        blocksMap.computeIfAbsent(new ChunkPos(pos), k -> new HashSet<>()).add(pos);
-        setDirty();
+        ChunkPos chunkPos = new ChunkPos(pos);
+        Set<BlockPos> set = blocksMap.computeIfAbsent(chunkPos, k -> new HashSet<>());
+
+//        if (set.add(pos))
+            this.setDirty();
     }
 
     public void remove(BlockPos pos) {
@@ -94,7 +96,7 @@ public class SwitchSavedData extends SavedData {
         Set<BlockPos> set = blocksMap.get(cp);
         if (set != null && set.remove(pos)) {
             if (set.isEmpty()) blocksMap.remove(cp);
-            setDirty();
+            this.setDirty();
         }
     }
 

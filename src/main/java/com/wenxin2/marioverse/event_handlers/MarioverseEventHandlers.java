@@ -87,6 +87,7 @@ import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -151,6 +152,19 @@ public class MarioverseEventHandlers {
                     && state.getValue(OnBlock.ACTIVE) != isActive)
                 level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_ALL);
         }
+
+//        if (!(event.getLevel() instanceof ServerLevel level)) return;
+//        if (!(event.getChunk() instanceof LevelChunk chunk)) return;
+//
+//        SwitchSavedData data = SwitchSavedData.get(level);
+//        ChunkPos chunkPos = chunk.getPos();
+//
+//        if (!data.isChunkIndexed(chunkPos)) {
+//            SwitchSavedData.indexChunk(level, chunk, data);
+//            data.markChunkIndexed(chunkPos);
+//            data.setDirty();
+//        }
+//        SwitchSavedData.syncSavedPositions(level, chunkPos, data);
     }
 
     @SubscribeEvent
