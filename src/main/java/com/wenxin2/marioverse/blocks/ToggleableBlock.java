@@ -14,12 +14,12 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public interface ToggleableBlock {
     default void onPlaceSavedData(Level level, BlockPos pos) {
-        if (!level.isClientSide && level instanceof ServerLevel server)
+        if (level instanceof ServerLevel server)
             SwitchSavedData.get(server).add(pos);
     }
 
     default void onRemoveSavedData(Level level, BlockPos pos) {
-        if (!level.isClientSide && level instanceof ServerLevel server)
+        if (level instanceof ServerLevel server)
             SwitchSavedData.get(server).remove(pos);
     }
 
