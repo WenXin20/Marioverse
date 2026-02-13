@@ -9,7 +9,6 @@
     "ContainersMixin",
     "DecoratedPotPatternsMixin",
     "EntityMixin",
-    "LevelChunkMixin",
     "LivingEntityMixin",
     "PaintingMixin",
     "PlayerMixin",
