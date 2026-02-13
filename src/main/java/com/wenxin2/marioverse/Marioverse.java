@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
+import com.wenxin2.marioverse.registries.FeatureRegistry;
 import com.wenxin2.marioverse.registries.GameEventRegistry;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
