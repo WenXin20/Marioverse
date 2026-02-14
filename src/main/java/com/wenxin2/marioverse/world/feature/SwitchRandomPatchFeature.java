@@ -22,6 +22,7 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
         RandomSource random = context.random();
         BlockPos pos = context.origin();
         WorldGenLevel worldGenLevel = context.level();
+        SwitchSavedData data = SwitchSavedData.get(worldGenLevel.getLevel());
         int placedAmt = 0;
         BlockPos.MutableBlockPos posMutable = new BlockPos.MutableBlockPos();
         int j = patchConfig.xzSpread() + 1;
@@ -34,7 +35,6 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
                     random.nextInt(j) - random.nextInt(j));
             if (patchConfig.feature().value().place(worldGenLevel, context.chunkGenerator(), random, posMutable)) {
                 BlockState placedState = worldGenLevel.getBlockState(posMutable);
-                SwitchSavedData data = SwitchSavedData.get(worldGenLevel.getLevel());
 
                 if (placedState.hasProperty(RedDottedLineBlock.ACTIVE))
                     worldGenLevel.setBlock(posMutable, placedState.setValue(RedDottedLineBlock.ACTIVE, data.isActive()), 2);

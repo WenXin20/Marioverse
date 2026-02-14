@@ -147,7 +147,7 @@ public class MarioverseEventHandlers {
             }
             if (state.getBlock() instanceof ToggleableBlock
                     && state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
-                level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_ALL);
+                level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
         }
     }
 
