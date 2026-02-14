@@ -1,7 +1,8 @@
 {
   "values": [
-    "#marioverse:storage_bricks",
+    "#marioverse:dotted_line_blocks",
     "#marioverse:question_blocks",
+    "#marioverse:storage_bricks",
     "#marioverse:warp_pipes"
   ]
 }

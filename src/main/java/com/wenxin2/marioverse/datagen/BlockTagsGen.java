@@ -66,16 +66,22 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(CompatRegistry.CREATE_BRITTLE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
+                .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
+                .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.STAR_COIN.get());
 
         tag(CompatRegistry.CREATE_COPYCAT_ALLOW)
-                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
         tag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER)
                 .addTag(TagRegistry.BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())

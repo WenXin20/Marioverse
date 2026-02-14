@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-14T00:29:08.6451983	Loot Tables
+// 1.21.1	2026-02-14T01:15:02.7384213	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -286,10 +286,10 @@ a73a8a6c8762911e6b6f6d0c024544e1367c2e30 data/marioverse/loot_table/blocks/polis
 415ab3c7364181217ad18d337643eb816aceea9b data/marioverse/loot_table/blocks/polished_white_calcite_stairs.json
 4d27a183ae104e58a60495710f11ecb3c04245a8 data/marioverse/loot_table/blocks/polished_white_calcite_wall.json
 7d4c09959aac8d1f3e61e74778e7aa871f6e9591 data/marioverse/loot_table/blocks/polished_yellow_calcite.json
-d3d193eaf63fa091363453c724ead1680369a2b3 data/marioverse/loot_table/blocks/potted_blue_trampoline_cap.json
+fdf097ec0df2a3588812aac904657546b9b6d33d data/marioverse/loot_table/blocks/potted_blue_trampoline_cap.json
 2f22b7ee28762d8340b090ff1f450e9eceb3c40f data/marioverse/loot_table/blocks/potted_dango_blossom.json
 bd59c4303ba0f4ecb696c9335b8952b74f9915df data/marioverse/loot_table/blocks/potted_piranha_plant.json
-e5cdcb500f711a1d1efaeecd50d75fd6f658f594 data/marioverse/loot_table/blocks/potted_red_trampoline_cap.json
+37368bec1354e6f42db52c9fb454b04a1f86eaed data/marioverse/loot_table/blocks/potted_red_trampoline_cap.json
 d4e01f3682c04948792ceb978b00e02758882e1b data/marioverse/loot_table/blocks/prismarine_brick_pedestal.json
 7759c3636297fa1a4c80d5fffee015522f6083c3 data/marioverse/loot_table/blocks/prismarine_question_bricks.json
 7d7c21c56a6c10a473ef2cdbb5a5b8c8a90c72aa data/marioverse/loot_table/blocks/purple_calcite.json

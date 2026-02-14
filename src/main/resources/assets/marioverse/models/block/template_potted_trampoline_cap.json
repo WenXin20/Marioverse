@@ -2,7 +2,7 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/flower_pot",
-	"render_type": "solid",
+	"render_type": "cutout_mipped",
 	"textures": {
 		"particle": "block/flower_pot",
 		"flower_pot": "block/flower_pot",
@@ -55,7 +55,7 @@
 		},
 		{
 			"from": [6, 0, 6],
-			"to": [10, 5, 10],
+			"to": [10, 4, 10],
 			"faces": {
 				"up": {"uv": [6, 6, 10, 10], "texture": "#dirt"},
 				"down": {"uv": [6, 12, 10, 16], "texture": "#flower_pot", "cullface": "down"}
