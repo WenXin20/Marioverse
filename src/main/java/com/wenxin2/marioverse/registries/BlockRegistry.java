@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
@@ -254,8 +255,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_SLAB;
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
+    public static final DeferredBlock<Block> POTTED_BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
+    public static final DeferredBlock<Block> POTTED_RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
@@ -453,6 +456,12 @@ public class BlockRegistry {
                 () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                         .mapColor(state -> !state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
                         .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
+        POTTED_RED_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_trampoline_cap",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.RED_TRAMPOLINE_CAP,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_trampoline_cap",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.BLUE_TRAMPOLINE_CAP,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
 
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
@@ -1412,7 +1421,9 @@ public class BlockRegistry {
 
     public static void registerFlowerPots() {
         FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
+        pot.addPlant(BlockRegistry.BLUE_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
+        pot.addPlant(BlockRegistry.RED_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_TRAMPOLINE_CAP);
     }
 
     private static Block button(Block block, BlockSetType blockSetType, int ticksPressed) {

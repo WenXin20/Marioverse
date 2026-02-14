@@ -1,15 +1,207 @@
 {
   "variants": {
-    "active=false,powered=false": {
+    "active=false,powered=false,radius=0": {
       "model": "marioverse:block/on_off_switch_off"
     },
-    "active=false,powered=true": {
+    "active=false,powered=false,radius=1": {
       "model": "marioverse:block/on_off_switch_off"
     },
-    "active=true,powered=false": {
+    "active=false,powered=false,radius=10": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=11": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=12": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=13": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=14": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=15": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=16": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=2": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=3": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=4": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=5": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=6": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=7": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=8": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=false,radius=9": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=0": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=1": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=10": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=11": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=12": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=13": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=14": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=15": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=16": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=2": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=3": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=4": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=5": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=6": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=7": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=8": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=false,powered=true,radius=9": {
+      "model": "marioverse:block/on_off_switch_off"
+    },
+    "active=true,powered=false,radius=0": {
       "model": "marioverse:block/on_off_switch"
     },
-    "active=true,powered=true": {
+    "active=true,powered=false,radius=1": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=10": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=11": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=12": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=13": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=14": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=15": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=16": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=2": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=3": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=4": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=5": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=6": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=7": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=8": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=false,radius=9": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=0": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=1": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=10": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=11": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=12": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=13": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=14": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=15": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=16": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=2": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=3": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=4": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=5": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=6": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=7": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=8": {
+      "model": "marioverse:block/on_off_switch"
+    },
+    "active=true,powered=true,radius=9": {
       "model": "marioverse:block/on_off_switch"
     }
   }

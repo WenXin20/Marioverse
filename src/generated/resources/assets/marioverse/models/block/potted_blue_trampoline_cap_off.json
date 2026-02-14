@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:block/template_trampoline_cap",
+  "parent": "marioverse:block/template_potted_trampoline_cap",
   "textures": {
     "mushroom": "marioverse:block/blue_trampoline_cap_off"
   }

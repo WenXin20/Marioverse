@@ -100,8 +100,6 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), modLoc("block/" + splunkinCarvedPumpkinName),
                 mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
-        this.trampolineCapRedModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), modLoc("block/" + redTrampolineCapName));
-        this.trampolineCapBlueModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), modLoc("block/" + blueTrampolineCapName));
         this.mushroomTrampolineRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(), modLoc("block/" + redMushroomTrampolineName));
         this.mushroomTrampolineBlueModel(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get(), modLoc("block/" + blueMushroomTrampolineName));
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/" + onSwitchName), modLoc("block/" + onSwitchName + "_top"),
@@ -109,11 +107,15 @@ public class BlockStateGen extends BlockStateProvider {
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
         this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/" + "potted_" + dangoBlossomName),
                 modLoc("block/" + "potted_" + dangoBlossomName + "_leaves"));
+        this.pottedTrampolineCapRedModel(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get(), modLoc("block/" + redTrampolineCapName));
+        this.pottedTrampolineCapBlueModel(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get(), modLoc("block/" + blueTrampolineCapName));
         this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
         this.splunkinOLanternModel(BlockRegistry.SPLUNKIN_O_LANTERN.get(), modLoc("block/" + splunkinOLanternName),
                 mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"),
                 modLoc("block/" + splunkinOLanternName + "_cracked"),
                 modLoc("block/" + splunkinOLanternName + "_cracked_side"), modLoc("block/" + splunkinOLanternName + "_cracked_top"));
+        this.trampolineCapRedModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), modLoc("block/" + redTrampolineCapName));
+        this.trampolineCapBlueModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), modLoc("block/" + blueTrampolineCapName));
         this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), modLoc("block/" + waterSpoutName + "_flow"),
                 modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
 
@@ -1088,6 +1090,40 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
+    }
+
+    private void pottedTrampolineCapRedModel(Block block, ResourceLocation activeTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_potted_trampoline_cap"))
+                .texture("mushroom", activeTexture);
+        ModelFile modelOff = models()
+                .withExistingParent(modelName + "_off", modLoc("block/template_potted_trampoline_cap"))
+                .texture("mushroom", activeTexture + "_off");
+
+        simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean isActive = state.getValue(RedDottedLineBlock.ACTIVE);
+            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
+        });
+    }
+
+    private void pottedTrampolineCapBlueModel(Block block, ResourceLocation activeTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_potted_trampoline_cap"))
+                .texture("mushroom", activeTexture);
+        ModelFile modelOff = models()
+                .withExistingParent(modelName + "_off", modLoc("block/template_potted_trampoline_cap"))
+                .texture("mushroom", activeTexture + "_off");
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            boolean isActive = !state.getValue(RedDottedLineBlock.ACTIVE);
+            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
+        });
     }
 
     private void largeBrickPedestalModel(Block block, ResourceLocation mainTexture) {

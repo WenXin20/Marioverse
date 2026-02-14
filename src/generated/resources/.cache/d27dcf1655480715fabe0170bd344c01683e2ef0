@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-10T01:34:12.1932583	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-02-14T00:29:08.6603004	Tags for minecraft:block mod id marioverse
 2695cc243ecb9642873189342025a0bdf1cc86ff data/create/tags/block/brittle.json
 1175b72c7c98013333409faf76a3f4bdd90fbb9a data/create/tags/block/copycat_allow.json
 8af1dce4fda0e4688dffa31e7838e65be06b926f data/create/tags/block/movable_empty_collider.json
@@ -81,7 +81,7 @@ fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_ov
 f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
 28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
-af49150d7ac74b33254a3d1d73c5604043b6f282 data/minecraft/tags/block/flower_pots.json
+ec9415c11c813735ff73b20f0d88b7ebdb8cf59b data/minecraft/tags/block/flower_pots.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json

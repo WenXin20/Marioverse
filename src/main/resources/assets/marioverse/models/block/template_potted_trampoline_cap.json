@@ -2,95 +2,13 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/flower_pot",
-	"render_type": "cutout_mipped",
+	"render_type": "solid",
 	"textures": {
-		"blossom": "marioverse:block/potted_dango_blossom",
-		"leaves": "marioverse:block/potted_dango_blossom_leaves",
 		"particle": "block/flower_pot",
 		"flower_pot": "block/flower_pot",
 		"dirt": "block/dirt"
 	},
 	"elements": [
-		{
-			"from": [-8, 5.2, 0],
-			"to": [8, 5.2, 16],
-			"shade": false,
-			"rotation": {"angle": -45, "axis": "z", "origin": [8, 5.2, 8]},
-			"faces": {
-				"up": {"uv": [0, 16, 16, 0], "rotation": 90, "texture": "#blossom"},
-				"down": {"uv": [16, 0, 0, 16], "rotation": 270, "texture": "#blossom"}
-			}
-		},
-		{
-			"from": [8, 5.2, 0],
-			"to": [24, 5.2, 16],
-			"shade": false,
-			"rotation": {"angle": 45, "axis": "z", "origin": [8, 5.2, 8]},
-			"faces": {
-				"up": {"uv": [0, 16, 16, 0], "rotation": 270, "texture": "#blossom"},
-				"down": {"uv": [16, 0, 0, 16], "rotation": 90, "texture": "#blossom"}
-			}
-		},
-		{
-			"from": [0, 5.2, 8],
-			"to": [16, 5.2, 24],
-			"shade": false,
-			"rotation": {"angle": -45, "axis": "x", "origin": [8, 5.2, 8]},
-			"faces": {
-				"up": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#blossom"},
-				"down": {"uv": [16, 0, 0, 16], "texture": "#blossom"}
-			}
-		},
-		{
-			"from": [0, 5.2, -8],
-			"to": [16, 5.2, 8],
-			"shade": false,
-			"rotation": {"angle": 45, "axis": "x", "origin": [8, 5.2, 8]},
-			"faces": {
-				"up": {"uv": [0, 16, 16, 0], "rotation": 180, "texture": "#blossom"},
-				"down": {"uv": [0, 16, 16, 0], "texture": "#blossom"}
-			}
-		},
-		{
-			"from": [0, 5.2, 3],
-			"to": [8, 5.2, 13],
-			"shade": false,
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 5.2, 11]},
-			"faces": {
-				"up": {"uv": [3, 8, 13, 16], "rotation": 270, "texture": "#leaves"},
-				"down": {"uv": [3, 8, 13, 16], "rotation": 270, "texture": "#leaves"}
-			}
-		},
-		{
-			"from": [8, 5.2, 3],
-			"to": [16, 5.2, 13],
-			"shade": false,
-			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 5.2, 11]},
-			"faces": {
-				"up": {"uv": [3, 8, 13, 16], "rotation": 90, "texture": "#leaves"},
-				"down": {"uv": [3, 8, 13, 16], "rotation": 90, "texture": "#leaves"}
-			}
-		},
-		{
-			"from": [3, 5.2, 8],
-			"to": [13, 5.2, 16],
-			"shade": false,
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [11, 5.2, 8]},
-			"faces": {
-				"up": {"uv": [3, 8, 13, 16], "rotation": 180, "texture": "#leaves"},
-				"down": {"uv": [3, 8, 13, 16], "texture": "#leaves"}
-			}
-		},
-		{
-			"from": [3, 5.2, 0],
-			"to": [13, 5.2, 8],
-			"shade": false,
-			"rotation": {"angle": 22.5, "axis": "x", "origin": [11, 5.2, 8]},
-			"faces": {
-				"up": {"uv": [3, 8, 13, 16], "texture": "#leaves"},
-				"down": {"uv": [3, 8, 13, 16], "rotation": 180, "texture": "#leaves"}
-			}
-		},
 		{
 			"from": [5, 0, 5],
 			"to": [6, 6, 11],
@@ -142,6 +60,31 @@
 				"up": {"uv": [6, 6, 10, 10], "texture": "#dirt"},
 				"down": {"uv": [6, 12, 10, 16], "texture": "#flower_pot", "cullface": "down"}
 			}
+		},
+		{
+			"from": [4, 10, 4],
+			"to": [12, 12, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"north": {"uv": [8, 8, 16, 10], "texture": "#mushroom"},
+				"east": {"uv": [8, 8, 16, 10], "texture": "#mushroom"},
+				"south": {"uv": [8, 8, 16, 10], "texture": "#mushroom"},
+				"west": {"uv": [8, 8, 16, 10], "texture": "#mushroom"},
+				"up": {"uv": [0, 0, 8, 8], "texture": "#mushroom"},
+				"down": {"uv": [8, 0, 16, 8], "texture": "#mushroom"}
+			}
+		},
+		{
+			"from": [7, 2, 7],
+			"to": [9, 10, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2, 8]},
+			"faces": {
+				"north": {"uv": [6, 8, 8, 16], "texture": "#mushroom"},
+				"east": {"uv": [6, 8, 8, 16], "texture": "#mushroom"},
+				"south": {"uv": [6, 8, 8, 16], "texture": "#mushroom"},
+				"west": {"uv": [6, 8, 8, 16], "texture": "#mushroom"},
+				"down": {"uv": [6, 14, 8, 16], "texture": "#mushroom", "cullface": "down"}
+			}
 		}
 	],
 	"display": {
@@ -189,24 +132,16 @@
 			"shade": false,
 			"children": [
 				{
-					"name": "flower",
-					"origin": [0, 12.1, 0],
-					"color": 0,
-					"shade": false,
-					"children": [0, 1, 2, 3]
-				},
-				{
-					"name": "leaves",
-					"origin": [0, 12.1, 0],
-					"color": 0,
-					"shade": false,
-					"children": [4, 5, 6, 7]
-				},
-				{
 					"name": "flower_pot",
 					"origin": [0, 0, 0],
 					"color": 0,
-					"children": [8, 9, 10, 11, 12]
+					"children": [0, 1, 2, 3, 4]
+				},
+				{
+					"name": "mushroom",
+					"origin": [8, 9, 8],
+					"color": 0,
+					"children": [5, 6]
 				}
 			]
 		}
