@@ -843,6 +843,7 @@
   "item.marioverse.wrench.message.linked_warp_painting": "%1$s %2$s §6bound to %3$s %4$s",
   "item.marioverse.wrench.message.painting_fuel_required": "§cAdd %3$s §r§cmore ender pearls to %1$s %2$s §r§cto link.",
   "item.marioverse.wrench.message.radius": "§9Radius set to %1$s",
+  "item.marioverse.wrench.message.radius_subtracted": "§9Radius set to %1$s",
   "item.marioverse.wrench.message.requires_creative": "Requires creative to link",
   "item.marioverse.wrench.message.waxed": "§6Cannot link, §r%1$s §6is waxed",
 
@@ -1057,6 +1058,7 @@
   "subtitles.marioverse.block.star_coin_pickup": "Star Coin collected",
   "subtitles.marioverse.block.switch_off": "Switch switches off",
   "subtitles.marioverse.block.switch_on": "Switch switches on",
+  "subtitles.marioverse.block.switch_radius_toggled": "Switch radius toggled",
   "subtitles.marioverse.block.warp_fuel.completed": "Warp completed",
   "subtitles.marioverse.block.warp_fuel.fills": "Warp fuel fills",
   "subtitles.marioverse.block.water_mini_step": "Splashes",
@@ -1123,6 +1125,7 @@
   "subtitles.marioverse.entity.super_star_bounce": "Super Star bounces",
   "subtitles.marioverse.entity.super_star_theme": "Super Star Theme plays",
 
+  "subtitles.marioverse.item.item_inserted": "Item inserted",
   "subtitles.marioverse.item.wrench_bound": "Wrench bound",
 
   "subtitles.marioverse.player.fireball_thrown": "Fireball thrown",

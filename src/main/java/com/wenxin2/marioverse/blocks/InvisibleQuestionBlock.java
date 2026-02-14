@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import net.minecraft.core.BlockPos;
@@ -170,8 +171,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                     } else {
                         blockStack.grow(1);
                         soundPitch = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
-                    } // TODO
-                    world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
+                    }
+                    world.playSound(null, pos, SoundRegistry.ITEM_INSERTED.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
 
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE).setValue(INVISIBLE, Boolean.TRUE), 3);
                     questionBE.setChanged();

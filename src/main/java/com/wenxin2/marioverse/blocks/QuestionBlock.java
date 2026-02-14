@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
@@ -230,8 +231,8 @@ public class QuestionBlock extends BaseEntityBlock {
                     } else {
                         blockStack.grow(1);
                         soundPitch = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
-                    } // TODO
-                    world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
+                    }
+                    world.playSound(null, pos, SoundRegistry.ITEM_INSERTED.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
 
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBE.setChanged();

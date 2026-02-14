@@ -112,6 +112,12 @@
     "subtitle": "subtitles.marioverse.block.switch_off" },
   "block.switch_on": { "category": "block", "sounds": [{ "name": "marioverse:block/switch_on" }],
     "subtitle": "subtitles.marioverse.block.switch_on" },
+  "block.switch_radius_toggled": { "category": "block",
+    "sounds": [{ "name": "block/decorated_pot/insert1" },
+      { "name": "block/decorated_pot/insert2" },
+      { "name": "block/decorated_pot/insert3" },
+      { "name": "block/decorated_pot/insert4" }],
+    "subtitle": "subtitles.marioverse.block.switch_radius_toggled" },
 
   "block.warp_fuel.completed": { "category": "block",
     "sounds": [{ "name": "block/end_portal/endportal", "pitch": 0.5, "volume": 0.5 }],
@@ -332,10 +338,17 @@
     "subtitle": "subtitles.marioverse.player.jump" },
 
 
-  "item.wrench_bound": { "category": "player", "sounds": [{ "name": "block/amethyst_cluster/break1" },
-    { "name": "block/amethyst_cluster/break2" },
-    { "name": "block/amethyst_cluster/break3" },
-    { "name": "block/amethyst_cluster/break4" }],
+  "item.item_inserted": { "category": "player",
+    "sounds": [{ "name": "block/decorated_pot/insert1" },
+      { "name": "block/decorated_pot/insert2" },
+      { "name": "block/decorated_pot/insert3" },
+      { "name": "block/decorated_pot/insert4" }],
+    "subtitle": "subtitles.marioverse.item.item_inserted" },
+  "item.wrench_bound": { "category": "player",
+    "sounds": [{ "name": "block/amethyst_cluster/break1" },
+      { "name": "block/amethyst_cluster/break2" },
+      { "name": "block/amethyst_cluster/break3" },
+      { "name": "block/amethyst_cluster/break4" }],
     "subtitle": "subtitles.marioverse.item.wrench_bound" },
 
 
