@@ -27,7 +27,9 @@ public class FadingSoundInstance extends AbstractTickableSoundInstance {
         this.duration = duration;
         this.hasPowerUp = hasPowerUp;
         this.lastDuration = duration.getAsInt();
+        this.attenuation = Attenuation.LINEAR;
         this.looping = true;
+        this.relative = false;
         this.delay = 0;
         this.volume = 1.0F;
     }
