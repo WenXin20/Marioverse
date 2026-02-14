@@ -1,8 +1,9 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.BouncyOffBlock;
-import com.wenxin2.marioverse.blocks.BouncyOnBlock;
+import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.BridgeStairBlock;
@@ -14,9 +15,8 @@ import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
-import com.wenxin2.marioverse.blocks.OffBlock;
-import com.wenxin2.marioverse.blocks.OnBlock;
-import com.wenxin2.marioverse.blocks.OnMushroomBlock;
+import com.wenxin2.marioverse.blocks.MushroomOnOffBlock;
+import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
@@ -424,34 +424,34 @@ public class BlockRegistry {
 
         ON_OFF_SWITCH = registerBlock("on_off_switch",
                 () -> new OnOffSwitchBlock(BlockBehaviour.Properties.of()
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
+                        .mapColor(state -> state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         RED_DOTTED_LINE_BLOCK = registerBlock("red_dotted_line_block",
-                () -> new OnBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)
+                () -> new RedDottedLineBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                        .mapColor(state -> state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)
                         .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
                         .noOcclusion()));
         BLUE_DOTTED_LINE_BLOCK = registerBlock("blue_dotted_line_block",
-                () -> new OffBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
-                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)
+                () -> new BlueDottedLineBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                        .mapColor(state -> !state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)
                         .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
                         .noOcclusion()));
         RED_MUSHROOM_TRAMPOLINE = registerBlock("red_mushroom_trampoline",
-                () -> new BouncyOnBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
+                () -> new RedMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(state -> state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
         BLUE_MUSHROOM_TRAMPOLINE = registerBlock("blue_mushroom_trampoline",
-                () -> new BouncyOffBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
-                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
+                () -> new BlueMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
+                        .mapColor(state -> !state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
         RED_TRAMPOLINE_CAP = registerBlock("red_trampoline_cap",
-                () -> new OnMushroomBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
+                () -> new MushroomOnOffBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                        .mapColor(state -> state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
                         .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
         BLUE_TRAMPOLINE_CAP = registerBlock("blue_trampoline_cap",
-                () -> new OnMushroomBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
-                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                () -> new MushroomOnOffBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                        .mapColor(state -> !state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
                         .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
 
 
@@ -1444,18 +1444,18 @@ public class BlockRegistry {
     }
 
     public static Boolean isActive(BlockState state, BlockGetter blockGetter, BlockPos pos, EntityType<?> entity) {
-        if (blockGetter instanceof OffBlock)
-            return !state.getValue(OnBlock.ACTIVE);
-        if (blockGetter instanceof OnBlock)
-            return state.getValue(OnBlock.ACTIVE);
+        if (blockGetter instanceof BlueDottedLineBlock)
+            return !state.getValue(RedDottedLineBlock.ACTIVE);
+        if (blockGetter instanceof RedDottedLineBlock)
+            return state.getValue(RedDottedLineBlock.ACTIVE);
         return false;
     }
 
     private static boolean isActive(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        if (blockGetter instanceof OffBlock)
-            return !state.getValue(OnBlock.ACTIVE);
-        if (blockGetter instanceof OnBlock)
-            return state.getValue(OnBlock.ACTIVE);
+        if (blockGetter instanceof BlueDottedLineBlock)
+            return !state.getValue(RedDottedLineBlock.ACTIVE);
+        if (blockGetter instanceof RedDottedLineBlock)
+            return state.getValue(RedDottedLineBlock.ACTIVE);
         return false;
     }
 

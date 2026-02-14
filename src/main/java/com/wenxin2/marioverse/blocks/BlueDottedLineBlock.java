@@ -10,10 +10,10 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class OffBlock extends OnBlock implements ToggleableBlock {
-    public static final MapCodec<OffBlock> CODEC = simpleCodec(OffBlock::new);
+public class BlueDottedLineBlock extends RedDottedLineBlock implements ToggleableBlock {
+    public static final MapCodec<BlueDottedLineBlock> CODEC = simpleCodec(BlueDottedLineBlock::new);
 
-    public OffBlock(Properties properties) {
+    public BlueDottedLineBlock(Properties properties) {
         super(properties);
     }
 

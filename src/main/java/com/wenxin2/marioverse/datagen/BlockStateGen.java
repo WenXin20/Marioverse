@@ -6,7 +6,7 @@ import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
-import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
@@ -940,7 +940,7 @@ public class BlockStateGen extends BlockStateProvider {
         else simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);
+            boolean isActive = state.getValue(RedDottedLineBlock.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -958,7 +958,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);
+            boolean isActive = state.getValue(RedDottedLineBlock.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -974,7 +974,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("mushroom", activeTexture + "_off");
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = !state.getValue(OnBlock.ACTIVE);
+            boolean isActive = !state.getValue(RedDottedLineBlock.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -994,7 +994,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);
+            boolean isActive = state.getValue(RedDottedLineBlock.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -1014,7 +1014,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = !state.getValue(OnBlock.ACTIVE);
+            boolean isActive = !state.getValue(RedDottedLineBlock.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -1195,7 +1195,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);;
+            boolean isActive = state.getValue(RedDottedLineBlock.ACTIVE);;
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }

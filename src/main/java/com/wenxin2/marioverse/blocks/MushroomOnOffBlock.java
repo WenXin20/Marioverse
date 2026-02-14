@@ -1,14 +1,11 @@
 package com.wenxin2.marioverse.blocks;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.FarmBlock;
@@ -20,17 +17,17 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class OnMushroomBlock extends MushroomBlock implements BonemealableBlock, ToggleableBlock {
+public class MushroomOnOffBlock extends MushroomBlock implements BonemealableBlock, ToggleableBlock {
     protected static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 10.0, 12.0);
 
-    public OnMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
+    public MushroomOnOffBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
         super(configuredFeature, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(OnBlock.ACTIVE, true));
+        this.registerDefaultState(this.stateDefinition.any().setValue(RedDottedLineBlock.ACTIVE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(OnBlock.ACTIVE);
+        builder.add(RedDottedLineBlock.ACTIVE);
     }
 
     @Override

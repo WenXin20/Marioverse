@@ -1,10 +1,10 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.BouncyOffBlock;
-import com.wenxin2.marioverse.blocks.BouncyOnBlock;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
-import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
@@ -97,7 +97,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -120,7 +119,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
@@ -148,8 +146,8 @@ public class MarioverseEventHandlers {
                 continue;
             }
             if (state.getBlock() instanceof ToggleableBlock
-                    && state.getValue(OnBlock.ACTIVE) != isActive)
-                level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_ALL);
+                    && state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_ALL);
         }
     }
 
@@ -890,13 +888,13 @@ public class MarioverseEventHandlers {
                     && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                     && !player.isSuppressingBounce() && !player.isNoGravity())
 
-                    || (blockBelow instanceof BouncyOffBlock
-                        && !stateBelowEntity.getValue(OnBlock.ACTIVE)
+                    || (blockBelow instanceof BlueMushroomTrampolineBlock
+                        && !stateBelowEntity.getValue(RedDottedLineBlock.ACTIVE)
                         && !player.isSuppressingBounce() && !player.isNoGravity())
 
-                    || (blockBelow instanceof BouncyOnBlock
-                        && !(blockBelow instanceof BouncyOffBlock)
-                        && stateBelowEntity.getValue(OnBlock.ACTIVE)
+                    || (blockBelow instanceof RedMushroomTrampolineBlock
+                        && !(blockBelow instanceof BlueMushroomTrampolineBlock)
+                        && stateBelowEntity.getValue(RedDottedLineBlock.ACTIVE)
                         && !player.isSuppressingBounce() && !player.isNoGravity());
 
             if (canBounce)

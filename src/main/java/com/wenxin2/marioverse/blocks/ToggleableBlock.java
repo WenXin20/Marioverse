@@ -29,10 +29,10 @@ public interface ToggleableBlock {
         if (level instanceof ServerLevel serverLevel) {
             SwitchSavedData data = SwitchSavedData.get(serverLevel);
             if (player != null && player.isShiftKeyDown())
-                return defaultState.setValue(OnBlock.ACTIVE, !data.isActive());
-            return defaultState.setValue(OnBlock.ACTIVE, data.isActive());
+                return defaultState.setValue(RedDottedLineBlock.ACTIVE, !data.isActive());
+            return defaultState.setValue(RedDottedLineBlock.ACTIVE, data.isActive());
         }
-        return defaultState.setValue(OnBlock.ACTIVE, true);
+        return defaultState.setValue(RedDottedLineBlock.ACTIVE, true);
     }
 
     static void toggle(ServerLevel level, BlockPos switchPos) {
@@ -61,8 +61,8 @@ public interface ToggleableBlock {
                     data.remove(pos);
                     continue;
                 }
-                if (state.getValue(OnBlock.ACTIVE) != isActive)
-                    level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_ALL);
+                if (state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
+                    level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_ALL);
             }
         }
     }

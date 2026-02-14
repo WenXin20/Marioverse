@@ -6,8 +6,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BouncyOffBlock extends BouncyOnBlock implements ToggleableBlock {
-    public BouncyOffBlock(Properties properties) {
+public class BlueMushroomTrampolineBlock extends RedMushroomTrampolineBlock implements ToggleableBlock {
+    public BlueMushroomTrampolineBlock(Properties properties) {
         super(properties);
     }
 
@@ -18,7 +18,7 @@ public class BouncyOffBlock extends BouncyOnBlock implements ToggleableBlock {
 
         if (!entity.isSuppressingBounce() && !(entity instanceof Player)
                 && state.hasProperty(ACTIVE) && !state.getValue(ACTIVE))
-            BouncyOnBlock.bounceEntity(entity.level(), entity, false);
+            RedMushroomTrampolineBlock.bounceEntity(entity.level(), entity, false);
         else super.updateEntityAfterFallOn(blockGetter, entity);
     }
 }

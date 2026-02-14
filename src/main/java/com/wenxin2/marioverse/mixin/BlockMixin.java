@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.mixin;
 
-import com.wenxin2.marioverse.blocks.BouncyOnBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +30,7 @@ public class BlockMixin {
                 && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                 && !entity.isSuppressingBounce() && !entity.isNoGravity()
                 && !(entity instanceof Player)) {
-            BouncyOnBlock.bounceEntity(entity.level(), entity, true);
+            RedMushroomTrampolineBlock.bounceEntity(entity.level(), entity, true);
             ci.cancel();
         }
     }

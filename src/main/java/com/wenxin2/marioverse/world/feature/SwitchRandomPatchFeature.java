@@ -1,19 +1,14 @@
 package com.wenxin2.marioverse.world.feature;
 
 import com.mojang.serialization.Codec;
-import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.world.SwitchSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.AbstractHugeMushroomFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 
 public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> {
@@ -41,8 +36,8 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
                 BlockState placedState = worldGenLevel.getBlockState(posMutable);
                 SwitchSavedData data = SwitchSavedData.get(worldGenLevel.getLevel());
 
-                if (placedState.hasProperty(OnBlock.ACTIVE))
-                    worldGenLevel.setBlock(posMutable, placedState.setValue(OnBlock.ACTIVE, data.isActive()), 2);
+                if (placedState.hasProperty(RedDottedLineBlock.ACTIVE))
+                    worldGenLevel.setBlock(posMutable, placedState.setValue(RedDottedLineBlock.ACTIVE, data.isActive()), 2);
 
                 placedAmt++;
             }

@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -16,17 +15,17 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class OnBlock extends Block implements ToggleableBlock {
-    public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
+public class RedDottedLineBlock extends Block implements ToggleableBlock {
+    public static final MapCodec<RedDottedLineBlock> CODEC = simpleCodec(RedDottedLineBlock::new);
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     @NotNull
     @Override
-    protected MapCodec<OnBlock> codec() {
+    protected MapCodec<RedDottedLineBlock> codec() {
         return CODEC;
     }
 
-    public OnBlock(Properties properties) {
+    public RedDottedLineBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }

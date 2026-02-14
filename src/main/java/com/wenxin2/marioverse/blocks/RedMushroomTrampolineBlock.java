@@ -21,8 +21,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class BouncyOnBlock extends OnBlock implements ToggleableBlock {
-    public BouncyOnBlock(Properties properties) {
+public class RedMushroomTrampolineBlock extends RedDottedLineBlock implements ToggleableBlock {
+    public RedMushroomTrampolineBlock(Properties properties) {
         super(properties);
     }
 
@@ -67,7 +67,7 @@ public class BouncyOnBlock extends OnBlock implements ToggleableBlock {
 
         if (!entity.isSuppressingBounce() && !(entity instanceof Player)
                 && state.hasProperty(ACTIVE) && state.getValue(ACTIVE))
-            BouncyOnBlock.bounceEntity(entity.level(), entity, false);
+            RedMushroomTrampolineBlock.bounceEntity(entity.level(), entity, false);
         else super.updateEntityAfterFallOn(blockGetter, entity);
     }
 
