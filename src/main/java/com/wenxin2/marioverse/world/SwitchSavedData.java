@@ -13,14 +13,12 @@ import net.minecraft.nbt.LongTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.saveddata.SavedData;
 
 public class SwitchSavedData extends SavedData {
     public static final String ID = "marioverse_switch_state";
     private final Map<ChunkPos, Set<BlockPos>> blocksMap = new HashMap<>();
-
-    private boolean isOn;
+    private boolean isOn = true;
 
     public static SwitchSavedData create() {
         return new SwitchSavedData();
