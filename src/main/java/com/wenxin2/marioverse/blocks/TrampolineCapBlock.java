@@ -17,10 +17,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class MushroomOnOffBlock extends MushroomBlock implements BonemealableBlock, ToggleableBlock {
+public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlock, ToggleableBlock {
     protected static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 10.0, 12.0);
 
-    public MushroomOnOffBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
+    public TrampolineCapBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
         super(configuredFeature, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(RedDottedLineBlock.ACTIVE, true));
     }

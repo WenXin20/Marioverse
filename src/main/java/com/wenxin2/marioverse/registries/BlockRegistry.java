@@ -15,7 +15,7 @@ import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
-import com.wenxin2.marioverse.blocks.MushroomOnOffBlock;
+import com.wenxin2.marioverse.blocks.TrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
@@ -446,11 +446,11 @@ public class BlockRegistry {
                 () -> new BlueMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
                         .mapColor(state -> !state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
         RED_TRAMPOLINE_CAP = registerBlock("red_trampoline_cap",
-                () -> new MushroomOnOffBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                         .mapColor(state -> state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
                         .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
         BLUE_TRAMPOLINE_CAP = registerBlock("blue_trampoline_cap",
-                () -> new MushroomOnOffBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                         .mapColor(state -> !state.getValue(RedDottedLineBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
                         .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
 
