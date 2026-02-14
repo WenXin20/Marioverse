@@ -53,12 +53,12 @@ public class WrenchItem extends LinkerItem {
         if (state.getBlock() instanceof OnOffSwitchBlock) {
             if (state.getValue(OnOffSwitchBlock.RADIUS) < 16) {
                 if (player != null) {
-                    if (player.isShiftKeyDown() && state.getValue(OnOffSwitchBlock.RADIUS) > 0) {
+                    if (player.isShiftKeyDown() && state.getValue(OnOffSwitchBlock.RADIUS) == 1) {
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.global"), true);
+                        world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) - 1), 3);
+                    } else if (player.isShiftKeyDown() && state.getValue(OnOffSwitchBlock.RADIUS) > 0) {
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.radius",
                                 state.getValue(OnOffSwitchBlock.RADIUS) - 1).withStyle(ChatFormatting.BLUE), true);
-                        world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) - 1), 3);
-                    } else if (player.isShiftKeyDown() && state.getValue(OnOffSwitchBlock.RADIUS) == 1) {
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.global"), true);
                         world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) - 1), 3);
                     } else if (player.isShiftKeyDown() && state.getValue(OnOffSwitchBlock.RADIUS) == 0) {
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.radius",
