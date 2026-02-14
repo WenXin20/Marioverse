@@ -61,6 +61,6 @@ public class OnMushroomBlock extends MushroomBlock implements BonemealableBlock,
         BlockPos posBelow = pos.below();
         BlockState stateBelow = levelReader.getBlockState(posBelow);
 
-        return stateBelow.is(BlockTags.DIRT);
+        return stateBelow.isSolidRender(levelReader, pos);
     }
 }
