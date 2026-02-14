@@ -13,6 +13,6 @@ public class IceFlowerModel extends DefaultedEntityGeoModel<IceFlowerEntity> {
 
     @Override
     public RenderType getRenderType(IceFlowerEntity animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityCutoutNoCull(getTextureResource(animatable));
     }
 }

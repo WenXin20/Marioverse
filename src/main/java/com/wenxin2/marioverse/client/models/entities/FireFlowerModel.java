@@ -13,6 +13,6 @@ public class FireFlowerModel extends DefaultedEntityGeoModel<FireFlowerEntity> {
 
     @Override
     public RenderType getRenderType(FireFlowerEntity animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityCutoutNoCull(getTextureResource(animatable));
     }
 }
