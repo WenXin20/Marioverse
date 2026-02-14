@@ -814,7 +814,7 @@
   "item.marioverse.wrench.tooltip.bound.z": " §7• Z: %1$s",
   "item.marioverse.wrench.tooltip.right_click": "§2Right-click:",
   "item.marioverse.wrench.tooltip.right_click.gui": " §7• Opens Warp Pipe GUI",
-  "item.marioverse.wrench.tooltip.right_click.on_off_switch": " §7• Toggles On/Off Switch Radius",
+  "item.marioverse.wrench.tooltip.right_click.on_off_switch": " §7• Toggles On/Off Switch radius",
   "item.marioverse.wrench.tooltip.shift_right_click": "§6Shift-right-click:",
   "item.marioverse.wrench.tooltip.shift_right_click.binds": " §7• Binds",
   "item.marioverse.wrench.tooltip.shift_right_click.pipe": "§7 pipes",
