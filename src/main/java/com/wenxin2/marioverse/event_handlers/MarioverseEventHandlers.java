@@ -158,6 +158,7 @@ public class MarioverseEventHandlers {
 
         CompoundTag tag = entity.getPersistentData();
 
+        // TODO: Remove in 26.1+
         if (tag.contains("marioverse:has_fire_flower")) {
             if (tag.getBoolean("marioverse:has_fire_flower"))
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
@@ -188,6 +189,21 @@ public class MarioverseEventHandlers {
         if (tag.contains("marioverse:warp_cooldown")) {
             entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, tag.getInt("marioverse:warp_cooldown"));
             tag.remove("marioverse:warp_cooldown");
+        }
+
+        if (entity.hasData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
+            boolean oldValue = entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get());
+
+            if (oldValue)
+                entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 0);
+            entity.removeData(DataAttachmentRegistry.HAS_HIT_BLOCK.get());
+        }
+
+        if (entity.hasData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN.get())) {
+            int oldValue = entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN.get());
+
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION.get(), oldValue);
+            entity.removeData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN.get());
         }
 
         if (!entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)) {
