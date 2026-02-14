@@ -38,6 +38,11 @@ public class FadingSoundInstance extends AbstractTickableSoundInstance {
     public void tick() {
         int currentDuration = duration.getAsInt();
 
+        if (entity == null || !entity.isAlive() || entity.isRemoved()) {
+            this.stop();
+            return;
+        }
+
         if (currentDuration > lastDuration) {
             fadeTicks = -1;
             volume = 1.0F;
