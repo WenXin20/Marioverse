@@ -39,28 +39,40 @@ public interface ToggleableBlock {
         BlockState switchState = level.getBlockState(switchPos);
         int radius = switchState.getValue(OnOffSwitchBlock.RADIUS);
         SwitchSavedData data = SwitchSavedData.get(level);
-        data.setOn(!data.isActive());
 
+        data.setOn(!data.isActive());
         boolean isActive = data.isActive();
+
+        if (radius > 0) {
+            BlockPos.MutableBlockPos posMutable = new BlockPos.MutableBlockPos();
+
+            for (int x = -radius; x <= radius; x++) {
+                for (int y = -radius; y <= radius; y++) {
+                    for (int z = -radius; z <= radius; z++) {
+                        posMutable.set(switchPos.getX() + x, switchPos.getY() + y, switchPos.getZ() + z);
+
+                        if (!level.isLoaded(posMutable)) continue;
+
+                        BlockState state = level.getBlockState(posMutable);
+
+                        if (state.getBlock() instanceof ToggleableBlock && state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
+                            level.setBlock(posMutable, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_ALL);
+                    }
+                }
+            }
+            return;
+        }
 
         for (Set<BlockPos> posSet : List.copyOf(data.allPositions())) {
             for (BlockPos pos : List.copyOf(posSet)) {
                 if (!level.isLoaded(pos)) continue;
                 BlockState state = level.getBlockState(pos);
 
-                if (radius != 0) {
-                    int dx = Math.abs(pos.getX() - switchPos.getX());
-                    int dy = Math.abs(pos.getY() - switchPos.getY());
-                    int dz = Math.abs(pos.getZ() - switchPos.getZ());
-
-                    if (dx > radius || dy > radius || dz > radius)
-                        continue;
-                }
-
                 if (!(state.getBlock() instanceof ToggleableBlock)) {
                     data.remove(pos);
                     continue;
                 }
+
                 if (state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
                     level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_ALL);
             }
