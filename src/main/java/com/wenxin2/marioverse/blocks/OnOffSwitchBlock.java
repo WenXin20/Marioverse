@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
     public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+    public static final IntegerProperty RADIUS = IntegerProperty.create("radius", 0, 16);
 
     @NotNull
     @Override
@@ -39,12 +41,13 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
 
     public OnOffSwitchBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true).setValue(POWERED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true)
+                .setValue(POWERED, false).setValue(RADIUS, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(ACTIVE, POWERED);
+        stateBuilder.add(ACTIVE, POWERED, RADIUS);
     }
 
     @NotNull
@@ -122,7 +125,7 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
             level.setBlock(pos, state.cycle(ACTIVE), 3);
 
             if (level instanceof ServerLevel serverWorld)
-                ToggleableBlock.toggle(serverWorld);
+                ToggleableBlock.toggle(serverWorld, pos);
         }
     }
 

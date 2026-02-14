@@ -35,7 +35,9 @@ public interface ToggleableBlock {
         return defaultState.setValue(OnBlock.ACTIVE, true);
     }
 
-    static void toggle(ServerLevel level) {
+    static void toggle(ServerLevel level, BlockPos switchPos) {
+        BlockState switchState = level.getBlockState(switchPos);
+        int radius = switchState.getValue(OnOffSwitchBlock.RADIUS);
         SwitchSavedData data = SwitchSavedData.get(level);
         data.setOn(!data.isActive());
 
@@ -45,6 +47,15 @@ public interface ToggleableBlock {
             for (BlockPos pos : List.copyOf(posSet)) {
                 if (!level.isLoaded(pos)) continue;
                 BlockState state = level.getBlockState(pos);
+
+                if (radius != 0) {
+                    int dx = Math.abs(pos.getX() - switchPos.getX());
+                    int dy = Math.abs(pos.getY() - switchPos.getY());
+                    int dz = Math.abs(pos.getZ() - switchPos.getZ());
+
+                    if (dx > radius || dy > radius || dz > radius)
+                        continue;
+                }
 
                 if (!(state.getBlock() instanceof ToggleableBlock)) {
                     data.remove(pos);

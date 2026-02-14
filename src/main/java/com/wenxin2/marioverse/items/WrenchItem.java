@@ -1,13 +1,20 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
+import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -19,6 +26,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.Tags;
@@ -26,13 +34,40 @@ import net.neoforged.neoforge.common.Tags;
 public class WrenchItem extends LinkerItem {
     private final Tier tier;
     public WrenchItem(final Item.Properties properties, Tier tier) {
-        super(properties.component(DataComponents.TOOL, createToolProperties()), tier);
+        super(properties.component(DataComponents.TOOL, WrenchItem.createToolProperties()), tier);
         this.tier = tier;
     }
 
     public WrenchItem(Item.Properties properties, Tier tier, Tool toolComponentData) {
         super(properties.component(DataComponents.TOOL, toolComponentData), tier);
         this.tier = tier;
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext useOnContext) {
+        Player player = useOnContext.getPlayer();
+        Level world = useOnContext.getLevel();
+        BlockPos pos = useOnContext.getClickedPos();
+        BlockState state = world.getBlockState(pos);
+
+        if (state.getBlock() instanceof OnOffSwitchBlock) {
+            if (state.getValue(OnOffSwitchBlock.RADIUS) < 16) {
+                if (player != null)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.radius",
+                            state.getValue(OnOffSwitchBlock.RADIUS) + 1).withStyle(ChatFormatting.BLUE), true);
+                world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) + 1), 3);
+
+            } else {
+                if (player != null)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.global"), true);
+                world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, 0), 3);
+
+            }
+            int soundPitch = state.getValue(OnOffSwitchBlock.RADIUS) / 16; // TODO
+            world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
+            return InteractionResult.sidedSuccess(true);
+        }
+        return super.useOn(useOnContext);
     }
 
     @Override
@@ -43,6 +78,7 @@ public class WrenchItem extends LinkerItem {
             list.add(Component.literal(""));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.gui"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.on_off_switch"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
 
             warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.pipe"));

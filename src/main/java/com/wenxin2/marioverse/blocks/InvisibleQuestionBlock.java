@@ -163,15 +163,15 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     ItemStack itemstack = stack.consumeAndReturn(1, player);
 
-                    float f;
+                    float soundPitch;
                     if (questionBE.isEmpty()) {
                         questionBE.setTheItem(itemstack);
-                        f = (float) itemstack.getCount() / (float) itemstack.getMaxStackSize();
+                        soundPitch = (float) itemstack.getCount() / (float) itemstack.getMaxStackSize();
                     } else {
                         blockStack.grow(1);
-                        f = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
-                    }
-                    world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * f);
+                        soundPitch = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
+                    } // TODO
+                    world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
 
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE).setValue(INVISIBLE, Boolean.TRUE), 3);
                     questionBE.setChanged();

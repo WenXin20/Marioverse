@@ -467,7 +467,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     } else {
                         soundPitch = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
                         blockStack.grow(1);
-                    }
+                    } // TODO
                     world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
                     flagBE.setChanged();
                     world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
