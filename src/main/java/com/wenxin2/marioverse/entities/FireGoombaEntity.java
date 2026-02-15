@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
@@ -31,14 +33,15 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.LAVA, 2.0F);
+        this.setPathfindingMalus(PathType.WATER, -1.0F);
         this.xpReward = 8;
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new ShootBouncingFireballGoal(this, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
-                2, false));
+        this.goalSelector.addGoal(1, new ShootBouncingFireballGoal(this,
+                ConfigRegistry.MAX_MOB_FIREBALLS.get(), 2, false));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, false));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
@@ -63,5 +66,16 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     public boolean isPushedByFluid() {
         return true;
+    }
+
+    @Override
+    public void travel(Vec3 travelVector) {
+        if (this.isControlledByLocalInstance() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), travelVector);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.4));
+        } else {
+            super.travel(travelVector);
+        }
     }
 }

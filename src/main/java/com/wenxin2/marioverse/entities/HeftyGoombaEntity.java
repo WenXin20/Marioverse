@@ -45,7 +45,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
     public HeftyGoombaEntity(EntityType<? extends HeftyGoombaEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
-        this.setPathfindingMalus(PathType.WATER, 2.0F);
+        this.setPathfindingMalus(PathType.WATER, 1.0F);
         this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
         this.xpReward = 6;
     }
