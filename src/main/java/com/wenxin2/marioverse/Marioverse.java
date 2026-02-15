@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.integration.StoneZoneCompat;
 import com.wenxin2.marioverse.integration.WoodGoodCompat;
+import com.wenxin2.marioverse.loot.AddItemsModifier;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -101,6 +102,7 @@ public class Marioverse {
         EntityRegistry.init();
         FeatureRegistry.init();
         TreeRegistry.init();
+        AddItemsModifier.init();
         GameEventRegistry.init();
         ItemRegistry.init();
         MenuRegistry.init();
