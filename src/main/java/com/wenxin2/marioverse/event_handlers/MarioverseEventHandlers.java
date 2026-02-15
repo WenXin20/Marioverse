@@ -87,6 +87,7 @@ import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -136,21 +137,27 @@ public class MarioverseEventHandlers {
     public static void onChunkLoad(ChunkEvent.Load event) {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
 
+        level.getServer().execute(() -> processChunk(level, event.getChunk().getPos()));
+    }
+
+    private static void processChunk(ServerLevel level, ChunkPos chunkPos) {
         SwitchSavedData data = SwitchSavedData.get(level);
         boolean isActive = data.isActive();
-        for (BlockPos pos : List.copyOf(data.getPositions(event.getChunk().getPos()))) {
+
+        for (BlockPos pos : List.copyOf(data.getPositions(chunkPos))) {
+            if (!level.isLoaded(pos)) continue;
             BlockState state = level.getBlockState(pos);
 
             if (!(state.getBlock() instanceof ToggleableBlock)) {
                 data.remove(pos);
                 continue;
             }
-            if (state.getBlock() instanceof ToggleableBlock
-                    && state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
-                level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
+
+            if (state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
         }
     }
-
+    
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
