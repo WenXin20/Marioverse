@@ -902,16 +902,19 @@ public class MarioverseEventHandlers {
 
             boolean canBounce = (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
                     && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
-                    && !player.isSuppressingBounce() && !player.isNoGravity())
+                    && !player.isSuppressingBounce() && !player.isNoGravity()
+                    && !player.getAbilities().flying)
 
                     || (blockBelow instanceof BlueMushroomTrampolineBlock
                         && !stateBelowEntity.getValue(RedDottedLineBlock.ACTIVE)
-                        && !player.isSuppressingBounce() && !player.isNoGravity())
+                        && !player.isSuppressingBounce() && !player.isNoGravity()
+                        && !player.getAbilities().flying)
 
                     || (blockBelow instanceof RedMushroomTrampolineBlock
                         && !(blockBelow instanceof BlueMushroomTrampolineBlock)
                         && stateBelowEntity.getValue(RedDottedLineBlock.ACTIVE)
-                        && !player.isSuppressingBounce() && !player.isNoGravity());
+                        && !player.isSuppressingBounce() && !player.isNoGravity()
+                        && !player.getAbilities().flying);
 
             if (canBounce)
                 PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));

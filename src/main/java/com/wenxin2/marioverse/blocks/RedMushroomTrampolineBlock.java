@@ -74,6 +74,9 @@ public class RedMushroomTrampolineBlock extends RedDottedLineBlock implements To
     public static void bounceEntity(Level level, Entity entity, boolean holdingJump) {
         Vec3 vec3 = entity.getDeltaMovement();
 
+        if (entity instanceof Player player && player.getAbilities().flying)
+            return;
+
         if (vec3.y < 0.0) {
             double baseBounce = 0.0552;
             double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
