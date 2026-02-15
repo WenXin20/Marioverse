@@ -2,8 +2,10 @@ package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
+import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.server.level.ServerLevel;
@@ -36,7 +38,8 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new ContinuousJumpGoal(this));
+        this.goalSelector.addGoal(0, new ContinuousJumpGoal(this));
+        this.goalSelector.addGoal(1, new LookAtEntityTagGoal(this, TagRegistry.CAN_CONSUME_SUPER_STARS, 8.0F, 1.0F));
     }
 
     @Override

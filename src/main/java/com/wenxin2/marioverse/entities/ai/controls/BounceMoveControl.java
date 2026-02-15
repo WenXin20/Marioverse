@@ -29,12 +29,12 @@ public class BounceMoveControl extends MoveControl {
         this.yRot = 180.0F * mob.getYRot() / (float) Math.PI;
     }
 
-    public void setDirection(float yRot, boolean isAggressive) {
+    public void setAggressive(float yRot, boolean isAggressive) {
         this.yRot = yRot;
         this.isAggressive = isAggressive;
     }
 
-    public void setWantedMovement(double speedModifier) {
+    public void triggerJump(double speedModifier) {
         this.speedModifier = speedModifier;
         this.operation = MoveControl.Operation.MOVE_TO;
     }
