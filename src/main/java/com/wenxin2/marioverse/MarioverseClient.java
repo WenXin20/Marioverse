@@ -44,7 +44,6 @@ import com.wenxin2.marioverse.client.renderers.entities.power_ups.SuperStarRende
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireballRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
-import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -93,49 +92,49 @@ public class MarioverseClient {
     public static void clientSetup(final FMLClientSetupEvent event) {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CHRISTMAS_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PLASTIC_BUCKET.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.WHITE_KOOPA_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CHRISTMAS_HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PLASTIC_BUCKET.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.WHITE_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_HAT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_SHIRT.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_PANTS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_CROWN.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_BODICE.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_DRESS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_BODICE.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_DRESS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_BODICE.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_DRESS.get(), () -> ArmorRenderingExtension.RENDERER);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_SHOES.get(), () -> ArmorRenderingExtension.RENDERER);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_CROWN.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
     }
 
     public static void addPackFinder(final AddPackFindersEvent event) {
