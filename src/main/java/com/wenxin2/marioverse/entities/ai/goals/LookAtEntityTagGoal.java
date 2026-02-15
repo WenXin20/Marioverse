@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
-public class LookAtTagGoal extends Goal {
+public class LookAtEntityTagGoal extends Goal {
     public static final float DEFAULT_PROBABILITY = 0.02F;
     @Nullable protected Entity lookAt;
     private final boolean onlyHorizontal;
@@ -23,15 +23,15 @@ public class LookAtTagGoal extends Goal {
     protected final float lookDistance;
     protected final float probability;
 
-    public LookAtTagGoal(Mob mob, TagKey<EntityType<?>> entityTag, float lookDistance) {
+    public LookAtEntityTagGoal(Mob mob, TagKey<EntityType<?>> entityTag, float lookDistance) {
         this(mob, entityTag, lookDistance, DEFAULT_PROBABILITY);
     }
 
-    public LookAtTagGoal(Mob mob, TagKey<EntityType<?>> entityTag, float lookDistance, float probability) {
+    public LookAtEntityTagGoal(Mob mob, TagKey<EntityType<?>> entityTag, float lookDistance, float probability) {
         this(mob, entityTag, lookDistance, probability, false);
     }
 
-    public LookAtTagGoal(Mob mob, TagKey<EntityType<?>> entityTag, float lookDistance, float probability, boolean onlyHorizontal) {
+    public LookAtEntityTagGoal(Mob mob, TagKey<EntityType<?>> entityTag, float lookDistance, float probability, boolean onlyHorizontal) {
         this.mob = mob;
         this.lookAtTag = entityTag;
         this.lookDistance = lookDistance;

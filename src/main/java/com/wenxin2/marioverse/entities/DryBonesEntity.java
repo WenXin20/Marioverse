@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
-import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -132,7 +132,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false));
-        this.goalSelector.addGoal(2, new LookAtTagGoal(this, TagRegistry.DRY_BONES_CAN_ATTACK, 8.0F, 1.0F));
+        this.goalSelector.addGoal(2, new LookAtEntityTagGoal(this, TagRegistry.DRY_BONES_CAN_ATTACK, 8.0F, 1.0F));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, TagRegistry.DRY_BONES_CAN_ATTACK, true));
