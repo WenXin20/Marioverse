@@ -20,6 +20,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class SquashEntityPacket {
@@ -33,37 +35,46 @@ public class SquashEntityPacket {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
+                Vec3 motion = player.getDeltaMovement();
                 if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                         && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                             || player.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
-                        && (player.fallDistance > 0 || player.isInWaterOrBubble()))
+                        && (motion.y < 0 || player.isInWaterOrBubble()))
                     this.squashEntity(player, payload.isHoldingJump());
             });
         }
     }
 
-    public void squashEntity(Player stompingPlayer, boolean isHoldingJump) {
-        List<Entity> nearbyEntities = stompingPlayer.level().getEntities(stompingPlayer, stompingPlayer.getBoundingBox().inflate(0, 0.5, 0));
+    public void squashEntity(Player stompingEntity, boolean isHoldingJump) {
+        Vec3 motion = stompingEntity.getDeltaMovement();
+        AABB inflatedBox = stompingEntity.getBoundingBox().expandTowards(0, motion.y, 0)
+                .inflate(0.5, 0.0, 0.5);
+
+        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, inflatedBox);
 
         if (!nearbyEntities.isEmpty()) {
             for (Entity damagedEntity : nearbyEntities) {
-                if (!damagedEntity.isVehicle() && (stompingPlayer.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
-                            || stompingPlayer.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
+                if (!damagedEntity.isVehicle() && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                            || stompingEntity.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                         || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
                         || ConfigRegistry.STOMP_ALL_MOBS.get()
-                        || stompingPlayer.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS))) {
+                        || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS))) {
 
-                    if (stompingPlayer instanceof Player player && player.getAbilities().flying)
+                    if (stompingEntity instanceof Player player && player.getAbilities().flying)
                         return;
 
-                    if (stompingPlayer.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                    if (stompingEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
                             || damagedEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
                         return;
 
-                    if (stompingPlayer.getY() >= damagedEntity.getY() + damagedEntity.getEyeHeight()
-                            && (stompingPlayer.fallDistance > 0 || stompingPlayer.isInWaterOrBubble())) {
+                    double startY = stompingEntity.getBoundingBox().minY;
+                    double endY = startY + motion.y;
+                    double targetTop = damagedEntity.getBoundingBox().maxY;
+
+                    if (startY >= targetTop && endY <= targetTop
+                            && (motion.y < 0 || stompingEntity.isInWaterOrBubble())) {
                         double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
 
                         if (isHoldingJump)
@@ -72,17 +83,17 @@ public class SquashEntityPacket {
                         double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
 
                         if (damagedEntity.isAlive()) {
-                            stompingPlayer.setDeltaMovement(stompingPlayer.getDeltaMovement().x, bounceVelocity, stompingPlayer.getDeltaMovement().z);
-                            stompingPlayer.hasImpulse = true;
-                            if (stompingPlayer instanceof ServerPlayer serverPlayer)
-                                serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(stompingPlayer));
+                            stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
+                            stompingEntity.hasImpulse = true;
+                            if (stompingEntity instanceof ServerPlayer serverPlayer)
+                                serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(stompingEntity));
                         }
 
                         float scaleFactor = damagedEntity.getBbHeight() * damagedEntity.getBbWidth();
                         int numParticles = (int) (scaleFactor * 20);
                         double radius = damagedEntity.getBbWidth() / 2;
 
-                        if (stompingPlayer.level() instanceof ServerLevel serverWorld)
+                        if (stompingEntity.level() instanceof ServerLevel serverWorld)
                             ServerParticleUtils.spawnParticleRingAboveEntity(ParticleTypes.CRIT, serverWorld, damagedEntity, radius, 0, numParticles);
 
                         if (damagedEntity instanceof LargeSnowballProjectile snowball)
@@ -98,22 +109,22 @@ public class SquashEntityPacket {
                             }
                         }
 
-                        if (!stompingPlayer.level().isClientSide() && damagedEntity.isAlive()) {
+                        if (!stompingEntity.level().isClientSide() && damagedEntity.isAlive()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor
                                     && damagedEntity instanceof LivingEntity livingEntity
-                                    && !stompingPlayer.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
-                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), livingEntity.getHealth());
+                                    && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
+                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), livingEntity.getHealth());
                             else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
                                     || damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
-                                if (stompingPlayer.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                                if (stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                                         || damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
-                                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), 0);
-                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingPlayer), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
+                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
-                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingPlayer.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                                     && damagedEntity instanceof LivingEntity livingEntity)
-                                OneUpMushroomEntity.consecutiveReward(stompingPlayer, livingEntity, stompingPlayer.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));
+                                OneUpMushroomEntity.consecutiveReward(stompingEntity, livingEntity, stompingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));
                             break;
                         }
                     }
