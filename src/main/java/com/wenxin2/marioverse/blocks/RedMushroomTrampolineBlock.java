@@ -66,7 +66,8 @@ public class RedMushroomTrampolineBlock extends RedDottedLineBlock implements To
         BlockState state = blockGetter.getBlockState(pos);
 
         if (!entity.isSuppressingBounce() && !(entity instanceof Player)
-                && state.hasProperty(ACTIVE) && state.getValue(ACTIVE))
+                && state.hasProperty(ACTIVE) && state.getValue(ACTIVE)
+                && !(state.getBlock() instanceof BlueMushroomTrampolineBlock))
             RedMushroomTrampolineBlock.bounceEntity(entity.level(), entity, false);
         else super.updateEntityAfterFallOn(blockGetter, entity);
     }
