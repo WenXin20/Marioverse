@@ -43,6 +43,8 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
+import net.minecraft.world.entity.EntityAttachments;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -574,7 +576,12 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         float heightScale = this.mv$getHeightScale();
         float widthScale = this.mv$getWidthScale();
 
-        return EntityDimensions.scalable(original.width()  * widthScale, original.height() * heightScale)
+        if (heightScale != 1.0) {
+            return EntityDimensions.scalable(original.width() * widthScale, original.height() * heightScale)
+                    .withEyeHeight(original.eyeHeight() * eyeScale)
+                    .withAttachments(EntityAttachments.builder().attach(EntityAttachment.VEHICLE,
+                            new Vec3(0.0, 0.7 * heightScale, 0.0)));
+        } else return EntityDimensions.scalable(original.width() * widthScale, original.height() * heightScale)
                 .withEyeHeight(original.eyeHeight() * eyeScale);
     }
 
