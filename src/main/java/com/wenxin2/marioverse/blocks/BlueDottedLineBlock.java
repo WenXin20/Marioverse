@@ -4,13 +4,14 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class BlueDottedLineBlock extends OnBlock implements ToggleableBlock {
+public class BlueDottedLineBlock extends RedDottedLineBlock implements SimpleWaterloggedBlock, ToggleableBlock {
     public static final MapCodec<BlueDottedLineBlock> CODEC = simpleCodec(BlueDottedLineBlock::new);
 
     public BlueDottedLineBlock(Properties properties) {

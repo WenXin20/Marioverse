@@ -50,23 +50,6 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
         stateBuilder.add(ACTIVE, POWERED, RADIUS);
     }
 
-    @NotNull
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        return Shapes.block();
-    }
-
-    @NotNull
-    @Override
-    protected VoxelShape getVisualShape(BlockState p_309057_, BlockGetter p_308936_, BlockPos p_308956_, CollisionContext p_309006_) {
-        return Shapes.block();
-    }
-
-    @Override
-    protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        return 0.0F;
-    }
-
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
         super.onPlace(state, level, pos, oldState, moved);

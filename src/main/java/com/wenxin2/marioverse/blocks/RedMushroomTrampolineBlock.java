@@ -26,33 +26,6 @@ public class RedMushroomTrampolineBlock extends OnBlock implements ToggleableBlo
         super(properties);
     }
 
-    @NotNull
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        return Shapes.block();
-    }
-
-    @NotNull
-    @Override
-    protected VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        return Shapes.block();
-    }
-
-    @Override
-    protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        return 0.0F;
-    }
-
-    @Override
-    protected boolean propagatesSkylightDown(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    protected boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
-        return false;
-    }
-
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         if (entity.isSuppressingBounce())

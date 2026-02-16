@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
@@ -433,7 +434,7 @@ public class BlockRegistry {
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         RED_DOTTED_LINE_BLOCK = registerBlock("red_dotted_line_block",
-                () -> new OnBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                () -> new RedDottedLineBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
                         .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)
                         .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
