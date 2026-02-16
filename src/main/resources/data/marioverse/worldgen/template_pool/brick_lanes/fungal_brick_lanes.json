@@ -255,6 +255,15 @@
       }
     },
     {
+      "weight": 6,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/6x3_on_off_switch",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
       "weight": 4,
       "element": {
         "element_type": "minecraft:single_pool_element",
@@ -315,6 +324,24 @@
         "projection": "rigid",
         "location": "marioverse:brick_lanes/fungal_bricks/12x5_oak_bridge",
         "processors": "marioverse:bridge_decay"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/12x7_dotted_line_blocks",
+        "processors": "marioverse:brick_decay"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "marioverse:brick_lanes/fungal_bricks/13x7x_mushroom_trampolines",
+        "processors": "marioverse:brick_decay"
       }
     },
     {
