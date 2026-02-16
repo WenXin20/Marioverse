@@ -54,7 +54,7 @@ dependencies {
     implementation "curse.maven:geckolib-${geckolib_version}" // Required Dependency
     implementation "curse.maven:mmmmmmmmmmmm-${test_dummy_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight, Optional Dependency
-    implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
+    compileOnly "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
 
     implementation "curse.maven:aether-255308:6389857"
     implementation "curse.maven:amendments-896746:7352178" // Requires Moonlight
@@ -63,6 +63,7 @@ dependencies {
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:embeddium-${embeddium_version}"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
+    implementation "curse.maven:guard-villagers-360203:6066966"
     implementation "curse.maven:inspectability-1312917:6805145"
     implementation "curse.maven:jade-324717:6853386"
     implementation "curse.maven:roughly-enough-items-${rei_version}"
@@ -72,8 +73,6 @@ dependencies {
     implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:6778051"
     implementation "curse.maven:xaeros-world-map-317780:6778114"
-
-    implementation "curse.maven:guard-villagers-360203:6066966"
 
     // Libraries
     implementation "curse.maven:architectury-api-${architectury_api_version}"
