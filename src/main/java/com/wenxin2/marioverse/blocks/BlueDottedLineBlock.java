@@ -10,7 +10,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class BlueDottedLineBlock extends RedDottedLineBlock implements ToggleableBlock {
+public class BlueDottedLineBlock extends OnBlock implements ToggleableBlock {
     public static final MapCodec<BlueDottedLineBlock> CODEC = simpleCodec(BlueDottedLineBlock::new);
 
     public BlueDottedLineBlock(Properties properties) {

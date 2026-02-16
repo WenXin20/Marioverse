@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.world.feature;
 
 import com.mojang.serialization.Codec;
-import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
+import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.world.SwitchSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -36,8 +36,8 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
             if (patchConfig.feature().value().place(worldGenLevel, context.chunkGenerator(), random, posMutable)) {
                 BlockState placedState = worldGenLevel.getBlockState(posMutable);
 
-                if (placedState.hasProperty(RedDottedLineBlock.ACTIVE))
-                    worldGenLevel.setBlock(posMutable, placedState.setValue(RedDottedLineBlock.ACTIVE, data.isActive()), 2);
+                if (placedState.hasProperty(OnBlock.ACTIVE))
+                    worldGenLevel.setBlock(posMutable, placedState.setValue(OnBlock.ACTIVE, data.isActive()), 2);
 
                 placedAmt++;
             }

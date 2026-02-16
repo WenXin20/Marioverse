@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
-import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
+import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
@@ -153,11 +153,11 @@ public class MarioverseEventHandlers {
                 continue;
             }
 
-            if (state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
-                level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+            if (state.getValue(OnBlock.ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
         }
     }
-    
+
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
@@ -913,13 +913,13 @@ public class MarioverseEventHandlers {
                     && !player.getAbilities().flying)
 
                     || (blockBelow instanceof BlueMushroomTrampolineBlock
-                        && !stateBelowEntity.getValue(RedDottedLineBlock.ACTIVE)
+                        && !stateBelowEntity.getValue(OnBlock.ACTIVE)
                         && !player.isSuppressingBounce() && !player.isNoGravity()
                         && !player.getAbilities().flying)
 
                     || (blockBelow instanceof RedMushroomTrampolineBlock
                         && !(blockBelow instanceof BlueMushroomTrampolineBlock)
-                        && stateBelowEntity.getValue(RedDottedLineBlock.ACTIVE)
+                        && stateBelowEntity.getValue(OnBlock.ACTIVE)
                         && !player.isSuppressingBounce() && !player.isNoGravity()
                         && !player.getAbilities().flying);
 

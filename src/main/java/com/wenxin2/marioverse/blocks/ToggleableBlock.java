@@ -29,10 +29,10 @@ public interface ToggleableBlock {
         if (level instanceof ServerLevel serverLevel) {
             SwitchSavedData data = SwitchSavedData.get(serverLevel);
             if (player != null && player.isShiftKeyDown())
-                return defaultState.setValue(RedDottedLineBlock.ACTIVE, !data.isActive());
-            return defaultState.setValue(RedDottedLineBlock.ACTIVE, data.isActive());
+                return defaultState.setValue(OnBlock.ACTIVE, !data.isActive());
+            return defaultState.setValue(OnBlock.ACTIVE, data.isActive());
         }
-        return defaultState.setValue(RedDottedLineBlock.ACTIVE, true);
+        return defaultState.setValue(OnBlock.ACTIVE, true);
     }
 
     static void toggle(ServerLevel level, BlockPos switchPos) {
@@ -55,8 +55,8 @@ public interface ToggleableBlock {
 
                         BlockState state = level.getBlockState(posMutable);
 
-                        if (state.getBlock() instanceof ToggleableBlock && state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
-                            level.setBlock(posMutable, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_ALL);
+                        if (state.getBlock() instanceof ToggleableBlock && state.getValue(OnBlock.ACTIVE) != isActive)
+                            level.setBlock(posMutable, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_ALL);
                     }
                 }
             }
@@ -73,8 +73,8 @@ public interface ToggleableBlock {
                     continue;
                 }
 
-                if (state.getValue(RedDottedLineBlock.ACTIVE) != isActive)
-                    level.setBlock(pos, state.setValue(RedDottedLineBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
+                if (state.getValue(OnBlock.ACTIVE) != isActive)
+                    level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
             }
         }
     }

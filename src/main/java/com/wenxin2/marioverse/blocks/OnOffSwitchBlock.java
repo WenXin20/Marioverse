@@ -28,14 +28,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class OnOffSwitchBlock extends RedDottedLineBlock implements ToggleableBlock {
-    public static final MapCodec<RedDottedLineBlock> CODEC = simpleCodec(RedDottedLineBlock::new);
+public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
+    public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final IntegerProperty RADIUS = IntegerProperty.create("radius", 0, 16);
 
     @NotNull
     @Override
-    protected MapCodec<RedDottedLineBlock> codec() {
+    protected MapCodec<OnBlock> codec() {
         return CODEC;
     }
 

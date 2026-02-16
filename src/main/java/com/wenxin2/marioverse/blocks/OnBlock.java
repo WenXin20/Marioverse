@@ -15,17 +15,17 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class RedDottedLineBlock extends Block implements ToggleableBlock {
-    public static final MapCodec<RedDottedLineBlock> CODEC = simpleCodec(RedDottedLineBlock::new);
+public class OnBlock extends Block implements ToggleableBlock {
+    public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     @NotNull
     @Override
-    protected MapCodec<RedDottedLineBlock> codec() {
+    protected MapCodec<OnBlock> codec() {
         return CODEC;
     }
 
-    public RedDottedLineBlock(Properties properties) {
+    public OnBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }

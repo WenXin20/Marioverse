@@ -21,7 +21,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class RedMushroomTrampolineBlock extends RedDottedLineBlock implements ToggleableBlock {
+public class RedMushroomTrampolineBlock extends OnBlock implements ToggleableBlock {
     public RedMushroomTrampolineBlock(Properties properties) {
         super(properties);
     }

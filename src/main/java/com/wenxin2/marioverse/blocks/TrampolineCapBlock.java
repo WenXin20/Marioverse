@@ -22,12 +22,12 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
 
     public TrampolineCapBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
         super(configuredFeature, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(RedDottedLineBlock.ACTIVE, true));
+        this.registerDefaultState(this.stateDefinition.any().setValue(OnBlock.ACTIVE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(RedDottedLineBlock.ACTIVE);
+        builder.add(OnBlock.ACTIVE);
     }
 
     @Override
