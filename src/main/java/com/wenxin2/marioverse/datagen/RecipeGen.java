@@ -437,6 +437,13 @@ public class RecipeGen extends RecipeUtils {
             dyeItemRecipe(1, "goal_poles_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_GOAL_POLE_ITEMS, output);
         }
 
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.PIPE_CORNER.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "pipe_corners_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.PIPE_CORNER_BLOCK_ITEMS, output);
+        }
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());

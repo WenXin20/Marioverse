@@ -52,6 +52,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
+        copy(TagRegistry.PIPE_CORNER_BLOCKS, TagRegistry.PIPE_CORNER_BLOCK_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.QUESTION_PANEL_BLOCKS, TagRegistry.QUESTION_PANELS_ITEMS);

@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseEntityDirectionalBlock extends DirectionalBlock implements EntityBlock {
     protected BaseEntityDirectionalBlock(BlockBehaviour.Properties properties) {
@@ -24,6 +25,7 @@ public abstract class BaseEntityDirectionalBlock extends DirectionalBlock implem
     @Override
     protected abstract MapCodec<? extends BaseEntityDirectionalBlock> codec();
 
+    @NotNull
     @Override
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.INVISIBLE;

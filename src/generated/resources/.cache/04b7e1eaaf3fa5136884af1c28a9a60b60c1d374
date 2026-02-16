@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-10T01:34:12.1954146	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-02-15T20:55:34.0045934	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -82,6 +82,7 @@ ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/item/mushroom_tram
 f7715c017ddffc880a389a06d288a8a315b075a8 data/marioverse/tags/item/pants/luigi.json
 7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/marioverse/tags/item/pants/mario.json
 7ae1dcab82f4705b715e9c0111ff0f0191a5ba16 data/marioverse/tags/item/pants/peach.json
+cf829d10513c1daf9f2a1efcbaa75ae18d90c44a data/marioverse/tags/item/pipe_corner_blocks.json
 51c64a5ea272d8b17a8acacd965c546d474f5efe data/marioverse/tags/item/piranha_food.json
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/item/polished_calcite.json
 0f368a478ac982f8aa4086d64560ef7916a62791 data/marioverse/tags/item/power_ups.json

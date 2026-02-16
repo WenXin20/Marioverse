@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:pipe_corners_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/blue"
+    },
+    {
+      "tag": "marioverse:pipe_corner_blocks"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:blue_pipe_corner"
+  }
+}

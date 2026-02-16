@@ -80,6 +80,8 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PIPE_CORNER =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> STORAGE_CALCITE_BRICKS =
@@ -1396,6 +1398,11 @@ public class BlockRegistry {
                                 .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.BASS)
                                 .strength(3.5F, 1000.0F).isViewBlocking(BlockRegistry::always)
                                 .requiresCorrectToolForDrops()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                PIPE_CORNER.put(color, registerBlock(color.getName() + "_pipe_corner",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                                .mapColor(color)))));
 
 
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",

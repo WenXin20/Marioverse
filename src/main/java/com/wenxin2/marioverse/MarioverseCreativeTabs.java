@@ -452,6 +452,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.RED_SANDSTONE_BRICK_WALL);
             add(event, BlockRegistry.CHISELED_RED_SANDSTONE_BRICKS);
 
+            addDyedBlocks(event, BlockRegistry.CHISELED_RED_SANDSTONE_BRICKS, BlockRegistry.PIPE_CORNER, true, true);
             add(event, Blocks.CALCITE);
             addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE, true, true);
             addDyedBlocks(event, BlockRegistry.CALCITE.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE, true, true);
@@ -521,6 +522,7 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE);
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
+                addDyedBlocks(event, BlockRegistry.WARP_PIPES.get(DyeColor.PINK), BlockRegistry.PIPE_CORNER, true, true);
 
                 addAfter(event, Blocks.PINK_BANNER, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
                 addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);
