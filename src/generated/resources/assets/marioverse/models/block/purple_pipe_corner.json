@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "marioverse:block/purple_pipe_corner"
-  }
-}

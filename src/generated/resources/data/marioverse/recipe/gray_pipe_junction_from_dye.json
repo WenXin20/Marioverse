@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:pipe_junctions_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/gray"
+    },
+    {
+      "tag": "marioverse:pipe_junction_blocks"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:gray_pipe_junction"
+  }
+}

@@ -3,7 +3,7 @@
   "loader": "fusion:model",
   "type": "connecting",
   "textures": {
-    "all": "marioverse:block/white_pipe_corner"
+    "all": "marioverse:block/white_pipe_junction"
   },
   "connections": {
     "default": { "type": "is_same_block" }

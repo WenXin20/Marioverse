@@ -156,7 +156,7 @@ public class BlockStateGen extends BlockStateProvider {
             this.goalPoleModel(entry.getValue().get(), removeColorName, texture);
         }
 
-        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.PIPE_CORNER.entrySet()) {
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.PIPE_JUNCTION.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
             ResourceLocation texture = modLoc("block/" + blockName);
 

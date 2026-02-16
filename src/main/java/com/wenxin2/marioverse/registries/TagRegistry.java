@@ -70,7 +70,7 @@ public class TagRegistry {
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
     public static final TagKey<Block> MELTS_SNOWBALL = blockTags("melts_snowball");
     public static final TagKey<Block> MUSHROOM_TRAMPOLINE_BLOCKS = blockTags("mushroom_trampoline_blocks");
-    public static final TagKey<Block> PIPE_CORNER_BLOCKS = blockTags("pipe_corner_blocks");
+    public static final TagKey<Block> PIPE_JUNCTION_BLOCKS = blockTags("pipe_junction_blocks");
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
@@ -181,7 +181,7 @@ public class TagRegistry {
     public static final TagKey<Item> PEACH_POWER_UP_COSTUMES = itemTags("power_up_costumes/peach");
     public static final TagKey<Item> PEACH_SHIRTS = itemTags("shirts/peach");
     public static final TagKey<Item> PEACH_SHOES = itemTags("shoes/peach");
-    public static final TagKey<Item> PIPE_CORNER_BLOCK_ITEMS = itemTags("pipe_corner_blocks");
+    public static final TagKey<Item> PIPE_JUNCTION_BLOCK_ITEMS = itemTags("pipe_junction_blocks");
     public static final TagKey<Item> PIRANHA_FOOD = itemTags("piranha_food");
     public static final TagKey<Item> POLISHED_CALCITE_ITEMS = itemTags("polished_calcite");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");

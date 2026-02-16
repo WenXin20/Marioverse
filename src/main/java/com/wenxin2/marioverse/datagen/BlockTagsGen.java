@@ -42,7 +42,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CHISELED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
-        BlockRegistry.PIPE_CORNER.values().forEach(block -> tag(TagRegistry.PIPE_CORNER_BLOCKS).add(block.get()));
+        BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
@@ -666,7 +666,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
-                .addTag(TagRegistry.PIPE_CORNER_BLOCKS);
+                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
 
         tag(BlockTags.SAND)
                 .add(BlockRegistry.QUICKSAND.get())
@@ -787,7 +787,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
-                .addTag(TagRegistry.PIPE_CORNER_BLOCKS)
+                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)

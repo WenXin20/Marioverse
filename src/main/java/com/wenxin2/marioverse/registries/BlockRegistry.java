@@ -80,7 +80,7 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
             new EnumMap<>(DyeColor.class);
-    public static final EnumMap<DyeColor, DeferredBlock<Block>> PIPE_CORNER =
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PIPE_JUNCTION =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
             new EnumMap<>(DyeColor.class);
@@ -1400,7 +1400,7 @@ public class BlockRegistry {
                                 .requiresCorrectToolForDrops()))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
-                PIPE_CORNER.put(color, registerBlock(color.getName() + "_pipe_corner",
+                PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
                                 .mapColor(color)))));
 

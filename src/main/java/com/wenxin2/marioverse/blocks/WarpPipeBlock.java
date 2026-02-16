@@ -422,7 +422,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         Direction facing = state.getValue(FACING);
         BlockState stateRelative = level.getBlockState(pos.relative(facing));
 
-        boolean connects = stateRelative.is(TagRegistry.PIPE_CORNER_BLOCKS)
+        boolean connects = stateRelative.is(TagRegistry.PIPE_JUNCTION_BLOCKS)
                 || stateRelative.getBlock() instanceof ClearWarpPipeBlock
                 || (stateRelative.getBlock() instanceof WarpPipeBlock
                     && !(stateRelative.getBlock() instanceof ClearWarpPipeBlock));
