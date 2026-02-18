@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -93,7 +93,7 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.6D, false));
         this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 0.4));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(4, new LookAtTagGoal(this, TagRegistry.SPLUNKIN_CAN_ATTACK, 8.0F, 1.0F));
+        this.goalSelector.addGoal(4, new LookAtEntityTagGoal(this, TagRegistry.SPLUNKIN_CAN_ATTACK, 8.0F, 1.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new ResetUniversalAngerTargetGoal<>(this, false));
     }

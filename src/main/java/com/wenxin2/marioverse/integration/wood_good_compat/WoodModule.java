@@ -15,7 +15,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 
@@ -27,7 +26,7 @@ public class WoodModule extends SimpleModule {
 
     public WoodModule(String modId) {
         super(modId, "mv", EveryCompat.MOD_ID);
-        ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_BLOCKS_TAB.getKey();
+        ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB.getKey();
 
         bridge = SimpleEntrySet.builder(WoodType.class, "log_bridge",
                         BlockRegistry.OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,

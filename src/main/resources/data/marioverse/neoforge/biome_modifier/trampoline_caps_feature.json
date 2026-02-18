@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#marioverse:has_trampoline_caps",
+  "features": [ "marioverse:huge_trampoline_caps", "marioverse:blue_trampoline_caps", "marioverse:red_trampoline_caps"],
+  "step": "vegetal_decoration"
+}

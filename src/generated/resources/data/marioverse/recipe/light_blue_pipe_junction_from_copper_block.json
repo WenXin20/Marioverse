@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:pipe_junctions_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/light_blue"
+    },
+    {
+      "item": "minecraft:copper_block"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:light_blue_pipe_junction"
+  }
+}

@@ -42,6 +42,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CHISELED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
+        BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
@@ -66,16 +67,22 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(CompatRegistry.CREATE_BRITTLE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
+                .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
+                .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.STAR_COIN.get());
 
         tag(CompatRegistry.CREATE_COPYCAT_ALLOW)
-                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
         tag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER)
                 .addTag(TagRegistry.BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())
@@ -199,6 +206,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
+
+        tag(TagRegistry.DOTTED_LINE_BLOCKS)
+                .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
+                .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get());
 
         tag(TagRegistry.DYED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BLOCKS)
@@ -415,6 +426,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(Blocks.MAGMA_BLOCK)
                 .addOptional(SUPP_FIRE_PIT);
 
+        tag(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS)
+                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get());
+
         tag(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)
                 .add(Blocks.DECORATED_POT);
@@ -616,7 +631,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
 
         tag(BlockTags.ENDERMAN_HOLDABLE)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.GLOW_BLOCK.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
 
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
@@ -625,8 +642,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS);
 
         tag(BlockTags.FLOWER_POTS)
+                .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
-                .add(BlockRegistry.POTTED_PIRANHA_PLANT.get());
+                .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
+                .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get());
 
         tag(BlockTags.FLOWERS)
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
@@ -646,7 +665,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(BlockTags.NEEDS_STONE_TOOL)
-                .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS);
+                .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
 
         tag(BlockTags.SAND)
                 .add(BlockRegistry.QUICKSAND.get())
@@ -747,6 +767,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
@@ -763,6 +787,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
@@ -777,6 +802,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILES.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
@@ -823,6 +849,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.IRON_SPIKE.get())
+                .add(BlockRegistry.ON_OFF_SWITCH.get())
                 .add(BlockRegistry.POLISHED_AMETHYST.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
@@ -846,6 +873,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
+                .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
@@ -865,7 +893,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 

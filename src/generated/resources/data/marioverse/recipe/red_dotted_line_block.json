@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:dotted_line_blocks",
+  "key": {
+    "C": {
+      "item": "minecraft:red_concrete"
+    },
+    "R": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "CRC",
+    "CCC"
+  ],
+  "result": {
+    "count": 8,
+    "id": "marioverse:red_dotted_line_block"
+  }
+}

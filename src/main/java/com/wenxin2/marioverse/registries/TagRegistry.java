@@ -34,6 +34,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_SNOW_POKEY = biomeTags("has_snow_pokey");
     public static final TagKey<Biome> HAS_SPLUNKIN = biomeTags("has_splunkin");
     public static final TagKey<Biome> HAS_SUBMERGED_PIPES = biomeTags("has_submerged_pipes");
+    public static final TagKey<Biome> HAS_TRAMPOLINE_CAPS = biomeTags("has_trampoline_caps");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
@@ -46,6 +47,7 @@ public class TagRegistry {
     public static final TagKey<Block> CHECKPOINT_FLAG_BLOCKS = blockTags("checkpoint_flags");
     public static final TagKey<Block> CHISELED_CALCITE_BRICK_BLOCKS = blockTags("chiseled_calcite_bricks");
     public static final TagKey<Block> CRACKED_CALCITE_BRICK_BLOCKS = blockTags("cracked_calcite_bricks");
+    public static final TagKey<Block> DOTTED_LINE_BLOCKS = blockTags("dotted_line_blocks");
     public static final TagKey<Block> DYEABLE_CHECKPOINT_FLAG_BLOCKS = blockTags("dyeable_checkpoint_flags");
     public static final TagKey<Block> DYEABLE_GOAL_POLE_BLOCKS = blockTags("dyeable_goal_poles");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
@@ -67,6 +69,8 @@ public class TagRegistry {
     public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags("melts_into_packed_ice");
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
     public static final TagKey<Block> MELTS_SNOWBALL = blockTags("melts_snowball");
+    public static final TagKey<Block> MUSHROOM_TRAMPOLINE_BLOCKS = blockTags("mushroom_trampoline_blocks");
+    public static final TagKey<Block> PIPE_JUNCTION_BLOCKS = blockTags("pipe_junction_blocks");
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
@@ -135,6 +139,7 @@ public class TagRegistry {
     public static final TagKey<Item> CRAFTS_WARP_DOOR = itemTags("crafts_warp_door");
     public static final TagKey<Item> CRAFTS_WARP_PAINTING = itemTags("crafts_warp_painting");
     public static final TagKey<Item> CRAFTS_WARP_TRAPDOOR = itemTags("crafts_warp_trapdoor");
+    public static final TagKey<Item> DOTTED_LINE_BLOCK_ITEMS = itemTags("dotted_line_blocks");
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
@@ -143,8 +148,8 @@ public class TagRegistry {
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_ITEMS = itemTags("flammable_wooden_bridges");
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS = itemTags("flammable_wooden_bridge_stairs");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
-    public static final TagKey<Item> HATS = itemTags("hats");
     public static final TagKey<Item> HALLOWEEN_MASKS = itemTags("halloween_masks");
+    public static final TagKey<Item> HATS = itemTags("hats");
     public static final TagKey<Item> ICE_COSTUMES = itemTags("costumes/ice");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");
@@ -166,6 +171,7 @@ public class TagRegistry {
     public static final TagKey<Item> MARIO_POWER_UP_COSTUMES = itemTags("power_up_costumes/mario");
     public static final TagKey<Item> MARIO_SHIRTS = itemTags("shirts/mario");
     public static final TagKey<Item> MARIO_SHOES = itemTags("shoes/mario");
+    public static final TagKey<Item> MUSHROOM_TRAMPOLINE_BLOCK_ITEMS = itemTags("mushroom_trampoline_blocks");
     public static final TagKey<Item> PANTS = itemTags("pants");
     public static final TagKey<Item> PEACH_COSTUMES = itemTags("costumes/peach");;
     public static final TagKey<Item> PEACH_FIRE_COSTUMES = itemTags("costumes/fire/peach");
@@ -175,6 +181,7 @@ public class TagRegistry {
     public static final TagKey<Item> PEACH_POWER_UP_COSTUMES = itemTags("power_up_costumes/peach");
     public static final TagKey<Item> PEACH_SHIRTS = itemTags("shirts/peach");
     public static final TagKey<Item> PEACH_SHOES = itemTags("shoes/peach");
+    public static final TagKey<Item> PIPE_JUNCTION_BLOCK_ITEMS = itemTags("pipe_junction_blocks");
     public static final TagKey<Item> PIRANHA_FOOD = itemTags("piranha_food");
     public static final TagKey<Item> POLISHED_CALCITE_ITEMS = itemTags("polished_calcite");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
@@ -206,6 +213,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_BE_INSTAKILL_STOMPED = entityTypeTags("can_be_instakill_stomped");
     public static final TagKey<EntityType<?>> CAN_BE_STOMPED = entityTypeTags("can_be_stomped");
     public static final TagKey<EntityType<?>> CAN_BONK_BLOCKS = entityTypeTags("can_bonk_blocks");
+    public static final TagKey<EntityType<?>> CAN_BONK_BLOCKS_FROM_SIDE = entityTypeTags("can_bonk_blocks_from_side");
     public static final TagKey<EntityType<?>> CAN_BREAK_BLOCKS_AS_MEGA = entityTypeTags("can_break_blocks_as_mega");
     public static final TagKey<EntityType<?>> CAN_CLAIM_CHECKPOINT_FLAGS = entityTypeTags("can_claim_checkpoint_flags");
     public static final TagKey<EntityType<?>> CAN_COLLECT_COINS = entityTypeTags("can_collect_coins");
@@ -218,11 +226,15 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_MUSHROOMS = entityTypeTags("can_consume_super_mushrooms");
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_STARS = entityTypeTags("can_consume_super_stars");
     public static final TagKey<EntityType<?>> CAN_DO_DAMAGE_AS_MEGA = entityTypeTags("can_do_damage_as_mega");
+    public static final TagKey<EntityType<?>> CAN_HIT_ON_OFF_SWITCHES = entityTypeTags("can_hit_on_off_switches");
+    public static final TagKey<EntityType<?>> CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE = entityTypeTags("can_hit_on_off_switches_from_side");
     public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS = entityTypeTags("can_hit_question_blocks");
+    public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS_FROM_SIDE = entityTypeTags("can_hit_question_blocks_from_side");
     public static final TagKey<EntityType<?>> CAN_LOWER_FLAGS = entityTypeTags("can_lower_flags");
     public static final TagKey<EntityType<?>> CAN_PICKUP_AND_THROW_SHELLS = entityTypeTags("can_pickup_and_throw_shells");
     public static final TagKey<EntityType<?>> CAN_SHOOT_SUPPLEMENTARIES_CANNON = entityTypeTags("can_shoot_supplementaries_cannon");
     public static final TagKey<EntityType<?>> CAN_SMASH_BLOCKS = entityTypeTags("can_smash_blocks");
+    public static final TagKey<EntityType<?>> CAN_SMASH_BLOCKS_FROM_SIDE = entityTypeTags("can_smash_blocks_from_side");
     public static final TagKey<EntityType<?>> CAN_STOMP_ENEMIES = entityTypeTags("can_stomp_enemies");
     public static final TagKey<EntityType<?>> CAN_WALK_ON_QUICKSAND = entityTypeTags("can_walk_on_quicksand");
     public static final TagKey<EntityType<?>> CAN_WEAR_COSTUMES = entityTypeTags("can_wear_costumes");

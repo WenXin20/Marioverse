@@ -4,12 +4,16 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
+import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
@@ -17,10 +21,12 @@ import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -35,6 +41,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
@@ -45,6 +52,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.entity.projectile.ThrownExperienceBottle;
@@ -86,6 +94,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -174,6 +183,18 @@ public class QuestionBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
+        BlockPos pos = hitResult.getBlockPos();
+
+        if (level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBlockEntity
+            && projectile.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+            && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+            QuestionBlock.hitQuestionBlock(level, pos, projectile, questionBlockEntity);
+
+        projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
+    }
+
+    @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
@@ -203,15 +224,15 @@ public class QuestionBlock extends BaseEntityBlock {
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                     ItemStack itemstack = stack.consumeAndReturn(1, player);
 
-                    float f;
+                    float soundPitch;
                     if (questionBE.isEmpty()) {
                         questionBE.setTheItem(itemstack);
-                        f = (float) itemstack.getCount() / (float) itemstack.getMaxStackSize();
+                        soundPitch = (float) itemstack.getCount() / (float) itemstack.getMaxStackSize();
                     } else {
                         blockStack.grow(1);
-                        f = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
+                        soundPitch = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
                     }
-                    world.playSound(null, pos, SoundEvents.DECORATED_POT_INSERT, SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * f);
+                    world.playSound(null, pos, SoundRegistry.ITEM_INSERTED.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
 
                     world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBE.setChanged();
@@ -256,6 +277,89 @@ public class QuestionBlock extends BaseEntityBlock {
                 return InteractionResult.SUCCESS;
             } else return InteractionResult.PASS;
         } else return InteractionResult.PASS;
+    }
+
+    public static void hitQuestionBlock(Level world, BlockPos pos, Entity entity, QuestionBlockEntity questionBlockEntity) {
+        if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
+            ItemStack storedItem = questionBlockEntity.getTheItem();
+
+            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY))
+                QuestionBlock.hitEntityAbove(pos, world, entity);
+
+            if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                BlockState stateAbove = world.getBlockState(pos.above());
+                ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
+                if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
+                    StarCoinBlock.collectCoin(starCoin, world, stateAbove, pos.above(), entity, coinItem);
+                else if (stateAbove.getBlock() instanceof CoinBlock)
+                    CoinBlock.collectCoin(world, stateAbove, pos.above(), entity, coinItem);
+
+                if (!world.isClientSide)
+                    questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
+
+                if (world.getBlockState(pos).is(BlockTags.GUARDED_BY_PIGLINS) && entity instanceof Player player)
+                    PiglinAi.angerNearbyPiglins(player, false);
+
+                if (world instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
+                            UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
+
+                entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 2);
+                MarioverseSoundTypes.playSounds(world, pos, storedItem);
+                questionBlockEntity.splitTheItem(1);
+                questionBlockEntity.setChanged();
+            }
+
+            if (storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
+                BlockState currentState = world.getBlockState(pos);
+                if (currentState.getBlock() instanceof QuestionBlock)
+                    world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
+            }
+
+            if (world.getBlockState(pos).getBlock() instanceof InvisibleQuestionBlock
+                    && world.getBlockState(pos).getValue(InvisibleQuestionBlock.INVISIBLE)) {
+                BlockState currentState = world.getBlockState(pos);
+                world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+                world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
+            }
+        }
+    }
+
+    public static void hitQuestionBlockFromSide(Level world, BlockPos posNorth, Entity entity, BlockPos posSouth, BlockPos posEast, BlockPos posWest) {
+        if (world.getBlockEntity(posNorth) instanceof QuestionBlockEntity questionBlockEntity)
+            QuestionBlock.hitQuestionBlock(world, posNorth, entity, questionBlockEntity);
+
+        if (world.getBlockEntity(posSouth) instanceof QuestionBlockEntity questionBlockEntity)
+            QuestionBlock.hitQuestionBlock(world, posSouth, entity, questionBlockEntity);
+
+        if (world.getBlockEntity(posEast) instanceof QuestionBlockEntity questionBlockEntity)
+            QuestionBlock.hitQuestionBlock(world, posEast, entity, questionBlockEntity);
+
+        if (world.getBlockEntity(posWest) instanceof QuestionBlockEntity questionBlockEntity)
+            QuestionBlock.hitQuestionBlock(world, posWest, entity, questionBlockEntity);
+    }
+
+    public static void hitEntityAbove(BlockPos pos, Level world, Entity attackingEntity) {
+        AABB boundingBox = new AABB(pos.above()).inflate(0.01);
+        List<Entity> entitiesAbove = world.getEntities(null, boundingBox);
+
+        if (!entitiesAbove.isEmpty()) {
+            for (Entity entityAbove : entitiesAbove) {
+                if (entityAbove instanceof LivingEntity livingEntity && livingEntity.onGround()) {
+                    entityAbove.setDeltaMovement(entityAbove.getDeltaMovement().add(0, 0.5, 0));
+                    if (world.getBlockState(pos).getBlock() instanceof QuestionBlock) {
+                        if (livingEntity instanceof KoopaShellEntity)
+                            livingEntity.hurt(DamageSourceRegistry.bonked(livingEntity, attackingEntity), 0.0F);
+                        else livingEntity.hurt(DamageSourceRegistry.bonked(livingEntity, attackingEntity), 4.0F);
+                    } else {
+                        if (livingEntity instanceof KoopaShellEntity)
+                            livingEntity.hurt(DamageSourceRegistry.shrapnel(livingEntity, attackingEntity), 0.0F);
+                        else livingEntity.hurt(DamageSourceRegistry.shrapnel(livingEntity, attackingEntity), 4.0F);
+                    }
+                }
+            }
+        }
     }
 
     public void spawnFromQuestionBlock(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos, boolean applyUpMotion) {
@@ -499,7 +603,7 @@ public class QuestionBlock extends BaseEntityBlock {
                 } else this.spawnItem(world, pos.below(), stack, dropItemsAtPos);
 
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CheckpointFlagBlock block) {
-                int randomRotation = world.random.nextInt(17);
+                int randomRotation = world.random.nextInt(15);
 
                 if (world.getBlockState(pos.above()).canBeReplaced()
                         && world.getBlockState(pos.above(2)).canBeReplaced()

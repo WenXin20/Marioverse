@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "marioverse:block/blue_dotted_line_block_off"
+    },
+    "active=true": {
+      "model": "marioverse:block/blue_dotted_line_block"
+    }
+  }
+}

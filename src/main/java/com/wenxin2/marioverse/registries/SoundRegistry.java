@@ -11,6 +11,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_OFF;
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_ON;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH_FAIL;
     public static final DeferredHolder<SoundEvent, SoundEvent> BOO_DEATH;
@@ -54,6 +55,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_SHATTERED;
     public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_SHATTERED_ON_ENEMY;
     public static final DeferredHolder<SoundEvent, SoundEvent> ICE_BALL_THROWN;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_INSERTED;
     public static final DeferredHolder<SoundEvent, SoundEvent> ITEM_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> KOOPA_SHELL_BOUNCED;
     public static final DeferredHolder<SoundEvent, SoundEvent> KOOPA_SHELL_SHATTER;
@@ -104,6 +106,9 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> SPLUNKIN_DEATH;
     public static final DeferredHolder<SoundEvent, SoundEvent> STAR_COIN_PICKUP;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_BOUNCE;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SWITCH_OFF;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SWITCH_ON;
+    public static final DeferredHolder<SoundEvent, SoundEvent> SWITCH_RADIUS_TOGGLED;
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_STAR_THEME;
     public static final DeferredHolder<SoundEvent, SoundEvent> WARP_COMPLETED;
     public static final DeferredHolder<SoundEvent, SoundEvent> WARP_FUEL_FILLS;
@@ -127,6 +132,8 @@ public class SoundRegistry {
 
         BLOCK_BONK = Marioverse.SOUNDS.register("block.block_bonk",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_bonk")));
+        BLOCK_BOUNCE = Marioverse.SOUNDS.register("block.block_bounce",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_bounce")));
         BLOCK_SMASH = Marioverse.SOUNDS.register("block.block_smash",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_smash")));
         BLOCK_SMASH_FAIL = Marioverse.SOUNDS.register("block.block_smash_fail",
@@ -189,6 +196,13 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.spikes_peek")));
         SPIKES_RETRACT = Marioverse.SOUNDS.register("block.spikes_retract",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.spikes_retract")));
+
+        SWITCH_OFF = Marioverse.SOUNDS.register("block.switch_off",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.switch_off")));
+        SWITCH_ON = Marioverse.SOUNDS.register("block.switch_on",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.switch_on")));
+        SWITCH_RADIUS_TOGGLED = Marioverse.SOUNDS.register("block.switch_radius_toggled",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.switch_radius_toggled")));
 
         WARP_COMPLETED = Marioverse.SOUNDS.register("block.warp_fuel.completed",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.warp_fuel.completed")));
@@ -339,6 +353,8 @@ public class SoundRegistry {
         PLAYER_JUMP = Marioverse.SOUNDS.register("player.jump",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.jump")));
 
+        ITEM_INSERTED = Marioverse.SOUNDS.register("item.item_inserted",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.item_inserted")));
         WRENCH_BOUND = Marioverse.SOUNDS.register("item.wrench_bound",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_bound")));
 

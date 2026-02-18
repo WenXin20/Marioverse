@@ -4,7 +4,7 @@ import com.wenxin2.marioverse.entities.ai.controls.AmphibiousMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaRideGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
-import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -45,7 +45,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
     public HeftyGoombaEntity(EntityType<? extends HeftyGoombaEntity> type, Level world) {
         super(type, world);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
-        this.setPathfindingMalus(PathType.WATER, 2.0F);
+        this.setPathfindingMalus(PathType.WATER, 1.0F);
         this.moveControl = new AmphibiousMoveControl(this, 85, 10, 0.6F, 1.0F, true);
         this.xpReward = 6;
     }
@@ -80,7 +80,7 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.6D, false));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(3, new LookAtTagGoal(this, TagRegistry.HEFTY_GOOMBA_CAN_ATTACK, 8.0F, 1.0F));
+        this.goalSelector.addGoal(3, new LookAtEntityTagGoal(this, TagRegistry.HEFTY_GOOMBA_CAN_ATTACK, 8.0F, 1.0F));
         this.goalSelector.addGoal(4, new GoombaSitGoal(this, 0.25F, 1200, 3000, 300));
         this.goalSelector.addGoal(5, new GoombaSleepGoal(this, 0.1F, 2400, 6000));
         this.goalSelector.addGoal(6, new GoombaRideGoal(this, 0.01F));

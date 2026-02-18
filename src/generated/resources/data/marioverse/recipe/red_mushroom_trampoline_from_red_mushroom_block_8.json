@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:mushroom_trampolines",
+  "key": {
+    "D": {
+      "item": "marioverse:red_dotted_line_block"
+    },
+    "M": {
+      "item": "minecraft:red_mushroom_block"
+    }
+  },
+  "pattern": [
+    "MMM",
+    "MDM",
+    "MMM"
+  ],
+  "result": {
+    "count": 8,
+    "id": "marioverse:red_mushroom_trampoline"
+  }
+}

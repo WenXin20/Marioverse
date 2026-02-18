@@ -59,6 +59,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.SNOW_POKEY_BODY.get());
 
         tag(EntityTypeTags.IMPACT_PROJECTILES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get())
                 .add(EntityRegistry.BOUNCING_ICE_BALL.get())
                 .add(EntityRegistry.LARGE_SNOWBALL.get());
@@ -140,12 +141,14 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(TEST_DUMMY);
 
         tag(TagRegistry.CAN_BONK_BLOCKS)
-                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
-                .add(EntityRegistry.LARGE_SNOWBALL.get())
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(GUARD_VILLAGER);
+
+        tag(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES);
 
         tag(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA)
                 .add(EntityType.PLAYER);
@@ -286,15 +289,24 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PLAYER)
                 .add(EntityType.SNOW_GOLEM);
 
+        tag(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES)
+                .add(EntityType.PLAYER);
+
+        tag(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES);
+
         tag(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
-                .add(EntityRegistry.LARGE_SNOWBALL.get())
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(GUARD_VILLAGER)
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES);
 
         tag(TagRegistry.CAN_LOWER_FLAGS)
                 .add(EntityType.PLAYER);
@@ -326,13 +338,16 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.SNOW_POKEY_BODY.get());
 
         tag(TagRegistry.CAN_SMASH_BLOCKS)
-                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(GUARD_VILLAGER)
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES);
 
         tag(TagRegistry.CAN_STOMP_ENEMIES)
                 .add(EntityType.PLAYER)

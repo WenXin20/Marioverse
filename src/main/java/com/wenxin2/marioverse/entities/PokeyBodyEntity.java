@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import java.util.UUID;
@@ -69,7 +69,7 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(2, new LookAtTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
+        this.goalSelector.addGoal(2, new LookAtEntityTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));

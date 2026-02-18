@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "marioverse:block/potted_blue_trampoline_cap"
+    },
+    "active=true": {
+      "model": "marioverse:block/potted_blue_trampoline_cap_off"
+    }
+  }
+}

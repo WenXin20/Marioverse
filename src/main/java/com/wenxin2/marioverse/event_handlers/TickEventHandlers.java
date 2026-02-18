@@ -33,7 +33,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import org.spongepowered.asm.mixin.Unique;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class TickEventHandlers {
@@ -45,11 +44,6 @@ public class TickEventHandlers {
     public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
         Level level = entity.level();
-        double deltaY = entity.getDeltaMovement().y;
-
-        if ((entity.onGround() || entity.isInWaterOrBubble())
-                && deltaY <= 0 && entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get()))
-            entity.setData(DataAttachmentRegistry.HAS_HIT_BLOCK.get(), false);
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
@@ -145,8 +139,8 @@ public class TickEventHandlers {
     public static void postEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
         Level level = entity.level();
-        BlockPos pos = entity.blockPosition();
         Vec3 motion = entity.getDeltaMovement();
+        BlockPos pos = entity.blockPosition();
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
 
         if (!level.isClientSide && entity instanceof LivingEntity livingEntity) {
@@ -438,7 +432,6 @@ public class TickEventHandlers {
         }
     }
 
-    @Unique
     private static void scale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed, Consumer<Double> setter) {
         ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
 

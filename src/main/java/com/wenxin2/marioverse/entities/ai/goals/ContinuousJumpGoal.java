@@ -1,10 +1,10 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
+import com.wenxin2.marioverse.entities.ai.controls.JumpInPlaceMoveControl;
 import java.util.EnumSet;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.monster.Slime;
 
 public class ContinuousJumpGoal extends Goal {
     private final Mob mob;
@@ -21,8 +21,9 @@ public class ContinuousJumpGoal extends Goal {
 
     @Override
     public void tick() {
-        if (this.mob.getMoveControl() instanceof BounceMoveControl bounceMoveControl) {
-            bounceMoveControl.setWantedMovement(1.0);
-        }
+        if (this.mob.getMoveControl() instanceof BounceMoveControl moveControl)
+            moveControl.triggerJump(1.0);
+        if (this.mob.getMoveControl() instanceof JumpInPlaceMoveControl moveControl)
+            moveControl.triggerJump(1.0);
     }
 }

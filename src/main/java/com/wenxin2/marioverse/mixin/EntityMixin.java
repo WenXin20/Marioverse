@@ -1,22 +1,31 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
+import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -27,11 +36,13 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -68,6 +79,22 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
+    }
+
+    @Inject(method = "move", at = @At("HEAD"))
+    public void move(MoverType type, Vec3 movement, CallbackInfo ci) {
+        Entity entity = (Entity) (Object) this;
+        Level level = entity.level();
+        Vec3 motion = entity.getDeltaMovement();
+
+        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                    || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
+                && (motion.y < 0 || entity.isInWaterOrBubble())
+                && entity instanceof LivingEntity livingEntity
+                && !(entity instanceof Player)
+                && !entity.isSpectator())
+            this.mv$squashEntity(livingEntity);
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
@@ -281,5 +308,88 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Unique
     public float mv$sanitizeScales(float scale) {
         return scale;
+    }
+
+    @Unique
+    public void mv$squashEntity(LivingEntity stompingEntity) {
+        Vec3 motion = stompingEntity.getDeltaMovement();
+        AABB inflatedBox = stompingEntity.getBoundingBox().expandTowards(0, motion.y, 0)
+                .inflate(0.5, 0.0, 0.5);
+
+        List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, inflatedBox);
+
+        if (!nearbyEntities.isEmpty()) {
+            for (Entity entity : nearbyEntities) {
+                if (entity instanceof LivingEntity damagedEntity && !damagedEntity.isVehicle()
+                        && (stompingEntity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                            || stompingEntity.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
+
+                        && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
+
+                        && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
+                            || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
+                            || (ConfigRegistry.STOMP_ALL_MOBS.get() && damagedEntity instanceof LivingEntity)
+                            || (damagedEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)
+                                && damagedEntity instanceof LivingEntity))) {
+
+                    if (stompingEntity instanceof Player player && player.getAbilities().flying)
+                        return;
+
+                    if (stompingEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                            || damagedEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
+                        return;
+
+                    double startY = stompingEntity.getBoundingBox().minY;
+                    double endY = startY + motion.y;
+                    double targetTop = damagedEntity.getBoundingBox().maxY;
+
+                    if (startY >= targetTop && endY <= targetTop
+                            && (motion.y < 0 || stompingEntity.isInWaterOrBubble())) {
+                        double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
+                        double gravity = 0.08;
+                        double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
+
+                        if (damagedEntity.isAlive()) {
+                            stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
+                            stompingEntity.hasImpulse = true;
+                            if (stompingEntity instanceof ServerPlayer serverPlayer)
+                                serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(stompingEntity));
+                        }
+
+                        float scaleFactor = damagedEntity.getBbHeight() * damagedEntity.getBbWidth();
+                        int numParticles = (int) (scaleFactor * 20);
+                        double radius = damagedEntity.getBbWidth() / 2;
+
+                        if (stompingEntity.level() instanceof ServerLevel serverWorld)
+                            ServerParticleUtils.spawnParticleRingAboveEntity(ParticleTypes.CRIT, serverWorld, damagedEntity, radius, 0, numParticles);
+
+                        boolean hasNoArmor = true;
+                        for (ItemStack armorSlot : damagedEntity.getArmorSlots()) {
+                            if (!armorSlot.isEmpty()) {
+                                hasNoArmor = false;
+                                break;
+                            }
+                        }
+
+                        if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
+                            if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor
+                                    && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
+                                damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());
+                            else if (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED) || ConfigRegistry.STOMP_ALL_MOBS.get()
+                                    || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
+                                if (stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                                        || damagedEntity instanceof KoopaTroopaEntity
+                                        || damagedEntity instanceof KoopaShellEntity)
+                                    damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
+                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                            }
+                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
+                                OneUpMushroomEntity.consecutiveReward(stompingEntity, damagedEntity, stompingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

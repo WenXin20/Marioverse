@@ -3,8 +3,6 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,7 +23,7 @@ public class MegaMushroomEntity extends MushroomEntity implements GeoEntity {
 
     public MegaMushroomEntity(EntityType<? extends MegaMushroomEntity> entityType, Level world) {
         super(entityType, world);
-        this.moveControl = new BounceMoveControl(this, 1, this.getJumpSound(), 1.0F, 1.0F);
+        this.moveControl = new BounceMoveControl(this, 1, null, 1.0F, 1.0F);
     }
 
     @Override
@@ -51,10 +49,6 @@ public class MegaMushroomEntity extends MushroomEntity implements GeoEntity {
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.geoCache;
     }
-
-    protected SoundEvent getJumpSound() {
-        return SoundEvents.RABBIT_JUMP;
-    } //TODO
 
     @Override
     public void collideWithEntity(Entity entity) {

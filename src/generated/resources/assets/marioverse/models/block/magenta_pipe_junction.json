@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "marioverse:block/magenta_pipe_junction"
+  }
+}

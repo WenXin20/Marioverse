@@ -42,6 +42,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS, TagRegistry.CRACKED_CALCITE_BRICK_ITEMS);
+        copy(TagRegistry.DOTTED_LINE_BLOCKS, TagRegistry.DOTTED_LINE_BLOCK_ITEMS);
         copy(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS, TagRegistry.DYEABLE_CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS, TagRegistry.DYEABLE_GOAL_POLE_ITEMS);
         copy(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS);
@@ -50,6 +51,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
+        copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
+        copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.QUESTION_PANEL_BLOCKS, TagRegistry.QUESTION_PANELS_ITEMS);
@@ -132,6 +135,10 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(Tags.Items.ENCHANTABLES)
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
+
+        tag(Tags.Items.MUSHROOMS)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 .addTag(TagRegistry.ICE_COSTUMES)

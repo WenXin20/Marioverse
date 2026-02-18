@@ -1,6 +1,11 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.BridgeStairBlock;
@@ -12,6 +17,9 @@ import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
+import com.wenxin2.marioverse.blocks.TrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
@@ -33,6 +41,7 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ColorRGBA;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -72,6 +81,8 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PIPE_JUNCTION =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> STORAGE_CALCITE_BRICKS =
@@ -98,6 +109,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
+    public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
@@ -215,6 +229,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> ON_OFF_SWITCH;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
@@ -243,8 +258,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_SLAB;
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
+    public static final DeferredBlock<Block> POTTED_BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
+    public static final DeferredBlock<Block> POTTED_RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
@@ -253,8 +270,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUICKSAND;
+    public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> RED_QUICKSAND;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
@@ -406,6 +426,46 @@ public class BlockRegistry {
         SPLUNKIN_O_LANTERN = registerBlock("splunkin_o_lantern",
                 () -> new SplunkinCarvedPumpkinBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.JACK_O_LANTERN)
                         .lightLevel(state -> state.getValue(SplunkinCarvedPumpkinBlock.CRACKED) ? 15 : 10)));
+
+
+        ON_OFF_SWITCH = registerBlock("on_off_switch",
+                () -> new OnOffSwitchBlock(BlockBehaviour.Properties.of()
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
+                        .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                        .strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        RED_DOTTED_LINE_BLOCK = registerBlock("red_dotted_line_block",
+                () -> new RedDottedLineBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)
+                        .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
+                        .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
+                        .noOcclusion()));
+        BLUE_DOTTED_LINE_BLOCK = registerBlock("blue_dotted_line_block",
+                () -> new BlueDottedLineBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
+                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)
+                        .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
+                        .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
+                        .noOcclusion()));
+        RED_MUSHROOM_TRAMPOLINE = registerBlock("red_mushroom_trampoline",
+                () -> new RedMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
+        BLUE_MUSHROOM_TRAMPOLINE = registerBlock("blue_mushroom_trampoline",
+                () -> new BlueMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
+                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
+        RED_TRAMPOLINE_CAP = registerBlock("red_trampoline_cap",
+                () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
+                        .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
+        BLUE_TRAMPOLINE_CAP = registerBlock("blue_trampoline_cap",
+                () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                        .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
+        POTTED_RED_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_trampoline_cap",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.RED_TRAMPOLINE_CAP,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_trampoline_cap",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.BLUE_TRAMPOLINE_CAP,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
                 () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));
@@ -1340,6 +1400,11 @@ public class BlockRegistry {
                                 .strength(3.5F, 1000.0F).isViewBlocking(BlockRegistry::always)
                                 .requiresCorrectToolForDrops()))));
 
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
+                                .mapColor(color)))));
+
 
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",
                 () -> new PipeBubblesBlock(BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY)
@@ -1364,7 +1429,9 @@ public class BlockRegistry {
 
     public static void registerFlowerPots() {
         FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
+        pot.addPlant(BlockRegistry.BLUE_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
+        pot.addPlant(BlockRegistry.RED_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_TRAMPOLINE_CAP);
     }
 
     private static Block button(Block block, BlockSetType blockSetType, int ticksPressed) {
@@ -1395,5 +1462,23 @@ public class BlockRegistry {
         return false;
     }
 
-    public static void init() {}
+    public static Boolean isActive(BlockState state, BlockGetter blockGetter, BlockPos pos, EntityType<?> entity) {
+        if (blockGetter instanceof BlueDottedLineBlock)
+            return !state.getValue(OnBlock.ACTIVE);
+        if (blockGetter instanceof OnBlock)
+            return state.getValue(OnBlock.ACTIVE);
+        return false;
+    }
+
+    private static boolean isActive(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        if (blockGetter instanceof BlueDottedLineBlock)
+            return !state.getValue(OnBlock.ACTIVE);
+        if (blockGetter instanceof OnBlock)
+            return state.getValue(OnBlock.ACTIVE);
+        return false;
+    }
+
+    public static void init() {
+
+    }
 }

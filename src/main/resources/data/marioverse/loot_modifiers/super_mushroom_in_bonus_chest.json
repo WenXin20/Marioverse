@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_table",
+  "table": "marioverse:chests/spawn_bonus_chest",
+  "conditions": [
+    {
+      "condition": "minecraft:random_chance",
+      "chance": 5
+    }
+  ]
+}

@@ -9,6 +9,82 @@
       "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
         "water_spout": ["true", "false"], "facing": ["up", "down", "north", "south", "east", "west"] }
     },
+    "side": {
+      "type": "or",
+      "predicates": [
+        {
+          "type": "match_state",
+          "block": "marioverse:yellow_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["up"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:yellow_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["down"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:yellow_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["north"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:yellow_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["south"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:yellow_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["east"] }
+        },
+        {
+          "type": "match_state",
+          "block": "marioverse:yellow_warp_pipe",
+          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
+            "water_spout": ["true", "false"], "facing": ["west"] }
+        },
+        { "type": "match_block", "block": "marioverse:black_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:blue_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:brown_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:cyan_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:gray_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:green_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:light_blue_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:light_gray_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:lime_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:magenta_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:orange_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:pink_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:purple_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:red_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:white_pipe_junction" },
+        { "type": "match_block", "block": "marioverse:yellow_pipe_junction" },
+        { "type": "match_block", "block": "minecraft:coarse_dirt" },
+        { "type": "match_block", "block": "minecraft:dirt" },
+        { "type": "match_block", "block": "minecraft:dirt_path" },
+        { "type": "match_block", "block": "minecraft:farmland" },
+        { "type": "match_block", "block": "minecraft:grass_block" },
+        { "type": "match_block", "block": "minecraft:moss_block" },
+        { "type": "match_block", "block": "minecraft:mud" },
+        { "type": "match_block", "block": "minecraft:muddy_mangrove_roots" },
+        { "type": "match_block", "block": "minecraft:mycelium" },
+        { "type": "match_block", "block": "minecraft:podzol" },
+        { "type": "match_block", "block": "minecraft:rooted_dirt" },
+        { "type": "match_block", "block": "minecraft:copper_block" },
+        { "type": "match_block", "block": "minecraft:exposed_copper" },
+        { "type": "match_block", "block": "minecraft:oxidized_copper" },
+        { "type": "match_block", "block": "minecraft:weathered_copper" },
+        { "type": "match_block", "block": "minecraft:waxed_copper_block" },
+        { "type": "match_block", "block": "minecraft:waxed_exposed_copper" },
+        { "type": "match_block", "block": "minecraft:waxed_oxidized_copper" },
+        { "type": "match_block", "block": "minecraft:waxed_weathered_copper" }
+      ]
+    },
     "default": { "type": "is_same_block" }
   },
   "textures": {

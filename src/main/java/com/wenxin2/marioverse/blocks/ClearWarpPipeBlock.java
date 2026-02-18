@@ -27,7 +27,6 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -250,7 +249,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @NotNull
     @Override
-    protected VoxelShape getVisualShape(BlockState p_309057_, BlockGetter p_308936_, BlockPos p_308956_, CollisionContext p_309006_) {
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
         return Shapes.empty();
     }
 
@@ -265,6 +264,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         return false;
     }
 
+    @NotNull
     @Override
     public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         double entityX = player.getX();
@@ -397,6 +397,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
+    @NotNull
     @Override
     public BlockState rotate(BlockState state, Rotation rotation) {
         switch (rotation) {
@@ -423,6 +424,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         }
     }
 
+    @NotNull
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         switch (mirror) {
@@ -461,16 +463,26 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         return false;
     }
 
+    @NotNull
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos posNeighbor) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos posNeighbor) {
         Direction facing = state.getValue(FACING);
-        BlockPos posRelative = pos.relative(facing);
+        BlockState newState = state;
+        BooleanProperty property = PROPERTY_BY_DIRECTION.get(direction);
 
         if (state.getValue(WATERLOGGED) && !state.getValue(CLOSED))
-            worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
+            levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
 
-        return state.setValue(ENTRANCE, worldAccessor.getBlockState(posRelative).getBlock() != this)
-                .setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(neighborState));
+        if (direction == facing)
+            newState = calculateEntrance(state, levelAccessor, pos);
+
+        if (property != null) {
+            boolean shouldConnect = this.connectsTo(neighborState);
+
+            if (state.getValue(property) != shouldConnect)
+                newState = newState.setValue(property, shouldConnect);
+        }
+        return newState;
     }
 
     @Override

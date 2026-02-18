@@ -96,9 +96,16 @@ public class RecipeGen extends RecipeUtils {
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.SUPER_MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
-        dyeItemRecipe(1, "calcite_from_dye", Blocks.CALCITE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.CALCITE_ITEMS, output);
+        dyeItemRecipe(1, "calcite_from_dye", Blocks.CALCITE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.CALCITE_ITEMS, false, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
+        onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.BLUE_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BLUE_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
+        onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.RED_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
+        onOffSwitchRecipe(1, "on_off_switches", BlockRegistry.ON_OFF_SWITCH, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Tags.Items.GEMS_QUARTZ, Blocks.REDSTONE_TORCH, false, output);
         oneToOneRecipe(1, "large_snowballs", ItemRegistry.LARGE_SNOWBALL, RecipeCategory.MISC, Items.SNOW_BLOCK, output);
-        oneToOneRecipe(1, "wrench", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
+        oneToOneRecipe(1, "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
         oneToOneRecipe(4, "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, true, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, true, output);
@@ -109,15 +116,19 @@ public class RecipeGen extends RecipeUtils {
         plusRecipe(4, "glow_block", BlockRegistry.GLOW_BLOCK, Tags.Items.GLASS_BLOCKS_COLORLESS, Blocks.GLOWSTONE, false, output);
         spikePanelRecipe(3, "spike_panels", BlockRegistry.SPIKE_PANEL, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, Blocks.POLISHED_DEEPSLATE_SLAB, false, output);
         threeByThreePacker(output, RecipeCategory.MISC, BlockRegistry.STAR_COIN, BlockRegistry.COIN);
-        twoByOneRecipe(1, "splunkin_o_lantern", BlockRegistry.SPLUNKIN_O_LANTERN, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, Blocks.TORCH, false, output);
         twoByOneRecipe(1, "quicksand_buckets", ItemRegistry.PLASTIC_QUICKSAND_BUCKET, RecipeCategory.BUILDING_BLOCKS, Tags.Items.SANDS_COLORLESS, ItemRegistry.PLASTIC_WATER_BUCKET, false, output);
         twoByOneRecipe(1, "quicksand_buckets", ItemRegistry.QUICKSAND_BUCKET, RecipeCategory.BUILDING_BLOCKS, Tags.Items.SANDS_COLORLESS, Items.WATER_BUCKET, false, output);
         twoByOneRecipe(1, "red_quicksand_buckets", ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET, RecipeCategory.BUILDING_BLOCKS, Tags.Items.SANDS_RED, ItemRegistry.PLASTIC_WATER_BUCKET, false, output);
         twoByOneRecipe(1, "red_quicksand_buckets", ItemRegistry.RED_QUICKSAND_BUCKET, RecipeCategory.BUILDING_BLOCKS, Tags.Items.SANDS_RED, Items.WATER_BUCKET, false, output);
+        twoByOneRecipe(1, "splunkin_o_lantern", BlockRegistry.SPLUNKIN_O_LANTERN, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, Blocks.TORCH, false, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.VINE, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.VINE, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
         twoItemRecipe(1, "question_blocks", BlockRegistry.MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "question_blocks", BlockRegistry.MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_QUESTION_BRICKS, Blocks.VINE, output);
         twoItemRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_STONE_BRICKS, Blocks.MOSS_BLOCK, output);
@@ -371,35 +382,35 @@ public class RecipeGen extends RecipeUtils {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
-            dyeItemRecipe(1, "calcite_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_ITEMS, output);
+            dyeItemRecipe(1, "calcite_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_ITEMS, false, output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.POLISHED_CALCITE.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
-            dyeItemRecipe(1, "polished_calcite_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_ITEMS, output);
+            dyeItemRecipe(1, "polished_calcite_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_ITEMS, false, output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICKS.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
-            dyeItemRecipe(1, "calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_ITEMS, output);
+            dyeItemRecipe(1, "calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_ITEMS, false, output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CRACKED_CALCITE_BRICKS.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
-            dyeItemRecipe(1, "cracked_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CRACKED_CALCITE_BRICK_ITEMS, output);
+            dyeItemRecipe(1, "cracked_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CRACKED_CALCITE_BRICK_ITEMS, false, output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHISELED_CALCITE_BRICKS.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
-            dyeItemRecipe(1, "chiseled_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS, output);
+            dyeItemRecipe(1, "chiseled_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS, false, output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
@@ -411,7 +422,7 @@ public class RecipeGen extends RecipeUtils {
             }).findFirst().orElse(Items.WHITE_WOOL);
 
             checkpointFlagRecipe(1, entry.getValue(), Tags.Items.INGOTS_GOLD, Tags.Items.INGOTS_IRON, woolItem, Blocks.SMOOTH_STONE_SLAB, output);
-            dyeItemRecipe(1, "checkpoint_flags_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_CHECKPOINT_FLAG_ITEMS, output);
+            dyeItemRecipe(1, "checkpoint_flags_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_CHECKPOINT_FLAG_ITEMS, false, output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
@@ -423,7 +434,15 @@ public class RecipeGen extends RecipeUtils {
             }).findFirst().orElse(Items.WHITE_WOOL);
 
             goalPoleRecipe(4, entry.getValue(), Tags.Items.INGOTS_GOLD, Tags.Items.INGOTS_IRON, woolItem, output);
-            dyeItemRecipe(1, "goal_poles_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_GOAL_POLE_ITEMS, output);
+            dyeItemRecipe(1, "goal_poles_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_GOAL_POLE_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.PIPE_JUNCTION.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "pipe_junctions_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS, false, output);
+            dyeItemRecipe(1, "pipe_junctions_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, Blocks.COPPER_BLOCK, true, output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
@@ -431,7 +450,7 @@ public class RecipeGen extends RecipeUtils {
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
             warpPipeRecipe(4, entry.getValue(), Tags.Items.INGOTS_COPPER, dyeItemTag, Tags.Items.GEMS_DIAMOND, Tags.Items.ENDER_PEARLS, output);
-            dyeItemRecipe(1, "warp_pipes_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_WARP_PIPE_ITEMS, output);
+            dyeItemRecipe(1, "warp_pipes_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.DYEABLE_WARP_PIPE_ITEMS, false, output);
         }
     }
 }

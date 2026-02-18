@@ -1,13 +1,11 @@
 package com.wenxin2.marioverse.entities.ai.controls;
 
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.monster.Slime;
+import org.jetbrains.annotations.Nullable;
 
 public class BounceMoveControl extends MoveControl {
     private float yRot;
@@ -21,7 +19,7 @@ public class BounceMoveControl extends MoveControl {
     protected final RandomSource random = RandomSource.create();
     private int stuckTicks = 0;
 
-    public BounceMoveControl(Mob mob, int mobJumpDelay, SoundEvent jumpSound, float soundPitch, float soundVolume) {
+    public BounceMoveControl(Mob mob, int mobJumpDelay, @Nullable SoundEvent jumpSound, float soundPitch, float soundVolume) {
         super(mob);
         this.entity = mob;
         this.mobJumpDelay = mobJumpDelay;
@@ -31,12 +29,12 @@ public class BounceMoveControl extends MoveControl {
         this.yRot = 180.0F * mob.getYRot() / (float) Math.PI;
     }
 
-    public void setDirection(float yRot, boolean isAggressive) {
+    public void setAggressive(float yRot, boolean isAggressive) {
         this.yRot = yRot;
         this.isAggressive = isAggressive;
     }
 
-    public void setWantedMovement(double speedModifier) {
+    public void triggerJump(double speedModifier) {
         this.speedModifier = speedModifier;
         this.operation = MoveControl.Operation.MOVE_TO;
     }
@@ -73,7 +71,8 @@ public class BounceMoveControl extends MoveControl {
                     }
 
                     this.entity.getJumpControl().jump();
-                    this.entity.playSound(this.jumpSound, this.soundVolume, this.soundPitch);
+                    if (this.jumpSound != null)
+                        this.entity.playSound(this.jumpSound, this.soundVolume, this.soundPitch);
                 } else {
                     this.entity.xxa = 0.0F;
                     this.entity.zza = 0.0F;

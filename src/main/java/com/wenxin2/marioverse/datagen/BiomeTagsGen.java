@@ -95,14 +95,17 @@ public class BiomeTagsGen extends BiomeTagsProvider {
         tag(TagRegistry.HAS_PIPE_TOWERS)
                 .addTag(Tags.Biomes.IS_MUSHROOM);
 
-        tag(TagRegistry.HAS_SUBMERGED_PIPES)
-                .addTag(BiomeTags.IS_OVERWORLD);
-
         tag(TagRegistry.HAS_QUICKSAND)
                 .addTag(Tags.Biomes.IS_BEACH)
                 .addTag(Tags.Biomes.IS_DESERT);
 
         tag(TagRegistry.HAS_RED_QUICKSAND)
                 .addTag(Tags.Biomes.IS_BADLANDS);
+
+        tag(TagRegistry.HAS_SUBMERGED_PIPES)
+                .addTag(BiomeTags.IS_OVERWORLD);
+
+        tag(TagRegistry.HAS_TRAMPOLINE_CAPS)
+                .addTag(Tags.Biomes.IS_MUSHROOM);
     }
 }

@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "all": "marioverse:block/black_pipe_junction"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" }
+  }
+}

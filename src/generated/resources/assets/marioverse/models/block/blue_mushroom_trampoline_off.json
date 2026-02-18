@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/blue_mushroom_trampoline_bottom_off",
+    "side": "marioverse:block/blue_mushroom_trampoline_off",
+    "top": "marioverse:block/blue_mushroom_trampoline_top_off"
+  }
+}

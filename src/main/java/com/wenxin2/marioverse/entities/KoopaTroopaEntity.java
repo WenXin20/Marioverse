@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities;
 
 import com.mojang.authlib.GameProfile;
-import com.wenxin2.marioverse.entities.ai.goals.LookAtTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -142,7 +142,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, false));
-        this.goalSelector.addGoal(3, new LookAtTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
+        this.goalSelector.addGoal(3, new LookAtEntityTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());

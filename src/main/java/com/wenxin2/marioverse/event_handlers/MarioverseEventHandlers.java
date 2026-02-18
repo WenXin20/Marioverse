@@ -1,15 +1,17 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
-import com.wenxin2.marioverse.blocks.QuestionBlock;
+import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
@@ -46,9 +48,11 @@ import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import com.wenxin2.marioverse.world.SwitchSavedData;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import java.util.List;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -83,6 +87,7 @@ import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -103,7 +108,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -115,6 +119,7 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
@@ -129,12 +134,38 @@ public class MarioverseEventHandlers {
     }
 
     @SubscribeEvent
+    public static void onChunkLoad(ChunkEvent.Load event) {
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
+
+        level.getServer().execute(() -> processChunk(level, event.getChunk().getPos()));
+    }
+
+    private static void processChunk(ServerLevel level, ChunkPos chunkPos) {
+        SwitchSavedData data = SwitchSavedData.get(level);
+        boolean isActive = data.isActive();
+
+        for (BlockPos pos : List.copyOf(data.getPositions(chunkPos))) {
+            if (!level.isLoaded(pos)) continue;
+            BlockState state = level.getBlockState(pos);
+
+            if (!(state.getBlock() instanceof ToggleableBlock)) {
+                data.remove(pos);
+                continue;
+            }
+
+            if (state.getValue(OnBlock.ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+        }
+    }
+
+    @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
         if (!(entity instanceof LivingEntity)) return;
 
         CompoundTag tag = entity.getPersistentData();
 
+        // TODO: Remove in 26.1+
         if (tag.contains("marioverse:has_fire_flower")) {
             if (tag.getBoolean("marioverse:has_fire_flower"))
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
@@ -165,6 +196,21 @@ public class MarioverseEventHandlers {
         if (tag.contains("marioverse:warp_cooldown")) {
             entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, tag.getInt("marioverse:warp_cooldown"));
             tag.remove("marioverse:warp_cooldown");
+        }
+
+        if (entity.hasData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
+            boolean oldValue = entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get());
+
+            if (oldValue)
+                entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 0);
+            entity.removeData(DataAttachmentRegistry.HAS_HIT_BLOCK.get());
+        }
+
+        if (entity.hasData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN.get())) {
+            int oldValue = entity.getData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN.get());
+
+            entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION.get(), oldValue);
+            entity.removeData(DataAttachmentRegistry.SUPER_STAR_COOLDOWN.get());
         }
 
         if (!entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)) {
@@ -859,6 +905,26 @@ public class MarioverseEventHandlers {
         if (player != null) {
             BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
             BlockState stateBelowEntity = player.level().getBlockState(posBelowEntity);
+            Block blockBelow = stateBelowEntity.getBlock();
+
+            boolean canBounce = (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
+                    && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
+                    && !player.isSuppressingBounce() && !player.isNoGravity()
+                    && !player.getAbilities().flying)
+
+                    || (blockBelow instanceof BlueMushroomTrampolineBlock
+                        && !stateBelowEntity.getValue(OnBlock.ACTIVE)
+                        && !player.isSuppressingBounce() && !player.isNoGravity()
+                        && !player.getAbilities().flying)
+
+                    || (blockBelow instanceof RedMushroomTrampolineBlock
+                        && !(blockBelow instanceof BlueMushroomTrampolineBlock)
+                        && stateBelowEntity.getValue(OnBlock.ACTIVE)
+                        && !player.isSuppressingBounce() && !player.isNoGravity()
+                        && !player.getAbilities().flying);
+
+            if (canBounce)
+                PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
 
             if (!player.isSpectator()) {
                 if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
@@ -866,14 +932,6 @@ public class MarioverseEventHandlers {
                     PacketDistributor.sendToServer(new FireballShootPayload(player.blockPosition()));
                     PacketDistributor.sendToServer(new IceBallShootPayload(player.blockPosition()));
                 }
-            }
-
-            if (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
-                    && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
-                    && !player.isSuppressingBounce() && !player.isNoGravity()) {
-                if (Minecraft.getInstance().options.keyJump.isDown())
-                    PacketDistributor.sendToServer(new BouncePayload(true));
-                else PacketDistributor.sendToServer(new BouncePayload(false)); // TODO: Add bounce sound
             }
 
             if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
@@ -916,8 +974,6 @@ public class MarioverseEventHandlers {
         LivingEntity entity = event.getEntity();
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
-        BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
-        BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
 
         if (!ConfigRegistry.DISABLE_JUMP_SOUND.get() && !entity.isShiftKeyDown() && entity instanceof AbilitiesHandler handler
                 && (handler.mv$hasMarioCostume(entity) || handler.mv$hasLuigiCostume(entity)
@@ -925,32 +981,6 @@ public class MarioverseEventHandlers {
             entity.level().playSound(null, entity.blockPosition(),
                     entity instanceof Player ? SoundRegistry.PLAYER_JUMP.get() : SoundRegistry.MOB_JUMP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL);
-        }
-
-        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && (EventHooks.canEntityGrief(world, entity))
-                && !entity.isSpectator() && !world.isClientSide
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())
-                && entity instanceof AbilitiesHandler handler) {
-            handler.mv$smashBlock(world, posAboveEntity, stateAboveEntity, entity);
-        }
-
-        if (world.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && (EventHooks.canEntityGrief(world, entity))
-                && !entity.isSpectator() && !world.isClientSide
-                && !entity.getData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())
-                && entity instanceof AbilitiesHandler handler) {
-            handler.mv$hitQuestionBlock(world, posAboveEntity, entity, questionBlockEntity);
-        }
-
-        if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && !entity.isSpectator() && !world.isClientSide) {
-            if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
 

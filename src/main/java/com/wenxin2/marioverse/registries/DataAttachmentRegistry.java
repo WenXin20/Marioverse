@@ -20,9 +20,6 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> HAS_GOLDEN_CARROT = Marioverse.ATTACHMENT_TYPES
             .register("has_golden_carrot", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
-    public static final Supplier<AttachmentType<Boolean>> HAS_HIT_BLOCK = Marioverse.ATTACHMENT_TYPES
-            .register("has_hit_block", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_ATTACKING = Marioverse.ATTACHMENT_TYPES
             .register("is_attacking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
@@ -107,6 +104,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> FROZEN_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("frozen_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> HIT_BLOCK_COOLDOWN = Marioverse.ATTACHMENT_TYPES
+            .register("hit_block_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> ICE_BALL_COUNT = Marioverse.ATTACHMENT_TYPES
             .register("ice_ball_count", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
@@ -177,6 +177,14 @@ public class DataAttachmentRegistry {
 
     public static final Supplier<AttachmentType<Integer>> TICKS_IN_AIR = Marioverse.ATTACHMENT_TYPES
             .register("ticks_in_air", () -> AttachmentType.builder(() -> ConfigRegistry.ICE_CUBE_LIFESPAN.get()).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+
+    // TODO: Remove in 26.1+
+    public static final Supplier<AttachmentType<Boolean>> HAS_HIT_BLOCK = Marioverse.ATTACHMENT_TYPES
+            .register("has_hit_block", () -> AttachmentType.builder(() -> false)
+                    .serialize(Codec.BOOL).build());
+    public static final Supplier<AttachmentType<Integer>> SUPER_STAR_COOLDOWN = Marioverse.ATTACHMENT_TYPES
+            .register("super_star_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
 
 

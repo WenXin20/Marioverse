@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:on_off_switches",
+  "key": {
+    "B": {
+      "item": "marioverse:blue_dotted_line_block"
+    },
+    "I": {
+      "tag": "c:gems/quartz"
+    },
+    "R": {
+      "item": "marioverse:red_dotted_line_block"
+    },
+    "T": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "ITI",
+    "BBB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:on_off_switch"
+  }
+}

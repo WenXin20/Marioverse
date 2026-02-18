@@ -63,7 +63,7 @@ public class StoneModule extends StoneZoneModule {
 
     public StoneModule(String modId, String shortId) {
         super(modId, shortId);
-        ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_BLOCKS_TAB.getKey();
+        ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB.getKey();
 
         brickPedestal = StoneZoneEntrySet.of(StoneType.class, "brick_pedestal",
                         BlockRegistry.STONE_BRICK_PEDESTAL, () -> VanillaStoneTypes.STONE,

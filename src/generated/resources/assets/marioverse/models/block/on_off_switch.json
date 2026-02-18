@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "marioverse:block/on_switch_top",
+    "side": "marioverse:block/on_switch"
+  }
+}

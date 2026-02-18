@@ -27,7 +27,6 @@ import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
-import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
@@ -277,6 +276,7 @@ public class EntityRegistry {
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.4F);
         AttributeSupplier.Builder powerUpAttributes = PathfinderMob.createMobAttributes()
+                .add(Attributes.JUMP_STRENGTH, 0.25F)
                 .add(Attributes.MAX_HEALTH, 2)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder starAttributes = PathfinderMob.createMobAttributes()

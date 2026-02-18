@@ -406,6 +406,63 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void onOffBlockRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                 Object concrete, Object redstone, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .pattern("CCC")
+                .pattern("CRC")
+                .pattern("CCC")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'C', concrete);
+        defineIngredient(builder, 'R', redstone);
+
+        builder.unlockedBy(getUnlockName(concrete), unlockCriterion(concrete));
+
+        if (uniqueFileName && concrete instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
+    }
+
+    public void mushroomTrampolineRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                         Object mushroom, Object dottedLineBlock, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .pattern("MMM")
+                .pattern("MDM")
+                .pattern("MMM")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'M', mushroom);
+        defineIngredient(builder, 'D', dottedLineBlock);
+
+        builder.unlockedBy(getUnlockName(mushroom), unlockCriterion(mushroom));
+
+        if (uniqueFileName && mushroom instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike) + "_" + outputAmt);
+        else builder.save(output);
+    }
+
+    public void onOffSwitchRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                  Object redBlock, Object blueBlock, Object quartz, Object torch,
+                                  boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .pattern("RRR")
+                .pattern("ITI")
+                .pattern("BBB")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'R', redBlock);
+        defineIngredient(builder, 'B', blueBlock);
+        defineIngredient(builder, 'I', quartz);
+        defineIngredient(builder, 'T', torch);
+
+        builder.unlockedBy(getUnlockName(quartz), unlockCriterion(quartz));
+
+        if (uniqueFileName && redBlock instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
+    }
+
     public void pedestalRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('B', inputItem)
@@ -536,7 +593,7 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     public void dyeItemRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                              Object input1, Object input2, RecipeOutput output) {
+                              Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
         ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
@@ -557,7 +614,9 @@ public class RecipeUtils extends RecipeProvider {
             builder.requires(tag);
         }
 
-        builder.save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
+        if (uniqueFileName && input2 instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_from_dye");
     }
 
     public void oneToOneRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
