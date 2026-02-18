@@ -152,7 +152,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) - 1);
 
         if (entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
-                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
+                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.getAbilities().flying)
                 && !entity.onGround() && entity.getY() > entity.yOld
                 && !entity.isSpectator() && !level.isClientSide
                 && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
@@ -165,7 +165,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (level.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
                 && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
+                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.getAbilities().flying)
                 && !entity.onGround() && entity.getY() > entity.yOld
                 && !entity.isSpectator() && !level.isClientSide
                 && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
@@ -178,7 +178,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
         if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.mayFly())
+                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.getAbilities().flying)
                 && !entity.onGround() && entity.getY() > entity.yOld
                 && !entity.isSpectator() && !level.isClientSide
                 && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
