@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -20,10 +21,16 @@ import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
+import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
@@ -44,6 +51,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -53,9 +61,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpEntityHandler {
+public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpEntityHandler, WarpLinkableEntity {
     @Shadow protected abstract float nextStep();
-    @Shadow protected abstract void playStepSound(BlockPos p_20135_, BlockState p_20136_);
+    @Shadow protected abstract void playStepSound(BlockPos pos, BlockState state);
     @Shadow protected float moveDist;
     @Shadow protected float nextStep;
     @Shadow public abstract BlockPos blockPosition();
@@ -68,6 +76,16 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Shadow public abstract int getId();
     @Shadow public abstract void setPos(Vec3 vec3);
 
+    @Unique private static final String UUID = "UUID";
+    @Unique private static final String WARP_DIMENSION = "Dimension";
+    @Unique private static final String WARP_POS = "WarpPos";
+    @Unique private static final String WARP_UUID = "WarpUUID";
+
+    @Unique public BlockPos mv$destinationPos;
+    @Unique public Entity mv$warpEntity;
+    @Unique public String mv$dimensionTag;
+    @Unique public UUID mv$UUID;
+    @Unique public UUID mv$warpUUID;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
 
@@ -79,6 +97,47 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
+    }
+
+    @Inject(method = "save", at = @At("TAIL"))
+    private void addAdditionalSaveData(CompoundTag tag, CallbackInfoReturnable<Boolean> ci) {
+        Entity entity = (Entity) (Object) this;
+        WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.mv$getWarpEntity());
+//        tag.putBoolean(BREAK_PAINTING, this.mv$breakPainting);
+//        tag.putBoolean(IS_WAXED, this.mv$isWaxed);
+//        tag.putBoolean(PREVENT_WARP, this.mv$preventWarp);
+//        tag.putInt(WARP_FUEL_COUNT, this.mv$warpFuelCount);
+
+        if (this.mv$hasDestinationPos() && this.mv$destinationPos != null)
+            tag.put(WARP_POS, NbtUtils.writeBlockPos(this.mv$destinationPos));
+
+        if (this.mv$dimensionTag != null)
+            tag.putString(WARP_DIMENSION, this.mv$dimensionTag);
+
+        if (this.mv$UUID != null)
+            tag.putUUID(UUID, entity.getUUID());
+
+        if (this.mv$warpUUID != null)
+            tag.putUUID(WARP_UUID, this.mv$getWarpUUID());
+    }
+
+    @Inject(method = "load", at = @At("TAIL"))
+    private void load(CompoundTag tag, CallbackInfo ci) {
+        WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.mv$getWarpEntity());
+
+        if (tag.contains(WARP_POS)) {
+            this.mv$destinationPos = NbtUtils.readBlockPos(tag, WARP_POS).orElse(null);
+            this.mv$setDestinationPos(this.mv$destinationPos);
+        }
+
+        if (tag.contains(UUID))
+            this.mv$UUID = tag.getUUID(UUID);
+
+        if (tag.contains(WARP_DIMENSION))
+            this.mv$dimensionTag = tag.getString(WARP_DIMENSION);
+
+        if (tag.contains(WARP_UUID))
+            this.mv$warpUUID = tag.getUUID(WARP_UUID);
     }
 
     @Inject(method = "move", at = @At("HEAD"))
@@ -391,5 +450,60 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 }
             }
         }
+    }
+
+    @Override
+    public boolean mv$hasDestinationPos() {
+        return this.mv$destinationPos != null;
+    }
+
+    @Override
+    public void mv$setDestinationPos(@Nullable BlockPos pos) {
+        this.mv$destinationPos = pos;
+    }
+
+    @Override
+    public BlockPos mv$getDestinationPos() {
+        if (this.mv$destinationPos != null) {
+            return this.mv$destinationPos;
+        }
+        return null;
+    }
+
+    @Override
+    public ResourceKey<Level> mv$getDestinationDim() {
+        if (this.mv$dimensionTag != null) {
+            ResourceLocation location = ResourceLocation.tryParse(this.mv$dimensionTag);
+            if (location != null) {
+                return ResourceKey.create(Registries.DIMENSION, location);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void mv$setDestinationDim(@Nullable ResourceKey<Level> dimension) {
+        if (dimension != null)
+            this.mv$dimensionTag = dimension.location().toString();
+    }
+
+    @Override
+    public UUID mv$getWarpUUID() {
+        return this.mv$warpUUID;
+    }
+
+    @Override
+    public void mv$setWarpUuid(UUID uuid) {
+        this.mv$warpUUID = uuid;
+    }
+
+    @Override
+    public Entity mv$getWarpEntity() {
+        return this.mv$warpEntity;
+    }
+
+    @Override
+    public void mv$setWarpEntity(Entity entity) {
+        this.mv$warpEntity = entity;
     }
 }

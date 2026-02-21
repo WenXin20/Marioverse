@@ -21,15 +21,16 @@ public interface EntityWarpEntityHandler {
     boolean mv$getEntityWarpTeleportConfig();
 
     default void enterWarp(Entity entity, Level world) {
-        List<Painting> nearbyPaintings = world.getEntitiesOfClass(Painting.class, entity.getBoundingBox());
-        for (Painting painting : nearbyPaintings) {
-            if (painting instanceof WarpLinkableEntity linkableEntity && !linkableEntity.mv$getPreventWarp()) {
+        List<Entity> nearbyEntities = world.getEntitiesOfClass(Entity.class, entity.getBoundingBox());
+        for (Entity warpEntity : nearbyEntities) {
+            if (warpEntity != entity && warpEntity instanceof WarpLinkableEntity linkableEntity
+                    && !warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get())) {
                 int entityId = entity.getId();
 
                 if (WarpLinkableEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
                     WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
 
-                this.enterWarpPainting(entity, world, linkableEntity, painting);
+                this.enterWarpPainting(entity, world, linkableEntity, warpEntity);
             }
             break;
         }
@@ -38,11 +39,11 @@ public interface EntityWarpEntityHandler {
     default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
-                if (!warpLinkableEntity.mv$getPreventWarp() && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0
+                if (!warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get()) && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0
                         && !entity.isShiftKeyDown())
                     this.warp(entity, world, warpLinkableEntity);
                 else if (entity instanceof Player player) {
-                    if (warpLinkableEntity.mv$getPreventWarp() && warpLinkableEntity instanceof Painting warpPainting)
+                    if (warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get()) && warpLinkableEntity instanceof Painting warpPainting)
                         this.displayWarpDisruptedMessage(player, warpPainting);
                     else if (warpLinkableEntity.mv$hasDestinationPos())
                         this.displayCooldownMessage(player, warpEntity);
@@ -63,14 +64,16 @@ public interface EntityWarpEntityHandler {
 
                     this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
 
-                    if (painting instanceof WarpLinkableEntity warpPainting && warpPainting.mv$isBreakPainting())
-                        painting.kill();
+                    if (painting.getData(DataAttachmentRegistry.BREAK.get()))
+                        painting.discard();
                     entity.setXRot(direction.toYRot());
                     entity.setYRot(direction.toYRot());
                     entity.setYHeadRot(direction.toYRot());
                 } else {
                     BlockPos warpPos = warpEntity.blockPosition();
                     WarpLinkableEntity.warp(entity, warpPos.getX(), warpPos.getY(), warpPos.getZ(), world);
+                    if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
+                        warpEntity.discard();
                 }
             } else {
                 WarpLinkableEntity.WarpTarget savedTarget = WarpLinkableEntity.getWarpPos(warpUUID);
@@ -87,9 +90,9 @@ public interface EntityWarpEntityHandler {
 
                     List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
                     for (Entity targetEntity : entitiesAtPos) {
-                        if (targetEntity.getUUID().equals(warpUUID) && targetEntity instanceof WarpLinkableEntity linkableEntity
-                                && linkableEntity.mv$isBreakPainting()) {
-                            targetEntity.kill();
+                        if (targetEntity.getUUID().equals(warpUUID)
+                                && targetEntity.getData(DataAttachmentRegistry.BREAK.get())) {
+                            targetEntity.discard();
                             break;
                         }
                     }

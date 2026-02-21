@@ -1,5 +1,5 @@
 ## Changelog for Marioverse 1.7.2
 - Add Creative Wrench
-  - Links any entities together 
+  - Links any 2 entities together 
 - Add chipped mushrooms to bouncy tag
 - Fix Dango Blossom missing from Building Blocks Creative Tab

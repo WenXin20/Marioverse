@@ -17,7 +17,6 @@ import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
-import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ChaseTargetGoal;
 import com.wenxin2.marioverse.entities.ai.goals.CollectBlockGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
@@ -28,16 +27,15 @@ import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
-import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
-import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -53,8 +51,6 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
-import java.util.UUID;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -196,6 +192,21 @@ public class MarioverseEventHandlers {
         if (tag.contains("marioverse:warp_cooldown")) {
             entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, tag.getInt("marioverse:warp_cooldown"));
             tag.remove("marioverse:warp_cooldown");
+        }
+
+        if (tag.contains("marioverse:break_painting")) {
+            entity.setData(DataAttachmentRegistry.BREAK, tag.getBoolean("marioverse:break_painting"));
+            tag.remove("marioverse:break_painting");
+        }
+
+        if (tag.contains("marioverse:is_waxed")) {
+            entity.setData(DataAttachmentRegistry.IS_WAXED, tag.getBoolean("marioverse:is_waxed"));
+            tag.remove("marioverse:is_waxed");
+        }
+
+        if (tag.contains("marioverse:warp_fuel_count")) {
+            entity.setData(DataAttachmentRegistry.WARP_FUEL_COUNT, tag.getInt("marioverse:warp_fuel_count"));
+            tag.remove("marioverse:warp_fuel_count");
         }
 
         if (entity.hasData(DataAttachmentRegistry.HAS_HIT_BLOCK.get())) {
@@ -687,175 +698,9 @@ public class MarioverseEventHandlers {
         }
 
         if (stack.getItem() instanceof LinkerItem linker) {
-            if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()
-                    && !ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
-                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.requires_creative"), true);
-                player.swing(player.getUsedItemHand());
-            } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
-                if (player.isShiftKeyDown()) {
-                    UUID uuid = target.getUUID();
-
-                    if (world instanceof ServerLevel serverWorld) {
-                        if (target instanceof WarpLinkableEntity linkableEntity && linkableEntity.mv$isWaxed()
-                                && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
-                            player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
-                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
-                        } else if (!player.isCreative() && target instanceof WarpLinkableEntity linkableEntity && linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
-                            if (linkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
-                                if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
-                                    player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.painting_fuel_required",
-                                            Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                                    target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - linkableEntity.mv$getWarpFuelCount())
-                                            .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
-                                else player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.entity_fuel_required",
-                                                target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - linkableEntity.mv$getWarpFuelCount())
-                                        .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
-                            }
-                        } else if (!LinkerItem.getIsBound(stack)) {
-                            if (target instanceof Painting painting) {
-                                int width = painting.getVariant().value().width();
-                                Direction direction = painting.getDirection();
-                                WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
-                                LinkerItem.setWarpPos(stack, pos);
-                                LinkerItem.setWarpEntity(stack, painting);
-
-                                if (painting.getVariant().getKey() != null) {
-                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound_painting",
-                                            Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                            target.getName()).withStyle(ChatFormatting.GREEN), true);
-                                    LinkerItem.setWarpPainting(stack, painting);
-                                }
-                            } else {
-                                WarpLinkableEntity.setWarpPos(uuid, pos, Direction.NORTH, 1);
-                                LinkerItem.setWarpPos(stack, pos);
-                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
-                                        target.getName()).withStyle(ChatFormatting.GREEN), true);
-                            }
-
-                            LinkerItem.setWarpDimension(stack, target.level().dimension().toString());
-                            LinkerItem.setWarpUUID(stack, uuid);
-                            LinkerItem.setIsBound(stack, true);
-                            stack.remove(DataComponentRegistry.WARP_BLOCK.get());
-
-                            WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
-
-                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128);
-                            linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
-                        } else {
-                            BlockPos warpPos = LinkerItem.getWarpPos(stack);
-                            UUID warpUUID = LinkerItem.getWarpUUID(stack);
-                        //  if (dimension.equals(getWarpDimension(stack))) {
-                            Entity warpEntity = serverWorld.getEntity(warpUUID);
-                            if (warpEntity == null) {
-                                WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(warpUUID);
-                                if (warpTarget != null)
-                                    warpPos = warpTarget.pos();
-                            }
-
-                            if (target instanceof Painting painting) {
-                                int width = painting.getVariant().value().width();
-                                WarpLinkableEntity.setWarpPos(warpUUID, warpPos, painting.getDirection(), width);
-
-                                if (warpEntity instanceof Painting warpPainting && warpPainting.getVariant().getKey() != null
-                                        && painting.getVariant().getKey() != null)
-                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_painting",
-                                            Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                            target.getName(), Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                            warpPainting.getName()).withStyle(ChatFormatting.GOLD), true);
-                            } else if (warpEntity != null) player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
-                                        target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
-
-                            linker.link(stack, warpEntity, target, warpPos);
-
-                            // TODO: Fix paintings not linking in unloaded chunks
-//                            if (target.level() instanceof ServerLevel && target.getServer() != null) {
-//                                final ServerLevel serverLevel = target.getServer().getLevel(target.level().dimension());
-//                                if (serverLevel != null) {
-//                                    ChunkAccess chunk = serverLevel.getChunk(warpPos.getX() >> 4, warpPos.getZ() >> 4, ChunkStatus.FULL, true);
-//                                    serverLevel.getChunk(warpPos);
-//
-//                                    final AABB box = new AABB(warpPos).inflate(1);
-//                                    final List<Painting> list = serverLevel.getEntitiesOfClass(Painting.class, box);
-//                                    for (final Painting warpPainting : list) {
-//                                        linker.link(stack, warpPainting, target, warpPos);
-//                                    }
-//                                }
-//                            }
-
-                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128); // TODO: fix pos
-                            linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
-                        //  }
-                            LinkerItem.setIsBound(stack, false);
-                        }
-                    }
-                    player.swing(player.getUsedItemHand());
-                }
-            }
-        } else if (stack.getItem() instanceof WarpDisruptorItem disruptorItem) {
-            if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() && target instanceof WarpLinkableEntity linkableEntity
-                    && (!linkableEntity.mv$getPreventWarp() || !linkableEntity.mv$isBreakPainting())) {
-                if (world instanceof ServerLevel serverWorld) {
-                    if (linkableEntity.mv$isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
-
-                        if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
-                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed_painting",
-                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
-                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed",
-                                target.getName()).withStyle(ChatFormatting.GOLD), true);
-                    } else if (linkableEntity.mv$getPreventWarp()) {
-                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.WARPED_SPORE, serverWorld, target, 16);
-                        if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
-                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
-                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                    target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_entity",
-                                target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                        linkableEntity.mv$setBreakPainting(Boolean.TRUE);
-                    } else {
-                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, target, 16);
-                        if (linkableEntity instanceof Painting painting && painting.getVariant().getKey() != null)
-                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
-                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                    target.getName()).withStyle(ChatFormatting.RED), true);
-                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_entity_warp",
-                                target.getDisplayName()).withStyle(ChatFormatting.RED), true);
-                        linkableEntity.mv$setPreventWarp(Boolean.TRUE);
-                    }
-
-                    if (!player.isCreative())
-                        stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                }
-                player.swing(player.getUsedItemHand());
-            }
-        } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
-                && stack.is(TagRegistry.CRAFTS_WARP_PAINTING)
-                && target instanceof WarpLinkableEntity warpLinkableEntity
-                && warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
-            warpLinkableEntity.mv$setWarpFuelCount(warpLinkableEntity.mv$getWarpFuelCount() + 1);
-            if (warpLinkableEntity.mv$getWarpFuelCount() < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
-            else if (warpLinkableEntity.mv$getWarpFuelCount() == ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, target, pos, 16);
-            player.swing(player.getUsedItemHand());
-            stack.consume(1, player);
-            event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
-        } else if (stack.getItem() instanceof HoneycombItem) {
-            if (target instanceof WarpLinkableEntity linkableEntity
-                    && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
-                if (!linkableEntity.mv$isWaxed()) {
-                    if (world instanceof ServerLevel serverWorld) {
-                        world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 0.5, 64);
-                        stack.consume(1, player);
-                    }
-                    linkableEntity.mv$setWaxed(true);
-                    player.swing(player.getUsedItemHand());
-                }
-            }
+            if (target instanceof Painting || target.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
+                    || stack.is(ItemRegistry.CREATIVE_WRENCH))
+                linker.linkEntity(event, stack, player, target, world, pos);
         }
     }
 

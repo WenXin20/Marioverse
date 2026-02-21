@@ -7,8 +7,11 @@ import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -20,13 +23,16 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -38,6 +44,8 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class LinkerItem extends TieredItem {
     public LinkerItem(final Properties properties, Tier tier) {
@@ -54,6 +62,33 @@ public class LinkerItem extends TieredItem {
         else return true;
     }
 
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
+        if (getIsBound(stack)) {
+            list.add(Component.literal(""));
+
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound", true)
+                    .withStyle(ChatFormatting.GOLD));
+
+            if (stack.has(DataComponentRegistry.WARP_BLOCK.get()))
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.block",
+                        getWarpBlock(stack).name(), true).withStyle(ChatFormatting.GRAY));
+            if (stack.has(DataComponentRegistry.WARP_ENTITY.get()) && stack.has(DataComponentRegistry.WARP_PAINTING.get()))
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.painting",
+                        Component.translatable(getWarpPainting(stack).name()), getWarpEntity(stack).name(), true).withStyle(ChatFormatting.GRAY));
+
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x",
+                    getWarpPos(stack).getX(), true).withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.y",
+                    getWarpPos(stack).getY(), true).withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z",
+                    getWarpPos(stack).getZ(), true).withStyle(ChatFormatting.GRAY));
+
+            list.add(Component.literal(""));
+        }
+    }
+
+    @NotNull
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
         Player player = useOnContext.getPlayer();
@@ -333,30 +368,173 @@ public class LinkerItem extends TieredItem {
         }
     }
 
-    @ParametersAreNonnullByDefault
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-        if (getIsBound(stack)) {
-            list.add(Component.literal(""));
+    public void linkEntity(PlayerInteractEvent.EntityInteract event, ItemStack stack, Player player, Entity target, Level world, BlockPos pos) {
+        if (stack.getItem() instanceof LinkerItem linker) {
+            if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()
+                    && !ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
+                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.requires_creative"), true);
+                player.swing(player.getUsedItemHand());
+            } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
+                if (player.isShiftKeyDown()) {
+                    UUID uuid = target.getUUID();
 
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound", true)
-                    .withStyle(ChatFormatting.GOLD));
+                    if (world instanceof ServerLevel serverWorld) {
+                        if (target.getData(DataAttachmentRegistry.IS_WAXED.get()) && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                            player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
+                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
+                        } else if (!player.isCreative()
+                                && target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
+                            if (target instanceof Painting painting && painting.getVariant().getKey() != null)
+                                player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.painting_fuel_required",
+                                                Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                                target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()))
+                                        .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
+                            else player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.entity_fuel_required",
+                                            target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()))
+                                    .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
+                        } else if (!getIsBound(stack)) {
+                            if (target instanceof Painting painting) {
+                                int width = painting.getVariant().value().width();
+                                Direction direction = painting.getDirection();
+                                WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
+                                setWarpPos(stack, pos);
+                                setWarpEntity(stack, painting);
 
-            if (stack.has(DataComponentRegistry.WARP_BLOCK.get()))
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.block",
-                        getWarpBlock(stack).name(), true).withStyle(ChatFormatting.GRAY));
-            if (stack.has(DataComponentRegistry.WARP_ENTITY.get()) && stack.has(DataComponentRegistry.WARP_PAINTING.get()))
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.painting",
-                        Component.translatable(getWarpPainting(stack).name()), getWarpEntity(stack).name(), true).withStyle(ChatFormatting.GRAY));
+                                if (painting.getVariant().getKey() != null) {
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound_painting",
+                                            Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                            target.getName()).withStyle(ChatFormatting.GREEN), true);
+                                    setWarpPainting(stack, painting);
+                                }
+                            } else {
+                                WarpLinkableEntity.setWarpPos(uuid, pos, Direction.NORTH, 1);
+                                setWarpPos(stack, pos);
+                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
+                                        target.getName()).withStyle(ChatFormatting.GREEN), true);
+                            }
 
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x",
-                    getWarpPos(stack).getX(), true).withStyle(ChatFormatting.GRAY));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.y",
-                    getWarpPos(stack).getY(), true).withStyle(ChatFormatting.GRAY));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z",
-                    getWarpPos(stack).getZ(), true).withStyle(ChatFormatting.GRAY));
+                            setWarpDimension(stack, target.level().dimension().toString());
+                            setWarpUUID(stack, uuid);
+                            setIsBound(stack, true);
+                            stack.remove(DataComponentRegistry.WARP_BLOCK.get());
 
-            list.add(Component.literal(""));
+                            WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
+
+                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128);
+                            linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
+                        } else {
+                            BlockPos warpPos = getWarpPos(stack);
+                            UUID warpUUID = getWarpUUID(stack);
+                            //  if (dimension.equals(getWarpDimension(stack))) {
+                            Entity warpEntity = serverWorld.getEntity(warpUUID);
+                            if (warpEntity == null) {
+                                WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(warpUUID);
+                                if (warpTarget != null)
+                                    warpPos = warpTarget.pos();
+                            }
+
+                            if (target instanceof Painting painting) {
+                                int width = painting.getVariant().value().width();
+                                WarpLinkableEntity.setWarpPos(warpUUID, warpPos, painting.getDirection(), width);
+
+                                if (warpEntity instanceof Painting warpPainting && warpPainting.getVariant().getKey() != null
+                                        && painting.getVariant().getKey() != null)
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_painting",
+                                            Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                            target.getName(), Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                            warpPainting.getName()).withStyle(ChatFormatting.GOLD), true);
+                            } else if (warpEntity != null) player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
+                                    target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
+
+                            linker.link(stack, warpEntity, target, warpPos);
+
+                            // TODO: Fix paintings not linking in unloaded chunks
+//                            if (target.level() instanceof ServerLevel && target.getServer() != null) {
+//                                final ServerLevel serverLevel = target.getServer().getLevel(target.level().dimension());
+//                                if (serverLevel != null) {
+//                                    ChunkAccess chunk = serverLevel.getChunk(warpPos.getX() >> 4, warpPos.getZ() >> 4, ChunkStatus.FULL, true);
+//                                    serverLevel.getChunk(warpPos);
+//
+//                                    final AABB box = new AABB(warpPos).inflate(1);
+//                                    final List<Painting> list = serverLevel.getEntitiesOfClass(Painting.class, box);
+//                                    for (final Painting warpPainting : list) {
+//                                        linker.link(stack, warpPainting, target, warpPos);
+//                                    }
+//                                }
+//                            }
+
+                            ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128); // TODO: fix pos
+                            linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
+                            //  }
+                            setIsBound(stack, false);
+                        }
+                    }
+                    player.swing(player.getUsedItemHand());
+                }
+            }
+        } else if (stack.getItem() instanceof WarpDisruptorItem disruptorItem) {
+            if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
+                    && (!target.getData(DataAttachmentRegistry.PREVENT_WARP.get()) || !target.getData(DataAttachmentRegistry.BREAK.get()))) {
+                if (world instanceof ServerLevel serverWorld) {
+                    if (target.getData(DataAttachmentRegistry.IS_WAXED.get()) && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+
+                        if (target instanceof Painting painting && painting.getVariant().getKey() != null)
+                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed_painting",
+                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
+                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed",
+                                target.getName()).withStyle(ChatFormatting.GOLD), true);
+                    } else if (target.getData(DataAttachmentRegistry.PREVENT_WARP.get())) {
+                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.WARPED_SPORE, serverWorld, target, 16);
+                        if (target instanceof Painting painting && painting.getVariant().getKey() != null)
+                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
+                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                    target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
+                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_entity",
+                                target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
+                        target.setData(DataAttachmentRegistry.BREAK.get(), true);
+                    } else {
+                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, target, 16);
+                        if (target instanceof Painting painting && painting.getVariant().getKey() != null)
+                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
+                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                    target.getName()).withStyle(ChatFormatting.RED), true);
+                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_entity_warp",
+                                target.getDisplayName()).withStyle(ChatFormatting.RED), true);
+                        target.setData(DataAttachmentRegistry.PREVENT_WARP.get(), true);
+                    }
+
+                    if (!player.isCreative())
+                        stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+                }
+                player.swing(player.getUsedItemHand());
+            }
+        } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
+                && stack.is(TagRegistry.CRAFTS_WARP_PAINTING)
+                && target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
+            target.setData(DataAttachmentRegistry.WARP_FUEL_COUNT.get(), target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) + 1);
+            if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
+            else if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) == ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, target, pos, 16);
+            player.swing(player.getUsedItemHand());
+            stack.consume(1, player);
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+        } else if (stack.getItem() instanceof HoneycombItem) {
+            if (!ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                if (!target.getData(DataAttachmentRegistry.IS_WAXED.get())) {
+                    if (world instanceof ServerLevel serverWorld) {
+                        world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 0.5, 64);
+                        stack.consume(1, player);
+                    }
+                    target.setData(DataAttachmentRegistry.IS_WAXED.get(), true);
+                    player.swing(player.getUsedItemHand());
+                }
+            }
         }
     }
 }

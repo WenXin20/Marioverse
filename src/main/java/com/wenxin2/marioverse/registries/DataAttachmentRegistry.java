@@ -2,12 +2,17 @@ package com.wenxin2.marioverse.registries;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
+import java.util.UUID;
 import java.util.function.Supplier;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.attachment.AttachmentType;
 
 public class DataAttachmentRegistry {
+    public static final Supplier<AttachmentType<Boolean>> BREAK = Marioverse.ATTACHMENT_TYPES
+            .register("break", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> CRACKED = Marioverse.ATTACHMENT_TYPES
             .register("cracked", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
@@ -34,6 +39,9 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_SLIDING = Marioverse.ATTACHMENT_TYPES
             .register("is_sliding", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_WAXED = Marioverse.ATTACHMENT_TYPES
+            .register("is_waxed", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> PREVENT_WARP = Marioverse.ATTACHMENT_TYPES
             .register("prevent_warp", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
@@ -133,6 +141,9 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> WARP_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("warp_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> WARP_FUEL_COUNT = Marioverse.ATTACHMENT_TYPES
+            .register("warp_fuel_count", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
 
     public static final Supplier<AttachmentType<Float>> BODY_ROTATION = Marioverse.ATTACHMENT_TYPES

@@ -503,7 +503,7 @@ public class MarioverseCreativeTabs {
         }
 
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
-            if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
+            if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS) {
                 addAfter(event, Items.DEBUG_STICK, ItemRegistry.CREATIVE_WRENCH);
             }
 

@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
@@ -30,6 +31,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
 
 public class WrenchItem extends LinkerItem {
     private final Tier tier;
@@ -43,6 +45,7 @@ public class WrenchItem extends LinkerItem {
         this.tier = tier;
     }
 
+    @NotNull
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
         Player player = useOnContext.getPlayer();
@@ -102,6 +105,9 @@ public class WrenchItem extends LinkerItem {
 
             if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get())
                 warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.painting"));
+
+            if (stack.is(ItemRegistry.CREATIVE_WRENCH.get()))
+                warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.entities"));
 
             list.add(warpableText);
 
