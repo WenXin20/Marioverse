@@ -51,6 +51,7 @@ public class MarioverseCreativeTabs {
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == MARIOVERSE_ITEMS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
             add(event, ItemRegistry.WRENCH);
+            add(event, ItemRegistry.CREATIVE_WRENCH);
             add(event, ItemRegistry.WARP_DISRUPTOR);
 
             add(event, ItemRegistry.SUPER_MUSHROOM);
@@ -502,6 +503,10 @@ public class MarioverseCreativeTabs {
         }
 
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
+            if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
+                addAfter(event, Items.DEBUG_STICK, ItemRegistry.CREATIVE_WRENCH);
+            }
+
             if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);

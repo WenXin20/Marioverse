@@ -4,6 +4,8 @@
     "#minecraft:hoes",
     "#minecraft:pickaxes",
     "#minecraft:shovels",
+    "marioverse:clear_warp_pipe",
+    "marioverse:creative_wrench",
     "marioverse:wrench",
     "minecraft:debug_stick",
     {

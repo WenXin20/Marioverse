@@ -88,6 +88,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
 
         tag(ItemTags.DURABILITY_ENCHANTABLE)
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
@@ -103,6 +104,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
         tag(ItemTags.VANISHING_ENCHANTABLE)
@@ -113,6 +115,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
         tag(ItemTags.WEAPON_ENCHANTABLE)
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
         tag(Tags.Items.BUCKETS)
@@ -191,9 +194,11 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.COSTUME_SHOES).addTag(TagRegistry.SHOES);
 
         tag(Tags.Items.MELEE_WEAPON_TOOLS)
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
         tag(Tags.Items.TOOLS_WRENCH)
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
         tag(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
@@ -201,6 +206,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(ItemTags.HOES)
                 .addTag(ItemTags.PICKAXES)
                 .addTag(ItemTags.SHOVELS)
+                .add(BlockRegistry.CLEAR_WARP_PIPE.asItem())
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get())
                 .add(Items.DEBUG_STICK)
                 .addOptional(CREATE_SUPER_GLUE);
@@ -251,6 +258,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(Tags.Items.DYES)
                 .addTag(Tags.Items.TOOLS_WRENCH)
                 .addTag(TagRegistry.WARP_PIPE_ITEMS)
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get())
                 .add(ItemRegistry.WARP_DISRUPTOR.get())
                 .add(Items.DEBUG_STICK)
@@ -258,6 +266,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.INK_SAC);
 
         tag(TagRegistry.WRENCHES)
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
         tag(TagRegistry.KOOPA_SHOES)

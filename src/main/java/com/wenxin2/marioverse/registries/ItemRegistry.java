@@ -51,6 +51,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
     public static final DeferredItem<Item> CHRISTMAS_HAT;
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
+    public static final DeferredItem<Item> CREATIVE_WRENCH;
     public static final DeferredItem<Item> DASH_MUSHROOM;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
@@ -143,6 +144,11 @@ public class ItemRegistry {
                         () -> new CheckpointFlagBlockItem(BlockRegistry.CHECKPOINT_FLAGS.get(color).get(), new Item.Properties()))));
 
         WRENCH = registerItem("wrench",
+                () -> new WrenchItem(new Item.Properties()
+                        .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
+                        .durability(128), Tiers.IRON));
+
+        CREATIVE_WRENCH = registerItem("creative_wrench",
                 () -> new WrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));

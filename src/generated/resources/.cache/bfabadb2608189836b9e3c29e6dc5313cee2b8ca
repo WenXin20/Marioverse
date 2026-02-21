@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-10T21:16:28.4599939	Item Models: marioverse
+// 1.21.1	2026-02-20T23:26:06.0661719	Item Models: marioverse
 ab69cab3bee792603ef8aaa42b86cf10853a1b7f assets/marioverse/models/item/black_checkpoint_flag.json
 d8551ba51d73cc01335de566c1190375124d801a assets/marioverse/models/item/black_goal_pole.json
 57c40a8fae57c6db11e57e2d3e88cececffae527 assets/marioverse/models/item/blue_checkpoint_flag.json
@@ -13,6 +13,7 @@ a4039ddc2fad9a1de52448498fc66c86accc0c37 assets/marioverse/models/item/brown_che
 b1cd1be888b03a01af8bf7f52ee0734a988ea971 assets/marioverse/models/item/classic_checkpoint_flag.json
 406af49b0154b1ca3e79bcff3013f086cd9d1c7e assets/marioverse/models/item/classic_goal_pole.json
 fb209281fa76443b140297c0ff36c8fa23f5d6ce assets/marioverse/models/item/coin.json
+f7a4e00025cf82017f2d4479ddc193d6cce02b55 assets/marioverse/models/item/creative_wrench.json
 92459e261b28a903e4957d56912d9feae13088d9 assets/marioverse/models/item/cyan_checkpoint_flag.json
 7b9eb2cab5d4b45f11a8c37d85a874da8a8a9964 assets/marioverse/models/item/cyan_goal_pole.json
 af77997a00ce159863c0292f9482c1476862039f assets/marioverse/models/item/dango_blossom.json

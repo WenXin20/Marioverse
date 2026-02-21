@@ -208,14 +208,12 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                     if ((player.isCreative() && ConfigRegistry.DEBUG_SELECTION_BOX_CREATIVE.get() || ConfigRegistry.DEBUG_SELECTION_BOX.get())
                             || ((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
                             || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
-                            || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
-                            || player.getItemInHand(player.getUsedItemHand()).getItem() == BlockRegistry.CLEAR_WARP_PIPE.get().asItem()))) {
+                            || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)))) {
                         shape = Shapes.or(shape, PIPE_ALL);
                     }
                 }
 
-                if (player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
-                        || player.getItemInHand(player.getUsedItemHand()).getItem() == BlockRegistry.CLEAR_WARP_PIPE.get().asItem())
+                if (player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES))
                     shape = Shapes.block();
             }
 
@@ -225,8 +223,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 if ((player.isCreative() && ConfigRegistry.DEBUG_SELECTION_BOX_CREATIVE.get() || ConfigRegistry.DEBUG_SELECTION_BOX.get())
                         || ((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
                         || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
-                        || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
-                        || player.getItemInHand(player.getUsedItemHand()).getItem() == BlockRegistry.CLEAR_WARP_PIPE.get().asItem()))) {
+                        || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)))) {
                     shape = Shapes.or(shape, PIPE_ALL);
                 }
             }
@@ -276,7 +273,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         int blockZ = pos.getZ();
 
         if (state.getValue(ENTRANCE) && (!player.isCreative() || player.getItemInHand(hand).is(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS))
-                && !player.getItemInHand(hand).is(TagRegistry.WRENCHES)) {
+                && !player.getItemInHand(hand).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)) {
             Direction facing = state.getValue(FACING);
             boolean yPosCheck = entityY + height >= blockY && entityY - height < blockY + 0.75;
 
