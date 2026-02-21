@@ -150,6 +150,7 @@ public class MarioverseCreativeTabs {
         if (event.getTabKey() == MARIOVERSE_BUILDING_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
             add(event, BlockRegistry.STAR_COIN);
             add(event, BlockRegistry.COIN);
+            add(event, BlockRegistry.DANGO_BLOSSOM);
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
 
