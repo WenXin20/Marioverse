@@ -28,6 +28,7 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    maven { url = "https://api.modrinth.com/maven" }
     maven { url = "https://maven.neoforged.net/releases" }
     maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     mavenCentral()
@@ -58,14 +59,17 @@ dependencies {
 
     implementation "curse.maven:aether-255308:6389857"
     implementation "curse.maven:amendments-896746:7352178" // Requires Moonlight
+    implementation "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:6650033" // Requires Create
     implementation "curse.maven:create-328085:6641610"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:embeddium-${embeddium_version}"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:guard-villagers-360203:6066966"
+    implementation "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
     implementation "curse.maven:jade-324717:6853386"
+    implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:5699076"
@@ -77,6 +81,9 @@ dependencies {
     // Libraries
     implementation "curse.maven:architectury-api-${architectury_api_version}"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
+    implementation "curse.maven:kotlin-for-forge-351264:7471280"
+    implementation "curse.maven:framework-549225:7530361"
+    implementation "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:selene-${moonlight_version}"
 
