@@ -23,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -285,6 +286,45 @@ public class WarpDisruptorItem extends Item {
             world.addParticle(particleType, x, y + 0.2, z, 0, 1.0, 0);
             world.addParticle(particleType, x, y + offsetY / 2, z, 0, 1.0, 0);
             world.addParticle(particleType, x, y + offsetY - 0.2, z, 0, 1.0, 0);
+        }
+    }
+
+    public static void disruptEntity(WarpDisruptorItem disruptorItem, Entity target, Level world, Player player, ItemStack stack) {
+        if ((!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() || player.isCreative())
+                && (!target.getData(DataAttachmentRegistry.PREVENT_WARP.get()) || !target.getData(DataAttachmentRegistry.BREAK.get()))) {
+            if (world instanceof ServerLevel serverWorld) {
+                if (target.getData(DataAttachmentRegistry.IS_WAXED.get()) && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+
+                    if (target instanceof Painting painting && painting.getVariant().getKey() != null)
+                        player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed_painting",
+                                Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                target.getName()).withStyle(ChatFormatting.GOLD), true);
+                    else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed",
+                            target.getName()).withStyle(ChatFormatting.GOLD), true);
+                } else if (target.getData(DataAttachmentRegistry.PREVENT_WARP.get())) {
+                    ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.WARPED_SPORE, serverWorld, target, 16);
+                    if (target instanceof Painting painting && painting.getVariant().getKey() != null)
+                        player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
+                                Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
+                    else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_entity",
+                            target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
+                    target.setData(DataAttachmentRegistry.BREAK.get(), true);
+                } else {
+                    ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, target, 16);
+                    if (target instanceof Painting painting && painting.getVariant().getKey() != null)
+                        player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
+                                Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
+                                target.getName()).withStyle(ChatFormatting.RED), true);
+                    else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_entity_warp",
+                            target.getDisplayName()).withStyle(ChatFormatting.RED), true);
+                    target.setData(DataAttachmentRegistry.PREVENT_WARP.get(), true);
+                }
+
+                if (!player.isCreative())
+                    stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+            }
+            player.swing(player.getUsedItemHand());
         }
     }
 }

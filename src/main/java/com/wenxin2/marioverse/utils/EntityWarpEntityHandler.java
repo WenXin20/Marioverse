@@ -21,9 +21,9 @@ public interface EntityWarpEntityHandler {
     boolean mv$getEntityWarpTeleportConfig();
 
     default void enterWarp(Entity entity, Level world) {
-        List<Entity> nearbyEntities = world.getEntitiesOfClass(Entity.class, entity.getBoundingBox());
+        List<Entity> nearbyEntities = world.getEntitiesOfClass(Entity.class, entity.getBoundingBox().inflate(0.1, 0, 0.1));
         for (Entity warpEntity : nearbyEntities) {
-            if (warpEntity != entity && warpEntity instanceof WarpLinkableEntity linkableEntity
+            if (warpEntity != entity && warpEntity.isAlive() && warpEntity instanceof WarpLinkableEntity linkableEntity
                     && !warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get())) {
                 int entityId = entity.getId();
 

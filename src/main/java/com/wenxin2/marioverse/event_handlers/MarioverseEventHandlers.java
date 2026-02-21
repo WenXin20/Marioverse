@@ -31,6 +31,7 @@ import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
+import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -701,6 +702,38 @@ public class MarioverseEventHandlers {
             if (target instanceof Painting || target.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
                     || stack.is(ItemRegistry.CREATIVE_WRENCH))
                 linker.linkEntity(event, stack, player, target, world, pos);
+        }
+
+        if (stack.getItem() instanceof WarpDisruptorItem disruptorItem)
+            WarpDisruptorItem.disruptEntity(disruptorItem, target, world, player, stack);
+
+        if ((!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() || player.isCreative())
+                && stack.is(TagRegistry.CRAFTS_WARP_PAINTING)
+                && target instanceof Painting
+                && target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
+            target.setData(DataAttachmentRegistry.WARP_FUEL_COUNT.get(), target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) + 1);
+            if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
+            else if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) == ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
+                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
+            if (world instanceof ServerLevel serverWorld)
+                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, target, pos, 16);
+            player.swing(player.getUsedItemHand());
+            stack.consume(1, player);
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+        } else if (stack.getItem() instanceof HoneycombItem) {
+            if (!ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
+                if (!target.getData(DataAttachmentRegistry.IS_WAXED.get())) {
+                    if (world instanceof ServerLevel serverWorld) {
+                        world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
+                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 0.5, 64);
+                        stack.consume(1, player);
+                    }
+                    target.setData(DataAttachmentRegistry.IS_WAXED.get(), true);
+                    player.swing(player.getUsedItemHand());
+                }
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -374,7 +375,7 @@ public class LinkerItem extends TieredItem {
                     && !ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.requires_creative"), true);
                 player.swing(player.getUsedItemHand());
-            } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
+            } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() || stack.is(ItemRegistry.CREATIVE_WRENCH)) {
                 if (player.isShiftKeyDown()) {
                     UUID uuid = target.getUUID();
 
@@ -382,7 +383,7 @@ public class LinkerItem extends TieredItem {
                         if (target.getData(DataAttachmentRegistry.IS_WAXED.get()) && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                             player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
                                     target.getName()).withStyle(ChatFormatting.GOLD), true);
-                        } else if (!player.isCreative()
+                        } else if (!player.isCreative() && !stack.is(ItemRegistry.CREATIVE_WRENCH)
                                 && target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
                             if (target instanceof Painting painting && painting.getVariant().getKey() != null)
                                 player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.painting_fuel_required",
@@ -469,69 +470,6 @@ public class LinkerItem extends TieredItem {
                             setIsBound(stack, false);
                         }
                     }
-                    player.swing(player.getUsedItemHand());
-                }
-            }
-        } else if (stack.getItem() instanceof WarpDisruptorItem disruptorItem) {
-            if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
-                    && (!target.getData(DataAttachmentRegistry.PREVENT_WARP.get()) || !target.getData(DataAttachmentRegistry.BREAK.get()))) {
-                if (world instanceof ServerLevel serverWorld) {
-                    if (target.getData(DataAttachmentRegistry.IS_WAXED.get()) && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
-
-                        if (target instanceof Painting painting && painting.getVariant().getKey() != null)
-                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed_painting",
-                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                    target.getName()).withStyle(ChatFormatting.GOLD), true);
-                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.waxed",
-                                target.getName()).withStyle(ChatFormatting.GOLD), true);
-                    } else if (target.getData(DataAttachmentRegistry.PREVENT_WARP.get())) {
-                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.WARPED_SPORE, serverWorld, target, 16);
-                        if (target instanceof Painting painting && painting.getVariant().getKey() != null)
-                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
-                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                    target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_entity",
-                                target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                        target.setData(DataAttachmentRegistry.BREAK.get(), true);
-                    } else {
-                        ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, target, 16);
-                        if (target instanceof Painting painting && painting.getVariant().getKey() != null)
-                            player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_painting_warp",
-                                    Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
-                                    target.getName()).withStyle(ChatFormatting.RED), true);
-                        else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.prevent_entity_warp",
-                                target.getDisplayName()).withStyle(ChatFormatting.RED), true);
-                        target.setData(DataAttachmentRegistry.PREVENT_WARP.get(), true);
-                    }
-
-                    if (!player.isCreative())
-                        stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                }
-                player.swing(player.getUsedItemHand());
-            }
-        } else if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
-                && stack.is(TagRegistry.CRAFTS_WARP_PAINTING)
-                && target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
-            target.setData(DataAttachmentRegistry.WARP_FUEL_COUNT.get(), target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) + 1);
-            if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
-            else if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) == ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
-            if (world instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, target, pos, 16);
-            player.swing(player.getUsedItemHand());
-            stack.consume(1, player);
-            event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
-        } else if (stack.getItem() instanceof HoneycombItem) {
-            if (!ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
-                if (!target.getData(DataAttachmentRegistry.IS_WAXED.get())) {
-                    if (world instanceof ServerLevel serverWorld) {
-                        world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 0.5, 64);
-                        stack.consume(1, player);
-                    }
-                    target.setData(DataAttachmentRegistry.IS_WAXED.get(), true);
                     player.swing(player.getUsedItemHand());
                 }
             }
