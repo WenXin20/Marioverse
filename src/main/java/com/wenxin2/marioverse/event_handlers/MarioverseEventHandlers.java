@@ -692,6 +692,12 @@ public class MarioverseEventHandlers {
         Player player = event.getEntity();
         BlockPos pos = target.blockPosition();
         ItemStack stack = event.getItemStack();
+        boolean isPainting = target instanceof Painting
+                || target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
+                || target.getType() == CompatRegistry.MAGIC_PAINTING.get();
 
         if (stack.getItem() instanceof NameTagItem && target instanceof IceCubeEntity) {
             event.setCancellationResult(InteractionResult.PASS);
@@ -699,17 +705,15 @@ public class MarioverseEventHandlers {
         }
 
         if (stack.getItem() instanceof LinkerItem linker) {
-            if (target instanceof Painting || target.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
-                    || stack.is(ItemRegistry.CREATIVE_WRENCH))
-                linker.linkEntity(event, stack, player, target, world, pos);
+            if (isPainting || stack.is(ItemRegistry.CREATIVE_WRENCH))
+                linker.linkEntity(stack, player, target, world, pos);
         }
 
         if (stack.getItem() instanceof WarpDisruptorItem disruptorItem)
             WarpDisruptorItem.disruptEntity(disruptorItem, target, world, player, stack);
 
         if ((!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() || player.isCreative())
-                && stack.is(TagRegistry.CRAFTS_WARP_PAINTING)
-                && target instanceof Painting
+                && isPainting && stack.is(TagRegistry.CRAFTS_WARP_PAINTING)
                 && target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
             target.setData(DataAttachmentRegistry.WARP_FUEL_COUNT.get(), target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) + 1);
             if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())

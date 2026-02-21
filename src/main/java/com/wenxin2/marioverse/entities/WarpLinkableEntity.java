@@ -26,10 +26,6 @@ public interface WarpLinkableEntity {
 
     record WarpTarget(BlockPos pos, Direction direction, int width) {};
 
-    boolean mv$isWaxed();
-
-    void mv$setWaxed(boolean isWaxed);
-
     boolean mv$hasDestinationPos();
 
     void mv$setDestinationPos(@Nullable BlockPos pos);
@@ -39,18 +35,6 @@ public interface WarpLinkableEntity {
     ResourceKey<Level> mv$getDestinationDim();
 
     void mv$setDestinationDim(@Nullable ResourceKey<Level> dimension);
-
-    int mv$getWarpFuelCount();
-
-    void mv$setWarpFuelCount(int warpFuelCount);
-
-    boolean mv$isBreakPainting();
-
-    void mv$setBreakPainting(boolean breakPainting);
-
-    boolean mv$getPreventWarp();
-
-    void mv$setPreventWarp(boolean preventWarp);
 
     UUID mv$getWarpUUID();
 

@@ -34,11 +34,15 @@ public class CompatRegistry {
     public static final Supplier<Item> SOAP = make("supplementaries:soap", BuiltInRegistries.ITEM);
 
     public static final Supplier<EntityType<?>> TEST_DUMMY = make("dummmmmmy:test_dummy", BuiltInRegistries.ENTITY_TYPE);
+    public static final Supplier<EntityType<?>> IMMERSIVE_GLOW_GRAFFITI = make("immersive_paintings:glow_graffiti", BuiltInRegistries.ENTITY_TYPE);
+    public static final Supplier<EntityType<?>> IMMERSIVE_GLOW_PAINTING = make("immersive_paintings:glow_painting", BuiltInRegistries.ENTITY_TYPE);
+    public static final Supplier<EntityType<?>> IMMERSIVE_GRAFFITI = make("immersive_paintings:graffiti", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> IMMERSIVE_PAINTING = make("immersive_paintings:painting", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> BOMB = make("supplementaries:bomb", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> CANNONBALL = make("supplementaries:cannonball", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> HAT_STAND = make("supplementaries:hat_stand", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> ICE_BOMB = make("twilightforest:thrown_ice", BuiltInRegistries.ENTITY_TYPE);
+    public static final Supplier<EntityType<?>> MAGIC_PAINTING = make("twilightforest:magic_painting", BuiltInRegistries.ENTITY_TYPE);
 
     public static final Supplier<ParticleType<?>> CONFETTI_PARTICLE = make("supplementaries:confetti", BuiltInRegistries.PARTICLE_TYPE);
     public static final Supplier<ParticleType<?>> STREAMER_PARTICLE = make("supplementaries:streamer", BuiltInRegistries.PARTICLE_TYPE);

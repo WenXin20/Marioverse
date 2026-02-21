@@ -4,18 +4,17 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
+import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.integration.ImmersivePaintingEntityCompat;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,14 +25,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -45,7 +42,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 
 public class LinkerItem extends TieredItem {
@@ -369,7 +366,20 @@ public class LinkerItem extends TieredItem {
         }
     }
 
-    public void linkEntity(PlayerInteractEvent.EntityInteract event, ItemStack stack, Player player, Entity target, Level world, BlockPos pos) {
+    public void linkEntity(ItemStack stack, Player player, Entity target, Level world, BlockPos pos) {
+
+        boolean isPainting = target instanceof Painting painting
+                || target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
+                || target.getType() == CompatRegistry.MAGIC_PAINTING.get();
+
+        boolean isImmersivePainting = target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
+                || target.getType() == CompatRegistry.IMMERSIVE_PAINTING.get();
+
         if (stack.getItem() instanceof LinkerItem linker) {
             if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()
                     && !ConfigRegistry.DISABLE_WARP_PAINTINGS.get()) {
@@ -396,7 +406,7 @@ public class LinkerItem extends TieredItem {
                         } else if (!getIsBound(stack)) {
                             if (target instanceof Painting painting) {
                                 int width = painting.getVariant().value().width();
-                                Direction direction = painting.getDirection();
+                                Direction direction = target.getDirection();
                                 WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 setWarpPos(stack, pos);
                                 setWarpEntity(stack, painting);
@@ -407,6 +417,15 @@ public class LinkerItem extends TieredItem {
                                             target.getName()).withStyle(ChatFormatting.GREEN), true);
                                     setWarpPainting(stack, painting);
                                 }
+                            } else if (ModList.get().isLoaded("immersive_paintings") && isImmersivePainting) {
+                                int width = ImmersivePaintingEntityCompat.getPaintingWidth(target);
+                                Direction direction = target.getDirection();
+                                WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
+                                setWarpPos(stack, pos);
+                                setWarpEntity(stack, target);
+
+                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
+                                        target.getName()).withStyle(ChatFormatting.GREEN), true);
                             } else {
                                 WarpLinkableEntity.setWarpPos(uuid, pos, Direction.NORTH, 1);
                                 setWarpPos(stack, pos);
@@ -436,7 +455,7 @@ public class LinkerItem extends TieredItem {
 
                             if (target instanceof Painting painting) {
                                 int width = painting.getVariant().value().width();
-                                WarpLinkableEntity.setWarpPos(warpUUID, warpPos, painting.getDirection(), width);
+                                WarpLinkableEntity.setWarpPos(warpUUID, warpPos, target.getDirection(), width);
 
                                 if (warpEntity instanceof Painting warpPainting && warpPainting.getVariant().getKey() != null
                                         && painting.getVariant().getKey() != null)
@@ -444,7 +463,14 @@ public class LinkerItem extends TieredItem {
                                             Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                                             target.getName(), Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                                             warpPainting.getName()).withStyle(ChatFormatting.GOLD), true);
-                            } else if (warpEntity != null) player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
+                            } else if (ModList.get().isLoaded("immersive_paintings") && isImmersivePainting) {
+                                int width = ImmersivePaintingEntityCompat.getPaintingWidth(target);
+                                WarpLinkableEntity.setWarpPos(warpUUID, warpPos, target.getDirection(), width);
+
+                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
+                                        target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
+                            } else if (warpEntity != null)
+                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
                                     target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
 
                             linker.link(stack, warpEntity, target, warpPos);

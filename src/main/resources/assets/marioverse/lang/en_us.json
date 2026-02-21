@@ -862,9 +862,9 @@
   "item.marioverse.wrench.tooltip.shift_right_click.entities": "§7, entities",
 
   "item.marioverse.warp_disruptor.message.break_door": "§3Break %1$s §3after warping",
-  "item.marioverse.warp_disruptor.message.break_entity": "§3Break %1$s §3after warping",
   "item.marioverse.warp_disruptor.message.break_painting": "§3Break %1$s %2$s §3after warping",
   "item.marioverse.warp_disruptor.message.break_trapdoor": "§3Break %1$s §3after warping",
+  "item.marioverse.warp_disruptor.message.despawn_entity": "§3Despawn %1$s §3after warping",
   "item.marioverse.warp_disruptor.message.prevent_door_warp": "§cPrevented door warping",
   "item.marioverse.warp_disruptor.message.prevent_entity_warp": "§cPrevented §r%1$s §cfrom warping",
   "item.marioverse.warp_disruptor.message.prevent_painting_warp": "§cPrevented §r%1$s %2$s §cfrom warping",

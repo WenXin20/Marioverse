@@ -307,7 +307,7 @@ public class WarpDisruptorItem extends Item {
                         player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_painting",
                                 Component.translatable(painting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                                 target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                    else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.break_entity",
+                    else player.displayClientMessage(Component.translatable(disruptorItem.getDescriptionId() + ".message.despawn_entity",
                             target.getName()).withStyle(ChatFormatting.DARK_AQUA), true);
                     target.setData(DataAttachmentRegistry.BREAK.get(), true);
                 } else {
