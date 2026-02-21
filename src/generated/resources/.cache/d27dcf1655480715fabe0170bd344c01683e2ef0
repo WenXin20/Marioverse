@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-15T23:26:30.7788922	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-02-18T21:30:39.9884035	Tags for minecraft:block mod id marioverse
 5da29bc8b8966a38906778028de85c2f8c063500 data/create/tags/block/brittle.json
 12e14990226d91dbf1cca1399bc61cdcf33fe084 data/create/tags/block/copycat_allow.json
 87eff3d2a1de7c229b6ddaec87b861e07798b44a data/create/tags/block/movable_empty_collider.json
@@ -27,7 +27,7 @@ f94c0b6ce1981e49f0c7656ee7cf0559cc5eed94 data/c/tags/block/dyed/yellow.json
 e31783925b31fdd1f8d79491031265d854c17543 data/c/tags/block/sands/red.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 6d434ad7cc6fbacf3681c920bf9e6bdae474edf9 data/marioverse/tags/block/bonkable_blocks.json
-2a85815c2331829785269dddeac4b84156d21c4f data/marioverse/tags/block/bouncy_blocks.json
+7eaac583d66dabbfff1a436f536efd77ee40f87b data/marioverse/tags/block/bouncy_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/block/brick_pedestals.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/marioverse/tags/block/bridges.json
 3a569791b5b1656007b0f1d7fceea0ec7e7c299b data/marioverse/tags/block/bridge_stairs.json

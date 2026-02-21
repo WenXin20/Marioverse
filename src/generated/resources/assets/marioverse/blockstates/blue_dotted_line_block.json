@@ -1,9 +1,15 @@
 {
   "variants": {
-    "active=false": {
+    "active=false,waterlogged=false": {
       "model": "marioverse:block/blue_dotted_line_block_off"
     },
-    "active=true": {
+    "active=false,waterlogged=true": {
+      "model": "marioverse:block/blue_dotted_line_block_off"
+    },
+    "active=true,waterlogged=false": {
+      "model": "marioverse:block/blue_dotted_line_block"
+    },
+    "active=true,waterlogged=true": {
       "model": "marioverse:block/blue_dotted_line_block"
     }
   }

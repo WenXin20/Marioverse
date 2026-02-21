@@ -3,6 +3,14 @@
     "minecraft:brown_mushroom_block",
     "minecraft:red_mushroom_block",
     {
+      "id": "#chipped:brown_mushroom_block",
+      "required": false
+    },
+    {
+      "id": "#chipped:red_mushroom_block",
+      "required": false
+    },
+    {
       "id": "superbb:blue_bigshroom_block",
       "required": false
     },

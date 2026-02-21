@@ -16,8 +16,6 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class BlockTagsGen extends BlockTagsProvider {
-    private static final ResourceLocation CREATE_CALCITE_BRICKS = ResourceLocation.fromNamespaceAndPath("create", "cut_calcite_bricks");
-    private static final ResourceLocation CREATE_POLISHED_CALCITE = ResourceLocation.fromNamespaceAndPath("create", "polished_cut_calcite");
     private static final ResourceLocation BB_BLUE_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "blue_bigshroom_block");
     private static final ResourceLocation BB_GREEN_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "green_bigshroom_block");
     private static final ResourceLocation BB_LIME_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "lime_bigshroom_block");
@@ -25,6 +23,10 @@ public class BlockTagsGen extends BlockTagsProvider {
     private static final ResourceLocation BB_PURPLE_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "purple_bigshroom_block");
     private static final ResourceLocation BB_RED_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "red_bigshroom_block");
     private static final ResourceLocation BB_YELLOW_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "yellow_bigshroom_block");
+    private static final ResourceLocation CHIPPED_BROWN_MUSHROOMS = ResourceLocation.fromNamespaceAndPath("chipped", "brown_mushroom_block");
+    private static final ResourceLocation CHIPPED_RED_MUSHROOMS = ResourceLocation.fromNamespaceAndPath("chipped", "red_mushroom_block");
+    private static final ResourceLocation CREATE_CALCITE_BRICKS = ResourceLocation.fromNamespaceAndPath("create", "cut_calcite_bricks");
+    private static final ResourceLocation CREATE_POLISHED_CALCITE = ResourceLocation.fromNamespaceAndPath("create", "polished_cut_calcite");
     private static final ResourceLocation PC_CRYSTALLIZED_CACTUS = ResourceLocation.fromNamespaceAndPath("pokecube_legends", "crystallized_cactus");
     private static final ResourceLocation SUPP_FIRE_PIT = ResourceLocation.fromNamespaceAndPath("supplementaries", "fire_pit");
 
@@ -139,6 +141,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.BOUNCY_BLOCKS)
                 .add(Blocks.BROWN_MUSHROOM_BLOCK)
                 .add(Blocks.RED_MUSHROOM_BLOCK)
+                .addOptionalTag(CHIPPED_BROWN_MUSHROOMS)
+                .addOptionalTag(CHIPPED_RED_MUSHROOMS)
                 .addOptional(BB_BLUE_BIGSHROOM)
                 .addOptional(BB_GREEN_BIGSHROOM)
                 .addOptional(BB_LIME_BIGSHROOM)
