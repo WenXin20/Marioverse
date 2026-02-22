@@ -1,11 +1,9 @@
-package com.wenxin2.marioverse.integration;
+package com.wenxin2.marioverse.integration.immersive_paintings_compat;
 
 import net.conczin.immersive_paintings.entity.ImmersivePaintingEntity;
-import net.mehvahdjukaar.supplementaries.common.entities.goals.UseCannonBoatGoal;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Mob;
 
-public class ImmersivePaintingEntityCompat {
+public class PaintingEntityCompat {
     public static int getPaintingHeight(Entity entity) {
         if (entity instanceof ImmersivePaintingEntity painting)
             return painting.getPaintingHeight();

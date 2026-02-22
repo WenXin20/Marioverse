@@ -6,7 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
-import com.wenxin2.marioverse.integration.ImmersivePaintingEntityCompat;
+import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityCompat;
 import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityCompat;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -423,7 +423,7 @@ public class LinkerItem extends TieredItem {
                                     setWarpPainting(stack, painting);
                                 }
                             } else if (ModList.get().isLoaded("immersive_paintings") && isImmersivePainting) {
-                                int width = ImmersivePaintingEntityCompat.getPaintingWidth(target);
+                                int width = PaintingEntityCompat.getPaintingWidth(target);
                                 Direction direction = target.getDirection();
                                 WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 setWarpPos(stack, pos);
@@ -432,7 +432,7 @@ public class LinkerItem extends TieredItem {
                                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
                                         target.getName()).withStyle(ChatFormatting.GREEN), true);
                             } else if (ModList.get().isLoaded("twilightforest") && isMagicPainting) {
-                                int width = ImmersivePaintingEntityCompat.getPaintingWidth(target);
+                                int width = PaintingEntityCompat.getPaintingWidth(target);
                                 Direction direction = target.getDirection();
                                 WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 setWarpPos(stack, pos);
@@ -482,7 +482,7 @@ public class LinkerItem extends TieredItem {
                                             target.getName(), Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                                             warpPainting.getName()).withStyle(ChatFormatting.GOLD), true);
                             } else if (ModList.get().isLoaded("immersive_paintings") && isImmersivePainting) {
-                                int width = ImmersivePaintingEntityCompat.getPaintingWidth(target);
+                                int width = PaintingEntityCompat.getPaintingWidth(target);
                                 WarpLinkableEntity.setWarpPos(warpUUID, warpPos, target.getDirection(), width);
 
                                 if (warpEntity != null)
