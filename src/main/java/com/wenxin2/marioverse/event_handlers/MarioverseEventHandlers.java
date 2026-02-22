@@ -692,6 +692,7 @@ public class MarioverseEventHandlers {
         Player player = event.getEntity();
         BlockPos pos = target.blockPosition();
         ItemStack stack = event.getItemStack();
+
         boolean isPainting = target instanceof Painting
                 || target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
                 || target.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()

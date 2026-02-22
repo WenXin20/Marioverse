@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.ImmersivePaintingEntityCompat;
+import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityCompat;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -74,6 +75,9 @@ public class LinkerItem extends TieredItem {
             if (stack.has(DataComponentRegistry.WARP_ENTITY.get()) && stack.has(DataComponentRegistry.WARP_PAINTING.get()))
                 list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.painting",
                         Component.translatable(getWarpPainting(stack).name()), getWarpEntity(stack).name(), true).withStyle(ChatFormatting.GRAY));
+            if (stack.has(DataComponentRegistry.WARP_ENTITY.get()))
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.entity",
+                        getWarpEntity(stack).name(), true).withStyle(ChatFormatting.GRAY));
 
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x",
                     getWarpPos(stack).getX(), true).withStyle(ChatFormatting.GRAY));
@@ -306,6 +310,13 @@ public class LinkerItem extends TieredItem {
                             painting.getVariant().getKey().location().toLanguageKey("painting", "title")));
     }
 
+    public static void setWarpMagicPainting(ItemStack stack, Entity painting) {
+        if (MagicPaintingEntityCompat.getVariantString(painting) != null)
+            stack.set(DataComponentRegistry.WARP_PAINTING.get(),
+                    new DataComponentRegistry.WarpTarget(painting.blockPosition(),
+                            MagicPaintingEntityCompat.getVariantString(painting)));
+    }
+
     public static String getWarpDimension(ItemStack stack) {
         return stack.getOrDefault(DataComponentRegistry.WARP_DIMENSION.get(), "");
     }
@@ -367,18 +378,12 @@ public class LinkerItem extends TieredItem {
     }
 
     public void linkEntity(ItemStack stack, Player player, Entity target, Level world, BlockPos pos) {
-
-        boolean isPainting = target instanceof Painting painting
-                || target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
-                || target.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
-                || target.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
-                || target.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
-                || target.getType() == CompatRegistry.MAGIC_PAINTING.get();
-
         boolean isImmersivePainting = target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
                 || target.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
                 || target.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
                 || target.getType() == CompatRegistry.IMMERSIVE_PAINTING.get();
+
+        boolean isMagicPainting = target.getType() == CompatRegistry.MAGIC_PAINTING.get();
 
         if (stack.getItem() instanceof LinkerItem linker) {
             if (!player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()
@@ -426,6 +431,19 @@ public class LinkerItem extends TieredItem {
 
                                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
                                         target.getName()).withStyle(ChatFormatting.GREEN), true);
+                            } else if (ModList.get().isLoaded("twilightforest") && isMagicPainting) {
+                                int width = ImmersivePaintingEntityCompat.getPaintingWidth(target);
+                                Direction direction = target.getDirection();
+                                WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
+                                setWarpPos(stack, pos);
+                                setWarpEntity(stack, target);
+
+                                if (MagicPaintingEntityCompat.getVariantString(target) != null) {
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound_painting",
+                                            Component.translatable(MagicPaintingEntityCompat.getVariantString(target)),
+                                            target.getName()).withStyle(ChatFormatting.GREEN), true);
+                                    setWarpMagicPainting(stack, target);
+                                }
                             } else {
                                 WarpLinkableEntity.setWarpPos(uuid, pos, Direction.NORTH, 1);
                                 setWarpPos(stack, pos);
@@ -467,8 +485,18 @@ public class LinkerItem extends TieredItem {
                                 int width = ImmersivePaintingEntityCompat.getPaintingWidth(target);
                                 WarpLinkableEntity.setWarpPos(warpUUID, warpPos, target.getDirection(), width);
 
-                                player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
-                                        target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
+                                if (warpEntity != null)
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
+                                            target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
+                            } else if (ModList.get().isLoaded("twilightforest") && isMagicPainting) {
+                                int width = MagicPaintingEntityCompat.getPaintingWidth(target);
+                                WarpLinkableEntity.setWarpPos(warpUUID, warpPos, target.getDirection(), width);
+
+                                if (MagicPaintingEntityCompat.getVariantString(warpEntity) != null)
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_painting",
+                                            Component.translatable(MagicPaintingEntityCompat.getVariantString(warpEntity)),
+                                            target.getName(), Component.translatable(MagicPaintingEntityCompat.getVariantString(warpEntity)),
+                                            warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
                             } else if (warpEntity != null)
                                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
                                     target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
