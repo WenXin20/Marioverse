@@ -10,7 +10,6 @@
     "DecoratedPotPatternsMixin",
     "EntityMixin",
     "LivingEntityMixin",
-    "PaintingMixin",
     "PlayerMixin",
     "PowderSnowBlockMixin",
     "ServerPlayerMixin"
