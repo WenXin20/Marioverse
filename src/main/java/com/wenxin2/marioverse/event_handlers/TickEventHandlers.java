@@ -7,10 +7,13 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -95,6 +98,10 @@ public class TickEventHandlers {
                 entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) - 1);
 
+        if (entity.hasData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN) &&
+                entity.getData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN) > 0)
+            entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, entity.getData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN) - 1);
+
         if (entity.hasData(DataAttachmentRegistry.SUPER_STAR_DURATION) &&
                 entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) - 1);
@@ -141,6 +148,11 @@ public class TickEventHandlers {
         Level level = entity.level();
         Vec3 motion = entity.getDeltaMovement();
         BlockPos pos = entity.blockPosition();
+        BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
+        BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
+        BlockState state = level.getBlockState(pos);
+        BlockState stateAboveEntity = level.getBlockState(posAboveEntity);
+        BlockState stateInBlock = level.getBlockState(posInBlock);
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
 
         if (!level.isClientSide && entity instanceof LivingEntity livingEntity) {
@@ -155,6 +167,21 @@ public class TickEventHandlers {
 
             for (Entity rider : entity.getPassengers())
                 rider.setYHeadRot(rider.getYHeadRot() + 30);
+        }
+
+        if (entity instanceof ServerPlayer player && level instanceof ServerLevel
+                && player.hasData(DataAttachmentRegistry.VEHICLE_UUID)
+                && entity.getData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN) == 0) {
+            UUID uuid = player.getData(DataAttachmentRegistry.VEHICLE_UUID);
+            ServerLevel serverLevel = level.getServer().getLevel(level.dimension());
+
+            if (serverLevel != null) {
+                Entity vehicle = serverLevel.getEntity(uuid);
+                if (vehicle != null && !player.isPassenger())
+                    player.startRiding(vehicle, true);
+                player.removeData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN);
+                player.removeData(DataAttachmentRegistry.VEHICLE_UUID);
+            }
         }
 
         if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)

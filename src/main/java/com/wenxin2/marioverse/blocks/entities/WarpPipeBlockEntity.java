@@ -91,6 +91,7 @@ import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -660,125 +661,241 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state) {
         Entity passengerEntity = entity.getControllingPassenger();
+        Entity vehicle = entity.getVehicle();
+        double x = warpPos.getX() + 0.5;
+        double y = warpPos.getY();
+        double z = warpPos.getZ() + 0.5;
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - 1.0, warpPos.getZ() + 0.5);
-                    world.broadcastEntityEvent(entity, (byte) 120); // Enchant teleport particles
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 1, 0));
+                    world.broadcastEntityEvent(entity, (byte) 120); // Enchant teleport particles TODO new particles
+                    entity.unRide();
+                    entity.teleportTo(x, y - 1.0, z);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                    if (vehicle != null) {
+                        vehicle.teleportTo(x, y - 1.0, z);
+                        vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                        entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                    }
                 } else {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - 1.0, warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
+                    entity.teleportTo(x, y - 1.0, z);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
                     if (passengerEntity instanceof Player player) {
-                        if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 1, 0));
                         entity.unRide();
+                        player.teleportTo(x, y - 1.0, z);
+                        player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                        player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     }
                 }
             }
 
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.UP && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() + 1.0, warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
+                    entity.unRide();
+                    entity.teleportTo(x, y + 1.0, z);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                    if (vehicle != null) {
+                        vehicle.teleportTo(x, y + 1.0, z);
+                        vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                        entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                    }
                 } else {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() + 1.0, warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
+                    entity.teleportTo(x, y + 1.0, z);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
                     if (passengerEntity instanceof Player player) {
-                        if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                         entity.unRide();
+                        player.teleportTo(x, y + 1.0, z);
+                        player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                        player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     }
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.DOWN && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - entity.getBbHeight(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
+                    entity.unRide();
+                    entity.teleportTo(x, y - entity.getBbHeight(), z);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                    if (vehicle != null) {
+                        vehicle.teleportTo(x, y - entity.getBbHeight(), z);
+                        vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                        entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                    }
                 } else {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY() - entity.getBbHeight(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
+                    entity.teleportTo(x, y - entity.getBbHeight(), z);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
                     if (passengerEntity instanceof Player player) {
-                        if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                         entity.unRide();
+                        player.teleportTo(x, y - entity.getBbHeight(), z);
+                        player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                        player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     }
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.NORTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() - entity.getBbWidth());
                     world.broadcastEntityEvent(entity, (byte) 120);
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
+                    entity.unRide();
+                    entity.teleportTo(x, y, z - entity.getBbWidth());
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                    if (vehicle != null) {
+                        vehicle.teleportTo(x, y, z - entity.getBbWidth());
+                        vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                        entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                    }
                 } else {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() - entity.getBbWidth());
                     world.broadcastEntityEvent(entity, (byte) 120);
+                    entity.teleportTo(x, y, z - entity.getBbWidth());
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
                     if (passengerEntity instanceof Player player) {
-                        if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                         entity.unRide();
+                        player.teleportTo(x, y, z - entity.getBbWidth());
+                        player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                        player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     }
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.SOUTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + entity.getBbWidth() + 1.0);
                     world.broadcastEntityEvent(entity, (byte) 120);
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
+                    entity.unRide();
+                    entity.teleportTo(x, y, z + entity.getBbWidth() + 1.0);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                    if (vehicle != null) {
+                        vehicle.teleportTo(x, y, z + entity.getBbWidth() + 1.0);
+                        vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                        entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                    }
                 } else {
-                    entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + entity.getBbWidth() + 1.0);
                     world.broadcastEntityEvent(entity, (byte) 120);
+                    entity.teleportTo(x, y, z + entity.getBbWidth() + 1.0);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
                     if (passengerEntity instanceof Player player) {
-                        if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                         entity.unRide();
+                        player.teleportTo(x, y, z + entity.getBbWidth() + 1.0);
+                        player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                        player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     }
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.EAST && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
-                    entity.teleportTo(warpPos.getX() + entity.getBbWidth() + 1.0, warpPos.getY(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
+                    entity.unRide();
+                    entity.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                    if (vehicle != null) {
+                        vehicle.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+                        vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                        entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                    }
                 } else {
-                    entity.teleportTo(warpPos.getX() + entity.getBbWidth() + 1.0, warpPos.getY(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
+                    entity.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
                     if (passengerEntity instanceof Player player) {
-                        if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                         entity.unRide();
+                        player.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+                        player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                        player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     }
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.WEST && state.getValue(WarpPipeBlock.ENTRANCE)) {
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                 if (entity instanceof Player player) {
-                    entity.teleportTo(warpPos.getX() - entity.getBbWidth(), warpPos.getY(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
+                    entity.unRide();
+                    entity.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                    if (vehicle != null) {
+                        vehicle.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+                        vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                        entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                    }
                 } else {
-                    entity.teleportTo(warpPos.getX() - entity.getBbWidth(), warpPos.getY(), warpPos.getZ() + 0.5);
                     world.broadcastEntityEvent(entity, (byte) 120);
+                    entity.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+                    entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+
                     if (passengerEntity instanceof Player player) {
-                        if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                         entity.unRide();
+                        player.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+                        player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
+                        player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                        player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                        if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                            player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     }
                 }
             }

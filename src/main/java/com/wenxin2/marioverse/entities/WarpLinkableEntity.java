@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -59,20 +58,36 @@ public interface WarpLinkableEntity {
 
     static void warp(Entity entity, double x, double y, double z, Level world) {
         Entity passengerEntity = entity.getControllingPassenger();
+        Entity vehicle = entity.getVehicle();
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (entity instanceof Player player) {
+                entity.unRide();
                 entity.teleportTo(x, y, z);
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
-                if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
+
+                if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                if (vehicle != null) {
+                    vehicle.teleportTo(x, y, z);
+                    vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+                    entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                    entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                }
             } else {
                 entity.teleportTo(x, y, z);
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+
                 if (passengerEntity instanceof Player player) {
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     entity.unRide();
+                    player.teleportTo(x, y, z);
+                    player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+                    player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                    player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                 }
             }
         }

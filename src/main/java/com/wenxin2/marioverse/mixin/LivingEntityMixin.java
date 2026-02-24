@@ -654,7 +654,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             ParticleUtils.spawnParticlesOnBlockFaces(entity.level(), this.blockPosition(), ParticleRegistry.COIN_GLINT.get(), UniformInt.of(1, 1));
         } else if (id == 119) {
             this.mv$spawnPowerUpParticles(entity, ParticleRegistry.COIN_GLINT.get(), 15);
-        } else if (id == 120) {
+        } else if (id == 120) { // TODO
             for(int i = 0; i < MAX_PARTICLE_AMOUNT; ++i) {
                 this.level().addParticle(ParticleTypes.ENCHANT,
                         entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D),

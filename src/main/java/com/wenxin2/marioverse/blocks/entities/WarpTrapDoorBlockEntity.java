@@ -60,6 +60,10 @@ public class WarpTrapDoorBlockEntity extends BaseWarpBlockEntity {
 
     public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state, TrapDoorBlock trapdoorBlock, BaseWarpBlockEntity warpBE) {
         Entity passengerEntity = entity.getControllingPassenger();
+        Entity vehicle = entity.getVehicle();
+        double x = warpPos.getX() + 0.5;
+        double y = warpPos.getY();
+        double z = warpPos.getZ() + 0.5;
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (!(world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
@@ -67,21 +71,38 @@ public class WarpTrapDoorBlockEntity extends BaseWarpBlockEntity {
                 BlockWarpEntityHandler.displayDestinationMissingMessage(player);
 
             if (entity instanceof Player player) {
+                entity.unRide();
+                entity.teleportTo(x, y, z);
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
+
                 if (state.getBlock() instanceof TrapDoorBlock)
                     warpBE.playTrapdoorSounds(null, world, warpPos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
-                entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
-                if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
+
+                if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
+
+                if (vehicle != null) {
+                    vehicle.teleportTo(x, y, z);
+                    vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
+                    entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
+                    entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+                }
             } else {
+                entity.teleportTo(x, y, z);
+                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
+
                 if (state.getBlock() instanceof TrapDoorBlock)
                     warpBE.playTrapdoorSounds(entity, world, warpPos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
-                entity.teleportTo(warpPos.getX() + 0.5, warpPos.getY(), warpPos.getZ() + 0.5);
-                entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
+
                 if (passengerEntity instanceof Player player) {
-                    if (ConfigRegistry.BLINDNESS_EFFECT.get() && !world.isClientSide())
-                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                     entity.unRide();
+                    player.teleportTo(x, y, z);
+                    player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get());
+                    player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
+                    player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
+
+                    if (ConfigRegistry.BLINDNESS_EFFECT.get())
+                        player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
                 }
             }
         }
