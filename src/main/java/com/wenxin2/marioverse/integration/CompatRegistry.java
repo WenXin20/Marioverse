@@ -33,6 +33,8 @@ public class CompatRegistry {
     public static final Supplier<Item> ICE_BOMB_ITEM = make("twilightforest:ice_bomb", BuiltInRegistries.ITEM);
     public static final Supplier<Item> SOAP = make("supplementaries:soap", BuiltInRegistries.ITEM);
 
+    public static final Supplier<EntityType<?>> AUTOMOBILE = make("automobility:automobile", BuiltInRegistries.ENTITY_TYPE);
+    public static final Supplier<EntityType<?>> AUTOMOBILITY_HITBOX = make("automobility:hitbox", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> TEST_DUMMY = make("dummmmmmy:test_dummy", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> IMMERSIVE_GLOW_GRAFFITI = make("immersive_paintings:glow_graffiti", BuiltInRegistries.ENTITY_TYPE);
     public static final Supplier<EntityType<?>> IMMERSIVE_GLOW_PAINTING = make("immersive_paintings:glow_painting", BuiltInRegistries.ENTITY_TYPE);
