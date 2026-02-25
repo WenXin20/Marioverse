@@ -2,8 +2,8 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
-import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityCompat;
-import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityCompat;
+import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityProvider;
+import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -83,7 +83,7 @@ public interface EntityWarpEntityHandler {
                     entity.setYHeadRot(direction.toYRot());
                 } else if (ModList.get().isLoaded("immersive_paintings")
                         && isImmersivePainting && warpEntity instanceof BlockAttachedEntity blockAttachedEntity) {
-                    int width = PaintingEntityCompat.getPaintingWidth(warpEntity);
+                    int width = PaintingEntityProvider.getPaintingWidth(warpEntity);
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = blockAttachedEntity.getPos();
 
@@ -96,7 +96,7 @@ public interface EntityWarpEntityHandler {
                     entity.setYHeadRot(direction.toYRot());
                 } else if (ModList.get().isLoaded("twilightforest")
                         && isMagicPainting && warpEntity instanceof BlockAttachedEntity blockAttachedEntity) {
-                    int width = MagicPaintingEntityCompat.getPaintingWidth(warpEntity);
+                    int width = MagicPaintingEntityProvider.getPaintingWidth(warpEntity);
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = blockAttachedEntity.getPos();
 

@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.integration.twilightforest_compat;
 import net.minecraft.world.entity.Entity;
 import twilightforest.entity.MagicPainting;
 
-public class MagicPaintingEntityCompat {
+public class MagicPaintingEntityProvider {
     public static int getPaintingHeight(Entity entity) {
         if (entity instanceof MagicPainting painting)
             return painting.getVariant().value().height();

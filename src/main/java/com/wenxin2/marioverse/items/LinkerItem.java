@@ -6,8 +6,8 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
-import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityCompat;
-import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityCompat;
+import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityProvider;
+import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -311,10 +311,10 @@ public class LinkerItem extends TieredItem {
     }
 
     public static void setWarpMagicPainting(ItemStack stack, Entity painting) {
-        if (MagicPaintingEntityCompat.getVariantString(painting) != null)
+        if (MagicPaintingEntityProvider.getVariantString(painting) != null)
             stack.set(DataComponentRegistry.WARP_PAINTING.get(),
                     new DataComponentRegistry.WarpTarget(painting.blockPosition(),
-                            MagicPaintingEntityCompat.getVariantString(painting)));
+                            MagicPaintingEntityProvider.getVariantString(painting)));
     }
 
     public static String getWarpDimension(ItemStack stack) {
@@ -423,7 +423,7 @@ public class LinkerItem extends TieredItem {
                                     setWarpPainting(stack, painting);
                                 }
                             } else if (ModList.get().isLoaded("immersive_paintings") && isImmersivePainting) {
-                                int width = PaintingEntityCompat.getPaintingWidth(target);
+                                int width = PaintingEntityProvider.getPaintingWidth(target);
                                 Direction direction = target.getDirection();
                                 WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 setWarpPos(stack, pos);
@@ -432,15 +432,15 @@ public class LinkerItem extends TieredItem {
                                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
                                         target.getName()).withStyle(ChatFormatting.GREEN), true);
                             } else if (ModList.get().isLoaded("twilightforest") && isMagicPainting) {
-                                int width = PaintingEntityCompat.getPaintingWidth(target);
+                                int width = PaintingEntityProvider.getPaintingWidth(target);
                                 Direction direction = target.getDirection();
                                 WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 setWarpPos(stack, pos);
                                 setWarpEntity(stack, target);
 
-                                if (MagicPaintingEntityCompat.getVariantString(target) != null) {
+                                if (MagicPaintingEntityProvider.getVariantString(target) != null) {
                                     player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound_painting",
-                                            Component.translatable(MagicPaintingEntityCompat.getVariantString(target)),
+                                            Component.translatable(MagicPaintingEntityProvider.getVariantString(target)),
                                             target.getName()).withStyle(ChatFormatting.GREEN), true);
                                     setWarpMagicPainting(stack, target);
                                 }
@@ -482,20 +482,20 @@ public class LinkerItem extends TieredItem {
                                             target.getName(), Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                                             warpPainting.getName()).withStyle(ChatFormatting.GOLD), true);
                             } else if (ModList.get().isLoaded("immersive_paintings") && isImmersivePainting) {
-                                int width = PaintingEntityCompat.getPaintingWidth(target);
+                                int width = PaintingEntityProvider.getPaintingWidth(target);
                                 WarpLinkableEntity.setWarpPos(warpUUID, warpPos, target.getDirection(), width);
 
                                 if (warpEntity != null)
                                     player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
                                             target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
                             } else if (ModList.get().isLoaded("twilightforest") && isMagicPainting) {
-                                int width = MagicPaintingEntityCompat.getPaintingWidth(target);
+                                int width = MagicPaintingEntityProvider.getPaintingWidth(target);
                                 WarpLinkableEntity.setWarpPos(warpUUID, warpPos, target.getDirection(), width);
 
-                                if (MagicPaintingEntityCompat.getVariantString(warpEntity) != null)
+                                if (MagicPaintingEntityProvider.getVariantString(warpEntity) != null)
                                     player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_painting",
-                                            Component.translatable(MagicPaintingEntityCompat.getVariantString(warpEntity)),
-                                            target.getName(), Component.translatable(MagicPaintingEntityCompat.getVariantString(warpEntity)),
+                                            Component.translatable(MagicPaintingEntityProvider.getVariantString(warpEntity)),
+                                            target.getName(), Component.translatable(MagicPaintingEntityProvider.getVariantString(warpEntity)),
                                             warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
                             } else if (warpEntity != null)
                                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
