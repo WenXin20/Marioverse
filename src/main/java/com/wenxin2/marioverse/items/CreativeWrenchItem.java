@@ -73,11 +73,20 @@ public class CreativeWrenchItem extends WrenchItem {
                     return InteractionResult.FAIL;
                 }
 
-                if (player != null)
+                if (player != null && !player.isShiftKeyDown()) {
                     player.displayClientMessage(Component.literal("Block linked"), true);
-                if (level instanceof ServerLevel server)
-                    GlobalSwitchSavedData.get(server).unlink(pos);
-                data.link(switchPos, pos);
+
+                    if (level instanceof ServerLevel server)
+                        GlobalSwitchSavedData.get(server).unlink(pos);
+                    data.link(switchPos, pos);
+                } else {
+                    if (player != null)
+                        player.displayClientMessage(Component.literal("Block unlinked"), true);
+
+                    if (level instanceof ServerLevel server)
+                        GlobalSwitchSavedData.get(server).link(pos);
+                    data.unlink(pos);
+                }
 
                 return InteractionResult.SUCCESS;
             }

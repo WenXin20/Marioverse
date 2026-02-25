@@ -83,7 +83,7 @@ public class GlobalSwitchSavedData extends SavedData {
                 .Factory<>(GlobalSwitchSavedData::create, GlobalSwitchSavedData::load), GlobalSwitchSavedData.ID);
     }
 
-    public void add(BlockPos pos) {
+    public void link(BlockPos pos) {
         blocksMap.computeIfAbsent(new ChunkPos(pos), k -> new HashSet<>()).add(pos);
         this.setDirty();
     }

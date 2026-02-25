@@ -3,13 +3,11 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public interface ToggleableBlock {
     default void onPlaceSavedData(Level level, BlockPos pos) {
         if (level instanceof ServerLevel server)
-            GlobalSwitchSavedData.get(server).add(pos);
+            GlobalSwitchSavedData.get(server).link(pos);
     }
 
     default void onRemoveSavedData(Level level, BlockPos pos) {
