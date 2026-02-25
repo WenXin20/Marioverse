@@ -44,6 +44,7 @@ public interface ToggleableBlock {
         GlobalSwitchSavedData dataGlobal = GlobalSwitchSavedData.get(level);
         LinkedSwitchSavedData dataLinked = LinkedSwitchSavedData.get(level);
 
+        dataGlobal.setActive(!dataGlobal.isActive());
         boolean isActiveGlobal = dataGlobal.isActive();
         boolean stateActive = stateSwitch.getValue(OnBlock.ACTIVE);
 
@@ -59,8 +60,8 @@ public interface ToggleableBlock {
 
                         BlockState state = level.getBlockState(posMutable);
 
-                        if (state.getBlock() instanceof ToggleableBlock && state.getValue(OnBlock.ACTIVE) != isActiveGlobal)
-                            level.setBlock(posMutable, state.setValue(OnBlock.ACTIVE, isActiveGlobal), Block.UPDATE_ALL);
+                        if (state.getBlock() instanceof ToggleableBlock && state.getValue(OnBlock.ACTIVE) != stateActive)
+                            level.setBlock(posMutable, state.setValue(OnBlock.ACTIVE, stateActive), Block.UPDATE_ALL);
 
                         dataGlobal.unlink(posMutable);
                         dataLinked.unlink(posMutable);
@@ -70,7 +71,6 @@ public interface ToggleableBlock {
             return;
         }
 
-        level.setBlock(switchPos, stateSwitch.setValue(OnBlock.ACTIVE, stateActive), Block.UPDATE_CLIENTS);
 
         for (Set<BlockPos> posSet : List.copyOf(dataLinked.allPositions(switchPos))) {
             for (BlockPos pos : List.copyOf(posSet)) {
@@ -89,7 +89,6 @@ public interface ToggleableBlock {
         }
 
         if (radius == 0 && dataLinked.allPositions(switchPos).isEmpty()) {
-            dataGlobal.setActive(!dataGlobal.isActive());
 
             for (Set<BlockPos> posSet : List.copyOf(dataGlobal.allPositions())) {
                 for (BlockPos pos : List.copyOf(posSet)) {
