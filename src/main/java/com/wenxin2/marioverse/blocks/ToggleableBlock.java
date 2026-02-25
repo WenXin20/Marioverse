@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.world.SwitchSavedData;
+import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
@@ -14,12 +14,12 @@ import net.minecraft.world.level.block.state.BlockState;
 public interface ToggleableBlock {
     default void onPlaceSavedData(Level level, BlockPos pos) {
         if (level instanceof ServerLevel server)
-            SwitchSavedData.get(server).add(pos);
+            GlobalSwitchSavedData.get(server).add(pos);
     }
 
     default void onRemoveSavedData(Level level, BlockPos pos) {
         if (level instanceof ServerLevel server)
-            SwitchSavedData.get(server).remove(pos);
+            GlobalSwitchSavedData.get(server).remove(pos);
     }
 
     default BlockState getStateForPlacementSavedData(BlockState defaultState, BlockPlaceContext placeContext) {
@@ -27,7 +27,7 @@ public interface ToggleableBlock {
         Player player = placeContext.getPlayer();
 
         if (level instanceof ServerLevel serverLevel) {
-            SwitchSavedData data = SwitchSavedData.get(serverLevel);
+            GlobalSwitchSavedData data = GlobalSwitchSavedData.get(serverLevel);
             if (player != null && player.isShiftKeyDown())
                 return defaultState.setValue(OnBlock.ACTIVE, !data.isActive());
             return defaultState.setValue(OnBlock.ACTIVE, data.isActive());
@@ -38,7 +38,7 @@ public interface ToggleableBlock {
     static void toggle(ServerLevel level, BlockPos switchPos) {
         BlockState switchState = level.getBlockState(switchPos);
         int radius = switchState.getValue(OnOffSwitchBlock.RADIUS);
-        SwitchSavedData data = SwitchSavedData.get(level);
+        GlobalSwitchSavedData data = GlobalSwitchSavedData.get(level);
 
         data.setOn(!data.isActive());
         boolean isActive = data.isActive();

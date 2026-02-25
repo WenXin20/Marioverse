@@ -47,7 +47,7 @@ import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import com.wenxin2.marioverse.world.SwitchSavedData;
+import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -138,7 +138,7 @@ public class MarioverseEventHandlers {
     }
 
     private static void processChunk(ServerLevel level, ChunkPos chunkPos) {
-        SwitchSavedData data = SwitchSavedData.get(level);
+        GlobalSwitchSavedData data = GlobalSwitchSavedData.get(level);
         boolean isActive = data.isActive();
 
         for (BlockPos pos : List.copyOf(data.getPositions(chunkPos))) {

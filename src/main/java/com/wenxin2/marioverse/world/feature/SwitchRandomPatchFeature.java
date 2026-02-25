@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.world.feature;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.blocks.OnBlock;
-import com.wenxin2.marioverse.world.SwitchSavedData;
+import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -22,7 +22,7 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
         RandomSource random = context.random();
         BlockPos pos = context.origin();
         WorldGenLevel worldGenLevel = context.level();
-        SwitchSavedData data = SwitchSavedData.get(worldGenLevel.getLevel());
+        GlobalSwitchSavedData data = GlobalSwitchSavedData.get(worldGenLevel.getLevel());
         int placedAmt = 0;
         BlockPos.MutableBlockPos posMutable = new BlockPos.MutableBlockPos();
         int j = patchConfig.xzSpread() + 1;

@@ -15,17 +15,17 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.saveddata.SavedData;
 
-public class SwitchSavedData extends SavedData {
+public class GlobalSwitchSavedData extends SavedData {
     public static final String ID = "marioverse_switch_state";
     private final Map<ChunkPos, Set<BlockPos>> blocksMap = new HashMap<>();
     private boolean isOn = true;
 
-    public static SwitchSavedData create() {
-        return new SwitchSavedData();
+    public static GlobalSwitchSavedData create() {
+        return new GlobalSwitchSavedData();
     }
 
-    public static SwitchSavedData load(CompoundTag tag, HolderLookup.Provider provider) {
-        SwitchSavedData data = create();
+    public static GlobalSwitchSavedData load(CompoundTag tag, HolderLookup.Provider provider) {
+        GlobalSwitchSavedData data = create();
         data.isOn = tag.getBoolean("IsOn");
 
         ListTag chunks = tag.getList("Chunks", Tag.TAG_COMPOUND);
@@ -78,9 +78,9 @@ public class SwitchSavedData extends SavedData {
         }
     }
 
-    public static SwitchSavedData get(ServerLevel level) {
+    public static GlobalSwitchSavedData get(ServerLevel level) {
         return level.getDataStorage().computeIfAbsent(new SavedData
-                .Factory<>(SwitchSavedData::create, SwitchSavedData::load), SwitchSavedData.ID);
+                .Factory<>(GlobalSwitchSavedData::create, GlobalSwitchSavedData::load), GlobalSwitchSavedData.ID);
     }
 
     public void add(BlockPos pos) {

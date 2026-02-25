@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.world.feature;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.blocks.OnBlock;
-import com.wenxin2.marioverse.world.SwitchSavedData;
+import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
@@ -50,7 +50,7 @@ public class HugeSwitchMushroomFeature extends AbstractHugeMushroomFeature {
                         }
 
                         if (blockstate.hasProperty(OnBlock.ACTIVE) && levelAccessor instanceof ServerLevelAccessor serverLevelAccessor) {
-                            SwitchSavedData data = SwitchSavedData.get(serverLevelAccessor.getLevel());
+                            GlobalSwitchSavedData data = GlobalSwitchSavedData.get(serverLevelAccessor.getLevel());
                             blockstate = blockstate.setValue(OnBlock.ACTIVE, data.isActive());
                         }
 
