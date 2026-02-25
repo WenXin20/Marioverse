@@ -162,11 +162,22 @@ public class MarioverseEventHandlers {
 
     private static void processLinkedChunk(ServerLevel level, ChunkPos chunkPos) {
         LinkedSwitchSavedData data = LinkedSwitchSavedData.get(level);
+        Map<BlockPos, Set<BlockPos>> switchMap = data.getChunk(chunkPos);
 
-        for (BlockPos switchPos : data.switchMap.keySet()) {
-            boolean isActive = level.getBlockState(switchPos).getValue(OnBlock.ACTIVE);
+        if (switchMap.isEmpty())
+            return;
 
-            for (BlockPos pos : List.copyOf(data.getPositions(switchPos, chunkPos))) {
+        for (var entry : switchMap.entrySet()) {
+            BlockPos switchPos = entry.getKey();
+            Set<BlockPos> positions = entry.getValue();
+            BlockState switchState = level.getBlockState(switchPos);
+
+            if (!(switchState.getBlock() instanceof OnOffSwitchBlock))
+                continue;
+
+            boolean isActive = switchState.getValue(OnOffSwitchBlock.ACTIVE);
+
+            for (BlockPos pos : List.copyOf(positions)) {
                 if (!level.isLoaded(pos)) continue;
                 BlockState state = level.getBlockState(pos);
 

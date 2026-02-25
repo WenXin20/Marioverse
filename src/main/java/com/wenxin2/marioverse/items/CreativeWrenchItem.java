@@ -52,7 +52,6 @@ public class CreativeWrenchItem extends WrenchItem {
 
             if (player != null && player.isShiftKeyDown() && state.getBlock() instanceof OnOffSwitchBlock) {
                 player.displayClientMessage(Component.literal("Switch selected"), true);
-                data.ensureSwitchExists(pos);
                 setLinkedPos(stack, pos);
                 if (level instanceof ServerLevel server)
                     GlobalSwitchSavedData.get(server).unlink(pos);
@@ -78,12 +77,12 @@ public class CreativeWrenchItem extends WrenchItem {
                     player.displayClientMessage(Component.literal("Block linked"), true);
                 if (level instanceof ServerLevel server)
                     GlobalSwitchSavedData.get(server).unlink(pos);
-                data.link(serverLevel, switchPos, pos);
+                data.link(switchPos, pos);
 
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.useOn(useOnContext);
+        return InteractionResult.PASS;
     }
 
     @Override

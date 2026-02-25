@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.world;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,7 +20,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public class LinkedSwitchSavedData extends SavedData {
     public static final String ID = "marioverse_linked_switches";
-    public final Map<BlockPos, Map<ChunkPos, Set<BlockPos>>> switchMap = new HashMap<>();
+    private final Map<ChunkPos, Map<BlockPos, Set<BlockPos>>> blocksMap = new HashMap<>();
 
     public static LinkedSwitchSavedData create() {
         return new LinkedSwitchSavedData();
@@ -27,106 +28,92 @@ public class LinkedSwitchSavedData extends SavedData {
 
     public static LinkedSwitchSavedData load(CompoundTag tag, HolderLookup.Provider provider) {
         LinkedSwitchSavedData data = create();
+        ListTag chunks = tag.getList("Chunks", Tag.TAG_COMPOUND);
 
-        ListTag switches = tag.getList("Switches", Tag.TAG_COMPOUND);
+        for (Tag t : chunks) {
+            CompoundTag chunkTag = (CompoundTag) t;
 
-        for (Tag t : switches) {
-            CompoundTag switchTag = (CompoundTag) t;
+            ChunkPos chunkPos = new ChunkPos(chunkTag.getInt("X"), chunkTag.getInt("Z"));
+            Map<BlockPos, Set<BlockPos>> switchMap = new HashMap<>();
+            ListTag switches = chunkTag.getList("Switches", Tag.TAG_COMPOUND);
 
-            BlockPos switchPos = BlockPos.of(switchTag.getLong("SwitchPos"));
-            Map<ChunkPos, Set<BlockPos>> chunkMap = new HashMap<>();
+            for (Tag st : switches) {
+                CompoundTag switchTag = (CompoundTag) st;
+                BlockPos switchPos = BlockPos.of(switchTag.getLong("SwitchPos"));
 
-            ListTag chunks = switchTag.getList("Chunks", Tag.TAG_COMPOUND);
-            for (Tag ct : chunks) {
-                CompoundTag c = (CompoundTag) ct;
-                ChunkPos chunkPos = new ChunkPos(c.getInt("X"), c.getInt("Z"));
+                Set<BlockPos> positions = new HashSet<>();
+                ListTag posList = switchTag.getList("Pos", Tag.TAG_LONG);
 
-                Set<BlockPos> set = new HashSet<>();
-                ListTag positions = c.getList("Pos", Tag.TAG_LONG);
-                for (Tag p : positions) {
-                    set.add(BlockPos.of(((LongTag) p).getAsLong()));
+                for (Tag p : posList) {
+                    positions.add(BlockPos.of(((LongTag) p).getAsLong()));
                 }
-
-                chunkMap.put(chunkPos, set);
+                switchMap.put(switchPos, positions);
             }
-
-            data.switchMap.put(switchPos, chunkMap);
+            data.blocksMap.put(chunkPos, switchMap);
         }
-
         return data;
     }
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
+        ListTag chunks = new ListTag();
 
-        ListTag switches = new ListTag();
+        for (var chunkEntry : blocksMap.entrySet()) {
+            CompoundTag chunkTag = new CompoundTag();
+            chunkTag.putInt("X", chunkEntry.getKey().x);
+            chunkTag.putInt("Z", chunkEntry.getKey().z);
+            ListTag switches = new ListTag();
 
-        for (var entry : switchMap.entrySet()) {
-
-            CompoundTag switchTag = new CompoundTag();
-            switchTag.putLong("SwitchPos", entry.getKey().asLong());
-
-            ListTag chunks = new ListTag();
-
-            for (var chunkEntry : entry.getValue().entrySet()) {
-                CompoundTag chunkTag = new CompoundTag();
-
-                chunkTag.putInt("X", chunkEntry.getKey().x);
-                chunkTag.putInt("Z", chunkEntry.getKey().z);
+            for (var switchEntry : chunkEntry.getValue().entrySet()) {
+                CompoundTag switchTag = new CompoundTag();
+                switchTag.putLong("SwitchPos", switchEntry.getKey().asLong());
 
                 ListTag posList = new ListTag();
-                for (BlockPos pos : chunkEntry.getValue()) {
+                for (BlockPos pos : switchEntry.getValue()) {
                     posList.add(LongTag.valueOf(pos.asLong()));
                 }
-
-                chunkTag.put("Pos", posList);
-                chunks.add(chunkTag);
+                switchTag.put("Pos", posList);
+                switches.add(switchTag);
             }
-
-            switchTag.put("Chunks", chunks);
-            switches.add(switchTag);
+            chunkTag.put("Switches", switches);
+            chunks.add(chunkTag);
         }
-
-        tag.put("Switches", switches);
+        tag.put("Chunks", chunks);
         return tag;
     }
 
     public static LinkedSwitchSavedData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(
-                new SavedData.Factory<>(LinkedSwitchSavedData::create, LinkedSwitchSavedData::load),
-                ID
-        );
+        return level.getDataStorage().computeIfAbsent(new SavedData
+                .Factory<>(LinkedSwitchSavedData::create, LinkedSwitchSavedData::load), ID);
     }
 
-    public void ensureSwitchExists(BlockPos switchPos) {
-        switchMap.computeIfAbsent(switchPos, k -> new HashMap<>());
-    }
-
-    public void link(ServerLevel level, BlockPos switchPos, BlockPos blockPos) {
+    public void link(BlockPos switchPos, BlockPos blockPos) {
         this.unlink(blockPos);
-        Map<ChunkPos, Set<BlockPos>> chunkMap = switchMap.computeIfAbsent(switchPos, k -> new HashMap<>());
-        chunkMap.computeIfAbsent(new ChunkPos(blockPos), k -> new HashSet<>()).add(blockPos);
+        ChunkPos chunkPos = new ChunkPos(blockPos);
+        blocksMap.computeIfAbsent(chunkPos, k -> new HashMap<>())
+                .computeIfAbsent(switchPos, k -> new HashSet<>())
+                .add(blockPos);
+
         this.setDirty();
     }
 
     public void unlink(BlockPos blockPos) {
         ChunkPos chunkPos = new ChunkPos(blockPos);
 
-        for (Iterator<Map.Entry<BlockPos, Map<ChunkPos, Set<BlockPos>>>> iterator =
-             switchMap.entrySet().iterator(); iterator.hasNext();) {
+        Map<BlockPos, Set<BlockPos>> switchMap = blocksMap.get(chunkPos);
+        if (switchMap == null) return;
 
-            var switchEntry = iterator.next();
-            Map<ChunkPos, Set<BlockPos>> chunkMap = switchEntry.getValue();
+        for (Iterator<Map.Entry<BlockPos, Set<BlockPos>>> iterator = switchMap.entrySet().iterator(); iterator.hasNext();) {
+            var entry = iterator.next();
+            Set<BlockPos> set = entry.getValue();
 
-            Set<BlockPos> set = chunkMap.get(chunkPos);
-
-            if (set != null && set.remove(blockPos)) {
+            if (set.remove(blockPos)) {
 
                 if (set.isEmpty())
-                    chunkMap.remove(chunkPos);
-
-                if (chunkMap.isEmpty())
                     iterator.remove();
+
+                if (switchMap.isEmpty())
+                    blocksMap.remove(chunkPos);
 
                 this.setDirty();
                 return;
@@ -134,21 +121,20 @@ public class LinkedSwitchSavedData extends SavedData {
         }
     }
 
-    public Set<BlockPos> getPositions(BlockPos switchPos, ChunkPos chunkPos) {
-        Map<ChunkPos, Set<BlockPos>> chunkMap = switchMap.get(switchPos);
-        if (chunkMap == null)
-            return Set.of();
-        return chunkMap.getOrDefault(chunkPos, Set.of());
+    public Map<BlockPos, Set<BlockPos>> getChunk(ChunkPos chunkPos) {
+        return blocksMap.getOrDefault(chunkPos, Map.of());
     }
 
     public Collection<Set<BlockPos>> allPositions(BlockPos switchPos) {
-        Map<ChunkPos, Set<BlockPos>> chunkMap = switchMap.get(switchPos);
-        if (chunkMap == null)
-            return List.of();
-        return chunkMap.values();
-    }
 
-    public boolean hasSwitch(BlockPos switchPos) {
-        return switchMap.containsKey(switchPos);
+        List<Set<BlockPos>> result = new ArrayList<>();
+
+        for (Map<BlockPos, Set<BlockPos>> switchMap : blocksMap.values()) {
+            Set<BlockPos> set = switchMap.get(switchPos);
+            if (set != null)
+                result.add(set);
+        }
+
+        return result;
     }
 }
