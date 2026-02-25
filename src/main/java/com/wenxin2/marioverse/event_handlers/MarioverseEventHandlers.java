@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
@@ -48,10 +49,13 @@ import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
+import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -135,6 +139,7 @@ public class MarioverseEventHandlers {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
 
         level.getServer().execute(() -> processChunk(level, event.getChunk().getPos()));
+        level.getServer().execute(() -> processLinkedChunk(level, event.getChunk().getPos()));
     }
 
     private static void processChunk(ServerLevel level, ChunkPos chunkPos) {
@@ -146,12 +151,33 @@ public class MarioverseEventHandlers {
             BlockState state = level.getBlockState(pos);
 
             if (!(state.getBlock() instanceof ToggleableBlock)) {
-                data.remove(pos);
+                data.unlink(pos);
                 continue;
             }
 
             if (state.getValue(OnBlock.ACTIVE) != isActive)
                 level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+        }
+    }
+
+    private static void processLinkedChunk(ServerLevel level, ChunkPos chunkPos) {
+        LinkedSwitchSavedData data = LinkedSwitchSavedData.get(level);
+
+        for (BlockPos switchPos : data.switchMap.keySet()) {
+            boolean isActive = level.getBlockState(switchPos).getValue(OnBlock.ACTIVE);
+
+            for (BlockPos pos : List.copyOf(data.getPositions(switchPos, chunkPos))) {
+                if (!level.isLoaded(pos)) continue;
+                BlockState state = level.getBlockState(pos);
+
+                if (!(state.getBlock() instanceof ToggleableBlock)) {
+                    data.unlink(pos);
+                    continue;
+                }
+
+                if (state.getValue(OnBlock.ACTIVE) != isActive)
+                    level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
+            }
         }
     }
 

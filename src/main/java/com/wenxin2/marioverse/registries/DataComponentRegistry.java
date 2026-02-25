@@ -61,6 +61,11 @@ public class DataComponentRegistry {
                     () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC)
                             .networkSynchronized(BlockPos.STREAM_CODEC).build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
+            Marioverse.COMPONENTS.register("linked_pos",
+                    () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC)
+                            .networkSynchronized(BlockPos.STREAM_CODEC).build());
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GlobalPos>> GLOBAL_WARP_POS =
             Marioverse.COMPONENTS.register("global_warp_pos",
                     () -> DataComponentType.<GlobalPos>builder().persistent(GlobalPos.CODEC)

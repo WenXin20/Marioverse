@@ -18,7 +18,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 public class GlobalSwitchSavedData extends SavedData {
     public static final String ID = "marioverse_switch_state";
     private final Map<ChunkPos, Set<BlockPos>> blocksMap = new HashMap<>();
-    private boolean isOn = true;
+    private boolean isActive = true;
 
     public static GlobalSwitchSavedData create() {
         return new GlobalSwitchSavedData();
@@ -26,7 +26,7 @@ public class GlobalSwitchSavedData extends SavedData {
 
     public static GlobalSwitchSavedData load(CompoundTag tag, HolderLookup.Provider provider) {
         GlobalSwitchSavedData data = create();
-        data.isOn = tag.getBoolean("IsOn");
+        data.isActive = tag.getBoolean("IsOn");
 
         ListTag chunks = tag.getList("Chunks", Tag.TAG_COMPOUND);
         for (Tag t : chunks) {
@@ -47,7 +47,7 @@ public class GlobalSwitchSavedData extends SavedData {
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
-        tag.putBoolean("IsOn", isOn);
+        tag.putBoolean("IsOn", isActive);
 
         ListTag chunks = new ListTag();
         for (var entry : blocksMap.entrySet()) {
@@ -68,12 +68,12 @@ public class GlobalSwitchSavedData extends SavedData {
     }
 
     public boolean isActive() {
-        return isOn;
+        return isActive;
     }
 
-    public void setOn(boolean on) {
-        if (this.isOn != on) {
-            this.isOn = on;
+    public void setActive(boolean active) {
+        if (this.isActive != active) {
+            this.isActive = active;
             this.setDirty();
         }
     }
@@ -88,7 +88,7 @@ public class GlobalSwitchSavedData extends SavedData {
         this.setDirty();
     }
 
-    public void remove(BlockPos pos) {
+    public void unlink(BlockPos pos) {
         ChunkPos chunkPos = new ChunkPos(pos);
         Set<BlockPos> set = blocksMap.get(chunkPos);
         if (set != null && set.remove(pos)) {

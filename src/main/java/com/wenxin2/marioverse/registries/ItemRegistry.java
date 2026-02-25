@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
 import com.wenxin2.marioverse.items.ChristmasHatItem;
 import com.wenxin2.marioverse.items.CostumeItem;
+import com.wenxin2.marioverse.items.CreativeWrenchItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.items.FluidPlasticBucketItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
@@ -149,7 +150,7 @@ public class ItemRegistry {
                         .durability(128), Tiers.IRON));
 
         CREATIVE_WRENCH = registerItem("creative_wrench",
-                () -> new WrenchItem(new Item.Properties()
+                () -> new CreativeWrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));
 
