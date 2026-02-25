@@ -65,13 +65,24 @@
         { "type": "match_block", "block": "marioverse:white_pipe_junction" },
         { "type": "match_block", "block": "marioverse:yellow_pipe_junction" },
         { "type": "match_block", "block": "minecraft:copper_block" },
+        { "type": "match_block", "block": "minecraft:diamond_block" },
+        { "type": "match_block", "block": "minecraft:emerald_block" },
         { "type": "match_block", "block": "minecraft:exposed_copper" },
+        { "type": "match_block", "block": "minecraft:gold_block" },
+        { "type": "match_block", "block": "minecraft:iron_block" },
+        { "type": "match_block", "block": "minecraft:lapis_block" },
+        { "type": "match_block", "block": "minecraft:netherite_block" },
         { "type": "match_block", "block": "minecraft:oxidized_copper" },
-        { "type": "match_block", "block": "minecraft:weathered_copper" },
+        { "type": "match_block", "block": "minecraft:polished_andesite" },
+        { "type": "match_block", "block": "minecraft:polished_deepslate" },
+        { "type": "match_block", "block": "minecraft:polished_diorite" },
+        { "type": "match_block", "block": "minecraft:polished_granite" },
+        { "type": "match_block", "block": "minecraft:smooth_stone" },
         { "type": "match_block", "block": "minecraft:waxed_copper_block" },
         { "type": "match_block", "block": "minecraft:waxed_exposed_copper" },
         { "type": "match_block", "block": "minecraft:waxed_oxidized_copper" },
-        { "type": "match_block", "block": "minecraft:waxed_weathered_copper" }
+        { "type": "match_block", "block": "minecraft:waxed_weathered_copper" },
+        { "type": "match_block", "block": "minecraft:weathered_copper" }
       ]
     },
     "default": { "type": "is_same_block" }
