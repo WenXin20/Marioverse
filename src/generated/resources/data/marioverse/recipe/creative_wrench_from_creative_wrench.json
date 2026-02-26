@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "marioverse:wrenches",
+  "ingredients": [
+    {
+      "item": "marioverse:creative_wrench"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:creative_wrench"
+  }
+}

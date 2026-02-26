@@ -21,6 +21,16 @@ public class DataComponentRegistry {
                     () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL)
                             .networkSynchronized(ByteBufCodecs.BOOL).build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
+            Marioverse.COMPONENTS.register("linked_pos",
+                    () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC)
+                            .networkSynchronized(BlockPos.STREAM_CODEC).build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> LINKED_BLOCK =
+            Marioverse.COMPONENTS.register("linked_block",
+                    () -> DataComponentType.<String>builder().persistent(Codec.STRING)
+                            .networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Component>> PIPE_NAME =
             Marioverse.COMPONENTS.register("pipe_name",
                     () -> DataComponentType.<Component>builder().persistent(ComponentSerialization.FLAT_CODEC)
@@ -58,11 +68,6 @@ public class DataComponentRegistry {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> WARP_POS =
             Marioverse.COMPONENTS.register("warp_pos",
-                    () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC)
-                            .networkSynchronized(BlockPos.STREAM_CODEC).build());
-
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
-            Marioverse.COMPONENTS.register("linked_pos",
                     () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC)
                             .networkSynchronized(BlockPos.STREAM_CODEC).build());
 

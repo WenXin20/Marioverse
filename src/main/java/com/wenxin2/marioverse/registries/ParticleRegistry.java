@@ -10,6 +10,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class ParticleRegistry {
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BLUE_STAR;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> COIN_GLINT;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> EXCELLENT;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FANTASTIC;
@@ -29,11 +30,13 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ONE_UP;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RAINBOW_GLINT;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RED_KOOPA_SHELL_SHATTER;
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RED_STAR;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUPER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUSPENDED_FIRE;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> WONDERFUL;
 
     static {
+        BLUE_STAR = Marioverse.PARTICLES.register("blue_star", () -> new SimpleParticleType(false));
         COIN_GLINT = Marioverse.PARTICLES.register("coin_glint", () -> new SimpleParticleType(false));
         EXCELLENT = Marioverse.PARTICLES.register("excellent", () -> new SimpleParticleType(false));
         FANTASTIC = Marioverse.PARTICLES.register("fantastic", () -> new SimpleParticleType(false));
@@ -52,6 +55,7 @@ public class ParticleRegistry {
         ONE_UP = Marioverse.PARTICLES.register("one_up", () -> new SimpleParticleType(false));
         RAINBOW_GLINT = Marioverse.PARTICLES.register("rainbow_glint", () -> new SimpleParticleType(false));
         RED_KOOPA_SHELL_SHATTER = Marioverse.PARTICLES.register("red_koopa_shell_shatter", () -> new SimpleParticleType(false));
+        RED_STAR = Marioverse.PARTICLES.register("red_star", () -> new SimpleParticleType(false));
         SUPER = Marioverse.PARTICLES.register("super", () -> new SimpleParticleType(false));
         SUSPENDED_FIRE = Marioverse.PARTICLES.register("suspended_fire", () -> new SimpleParticleType(false));
         WONDERFUL = Marioverse.PARTICLES.register("wonderful", () -> new SimpleParticleType(false));

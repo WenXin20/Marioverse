@@ -55,6 +55,7 @@ import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -251,6 +252,7 @@ public class MarioverseClient {
     @SubscribeEvent
     private static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpecial(ParticleRegistry.NO_MOVEMENT_ITEM.get(), new NoMovementItemParticle.Provider());
+        event.registerSpriteSet(ParticleRegistry.BLUE_STAR.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.COIN_GLINT.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.EXCELLENT.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.FANTASTIC.get(), LargeRewardParticle::new);
@@ -269,6 +271,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.RAINBOW_GLINT.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.RED_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
+        event.registerSpriteSet(ParticleRegistry.RED_STAR.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.SUSPENDED_FIRE.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_creative_wrench": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:creative_wrench"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:creative_wrench_from_creative_wrench"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_creative_wrench"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:creative_wrench_from_creative_wrench"
+    ]
+  }
+}
