@@ -292,6 +292,9 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
                 && player.getItemInHand(player.getUsedItemHand()).getItem() instanceof PlasticBucketItem) {
             worldAccessor.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             return new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+        } else if (ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get()) {
+            worldAccessor.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            return new ItemStack(Items.WATER_BUCKET);
         } else return ItemStack.EMPTY;
     }
 

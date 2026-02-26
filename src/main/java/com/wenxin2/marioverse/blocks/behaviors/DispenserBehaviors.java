@@ -50,6 +50,7 @@ public class DispenserBehaviors {
         DispenseItemBehavior dispensePlasticBucketBehavior = new DefaultDispenseItemBehavior() {
             private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
 
+            @NotNull
             @Override
             public ItemStack execute(BlockSource blockSource, ItemStack stack) {
                 DispensibleContainerItem dispensibleContainerItem = (DispensibleContainerItem) stack.getItem();
@@ -93,6 +94,8 @@ public class DispenserBehaviors {
                     newStack = new ItemStack(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
                 else if (state.is(Blocks.WATER))
                     newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+                else if (state.is(BlockRegistry.PIPE_BUBBLES))
+                    newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
                 else if (state.is(BlockRegistry.WATER_SPOUT))
                     newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
                 else return super.execute(blockSource, stack);
@@ -123,7 +126,9 @@ public class DispenserBehaviors {
                     return super.execute(blockSource, stack);
 
                 ItemStack newStack;
-                if (state.is(BlockRegistry.WATER_SPOUT))
+                if (state.is(BlockRegistry.PIPE_BUBBLES))
+                    newStack = new ItemStack(Items.WATER_BUCKET);
+                else if (state.is(BlockRegistry.WATER_SPOUT))
                     newStack = new ItemStack(Items.WATER_BUCKET);
                 else return super.execute(blockSource, stack);
 
