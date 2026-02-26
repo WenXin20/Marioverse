@@ -63,7 +63,7 @@ public class LinkerItem extends TieredItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-        if (getIsBound(stack)) {
+        if (getIsBound(stack) && stack.has(DataComponentRegistry.WARP_POS)) {
             list.add(Component.literal(""));
 
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound", true)
@@ -87,8 +87,6 @@ public class LinkerItem extends TieredItem {
                 list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z",
                         getWarpPos(stack).getZ(), true).withStyle(ChatFormatting.GRAY));
             }
-
-            list.add(Component.literal(""));
         }
     }
 
@@ -136,7 +134,7 @@ public class LinkerItem extends TieredItem {
 
                     this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
                     this.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
-                } else {
+                } else if (getIsBound(stack) && stack.has(DataComponentRegistry.WARP_POS)) {
 
                     if (!world.isClientSide && uuid == null) {
                         uuid = UUID.randomUUID();

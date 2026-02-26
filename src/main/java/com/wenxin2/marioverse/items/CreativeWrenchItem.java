@@ -62,6 +62,53 @@ public class CreativeWrenchItem extends LinkerItem {
         if (level instanceof ServerLevel serverLevel) {
             LinkedSwitchSavedData data = LinkedSwitchSavedData.get(serverLevel);
 
+            if (state.getBlock() instanceof ToggleableBlock) {
+                BlockPos posSwitch = getLinkedPos(stack);
+                BlockState stateSwitch = level.getBlockState(posSwitch);
+
+                if (player != null && !stack.has(DataComponentRegistry.LINKED_POS)) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.no_switch"), true);
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.CRIT,
+                            serverLevel, pos, UniformInt.of(6, 8));
+                    return InteractionResult.FAIL;
+                }
+
+                if (!(stateSwitch.getBlock() instanceof OnOffSwitchBlock)) {
+                    if (player != null)
+                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.not_switch"), true);
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.CRIT,
+                            serverLevel, pos, UniformInt.of(6, 8));
+                    stack.remove(DataComponentRegistry.LINKED_BLOCK);
+                    stack.remove(DataComponentRegistry.LINKED_POS);
+                    setIsBound(stack, false);
+                    return InteractionResult.FAIL;
+                }
+
+                if (player != null && !data.isLinked(posSwitch, pos) && !player.isShiftKeyDown()) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_linked",
+                            stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.RED_STAR.get(),
+                            serverLevel, pos, UniformInt.of(6, 8));
+
+                    if (level instanceof ServerLevel server)
+                        GlobalSwitchSavedData.get(server).unlink(pos);
+                    data.link(posSwitch, pos);
+
+                    return InteractionResult.SUCCESS;
+                } else if (player != null && data.isLinked(pos) && player.isShiftKeyDown()) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_unlinked",
+                            stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.RED), true);
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.BLUE_STAR.get(),
+                            serverLevel, pos, UniformInt.of(6, 8));
+
+                    if (level instanceof ServerLevel server)
+                        GlobalSwitchSavedData.get(server).link(pos);
+                    data.unlink(pos);
+
+                    return InteractionResult.SUCCESS;
+                }
+            }
+
             if (player != null && player.isShiftKeyDown() && state.getBlock() instanceof OnOffSwitchBlock) {
                 player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.bound",
                         state.getBlock().getName()).withStyle(ChatFormatting.GREEN), true);
@@ -76,51 +123,6 @@ public class CreativeWrenchItem extends LinkerItem {
                     GlobalSwitchSavedData.get(server).unlink(pos);
                 return InteractionResult.SUCCESS;
             }
-
-            if (state.getBlock() instanceof ToggleableBlock) {
-                BlockPos posSwitch = getLinkedPos(stack);
-                BlockState stateSwitch = level.getBlockState(posSwitch);
-
-                if (player != null && !stack.has(DataComponentRegistry.LINKED_POS)) {
-                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.no_switch"), true);
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.CRIT,
-                            serverLevel, pos, UniformInt.of(3, 4));
-                    return InteractionResult.FAIL;
-                }
-
-                if (!(stateSwitch.getBlock() instanceof OnOffSwitchBlock)) {
-                    if (player != null)
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.not_switch"), true);
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.CRIT,
-                            serverLevel, pos, UniformInt.of(3, 4));
-                    stack.remove(DataComponentRegistry.LINKED_BLOCK);
-                    stack.remove(DataComponentRegistry.LINKED_POS);
-                    setIsBound(stack, false);
-                    return InteractionResult.FAIL;
-                }
-
-                if (player != null && !data.isLinked(posSwitch, pos) && !player.isShiftKeyDown()) {
-                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_linked",
-                            stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.RED_STAR.get(),
-                            serverLevel, pos, UniformInt.of(3, 4));
-
-                    if (level instanceof ServerLevel server)
-                        GlobalSwitchSavedData.get(server).unlink(pos);
-                    data.link(posSwitch, pos);
-                } else if (player != null && data.isLinked(pos) && player.isShiftKeyDown()) {
-                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_unlinked",
-                            stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.RED), true);
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.BLUE_STAR.get(),
-                            serverLevel, pos, UniformInt.of(3, 4));
-
-                    if (level instanceof ServerLevel server)
-                        GlobalSwitchSavedData.get(server).link(pos);
-                    data.unlink(pos);
-                }
-
-                return InteractionResult.SUCCESS;
-            }
         }
         return super.useOn(useOnContext);
     }
@@ -133,10 +135,12 @@ public class CreativeWrenchItem extends LinkerItem {
             list.add(Component.literal(""));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.gui"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.on_off_switch"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.on_off_switch.line2"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.link_switch"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.link_switch.line2"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.bind_switch"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.unlink_switch"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.unlink_switch.line2"));
 
             warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.pipe"));
             if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
@@ -158,6 +162,8 @@ public class CreativeWrenchItem extends LinkerItem {
         super.appendHoverText(stack, tooltipContext, list, tooltip);
 
         if (getIsBound(stack) && stack.has(DataComponentRegistry.LINKED_POS)) {
+            list.add(Component.literal(""));
+
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound", true)
                     .withStyle(ChatFormatting.GOLD));
 
