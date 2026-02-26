@@ -157,6 +157,8 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
                 newStack = new ItemStack(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
             else if (state.is(Blocks.POWDER_SNOW))
                 newStack = new ItemStack(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
+            else if (state.is(BlockRegistry.WATER_SPOUT))
+                newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
             else return InteractionResult.PASS;
             newStack.applyComponents(stack.getComponents());
 

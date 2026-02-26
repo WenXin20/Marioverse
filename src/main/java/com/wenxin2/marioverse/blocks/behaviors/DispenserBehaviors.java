@@ -26,12 +26,14 @@ import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class DispenserBehaviors {
     public static void register() {
         DispenseItemBehavior dispenseBucketBehavior = new DefaultDispenseItemBehavior() {
             private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
 
+            @NotNull
             @Override
             public ItemStack execute(BlockSource blockSource, ItemStack stack) {
                 DispensibleContainerItem dispensibleContainerItem = (DispensibleContainerItem) stack.getItem();
@@ -71,6 +73,7 @@ public class DispenserBehaviors {
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_WATER_BUCKET, dispensePlasticBucketBehavior);
 
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_BUCKET, new DefaultDispenseItemBehavior() {
+            @NotNull
             @Override
             public ItemStack execute(BlockSource blockSource, ItemStack stack) {
                 LevelAccessor level = blockSource.level();
@@ -90,6 +93,8 @@ public class DispenserBehaviors {
                     newStack = new ItemStack(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
                 else if (state.is(Blocks.WATER))
                     newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+                else if (state.is(BlockRegistry.WATER_SPOUT))
+                    newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
                 else return super.execute(blockSource, stack);
                 newStack.applyComponents(stack.getComponents());
 
@@ -105,7 +110,39 @@ public class DispenserBehaviors {
             }
         });
 
+        DispenserBlock.registerBehavior(Items.BUCKET, new DefaultDispenseItemBehavior() {
+            @NotNull
+            @Override
+            public ItemStack execute(BlockSource blockSource, ItemStack stack) {
+                LevelAccessor level = blockSource.level();
+                BlockPos pos = blockSource.pos().relative(
+                        blockSource.state().getValue(DispenserBlock.FACING));
+                BlockState state = level.getBlockState(pos);
+
+                if (!(state.getBlock() instanceof BucketPickup bucketPickup))
+                    return super.execute(blockSource, stack);
+
+                ItemStack newStack;
+                if (state.is(BlockRegistry.WATER_SPOUT))
+                    newStack = new ItemStack(Items.WATER_BUCKET);
+                else return super.execute(blockSource, stack);
+
+                newStack.applyComponents(stack.getComponents());
+
+                ItemStack vanillaResult =
+                        bucketPickup.pickupBlock(null, level, pos, state);
+
+                if (vanillaResult.isEmpty())
+                    return super.execute(blockSource, stack);
+
+                level.gameEvent(null, GameEvent.FLUID_PICKUP, pos);
+
+                return this.consumeWithRemainder(blockSource, stack, newStack);
+            }
+        });
+
         DispenserBlock.registerBehavior(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), new OptionalDispenseItemBehavior() {
+            @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
                 Level world = source.level();
