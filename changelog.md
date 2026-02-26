@@ -1,6 +1,14 @@
 ## Changelog for Marioverse 1.7.2
 - Add Creative Wrench
-  - Links any 2 entities together 
+  - Links any 2 entities together for warping
+  - Links On/Off Switches to toggleable blocks
+- Add Immersive Paintings support for warping
+- Add Twilight Forest magic painting support for warping
 - Add chipped mushrooms to bouncy tag
+- Throw shells faster depending on movement, such as from vehicles
+- Pipes now will keep the player on the vehicle when warping
+- When a pipe is sideways, you will teleport facing away from the destination pipe
+- Warp pipes textures can connect to polished stones
 - Fix Dango Blossom missing from Building Blocks Creative Tab
-- Fix Plastic Buckets unable to bucket water spouts
+- Fix Plastic Buckets unable to bucket water spouts.
+- Fix able to stomp non-living entities
