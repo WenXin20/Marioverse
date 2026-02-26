@@ -1,8 +1,10 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
@@ -37,6 +39,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WaterSpoutBlock extends Block implements BucketPickup {
@@ -57,13 +60,16 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         stateBuilder.add(TOP);
     }
 
+    @NotNull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (context instanceof EntityCollisionContext && ((EntityCollisionContext) context).getEntity() instanceof Player player) {
             if ((player.hasPermissions(1) && player.isCreative() && ConfigRegistry.DEBUG_WATER_SPOUT_SELECTION_BOX.get())
                     || (((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                        && ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get())
-                    || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_WATER_SPOUTS)))) {
+                            && ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get())
+                        || (player.getItemInHand(player.getUsedItemHand()).getItem() instanceof PlasticBucketItem
+                            && ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get())
+                        || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_WATER_SPOUTS)))) {
                 if (state.getValue(TOP)) {
                     return SPOUT_TOP;
                 } else return SPOUT;
@@ -73,6 +79,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         return Shapes.box(8, 8, 8, 8.00001, 8.00001, 8.00001);
     }
 
+    @NotNull
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
@@ -274,14 +281,21 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         }
     }
 
+    @NotNull
     @Override
     public ItemStack pickupBlock(@Nullable Player player, LevelAccessor worldAccessor, BlockPos pos, BlockState state) {
-        if (ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get()) {
+        if (ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get() && player != null
+                && player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem) {
             worldAccessor.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             return new ItemStack(Items.WATER_BUCKET);
+        } else if (ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get() && player != null
+                && player.getItemInHand(player.getUsedItemHand()).getItem() instanceof PlasticBucketItem) {
+            worldAccessor.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            return new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
         } else return ItemStack.EMPTY;
     }
 
+    @NotNull
     public Optional<SoundEvent> getPickupSound() {
         return Fluids.WATER.getPickupSound();
     }
