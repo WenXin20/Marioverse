@@ -87,6 +87,35 @@ public class LinkedSwitchSavedData extends SavedData {
                 .Factory<>(LinkedSwitchSavedData::create, LinkedSwitchSavedData::load), ID);
     }
 
+    public boolean isLinked(BlockPos switchPos, BlockPos blockPos) {
+        ChunkPos chunkPos = new ChunkPos(blockPos);
+
+        Map<BlockPos, Set<BlockPos>> switchMap = blocksMap.get(chunkPos);
+        if (switchMap == null)
+            return false;
+
+        Set<BlockPos> set = switchMap.get(switchPos);
+        if (set == null)
+            return false;
+
+        return set.contains(blockPos);
+    }
+
+    public boolean isLinked(BlockPos blockPos) {
+        ChunkPos chunkPos = new ChunkPos(blockPos);
+
+        Map<BlockPos, Set<BlockPos>> switchMap = blocksMap.get(chunkPos);
+        if (switchMap == null)
+            return false;
+
+        for (Set<BlockPos> set : switchMap.values()) {
+            if (set.contains(blockPos))
+                return true;
+        }
+
+        return false;
+    }
+
     public void link(BlockPos switchPos, BlockPos blockPos) {
         this.unlink(blockPos);
         ChunkPos chunkPos = new ChunkPos(blockPos);

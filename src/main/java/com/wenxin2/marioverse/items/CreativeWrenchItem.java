@@ -99,7 +99,7 @@ public class CreativeWrenchItem extends LinkerItem {
                     return InteractionResult.FAIL;
                 }
 
-                if (player != null && !player.isShiftKeyDown()) {
+                if (player != null && !data.isLinked(posSwitch, pos) && !player.isShiftKeyDown()) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_linked",
                             stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
                     ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.RED_STAR.get(),
@@ -108,10 +108,9 @@ public class CreativeWrenchItem extends LinkerItem {
                     if (level instanceof ServerLevel server)
                         GlobalSwitchSavedData.get(server).unlink(pos);
                     data.link(posSwitch, pos);
-                } else {
-                    if (player != null)
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_unlinked",
-                                stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.RED), true);
+                } else if (player != null && data.isLinked(pos) && player.isShiftKeyDown()) {
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_unlinked",
+                            stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.RED), true);
                     ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.BLUE_STAR.get(),
                             serverLevel, pos, UniformInt.of(3, 4));
 

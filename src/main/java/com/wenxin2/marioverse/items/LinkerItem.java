@@ -79,12 +79,14 @@ public class LinkerItem extends TieredItem {
                 list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.entity",
                         getWarpEntity(stack).name(), true).withStyle(ChatFormatting.GRAY));
 
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x",
-                    getWarpPos(stack).getX(), true).withStyle(ChatFormatting.GRAY));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.y",
-                    getWarpPos(stack).getY(), true).withStyle(ChatFormatting.GRAY));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z",
-                    getWarpPos(stack).getZ(), true).withStyle(ChatFormatting.GRAY));
+            if (stack.has(DataComponentRegistry.WARP_POS)) {
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.x",
+                        getWarpPos(stack).getX(), true).withStyle(ChatFormatting.GRAY));
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.y",
+                        getWarpPos(stack).getY(), true).withStyle(ChatFormatting.GRAY));
+                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound.z",
+                        getWarpPos(stack).getZ(), true).withStyle(ChatFormatting.GRAY));
+            }
 
             list.add(Component.literal(""));
         }
