@@ -100,6 +100,7 @@ public class LinkerItem extends TieredItem {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         ItemStack stack = useOnContext.getItemInHand();
         String dimension = world.dimension().location().toString();
+        float pitch = 0.9F + world.random.nextFloat() * 0.2F;
 
         if (player != null && !player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()) {
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.requires_creative"), true);
@@ -133,7 +134,7 @@ public class LinkerItem extends TieredItem {
                                     state.getBlock().getName()).withStyle(ChatFormatting.GREEN), true);
 
                     this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
-                    this.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
+                    this.playSound(world, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                 } else if (getIsBound(stack) && stack.has(DataComponentRegistry.WARP_POS)) {
 
                     if (!world.isClientSide && uuid == null) {
@@ -172,7 +173,7 @@ public class LinkerItem extends TieredItem {
                                             state.getBlock().getName(), firstState.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
 
                             this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
-                            this.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
+                            this.playSound(world, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                         }
                   //  }
                     setIsBound(stack, false);  // Reset binding
@@ -378,6 +379,8 @@ public class LinkerItem extends TieredItem {
     }
 
     public void linkEntity(ItemStack stack, Player player, Entity target, Level world, BlockPos pos) {
+        float pitch = 0.9F + world.random.nextFloat() * 0.2F;
+
         boolean isImmersivePainting = target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
                 || target.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
                 || target.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
@@ -459,7 +462,7 @@ public class LinkerItem extends TieredItem {
                             WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
 
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128);
-                            linker.playSound(world, pos, SoundRegistry.WRENCH_BOUND.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
+                            linker.playSound(world, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
                         } else {
                             BlockPos warpPos = getWarpPos(stack);
                             UUID warpUUID = getWarpUUID(stack);
@@ -519,7 +522,7 @@ public class LinkerItem extends TieredItem {
 //                            }
 
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128); // TODO: fix pos
-                            linker.playSound(world, pos, SoundRegistry.PIPES_LINKED.get(), SoundSource.BLOCKS, 1.0F, 0.1F);
+                            linker.playSound(world, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                             //  }
                             setIsBound(stack, false);
                         }

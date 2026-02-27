@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
@@ -19,6 +20,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -58,71 +60,87 @@ public class CreativeWrenchItem extends LinkerItem {
         ItemStack stack = useOnContext.getItemInHand();
         BlockPos pos = useOnContext.getClickedPos();
         BlockState state = level.getBlockState(pos);
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        if (level instanceof ServerLevel serverLevel) {
-            LinkedSwitchSavedData data = LinkedSwitchSavedData.get(serverLevel);
+        if (player != null && !player.isShiftKeyDown() && state.getBlock() instanceof ToggleableBlock
+                && !stack.has(DataComponentRegistry.LINKED_POS)) {
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.no_switch"), true);
 
-            if (state.getBlock() instanceof ToggleableBlock) {
-                BlockPos posSwitch = getLinkedPos(stack);
-                BlockState stateSwitch = level.getBlockState(posSwitch);
+            if (level instanceof ServerLevel server)
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.CRIT,
+                        server, pos, UniformInt.of(6, 8));
+            this.playSound(level, pos, SoundRegistry.WRENCH_LINK_FAILED.get(), SoundSource.BLOCKS, 1.0F, pitch);
+            return InteractionResult.SUCCESS;
+        }
 
-                if (player != null && !stack.has(DataComponentRegistry.LINKED_POS)) {
-                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.no_switch"), true);
+        if (state.getBlock() instanceof ToggleableBlock && stack.has(DataComponentRegistry.LINKED_POS)) {
+            BlockPos posSwitch = getLinkedPos(stack);
+            BlockState stateSwitch = level.getBlockState(posSwitch);
+
+            if (!(stateSwitch.getBlock() instanceof OnOffSwitchBlock)) {
+                if (player != null)
+                    player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.not_switch"), true);
+
+                if (level instanceof ServerLevel server)
                     ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.CRIT,
-                            serverLevel, pos, UniformInt.of(6, 8));
-                    return InteractionResult.FAIL;
-                }
+                            server, pos, UniformInt.of(6, 8));
+                this.playSound(level, pos, SoundRegistry.WRENCH_LINK_FAILED.get(), SoundSource.BLOCKS, 1.0F, pitch);
 
-                if (!(stateSwitch.getBlock() instanceof OnOffSwitchBlock)) {
-                    if (player != null)
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.not_switch"), true);
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.CRIT,
-                            serverLevel, pos, UniformInt.of(6, 8));
-                    stack.remove(DataComponentRegistry.LINKED_BLOCK);
-                    stack.remove(DataComponentRegistry.LINKED_POS);
-                    setIsBound(stack, false);
-                    return InteractionResult.FAIL;
-                }
+                stack.remove(DataComponentRegistry.LINKED_BLOCK);
+                stack.remove(DataComponentRegistry.LINKED_POS);
+                setIsBound(stack, false);
+                return InteractionResult.SUCCESS;
+            }
+
+            if (level instanceof ServerLevel server) {
+                LinkedSwitchSavedData data = LinkedSwitchSavedData.get(server);
 
                 if (player != null && !data.isLinked(posSwitch, pos) && !player.isShiftKeyDown()) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_linked",
                             stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.RED_STAR.get(),
-                            serverLevel, pos, UniformInt.of(6, 8));
 
-                    if (level instanceof ServerLevel server)
-                        GlobalSwitchSavedData.get(server).unlink(pos);
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.RED_STAR.get(),
+                            server, pos, UniformInt.of(6, 8));
+                    this.playSound(level, pos, SoundRegistry.WRENCH_LINKED_BLOCK.get(), SoundSource.BLOCKS, 1.0F, pitch);
+
+                    GlobalSwitchSavedData.get(server).unlink(pos);
                     data.link(posSwitch, pos);
 
                     return InteractionResult.SUCCESS;
                 } else if (player != null && data.isLinked(pos) && player.isShiftKeyDown()) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.block_unlinked",
                             stateSwitch.getBlock().getName(), state.getBlock().getName()).withStyle(ChatFormatting.RED), true);
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.BLUE_STAR.get(),
-                            serverLevel, pos, UniformInt.of(6, 8));
 
-                    if (level instanceof ServerLevel server)
-                        GlobalSwitchSavedData.get(server).link(pos);
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.BLUE_STAR.get(),
+                            server, pos, UniformInt.of(6, 8));
+                    this.playSound(level, pos, SoundRegistry.WRENCH_UNLINKED_BLOCK.get(), SoundSource.BLOCKS, 1.0F, pitch);
+
+                    GlobalSwitchSavedData.get(server).link(pos);
                     data.unlink(pos);
 
                     return InteractionResult.SUCCESS;
                 }
             }
+        }
 
-            if (player != null && player.isShiftKeyDown() && state.getBlock() instanceof OnOffSwitchBlock) {
-                player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.bound",
-                        state.getBlock().getName()).withStyle(ChatFormatting.GREEN), true);
+        if (player != null && player.isShiftKeyDown() && state.getBlock() instanceof OnOffSwitchBlock) {
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.bound",
+                    state.getBlock().getName()).withStyle(ChatFormatting.GREEN), true);
+
+            if (level instanceof ServerLevel server) {
                 ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.BLUE_STAR.get(),
-                        serverLevel, pos, UniformInt.of(3, 4));
+                        server, pos, UniformInt.of(3, 4));
                 ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.RED_STAR.get(),
-                        serverLevel, pos, UniformInt.of(3, 4));
-                setLinkedPos(stack, pos);
-                setLinkedBlock(stack, state);
-                setIsBound(stack, true);
-                if (level instanceof ServerLevel server)
-                    GlobalSwitchSavedData.get(server).unlink(pos);
-                return InteractionResult.SUCCESS;
+                        server, pos, UniformInt.of(3, 4));
             }
+            this.playSound(level, pos, SoundRegistry.WRENCH_LINK_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
+
+            setLinkedPos(stack, pos);
+            setLinkedBlock(stack, state);
+            setIsBound(stack, true);
+            if (level instanceof ServerLevel server)
+                GlobalSwitchSavedData.get(server).unlink(pos);
+            return InteractionResult.SUCCESS;
         }
         return super.useOn(useOnContext);
     }

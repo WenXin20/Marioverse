@@ -84,7 +84,6 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PAINTING_WARPS;
-    public static final DeferredHolder<SoundEvent, SoundEvent> PIPES_LINKED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_CLOSES;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_OPENS;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_WARPS;
@@ -118,7 +117,12 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_PLACE;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_SPOUT_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> WATER_MINI_STEP;
-    public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_BOUND;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_LINKED_BLOCK;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_LINK_CREATED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_LINK_FAILED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_UNLINKED_BLOCK;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_WARP_CREATED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> WRENCH_WARP_LINKED;
 
     static {
         AMETHYST_BUTTON_CLICK_OFF = Marioverse.SOUNDS.register("block.amethyst_button.click_off",
@@ -171,8 +175,6 @@ public class SoundRegistry {
         MOB_SPAWNS = Marioverse.SOUNDS.register("block.mob_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.mob_spawns")));
 
-        PIPES_LINKED = Marioverse.SOUNDS.register("block.pipes_linked",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipes_linked")));
         PIPE_CLOSES = Marioverse.SOUNDS.register("block.pipe_closes",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipe_closes")));
         PIPE_OPENS = Marioverse.SOUNDS.register("block.pipe_opens",
@@ -355,8 +357,18 @@ public class SoundRegistry {
 
         ITEM_INSERTED = Marioverse.SOUNDS.register("item.item_inserted",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.item_inserted")));
-        WRENCH_BOUND = Marioverse.SOUNDS.register("item.wrench_bound",
-                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_bound")));
+        WRENCH_LINKED_BLOCK = Marioverse.SOUNDS.register("item.wrench_linked_block",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_linked_block")));
+        WRENCH_LINK_CREATED = Marioverse.SOUNDS.register("item.wrench_link_created",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_link_created")));
+        WRENCH_LINK_FAILED = Marioverse.SOUNDS.register("item.wrench_link_failed",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_link_failed")));
+        WRENCH_WARP_CREATED = Marioverse.SOUNDS.register("item.wrench_warp_created",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_warp_created")));
+        WRENCH_WARP_LINKED = Marioverse.SOUNDS.register("item.wrench_warp_linked",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_warp_linked")));
+        WRENCH_UNLINKED_BLOCK = Marioverse.SOUNDS.register("item.wrench_unlinked_block",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.wrench_unlinked_block")));
 
         FIREBALL_THROWN = Marioverse.SOUNDS.register("player.fireball_thrown",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.fireball_thrown")));
