@@ -88,7 +88,7 @@ public class CreativeWrenchItem extends LinkerItem {
 
                 stack.remove(DataComponentRegistry.LINKED_BLOCK);
                 stack.remove(DataComponentRegistry.LINKED_POS);
-                setIsBound(stack, false);
+                setLinked(stack, false);
                 return InteractionResult.SUCCESS;
             }
 
@@ -137,7 +137,7 @@ public class CreativeWrenchItem extends LinkerItem {
 
             setLinkedPos(stack, pos);
             setLinkedBlock(stack, state);
-            setIsBound(stack, true);
+            setLinked(stack, true);
             if (level instanceof ServerLevel server)
                 GlobalSwitchSavedData.get(server).unlink(pos);
             return InteractionResult.SUCCESS;
@@ -179,7 +179,7 @@ public class CreativeWrenchItem extends LinkerItem {
 
         super.appendHoverText(stack, tooltipContext, list, tooltip);
 
-        if (getIsBound(stack) && stack.has(DataComponentRegistry.LINKED_POS)) {
+        if (getIsLinked(stack) && stack.has(DataComponentRegistry.LINKED_POS)) {
             list.add(Component.literal(""));
 
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.bound", true)
@@ -255,5 +255,13 @@ public class CreativeWrenchItem extends LinkerItem {
     public static void setLinkedBlock(ItemStack stack, BlockState blockState) {
         String blockName = blockState.getBlock().getName().getString();
         stack.set(DataComponentRegistry.LINKED_BLOCK.get(), blockName);
+    }
+
+    public static boolean getIsLinked(ItemStack stack) {
+        return stack.getOrDefault(DataComponentRegistry.IS_LINKED.get(), false);
+    }
+
+    public static void setLinked(ItemStack stack, boolean isLinked) {
+        stack.set(DataComponentRegistry.IS_LINKED.get(), isLinked);
     }
 }

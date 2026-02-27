@@ -104,7 +104,7 @@ public class LinkerItem extends TieredItem {
 
         if (player != null && !player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()) {
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.requires_creative"), true);
-            return InteractionResult.sidedSuccess(Boolean.TRUE);
+            return InteractionResult.SUCCESS;
         } else if (player != null) {
             if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBE
                     && getLinkableBlock(state)) {
@@ -113,8 +113,8 @@ public class LinkerItem extends TieredItem {
                 if (warpBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
                             state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
-                    return InteractionResult.sidedSuccess(true);
-                } else if (!getIsBound(stack)) {
+                    return InteractionResult.SUCCESS;
+                } else if (!getIsBound(stack) || !stack.has(DataComponentRegistry.WARP_POS)) {
 
                     if (!world.isClientSide && uuid == null) {
                         uuid = UUID.randomUUID();
@@ -126,7 +126,7 @@ public class LinkerItem extends TieredItem {
                     setWarpPos(stack, pos);
                     setWarpDimension(stack, dimension);
                     setWarpUUID(stack, uuid);
-                    setIsBound(stack, true);  // Mark the item as bound
+                    setBound(stack, true);  // Mark the item as bound
                     stack.remove(DataComponentRegistry.WARP_ENTITY.get());
                     stack.remove(DataComponentRegistry.WARP_PAINTING.get());
 
@@ -176,7 +176,7 @@ public class LinkerItem extends TieredItem {
                             this.playSound(world, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                         }
                   //  }
-                    setIsBound(stack, false);  // Reset binding
+                    setBound(stack, false);  // Reset binding
                 }
                 return InteractionResult.sidedSuccess(Boolean.TRUE);
             }
@@ -270,7 +270,7 @@ public class LinkerItem extends TieredItem {
         return stack.getOrDefault(DataComponentRegistry.IS_BOUND.get(), Boolean.FALSE);
     }
 
-    public static void setIsBound(ItemStack stack, boolean isBound) {
+    public static void setBound(ItemStack stack, boolean isBound) {
         stack.set(DataComponentRegistry.IS_BOUND.get(), isBound);
     }
 
@@ -456,7 +456,7 @@ public class LinkerItem extends TieredItem {
 
                             setWarpDimension(stack, target.level().dimension().toString());
                             setWarpUUID(stack, uuid);
-                            setIsBound(stack, true);
+                            setBound(stack, true);
                             stack.remove(DataComponentRegistry.WARP_BLOCK.get());
 
                             WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
@@ -524,7 +524,7 @@ public class LinkerItem extends TieredItem {
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128); // TODO: fix pos
                             linker.playSound(world, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                             //  }
-                            setIsBound(stack, false);
+                            setBound(stack, false);
                         }
                     }
                     player.swing(player.getUsedItemHand());

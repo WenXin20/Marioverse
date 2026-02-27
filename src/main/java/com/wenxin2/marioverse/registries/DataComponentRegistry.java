@@ -20,6 +20,10 @@ public class DataComponentRegistry {
             Marioverse.COMPONENTS.register("is_bound",
                     () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL)
                             .networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_LINKED =
+            Marioverse.COMPONENTS.register("is_linked",
+                    () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL)
+                            .networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
             Marioverse.COMPONENTS.register("linked_pos",
