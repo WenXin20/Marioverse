@@ -5,6 +5,7 @@
 - Add Immersive Paintings support for warping
 - Add Twilight Forest magic painting support for warping
 - Add chipped mushrooms to bouncy tag
+- Add new wrench sounds
 - Throw shells faster depending on movement, such as from vehicles
 - Pipes now will keep the player on the vehicle when warping
 - When a pipe is sideways, you will teleport facing away from the destination pipe
