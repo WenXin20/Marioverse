@@ -21,6 +21,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 
 public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
@@ -42,6 +43,13 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
     @Override
     public boolean canUse() {
         this.target = this.findTarget();
+
+        if (this.target != null) {
+            Path path = this.mob.getNavigation().createPath(this.target, 0);
+
+            if (path == null || !path.canReach())
+                return false;
+        }
 
         if (nextStartTick > 0) {
             nextStartTick--;
@@ -79,7 +87,13 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return this.target != null && this.target.isAlive() && this.mob.distanceToSqr(this.target) > 1.0;
+        if (this.target == null || !this.target.isAlive())
+            return false;
+
+        if (this.mob.distanceToSqr(this.target) <= 1.0)
+            return false;
+
+        return !this.mob.getNavigation().isDone();
     }
 
     @Override
@@ -101,8 +115,8 @@ public class ChaseTargetGoal<T extends LivingEntity> extends Goal {
         if (this.mob.getDeltaMovement().horizontalDistance() == 0)
             chaseTick++;
 
-        if (chaseTick == 50)
-            this.mob.getNavigation().stop();
+        if (this.mob.getNavigation().isStuck())
+            this.stop();
 
         if (this.target != null) {
             this.mob.getLookControl().setLookAt(this.target.getX(), this.target.getEyeY(), this.target.getZ());

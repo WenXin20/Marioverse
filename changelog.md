@@ -12,3 +12,4 @@
 - Fix Dango Blossom missing from Building Blocks Creative Tab
 - Fix Plastic Buckets unable to bucket water spouts.
 - Fix able to stomp non-living entities
+- Fix mobs trying to obtain unreachable power ups
