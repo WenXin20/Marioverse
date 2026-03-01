@@ -40,6 +40,11 @@ public class DataComponentRegistry {
                     () -> DataComponentType.<Component>builder().persistent(ComponentSerialization.FLAT_CODEC)
                             .networkSynchronized(ComponentSerialization.STREAM_CODEC).cacheEncoding().build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> REFILL_COUNTDOWN =
+            Marioverse.COMPONENTS.register("refill_countdown",
+                    () -> DataComponentType.<Integer>builder().persistent(Codec.INT)
+                            .networkSynchronized(ByteBufCodecs.INT).build());
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> POS_X =
             Marioverse.COMPONENTS.register("pos_x",
                     () -> DataComponentType.<Integer>builder().persistent(Codec.INT)

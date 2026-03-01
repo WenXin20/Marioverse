@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -126,6 +127,8 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         super.saveAdditional(tag, provider);
 
         tag.putBoolean("lastPowered", this.lastPowered);
+        tag.putInt("activeRefillCountdown", this.activeRefillCountdown);
+
         if (!this.trySaveLootTable(tag) && !this.item.isEmpty())
             tag.put("item", this.item.save(provider));
 
@@ -153,6 +156,9 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         if (tag.contains(CUSTOM_NAME, 8))
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
 
+        if (tag.contains("activeRefillCountdown", 10))
+            this.activeRefillCountdown = tag.getInt("activeRefillCountdown");
+
         if (tag.contains("refillTemplate", 10))
             this.refillTemplate = ItemStack.parse(provider, tag.getCompound("refillTemplate"))
                     .orElse(ItemStack.EMPTY);
@@ -167,6 +173,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         super.applyImplicitComponents(input);
         this.item = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
+        this.setData(DataAttachmentRegistry.REFILL_COUNTDOWN.get(), input.getOrDefault(DataComponentRegistry.REFILL_COUNTDOWN.get(), -1));
     }
 
     @Override
@@ -174,6 +181,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         super.collectImplicitComponents(builder);
         builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.item)));
         builder.set(DataComponents.CUSTOM_NAME, this.name);
+        builder.set(DataComponentRegistry.REFILL_COUNTDOWN.get(), this.getData(DataAttachmentRegistry.REFILL_COUNTDOWN.get()));
     }
 
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
