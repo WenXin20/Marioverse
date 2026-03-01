@@ -203,7 +203,8 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         if (this.level != null)
-            return new QuestionBlockMenu(id, inventory, new SimpleContainer(1), new SimpleContainerData(3), ContainerLevelAccess.create(this.getLevel(), this.getBlockPos()));
+            return new QuestionBlockMenu(id, inventory, this,
+                    this.getDataAccess(), ContainerLevelAccess.create(this.level, this.getBlockPos()));
         else return null;
     }
 

@@ -88,6 +88,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
@@ -665,9 +666,11 @@ public class MarioverseEventHandlers {
         }
 
         if (player.isShiftKeyDown() && heldItem.getItem() == ItemRegistry.CREATIVE_WRENCH.get()) {
-            if (blockEntity instanceof QuestionBlockEntity) {
+            if (blockEntity instanceof QuestionBlockEntity questionBE) {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
-                        new QuestionBlockMenu(id, playerInventory), ((QuestionBlockEntity) blockEntity).getDisplayName()));
+                        new QuestionBlockMenu(id, playerInventory, questionBE,
+                                questionBE.getDataAccess(), ContainerLevelAccess.create(world, pos)),
+                        ((QuestionBlockEntity) blockEntity).getDisplayName()));
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, heldItem);
                     player.awardStat(Stats.ITEM_USED.get(heldItem.getItem()));

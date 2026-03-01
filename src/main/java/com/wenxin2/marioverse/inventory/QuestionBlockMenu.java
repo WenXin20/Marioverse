@@ -78,54 +78,7 @@ public class QuestionBlockMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(inventory, column, 8 + column * 18, 142));
         }
 
-        this.addSlot(new Slot(container, 0, 62, 28) {
-
-            @Override
-            public boolean mayPlace(@NotNull ItemStack stack) {
-                return true; // adjust if needed
-            }
-
-            @Override
-            public @NotNull ItemStack getItem() {
-                return access.evaluate((level, pos) -> {
-                    BlockEntity blockEntity = level.getBlockEntity(pos);
-                    if (blockEntity instanceof QuestionBlockEntity questionBE)
-                        return questionBE.getTheItem();
-                    return ItemStack.EMPTY;
-                }, ItemStack.EMPTY);
-            }
-
-            @Override
-            public void set(@NotNull ItemStack stack) {
-                access.execute((level, pos) -> {
-                    BlockEntity blockEntity = level.getBlockEntity(pos);
-                    if (blockEntity instanceof QuestionBlockEntity questionBE) {
-                        questionBE.setTheItem(stack);
-                        questionBE.setChanged();
-                    }
-                });
-                this.setChanged();
-            }
-
-            @Override
-            public @NotNull ItemStack remove(int amount) {
-                return access.evaluate((level, pos) -> {
-                    BlockEntity blockEntity = level.getBlockEntity(pos);
-                    if (blockEntity instanceof QuestionBlockEntity questionBE) {
-                        ItemStack current = questionBE.getTheItem();
-                        ItemStack result = current.split(amount);
-                        questionBE.setChanged();
-                        return result;
-                    }
-                    return ItemStack.EMPTY;
-                }, ItemStack.EMPTY);
-            }
-
-            @Override
-            public boolean hasItem() {
-                return !getItem().isEmpty();
-            }
-        });
+        this.addSlot(new Slot(container, 0, 62, 28));
     }
 
     public int getRefillCountdown() {
