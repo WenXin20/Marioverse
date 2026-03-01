@@ -11,10 +11,8 @@ import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
-import java.util.Arrays;
 import java.util.stream.Stream;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -49,7 +47,8 @@ public class BlockEntityRegistry {
                                 BlockRegistry.STAR_COIN.get()).build(null));
 
         INVISIBLE_QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("invisible_question_block",
-                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
+                () -> BlockEntityType.Builder.of((pos, state) ->
+                                new QuestionBlockEntity(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY.get(), pos, state),
                         BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK.get(),
@@ -81,7 +80,8 @@ public class BlockEntityRegistry {
                         BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get()).build(null));
 
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",
-                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
+                () -> BlockEntityType.Builder.of((pos, state) ->
+                                new QuestionBlockEntity(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY.get(), pos, state),
                         BlockRegistry.AMETHYST_QUESTION_BLOCK.get(),
                         BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get(),
                         BlockRegistry.CALCITE_QUESTION_BLOCK.get(),
@@ -113,7 +113,8 @@ public class BlockEntityRegistry {
                         BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get()).build(null));
 
         STORAGE_BRICKS_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("storage_bricks",
-                () -> BlockEntityType.Builder.of(QuestionBlockEntity::new,
+                () -> BlockEntityType.Builder.of((pos, state) ->
+                                new QuestionBlockEntity(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY.get(), pos, state),
                         BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof StorageBrickBlock).toArray(Block[]::new)).build(null));
 
         CHECKPOINT_FLAG_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("checkpoint_flag",

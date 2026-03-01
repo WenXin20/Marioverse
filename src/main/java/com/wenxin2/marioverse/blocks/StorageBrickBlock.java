@@ -32,6 +32,12 @@ public class StorageBrickBlock extends QuestionBlock {
 
     @Nullable
     @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new QuestionBlockEntity(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY.get(), pos, state);
+    }
+
+    @Nullable
+    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
         return createTickerHelper(type, BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY.get(), QuestionBlockEntity::tick);
     }

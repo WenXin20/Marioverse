@@ -21,6 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.RandomizableContainer;
@@ -33,8 +34,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.ContainerSingleItem;
 import org.jetbrains.annotations.NotNull;
 
@@ -72,8 +78,8 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         }
     };
 
-    public QuestionBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
+    public QuestionBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     @Override
@@ -147,11 +153,11 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         if (tag.contains(CUSTOM_NAME, 8))
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
 
-        if (tag.contains("RefillTemplate", 10))
+        if (tag.contains("refillTemplate", 10))
             this.refillTemplate = ItemStack.parse(provider, tag.getCompound("refillTemplate"))
                     .orElse(ItemStack.EMPTY);
 
-        if (tag.contains("RefillLootTable"))
+        if (tag.contains("refillLootTable"))
             this.refillLootTable = ResourceKey.create(Registries.LOOT_TABLE,
                     ResourceLocation.parse(tag.getString("refillLootTable")));
     }
@@ -193,6 +199,9 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         else if (blockEntity.activeRefillCountdown == 0) {
             blockEntity.refill();
             blockEntity.activeRefillCountdown = -1;
+            if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
+                level.setBlock(pos, state.setValue(InvisibleQuestionBlock.INVISIBLE, true)
+                        .setValue(QuestionBlock.EMPTY, false), 3);
         }
     }
 
@@ -334,9 +343,18 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         if (!this.item.isEmpty())
             return;
 
-        if (this.refillLootTable != null) {
-            this.lootTable = this.refillLootTable;
-            this.setChanged();
+        if (this.refillLootTable != null && this.level instanceof ServerLevel serverLevel) {
+            LootTable table = serverLevel.getServer()
+                    .reloadableRegistries().getLootTable(this.refillLootTable);
+            LootParams params = new LootParams.Builder(serverLevel)
+                    .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.worldPosition))
+                    .create(LootContextParamSets.CHEST);
+            List<ItemStack> stacks = table.getRandomItems(params);
+
+            if (!stacks.isEmpty()) {
+                this.item =  stacks.get(serverLevel.random.nextInt(stacks.size())).copy();
+                this.setChanged();
+            }
             return;
         }
 

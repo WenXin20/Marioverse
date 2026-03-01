@@ -127,7 +127,7 @@ public class QuestionBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new QuestionBlockEntity(pos, state);
+        return new QuestionBlockEntity(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state);
     }
 
     @Nullable
