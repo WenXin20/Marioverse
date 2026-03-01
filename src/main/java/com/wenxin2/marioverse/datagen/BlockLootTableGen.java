@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
-import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
@@ -104,12 +104,15 @@ public class BlockLootTableGen extends LootTableProvider {
         private void genBlockVariants() {
             BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
                 blockFamily.getVariants().forEach((variant, variantBlock) -> {
+                    BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
                     BlockFamilyExtended.Variant quicksand = BlockFamilyExtended.Variant.QUICKSAND;
                     BlockFamilyExtended.Variant slabs = BlockFamilyExtended.Variant.SLAB;
                     BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
 
                     if (variant == quicksand)
                         dropOther(variantBlock, blockFamily.getBaseBlock());
+                    else if (variant == questionBlock)
+                        add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
                     else if (variant == smashableBlocks)
                         add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));
                     else if (variant == slabs)

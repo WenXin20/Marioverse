@@ -136,6 +136,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> REASSEMBLE_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("reassemble_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> REFILL_COUNTDOWN = Marioverse.ATTACHMENT_TYPES
+            .register("refill_countdown", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> SUPER_STAR_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("super_star_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());

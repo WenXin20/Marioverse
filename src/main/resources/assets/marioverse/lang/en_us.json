@@ -1211,6 +1211,21 @@
 
   "tooltip.marioverse.smashable_blocks": "§6§oSmashable",
 
+  "menu.marioverse.question_block.confirm_button": "",
+  "menu.marioverse.question_block.confirm_button.tooltip": "Confirm",
+  "menu.marioverse.question_block.confirm_button.narrate": "Confirm Button",
+
+  "menu.marioverse.question_block.countdown_box.tooltip": "Refill Countdown",
+  "menu.marioverse.question_block.countdown_box.narrate": "Refill Countdown Text Box",
+
+  "menu.marioverse.question_block.refill_off_button": "",
+  "menu.marioverse.question_block.refill_off_button.tooltip": "Refill Off",
+  "menu.marioverse.question_block.refill_off_button.narrate": "Refill Off Button",
+
+  "menu.marioverse.question_block.refill_on_button": "",
+  "menu.marioverse.question_block.refill_on_button.tooltip": "Refill On",
+  "menu.marioverse.question_block.refill_on_button.narrate": "Refill On Button",
+
   "menu.marioverse.warp_pipe.close_button": "",
   "menu.marioverse.warp_pipe.close_button.tooltip": "Close Pipe",
   "menu.marioverse.warp_pipe.open_button.tooltip": "Open Pipe",
@@ -1225,7 +1240,7 @@
   "menu.marioverse.warp_pipe.rename_button_waxed.tooltip": "§mRename Pipe§r \n§cPipe is Waxed!",
   "menu.marioverse.warp_pipe.rename_button.narrate": "Rename Pipe",
   "menu.marioverse.warp_pipe.rename_box.tooltip": "Rename Pipe",
-  "menu.marioverse.warp_pipe.rename_box.narrate": "Rename Pipe",
+  "menu.marioverse.warp_pipe.rename_box.narrate": "Rename Pipe Text Box",
 
   "menu.marioverse.warp_pipe.bubbles_button": "",
   "menu.marioverse.warp_pipe.bubbles_on_button.tooltip": "Underwater Pipe Bubbles On",

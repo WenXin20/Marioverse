@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
@@ -30,6 +31,7 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
+import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
@@ -56,6 +58,7 @@ import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -72,6 +75,8 @@ import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -632,6 +637,7 @@ public class MarioverseEventHandlers {
         Level world = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
@@ -647,7 +653,6 @@ public class MarioverseEventHandlers {
 
             world.setBlock(pos, newState, 3);
 
-            BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof PottedPiranhaPlantBlockEntity piranhaPlantBE) {
                 piranhaPlantBE.setOwner(player);
                 piranhaPlantBE.setChanged();
@@ -657,6 +662,18 @@ public class MarioverseEventHandlers {
             player.awardStat(Stats.POT_FLOWER);
             player.swing(InteractionHand.MAIN_HAND);
             heldItem.consume(1, player);
+        }
+
+        if (player.isShiftKeyDown() && heldItem.getItem() == ItemRegistry.CREATIVE_WRENCH.get()) {
+            if (blockEntity instanceof QuestionBlockEntity) {
+                player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
+                        new QuestionBlockMenu(id, playerInventory), ((QuestionBlockEntity) blockEntity).getDisplayName()));
+                if (player instanceof ServerPlayer serverPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, heldItem);
+                    player.awardStat(Stats.ITEM_USED.get(heldItem.getItem()));
+                }
+            }
+            event.setCancellationResult(InteractionResult.SUCCESS);
         }
 
         if (heldItem.getItem() instanceof SpawnEggItem && state.getBlock() instanceof WarpPipeBlock
@@ -714,7 +731,6 @@ public class MarioverseEventHandlers {
         }
 
         if (world.isClientSide()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof WarpPipeBlockEntity) {
                 // Update the last clicked position
                 WarpPipeScreen.lastClickedPos = pos;

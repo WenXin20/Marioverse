@@ -90,9 +90,7 @@ import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.TntBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -271,6 +269,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     @Nullable
+    @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         if (this.level != null)
             return new WarpPipeMenu(id, inventory, ContainerLevelAccess.create(this.level, this.getBlockPos()));
@@ -370,8 +369,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         return this.getName();
     }
 
-    @Override
     @Nullable
+    @Override
     public Component getCustomName() {
         return this.name;
     }

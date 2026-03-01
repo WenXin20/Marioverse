@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -29,7 +30,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
@@ -277,6 +277,18 @@ public class QuestionBlock extends BaseEntityBlock {
                 return InteractionResult.SUCCESS;
             } else return InteractionResult.PASS;
         } else return InteractionResult.PASS;
+    }
+
+    @Override
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @javax.annotation.Nullable LivingEntity entity, ItemStack stack) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof QuestionBlockEntity questionBE) {
+            if (stack.has(DataComponents.CUSTOM_NAME) || stack.has(DataComponentRegistry.PIPE_NAME)) {
+                questionBE.setCustomName(stack.getHoverName());
+                questionBE.setChanged();
+            }
+            questionBE.onLoad();
+        }
     }
 
     public static void hitQuestionBlock(Level world, BlockPos pos, Entity entity, QuestionBlockEntity questionBlockEntity) {

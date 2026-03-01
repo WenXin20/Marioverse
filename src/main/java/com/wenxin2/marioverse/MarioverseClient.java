@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.google.common.collect.ImmutableList;
+import com.wenxin2.marioverse.blocks.client.QuestionBlockScreen;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.client.particles.GlowingSuspendedTownParticle;
 import com.wenxin2.marioverse.client.particles.GravityParticle;
@@ -45,6 +46,7 @@ import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireb
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
 import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
+import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -192,6 +194,7 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(MenuRegistry.QUESTION_BLOCK_MENU.get(), QuestionBlockScreen::new);
         event.register(MenuRegistry.WARP_PIPE_MENU.get(), WarpPipeScreen::new);
     }
 
