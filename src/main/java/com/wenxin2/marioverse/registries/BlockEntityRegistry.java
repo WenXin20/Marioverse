@@ -48,7 +48,7 @@ public class BlockEntityRegistry {
 
         INVISIBLE_QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("invisible_question_block",
                 () -> BlockEntityType.Builder.of((pos, state) ->
-                                new QuestionBlockEntity(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY.get(), pos, state),
+                                new QuestionBlockEntity(BlockEntityRegistry.INVISIBLE_QUESTION_BLOCK_ENTITY.get(), pos, state),
                         BlockRegistry.INVISIBLE_AMETHYST_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_CALCITE_QUESTION_BLOCK.get(),
@@ -81,7 +81,7 @@ public class BlockEntityRegistry {
 
         QUESTION_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("question_block",
                 () -> BlockEntityType.Builder.of((pos, state) ->
-                                new QuestionBlockEntity(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY.get(), pos, state),
+                                new QuestionBlockEntity(BlockEntityRegistry.QUESTION_BLOCK_ENTITY.get(), pos, state),
                         BlockRegistry.AMETHYST_QUESTION_BLOCK.get(),
                         BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get(),
                         BlockRegistry.CALCITE_QUESTION_BLOCK.get(),
