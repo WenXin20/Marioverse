@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
-import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.List;
@@ -25,13 +24,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.RandomizableContainer;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
@@ -337,14 +334,14 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         if (!this.item.isEmpty())
             return;
 
-        if (!this.refillTemplate.isEmpty()) {
-            this.item = this.refillTemplate.copy();
+        if (this.refillLootTable != null) {
+            this.lootTable = this.refillLootTable;
             this.setChanged();
             return;
         }
 
-        if (this.refillLootTable != null) {
-            this.lootTable = this.refillLootTable;
+        if (!this.refillTemplate.isEmpty()) {
+            this.item = this.refillTemplate.copy();
             this.setChanged();
         }
     }
