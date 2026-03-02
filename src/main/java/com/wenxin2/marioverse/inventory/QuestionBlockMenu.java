@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.inventory;
 
+import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -11,6 +12,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class QuestionBlockMenu extends AbstractContainerMenu {
@@ -76,11 +78,21 @@ public class QuestionBlockMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(container, 0, 62, 28));
     }
 
+    public ContainerLevelAccess getAccess() {
+        return this.access;
+    }
+
     public int getRefillCountdown() {
         return this.data.get(0);
     }
 
-    public ContainerLevelAccess getAccess() {
-        return access;
+    public void setRefillCountdown(int refillCountdown) {
+        this.getAccess().execute((level, pos) -> {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof QuestionBlockEntity questionBE) {
+                questionBE.setRefillCountdown(refillCountdown);
+                questionBE.setChanged();
+            }
+        });
     }
 }
