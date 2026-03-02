@@ -78,7 +78,7 @@ public class QuestionBlockMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(inventory, column, 8 + column * 18, 142));
         }
 
-        this.addSlot(new Slot(container, 0, 62, 28));
+        this.addSlot(new Slot(container, 0, 26, 23));
     }
 
     public ContainerLevelAccess getAccess() {

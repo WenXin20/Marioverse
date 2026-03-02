@@ -56,35 +56,35 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         if (this.refillOffButton.visible) {
             if (this.refillOffButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 83, this.topPos + 26, 215, 22, 37, 20);
-            else graphics.blit(GUI, this.leftPos + 83, this.topPos + 26, 177, 22, 37, 20);
+                graphics.blit(GUI, this.leftPos + 14, this.topPos + 45, 215, 22, 37, 20);
+            else graphics.blit(GUI, this.leftPos + 14, this.topPos + 45, 177, 22, 37, 20);
         }
 
         if (this.refillOnButton.visible) {
             if (this.refillOnButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 83, this.topPos + 26, 215, 1, 37, 20);
-            else graphics.blit(GUI, this.leftPos + 83, this.topPos + 26, 177, 1, 37, 20);
+                graphics.blit(GUI, this.leftPos + 14, this.topPos + 45, 215, 1, 37, 20);
+            else graphics.blit(GUI, this.leftPos + 14, this.topPos + 45, 177, 1, 37, 20);
         }
 
         if (this.countdownBox.visible)
-            graphics.blit(GUI, this.leftPos + 60, this.topPos + 57, 177, 43, 57, 14);
+            graphics.blit(GUI, this.leftPos + 57, this.topPos + 24, 177, 43, 78, 14);
 
         if (this.confirmButton.visible) {
             if (this.confirmButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 122, this.topPos + 54, 198, 58, 20, 20);
-            else graphics.blit(GUI, this.leftPos + 122, this.topPos + 54, 177, 58, 20, 20);
+                graphics.blit(GUI, this.leftPos + 141, this.topPos + 21, 198, 58, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 141, this.topPos + 21, 177, 58, 20, 20);
         }
 
         if (this.showClockIcon)
-            graphics.blit(GUI, this.leftPos + 43, this.topPos + 57, 235, 43, 14, 14);
+            graphics.blit(GUI, this.leftPos + 143, this.topPos + 46, 219, 58, 16, 16);
     }
 
     @Override
     public void init() {
         super.init();
-        final Component rename = Component.translatable("menu.marioverse.warp_pipe.rename_button");
+        final Component blank = Component.literal("");
 
-        this.countdownBox = new EditBox(this.font, this.leftPos + 62, this.topPos + 60, 55, 14,
+        this.countdownBox = new EditBox(this.font, this.leftPos + 59, this.topPos + 27, 76, 14,
                 Component.translatable("menu.marioverse.question_block.countdown_box.narrate"));
         this.countdownBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.question_block.countdown_box.tooltip")));
         this.countdownBox.setValue(String.valueOf(this.menu.getRefillCountdown()));
@@ -94,14 +94,14 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.countdownBox.setMaxLength(15);
         this.addRenderableWidget(this.countdownBox);
 
-        this.confirmButton = Button.builder(rename, button -> {
+        this.confirmButton = Button.builder(blank, button -> {
             this.confirmButtonOnPress();
-        }).bounds(this.leftPos + 122, this.topPos + 54, 20, 20).build();
+        }).bounds(this.leftPos + 141, this.topPos + 21, 20, 20).build();
         this.confirmButton.visible = false;
         this.confirmButton.setAlpha(0);
         this.addRenderableWidget(this.confirmButton);
 
-        this.refillOffButton = Button.builder(rename, button -> {
+        this.refillOffButton = Button.builder(blank, button -> {
             this.countdownBox.setVisible(true);
             this.confirmButton.visible = true;
             this.refillOffButton.visible = false;
@@ -109,18 +109,18 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
             this.showClockIcon = true;
             if (this.menu.getRefillCountdown() <= -1)
                 PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, 6000));
-        }).bounds(this.leftPos + 83, this.topPos + 26, 37, 20).build();
+        }).bounds(this.leftPos + 14, this.topPos + 45, 37, 20).build();
         this.refillOffButton.setAlpha(0);
         this.addRenderableWidget(this.refillOffButton);
 
-        this.refillOnButton = Button.builder(rename, button -> {
+        this.refillOnButton = Button.builder(blank, button -> {
             this.countdownBox.setVisible(false);
             this.confirmButton.visible = false;
             this.refillOffButton.visible = true;
             this.refillOnButton.visible = false;
             this.showClockIcon = false;
             PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, -1));
-        }).bounds(this.leftPos + 83, this.topPos + 26, 37, 20).build();
+        }).bounds(this.leftPos + 14, this.topPos + 45, 37, 20).build();
         this.refillOnButton.visible = false;
         this.refillOnButton.setAlpha(0);
         this.addRenderableWidget(this.refillOnButton);
