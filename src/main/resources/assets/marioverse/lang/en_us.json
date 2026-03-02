@@ -25,8 +25,10 @@
 
   "menu.marioverse.checkpoint_flag": "Checkpoint Flag",
   "menu.marioverse.goal_pole": "Goal Pole",
-  "menu.marioverse.warp_pipe": "Warp Pipe",
+  "menu.marioverse.invisible_question_block": "Invisible Question Block",
   "menu.marioverse.question_block": "Question Block",
+  "menu.marioverse.storage_bricks": "Storage Bricks",
+  "menu.marioverse.warp_pipe": "Warp Pipe",
 
   "container.marioverse.checkpoint_flag.itemCount": "%s x%s",
   "container.marioverse.checkpoint_flag.more": "and %s more...",

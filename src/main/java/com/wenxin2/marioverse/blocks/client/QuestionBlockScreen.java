@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import org.lwjgl.glfw.GLFW;
 
@@ -25,6 +27,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
     Inventory inventory;
     private String questionBlockName = "";
     private boolean showClockIcon = false;
+    private boolean initializedFromServer = false;
 
     public QuestionBlockScreen(QuestionBlockMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -84,7 +87,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.countdownBox = new EditBox(this.font, this.leftPos + 62, this.topPos + 60, 55, 14,
                 Component.translatable("menu.marioverse.question_block.countdown_box.narrate"));
         this.countdownBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.question_block.countdown_box.tooltip")));
-        this.countdownBox.setValue(String.valueOf(menu.getRefillCountdown()));
+        this.countdownBox.setValue(String.valueOf(this.menu.getRefillCountdown()));
         this.countdownBox.setFilter(s -> s.matches("-?\\d*"));
         this.countdownBox.setBordered(false);
         this.countdownBox.setVisible(false);
@@ -104,6 +107,8 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
             this.refillOffButton.visible = false;
             this.refillOnButton.visible = true;
             this.showClockIcon = true;
+            if (this.menu.getRefillCountdown() <= -1)
+                PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, 6000));
         }).bounds(this.leftPos + 83, this.topPos + 26, 37, 20).build();
         this.refillOffButton.setAlpha(0);
         this.addRenderableWidget(this.refillOffButton);
@@ -114,10 +119,39 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
             this.refillOffButton.visible = true;
             this.refillOnButton.visible = false;
             this.showClockIcon = false;
+            PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, -1));
         }).bounds(this.leftPos + 83, this.topPos + 26, 37, 20).build();
         this.refillOnButton.visible = false;
         this.refillOnButton.setAlpha(0);
         this.addRenderableWidget(this.refillOnButton);
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+
+        int refillCountdown = this.menu.getRefillCountdown();
+
+        if (!this.countdownBox.isFocused() && this.countdownBox.visible)
+            this.countdownBox.setValue(String.valueOf(refillCountdown));
+
+        if (!this.initializedFromServer) {
+            if (refillCountdown >= 0) {
+                this.countdownBox.setVisible(true);
+                this.confirmButton.visible = true;
+                this.refillOffButton.visible = false;
+                this.refillOnButton.visible = true;
+                this.showClockIcon = true;
+            } else {
+                this.countdownBox.setVisible(false);
+                this.confirmButton.visible = false;
+                this.refillOffButton.visible = true;
+                this.refillOnButton.visible = false;
+                this.showClockIcon = false;
+            }
+
+            this.initializedFromServer = true;
+        }
     }
 
     @Override

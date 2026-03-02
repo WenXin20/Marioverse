@@ -47,6 +47,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Nameable, RandomizableContainer, ContainerSingleItem.BlockContainerSingleItem {
     private static final Component DEFAULT_NAME = Component.translatable("menu.marioverse.question_block");
+    private static final Component INVISIBLE_QUESTION_BLOCK = Component.translatable("menu.marioverse.invisible_question_block");
+    private static final Component STORAGE_BRICKS = Component.translatable("menu.marioverse.storage_bricks");
     public static final String CUSTOM_NAME = "CustomName";
     @Nullable private ResourceKey<LootTable> refillLootTable;
     @Nullable protected ResourceKey<LootTable> lootTable;
@@ -107,7 +109,13 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
     @NotNull
     @Override
     public Component getName() {
-        return DEFAULT_NAME;
+        if (this.getCustomName() == null) {
+            if (this.getBlockState().getBlock() instanceof InvisibleQuestionBlock)
+                return INVISIBLE_QUESTION_BLOCK;
+            else if (this.getBlockState().getBlock() instanceof StorageBrickBlock)
+                return STORAGE_BRICKS;
+            return DEFAULT_NAME;
+        } else return this.getCustomName();
     }
 
     @Nullable
