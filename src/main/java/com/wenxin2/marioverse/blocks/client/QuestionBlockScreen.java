@@ -206,5 +206,6 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         if (this.minecraft != null && this.minecraft.getConnection() != null)
             PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, parsed));
+        this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get(), SoundSource.BLOCKS);
     }
 }

@@ -2,6 +2,9 @@ package com.wenxin2.marioverse.inventory;
 
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.MenuRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -93,6 +96,13 @@ public class QuestionBlockMenu extends AbstractContainerMenu {
                 questionBE.setRefillCountdown(refillCountdown);
                 questionBE.setChanged();
             }
+        });
+    }
+
+    public void playSound(SoundEvent soundEvent, SoundSource soundSource) {
+        this.getAccess().execute((level, pos) -> {
+            float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+            level.playSound(null, pos, soundEvent, soundSource, 1.0F, pitch);
         });
     }
 }

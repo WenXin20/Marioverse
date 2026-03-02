@@ -98,6 +98,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> POWER_UP_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> QUESTION_PANEL_ACTIVATED;
     public static final DeferredHolder<SoundEvent, SoundEvent> QUESTION_PANEL_DEACTIVATED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> REFILL_CONFIRMED;
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_EXTEND;
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_PEEK;
     public static final DeferredHolder<SoundEvent, SoundEvent> SPIKES_RETRACT;
@@ -191,6 +192,9 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.question_panel_activated")));
         QUESTION_PANEL_DEACTIVATED = Marioverse.SOUNDS.register("block.question_panel_deactivated",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.question_panel_deactivated")));
+
+        REFILL_CONFIRMED = Marioverse.SOUNDS.register("block.refill_confirmed",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.refill_confirmed")));
 
         SPIKES_EXTEND = Marioverse.SOUNDS.register("block.spikes_extend",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.spikes_extend")));

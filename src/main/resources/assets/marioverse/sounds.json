@@ -96,6 +96,10 @@
   "block.question_panel_deactivated": { "category": "block", "sounds": [{ "name": "random/click", "pitch": 0.65, "volume": 0.3 }],
     "subtitle": "subtitles.marioverse.block.question_panel_deactivated" },
 
+  "block.refill_confirmed": { "category": "block",
+    "sounds": [{ "name": "marioverse:block/refill_confirmed" }],
+    "subtitle": "subtitles.marioverse.block.refill_confirmed" },
+
   "block.spikes_extend": { "category": "block", "sounds": [{ "name": "marioverse:block/spikes_extend", "volume": 0.8 }],
     "subtitle": "subtitles.marioverse.block.spikes_extend" },
   "block.spikes_peek": { "category": "block", "sounds": [{ "name": "marioverse:block/spikes_peek" }],
