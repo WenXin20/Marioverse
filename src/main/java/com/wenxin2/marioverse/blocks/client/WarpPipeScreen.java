@@ -366,12 +366,6 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             return false;
         }
 
-        if (waterSpoutSlider.isFocused() && keyCode == GLFW.GLFW_KEY_LEFT)
-            return true;
-
-        if (bubblesSlider.isFocused() && keyCode == GLFW.GLFW_KEY_LEFT)
-            return true;
-
         if (this.renameBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
                 || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
             if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {

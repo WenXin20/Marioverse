@@ -46,6 +46,18 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> PREVENT_WARP = Marioverse.ATTACHMENT_TYPES
             .register("prevent_warp", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> TIME_IN_HOURS = Marioverse.ATTACHMENT_TYPES
+            .register("time_in_hours", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> TIME_IN_MINUTES = Marioverse.ATTACHMENT_TYPES
+            .register("time_in_minutes", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> TIME_IN_SECONDS = Marioverse.ATTACHMENT_TYPES
+            .register("time_in_seconds", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> TIME_IN_TICKS = Marioverse.ATTACHMENT_TYPES
+            .register("time_in_ticks", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
     public static final Supplier<AttachmentType<Boolean>> HAS_DASH_MUSHROOM_BOOST = Marioverse.ATTACHMENT_TYPES
             .register("has_dash_mushroom_boost", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
@@ -138,6 +150,9 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> REFILL_COUNTDOWN = Marioverse.ATTACHMENT_TYPES
             .register("refill_countdown", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> REFILL_TIME_UNIT = Marioverse.ATTACHMENT_TYPES
+            .register("refill_time_unit", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> SUPER_STAR_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("super_star_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)

@@ -64,15 +64,17 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         public int get(int index) {
             return switch (index) {
                 case 0 -> QuestionBlockEntity.this.getRefillCountdown();
+                case 1 -> QuestionBlockEntity.this.getTimeUnit();
                 default -> 0;
             };
         }
 
         @Override
-        public void set(int index, int refillCountdown) {
-            if (index == 0) {
-                QuestionBlockEntity.this.setRefillCountdown(refillCountdown);
-            }
+        public void set(int index, int value) {
+            if (index == 0)
+                QuestionBlockEntity.this.setRefillCountdown(value);
+            else if (index == 1)
+                QuestionBlockEntity.this.setTimeUnit(value);
         }
 
         @Override
@@ -378,5 +380,32 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
             this.item = this.refillTemplate.copy();
             this.setChanged();
         }
+    }
+
+    public int getTimeUnit() {
+        return this.getData(DataAttachmentRegistry.REFILL_TIME_UNIT);
+    }
+
+    public void setTimeUnit(int timeUnit) {
+        this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT, timeUnit);
+        this.setChanged();
+    }
+
+    public int convertToTicks(int time) {
+        return switch (this.getTimeUnit()) {
+            case 1 -> time * 20;
+            case 2 -> time * 20 * 60;
+            case 3 -> time * 20 * 60 * 60;
+            default -> time;
+        };
+    }
+
+    public int convertFromTicks(int ticks) {
+        return switch (getTimeUnit()) {
+            case 1 -> ticks / 20;               // seconds
+            case 2 -> ticks / (20 * 60);        // minutes
+            case 3 -> ticks / (20 * 60 * 60);   // hours
+            default -> ticks;                   // ticks
+        };
     }
 }

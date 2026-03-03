@@ -89,14 +89,26 @@ public class QuestionBlockMenu extends AbstractContainerMenu {
         return this.data.get(0);
     }
 
-    public void setRefillCountdown(int refillCountdown) {
-        this.getAccess().execute((level, pos) -> {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof QuestionBlockEntity questionBE) {
-                questionBE.setRefillCountdown(refillCountdown);
-                questionBE.setChanged();
-            }
-        });
+    public int getTimeUnit() {
+        return this.data.get(1);
+    }
+
+    public int convertToTicks(int time) {
+        return switch (this.getTimeUnit()) {
+            case 1 -> time * 20;
+            case 2 -> time * 20 * 60;
+            case 3 -> time * 20 * 60 * 60;
+            default -> time;
+        };
+    }
+
+    public int convertFromTicks(int ticks) {
+        return switch (getTimeUnit()) {
+            case 1 -> ticks / 20;               // seconds
+            case 2 -> ticks / (20 * 60);        // minutes
+            case 3 -> ticks / (20 * 60 * 60);   // hours
+            default -> ticks;                   // ticks
+        };
     }
 
     public void playSound(SoundEvent soundEvent, SoundSource soundSource) {

@@ -18,6 +18,7 @@ import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
+import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.handler.ClosePipeButtonPacket;
@@ -30,6 +31,7 @@ import com.wenxin2.marioverse.network.server_bound.handler.PiranhaPlantHidePacke
 import com.wenxin2.marioverse.network.server_bound.handler.RefillCountdownPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.RenamePipePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.SquashEntityPacket;
+import com.wenxin2.marioverse.network.server_bound.handler.TimeUnitPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutSliderPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -65,6 +67,7 @@ public class PacketHandler {
         registrar.playToServer(SquashEntityPayload.SQUASH_ENTITY_PAYLOAD, SquashEntityPayload.STREAM_CODEC, SquashEntityPacket.get()::handle);
         registrar.playToServer(WaterSpoutButtonPayload.SPOUT_STATE_PAYLOAD, WaterSpoutButtonPayload.STREAM_CODEC, WaterSpoutButtonPacket.get()::handle);
         registrar.playToServer(WaterSpoutSliderPayload.SPOUT_HEIGHT_PAYLOAD, WaterSpoutSliderPayload.STREAM_CODEC, WaterSpoutSliderPacket.get()::handle);
+        registrar.playToServer(TimeUnitPayload.PAYLOAD, TimeUnitPayload.STREAM_CODEC, TimeUnitPacket.get()::handle);
     }
 
     public static <MSG extends CustomPacketPayload> void sendToServer(MSG message) {
