@@ -20,6 +20,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMenu> {
     public static ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/question_block.png");
+    private boolean showIcon = false;
     private boolean initializedFromServer = false;
     private String questionBlockName = "";
     Button clockButton;
@@ -130,6 +131,9 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
                 graphics.blit(GUI, this.leftPos + 120, this.topPos + 46, 193, 113, 15, 16);
             else graphics.blit(GUI, this.leftPos + 120, this.topPos + 46, 177, 113, 15, 16);
         }
+
+        if (this.showIcon)
+            graphics.blit(GUI, this.leftPos + 83, this.topPos + 9, 177, 130, 60, 68);
     }
 
     @Override
@@ -147,6 +151,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
             this.secondsButton.visible = true;
             this.minuteButton.visible = true;
             this.hourButton.visible = true;
+            this.showIcon = false;
             if (this.menu.getRefillCountdown() <= -1) {
                 PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
                 PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, 5));
@@ -167,6 +172,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
             this.secondsButton.visible = false;
             this.minuteButton.visible = false;
             this.hourButton.visible = false;
+            this.showIcon = true;
             PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, -1));
         }).bounds(this.leftPos + 14, this.topPos + 45, 37, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.refill_on_button.narrate")).build();
@@ -265,6 +271,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
                 this.secondsButton.visible = true;
                 this.minuteButton.visible = true;
                 this.hourButton.visible = true;
+                this.showIcon = false;
             } else {
                 this.countdownBox.setVisible(false);
                 this.clockButton.visible = false;
@@ -275,6 +282,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
                 this.secondsButton.visible = false;
                 this.minuteButton.visible = false;
                 this.hourButton.visible = false;
+                this.showIcon = true;
             }
 
             this.initializedFromServer = true;
