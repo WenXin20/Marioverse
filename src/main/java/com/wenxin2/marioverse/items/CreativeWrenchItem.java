@@ -157,10 +157,13 @@ public class CreativeWrenchItem extends LinkerItem {
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.link_switch.line2"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.bind_switch"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.unlink_switch"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.right_click.unlink_switch.line2"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.unlink_switch"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.unlink_switch.line2"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.refill"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.refill.line2"));
 
-            warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.pipe"));
+            warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip." +
+                    "shift_right_click.pipe"));
             if (!ConfigRegistry.DISABLE_WARP_DOORS.get())
                 warpableText = warpableText.append(Component.translatable(this.getDescriptionId() + ".tooltip.shift_right_click.door"));
 
