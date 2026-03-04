@@ -86,8 +86,12 @@ public class QuestionBlockMenu extends AbstractContainerMenu {
         return this.data.get(0);
     }
 
-    public int getTimeUnit() {
+    public int getActiveRefillCountdown() {
         return this.data.get(1);
+    }
+
+    public int getTimeUnit() {
+        return this.data.get(2);
     }
 
     public int convertToTicks(int time) {

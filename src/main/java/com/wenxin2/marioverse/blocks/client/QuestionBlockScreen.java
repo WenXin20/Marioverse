@@ -20,6 +20,8 @@ import org.lwjgl.glfw.GLFW;
 
 public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMenu> {
     public static ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/question_block.png");
+    private boolean initializedFromServer = false;
+    private String questionBlockName = "";
     Button clockButton;
     Button confirmButton;
     Button hourButton;
@@ -30,8 +32,6 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
     Button ticksButton;
     EditBox countdownBox;
     Inventory inventory;
-    private String questionBlockName = "";
-    private boolean initializedFromServer = false;
 
     public QuestionBlockScreen(QuestionBlockMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -55,8 +55,28 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GUI);
 
+        int refillTicks = this.menu.getRefillCountdown();
+        int frameCount = 8;
+        int frameWidth = 16;
+        int startU = 0;
+        int frame = 0;
+
         // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture width, texture height
         graphics.blit(GUI, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+
+        if (refillTicks > 0 && this.minecraft != null && this.minecraft.level != null) {
+            long gameTime = this.minecraft.level.getGameTime();
+            int speed = Math.max(1, (int) (Math.sqrt(refillTicks) / 2));
+
+            frame = (int) ((gameTime / speed) % frameCount);
+        }
+        int uOffset = startU + (frame * frameWidth);
+
+        if (this.clockButton.visible) {
+            if (this.clockButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 143, this.topPos + 23, uOffset, 184, 16, 16);
+            else graphics.blit(GUI, this.leftPos + 143, this.topPos + 23, uOffset, 167, 16, 16);
+        }
 
         if (this.refillOffButton.visible) {
             if (this.refillOffButton.isHoveredOrFocused())
@@ -72,12 +92,6 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         if (this.countdownBox.visible)
             graphics.blit(GUI, this.leftPos + 57, this.topPos + 24, 177, 43, 78, 14);
-
-        if (this.clockButton.visible) {
-            if (this.clockButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 143, this.topPos + 23, 236, 58, 16, 16);
-            else graphics.blit(GUI, this.leftPos + 143, this.topPos + 23, 219, 58, 16, 16);
-        }
 
         if (this.confirmButton.visible) {
             if (this.confirmButton.isHoveredOrFocused())

@@ -64,7 +64,8 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         public int get(int index) {
             return switch (index) {
                 case 0 -> QuestionBlockEntity.this.getRefillCountdown();
-                case 1 -> QuestionBlockEntity.this.getTimeUnit();
+                case 1 -> QuestionBlockEntity.this.getActiveRefillCountdown();
+                case 2 -> QuestionBlockEntity.this.getTimeUnit();
                 default -> 0;
             };
         }
@@ -79,7 +80,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     };
 
@@ -340,6 +341,10 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
 
     public ContainerData getDataAccess() {
         return this.dataAccess;
+    }
+
+    public int getActiveRefillCountdown() {
+        return this.activeRefillCountdown;
     }
 
     public int getRefillCountdown() {
