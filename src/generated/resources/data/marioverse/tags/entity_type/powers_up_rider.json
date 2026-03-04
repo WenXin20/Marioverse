@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "automobility:automobile",
+      "required": false
+    },
+    {
+      "id": "automobility:hitbox",
+      "required": false
+    }
+  ]
+}

@@ -56,7 +56,12 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
+        LivingEntity rider = entity.getControllingPassenger();
+
+        if (entity.getType().is(TagRegistry.POWERS_UP_RIDER) && entity.hasControllingPassenger()
+                && rider instanceof AbilitiesHandler handler)
+            handler.applyFireFlowerPowerUp(this.level(), rider, this);
+        else if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
             handler.applyFireFlowerPowerUp(this.level(), livingEntity, this);
     }
 

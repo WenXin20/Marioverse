@@ -15,6 +15,8 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class EntityTypeTagsGen extends EntityTypeTagsProvider {
+    private static final ResourceLocation AUTOMOBILE = ResourceLocation.fromNamespaceAndPath("automobility", "automobile");
+    private static final ResourceLocation AUTOMOBILITY_HITBOX = ResourceLocation.fromNamespaceAndPath("automobility", "hitbox");
     private static final ResourceLocation FEMALE_VILLAGER = ResourceLocation.fromNamespaceAndPath("mca", "female_villager");
     private static final ResourceLocation FEMALE_ZOMBIE_VILLAGER = ResourceLocation.fromNamespaceAndPath("mca", "female_zombie_villager");
     private static final ResourceLocation GUARD_VILLAGER = ResourceLocation.fromNamespaceAndPath("guardvillagers", "guard");
@@ -765,6 +767,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.POKEY_CAN_ATTACK)
                 .add(EntityType.PLAYER);
 
+        tag(TagRegistry.POKEY_ENTITIES)
+                .add(EntityRegistry.POKEY.get())
+                .add(EntityRegistry.POKEY_BODY.get());
+
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())
                 .add(EntityRegistry.ICE_FLOWER.get())
@@ -774,9 +780,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_STAR.get());
 
-        tag(TagRegistry.POKEY_ENTITIES)
-                .add(EntityRegistry.POKEY.get())
-                .add(EntityRegistry.POKEY_BODY.get());
+        tag(TagRegistry.POWERS_UP_RIDER)
+                .addOptional(AUTOMOBILE)
+                .addOptional(AUTOMOBILITY_HITBOX);
 
         tag(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 

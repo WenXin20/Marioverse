@@ -108,6 +108,8 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
+        LivingEntity rider = entity.getControllingPassenger();
+
         if (!this.level().isClientSide) {
             ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
             long currentTime = System.currentTimeMillis();
@@ -117,7 +119,10 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
             }
             lastCollisionTime = currentTime;
 
-            if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
+            if (entity.getType().is(TagRegistry.POWERS_UP_RIDER) && entity.hasControllingPassenger()
+                    && rider instanceof AbilitiesHandler handler)
+                handler.applyOneUpMushroomPowerUp(this.level(), new ItemStack(item), rider, this);
+            else if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
                 handler.applyOneUpMushroomPowerUp(this.level(), new ItemStack(item), livingEntity, this);
         }
     }

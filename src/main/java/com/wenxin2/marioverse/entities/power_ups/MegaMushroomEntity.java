@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -52,7 +53,12 @@ public class MegaMushroomEntity extends MushroomEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
+        LivingEntity rider = entity.getControllingPassenger();
+
+        if (entity.getType().is(TagRegistry.POWERS_UP_RIDER) && entity.hasControllingPassenger()
+                && rider instanceof AbilitiesHandler handler)
+            handler.applyMegaMushroomPowerUp(this.level(), rider, this);
+        else if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
             handler.applyMegaMushroomPowerUp(this.level(), livingEntity, this);
     }
 }

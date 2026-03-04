@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -44,7 +45,13 @@ public class SuperMushroomEntity extends MushroomEntity implements GeoEntity {
 
     @Override
     public void collideWithEntity(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
+        LivingEntity rider = entity.getControllingPassenger();
+
+        if (entity.getType().is(TagRegistry.POWERS_UP_RIDER) && entity.hasControllingPassenger()
+                && rider instanceof AbilitiesHandler handler)
+            handler.applySuperMushroomPowerUp(this.level(), rider, this,
+                    ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+        else if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
             handler.applySuperMushroomPowerUp(this.level(), livingEntity, this,
                     ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
     }

@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-07T21:35:33.6231738	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-03-03T23:21:39.6423607	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -78,6 +78,7 @@ bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/mega_m
 ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranha_plant_can_attack.json
 45bbf1961986f223f34bd5fbba2dfde40ad2c7bc data/marioverse/tags/entity_type/pokeys.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/pokey_can_attack.json
+3fdbe399e74cdfab294d34a3728f54abf6fd0788 data/marioverse/tags/entity_type/powers_up_rider.json
 518cef0adc9df26d69ffb74b5da8c22b4434f2c5 data/marioverse/tags/entity_type/power_ups.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/question_block_cannot_spawn.json
 2eb29c378f829c66c7bb2f5d17150202594eca3e data/marioverse/tags/entity_type/red_koopa_shell_cannot_attack.json
