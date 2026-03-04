@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;
@@ -75,7 +76,9 @@ public class RedMushroomTrampolineBlock extends OnBlock implements ToggleableBlo
             if (level instanceof ServerLevel serverWorld && entity instanceof LivingEntity)
                 ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity,
                         entity.getBbWidth() / 2, 0.0, 3);
-            level.playSound(null, entity.blockPosition(), SoundRegistry.BLOCK_BOUNCE.get(), SoundSource.BLOCKS);
+            if (ConfigRegistry.PLAY_BOUNCE_SOUND.get())
+                level.playSound(null, entity.blockPosition(), SoundRegistry.BLOCK_BOUNCE.get(), SoundSource.BLOCKS);
+
             entity.resetFallDistance();
             entity.setDeltaMovement(vec3.x, newBounce, vec3.z);
         }

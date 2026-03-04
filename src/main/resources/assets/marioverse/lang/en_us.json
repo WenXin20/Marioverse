@@ -1525,6 +1525,7 @@
   "configuration.marioverse.one_up_heals_mobs": "Heals All Mobs",
   "configuration.marioverse.one_up_health_healed": "Health Healed",
   "configuration.marioverse.piranha_plant_hide_duration": "Hide Duration",
+  "configuration.marioverse.play_bounce_sound": "Play Bounce Sound",
   "configuration.marioverse.pokey_bloom_duration": "Bloom Duration",
   "configuration.marioverse.pokey_bloom_frequency": "Bloom Frequency",
   "configuration.marioverse.question_add_items": "Add Items in Survival",

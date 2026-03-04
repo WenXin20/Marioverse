@@ -129,6 +129,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue MINI_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue SUPER_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue PLAY_BOUNCE_SOUND;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_BUCKET_TWEAKS;
     public static ModConfigSpec.BooleanValue QUESTION_REMOVE_ITEMS;
@@ -563,6 +564,10 @@ public class ConfigRegistry {
                         .comment("§6[1 point = 1/2 Heart]")
                         .comment("§9[Default: 4.0]§b")
                                 .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
+                PLAY_BOUNCE_SOUND = BUILDER.translation("configuration.marioverse.play_bounce_sound")
+                        .comment("Plays a bounce sound when bouncing on mushroom blocks.")
+                        .comment("§9[Default: true]")
+                        .define("play_bounce_sound", true);
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_HOLIDAY);
