@@ -354,8 +354,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     }
 
     @Override
-    public boolean keyPressed(final int keyCode, final int b, final int c)
-    {
+    public boolean keyPressed(final int keyCode, final int b, final int c) {
         if (waterSpoutSlider.isFocused() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
             waterSpoutSliderOnPress();
             return false;

@@ -79,7 +79,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
     };
 

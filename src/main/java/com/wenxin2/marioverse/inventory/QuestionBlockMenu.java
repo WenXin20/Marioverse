@@ -1,10 +1,8 @@
 package com.wenxin2.marioverse.inventory;
 
-import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.MenuRegistry;
-import com.wenxin2.marioverse.registries.SoundRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -15,7 +13,6 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class QuestionBlockMenu extends AbstractContainerMenu {
@@ -111,10 +108,10 @@ public class QuestionBlockMenu extends AbstractContainerMenu {
         };
     }
 
-    public void playSound(SoundEvent soundEvent, SoundSource soundSource) {
-        this.getAccess().execute((level, pos) -> {
-            float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-            level.playSound(null, pos, soundEvent, soundSource, 1.0F, pitch);
-        });
+    public void playSound(SoundEvent soundEvent) {
+        if (Minecraft.getInstance().player != null) {
+            float pitch = 0.9F + Minecraft.getInstance().player.clientLevel.random.nextFloat() * 0.2F;
+            Minecraft.getInstance().player.playSound(soundEvent, 1.0F, pitch);
+        }
     }
 }

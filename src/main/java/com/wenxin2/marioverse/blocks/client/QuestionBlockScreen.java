@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -15,9 +14,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import org.lwjgl.glfw.GLFW;
 
@@ -136,8 +133,10 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
             this.secondsButton.visible = true;
             this.minuteButton.visible = true;
             this.hourButton.visible = true;
-            if (this.menu.getRefillCountdown() <= -1)
-                PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, 6000));
+            if (this.menu.getRefillCountdown() <= -1) {
+                PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
+                PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, 5));
+            }
         }).bounds(this.leftPos + 14, this.topPos + 45, 37, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.refill_off_button.narrate")).build();
         this.refillOffButton.setAlpha(0);
@@ -174,6 +173,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         final Component clockButton = Component.translatable("menu.marioverse.question_block.clock_button");
         this.clockButton = Button.builder(clockButton, button -> {
             this.confirmButtonOnPress();
+            this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
         }).bounds(this.leftPos + 143, this.topPos + 23, 16, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.clock_button.narrate")).build();
         this.clockButton.visible = false;
@@ -182,6 +182,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         final Component ticksButton = Component.translatable("menu.marioverse.question_block.ticks_button");
         this.ticksButton = Button.builder(ticksButton, button -> {
+            this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
         }).bounds(this.leftPos + 77, this.topPos + 46, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.ticks_button.narrate")).build();
@@ -191,6 +192,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         final Component secondsButton = Component.translatable("menu.marioverse.question_block.seconds_button");
         this.secondsButton = Button.builder(secondsButton, button -> {
+            this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
         }).bounds(this.leftPos + 92, this.topPos + 46, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.seconds_button.narrate")).build();
@@ -200,6 +202,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         final Component minuteButton = Component.translatable("menu.marioverse.question_block.minute_button");
         this.minuteButton = Button.builder(minuteButton, button -> {
+            this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
         }).bounds(this.leftPos + 106, this.topPos + 46, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.minute_button.narrate")).build();
@@ -209,6 +212,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         final Component hourButton = Component.translatable("menu.marioverse.question_block.hour_button");
         this.hourButton = Button.builder(hourButton, button -> {
+            this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
         }).bounds(this.leftPos + 120, this.topPos + 46, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.hour_button.narrate")).build();
@@ -219,6 +223,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         final Component confirmButton = Component.translatable("menu.marioverse.question_block.confirm_button");
         this.confirmButton = Button.builder(confirmButton, button -> {
             this.confirmButtonOnPress();
+            this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
         }).bounds(this.leftPos + 141, this.topPos + 43, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.confirm_button.narrate")).build();
         this.confirmButton.visible = false;
@@ -302,8 +307,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
     }
 
     @Override
-    public boolean keyPressed(final int keyCode, final int b, final int c)
-    {
+    public boolean keyPressed(final int keyCode, final int b, final int c) {
         if (this.countdownBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
                 || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
             if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
@@ -329,6 +333,5 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         if (this.minecraft != null && this.minecraft.getConnection() != null)
             PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, parsed));
-        this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get(), SoundSource.BLOCKS);
     }
 }
