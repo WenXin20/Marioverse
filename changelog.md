@@ -1,4 +1,4 @@
-## Changelog for Marioverse 1.7.2
+## Changelog for Marioverse 1.8.0
 - Add Creative Wrench
   - Links any 2 entities together for warping
   - Links On/Off Switches to toggleable blocks
