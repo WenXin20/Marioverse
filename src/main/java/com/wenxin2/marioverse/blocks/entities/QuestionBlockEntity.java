@@ -184,6 +184,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         this.item = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.setData(DataAttachmentRegistry.REFILL_COUNTDOWN.get(), input.getOrDefault(DataComponentRegistry.REFILL_COUNTDOWN.get(), -1));
+        this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT.get(), input.getOrDefault(DataComponentRegistry.REFILL_TIME_UNIT.get(), -1));
     }
 
     @Override
@@ -192,6 +193,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.item)));
         builder.set(DataComponents.CUSTOM_NAME, this.name);
         builder.set(DataComponentRegistry.REFILL_COUNTDOWN.get(), this.getData(DataAttachmentRegistry.REFILL_COUNTDOWN.get()));
+        builder.set(DataComponentRegistry.REFILL_TIME_UNIT.get(), this.getData(DataAttachmentRegistry.REFILL_TIME_UNIT.get()));
     }
 
     public ClientboundBlockEntityDataPacket getUpdatePacket() {

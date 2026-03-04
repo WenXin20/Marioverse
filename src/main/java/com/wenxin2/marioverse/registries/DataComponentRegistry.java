@@ -17,83 +17,72 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_BOUND =
-            Marioverse.COMPONENTS.register("is_bound",
-                    () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL)
-                            .networkSynchronized(ByteBufCodecs.BOOL).build());
+            Marioverse.COMPONENTS.register("is_bound", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_LINKED =
-            Marioverse.COMPONENTS.register("is_linked",
-                    () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL)
-                            .networkSynchronized(ByteBufCodecs.BOOL).build());
+            Marioverse.COMPONENTS.register("is_linked", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
-            Marioverse.COMPONENTS.register("linked_pos",
-                    () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC)
-                            .networkSynchronized(BlockPos.STREAM_CODEC).build());
+            Marioverse.COMPONENTS.register("linked_pos", () -> DataComponentType.<BlockPos>builder()
+                    .persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> LINKED_BLOCK =
-            Marioverse.COMPONENTS.register("linked_block",
-                    () -> DataComponentType.<String>builder().persistent(Codec.STRING)
-                            .networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+            Marioverse.COMPONENTS.register("linked_block", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Component>> PIPE_NAME =
-            Marioverse.COMPONENTS.register("pipe_name",
-                    () -> DataComponentType.<Component>builder().persistent(ComponentSerialization.FLAT_CODEC)
-                            .networkSynchronized(ComponentSerialization.STREAM_CODEC).cacheEncoding().build());
+            Marioverse.COMPONENTS.register("pipe_name", () -> DataComponentType.<Component>builder()
+                    .persistent(ComponentSerialization.FLAT_CODEC).networkSynchronized(ComponentSerialization.STREAM_CODEC)
+                    .cacheEncoding().build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> REFILL_COUNTDOWN =
-            Marioverse.COMPONENTS.register("refill_countdown",
-                    () -> DataComponentType.<Integer>builder().persistent(Codec.INT)
-                            .networkSynchronized(ByteBufCodecs.INT).build());
+            Marioverse.COMPONENTS.register("refill_countdown", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> REFILL_TIME_UNIT =
+            Marioverse.COMPONENTS.register("refill_time_unit", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> POS_X =
-            Marioverse.COMPONENTS.register("pos_x",
-                    () -> DataComponentType.<Integer>builder().persistent(Codec.INT)
-                            .networkSynchronized(ByteBufCodecs.INT).build());
+            Marioverse.COMPONENTS.register("pos_x", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> POS_Y =
-            Marioverse.COMPONENTS.register("pos_y",
-                    () -> DataComponentType.<Integer>builder().persistent(Codec.INT)
-                            .networkSynchronized(ByteBufCodecs.INT).build());
+            Marioverse.COMPONENTS.register("pos_y", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> POS_Z =
-            Marioverse.COMPONENTS.register("pos_z",
-                    () -> DataComponentType.<Integer>builder().persistent(Codec.INT)
-                            .networkSynchronized(ByteBufCodecs.INT).build());
+            Marioverse.COMPONENTS.register("pos_z", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_BLOCK =
-            Marioverse.COMPONENTS.register("warp_block",
-                    () -> DataComponentType.<WarpTarget>builder().persistent(WarpTarget.CODEC)
-                            .networkSynchronized(WarpTarget.STREAM_CODEC).build());
+            Marioverse.COMPONENTS.register("warp_block", () -> DataComponentType.<WarpTarget>builder()
+                    .persistent(WarpTarget.CODEC).networkSynchronized(WarpTarget.STREAM_CODEC).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_ENTITY =
-            Marioverse.COMPONENTS.register("warp_entity",
-                    () -> DataComponentType.<WarpTarget>builder().persistent(WarpTarget.CODEC)
-                            .networkSynchronized(WarpTarget.STREAM_CODEC).build());
+            Marioverse.COMPONENTS.register("warp_entity", () -> DataComponentType.<WarpTarget>builder()
+                    .persistent(WarpTarget.CODEC).networkSynchronized(WarpTarget.STREAM_CODEC).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_PAINTING =
-            Marioverse.COMPONENTS.register("warp_painting",
-                    () -> DataComponentType.<WarpTarget>builder().persistent(WarpTarget.CODEC)
-                            .networkSynchronized(WarpTarget.STREAM_CODEC).build());
+            Marioverse.COMPONENTS.register("warp_painting", () -> DataComponentType.<WarpTarget>builder()
+                    .persistent(WarpTarget.CODEC).networkSynchronized(WarpTarget.STREAM_CODEC).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> WARP_POS =
-            Marioverse.COMPONENTS.register("warp_pos",
-                    () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC)
-                            .networkSynchronized(BlockPos.STREAM_CODEC).build());
+            Marioverse.COMPONENTS.register("warp_pos", () -> DataComponentType.<BlockPos>builder()
+                    .persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GlobalPos>> GLOBAL_WARP_POS =
-            Marioverse.COMPONENTS.register("global_warp_pos",
-                    () -> DataComponentType.<GlobalPos>builder().persistent(GlobalPos.CODEC)
-                            .networkSynchronized(GlobalPos.STREAM_CODEC).build());
+            Marioverse.COMPONENTS.register("global_warp_pos", () -> DataComponentType.<GlobalPos>builder()
+                    .persistent(GlobalPos.CODEC).networkSynchronized(GlobalPos.STREAM_CODEC).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> WARP_DIMENSION =
-            Marioverse.COMPONENTS.register("warp_dimension",
-                    () -> DataComponentType.<String>builder().persistent(Codec.STRING)
-                            .networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+            Marioverse.COMPONENTS.register("warp_dimension", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> WARP_UUID =
-            Marioverse.COMPONENTS.register("warp_uuid",
-                    () -> DataComponentType.<UUID>builder().persistent(UUIDUtil.CODEC)
-                            .networkSynchronized(UUIDUtil.STREAM_CODEC).build());
+            Marioverse.COMPONENTS.register("warp_uuid", () -> DataComponentType.<UUID>builder()
+                    .persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).build());
 
     public static void init() {}
 
