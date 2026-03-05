@@ -1,9 +1,13 @@
-## Changelog for Marioverse 1.8.0
+## Update 1.8.1
+- Fix crash if operator tab is disabled
+
+## Previous Creative Update 1.8.0
 - Add Creative Wrench
   - Links any 2 entities together for warping
   - Links On/Off Switches to toggleable blocks
   - Opens ? Block, Invisible ? Block, or Storage Bricks GUI
 - Add new GUI to set a refill timer for ? Blocks, Invisible ? Blocks, or Storage Bricks
+  - Set a refill timer using ticks, seconds, minutes, or hours
 - Add new wrench sounds
 - Add Immersive Paintings support for warping
 - Add Twilight Forest magic painting support for warping
