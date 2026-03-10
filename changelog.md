@@ -6,6 +6,7 @@
 - Fix overriding default shears behaviors
 - Fix crash with dispensers shearing pokeys
 - Fix dotted-line blocks letting light through when solid
+- Fix ice flower power up ice balls breaking waterlogged blocks
 
 ## Update 1.8.1
 - Fix crash if operator tab is disabled
