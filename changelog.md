@@ -3,6 +3,7 @@
 - Add dispenser behavior for shearing carrots from Show Pokeys
 - Add dispenser behavior for shearing Splunkins
 - Add ability to shear Splunkins to change its look
+- Add tooltip to piranha plant pod (Placeable in flower pots)
 - Fix overriding default shears behaviors
 - Fix crash with dispensers shearing pokeys
 - Fix dotted-line blocks letting light through when solid
