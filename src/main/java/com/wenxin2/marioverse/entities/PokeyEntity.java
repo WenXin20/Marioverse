@@ -451,12 +451,14 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
         }
 
         if (headEntity != this && headEntity instanceof NeutralMob neutralMob) {
-            neutralMob.setPersistentAngerTarget(player.getUUID());
+            if (player != null)
+                neutralMob.setPersistentAngerTarget(player.getUUID());
             neutralMob.startPersistentAngerTimer();
             neutralMob.setTarget(player);
         }
 
-        this.setPersistentAngerTarget(player.getUUID());
+        if (player != null)
+            this.setPersistentAngerTarget(player.getUUID());
         this.startPersistentAngerTimer();
         this.setTarget(player);
 

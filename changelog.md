@@ -1,5 +1,6 @@
 ## Update 1.8.2
 - Fix overriding default shears behaviors
+- Fix crash with dispensers shearing pokeys
 
 ## Update 1.8.1
 - Fix crash if operator tab is disabled
