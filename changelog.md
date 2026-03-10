@@ -1,4 +1,8 @@
 ## Update 1.8.2
+- Add dispenser behavior for equipping carrots from Show Pokeys
+- Add dispenser behavior for shearing carrots from Show Pokeys
+- Add dispenser behavior for shearing Splunkins
+- Add ability to shear Splunkins to change it's look
 - Fix overriding default shears behaviors
 - Fix crash with dispensers shearing pokeys
 

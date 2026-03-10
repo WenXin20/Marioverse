@@ -280,14 +280,12 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_CARROT)) {
             world.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.setData(DataAttachmentRegistry.HAS_CARROT, false);
-            this.spawnShearedDrop(world, pos, new ItemStack(Items.CARROT));
             finalDrops.add(new ItemStack(Items.CARROT));
         }
 
         if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_GOLDEN_CARROT)) {
             world.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.setData(DataAttachmentRegistry.HAS_GOLDEN_CARROT, false);
-            this.spawnShearedDrop(world, pos, new ItemStack(Items.GOLDEN_CARROT));
             finalDrops.add(new ItemStack(Items.GOLDEN_CARROT));
         }
         return finalDrops;

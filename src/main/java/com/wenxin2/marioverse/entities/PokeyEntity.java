@@ -441,7 +441,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
                 && !(this instanceof PokeyBodyEntity)) {
             world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
-            this.spawnShearedDrop(world, pos, new ItemStack(BlockRegistry.DANGO_BLOSSOM));
             finalDrops.add(new ItemStack(BlockRegistry.DANGO_BLOSSOM));
         }
 
