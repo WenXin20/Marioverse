@@ -7,13 +7,20 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -24,6 +31,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -37,6 +45,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -44,6 +53,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.IShearable;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -56,7 +66,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
+public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob, IShearable {
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
     @Nullable private UUID persistentAngerTarget;
@@ -85,6 +95,11 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     @Override
     protected SoundEvent getDeathSound() {
         return SoundRegistry.SPLUNKIN_DEATH.get();
+    }
+
+    @NotNull
+    public BlockParticleOption getShatterParticle() {
+        return new BlockParticleOption(ParticleTypes.BLOCK, BlockRegistry.SPLUNKIN_O_LANTERN.get().defaultBlockState());
     }
 
     @Override
@@ -172,8 +187,10 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     public boolean hurt(DamageSource source, float amount) {
         boolean wasHurt = super.hurt(source, amount);
 
-        if (wasHurt && !this.isNoAi() && !this.getData(DataAttachmentRegistry.CRACKED))
+        if (wasHurt && !this.isNoAi() && !this.getData(DataAttachmentRegistry.CRACKED)) {
             this.setData(DataAttachmentRegistry.CRACKED, true);
+            this.playDeathAnimation(this);
+        }
         return wasHurt;
     }
 
@@ -273,8 +290,29 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob {
     }
 
     @NotNull
-    public BlockParticleOption getShatterParticle() {
-        return new BlockParticleOption(ParticleTypes.BLOCK, BlockRegistry.SPLUNKIN_O_LANTERN.get().defaultBlockState());
+    @Override
+    public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
+        List<ItemStack> defaultDrops = IShearable.super.onSheared(player, stack, world, pos);
+        List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
+
+        if (!this.getData(DataAttachmentRegistry.CRACKED)) {
+            this.setData(DataAttachmentRegistry.CRACKED, true);
+            this.playSound(SoundRegistry.SPLUNKIN_CRACKS.get());
+            this.playDeathAnimation(this);
+        }
+
+        if (player != null)
+            this.setPersistentAngerTarget(player.getUUID());
+        this.startPersistentAngerTimer();
+        this.setTarget(player);
+
+        return finalDrops;
+    }
+
+    @Override
+    public boolean isShearable(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
+        return IShearable.super.isShearable(player, stack, world, pos)
+                && this.isAlive() && !this.getData(DataAttachmentRegistry.CRACKED);
     }
 
     public void playDeathAnimation(Entity entity) {

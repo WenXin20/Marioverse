@@ -964,9 +964,10 @@
   "item.marioverse.piranha_plant_pod.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.piranha_plant_pod.tooltip.line1": "§2Right-click:",
   "item.marioverse.piranha_plant_pod.tooltip.line2": " §7• Spawns a tamed pet",
-  "item.marioverse.piranha_plant_pod.tooltip.line3": "§9Ability:",
-  "item.marioverse.piranha_plant_pod.tooltip.line4": " §7• Chomps on §4hostiles",
-  "item.marioverse.piranha_plant_pod.tooltip.line5": " §7• Feed it meat, bone meal, or live mobs",
+  "item.marioverse.piranha_plant_pod.tooltip.line3": " §7• Place in a flower pot",
+  "item.marioverse.piranha_plant_pod.tooltip.line4": "§9Ability:",
+  "item.marioverse.piranha_plant_pod.tooltip.line5": " §7• Chomps on §4hostile mobs",
+  "item.marioverse.piranha_plant_pod.tooltip.line6": " §7• Feed it meat, bone meal, or living mobs",
 
   "item.marioverse.plastic_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_bucket.tooltip.line1": "§2Right-click:",

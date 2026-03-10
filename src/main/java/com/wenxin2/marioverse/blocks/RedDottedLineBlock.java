@@ -57,6 +57,11 @@ public class RedDottedLineBlock extends OnBlock implements SimpleWaterloggedBloc
     }
 
     @Override
+    protected int getLightBlock(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return state.getValue(ACTIVE) ? 15 : 0;
+    }
+
+    @Override
     protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
         if (!state.getValue(ACTIVE))
             return 1.0F;

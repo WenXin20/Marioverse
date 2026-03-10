@@ -1,4 +1,13 @@
 ## Update 1.8.2
+- Add dispenser behavior for equipping carrots on Show Pokeys
+- Add dispenser behavior for shearing carrots from Show Pokeys
+- Add dispenser behavior for shearing Splunkins
+- Add ability to shear Splunkins to change its look
+- Add tooltip to piranha plant pod (Placeable in flower pots)
+- Fix overriding default shears behaviors
+- Fix crash with dispensers shearing pokeys
+- Fix dotted-line blocks letting light through when solid
+- Fix ice flower power up ice balls breaking waterlogged blocks
 
 ## Update 1.8.1
 - Fix crash if operator tab is disabled

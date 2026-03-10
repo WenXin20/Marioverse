@@ -441,7 +441,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
                 && !(this instanceof PokeyBodyEntity)) {
             world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
-            this.spawnShearedDrop(world, pos, new ItemStack(BlockRegistry.DANGO_BLOSSOM));
             finalDrops.add(new ItemStack(BlockRegistry.DANGO_BLOSSOM));
         }
 
@@ -451,12 +450,14 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
         }
 
         if (headEntity != this && headEntity instanceof NeutralMob neutralMob) {
-            neutralMob.setPersistentAngerTarget(player.getUUID());
+            if (player != null)
+                neutralMob.setPersistentAngerTarget(player.getUUID());
             neutralMob.startPersistentAngerTimer();
             neutralMob.setTarget(player);
         }
 
-        this.setPersistentAngerTarget(player.getUUID());
+        if (player != null)
+            this.setPersistentAngerTarget(player.getUUID());
         this.startPersistentAngerTimer();
         this.setTarget(player);
 

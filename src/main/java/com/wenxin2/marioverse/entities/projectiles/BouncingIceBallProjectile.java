@@ -26,6 +26,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -171,20 +172,25 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
         this.remove(RemovalReason.DISCARDED); // Despawn on side hit
     }
 
-    protected void onHitFluid(Level world, BlockPos pos) {
-        FluidState fluidState = world.getFluidState(pos);
-        FluidState fluidStateBelow = world.getFluidState(pos.below());
-        BlockState state = world.getBlockState(pos);
+    protected void onHitFluid(Level level, BlockPos pos) {
+        BlockPos posBelow = pos.below();
+        BlockState stateBelow = level.getBlockState(posBelow);
+        FluidState fluidState = level.getFluidState(pos);
+        FluidState fluidBelow = level.getFluidState(posBelow);
 
-        if (fluidStateBelow.getType().is(TagRegistry.FREEZES_INTO_FROSTED_ICE)) {
-            if (fluidStateBelow.getType() == Fluids.WATER && fluidState.getType() != Fluids.WATER && state.canBeReplaced())
-                world.setBlock(pos.below(), Blocks.FROSTED_ICE.defaultBlockState(), 3);
-        } else if (fluidStateBelow.getType().is(TagRegistry.FREEZES_INTO_OBSIDIAN)) {
-            world.setBlock(pos.below(), Blocks.OBSIDIAN.defaultBlockState(), 3);
-            this.discardEffects(world);
-        } else if (fluidStateBelow.getType().is(TagRegistry.FREEZES_INTO_COBBLESTONE)) {
-            world.setBlock(pos.below(), Blocks.COBBLESTONE.defaultBlockState(), 3);
-            this.discardEffects(world);
+        boolean waterlogged = stateBelow.hasProperty(BlockStateProperties.WATERLOGGED)
+                && stateBelow.getValue(BlockStateProperties.WATERLOGGED);
+        boolean waterAbove = fluidState.is(FluidTags.WATER);
+
+        if (fluidBelow.is(TagRegistry.FREEZES_INTO_FROSTED_ICE)) {
+            if (!waterAbove && !waterlogged && stateBelow.canBeReplaced())
+                level.setBlock(posBelow, Blocks.FROSTED_ICE.defaultBlockState(), 3);
+        } else if (fluidBelow.is(TagRegistry.FREEZES_INTO_OBSIDIAN)) {
+            level.setBlock(posBelow, Blocks.OBSIDIAN.defaultBlockState(), 3);
+            this.discardEffects(level);
+        } else if (fluidBelow.is(TagRegistry.FREEZES_INTO_COBBLESTONE)) {
+            level.setBlock(posBelow, Blocks.COBBLESTONE.defaultBlockState(), 3);
+            this.discardEffects(level);
         }
     }
 
