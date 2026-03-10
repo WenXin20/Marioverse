@@ -96,40 +96,40 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         if (this.confirmButton.visible) {
             if (this.confirmButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 141, this.topPos + 43, 198, 58, 20, 20);
-            else graphics.blit(GUI, this.leftPos + 141, this.topPos + 43, 177, 58, 20, 20);
+                graphics.blit(GUI, this.leftPos + 141, this.topPos + 45, 198, 58, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 141, this.topPos + 45, 177, 58, 20, 20);
         }
 
         if (this.ticksButton.visible) {
             if (this.menu.getTimeUnit() == 0)
-                graphics.blit(GUI, this.leftPos + 77, this.topPos + 46, 209, 79, 15, 16);
+                graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 209, 79, 15, 16);
             else if (this.ticksButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 77, this.topPos + 46, 193, 79, 15, 16);
-            else graphics.blit(GUI, this.leftPos + 77, this.topPos + 46, 177, 79, 15, 16);
+                graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 193, 79, 15, 16);
+            else graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 177, 79, 15, 16);
         }
 
         if (this.secondsButton.visible) {
             if (this.menu.getTimeUnit() == 1)
-                graphics.blit(GUI, this.leftPos + 92, this.topPos + 46, 207, 96, 14, 16);
+                graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 207, 96, 14, 16);
             else if (this.secondsButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 92, this.topPos + 46, 192, 96, 14, 16);
-            else graphics.blit(GUI, this.leftPos + 92, this.topPos + 46, 177, 96, 14, 16);
+                graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 192, 96, 14, 16);
+            else graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 177, 96, 14, 16);
         }
 
         if (this.minuteButton.visible) {
             if (this.menu.getTimeUnit() == 2)
-                graphics.blit(GUI, this.leftPos + 106, this.topPos + 46, 207, 96, 14, 16);
+                graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 207, 96, 14, 16);
             else if (this.minuteButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 106, this.topPos + 46, 192, 96, 14, 16);
-            else graphics.blit(GUI, this.leftPos + 106, this.topPos + 46, 177, 96, 14, 16);
+                graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 192, 96, 14, 16);
+            else graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 177, 96, 14, 16);
         }
 
         if (this.hourButton.visible) {
             if (this.menu.getTimeUnit() == 3)
-                graphics.blit(GUI, this.leftPos + 120, this.topPos + 46, 209, 113, 15, 16);
+                graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 209, 113, 15, 16);
             else if (this.hourButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 120, this.topPos + 46, 193, 113, 15, 16);
-            else graphics.blit(GUI, this.leftPos + 120, this.topPos + 46, 177, 113, 15, 16);
+                graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 193, 113, 15, 16);
+            else graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 177, 113, 15, 16);
         }
 
         if (this.showIcon)
