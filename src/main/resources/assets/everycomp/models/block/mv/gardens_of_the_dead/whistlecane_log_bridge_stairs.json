@@ -8,7 +8,7 @@
 		"top": "gardens_of_the_dead:block/whistlecane_block_top",
 		"rope": "marioverse:block/bridge_rope",
 		"rope_side": "marioverse:block/bridge_rope_side",
-        "particle": "#side"
+		"particle": "#side"
 	},
 	"elements": [
 		{
@@ -18,7 +18,7 @@
 			"faces": {
 				"north": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "north"},
 				"east": {"uv": [0, 0, 3, 16], "rotation": 270, "texture": "#side"},
-				"south": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "north"},
+				"south": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "south"},
 				"west": {"uv": [0, 0, 3, 16], "rotation": 90, "texture": "#side"},
 				"up": {"uv": [0, 0, 3, 16], "rotation": 180, "texture": "#side", "cullface": "up"},
 				"down": {"uv": [0, 0, 3, 16], "texture": "#side"}
@@ -44,7 +44,7 @@
 			"faces": {
 				"north": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "north"},
 				"east": {"uv": [12, 0, 15, 16], "rotation": 270, "texture": "#side"},
-				"south": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "north"},
+				"south": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "south"},
 				"west": {"uv": [12, 0, 15, 16], "rotation": 90, "texture": "#side"},
 				"up": {"uv": [12, 0, 15, 16], "rotation": 180, "texture": "#side"},
 				"down": {"uv": [12, 0, 15, 16], "texture": "#side", "cullface": "down"}

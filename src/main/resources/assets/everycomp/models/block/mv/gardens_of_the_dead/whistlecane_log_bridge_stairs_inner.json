@@ -9,7 +9,7 @@
 		"rope": "marioverse:block/bridge_rope",
 		"rope_side": "marioverse:block/bridge_rope_side",
 		"rope_knot": "marioverse:block/bridge_rope_knot",
-        "particle": "#side"
+		"particle": "#side"
 	},
 	"elements": [
 		{
@@ -58,7 +58,7 @@
 			"faces": {
 				"north": {"uv": [0, 4, 3, 16], "rotation": 270, "texture": "#side"},
 				"south": {"uv": [0, 4, 3, 16], "rotation": 90, "texture": "#side"},
-				"west": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "north"},
+				"west": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "west"},
 				"up": {"uv": [0, 4, 3, 16], "rotation": 90, "texture": "#side", "cullface": "up"},
 				"down": {"uv": [0, 4, 3, 16], "rotation": 90, "texture": "#side"}
 			}
@@ -82,7 +82,7 @@
 			"faces": {
 				"north": {"uv": [12, 15, 15, 16], "rotation": 270, "texture": "#side"},
 				"south": {"uv": [12, 15, 15, 16], "rotation": 90, "texture": "#side"},
-				"west": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "north"},
+				"west": {"uv": [0, 8, 3, 11], "texture": "#top", "cullface": "west"},
 				"up": {"uv": [12, 15, 15, 16], "rotation": 90, "texture": "#side"},
 				"down": {"uv": [12, 15, 15, 16], "rotation": 90, "texture": "#side", "cullface": "down"}
 			}
