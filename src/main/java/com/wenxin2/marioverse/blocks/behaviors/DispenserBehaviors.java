@@ -73,7 +73,8 @@ public class DispenserBehaviors {
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, dispensePlasticBucketBehavior);
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_WATER_BUCKET, dispensePlasticBucketBehavior);
 
-        DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_BUCKET, new DefaultDispenseItemBehavior() {
+        DispenseItemBehavior plasticBucketBehavior = DispenserBlock.DISPENSER_REGISTRY.get(ItemRegistry.PLASTIC_BUCKET.get());
+        DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_BUCKET.get(), new DefaultDispenseItemBehavior() {
             @NotNull
             @Override
             public ItemStack execute(BlockSource blockSource, ItemStack stack) {
@@ -83,7 +84,7 @@ public class DispenserBehaviors {
                 BlockState state = level.getBlockState(pos);
 
                 if (!(state.getBlock() instanceof BucketPickup bucketPickup))
-                    return super.execute(blockSource, stack);
+                    return plasticBucketBehavior.dispense(blockSource, stack);
 
                 ItemStack newStack;
                 if (state.is(BlockRegistry.QUICKSAND.get()))
@@ -105,7 +106,7 @@ public class DispenserBehaviors {
                         bucketPickup.pickupBlock(null, level, pos, state);
 
                 if (vanillaResult.isEmpty())
-                    return super.execute(blockSource, stack);
+                    return plasticBucketBehavior.dispense(blockSource, stack);
 
                 level.gameEvent(null, GameEvent.FLUID_PICKUP, pos);
 
@@ -113,6 +114,7 @@ public class DispenserBehaviors {
             }
         });
 
+        DispenseItemBehavior bucketBehavior = DispenserBlock.DISPENSER_REGISTRY.get(Items.BUCKET);
         DispenserBlock.registerBehavior(Items.BUCKET, new DefaultDispenseItemBehavior() {
             @NotNull
             @Override
@@ -123,7 +125,7 @@ public class DispenserBehaviors {
                 BlockState state = level.getBlockState(pos);
 
                 if (!(state.getBlock() instanceof BucketPickup bucketPickup))
-                    return super.execute(blockSource, stack);
+                    return bucketBehavior.dispense(blockSource, stack);
 
                 ItemStack newStack;
                 if (state.is(BlockRegistry.PIPE_BUBBLES))
@@ -138,7 +140,7 @@ public class DispenserBehaviors {
                         bucketPickup.pickupBlock(null, level, pos, state);
 
                 if (vanillaResult.isEmpty())
-                    return super.execute(blockSource, stack);
+                    return bucketBehavior.dispense(blockSource, stack);
 
                 level.gameEvent(null, GameEvent.FLUID_PICKUP, pos);
 
@@ -150,7 +152,7 @@ public class DispenserBehaviors {
             @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
-                Level world = source.level();
+                ServerLevel world = source.level();
                 BlockPos blockpos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
                 CarvedPumpkinBlock carvedPumpkinBlock = (CarvedPumpkinBlock)BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get();
                 if (world.isEmptyBlock(blockpos)) {
@@ -166,10 +168,12 @@ public class DispenserBehaviors {
             }
         });
 
+        DispenseItemBehavior pieBehavior = DispenserBlock.DISPENSER_REGISTRY.get(Items.PUMPKIN_PIE);
         DispenserBlock.registerBehavior(Items.PUMPKIN_PIE, new OptionalDispenseItemBehavior() {
+            @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
-                Level world = source.level();
+                ServerLevel world = source.level();
                 Direction facing = source.state().getValue(DispenserBlock.FACING);
                 BlockPos targetPos = source.pos().relative(facing);
                 BlockState targetState = world.getBlockState(targetPos);
@@ -179,13 +183,16 @@ public class DispenserBehaviors {
                         world.setBlock(targetPos, targetState.setValue(SplunkinCarvedPumpkinBlock.CRACKED, false), 3);
                         world.playSound(null, targetPos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS);
                         stack.shrink(1);
+                        return stack;
                     }
                 }
-                return stack;
+                return pieBehavior.dispense(source, stack);
             }
         });
 
+        DispenseItemBehavior shearsBehavior = DispenserBlock.DISPENSER_REGISTRY.get(Items.SHEARS);
         DispenserBlock.registerBehavior(Items.SHEARS, new OptionalDispenseItemBehavior() {
+            @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
                 ServerLevel world = source.level();
@@ -199,9 +206,10 @@ public class DispenserBehaviors {
                         world.levelEvent(null, 2001, targetPos, Block.getId(targetState));
                         world.playSound(null, targetPos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS);
                         stack.hurtAndBreak(1, world, null, item -> {});
+                        return stack;
                     }
                 }
-                return stack;
+                return shearsBehavior.dispense(source, stack);
             }
         });
     }
