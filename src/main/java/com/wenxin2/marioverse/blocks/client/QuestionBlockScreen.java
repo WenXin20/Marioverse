@@ -204,7 +204,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.ticksButton = Button.builder(ticksButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
-        }).bounds(this.leftPos + 77, this.topPos + 46, 15, 16)
+        }).bounds(this.leftPos + 77, this.topPos + 48, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.ticks_button.narrate")).build();
         this.ticksButton.visible = false;
         this.ticksButton.setAlpha(0);
@@ -214,7 +214,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.secondsButton = Button.builder(secondsButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
-        }).bounds(this.leftPos + 92, this.topPos + 46, 14, 16)
+        }).bounds(this.leftPos + 92, this.topPos + 48, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.seconds_button.narrate")).build();
         this.secondsButton.visible = false;
         this.secondsButton.setAlpha(0);
@@ -224,7 +224,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.minuteButton = Button.builder(minuteButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
-        }).bounds(this.leftPos + 106, this.topPos + 46, 14, 16)
+        }).bounds(this.leftPos + 106, this.topPos + 48, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.minute_button.narrate")).build();
         this.minuteButton.visible = false;
         this.minuteButton.setAlpha(0);
@@ -234,7 +234,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.hourButton = Button.builder(hourButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
-        }).bounds(this.leftPos + 120, this.topPos + 46, 15, 16)
+        }).bounds(this.leftPos + 120, this.topPos + 48, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.hour_button.narrate")).build();
         this.hourButton.visible = false;
         this.hourButton.setAlpha(0);
@@ -244,7 +244,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.confirmButton = Button.builder(confirmButton, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
-        }).bounds(this.leftPos + 141, this.topPos + 43, 20, 20)
+        }).bounds(this.leftPos + 141, this.topPos + 45, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.confirm_button.narrate")).build();
         this.confirmButton.visible = false;
         this.confirmButton.setAlpha(0);
