@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
@@ -109,6 +110,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> BLOCK_SPAWNER;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
@@ -391,6 +393,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
 
     static {
+        BLOCK_SPAWNER = registerBlock("block_spawner",
+                () -> new BlockSpawnerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPAWNER)
+                        .sound(SoundType.TRIAL_SPAWNER)));
+
         STAR_COIN = registerNoItemBlock("star_coin",
                 () -> new StarCoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(MarioverseSoundTypes.COIN_TYPE).instrument(NoteBlockInstrument.CHIME)

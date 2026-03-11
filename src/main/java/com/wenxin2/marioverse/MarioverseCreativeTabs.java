@@ -386,6 +386,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
             add(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE);
             add(event, BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE);
+            add(event, BlockRegistry.BLOCK_SPAWNER);
 
             add(event, BlockRegistry.CLEAR_WARP_PIPE);
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
@@ -505,6 +506,7 @@ public class MarioverseCreativeTabs {
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
             if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS && event.hasPermissions()) {
                 addAfter(event, Items.DEBUG_STICK, ItemRegistry.CREATIVE_WRENCH);
+                addAfter(event, Blocks.STRUCTURE_BLOCK, BlockRegistry.BLOCK_SPAWNER);
             }
 
             if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {

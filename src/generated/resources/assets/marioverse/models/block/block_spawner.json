@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "bottom": "marioverse:block/block_spawner_top",
+    "side": "marioverse:block/block_spawner",
+    "top": "marioverse:block/block_spawner_top"
+  }
+}

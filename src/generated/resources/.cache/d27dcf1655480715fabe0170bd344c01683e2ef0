@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-18T21:30:39.9884035	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-03-10T20:24:12.4749309	Tags for minecraft:block mod id marioverse
 5da29bc8b8966a38906778028de85c2f8c063500 data/create/tags/block/brittle.json
 12e14990226d91dbf1cca1399bc61cdcf33fe084 data/create/tags/block/copycat_allow.json
 87eff3d2a1de7c229b6ddaec87b861e07798b44a data/create/tags/block/movable_empty_collider.json
@@ -80,7 +80,7 @@ d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_effic
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
 f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
-28871dc9b409efe6bfd0d537e215a304ccfdfb96 data/minecraft/tags/block/features_cannot_replace.json
+fa799ad2e74cffc00f687233018c4f3055eb0e20 data/minecraft/tags/block/features_cannot_replace.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
 ec9415c11c813735ff73b20f0d88b7ebdb8cf59b data/minecraft/tags/block/flower_pots.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
@@ -88,7 +88,7 @@ ec9415c11c813735ff73b20f0d88b7ebdb8cf59b data/minecraft/tags/block/flower_pots.j
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
 33888c331b3878eaceb10bc26f26e4b6c91b82a4 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-c325230c683d3bd82424361eab4652bfe5a614fd data/minecraft/tags/block/mineable/pickaxe.json
+2b78793577b6473380d0cff1902b024ca34122cf data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
 648abb645b702128eae0df287c7a5c1decf5fd06 data/minecraft/tags/block/needs_stone_tool.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json

@@ -643,7 +643,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
-                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS);
+                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.FLOWER_POTS)
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
@@ -806,6 +807,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.BLOCK_SPAWNER.get())
                 .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILES.get())

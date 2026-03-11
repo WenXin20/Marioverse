@@ -54,6 +54,7 @@ public class BlockStateGen extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        String blockSpawnerName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLOCK_SPAWNER.get()).getPath();
         String blueBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get()).getPath();
         String blueMushroomTrampolineName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get()).getPath();
         String blueTrampolineCapName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()).getPath();
@@ -82,6 +83,8 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
+        this.cubeBottomTopCutoutModel(BlockRegistry.BLOCK_SPAWNER.get(), modLoc("block/" + blockSpawnerName + "_top"),
+                modLoc("block/" + blockSpawnerName), modLoc("block/" + blockSpawnerName + "_top"));
         this.cubeInnerOverlayModel(BlockRegistry.QUICKSAND.get(), modLoc("block/" + quicksandName + "_top"),
                 modLoc("block/" + quicksandName), modLoc("block/" + quicksandName + "_top"));
         this.cubeInnerOverlayModel(BlockRegistry.RED_QUICKSAND.get(), modLoc("block/" + redQuicksandName + "_top"),
@@ -898,6 +901,20 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("bottom", bottomTexture)
                 .texture("side", sideTexture)
                 .texture("top", topTexture);
+
+        simpleBlockWithItem(block, model);
+    }
+
+    private void cubeBottomTopCutoutModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                    ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
+                .texture("bottom", bottomTexture)
+                .texture("side", sideTexture)
+                .texture("top", topTexture)
+                .renderType("cutout_mipped");
 
         simpleBlockWithItem(block, model);
     }

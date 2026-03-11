@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-18T21:30:39.9516082	Block States: marioverse
+// 1.21.1	2026-03-10T20:40:32.76282	Block States: marioverse
 d1717a729a26a5dd7dafa52989ecc31e34effcd1 assets/marioverse/blockstates/acacia_log_bridge.json
 e4d20594d7136755ae656526e1cf307ac2049b4b assets/marioverse/blockstates/acacia_log_bridge_stairs.json
 7c32ff27f393505c89f7874c143df872c7ec1353 assets/marioverse/blockstates/amethyst_bricks.json
@@ -25,6 +25,7 @@ cf9f884b897cfddf4f54dd8422f619f2a9312125 assets/marioverse/blockstates/black_cal
 0ae031da0075fc7a9b940021a4aa12f8c5f51d03 assets/marioverse/blockstates/black_goal_pole.json
 cb5b5195500adddba30b3898c36580c65d6ff072 assets/marioverse/blockstates/black_pipe_junction.json
 90c85b509eaa7c7e26f6b345208b0c5b89fbcab1 assets/marioverse/blockstates/black_warp_pipe.json
+82567751523f498340333a69013641f6fb149a31 assets/marioverse/blockstates/block_spawner.json
 144604cf6f810bb33142ccd1720b2dda0f5226cb assets/marioverse/blockstates/blue_calcite.json
 edccda0bca99360599dbb0b20d2c98b7a2f8c571 assets/marioverse/blockstates/blue_calcite_bricks.json
 f93d76e72d7ad665bf8fbf7534a8c489bcfef51b assets/marioverse/blockstates/blue_calcite_brick_pedestal.json
@@ -522,6 +523,7 @@ aa78e875eab2f767868975fb4e6b4b9ecc3cac91 assets/marioverse/models/block/black_ca
 cecfd182eac9d5389d01fddd512fe3521d30a8d7 assets/marioverse/models/block/black_warp_pipe.json
 b627e0777fd4af33e1c4e7cd41df07a14284fb40 assets/marioverse/models/block/black_warp_pipe_entrance.json
 6a0eeb0c7550695654698d78c7f91eb437ea261f assets/marioverse/models/block/black_warp_pipe_entrance_closed.json
+0f22d46ba3613e035efdc481a99164104753cdf4 assets/marioverse/models/block/block_spawner.json
 958fb0ee0ace19fddebb8983fec382088d156ab8 assets/marioverse/models/block/blue_calcite.json
 a0ef8868708af5becca20ad15704cf5ed4f8e39f assets/marioverse/models/block/blue_calcite_bricks.json
 d7115d846966c3efc66f2a41da912946ee0c594e assets/marioverse/models/block/blue_calcite_brick_pedestal.json
@@ -1317,6 +1319,7 @@ e80c3110167553b350c9c33172048b73a5f7b735 assets/marioverse/models/item/blackston
 09f7c5ec8e4270d5afa1853c3dcaaddb7caee704 assets/marioverse/models/item/black_calcite_brick_pedestal.json
 5fdd9ce3a5a6c72a2a99cc35b0ee4ce87266157c assets/marioverse/models/item/black_pipe_junction.json
 7dca13d14209e3c4359aefdbe4244b8f95d4af1e assets/marioverse/models/item/black_warp_pipe.json
+57afde6d2c2716a169de0ab9200f1614c00f651e assets/marioverse/models/item/block_spawner.json
 56693740eff7d6f1b69bdc7d1a9f659cfafb6f75 assets/marioverse/models/item/blue_calcite.json
 9fb4628d19d69b5b572337950432d76e808a6038 assets/marioverse/models/item/blue_calcite_bricks.json
 a612b1850ccc453f52a13da6a60a504e811a66b5 assets/marioverse/models/item/blue_calcite_brick_pedestal.json

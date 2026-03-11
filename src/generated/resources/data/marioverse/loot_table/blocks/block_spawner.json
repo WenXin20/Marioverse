@@ -1,0 +1,4 @@
+{
+  "type": "minecraft:block",
+  "random_sequence": "marioverse:blocks/block_spawner"
+}

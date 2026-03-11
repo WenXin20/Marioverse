@@ -1,4 +1,5 @@
 ## Update 1.8.3
+- Add Block Spawner
 - Fix shift-clicking into slots of the ? Block GUI
 
 ## Update 1.8.2
