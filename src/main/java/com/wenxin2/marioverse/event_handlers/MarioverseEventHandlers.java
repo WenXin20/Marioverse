@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.DisguiseBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
@@ -90,6 +91,7 @@ import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
@@ -665,6 +667,14 @@ public class MarioverseEventHandlers {
             heldItem.consume(1, player);
         }
 
+        if (player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem) {
+            if (blockEntity instanceof DisguiseBlockEntity disguiseBE) {
+                disguiseBE.setDisguiseItem(heldItem);
+                heldItem.consume(1, player);
+            }
+            event.setCancellationResult(InteractionResult.SUCCESS);
+        }
+
         if (player.isShiftKeyDown() && heldItem.getItem() == ItemRegistry.CREATIVE_WRENCH.get()) {
             if (blockEntity instanceof QuestionBlockEntity questionBE) {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
@@ -677,6 +687,7 @@ public class MarioverseEventHandlers {
                 }
             }
             event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
         }
 
         if (heldItem.getItem() instanceof SpawnEggItem && state.getBlock() instanceof WarpPipeBlock

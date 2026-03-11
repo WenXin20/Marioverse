@@ -23,6 +23,7 @@
   "attribute.marioverse.generic.safe_fall_distance": "Safe Fall Distance",
   "attribute.marioverse.generic.width_scale": "Width Scale",
 
+  "menu.marioverse.block_spawner": "Block Spawner",
   "menu.marioverse.checkpoint_flag": "Checkpoint Flag",
   "menu.marioverse.goal_pole": "Goal Pole",
   "menu.marioverse.invisible_question_block": "Invisible Question Block",

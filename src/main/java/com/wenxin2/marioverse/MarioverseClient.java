@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.google.common.collect.ImmutableList;
+import com.wenxin2.marioverse.blocks.client.BlockSpawnerScreen;
 import com.wenxin2.marioverse.blocks.client.QuestionBlockScreen;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.client.particles.GlowingSuspendedTownParticle;
@@ -12,6 +13,7 @@ import com.wenxin2.marioverse.client.particles.PollenParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
 import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
 import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
+import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CheckpointFlagBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.GoalPoleBlockEntityRenderer;
@@ -194,12 +196,14 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(MenuRegistry.BLOCK_SPAWNER_MENU.get(), BlockSpawnerScreen::new);
         event.register(MenuRegistry.QUESTION_BLOCK_MENU.get(), QuestionBlockScreen::new);
         event.register(MenuRegistry.WARP_PIPE_MENU.get(), WarpPipeScreen::new);
     }
 
     @SubscribeEvent
     private static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(BlockEntityRegistry.BLOCK_SPAWNER_BLOCK_ENTITY.get(), BlockSpawnerBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.CHECKPOINT_FLAG_BLOCK_ENTITY.get(), CheckpointFlagBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.COIN_BLOCK_ENTITY.get(), CoinBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), GoalPoleBlockEntityRenderer::new);
