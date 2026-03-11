@@ -42,26 +42,28 @@ public class QuestionBlockMenu extends AbstractContainerMenu {
     @NotNull
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        ItemStack stackCopy = ItemStack.EMPTY;
+        ItemStack copiedStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
+        int containerIndex = 36;
 
         if (slot.hasItem()) {
             ItemStack stack = slot.getItem();
-            stackCopy = stack.copy();
+            copiedStack = stack.copy();
 
-            if (index == 0) {
-                if (!this.moveItemStackTo(stack, 1, 37, true))
+            if (index == containerIndex) {
+                if (!this.moveItemStackTo(stack, 0, 36, true))
                     return ItemStack.EMPTY;
             } else {
-                if (!this.moveItemStackTo(stack, 0, 1, false))
+                if (!this.moveItemStackTo(stack, containerIndex, containerIndex + 1, false))
                     return ItemStack.EMPTY;
             }
 
             if (stack.isEmpty())
                 slot.set(ItemStack.EMPTY);
-            else slot.setChanged();
+            else
+                slot.setChanged();
         }
-        return stackCopy;
+        return copiedStack;
     }
 
     private void createInventorySlots(Inventory inventory, Container container) {

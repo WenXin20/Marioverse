@@ -1,3 +1,6 @@
+## Update 1.8.3
+- Fix shift-clicking into slots of the ? Block GUI
+
 ## Update 1.8.2
 - Add dispenser behavior for equipping carrots on Show Pokeys
 - Add dispenser behavior for shearing carrots from Show Pokeys
