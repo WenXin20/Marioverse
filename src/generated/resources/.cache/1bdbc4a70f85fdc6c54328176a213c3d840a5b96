@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-10T20:40:32.76282	Block States: marioverse
+// 1.21.1	2026-03-10T21:15:09.2102598	Block States: marioverse
 d1717a729a26a5dd7dafa52989ecc31e34effcd1 assets/marioverse/blockstates/acacia_log_bridge.json
 e4d20594d7136755ae656526e1cf307ac2049b4b assets/marioverse/blockstates/acacia_log_bridge_stairs.json
 7c32ff27f393505c89f7874c143df872c7ec1353 assets/marioverse/blockstates/amethyst_bricks.json
@@ -523,7 +523,7 @@ aa78e875eab2f767868975fb4e6b4b9ecc3cac91 assets/marioverse/models/block/black_ca
 cecfd182eac9d5389d01fddd512fe3521d30a8d7 assets/marioverse/models/block/black_warp_pipe.json
 b627e0777fd4af33e1c4e7cd41df07a14284fb40 assets/marioverse/models/block/black_warp_pipe_entrance.json
 6a0eeb0c7550695654698d78c7f91eb437ea261f assets/marioverse/models/block/black_warp_pipe_entrance_closed.json
-0f22d46ba3613e035efdc481a99164104753cdf4 assets/marioverse/models/block/block_spawner.json
+30d0d50f8b22e61db592680585264f1314afffd7 assets/marioverse/models/block/block_spawner.json
 958fb0ee0ace19fddebb8983fec382088d156ab8 assets/marioverse/models/block/blue_calcite.json
 a0ef8868708af5becca20ad15704cf5ed4f8e39f assets/marioverse/models/block/blue_calcite_bricks.json
 d7115d846966c3efc66f2a41da912946ee0c594e assets/marioverse/models/block/blue_calcite_brick_pedestal.json
