@@ -1,8 +1,11 @@
 package com.wenxin2.marioverse.blocks.entities;
 
-import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
+import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -15,7 +18,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.RandomizableContainer;
@@ -27,11 +33,16 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements MenuProvider, Nameable, RandomizableContainer {
@@ -45,6 +56,7 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     private int placeDirection = 0;
     private int placeOffset = 1;
     protected long lootTableSeed;
+    private BlockPos targetPos;
 
     private final ContainerData dataAccess = new ContainerData() {
         @Override
@@ -82,15 +94,15 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        if (this.level != null) // TODO
-            return new QuestionBlockMenu(id, inventory, this,
+        if (this.level != null)
+            return new BlockSpawnerMenu(id, inventory, this,
                     this.getDataAccess(), ContainerLevelAccess.create(this.level, this.getBlockPos()));
         else return null;
     }
 
     @Override
     public int getContainerSize() {
-        return 1;
+        return 2;
     }
 
     @NotNull
@@ -125,6 +137,9 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
         if (!this.trySaveLootTable(tag) && !this.ghostStack.isEmpty())
             tag.put("item", this.ghostStack.save(provider));
 
+        if (this.targetPos != null)
+            tag.putLong("targetPos", this.targetPos.asLong());
+
         if (this.name != null)
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
     }
@@ -148,6 +163,9 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
 
         if (tag.contains("activeRefillCountdown", 10))
             this.activeRefillCountdown = tag.getInt("activeRefillCountdown");
+
+        if (tag.contains("targetPos", 10))
+            this.targetPos = BlockPos.of(tag.getLong("targetPos"));
     }
 
     @Override
@@ -156,7 +174,7 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
         this.ghostStack = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.setData(DataAttachmentRegistry.REFILL_COUNTDOWN.get(), input.getOrDefault(DataComponentRegistry.REFILL_COUNTDOWN.get(), -1));
-        this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT.get(), input.getOrDefault(DataComponentRegistry.REFILL_TIME_UNIT.get(), -1));
+        this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT.get(), input.getOrDefault(DataComponentRegistry.REFILL_TIME_UNIT.get(), 0));
     }
 
     @Override
@@ -178,6 +196,12 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
         return this.saveCustomOnly(provider);
     }
 
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        this.updateTargetTracking();
+    }
+
     public void setCustomName(Component name) {
         this.name = name;
         this.getUpdatePacket();
@@ -197,6 +221,7 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
 
     public static void tick(Level level, BlockPos pos, BlockState state, BlockSpawnerBlockEntity blockEntity) {
         if (level.isClientSide) return;
+        blockEntity.checkTargetBlock();
 
         if (blockEntity.activeRefillCountdown > 0)
             blockEntity.activeRefillCountdown--;
@@ -219,33 +244,61 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     @Override
     public ItemStack getItem(int slot) {
         this.unpackLootTable(null);
-        return this.ghostStack;
+
+        if (slot == 0)
+            return this.inventory.getStackInSlot(0);
+        if (slot == 1)
+            return this.ghostStack;
+
+        return ItemStack.EMPTY;
     }
 
     @NotNull
     @Override
     public ItemStack removeItem(int slot, int amount) {
         this.unpackLootTable(null);
-        ItemStack result = this.ghostStack.copy();
-        this.ghostStack = ItemStack.EMPTY;
-        return result;
+
+        if (slot == 0)
+            return this.inventory.extractItem(0, amount, false);
+
+        if (slot == 1) {
+            ItemStack stack = this.ghostStack;
+            this.ghostStack = ItemStack.EMPTY;
+            return stack;
+        }
+
+        return ItemStack.EMPTY;
     }
 
     @NotNull
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
-        ItemStack stack = this.ghostStack;
-        this.ghostStack = ItemStack.EMPTY;
-        return stack;
+        if (slot == 0) {
+            ItemStack stack = this.inventory.getStackInSlot(0);
+            this.inventory.setStackInSlot(0, ItemStack.EMPTY);
+            return stack;
+        }
+
+        if (slot == 1) {
+            ItemStack stack = this.ghostStack;
+            this.ghostStack = ItemStack.EMPTY;
+            return stack;
+        }
+
+        return ItemStack.EMPTY;
     }
 
     @Override
     public void setItem(int slot, ItemStack stack) {
         this.unpackLootTable(null);
 
-        if (stack.isEmpty())
-            this.ghostStack = ItemStack.EMPTY;
-        else this.ghostStack = stack.copyWithCount(1);
+        if (slot == 0) {
+            this.inventory.setStackInSlot(0, stack);
+            return;
+        }
+
+        if (slot == 1)
+            this.ghostStack = stack.isEmpty() ? ItemStack.EMPTY : stack.copyWithCount(1);
 
         this.setChanged();
     }
@@ -356,25 +409,61 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     }
 
     private void placeBlock() {
-        if (this.ghostStack.isEmpty())
+        if (this.level == null || this.ghostStack.isEmpty())
             return;
         if (!(ghostStack.getItem() instanceof BlockItem blockItem))
             return;
+        if (!(this.level instanceof ServerLevel serverLevel))
+            return;
 
         Direction direction = directionFromIndex(placeDirection);
-        BlockPos target = this.worldPosition.relative(direction, placeOffset);
-        Block block = blockItem.getBlock();
-        BlockState newState = block.defaultBlockState();
+        BlockPos posOffset = this.worldPosition.relative(direction, placeOffset);
+        ItemStack stack = this.ghostStack.copy();
+        var fakePlayer = FakePlayerFactory.getMinecraft(serverLevel);
 
-        if (this.level != null) {
-            BlockState targetState =  this.level.getBlockState(target);
+        fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
+        fakePlayer.setPos(Vec3.atCenterOf(this.worldPosition));
 
-            if (targetState.isAir() || targetState.getBlock() != block) {
-                this.level.setBlock(target, newState, 3);
-
-                if (this.level instanceof ServerLevel serverLevel)
-                    serverLevel.levelEvent(2001, target, Block.getId(newState));
-            }
+        if (direction.getAxis().isHorizontal()) {
+            float yaw = direction.toYRot();
+            fakePlayer.setYRot(yaw);
+            fakePlayer.setYHeadRot(yaw);
+            fakePlayer.setYBodyRot(yaw);
         }
+
+        UseOnContext useContext = new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND,
+                new BlockHitResult(Vec3.atCenterOf(posOffset), Direction.UP, posOffset, false));
+
+        BlockPlaceContext placeContext = new BlockPlaceContext(useContext);
+        InteractionResult interactionResult = blockItem.place(placeContext);
+
+        if (interactionResult.consumesAction()) {
+            this.targetPos = posOffset;
+            BlockState stateOffset = this.level.getBlockState(posOffset);
+
+            if (stateOffset.getBlock() instanceof CoinBlock)
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverLevel, posOffset, UniformInt.of(1, 1));
+            else serverLevel.levelEvent(2001, posOffset, Block.getId(stateOffset));
+        }
+
+        fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+    }
+
+    public void updateTargetTracking() {
+        if (this.level == null) return;
+
+        Direction dir = directionFromIndex(this.placeDirection);
+        BlockPos posOffset = this.worldPosition.relative(dir, this.placeOffset);
+
+        if (this.ghostStack.getItem() instanceof BlockItem)
+            this.targetPos = posOffset;
+    }
+
+    public void checkTargetBlock() {
+        if (this.level == null || this.targetPos == null)
+            return;
+
+        if (this.level.getBlockState(this.targetPos).isAir() && this.activeRefillCountdown == -1)
+            this.startRefillCountdown();
     }
 }

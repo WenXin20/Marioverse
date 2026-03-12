@@ -108,12 +108,6 @@ public class BlockSpawnerBlock extends BaseEntityBlock implements SimpleWaterlog
     }
 
     @Override
-    protected boolean canSurvive(BlockState state, LevelReader worldReader, BlockPos pos) {
-        return Block.canSupportCenter(worldReader, pos.below(), Direction.UP)
-                || worldReader.getBlockState(pos.below()).is(TagRegistry.SUPPORTS_DANGO_BLOSSOM);
-    }
-
-    @Override
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         BlockPos pos = placeContext.getClickedPos();
         FluidState fluidState = placeContext.getLevel().getFluidState(pos);

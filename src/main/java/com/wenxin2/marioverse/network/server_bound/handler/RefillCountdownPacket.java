@@ -38,6 +38,7 @@ public class RefillCountdownPacket {
                         BlockEntity blockEntity = level.getBlockEntity(pos);
 
                         if (blockEntity instanceof BlockSpawnerBlockEntity spawnerBE) {
+                            spawnerBE.updateTargetTracking();
                             spawnerBE.setRefillCountdown(spawnerBE.convertToTicks(payload.refillCountdown()));
                             spawnerBE.setChanged();
                         }

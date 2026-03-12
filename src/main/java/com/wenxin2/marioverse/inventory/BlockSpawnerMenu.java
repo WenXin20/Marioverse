@@ -21,7 +21,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     protected final Player player;
 
     public BlockSpawnerMenu(int id, Inventory inventory) {
-        this(id, inventory, new SimpleContainer(1), new SimpleContainerData(3), ContainerLevelAccess.NULL);
+        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(5), ContainerLevelAccess.NULL);
     }
 
     public BlockSpawnerMenu(int id, Inventory inventory, Container container, ContainerData data, ContainerLevelAccess access) {
@@ -77,7 +77,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(inventory, column, 8 + column * 18, 142));
         }
 
-        this.addSlot(new Slot(container, 0, 26, 23));
+        this.addSlot(new Slot(container, 0, 26, 22));
         this.addSlot(new Slot(container, 1, 26, 48));
     }
 

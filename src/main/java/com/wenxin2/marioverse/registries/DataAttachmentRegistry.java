@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
 import java.util.UUID;
 import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
