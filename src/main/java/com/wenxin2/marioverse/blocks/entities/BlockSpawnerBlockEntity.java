@@ -31,6 +31,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -258,14 +260,14 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     public ItemStack removeItem(int slot, int amount) {
         this.unpackLootTable(null);
 
-        if (slot == 0)
-            return this.inventory.extractItem(0, amount, false);
-
-        if (slot == 1) {
+        if (slot == 0) {
             ItemStack stack = this.ghostStack;
             this.ghostStack = ItemStack.EMPTY;
             return stack;
         }
+
+        if (slot == 1)
+            return this.inventory.extractItem(0, amount, false);
 
         return ItemStack.EMPTY;
     }
@@ -274,14 +276,14 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
         if (slot == 0) {
-            ItemStack stack = this.inventory.getStackInSlot(0);
-            this.inventory.setStackInSlot(0, ItemStack.EMPTY);
+            ItemStack stack = this.ghostStack;
+            this.ghostStack = ItemStack.EMPTY;
             return stack;
         }
 
         if (slot == 1) {
-            ItemStack stack = this.ghostStack;
-            this.ghostStack = ItemStack.EMPTY;
+            ItemStack stack = this.inventory.getStackInSlot(0);
+            this.inventory.setStackInSlot(0, ItemStack.EMPTY);
             return stack;
         }
 
@@ -292,13 +294,13 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     public void setItem(int slot, ItemStack stack) {
         this.unpackLootTable(null);
 
-        if (slot == 0) {
+        if (slot == 0)
+            this.ghostStack = stack.isEmpty() ? ItemStack.EMPTY : stack.copyWithCount(1);
+
+        if (slot == 1) {
             this.inventory.setStackInSlot(0, stack);
             return;
         }
-
-        if (slot == 1)
-            this.ghostStack = stack.isEmpty() ? ItemStack.EMPTY : stack.copyWithCount(1);
 
         this.setChanged();
     }
@@ -411,14 +413,14 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     private void placeBlock() {
         if (this.level == null || this.ghostStack.isEmpty())
             return;
-        if (!(ghostStack.getItem() instanceof BlockItem blockItem))
-            return;
         if (!(this.level instanceof ServerLevel serverLevel))
             return;
 
         Direction direction = directionFromIndex(placeDirection);
         BlockPos posOffset = this.worldPosition.relative(direction, placeOffset);
         ItemStack stack = this.ghostStack.copy();
+        Item item = stack.getItem();
+        boolean placed = false;
         var fakePlayer = FakePlayerFactory.getMinecraft(serverLevel);
 
         fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
@@ -431,13 +433,16 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
             fakePlayer.setYBodyRot(yaw);
         }
 
-        UseOnContext useContext = new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND,
-                new BlockHitResult(Vec3.atCenterOf(posOffset), Direction.UP, posOffset, false));
+        if (item instanceof BlockItem blockItem) {
+            UseOnContext useContext = new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND,
+                    new BlockHitResult(Vec3.atCenterOf(posOffset), Direction.UP, posOffset, false));
 
-        BlockPlaceContext placeContext = new BlockPlaceContext(useContext);
-        InteractionResult interactionResult = blockItem.place(placeContext);
+            BlockPlaceContext placeContext = new BlockPlaceContext(useContext);
+            placed = blockItem.place(placeContext).consumesAction();
+        } else if (item instanceof BucketItem bucketItem)
+            placed = bucketItem.emptyContents(fakePlayer, this.level, posOffset, null, stack);
 
-        if (interactionResult.consumesAction()) {
+        if (placed) {
             this.targetPos = posOffset;
             BlockState stateOffset = this.level.getBlockState(posOffset);
 
@@ -455,7 +460,7 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
         Direction dir = directionFromIndex(this.placeDirection);
         BlockPos posOffset = this.worldPosition.relative(dir, this.placeOffset);
 
-        if (this.ghostStack.getItem() instanceof BlockItem)
+        if (this.ghostStack.getItem() instanceof BlockItem || this.ghostStack.getItem() instanceof BucketItem)
             this.targetPos = posOffset;
     }
 
