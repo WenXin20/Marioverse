@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks.entities;
 
 import com.wenxin2.marioverse.blocks.CoinBlock;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
@@ -21,7 +22,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.RandomizableContainer;
@@ -47,7 +47,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements MenuProvider, Nameable, RandomizableContainer {
+public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements MenuProvider, Nameable, RandomizableContainer {
     private static final Component DEFAULT_NAME = Component.translatable("menu.marioverse.block_spawner");
     public static final String CUSTOM_NAME = "CustomName";
     @Nullable public Component name;
@@ -248,9 +248,9 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
         this.unpackLootTable(null);
 
         if (slot == 0)
-            return this.inventory.getStackInSlot(0);
-        if (slot == 1)
             return this.ghostStack;
+        if (slot == 1)
+            return this.inventory.getStackInSlot(0);
 
         return ItemStack.EMPTY;
     }
@@ -263,6 +263,14 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
         if (slot == 0) {
             ItemStack stack = this.ghostStack;
             this.ghostStack = ItemStack.EMPTY;
+
+            if (this.level != null) {
+                BlockState state = this.level.getBlockState(this.getBlockPos());
+
+                if (state.hasProperty(BlockStatePropertyRegistry.INVISIBLE))
+                    this.level.setBlock(this.getBlockPos(), state.setValue(BlockStatePropertyRegistry.INVISIBLE, !stack.isEmpty()), 3);
+            }
+
             return stack;
         }
 
@@ -294,8 +302,16 @@ public class BlockSpawnerBlockEntity extends DisguiseBlockEntity implements Menu
     public void setItem(int slot, ItemStack stack) {
         this.unpackLootTable(null);
 
-        if (slot == 0)
+        if (slot == 0) {
             this.ghostStack = stack.isEmpty() ? ItemStack.EMPTY : stack.copyWithCount(1);
+
+            if (this.level != null) {
+                BlockState state = this.level.getBlockState(this.getBlockPos());
+
+                if (state.hasProperty(BlockStatePropertyRegistry.INVISIBLE))
+                    this.level.setBlock(this.getBlockPos(), state.setValue(BlockStatePropertyRegistry.INVISIBLE, !stack.isEmpty()), 3);
+            }
+        }
 
         if (slot == 1) {
             this.inventory.setStackInSlot(0, stack);

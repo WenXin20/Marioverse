@@ -12,7 +12,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.DisguiseBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
@@ -76,7 +76,6 @@ import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -668,7 +667,7 @@ public class MarioverseEventHandlers {
         }
 
         if (player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem) {
-            if (blockEntity instanceof DisguiseBlockEntity disguiseBE) {
+            if (blockEntity instanceof DisguisedBlockEntity disguiseBE) {
                 disguiseBE.setDisguiseItem(heldItem);
                 heldItem.consume(1, player);
             }

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -51,7 +52,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWaterloggedBlock {
     public static final MapCodec<InvisibleQuestionBlock> CODEC = simpleCodec(InvisibleQuestionBlock::new);
-    public static final BooleanProperty INVISIBLE = BooleanProperty.create("invisible");
+    public static final BooleanProperty INVISIBLE = BlockStatePropertyRegistry.INVISIBLE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public InvisibleQuestionBlock(Properties properties) {

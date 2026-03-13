@@ -2,20 +2,16 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
-import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
-import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -28,8 +24,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -50,8 +44,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockSpawnerBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<BlockSpawnerBlock> CODEC = simpleCodec(BlockSpawnerBlock::new);
+public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<BaseDisguisedEntityBlock> CODEC = simpleCodec(BaseDisguisedEntityBlock::new);
+    public static final BooleanProperty DISGUISED = BlockStatePropertyRegistry.DISGUISED;
+    public static final BooleanProperty INVISIBLE = BlockStatePropertyRegistry.INVISIBLE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     protected static final VoxelShape SHAPE =
@@ -59,18 +55,19 @@ public class BlockSpawnerBlock extends BaseEntityBlock implements SimpleWaterlog
 
     @NotNull
     @Override
-    public MapCodec<BlockSpawnerBlock> codec() {
+    public MapCodec<BaseDisguisedEntityBlock> codec() {
         return CODEC;
     }
 
     public BlockSpawnerBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(DISGUISED, false)
+                .setValue(INVISIBLE, false).setValue(WATERLOGGED, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED);
+        builder.add(DISGUISED, INVISIBLE, WATERLOGGED);
     }
 
     @Nullable

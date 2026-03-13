@@ -13,7 +13,6 @@ import com.wenxin2.marioverse.client.particles.PollenParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
 import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
 import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
-import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CheckpointFlagBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.GoalPoleBlockEntityRenderer;
@@ -48,7 +47,6 @@ import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireb
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
 import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
-import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -59,7 +57,6 @@ import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import net.minecraft.client.particle.SuspendedTownParticle;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -203,7 +200,6 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(BlockEntityRegistry.BLOCK_SPAWNER_BLOCK_ENTITY.get(), BlockSpawnerBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.CHECKPOINT_FLAG_BLOCK_ENTITY.get(), CheckpointFlagBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.COIN_BLOCK_ENTITY.get(), CoinBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), GoalPoleBlockEntityRenderer::new);

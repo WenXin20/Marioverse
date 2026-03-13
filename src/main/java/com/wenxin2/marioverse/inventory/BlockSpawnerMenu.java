@@ -1,7 +1,10 @@
 package com.wenxin2.marioverse.inventory;
 
+import com.mojang.datafixers.util.Pair;
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -10,12 +13,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockSpawnerMenu extends AbstractContainerMenu {
+    static final ResourceLocation EMPTY_SLOT_BLOCK = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/slot/empty_block_slot");
+    static final ResourceLocation EMPTY_SLOT_COIN = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/slot/empty_coin_slot");
     private final ContainerLevelAccess access;
     private final ContainerData data;
     protected final Player player;
@@ -77,8 +85,19 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(inventory, column, 8 + column * 18, 142));
         }
 
-        this.addSlot(new Slot(container, 0, 26, 22));
-        this.addSlot(new Slot(container, 1, 26, 48));
+        this.addSlot(new Slot(container, 0, 8, 22) {
+            @Override
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_COIN);
+            }
+        });
+
+        this.addSlot(new Slot(container, 1, 8, 48) {
+            @Override
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_BLOCK);
+            }
+        });
     }
 
     public ContainerLevelAccess getAccess() {

@@ -7,8 +7,10 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
+import com.wenxin2.marioverse.client.models.blocks.DisguisedBlockBakedModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
+import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -71,6 +73,12 @@ public class ClientEventHandlers {
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_shader"),
                 DefaultVertexFormat.POSITION_TEX_COLOR),
                 shader -> SuperStarRenderType.SUPER_STAR_SHADER = shader);
+    }
+
+    @SubscribeEvent
+    public static void registerLoader(ModelEvent.RegisterGeometryLoaders event) {
+        event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "disguised_block"),
+                new DisguisedBlockModelLoader());
     }
 
     @SubscribeEvent

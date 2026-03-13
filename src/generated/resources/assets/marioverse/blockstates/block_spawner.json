@@ -1,7 +1,16 @@
 {
   "variants": {
-    "": {
+    "disguised=false,invisible=false": {
       "model": "marioverse:block/block_spawner"
+    },
+    "disguised=false,invisible=true": {
+      "model": "marioverse:block/invisible_block_spawner"
+    },
+    "disguised=true,invisible=false": {
+      "model": "marioverse:block/disguised_block_spawner"
+    },
+    "disguised=true,invisible=true": {
+      "model": "marioverse:block/disguised_block_spawner"
     }
   }
 }
