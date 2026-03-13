@@ -15,6 +15,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 import net.neoforged.neoforge.client.model.IDynamicBakedModel;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
@@ -31,14 +32,27 @@ public class DisguisedBlockBakedModel implements IDynamicBakedModel {
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource random,
             ModelData data, @Nullable RenderType renderType) {
-        BlockState disguise = data.get(BlockSpawnerBlockEntity.DISGUISED);
+        BlockState disguiseState = data.get(BlockSpawnerBlockEntity.DISGUISED);
 
-        if (disguise == null || disguise.isAir())
+        if (disguiseState == null || disguiseState.isAir())
             return Collections.emptyList();
 
-        BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(disguise);
+        BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(disguiseState);
 
-        return model.getQuads(disguise, side, random, data, renderType);
+        return model.getQuads(disguiseState, side, random, data, renderType);
+    }
+
+    @NotNull
+    @Override
+    public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource random, ModelData data) {
+        BlockState disguiseState = data.get(BlockSpawnerBlockEntity.DISGUISED);
+
+        if (disguiseState == null || disguiseState.isAir())
+            return ChunkRenderTypeSet.none();
+
+        BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(disguiseState);
+
+        return model.getRenderTypes(disguiseState, random, data);
     }
 
     @NotNull
