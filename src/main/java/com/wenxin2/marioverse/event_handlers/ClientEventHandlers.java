@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
 import com.wenxin2.marioverse.client.models.blocks.DisguisedBlockBakedModel;
@@ -24,6 +25,7 @@ import java.util.UUID;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
@@ -49,6 +51,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
@@ -79,6 +82,24 @@ public class ClientEventHandlers {
     public static void registerLoader(ModelEvent.RegisterGeometryLoaders event) {
         event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "disguised_block"),
                 new DisguisedBlockModelLoader());
+    }
+
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tintIndex) -> {
+            if (level != null && pos != null
+                    && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+                BlockState disguise = blockEntity.getDisguise();
+
+                if (disguise != null && !disguise.isAir()) {
+                    BlockColors colors = Minecraft.getInstance().getBlockColors();
+
+                    return colors.getColor(disguise, level, pos, tintIndex);
+                }
+            }
+            return -1;
+
+        }, BlockRegistry.BLOCK_SPAWNER.get());
     }
 
     @SubscribeEvent
