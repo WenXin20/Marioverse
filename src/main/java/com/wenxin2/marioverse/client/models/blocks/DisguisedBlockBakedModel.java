@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.models.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Collections;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -32,8 +33,8 @@ public class DisguisedBlockBakedModel implements IDynamicBakedModel {
             ModelData data, @Nullable RenderType renderType) {
         BlockState disguiseState = data.get(BlockSpawnerBlockEntity.DISGUISED);
 
-        if (disguiseState == null || disguiseState.isAir()) {
-            if (state != null && !state.isAir()) {
+        if (disguiseState == null || disguiseState.isAir() || disguiseState.is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)) {
+            if (state != null && !state.isAir() && !state.is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)) {
                 BakedModel originalModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
                 return originalModel.getQuads(disguiseState, side, random, data, renderType);
             }

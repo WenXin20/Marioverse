@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "automobility:slope_with_dash_panel",
+      "required": false
+    },
+    {
+      "id": "automobility:steep_slope_with_dash_panel",
+      "required": false
+    },
+    {
+      "id": "automobility:slope",
+      "required": false
+    },
+    {
+      "id": "automobility:steep_slope",
+      "required": false
+    }
+  ]
+}

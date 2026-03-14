@@ -16,6 +16,10 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class BlockTagsGen extends BlockTagsProvider {
+    private static final ResourceLocation AUTOMOBILITY_SLOPE = ResourceLocation.fromNamespaceAndPath("automobility", "slope");
+    private static final ResourceLocation AUTOMOBILITY_STEEP_SLOPE = ResourceLocation.fromNamespaceAndPath("automobility", "steep_slope");
+    private static final ResourceLocation AUTOMOBILITY_DASH_PANEL_SLOPE = ResourceLocation.fromNamespaceAndPath("automobility", "slope_with_dash_panel");
+    private static final ResourceLocation AUTOMOBILITY_DASH_PANEL_STEEP_SLOPE = ResourceLocation.fromNamespaceAndPath("automobility", "steep_slope_with_dash_panel");
     private static final ResourceLocation BB_BLUE_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "blue_bigshroom_block");
     private static final ResourceLocation BB_GREEN_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "green_bigshroom_block");
     private static final ResourceLocation BB_LIME_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "lime_bigshroom_block");
@@ -106,6 +110,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.QUESTION_BLOCKS);
 
         tag(CompatRegistry.CREATE_SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
+
+        tag(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)
+                .addOptional(AUTOMOBILITY_DASH_PANEL_SLOPE)
+                .addOptional(AUTOMOBILITY_DASH_PANEL_STEEP_SLOPE)
+                .addOptional(AUTOMOBILITY_SLOPE)
+                .addOptional(AUTOMOBILITY_STEEP_SLOPE);
 
         tag(TagRegistry.BONKABLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)

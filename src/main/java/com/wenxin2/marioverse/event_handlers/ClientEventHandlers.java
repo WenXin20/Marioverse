@@ -89,12 +89,12 @@ public class ClientEventHandlers {
         event.register((state, level, pos, tintIndex) -> {
             if (level != null && pos != null
                     && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
-                BlockState disguise = blockEntity.getDisguise();
+                BlockState disguiseState = blockEntity.getDisguise();
 
-                if (disguise != null && !disguise.isAir()) {
+                if (disguiseState != null && !disguiseState.isAir() && !disguiseState.is(BlockRegistry.BLOCK_SPAWNER)) {
                     BlockColors colors = Minecraft.getInstance().getBlockColors();
 
-                    return colors.getColor(disguise, level, pos, tintIndex);
+                    return colors.getColor(disguiseState, level, pos, tintIndex);
                 }
             }
             return -1;
