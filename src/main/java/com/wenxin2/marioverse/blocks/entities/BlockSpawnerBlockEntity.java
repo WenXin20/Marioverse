@@ -248,9 +248,9 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.unpackLootTable(null);
 
         if (slot == 0)
-            return this.ghostStack;
+            return super.getItem(slot);
         if (slot == 1)
-            return this.inventory.getStackInSlot(0);
+            return this.ghostStack;
 
         return ItemStack.EMPTY;
     }
@@ -260,7 +260,10 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     public ItemStack removeItem(int slot, int amount) {
         this.unpackLootTable(null);
 
-        if (slot == 0) {
+        if (slot == 0)
+            return super.removeItem(slot, amount);
+
+        if (slot == 1) {
             ItemStack stack = this.ghostStack;
             this.ghostStack = ItemStack.EMPTY;
 
@@ -274,27 +277,20 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
             return stack;
         }
 
-        if (slot == 1)
-            return this.inventory.extractItem(0, amount, false);
-
         return ItemStack.EMPTY;
     }
 
     @NotNull
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
-        if (slot == 0) {
+        if (slot == 0)
+            return super.removeItemNoUpdate(slot);
+
+        if (slot == 1) {
             ItemStack stack = this.ghostStack;
             this.ghostStack = ItemStack.EMPTY;
             return stack;
         }
-
-        if (slot == 1) {
-            ItemStack stack = this.inventory.getStackInSlot(0);
-            this.inventory.setStackInSlot(0, ItemStack.EMPTY);
-            return stack;
-        }
-
         return ItemStack.EMPTY;
     }
 
@@ -303,6 +299,11 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.unpackLootTable(null);
 
         if (slot == 0) {
+            super.setItem(slot, stack);
+            return;
+        }
+
+        if (slot == 1) {
             this.ghostStack = stack.isEmpty() ? ItemStack.EMPTY : stack.copyWithCount(1);
 
             if (this.level != null) {
@@ -313,27 +314,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
             }
         }
 
-        if (slot == 1) {
-            this.inventory.setStackInSlot(0, stack);
-            return;
-        }
-
         this.setChanged();
     }
 
     @Override
     public void clearContent() {
+        this.inventory.setStackInSlot(0, ItemStack.EMPTY);
         this.ghostStack = ItemStack.EMPTY;
-    }
-
-    @Override
-    public boolean canPlaceItem(int slot, ItemStack stack) {
-        return false;
-    }
-
-    @Override
-    public boolean canTakeItem(Container target, int slot, ItemStack stack) {
-        return false;
     }
 
     @Nullable

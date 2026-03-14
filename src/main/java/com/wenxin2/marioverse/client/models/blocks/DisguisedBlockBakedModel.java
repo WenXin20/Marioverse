@@ -1,18 +1,16 @@
 package com.wenxin2.marioverse.client.models.blocks;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import java.util.Collections;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
@@ -34,8 +32,13 @@ public class DisguisedBlockBakedModel implements IDynamicBakedModel {
             ModelData data, @Nullable RenderType renderType) {
         BlockState disguiseState = data.get(BlockSpawnerBlockEntity.DISGUISED);
 
-        if (disguiseState == null || disguiseState.isAir())
+        if (disguiseState == null || disguiseState.isAir()) {
+            if (state != null && !state.isAir()) {
+                BakedModel originalModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
+                return originalModel.getQuads(disguiseState, side, random, data, renderType);
+            }
             return Collections.emptyList();
+        }
 
         BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(disguiseState);
 
@@ -47,12 +50,35 @@ public class DisguisedBlockBakedModel implements IDynamicBakedModel {
     public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource random, ModelData data) {
         BlockState disguiseState = data.get(BlockSpawnerBlockEntity.DISGUISED);
 
-        if (disguiseState == null || disguiseState.isAir())
-            return ChunkRenderTypeSet.none();
+        if (disguiseState != null && !disguiseState.isAir()) {
+            BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(disguiseState);
+            return model.getRenderTypes(disguiseState, random, data);
+        }
+        return ChunkRenderTypeSet.none();
+    }
 
-        BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(disguiseState);
+    @NotNull
+    @Override
+    public TextureAtlasSprite getParticleIcon(ModelData data) {
+        BlockState disguiseState = data.get(BlockSpawnerBlockEntity.DISGUISED);
 
-        return model.getRenderTypes(disguiseState, random, data);
+        if (disguiseState != null && !disguiseState.isAir()) {
+            BakedModel model = Minecraft.getInstance()
+                    .getBlockRenderer().getBlockModel(disguiseState);
+
+            return model.getParticleIcon(ModelData.EMPTY);
+        }
+        return Minecraft.getInstance().getBlockRenderer()
+                .getBlockModel(BlockRegistry.BLOCK_SPAWNER.get().defaultBlockState())
+                .getParticleIcon(ModelData.EMPTY);
+    }
+
+    @NotNull
+    @Override
+    public TextureAtlasSprite getParticleIcon() {
+        return Minecraft.getInstance().getBlockRenderer()
+                .getBlockModel(BlockRegistry.BLOCK_SPAWNER.get().defaultBlockState())
+                .getParticleIcon(ModelData.EMPTY);
     }
 
     @NotNull
@@ -79,13 +105,5 @@ public class DisguisedBlockBakedModel implements IDynamicBakedModel {
     @Override
     public boolean isCustomRenderer() {
         return false;
-    }
-
-    @NotNull
-    @Override
-    public TextureAtlasSprite getParticleIcon() {
-        return Minecraft.getInstance()
-                .getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
-                .apply(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block/block_spawner"));
     }
 }

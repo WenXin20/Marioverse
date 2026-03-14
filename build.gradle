@@ -59,7 +59,7 @@ dependencies {
 
     implementation "curse.maven:aether-255308:6389857"
     implementation "curse.maven:amendments-896746:7352178" // Requires Moonlight
-    implementation "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
+    compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:6650033" // Requires Create
     implementation "curse.maven:create-328085:6641610"
     implementation "curse.maven:deep-aether-852465:6839619"

@@ -395,7 +395,7 @@ public class BlockRegistry {
     static {
         BLOCK_SPAWNER = registerBlock("block_spawner",
                 () -> new BlockSpawnerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPAWNER)
-                        .sound(SoundType.TRIAL_SPAWNER)));
+                        .sound(SoundType.TRIAL_SPAWNER).dynamicShape()));
 
         STAR_COIN = registerNoItemBlock("star_coin",
                 () -> new StarCoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

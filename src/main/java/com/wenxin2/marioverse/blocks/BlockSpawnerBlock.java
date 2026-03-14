@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
@@ -51,7 +52,7 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     protected static final VoxelShape SHAPE =
-            Shapes.or(Block.box(0, 0, 0, 16, 16, 16)).optimize();
+            Block.box(3.0, 3.0, 3.0, 14.0, 14.0, 14.0).optimize();
 
     @NotNull
     @Override
@@ -91,7 +92,17 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
     @NotNull
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        return SHAPE;
+        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
+            return SHAPE;
+        return super.getShape(state, blockGetter, pos, context);
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
+            return Shapes.empty();
+        return super.getCollisionShape(state, blockGetter, pos, context);
     }
 
     @NotNull
@@ -123,9 +134,9 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity) {
+        if (player.isCreative() && level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity) {
             if (stack.getItem() instanceof BlockItem) {
-                blockEntity.setItem(0, stack);
+                blockEntity.setItem(1, stack);
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));

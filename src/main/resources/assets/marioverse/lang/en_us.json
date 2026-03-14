@@ -1254,6 +1254,45 @@
   "menu.marioverse.question_block.hour_button.tooltip": "Hours",
   "menu.marioverse.question_block.hour_button.narrate": "Time in Hours Button",
 
+  "menu.marioverse.block_spawner.clock_button": "",
+  "menu.marioverse.block_spawner.clock_button.tooltip": "Confirm",
+  "menu.marioverse.block_spawner.clock_button.narrate": "Confirm Button",
+
+  "menu.marioverse.block_spawner.confirm_button": "",
+  "menu.marioverse.block_spawner.confirm_button.tooltip": "Confirm",
+  "menu.marioverse.block_spawner.confirm_button.narrate": "Confirm Button",
+
+  "menu.marioverse.block_spawner.countdown_box.tooltip": "Refill Countdown",
+  "menu.marioverse.block_spawner.countdown_box.narrate": "Refill Countdown",
+
+  "menu.marioverse.block_spawner.disguise_slot.tooltip": "Disguise Block",
+
+  "menu.marioverse.block_spawner.refill_off_button": "",
+  "menu.marioverse.block_spawner.refill_off_button.tooltip": "Refill Off",
+  "menu.marioverse.block_spawner.refill_off_button.narrate": "Refill Off Button",
+
+  "menu.marioverse.block_spawner.refill_on_button": "",
+  "menu.marioverse.block_spawner.refill_on_button.tooltip": "Refill On",
+  "menu.marioverse.block_spawner.refill_on_button.narrate": "Refill On Button",
+
+  "menu.marioverse.block_spawner.replace_slot.tooltip": "Replace Block",
+
+  "menu.marioverse.block_spawner.ticks_button": "t",
+  "menu.marioverse.block_spawner.ticks_button.tooltip": "Ticks",
+  "menu.marioverse.block_spawner.ticks_button.narrate": "Time in Ticks Button",
+
+  "menu.marioverse.block_spawner.seconds_button": "s",
+  "menu.marioverse.block_spawner.seconds_button.tooltip": "Seconds",
+  "menu.marioverse.block_spawner.seconds_button.narrate": "Time in Seconds Button",
+
+  "menu.marioverse.block_spawner.minute_button": "m",
+  "menu.marioverse.block_spawner.minute_button.tooltip": "Minutes",
+  "menu.marioverse.block_spawner.minute_button.narrate": "Time in Minutes Button",
+
+  "menu.marioverse.block_spawner.hour_button": "h",
+  "menu.marioverse.block_spawner.hour_button.tooltip": "Hours",
+  "menu.marioverse.block_spawner.hour_button.narrate": "Time in Hours Button",
+
   "menu.marioverse.warp_pipe.close_button": "",
   "menu.marioverse.warp_pipe.close_button.tooltip": "Close Pipe",
   "menu.marioverse.warp_pipe.open_button.tooltip": "Open Pipe",

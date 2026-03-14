@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.inventory;
 
 import com.mojang.datafixers.util.Pair;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +12,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -50,28 +52,48 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     @NotNull
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        ItemStack copiedStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        int containerIndex = 36;
 
-        if (slot.hasItem()) {
-            ItemStack stack = slot.getItem();
-            copiedStack = stack.copy();
+        if (slot instanceof GhostSlot ghostSlot) {
+            ghostSlot.set(ItemStack.EMPTY);
+            return ItemStack.EMPTY;
+        }
 
-            if (index == containerIndex) {
-                if (!this.moveItemStackTo(stack, 0, 36, true))
+        ItemStack stack = slot.getItem();
+
+        if (!stack.isEmpty()) {
+            for (Slot slots : this.slots) {
+                if (slots instanceof GhostSlot ghostSlot && ghostSlot.mayPlace(stack)) {
+                    ItemStack ghost = stack.copy();
+                    ghost.setCount(1);
+
+                    ghostSlot.set(ghost);
                     return ItemStack.EMPTY;
-            } else {
-                if (!this.moveItemStackTo(stack, containerIndex, containerIndex + 1, false))
-                    return ItemStack.EMPTY;
+                }
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public void clicked(int slot, int button, ClickType clickType, Player player) {
+        if (slot >= 0 && this.slots.get(slot) instanceof GhostSlot ghostSlot) {
+            ItemStack carried = this.getCarried();
+
+            if (!carried.isEmpty() && ghostSlot.mayPlace(carried)) {
+                ItemStack ghostStack = carried.copy();
+                ghostStack.setCount(1);
+                ghostSlot.set(ghostStack);
+                return;
             }
 
-            if (stack.isEmpty())
-                slot.set(ItemStack.EMPTY);
-            else
-                slot.setChanged();
+            if (carried.isEmpty()) {
+                ghostSlot.set(ItemStack.EMPTY);
+                return;
+            }
         }
-        return copiedStack;
+
+        super.clicked(slot, button, clickType, player);
     }
 
     private void createInventorySlots(Inventory inventory, Container container) {
@@ -85,14 +107,14 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(inventory, column, 8 + column * 18, 142));
         }
 
-        this.addSlot(new Slot(container, 0, 8, 22) {
+        this.addSlot(new GhostSlot(container, 1, 8, 22) {
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
                 return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_COIN);
             }
         });
 
-        this.addSlot(new Slot(container, 1, 8, 48) {
+        this.addSlot(new GhostSlot(container, 0, 8, 48) {
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
                 return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_BLOCK);

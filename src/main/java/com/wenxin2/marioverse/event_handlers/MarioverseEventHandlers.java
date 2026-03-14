@@ -666,12 +666,18 @@ public class MarioverseEventHandlers {
             heldItem.consume(1, player);
         }
 
-        if (player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem) {
+        if (player.isCreative() && player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem) {
             if (blockEntity instanceof DisguisedBlockEntity disguiseBE) {
                 disguiseBE.setDisguiseItem(heldItem);
                 heldItem.consume(1, player);
+
+                BlockState placementState = disguiseBE.getPlacementState(player, pos, heldItem);
+
+                if (placementState != null)
+                    disguiseBE.setDisguiseState(placementState);
             }
             event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
         }
 
         if (player.isShiftKeyDown() && heldItem.getItem() == ItemRegistry.CREATIVE_WRENCH.get()) {
@@ -686,7 +692,6 @@ public class MarioverseEventHandlers {
                 }
             }
             event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
         }
 
         if (heldItem.getItem() instanceof SpawnEggItem && state.getBlock() instanceof WarpPipeBlock

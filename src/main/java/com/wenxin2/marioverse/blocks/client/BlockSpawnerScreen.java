@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -16,6 +17,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SmithingTemplateItem;
 import org.lwjgl.glfw.GLFW;
 
 public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu> {
@@ -220,26 +223,41 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     @Override
     protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
         super.renderTooltip(graphics, mouseX, mouseY);
+        Optional<Component> optional = Optional.empty();
 
         Component tooltip = Component.literal("");
 
-       tooltip = Component.translatable("menu.marioverse.question_block.clock_button.tooltip");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.clock_button.tooltip");
         this.clockButton.setTooltip(Tooltip.create(tooltip));
 
-       tooltip = Component.translatable("menu.marioverse.question_block.confirm_button.tooltip");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.confirm_button.tooltip");
         this.confirmButton.setTooltip(Tooltip.create(tooltip));
 
-       tooltip = Component.translatable("menu.marioverse.question_block.ticks_button.tooltip");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.ticks_button.tooltip");
         this.ticksButton.setTooltip(Tooltip.create(tooltip));
 
-       tooltip = Component.translatable("menu.marioverse.question_block.seconds_button.tooltip");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.seconds_button.tooltip");
         this.secondsButton.setTooltip(Tooltip.create(tooltip));
 
-       tooltip = Component.translatable("menu.marioverse.question_block.minute_button.tooltip");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.minute_button.tooltip");
         this.minuteButton.setTooltip(Tooltip.create(tooltip));
 
-       tooltip = Component.translatable("menu.marioverse.question_block.hour_button.tooltip");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.hour_button.tooltip");
         this.hourButton.setTooltip(Tooltip.create(tooltip));
+
+        if (this.hoveredSlot != null) {
+            ItemStack stack = this.hoveredSlot.getItem();
+            if (stack.isEmpty()) {
+                if (this.hoveredSlot == this.menu.getSlot(0)) {
+                    tooltip = Component.translatable("menu.marioverse.block_spawner.disguise_slot.tooltip");
+                    graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
+                }
+                if (this.hoveredSlot == this.menu.getSlot(1)) {
+                    tooltip = Component.translatable("menu.marioverse.block_spawner.replace_slot.tooltip");
+                    graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
+                }
+            }
+        }
     }
 
     @Override
