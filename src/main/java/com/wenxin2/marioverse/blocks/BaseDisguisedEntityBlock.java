@@ -137,4 +137,13 @@ public class BaseDisguisedEntityBlock extends BaseEntityBlock {
             return blockEntity.getDisguise().propagatesSkylightDown(blockGetter, pos);
         return super.propagatesSkylightDown(state, blockGetter, pos);
     }
+
+    @NotNull
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        if (player.isShiftKeyDown() && state.getValue(DISGUISED)
+                && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
+            return blockEntity.getDisguise().getCloneItemStack(target, level, pos, player);
+        return super.getCloneItemStack(state, target, level, pos, player);
+    }
 }
