@@ -667,23 +667,23 @@ public class MarioverseEventHandlers {
         }
 
         if (player.isCreative() && player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem blockItem
-                && !blockItem.getBlock().defaultBlockState().is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)) {
-            if (blockEntity instanceof DisguisedBlockEntity disguiseBE) {
-                disguiseBE.setItem(0, heldItem);
-                heldItem.consume(1, player);
-                world.playSound(null, pos, disguiseBE.getDisguiseState().getSoundType(world, pos, player).getPlaceSound(), SoundSource.BLOCKS);
+                && !blockItem.getBlock().defaultBlockState().is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)
+                && blockEntity instanceof DisguisedBlockEntity disguiseBE) {
+            world.playSound(null, pos, blockItem.getBlock().defaultBlockState()
+                    .getSoundType(world, pos, player).getPlaceSound(), SoundSource.BLOCKS);
+            disguiseBE.setItem(0, heldItem);
+            heldItem.consume(1, player);
 
-                BlockState placementState = disguiseBE.getPlacementState(player, heldItem, event.getHitVec());
+            BlockState placementState = disguiseBE.getPlacementState(player, heldItem, event.getHitVec());
 
-                if (placementState != null) {
-                    placementState = Block.updateFromNeighbourShapes(placementState, world, pos);
-                    disguiseBE.setDisguiseState(placementState);
-                    disguiseBE.requestModelDataUpdate();
-                    world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos), Block.UPDATE_CLIENTS);
-                }
-                event.setCancellationResult(InteractionResult.SUCCESS);
-                event.setCanceled(true);
+            if (placementState != null) {
+                placementState = Block.updateFromNeighbourShapes(placementState, world, pos);
+                disguiseBE.setDisguiseState(placementState);
+                disguiseBE.requestModelDataUpdate();
+                world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos), Block.UPDATE_ALL);
             }
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
         }
 
         if (player.isShiftKeyDown() && heldItem.getItem() == ItemRegistry.CREATIVE_WRENCH.get()) {

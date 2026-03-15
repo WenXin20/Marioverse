@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CrossCollisionBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
@@ -123,7 +125,8 @@ public class BaseDisguisedEntityBlock extends BaseEntityBlock {
         if (state.getValue(DISGUISED)) {
             if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
                 BlockState disguiseState = blockEntity.getDisguiseState();
-                if (disguiseState.getBlock() instanceof FenceBlock
+                if (disguiseState.getBlock() instanceof CrossCollisionBlock
+                        || disguiseState.getBlock() instanceof FenceBlock
                         || disguiseState.getBlock() instanceof WallBlock)
                     return Shapes.block();
                 if (!disguiseState.isAir())
@@ -209,7 +212,7 @@ public class BaseDisguisedEntityBlock extends BaseEntityBlock {
                 }
             }
         }
-        return state.setValue(DISGUISED, false);
+        return state;
     }
 
     @NotNull
@@ -283,5 +286,17 @@ public class BaseDisguisedEntityBlock extends BaseEntityBlock {
         if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
             return blockEntity.getDisguiseState().hidesNeighborFace(level, pos, neighborState, direction);
         return super.hidesNeighborFace(level, pos, state, neighborState, direction);
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (state.getValue(DISGUISED)) {
+            if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+                BlockState disguiseState = blockEntity.getDisguiseState();
+                if (disguiseState != null && !disguiseState.isAir())
+                    blockEntity.getDisguiseState().getBlock().animateTick(state, level, pos, random);
+            }
+        }
+        else super.animateTick(state, level, pos, random);
     }
 }

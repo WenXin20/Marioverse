@@ -129,6 +129,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     public void init() {
         super.init();
 
+        Component tooltip = null;
         final Component refillOffButton = Component.translatable("menu.marioverse.question_block.refill_off_button");
 
         this.countdownBox = new EditBox(this.font, this.leftPos + 59, this.topPos + 27, 70, 16,
@@ -142,6 +143,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.countdownBox);
 
         final Component clockButton = Component.translatable("menu.marioverse.question_block.clock_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.clock_button.tooltip");
         this.clockButton = Button.builder(clockButton, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
@@ -149,9 +151,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.clock_button.narrate")).build();
         this.clockButton.visible = true;
         this.clockButton.setAlpha(0);
+        this.clockButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.clockButton);
 
         final Component ticksButton = Component.translatable("menu.marioverse.question_block.ticks_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.ticks_button.tooltip");
         this.ticksButton = Button.builder(ticksButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
@@ -159,9 +163,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.ticks_button.narrate")).build();
         this.ticksButton.visible = true;
         this.ticksButton.setAlpha(0);
+        this.ticksButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.ticksButton);
 
         final Component secondsButton = Component.translatable("menu.marioverse.question_block.seconds_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.seconds_button.tooltip");
         this.secondsButton = Button.builder(secondsButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
@@ -169,9 +175,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.seconds_button.narrate")).build();
         this.secondsButton.visible = true;
         this.secondsButton.setAlpha(0);
+        this.secondsButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.secondsButton);
 
         final Component minuteButton = Component.translatable("menu.marioverse.question_block.minute_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.minute_button.tooltip");
         this.minuteButton = Button.builder(minuteButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
@@ -179,9 +187,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.minute_button.narrate")).build();
         this.minuteButton.visible = true;
         this.minuteButton.setAlpha(0);
+        this.minuteButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.minuteButton);
 
         final Component hourButton = Component.translatable("menu.marioverse.question_block.hour_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.hour_button.tooltip");
         this.hourButton = Button.builder(hourButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
@@ -189,9 +199,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.hour_button.narrate")).build();
         this.hourButton.visible = true;
         this.hourButton.setAlpha(0);
+        this.hourButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.hourButton);
 
         final Component confirmButton = Component.translatable("menu.marioverse.question_block.confirm_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.confirm_button.tooltip");
         this.confirmButton = Button.builder(confirmButton, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
@@ -199,6 +211,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.confirm_button.narrate")).build();
         this.confirmButton.visible = true;
         this.confirmButton.setAlpha(0);
+        this.confirmButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.confirmButton);
     }
 
@@ -230,31 +243,16 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 if (this.hoveredSlot.index == 0) {
                     tooltip = Component.translatable("menu.marioverse.block_spawner.disguise_slot.tooltip");
                     graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
+                    return;
                 }
                 if (this.hoveredSlot.index == 1) {
                     tooltip = Component.translatable("menu.marioverse.block_spawner.replace_slot.tooltip");
                     graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
+                    return;
                 }
             }
         }
-
-        tooltip = Component.translatable("menu.marioverse.block_spawner.clock_button.tooltip");
-        this.clockButton.setTooltip(Tooltip.create(tooltip));
-
-        tooltip = Component.translatable("menu.marioverse.block_spawner.confirm_button.tooltip");
-        this.confirmButton.setTooltip(Tooltip.create(tooltip));
-
-        tooltip = Component.translatable("menu.marioverse.block_spawner.ticks_button.tooltip");
-        this.ticksButton.setTooltip(Tooltip.create(tooltip));
-
-        tooltip = Component.translatable("menu.marioverse.block_spawner.seconds_button.tooltip");
-        this.secondsButton.setTooltip(Tooltip.create(tooltip));
-
-        tooltip = Component.translatable("menu.marioverse.block_spawner.minute_button.tooltip");
-        this.minuteButton.setTooltip(Tooltip.create(tooltip));
-
-        tooltip = Component.translatable("menu.marioverse.block_spawner.hour_button.tooltip");
-        this.hourButton.setTooltip(Tooltip.create(tooltip));
+        super.renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Override

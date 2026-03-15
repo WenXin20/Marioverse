@@ -4,12 +4,10 @@ import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 public class DisguisedBlockEntity extends BlockEntity implements RandomizableContainer {
     public static final ModelProperty<BlockState> DISGUISED = new ModelProperty<>();
     private BlockState disguiseState = Blocks.AIR.defaultBlockState();
+    private BlockEntity disguiseBlockEntity;
     @Nullable protected ResourceKey<LootTable> lootTable;
     protected long lootTableSeed;
 
@@ -195,6 +195,10 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         this.inventory.setStackInSlot(0, ItemStack.EMPTY);
     }
 
+    public BlockEntity getDisguiseBlockEntity() {
+        return this.disguiseBlockEntity;
+    }
+
     public BlockState getDisguiseState() {
         return this.disguiseState;
     }
@@ -223,16 +227,41 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         if (this.level != null) {
             BlockState state = this.level.getBlockState(this.worldPosition);
 
-            if (state.hasProperty(BlockStatePropertyRegistry.DISGUISED)
-                    && state.getValue(BlockStatePropertyRegistry.DISGUISED) != disguised)
-                this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.DISGUISED, disguised), 3);
-            if (state.hasProperty(BlockStatePropertyRegistry.INVISIBLE)
-                    && state.hasProperty(BlockStatePropertyRegistry.DISGUISED)
-                    && state.getValue(BlockStatePropertyRegistry.DISGUISED))
-                this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.INVISIBLE, true), 3);
-            this.requestModelDataUpdate();
-            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
-            this.setChanged();
+            if (disguiseState == null || disguiseState.isAir()) {
+                this.disguiseState = Blocks.AIR.defaultBlockState();
+
+                if (state.hasProperty(BlockStatePropertyRegistry.DISGUISED)
+                        && state.getValue(BlockStatePropertyRegistry.DISGUISED))
+                    this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.DISGUISED, false), 3);
+            } else {
+                if (state.hasProperty(BlockStatePropertyRegistry.DISGUISED)
+                        && state.getValue(BlockStatePropertyRegistry.DISGUISED) != disguised)
+                    this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.DISGUISED, disguised), 3);
+                if (state.hasProperty(BlockStatePropertyRegistry.INVISIBLE)
+                        && state.hasProperty(BlockStatePropertyRegistry.DISGUISED)
+                        && state.getValue(BlockStatePropertyRegistry.DISGUISED))
+                    this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.INVISIBLE, true), 3);
+
+                this.createDisguiseBlockEntity(stack);
+                this.requestModelDataUpdate();
+                this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
+                this.setChanged();
+            }
+        }
+    }
+
+    public void createDisguiseBlockEntity(ItemStack stack) {
+        this.disguiseBlockEntity = null;
+
+        if (!(disguiseState.getBlock() instanceof EntityBlock entityBlock))
+            return;
+
+        BlockEntity blockEntity = entityBlock.newBlockEntity(this.worldPosition, disguiseState);
+
+        if (blockEntity != null && this.level != null) {
+            blockEntity.setLevel(this.level);
+            blockEntity.applyComponentsFromItemStack(stack);
+            this.disguiseBlockEntity = blockEntity;
         }
     }
 }

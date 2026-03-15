@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 import net.neoforged.neoforge.client.model.IDynamicBakedModel;
@@ -33,8 +34,10 @@ public class DisguisedBlockBakedModel implements IDynamicBakedModel {
             ModelData data, @Nullable RenderType renderType) {
         BlockState disguiseState = data.get(BlockSpawnerBlockEntity.DISGUISED);
 
-        if (disguiseState == null || disguiseState.isAir() || disguiseState.is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)) {
-            if (state != null && !state.isAir() && !state.is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)) {
+        if (disguiseState == null || disguiseState.isAir() || disguiseState.getBlock() instanceof EntityBlock
+                || disguiseState.is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)) {
+            if (state != null && !state.isAir() && !(state.getBlock() instanceof EntityBlock)
+                    && !state.is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)) {
                 BakedModel originalModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
                 return originalModel.getQuads(disguiseState, side, random, data, renderType);
             }

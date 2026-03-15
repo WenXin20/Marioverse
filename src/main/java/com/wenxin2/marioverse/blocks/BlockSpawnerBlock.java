@@ -156,20 +156,20 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         double x = pos.getX();
         double y = pos.getY();
         double z = pos.getZ();
 
-        Player nearestPlayer = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
+        Player nearestPlayer = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 16.0D, false);
         if (nearestPlayer != null) {
-            if (world.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+            if (level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
                     && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
                         || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
                 if (blockEntity.getDisguiseState().getBlock() == Blocks.AIR) {
                     ItemStack stack = blockEntity.getGhostItem();
                     if (!stack.isEmpty())
-                        world.addParticle(new ItemParticleOption(ParticleRegistry.NO_MOVEMENT_ITEM.get(),stack),
+                        level.addParticle(new ItemParticleOption(ParticleRegistry.NO_MOVEMENT_ITEM.get(),stack),
                                 x + 0.5, y + 0.5, z + 0.5, 0, 0, 0);
                 }
             }
