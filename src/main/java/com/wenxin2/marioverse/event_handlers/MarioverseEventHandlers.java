@@ -669,18 +669,19 @@ public class MarioverseEventHandlers {
         if (player.isCreative() && player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem blockItem
                 && !blockItem.getBlock().defaultBlockState().is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)
                 && blockEntity instanceof DisguisedBlockEntity disguiseBE) {
-            world.playSound(null, pos, blockItem.getBlock().defaultBlockState()
-                    .getSoundType(world, pos, player).getPlaceSound(), SoundSource.BLOCKS);
-            disguiseBE.setItem(0, heldItem);
-            heldItem.consume(1, player);
-
-            BlockState placementState = disguiseBE.getPlacementState(player, heldItem, event.getHitVec());
+            ItemStack stackCopy = heldItem.copy();
+            BlockState placementState = disguiseBE.getPlacementState(player, stackCopy, event.getHitVec());
 
             if (placementState != null) {
                 placementState = Block.updateFromNeighbourShapes(placementState, world, pos);
-                disguiseBE.setDisguiseState(placementState);
+                if (!world.isClientSide)
+                    disguiseBE.setDisguiseState(placementState);
+                disguiseBE.setItem(0, stackCopy);
+                heldItem.consume(1, player);
                 disguiseBE.requestModelDataUpdate();
                 world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos), Block.UPDATE_ALL);
+                world.playSound(null, pos, blockItem.getBlock().defaultBlockState()
+                        .getSoundType(world, pos, player).getPlaceSound(), SoundSource.BLOCKS);
             }
             event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
