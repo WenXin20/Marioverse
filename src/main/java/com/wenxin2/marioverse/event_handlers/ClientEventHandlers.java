@@ -8,7 +8,6 @@ import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
-import com.wenxin2.marioverse.client.models.blocks.DisguisedBlockBakedModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
@@ -89,7 +88,7 @@ public class ClientEventHandlers {
         event.register((state, level, pos, tintIndex) -> {
             if (level != null && pos != null
                     && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
-                BlockState disguiseState = blockEntity.getDisguise();
+                BlockState disguiseState = blockEntity.getDisguiseState();
 
                 if (disguiseState != null && !disguiseState.isAir() && !disguiseState.is(BlockRegistry.BLOCK_SPAWNER)) {
                     BlockColors colors = Minecraft.getInstance().getBlockColors();

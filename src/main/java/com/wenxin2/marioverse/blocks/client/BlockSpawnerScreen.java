@@ -222,10 +222,21 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
     @Override
     protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
-        super.renderTooltip(graphics, mouseX, mouseY);
-        Optional<Component> optional = Optional.empty();
+        Component tooltip = null;
 
-        Component tooltip = Component.literal("");
+        if (this.hoveredSlot != null) {
+            ItemStack stack = this.hoveredSlot.getItem();
+            if (stack.isEmpty()) {
+                if (this.hoveredSlot.index == 0) {
+                    tooltip = Component.translatable("menu.marioverse.block_spawner.disguise_slot.tooltip");
+                    graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
+                }
+                if (this.hoveredSlot.index == 1) {
+                    tooltip = Component.translatable("menu.marioverse.block_spawner.replace_slot.tooltip");
+                    graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
+                }
+            }
+        }
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.clock_button.tooltip");
         this.clockButton.setTooltip(Tooltip.create(tooltip));
@@ -244,20 +255,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.hour_button.tooltip");
         this.hourButton.setTooltip(Tooltip.create(tooltip));
-
-        if (this.hoveredSlot != null) {
-            ItemStack stack = this.hoveredSlot.getItem();
-            if (stack.isEmpty()) {
-                if (this.hoveredSlot == this.menu.getSlot(0)) {
-                    tooltip = Component.translatable("menu.marioverse.block_spawner.disguise_slot.tooltip");
-                    graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
-                }
-                if (this.hoveredSlot == this.menu.getSlot(1)) {
-                    tooltip = Component.translatable("menu.marioverse.block_spawner.replace_slot.tooltip");
-                    graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
-                }
-            }
-        }
     }
 
     @Override

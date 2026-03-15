@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
@@ -89,30 +88,30 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
         return RenderShape.MODEL;
     }
 
-    @NotNull
-    @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
-            return SHAPE;
-        return super.getShape(state, blockGetter, pos, context);
-    }
+//    @NotNull
+//    @Override
+//    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+//        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
+//            return SHAPE;
+//        return super.getShape(state, blockGetter, pos, context);
+//    }
+//
+//    @NotNull
+//    @Override
+//    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+//        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
+//            return Shapes.empty();
+//        return super.getCollisionShape(state, blockGetter, pos, context);
+//    }
 
     @NotNull
     @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
-            return Shapes.empty();
-        return super.getCollisionShape(state, blockGetter, pos, context);
-    }
-
-    @NotNull
-    @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED))
-            worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
+            levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
 
-        return direction == Direction.DOWN && !this.canSurvive(state, worldAccessor, pos) ? Blocks.AIR.defaultBlockState()
-                : super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
+        return direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos) ? Blocks.AIR.defaultBlockState()
+                : super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
     }
 
     @Override
@@ -167,7 +166,7 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
             if (world.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
                     && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
                         || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
-                if (blockEntity.getDisguise().getBlock() == Blocks.AIR) {
+                if (blockEntity.getDisguiseState().getBlock() == Blocks.AIR) {
                     ItemStack stack = blockEntity.getGhostItem();
                     if (!stack.isEmpty())
                         world.addParticle(new ItemParticleOption(ParticleRegistry.NO_MOVEMENT_ITEM.get(),stack),

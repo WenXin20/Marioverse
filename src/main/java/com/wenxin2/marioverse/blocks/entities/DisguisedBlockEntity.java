@@ -3,10 +3,11 @@ package com.wenxin2.marioverse.blocks.entities;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +23,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.client.model.data.ModelProperty;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -52,8 +52,9 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (slot == 0 && DisguisedBlockEntity.this.level != null)
+            if (slot == 0 && DisguisedBlockEntity.this.level != null) {
                 DisguisedBlockEntity.this.setDisguise();
+            }
             return super.extractItem(slot, amount, simulate);
         }
 
@@ -83,7 +84,7 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         tag.put("inventory", this.inventory.serializeNBT(provider));
 
         if (!this.disguiseState.isAir())
-            tag.putString("disguiseBlock", BuiltInRegistries.BLOCK.getKey(this.disguiseState.getBlock()).toString());
+            tag.put("disguiseBlock", NbtUtils.writeBlockState(this.disguiseState));
     }
 
     @Override
@@ -91,16 +92,14 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         super.loadAdditional(tag, provider);
         this.inventory.deserializeNBT(provider, tag.getCompound("inventory"));
 
-        if (tag.contains("disguiseBlock")) {
-            Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(tag.getString("disguiseBlock")));
-            this.disguiseState = block.defaultBlockState();
-        }
+        if (tag.contains("disguiseBlock"))
+            this.disguiseState = NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), tag.getCompound("disguiseBlock"));
     }
 
     @NotNull
     @Override
     public ModelData getModelData() {
-        return ModelData.builder().with(DISGUISED, this.getDisguise()).build();
+        return ModelData.builder().with(DISGUISED, this.getDisguiseState()).build();
     }
 
     public IItemHandler getInventory() {
@@ -174,8 +173,6 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
 
         if (slot == 0) {
             this.inventory.setStackInSlot(0, stack);
-            if (stack.getItem() instanceof BlockItem blockItem)
-                this.setDisguiseState(blockItem.getBlock().defaultBlockState());
             return;
         }
         this.setChanged();
@@ -198,28 +195,19 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         this.inventory.setStackInSlot(0, ItemStack.EMPTY);
     }
 
-    public BlockState getDisguise() {
+    public BlockState getDisguiseState() {
         return this.disguiseState;
     }
 
     public void setDisguiseState(BlockState state) {
         this.disguiseState = state;
+        this.setChanged();
     }
 
-    public void setDisguiseItem(ItemStack stack) {
-        this.inventory.setStackInSlot(0, stack);
-    }
-
-    public ItemStack getDisguiseItem() {
-        return this.inventory.getStackInSlot(0);
-    }
-
-    public BlockState getPlacementState(Player player, BlockPos pos, ItemStack stack) {
+    public BlockState getPlacementState(Player player, ItemStack stack, BlockHitResult hitResult) {
         if (!(stack.getItem() instanceof BlockItem blockItem))
             return null;
-
-        BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(pos), player.getDirection(), pos, false);
-        BlockPlaceContext context = new BlockPlaceContext(player, InteractionHand.MAIN_HAND, stack, hit);
+        BlockPlaceContext context = new BlockPlaceContext(player, InteractionHand.MAIN_HAND, stack, hitResult);
 
         return blockItem.getBlock().getStateForPlacement(context);
     }
