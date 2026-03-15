@@ -1265,7 +1265,7 @@
   "menu.marioverse.block_spawner.countdown_box.tooltip": "Refill Countdown",
   "menu.marioverse.block_spawner.countdown_box.narrate": "Refill Countdown",
 
-  "menu.marioverse.block_spawner.disguise_slot.tooltip": "Disguise Block",
+  "menu.marioverse.block_spawner.disguise_slot.tooltip": "Block to Disguise as",
 
   "menu.marioverse.block_spawner.refill_off_button": "",
   "menu.marioverse.block_spawner.refill_off_button.tooltip": "Refill Off",
@@ -1275,7 +1275,7 @@
   "menu.marioverse.block_spawner.refill_on_button.tooltip": "Refill On",
   "menu.marioverse.block_spawner.refill_on_button.narrate": "Refill On Button",
 
-  "menu.marioverse.block_spawner.replace_slot.tooltip": "Replace Block",
+  "menu.marioverse.block_spawner.replace_slot.tooltip": "Block to Replace",
 
   "menu.marioverse.block_spawner.ticks_button": "t",
   "menu.marioverse.block_spawner.ticks_button.tooltip": "Ticks",
