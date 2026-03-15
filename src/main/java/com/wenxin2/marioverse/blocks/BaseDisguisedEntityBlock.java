@@ -17,10 +17,13 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CrossCollisionBlock;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -56,6 +59,31 @@ public class BaseDisguisedEntityBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return null;
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if (!state.getValue(DISGUISED))
+            return null;
+
+        return (lvl, pos, st, be) -> {
+            if (be instanceof DisguisedBlockEntity disguisedBE) {
+                BlockState disguiseState = disguisedBE.getDisguiseState();
+                BlockEntity disguiseBE = disguisedBE.getDisguiseBlockEntity();
+
+                if (disguiseState != null && disguiseBE != null) {
+                    Block block = disguiseState.getBlock();
+
+                    if (block instanceof EntityBlock entityBlock) {
+                        BlockEntityTicker ticker = entityBlock.getTicker(lvl, disguiseState, disguiseBE.getType());
+
+                        if (ticker != null)
+                            ticker.tick(lvl, pos, disguiseState, disguiseBE);
+                    }
+                }
+            }
+        };
     }
 
     @Override

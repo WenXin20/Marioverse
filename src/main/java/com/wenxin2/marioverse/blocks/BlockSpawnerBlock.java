@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -79,7 +81,27 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, BlockEntityRegistry.BLOCK_SPAWNER_BLOCK_ENTITY.get(), BlockSpawnerBlockEntity::tick);
+        if (type != BlockEntityRegistry.BLOCK_SPAWNER_BLOCK_ENTITY.get())
+         return null;
+
+        return (lvl, pos, st, be) -> {
+            BlockSpawnerBlockEntity.tick(lvl, pos, st, (BlockSpawnerBlockEntity) be);
+
+            DisguisedBlockEntity disguisedBE = (DisguisedBlockEntity) be;
+            BlockState disguiseState = disguisedBE.getDisguiseState();
+            BlockEntity disguiseBE = disguisedBE.getDisguiseBlockEntity();
+
+            if (disguiseState != null && disguiseBE != null) {
+                Block block = disguiseState.getBlock();
+
+                if (block instanceof EntityBlock entityBlock) {
+                    BlockEntityTicker ticker = entityBlock.getTicker(lvl, disguiseState, disguiseBE.getType());
+
+                    if (ticker != null)
+                        ticker.tick(lvl, pos, disguiseState, disguiseBE);
+                }
+            }
+        };
     }
 
     @NotNull
