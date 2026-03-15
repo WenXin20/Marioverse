@@ -129,19 +129,17 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup,
 
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (!(entity instanceof LivingEntity) || entity.getInBlockState().is(this)) {
-            entity.makeStuckInBlock(state, new Vec3(0.9F, 0.25, 0.9F));
+        entity.makeStuckInBlock(state, new Vec3(0.9F, 0.25, 0.9F));
 
-            if (level.isClientSide) {
-                RandomSource random = level.getRandom();
-                boolean isNotOld = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
-                if (isNotOld && random.nextFloat() < 0.5F) {
-                    level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state),
-                            entity.getX(), pos.getY() + 1, entity.getZ(),
-                            Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F,
-                            0.05F,
-                            Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F);
-                }
+        if (level.isClientSide) {
+            RandomSource random = level.getRandom();
+            boolean isNotOld = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
+            if (isNotOld && random.nextFloat() < 0.5F) {
+                level.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state),
+                        entity.getX(), pos.getY() + 1, entity.getZ(),
+                        Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F,
+                        0.05F,
+                        Mth.randomBetween(random, -1.0F, 1.0F) * 0.083333336F);
             }
         }
     }

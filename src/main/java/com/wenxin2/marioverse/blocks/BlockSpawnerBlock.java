@@ -88,21 +88,21 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
         return RenderShape.MODEL;
     }
 
-//    @NotNull
-//    @Override
-//    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-//        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
-//            return SHAPE;
-//        return super.getShape(state, blockGetter, pos, context);
-//    }
-//
-//    @NotNull
-//    @Override
-//    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-//        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
-//            return Shapes.empty();
-//        return super.getCollisionShape(state, blockGetter, pos, context);
-//    }
+    @NotNull
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
+            return SHAPE;
+        return super.getShape(state, blockGetter, pos, context);
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
+            return Shapes.empty();
+        return super.getCollisionShape(state, blockGetter, pos, context);
+    }
 
     @NotNull
     @Override
@@ -110,8 +110,7 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
         if (state.getValue(WATERLOGGED))
             levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
 
-        return direction == Direction.DOWN && !this.canSurvive(state, levelAccessor, pos) ? Blocks.AIR.defaultBlockState()
-                : super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+        return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
     }
 
     @Override
@@ -174,5 +173,6 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
                 }
             }
         }
+        super.animateTick(state, level, pos, random);
     }
 }

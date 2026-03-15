@@ -289,14 +289,43 @@ public class BaseDisguisedEntityBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
+            blockEntity.getDisguiseState().entityInside(level, pos, entity);
+        else super.entityInside(state, level, pos, entity);
+    }
+
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+        if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
+            blockEntity.getDisguiseState().getBlock().stepOn(level, pos, blockEntity.getDisguiseState(), entity);
+        else super.stepOn(level, pos, state, entity);
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
+            blockEntity.getDisguiseState().getBlock().fallOn(level, blockEntity.getDisguiseState(), pos, entity, fallDistance);
+        else super.fallOn(level, state, pos, entity, fallDistance);
+    }
+
+    @Override
+    public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
+        BlockPos pos = entity.getOnPos();
+        BlockState state = blockGetter.getBlockState(pos);
+
+        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
+            blockEntity.getDisguiseState().getBlock().updateEntityAfterFallOn(blockGetter, entity);
+        else super.updateEntityAfterFallOn(blockGetter, entity);
+    }
+
+    @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (state.getValue(DISGUISED)) {
-            if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
-                BlockState disguiseState = blockEntity.getDisguiseState();
-                if (disguiseState != null && !disguiseState.isAir())
-                    blockEntity.getDisguiseState().getBlock().animateTick(state, level, pos, random);
-            }
+        if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+            if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
+                disguiseState.getBlock().animateTick(disguiseState, level, pos, random);
         }
-        else super.animateTick(state, level, pos, random);
+        super.animateTick(state, level, pos, random);
     }
 }
