@@ -17,6 +17,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -261,6 +262,7 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         if (blockEntity != null && this.level != null) {
             blockEntity.setLevel(this.level);
             blockEntity.applyComponentsFromItemStack(stack);
+            BlockItem.updateCustomBlockEntityTag(this.level, null, this.worldPosition, stack);
             this.disguiseBlockEntity = blockEntity;
         }
     }
