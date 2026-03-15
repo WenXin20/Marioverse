@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
+import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
@@ -237,19 +238,16 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
         Component tooltip = null;
 
-        if (this.hoveredSlot != null) {
-            ItemStack stack = this.hoveredSlot.getItem();
-            if (stack.isEmpty()) {
-                if (this.hoveredSlot.index == 0) {
-                    tooltip = Component.translatable("menu.marioverse.block_spawner.disguise_slot.tooltip");
-                    graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
-                    return;
-                }
-                if (this.hoveredSlot.index == 1) {
-                    tooltip = Component.translatable("menu.marioverse.block_spawner.replace_slot.tooltip");
-                    graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
-                    return;
-                }
+        if (this.hoveredSlot instanceof GhostSlot ghostSlot && ghostSlot.getItem().isEmpty()) {
+            if (ghostSlot.getContainerSlot() == 0) {
+                tooltip = Component.translatable("menu.marioverse.block_spawner.disguise_slot.tooltip");
+                graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
+                return;
+            }
+            if (ghostSlot.getContainerSlot() == 1) {
+                tooltip = Component.translatable("menu.marioverse.block_spawner.replace_slot.tooltip");
+                graphics.renderTooltip(this.font, this.font.split(tooltip, 115), mouseX, mouseY);
+                return;
             }
         }
         super.renderTooltip(graphics, mouseX, mouseY);
