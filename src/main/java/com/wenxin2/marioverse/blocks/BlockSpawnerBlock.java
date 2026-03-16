@@ -45,8 +45,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<BaseDisguisedEntityBlock> CODEC = simpleCodec(BaseDisguisedEntityBlock::new);
+public class BlockSpawnerBlock extends DisguisedBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<DisguisedBlock> CODEC = simpleCodec(DisguisedBlock::new);
     public static final BooleanProperty DISGUISED = BlockStatePropertyRegistry.DISGUISED;
     public static final BooleanProperty INVISIBLE = BlockStatePropertyRegistry.INVISIBLE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -56,7 +56,7 @@ public class BlockSpawnerBlock extends BaseDisguisedEntityBlock implements Simpl
 
     @NotNull
     @Override
-    public MapCodec<BaseDisguisedEntityBlock> codec() {
+    public MapCodec<DisguisedBlock> codec() {
         return CODEC;
     }
 

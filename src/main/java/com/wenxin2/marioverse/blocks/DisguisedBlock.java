@@ -12,7 +12,6 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
@@ -44,17 +43,17 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BaseDisguisedEntityBlock extends BaseEntityBlock {
-    public static final MapCodec<BaseDisguisedEntityBlock> CODEC = simpleCodec(BaseDisguisedEntityBlock::new);
+public class DisguisedBlock extends BaseEntityBlock {
+    public static final MapCodec<DisguisedBlock> CODEC = simpleCodec(DisguisedBlock::new);
     public static final BooleanProperty DISGUISED = BlockStatePropertyRegistry.DISGUISED;
 
     @NotNull
     @Override
-    public MapCodec<BaseDisguisedEntityBlock> codec() {
+    public MapCodec<DisguisedBlock> codec() {
         return CODEC;
     }
 
-    public BaseDisguisedEntityBlock(Properties properties) {
+    public DisguisedBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(DISGUISED, false));
     }
