@@ -139,6 +139,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
 
         tag.putBoolean("lastPowered", this.lastPowered);
         tag.putInt("activeRefillCountdown", this.activeRefillCountdown);
+        tag.putInt("timeUnit", this.getTimeUnit());
 
         if (!this.trySaveLootTable(tag) && !this.item.isEmpty())
             tag.put("item", this.item.save(provider));
@@ -177,6 +178,9 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         if (tag.contains("refillLootTable"))
             this.refillLootTable = ResourceKey.create(Registries.LOOT_TABLE,
                     ResourceLocation.parse(tag.getString("refillLootTable")));
+
+        if (tag.contains("timeUnit"))
+            this.setTimeUnit(tag.getInt("timeUnit"));
     }
 
     @Override

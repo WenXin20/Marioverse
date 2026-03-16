@@ -37,7 +37,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     protected final Player player;
 
     public BlockSpawnerMenu(int id, Inventory inventory) {
-        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(5), ContainerLevelAccess.NULL);
+        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(6), ContainerLevelAccess.NULL);
     }
 
     public BlockSpawnerMenu(int id, Inventory inventory, Container container, ContainerData data, ContainerLevelAccess access) {
@@ -152,6 +152,14 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
 
     public int getPlaceOffset() {
         return this.data.get(4);
+    }
+
+    public int getMenuType() {
+        return this.data.get(5);
+    }
+
+    public void setMenuType(int menuType) {
+        this.data.set(5, menuType);
     }
 
     public int convertToTicks(int time) {

@@ -69,6 +69,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 2 -> BlockSpawnerBlockEntity.this.getTimeUnit();
                 case 3 -> BlockSpawnerBlockEntity.this.placeDirection;
                 case 4 -> BlockSpawnerBlockEntity.this.placeOffset;
+                case 5 -> BlockSpawnerBlockEntity.this.getMenuType();
                 default -> 0;
             };
         }
@@ -80,12 +81,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 1 -> BlockSpawnerBlockEntity.this.setTimeUnit(value);
                 case 3 -> BlockSpawnerBlockEntity.this.placeDirection = value;
                 case 4 -> BlockSpawnerBlockEntity.this.placeOffset = value;
+                case 5 -> BlockSpawnerBlockEntity.this.setMenuType(value);
             }
         }
 
         @Override
         public int getCount() {
-            return 5;
+            return 6;
         }
     };
 
@@ -133,8 +135,10 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
         tag.putBoolean("lastPowered", this.lastPowered);
         tag.putInt("activeRefillCountdown", this.activeRefillCountdown);
+        tag.putInt("menuType", this.getMenuType());
         tag.putInt("placeDirection", this.placeDirection);
         tag.putInt("placeOffset", this.placeOffset);
+        tag.putInt("timeUnit", this.getTimeUnit());
 
         if (!this.trySaveLootTable(tag) && !this.ghostStack.isEmpty())
             tag.put("item", this.ghostStack.save(provider));
@@ -166,8 +170,14 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         if (tag.contains("activeRefillCountdown", 10))
             this.activeRefillCountdown = tag.getInt("activeRefillCountdown");
 
+        if (tag.contains("menuType"))
+            this.setMenuType(tag.getInt("menuType"));
+
         if (tag.contains("targetPos", 10))
             this.targetPos = BlockPos.of(tag.getLong("targetPos"));
+
+        if (tag.contains("timeUnit"))
+            this.setTimeUnit(tag.getInt("timeUnit"));
     }
 
     @Override
@@ -175,6 +185,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         super.applyImplicitComponents(input);
         this.ghostStack = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
+        this.setData(DataAttachmentRegistry.MENU_TYPE.get(), input.getOrDefault(DataComponentRegistry.MENU_TYPE.get(), -1));
         this.setData(DataAttachmentRegistry.REFILL_COUNTDOWN.get(), input.getOrDefault(DataComponentRegistry.REFILL_COUNTDOWN.get(), -1));
         this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT.get(), input.getOrDefault(DataComponentRegistry.REFILL_TIME_UNIT.get(), 0));
     }
@@ -184,6 +195,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         super.collectImplicitComponents(builder);
         builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.ghostStack)));
         builder.set(DataComponents.CUSTOM_NAME, this.name);
+        builder.set(DataComponentRegistry.MENU_TYPE.get(), this.getData(DataAttachmentRegistry.MENU_TYPE.get()));
         builder.set(DataComponentRegistry.REFILL_COUNTDOWN.get(), this.getData(DataAttachmentRegistry.REFILL_COUNTDOWN.get()));
         builder.set(DataComponentRegistry.REFILL_TIME_UNIT.get(), this.getData(DataAttachmentRegistry.REFILL_TIME_UNIT.get()));
     }
@@ -381,6 +393,15 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
     public void setTimeUnit(int timeUnit) {
         this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT, timeUnit);
+        this.setChanged();
+    }
+
+    public int getMenuType() {
+        return this.getData(DataAttachmentRegistry.MENU_TYPE);
+    }
+
+    public void setMenuType(int menuType) {
+        this.setData(DataAttachmentRegistry.MENU_TYPE, menuType);
         this.setChanged();
     }
 
