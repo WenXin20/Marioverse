@@ -77,53 +77,57 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (this.clockButton.visible) {
             if (this.clockButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 143, this.topPos + 23, uOffset, 184, 16, 16);
-            else graphics.blit(GUI, this.leftPos + 143, this.topPos + 23, uOffset, 167, 16, 16);
+                graphics.blit(GUI, this.leftPos + 126, this.topPos + 22, uOffset, 184, 16, 16);
+            else graphics.blit(GUI, this.leftPos + 126, this.topPos + 22, uOffset, 167, 16, 16);
         }
 
         if (this.countdownBox.visible)
-            graphics.blit(GUI, this.leftPos + 57, this.topPos + 24, 177, 43, 78, 14);
+            graphics.blit(GUI, this.leftPos + 41, this.topPos + 24, 177, 0, 78, 14);
 
         if (this.confirmButton.visible) {
             if (this.confirmButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 141, this.topPos + 45, 198, 58, 20, 20);
-            else graphics.blit(GUI, this.leftPos + 141, this.topPos + 45, 177, 58, 20, 20);
+                graphics.blit(GUI, this.leftPos + 124, this.topPos + 46, 198, 97, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 124, this.topPos + 46, 177, 97, 20, 20);
         }
 
         if (this.ticksButton.visible) {
             if (this.menu.getTimeUnit() == 0)
-                graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 209, 79, 15, 16);
+                graphics.blit(GUI, this.leftPos + 61, this.topPos + 48, 209, 139, 15, 16);
             else if (this.ticksButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 193, 79, 15, 16);
-            else graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 177, 79, 15, 16);
+                graphics.blit(GUI, this.leftPos + 61, this.topPos + 48, 193, 139, 15, 16);
+            else graphics.blit(GUI, this.leftPos + 61, this.topPos + 48, 177, 139, 15, 16);
         }
 
         if (this.secondsButton.visible) {
             if (this.menu.getTimeUnit() == 1)
-                graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 207, 96, 14, 16);
+                graphics.blit(GUI, this.leftPos + 76, this.topPos + 48, 207, 156, 14, 16);
             else if (this.secondsButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 192, 96, 14, 16);
-            else graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 177, 96, 14, 16);
+                graphics.blit(GUI, this.leftPos + 76, this.topPos + 48, 192, 156, 14, 16);
+            else graphics.blit(GUI, this.leftPos + 76, this.topPos + 48, 177, 156, 14, 16);
         }
 
         if (this.minuteButton.visible) {
             if (this.menu.getTimeUnit() == 2)
-                graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 207, 96, 14, 16);
+                graphics.blit(GUI, this.leftPos + 90, this.topPos + 48, 207, 156, 14, 16);
             else if (this.minuteButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 192, 96, 14, 16);
-            else graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 177, 96, 14, 16);
+                graphics.blit(GUI, this.leftPos + 90, this.topPos + 48, 192, 156, 14, 16);
+            else graphics.blit(GUI, this.leftPos + 90, this.topPos + 48, 177, 156, 14, 16);
         }
 
         if (this.hourButton.visible) {
             if (this.menu.getTimeUnit() == 3)
-                graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 209, 113, 15, 16);
+                graphics.blit(GUI, this.leftPos + 104, this.topPos + 48, 209, 173, 15, 16);
             else if (this.hourButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 193, 113, 15, 16);
-            else graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 177, 113, 15, 16);
+                graphics.blit(GUI, this.leftPos + 104, this.topPos + 48, 193, 173, 15, 16);
+            else graphics.blit(GUI, this.leftPos + 104, this.topPos + 48, 177, 173, 15, 16);
         }
 
         if (this.showIcon)
             graphics.blit(GUI, this.leftPos + 83, this.topPos + 9, 177, 130, 60, 68);
+        // Replace Slot
+        graphics.blit(GUI, this.leftPos + 7, this.topPos + 21, 212, 15, 18, 18);
+        // Disguise Slot
+        graphics.blit(GUI, this.leftPos + 7, this.topPos + 47, 212, 15, 18, 18);
     }
 
     @Override
@@ -133,7 +137,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         Component tooltip = null;
         final Component refillOffButton = Component.translatable("menu.marioverse.question_block.refill_off_button");
 
-        this.countdownBox = new EditBox(this.font, this.leftPos + 59, this.topPos + 27, 70, 16,
+        this.countdownBox = new EditBox(this.font, this.leftPos + 43, this.topPos + 27, 70, 16,
                 Component.translatable("menu.marioverse.question_block.countdown_box.narrate"));
         this.countdownBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.question_block.countdown_box.tooltip")));
         this.countdownBox.setValue(String.valueOf(this.menu.getRefillCountdown()));
@@ -160,7 +164,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.ticksButton = Button.builder(ticksButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
-        }).bounds(this.leftPos + 77, this.topPos + 48, 15, 16)
+        }).bounds(this.leftPos + 61, this.topPos + 48, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.ticks_button.narrate")).build();
         this.ticksButton.visible = true;
         this.ticksButton.setAlpha(0);
@@ -172,7 +176,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.secondsButton = Button.builder(secondsButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
-        }).bounds(this.leftPos + 92, this.topPos + 48, 14, 16)
+        }).bounds(this.leftPos + 76, this.topPos + 48, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.seconds_button.narrate")).build();
         this.secondsButton.visible = true;
         this.secondsButton.setAlpha(0);
@@ -184,7 +188,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.minuteButton = Button.builder(minuteButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
-        }).bounds(this.leftPos + 106, this.topPos + 48, 14, 16)
+        }).bounds(this.leftPos + 90, this.topPos + 48, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.minute_button.narrate")).build();
         this.minuteButton.visible = true;
         this.minuteButton.setAlpha(0);
@@ -196,7 +200,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.hourButton = Button.builder(hourButton, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
-        }).bounds(this.leftPos + 120, this.topPos + 48, 15, 16)
+        }).bounds(this.leftPos + 104, this.topPos + 48, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.hour_button.narrate")).build();
         this.hourButton.visible = true;
         this.hourButton.setAlpha(0);
@@ -208,7 +212,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.confirmButton = Button.builder(confirmButton, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
-        }).bounds(this.leftPos + 141, this.topPos + 45, 20, 20)
+        }).bounds(this.leftPos + 124, this.topPos + 46, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.confirm_button.narrate")).build();
         this.confirmButton.visible = true;
         this.confirmButton.setAlpha(0);

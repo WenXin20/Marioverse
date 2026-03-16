@@ -24,8 +24,8 @@ import org.jetbrains.annotations.NotNull;
 public class BlockSpawnerMenu extends AbstractContainerMenu {
     static final ResourceLocation EMPTY_SLOT_BLOCK = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/slot/empty_block_slot");
-    static final ResourceLocation EMPTY_SLOT_COIN = ResourceLocation
-            .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/slot/empty_coin_slot");
+    static final ResourceLocation EMPTY_SLOT_DISGUISE = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/slot/empty_disguise_slot");
     private final ContainerLevelAccess access;
     private final ContainerData data;
     protected final Player player;
@@ -110,14 +110,14 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
         this.addSlot(new GhostSlot(container, 1, 8, 22) {
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_COIN);
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_BLOCK);
             }
         });
 
         this.addSlot(new GhostSlot(container, 0, 8, 48) {
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_BLOCK);
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_DISGUISE);
             }
         });
     }
