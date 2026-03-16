@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class QuestionBlockMenu extends AbstractContainerMenu {
     static final ResourceLocation EMPTY_SLOT_QUESTION = ResourceLocation
-            .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/empty_question_slot");
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/slot/empty_question_slot");
     private final ContainerLevelAccess access;
     private final ContainerData data;
     protected final Player player;
