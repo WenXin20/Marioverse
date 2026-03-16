@@ -8,7 +8,6 @@ import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -18,8 +17,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SmithingTemplateItem;
 import org.lwjgl.glfw.GLFW;
 
 public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu> {
@@ -29,8 +26,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     private String blockSpawnerName = "";
     Button clockButton;
     Button confirmButton;
+    Button disguiseButton;
     Button hourButton;
     Button minuteButton;
+    Button placementButton;
+    Button replaceButton;
     Button secondsButton;
     Button ticksButton;
     EditBox countdownBox;
@@ -90,6 +90,24 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             else graphics.blit(GUI, this.leftPos + 124, this.topPos + 46, 177, 97, 20, 20);
         }
 
+        if (this.replaceButton.visible) {
+            if (this.replaceButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 8, 198, 34, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 8, 177, 34, 20, 20);
+        }
+
+        if (this.placementButton.visible) {
+            if (this.placementButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 33, 198, 55, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 33, 177, 55, 20, 20);
+        }
+
+        if (this.disguiseButton.visible) {
+            if (this.disguiseButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 58, 198, 76, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 58, 177, 76, 20, 20);
+        }
+
         if (this.ticksButton.visible) {
             if (this.menu.getTimeUnit() == 0)
                 graphics.blit(GUI, this.leftPos + 61, this.topPos + 48, 209, 139, 15, 16);
@@ -134,12 +152,12 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     public void init() {
         super.init();
 
-        Component tooltip = null;
-        final Component refillOffButton = Component.translatable("menu.marioverse.question_block.refill_off_button");
+        Component tooltip = Component.literal("");
+        Component buttonName = Component.literal("");
 
         this.countdownBox = new EditBox(this.font, this.leftPos + 43, this.topPos + 27, 70, 16,
-                Component.translatable("menu.marioverse.question_block.countdown_box.narrate"));
-        this.countdownBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.question_block.countdown_box.tooltip")));
+                Component.translatable("menu.marioverse.block_spawner.countdown_box.narrate"));
+        this.countdownBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.block_spawner.countdown_box.tooltip")));
         this.countdownBox.setValue(String.valueOf(this.menu.getRefillCountdown()));
         this.countdownBox.setFilter(filter -> filter.matches("-?\\d*"));
         this.countdownBox.setBordered(false);
@@ -147,77 +165,110 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.countdownBox.setMaxLength(34);
         this.addRenderableWidget(this.countdownBox);
 
-        final Component clockButton = Component.translatable("menu.marioverse.question_block.clock_button");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.clock_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.clock_button.tooltip");
-        this.clockButton = Button.builder(clockButton, button -> {
+        this.clockButton = Button.builder(buttonName, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
         }).bounds(this.leftPos + 126, this.topPos + 22, 16, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.clock_button.narrate")).build();
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.clock_button.narrate")).build();
         this.clockButton.visible = true;
         this.clockButton.setAlpha(0);
         this.clockButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.clockButton);
 
-        final Component ticksButton = Component.translatable("menu.marioverse.question_block.ticks_button");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.ticks_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.ticks_button.tooltip");
-        this.ticksButton = Button.builder(ticksButton, button -> {
+        this.ticksButton = Button.builder(buttonName, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
         }).bounds(this.leftPos + 61, this.topPos + 48, 15, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.ticks_button.narrate")).build();
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.ticks_button.narrate")).build();
         this.ticksButton.visible = true;
         this.ticksButton.setAlpha(0);
         this.ticksButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.ticksButton);
 
-        final Component secondsButton = Component.translatable("menu.marioverse.question_block.seconds_button");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.seconds_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.seconds_button.tooltip");
-        this.secondsButton = Button.builder(secondsButton, button -> {
+        this.secondsButton = Button.builder(buttonName, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
         }).bounds(this.leftPos + 76, this.topPos + 48, 14, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.seconds_button.narrate")).build();
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.seconds_button.narrate")).build();
         this.secondsButton.visible = true;
         this.secondsButton.setAlpha(0);
         this.secondsButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.secondsButton);
 
-        final Component minuteButton = Component.translatable("menu.marioverse.question_block.minute_button");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.minute_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.minute_button.tooltip");
-        this.minuteButton = Button.builder(minuteButton, button -> {
+        this.minuteButton = Button.builder(buttonName, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
         }).bounds(this.leftPos + 90, this.topPos + 48, 14, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.minute_button.narrate")).build();
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.minute_button.narrate")).build();
         this.minuteButton.visible = true;
         this.minuteButton.setAlpha(0);
         this.minuteButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.minuteButton);
 
-        final Component hourButton = Component.translatable("menu.marioverse.question_block.hour_button");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.hour_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.hour_button.tooltip");
-        this.hourButton = Button.builder(hourButton, button -> {
+        this.hourButton = Button.builder(buttonName, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
         }).bounds(this.leftPos + 104, this.topPos + 48, 15, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.hour_button.narrate")).build();
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.hour_button.narrate")).build();
         this.hourButton.visible = true;
         this.hourButton.setAlpha(0);
         this.hourButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.hourButton);
 
-        final Component confirmButton = Component.translatable("menu.marioverse.question_block.confirm_button");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.confirm_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.confirm_button.tooltip");
-        this.confirmButton = Button.builder(confirmButton, button -> {
+        this.confirmButton = Button.builder(buttonName, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
         }).bounds(this.leftPos + 124, this.topPos + 46, 20, 20)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.confirm_button.narrate")).build();
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.confirm_button.narrate")).build();
         this.confirmButton.visible = true;
         this.confirmButton.setAlpha(0);
         this.confirmButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.confirmButton);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.replace_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.replace_button.tooltip");
+        this.replaceButton = Button.builder(buttonName, button -> {
+            this.confirmButtonOnPress();
+            this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
+        }).bounds(this.leftPos + 149, this.topPos + 8, 20, 20)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.replace_button.narrate")).build();
+        this.replaceButton.setAlpha(0);
+        this.replaceButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.replaceButton);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.placement_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.placement_button.tooltip");
+        this.placementButton = Button.builder(buttonName, button -> {
+            this.confirmButtonOnPress();
+            this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
+        }).bounds(this.leftPos + 149, this.topPos + 33, 20, 20)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.placement_button.narrate")).build();
+        this.placementButton.setAlpha(0);
+        this.placementButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.placementButton);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.disguise_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.disguise_button.tooltip");
+        this.disguiseButton = Button.builder(buttonName, button -> {
+            this.confirmButtonOnPress();
+            this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
+        }).bounds(this.leftPos + 149, this.topPos + 58, 20, 20)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.disguise_button.narrate")).build();
+        this.disguiseButton.setAlpha(0);
+        this.disguiseButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.disguiseButton);
     }
 
     @Override
