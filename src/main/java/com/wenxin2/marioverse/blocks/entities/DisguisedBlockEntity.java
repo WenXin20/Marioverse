@@ -17,7 +17,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -86,6 +85,8 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
 
         if (!this.disguiseState.isAir())
             tag.put("disguiseBlock", NbtUtils.writeBlockState(this.disguiseState));
+        if (this.disguiseBlockEntity != null)
+            tag.put("disguiseBlockEntity", this.disguiseBlockEntity.saveWithoutMetadata(provider));
     }
 
     @Override
@@ -95,6 +96,17 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
 
         if (tag.contains("disguiseBlock"))
             this.disguiseState = NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), tag.getCompound("disguiseBlock"));
+
+        if (tag.contains("disguiseBlockEntity") && this.disguiseState.getBlock() instanceof EntityBlock entityBlock) {
+            this.disguiseBlockEntity = entityBlock.newBlockEntity(this.worldPosition, this.disguiseState);
+
+            if (this.disguiseBlockEntity != null && this.level != null) {
+                this.disguiseBlockEntity.setLevel(this.level);
+                this.disguiseBlockEntity.loadWithComponents(tag.getCompound("disguiseBlockEntity"), provider);
+                this.disguiseBlockEntity.applyComponentsFromItemStack(this.inventory.getStackInSlot(0));
+                BlockItem.updateCustomBlockEntityTag(this.level, null, this.worldPosition, this.inventory.getStackInSlot(0));
+            }
+        }
     }
 
     @NotNull

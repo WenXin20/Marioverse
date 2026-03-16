@@ -673,7 +673,6 @@ public class MarioverseEventHandlers {
             BlockState placementState = disguiseBE.getPlacementState(player, stackCopy, event.getHitVec());
 
             if (placementState != null) {
-//                placementState = Block.updateFromNeighbourShapes(placementState, world, pos);
                 disguiseBE.setDisguiseState(placementState);
                 disguiseBE.setItem(0, stackCopy);
                 heldItem.consume(1, player);
