@@ -8,12 +8,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
@@ -37,14 +39,19 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
 
     protected final ItemStackHandler inventory = new ItemStackHandler(1) {
         @Override
-        protected void onContentsChanged(int slot) {
-            if (slot == 0 && DisguisedBlockEntity.this.level != null)
-                DisguisedBlockEntity.this.setDisguise();
-        }
-
-        @Override
         public void setStackInSlot(int slot, ItemStack stack) {
-            if (slot == 0 && DisguisedBlockEntity.this.level != null) {
+            Level level = DisguisedBlockEntity.this.level;
+            BlockPos pos = DisguisedBlockEntity.this.worldPosition;
+
+            if (slot == 0 && level != null) {
+                DisguisedBlockEntity.this.setDisguise();
+                DisguisedBlockEntity.this.requestModelDataUpdate();
+
+                if (stack.getItem() instanceof BlockItem blockItem) {
+                    DisguisedBlockEntity.this.setDisguiseState(blockItem.getBlock().defaultBlockState());
+                    level.playSound(null, pos, blockItem.getBlock().defaultBlockState()
+                            .getSoundType(level, pos, null).getPlaceSound(), SoundSource.BLOCKS);
+                } else DisguisedBlockEntity.this.setDisguiseState(Blocks.AIR.defaultBlockState());
             }
             super.setStackInSlot(slot, stack);
         }
@@ -52,9 +59,6 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (slot == 0 && DisguisedBlockEntity.this.level != null) {
-                DisguisedBlockEntity.this.setDisguise();
-            }
             return super.extractItem(slot, amount, simulate);
         }
 
@@ -162,8 +166,6 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         this.unpackLootTable(null);
 
         if (slot == 0) {
-            this.setDisguise();
-            this.setDisguiseState(Blocks.AIR.defaultBlockState());
             return this.inventory.extractItem(0, amount, false);
         }
         return ItemStack.EMPTY;
@@ -254,12 +256,11 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
                         && state.hasProperty(BlockStatePropertyRegistry.DISGUISED)
                         && state.getValue(BlockStatePropertyRegistry.DISGUISED))
                     this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.INVISIBLE, true), 3);
-
-                this.createDisguiseBlockEntity(stack);
-                this.requestModelDataUpdate();
-                this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_CLIENTS);
-                this.setChanged();
             }
+            this.createDisguiseBlockEntity(stack);
+            this.requestModelDataUpdate();
+            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+            this.setChanged();
         }
     }
 

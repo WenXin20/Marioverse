@@ -2,11 +2,13 @@ package com.wenxin2.marioverse.inventory;
 
 import com.mojang.datafixers.util.Pair;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,7 +20,11 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockSpawnerMenu extends AbstractContainerMenu {
@@ -84,11 +90,13 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
                 ItemStack ghostStack = carried.copy();
                 ghostStack.setCount(1);
                 ghostSlot.set(ghostStack);
+                this.updateDisguise(ghostStack);
                 return;
             }
 
             if (carried.isEmpty()) {
                 ghostSlot.set(ItemStack.EMPTY);
+                this.updateDisguise(ItemStack.EMPTY);
                 return;
             }
         }
@@ -169,5 +177,21 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
             float pitch = 0.9F + Minecraft.getInstance().player.clientLevel.random.nextFloat() * 0.2F;
             Minecraft.getInstance().player.playSound(soundEvent, 1.0F, pitch);
         }
+    }
+
+    private void updateDisguise(ItemStack stack) {
+        this.getAccess().execute((level, pos) -> {
+            if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+                if (stack.getItem() instanceof BlockItem blockItem)
+                    blockEntity.setDisguiseState(blockItem.getBlock().defaultBlockState());
+                else blockEntity.setDisguiseState(Blocks.AIR.defaultBlockState());
+
+                blockEntity.requestModelDataUpdate();
+                blockEntity.setChanged();
+
+                BlockState state = level.getBlockState(pos);
+                level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+            }
+        });
     }
 }
