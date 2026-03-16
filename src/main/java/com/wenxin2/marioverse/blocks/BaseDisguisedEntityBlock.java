@@ -12,6 +12,8 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -38,6 +40,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -358,6 +361,33 @@ public class BaseDisguisedEntityBlock extends BaseEntityBlock {
                 return blockEntity.getDisguiseState().useWithoutItem(level, player, hitResult);
         }
         return super.useWithoutItem(state, level, pos, player, hitResult);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        Player player = context.getPlayer();
+
+        if ((player == null || !player.isCreative())
+                && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir()) {
+                BlockState modifiedState = disguiseState.getBlock().getToolModifiedState(disguiseState, context, itemAbility, simulate);
+
+                if (modifiedState != null && !simulate) {
+                    blockEntity.setDisguiseState(modifiedState);
+                    blockEntity.setItem(0, modifiedState.getBlock().asItem().getDefaultInstance());
+                    blockEntity.requestModelDataUpdate();
+                    blockEntity.setChanged();
+                    level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                }
+                return state;
+            }
+        }
+        return super.getToolModifiedState(state, context, itemAbility, simulate);
     }
 
     @Override
