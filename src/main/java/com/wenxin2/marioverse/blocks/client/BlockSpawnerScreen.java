@@ -152,7 +152,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.clockButton = Button.builder(clockButton, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
-        }).bounds(this.leftPos + 143, this.topPos + 23, 16, 16)
+        }).bounds(this.leftPos + 126, this.topPos + 22, 16, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.clock_button.narrate")).build();
         this.clockButton.visible = true;
         this.clockButton.setAlpha(0);

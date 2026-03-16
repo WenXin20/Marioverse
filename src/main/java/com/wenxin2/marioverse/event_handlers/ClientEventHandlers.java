@@ -92,12 +92,10 @@ public class ClientEventHandlers {
 
                 if (disguiseState != null && !disguiseState.isAir() && !disguiseState.is(BlockRegistry.BLOCK_SPAWNER)) {
                     BlockColors colors = Minecraft.getInstance().getBlockColors();
-
                     return colors.getColor(disguiseState, level, pos, tintIndex);
                 }
             }
             return -1;
-
         }, BlockRegistry.BLOCK_SPAWNER.get());
     }
 
