@@ -39,26 +39,21 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
 
     protected final ItemStackHandler inventory = new ItemStackHandler(1) {
         @Override
-        public void setStackInSlot(int slot, ItemStack stack) {
-            Level level = DisguisedBlockEntity.this.level;
-            BlockPos pos = DisguisedBlockEntity.this.worldPosition;
-
-            if (slot == 0 && level != null) {
+        protected void onContentsChanged(int slot) {
+            if (slot == 0 && DisguisedBlockEntity.this.level != null)
                 DisguisedBlockEntity.this.setDisguise();
-                DisguisedBlockEntity.this.requestModelDataUpdate();
-
-                if (stack.getItem() instanceof BlockItem blockItem) {
-                    DisguisedBlockEntity.this.setDisguiseState(blockItem.getBlock().defaultBlockState());
-                    level.playSound(null, pos, blockItem.getBlock().defaultBlockState()
-                            .getSoundType(level, pos, null).getPlaceSound(), SoundSource.BLOCKS);
-                } else DisguisedBlockEntity.this.setDisguiseState(Blocks.AIR.defaultBlockState());
-            }
+        }
+        @Override
+        public void setStackInSlot(int slot, ItemStack stack) {
             super.setStackInSlot(slot, stack);
         }
 
         @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            if (slot == 0 && DisguisedBlockEntity.this.level != null) {
+                DisguisedBlockEntity.this.setDisguise();
+            }
             return super.extractItem(slot, amount, simulate);
         }
 
@@ -166,6 +161,8 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         this.unpackLootTable(null);
 
         if (slot == 0) {
+            this.setDisguise();
+            this.setDisguiseState(Blocks.AIR.defaultBlockState());
             return this.inventory.extractItem(0, amount, false);
         }
         return ItemStack.EMPTY;
