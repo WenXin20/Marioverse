@@ -667,7 +667,7 @@ public class MarioverseEventHandlers {
         }
 
         if (player.isCreative() && player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem blockItem
-                && !blockItem.getBlock().defaultBlockState().is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)
+                && !blockItem.getBlock().defaultBlockState().is(TagRegistry.CANNOT_USE_AS_DISGUISE)
                 && blockEntity instanceof DisguisedBlockEntity disguiseBE) {
             ItemStack stackCopy = heldItem.copy();
             BlockState placementState = disguiseBE.getPlacementState(player, stackCopy, event.getHitVec());

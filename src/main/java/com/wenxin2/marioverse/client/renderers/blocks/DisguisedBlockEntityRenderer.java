@@ -26,7 +26,7 @@ public class DisguisedBlockEntityRenderer implements BlockEntityRenderer<Disguis
         BlockState disguiseState = blockEntity.getDisguiseState();
 
         if (disguiseState == null || disguiseState.isAir()
-                || disguiseState.is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE))
+                || disguiseState.is(TagRegistry.CANNOT_USE_AS_DISGUISE))
             return;
 
         poseStack.pushPose();

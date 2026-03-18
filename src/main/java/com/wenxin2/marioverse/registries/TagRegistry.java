@@ -36,7 +36,6 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_SUBMERGED_PIPES = biomeTags("has_submerged_pipes");
     public static final TagKey<Biome> HAS_TRAMPOLINE_CAPS = biomeTags("has_trampoline_caps");
 
-    public static final TagKey<Block> BLOCK_SPAWNER_CANNOT_DISGUISE = blockTags("block_spawner_cannot_disguise");
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
@@ -45,6 +44,7 @@ public class TagRegistry {
     public static final TagKey<Block> CALCITE_BLOCKS = blockTags("calcite");
     public static final TagKey<Block> CALCITE_BRICK_BLOCKS = blockTags("calcite_bricks");
     public static final TagKey<Block> CALCITE_BRICK_PEDESTAL_BLOCKS = blockTags("calcite_brick_pedestals");
+    public static final TagKey<Block> CANNOT_USE_AS_DISGUISE = blockTags("cannot_use_as_disguise");
     public static final TagKey<Block> CHECKPOINT_FLAG_BLOCKS = blockTags("checkpoint_flags");
     public static final TagKey<Block> CHISELED_CALCITE_BRICK_BLOCKS = blockTags("chiseled_calcite_bricks");
     public static final TagKey<Block> CRACKED_CALCITE_BRICK_BLOCKS = blockTags("cracked_calcite_bricks");

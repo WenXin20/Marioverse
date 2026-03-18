@@ -1,5 +1,6 @@
 {
   "values": [
+    "marioverse:block_spawner",
     {
       "id": "automobility:slope_with_dash_panel",
       "required": false

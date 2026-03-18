@@ -254,7 +254,6 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
     @Override
     protected void containerTick() {
         super.containerTick();
-
         int refillCountdown = this.menu.getRefillCountdown();
 
         if (!this.countdownBox.isFocused() && this.countdownBox.visible)

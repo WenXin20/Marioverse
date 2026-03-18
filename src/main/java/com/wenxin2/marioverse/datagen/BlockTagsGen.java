@@ -111,7 +111,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(CompatRegistry.CREATE_SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
 
-        tag(TagRegistry.BLOCK_SPAWNER_CANNOT_DISGUISE)
+        tag(TagRegistry.CANNOT_USE_AS_DISGUISE)
+                .add(BlockRegistry.BLOCK_SPAWNER.get())
                 .addOptional(AUTOMOBILITY_DASH_PANEL_SLOPE)
                 .addOptional(AUTOMOBILITY_DASH_PANEL_STEEP_SLOPE)
                 .addOptional(AUTOMOBILITY_SLOPE)
