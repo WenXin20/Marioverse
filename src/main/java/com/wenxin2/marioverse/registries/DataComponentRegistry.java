@@ -40,6 +40,10 @@ public class DataComponentRegistry {
             Marioverse.COMPONENTS.register("menu_type", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PLACEMENT_OFFSET =
+            Marioverse.COMPONENTS.register("placement_offset", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> REFILL_COUNTDOWN =
             Marioverse.COMPONENTS.register("refill_countdown", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());

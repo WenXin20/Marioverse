@@ -146,6 +146,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> ONE_UPS_REWARDED = Marioverse.ATTACHMENT_TYPES
             .register("one_ups_rewarded", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> PLACEMENT_OFFSET = Marioverse.ATTACHMENT_TYPES
+            .register("placement_offset", () -> AttachmentType.builder(() -> 1).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> PREVENT_WARP_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("prevent_warp_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());

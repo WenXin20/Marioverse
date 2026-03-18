@@ -20,7 +20,6 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
@@ -56,7 +55,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     private boolean lastPowered;
     private int activeRefillCountdown = -1;
     private int placeDirection = 0;
-    private int placeOffset = 1;
+    private int placementOffset = 1;
     protected long lootTableSeed;
     private BlockPos targetPos;
 
@@ -68,7 +67,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 1 -> BlockSpawnerBlockEntity.this.getActiveRefillCountdown();
                 case 2 -> BlockSpawnerBlockEntity.this.getTimeUnit();
                 case 3 -> BlockSpawnerBlockEntity.this.placeDirection;
-                case 4 -> BlockSpawnerBlockEntity.this.placeOffset;
+                case 4 -> BlockSpawnerBlockEntity.this.getPlacementOffset();
                 case 5 -> BlockSpawnerBlockEntity.this.getMenuType();
                 default -> 0;
             };
@@ -80,7 +79,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 0 -> BlockSpawnerBlockEntity.this.setRefillCountdown(value);
                 case 1 -> BlockSpawnerBlockEntity.this.setTimeUnit(value);
                 case 3 -> BlockSpawnerBlockEntity.this.placeDirection = value;
-                case 4 -> BlockSpawnerBlockEntity.this.placeOffset = value;
+                case 4 -> BlockSpawnerBlockEntity.this.setPlacementOffset(value);
                 case 5 -> BlockSpawnerBlockEntity.this.setMenuType(value);
             }
         }
@@ -137,7 +136,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         tag.putInt("activeRefillCountdown", this.activeRefillCountdown);
         tag.putInt("menuType", this.getMenuType());
         tag.putInt("placeDirection", this.placeDirection);
-        tag.putInt("placeOffset", this.placeOffset);
+        tag.putInt("placementOffset", this.getPlacementOffset());
         tag.putInt("timeUnit", this.getTimeUnit());
 
         if (!this.trySaveLootTable(tag) && !this.ghostStack.isEmpty())
@@ -156,7 +155,6 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
         this.lastPowered = tag.getBoolean("lastPowered");
         this.placeDirection = tag.getInt("placeDirection");
-        this.placeOffset = tag.getInt("placeOffset");
 
         if (!this.tryLoadLootTable(tag)) {
             if (tag.contains("item", 10))
@@ -169,6 +167,9 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
         if (tag.contains("activeRefillCountdown", 10))
             this.activeRefillCountdown = tag.getInt("activeRefillCountdown");
+
+        if (tag.contains("placementOffset"))
+            this.setPlacementOffset(tag.getInt("placementOffset"));
 
         if (tag.contains("menuType"))
             this.setMenuType(tag.getInt("menuType"));
@@ -185,7 +186,8 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         super.applyImplicitComponents(input);
         this.ghostStack = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
-        this.setData(DataAttachmentRegistry.MENU_TYPE.get(), input.getOrDefault(DataComponentRegistry.MENU_TYPE.get(), -1));
+        this.setData(DataAttachmentRegistry.MENU_TYPE.get(), input.getOrDefault(DataComponentRegistry.MENU_TYPE.get(), 0));
+        this.setData(DataAttachmentRegistry.PLACEMENT_OFFSET.get(), input.getOrDefault(DataComponentRegistry.PLACEMENT_OFFSET.get(), 1));
         this.setData(DataAttachmentRegistry.REFILL_COUNTDOWN.get(), input.getOrDefault(DataComponentRegistry.REFILL_COUNTDOWN.get(), -1));
         this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT.get(), input.getOrDefault(DataComponentRegistry.REFILL_TIME_UNIT.get(), 0));
     }
@@ -196,6 +198,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.ghostStack)));
         builder.set(DataComponents.CUSTOM_NAME, this.name);
         builder.set(DataComponentRegistry.MENU_TYPE.get(), this.getData(DataAttachmentRegistry.MENU_TYPE.get()));
+        builder.set(DataComponentRegistry.PLACEMENT_OFFSET.get(), this.getData(DataAttachmentRegistry.PLACEMENT_OFFSET.get()));
         builder.set(DataComponentRegistry.REFILL_COUNTDOWN.get(), this.getData(DataAttachmentRegistry.REFILL_COUNTDOWN.get()));
         builder.set(DataComponentRegistry.REFILL_TIME_UNIT.get(), this.getData(DataAttachmentRegistry.REFILL_TIME_UNIT.get()));
     }
@@ -387,6 +390,15 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
             this.activeRefillCountdown = refillCountdown;
     }
 
+    public int getPlacementOffset() {
+        return this.getData(DataAttachmentRegistry.PLACEMENT_OFFSET.get());
+    }
+
+    public void setPlacementOffset(int placementOffset) {
+        this.setData(DataAttachmentRegistry.PLACEMENT_OFFSET.get(), placementOffset);
+        this.setChanged();
+    }
+
     public int getTimeUnit() {
         return this.getData(DataAttachmentRegistry.REFILL_TIME_UNIT);
     }
@@ -441,7 +453,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
             return;
 
         Direction direction = directionFromIndex(placeDirection);
-        BlockPos posOffset = this.worldPosition.relative(direction, placeOffset);
+        BlockPos posOffset = this.worldPosition.relative(direction, this.getPlacementOffset());
         ItemStack stack = this.ghostStack.copy();
         Item item = stack.getItem();
         boolean placed = false;
@@ -449,8 +461,9 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
         fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
         fakePlayer.setPos(Vec3.atCenterOf(this.worldPosition));
+        fakePlayer.setShiftKeyDown(true); // TODO: Fake player sneaking
 
-        if (direction.getAxis().isHorizontal()) {
+        if (direction.getAxis().isHorizontal()) { // TODO: Fake player facing direction
             float yaw = direction.toYRot();
             fakePlayer.setYRot(yaw);
             fakePlayer.setYHeadRot(yaw);
@@ -459,12 +472,12 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
         if (item instanceof BlockItem blockItem) {
             UseOnContext useContext = new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND,
-                    new BlockHitResult(Vec3.atCenterOf(posOffset), Direction.UP, posOffset, false));
+                    new BlockHitResult(Vec3.atCenterOf(posOffset), Direction.UP, posOffset, false)); // TODO: Block face
 
             BlockPlaceContext placeContext = new BlockPlaceContext(useContext);
             placed = blockItem.place(placeContext).consumesAction();
         } else if (item instanceof BucketItem bucketItem)
-            placed = bucketItem.emptyContents(fakePlayer, this.level, posOffset, null, stack);
+            placed = bucketItem.emptyContents(fakePlayer, this.level, posOffset, null, stack); // TODO: Offset
 
         if (placed) {
             this.targetPos = posOffset;
@@ -482,7 +495,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         if (this.level == null) return;
 
         Direction dir = directionFromIndex(this.placeDirection);
-        BlockPos posOffset = this.worldPosition.relative(dir, this.placeOffset);
+        BlockPos posOffset = this.worldPosition.relative(dir, this.placementOffset);
 
         if (this.ghostStack.getItem() instanceof BlockItem || this.ghostStack.getItem() instanceof BucketItem)
             this.targetPos = posOffset;

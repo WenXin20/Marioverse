@@ -1268,12 +1268,15 @@
   "menu.marioverse.block_spawner.disguise_slot.tooltip": "Block to Disguise as",
 
   "menu.marioverse.block_spawner.disguise_button": "",
-  "menu.marioverse.block_spawner.disguise_button.tooltip": "Disguise Properties",
-  "menu.marioverse.block_spawner.disguise_button.narrate": "Disguise Button",
+  "menu.marioverse.block_spawner.disguise_button.tooltip": "Fake Player",
+  "menu.marioverse.block_spawner.disguise_button.narrate": "Fake Player Button",
 
   "menu.marioverse.block_spawner.placement_button": "",
   "menu.marioverse.block_spawner.placement_button.tooltip": "Placement Properties",
   "menu.marioverse.block_spawner.placement_button.narrate": "Placement Properties Button",
+
+  "menu.marioverse.block_spawner.placement_offset_box.tooltip": "Placement Offset",
+  "menu.marioverse.block_spawner.placement_offset_box.narrate": "Placement Offset",
 
   "menu.marioverse.block_spawner.replace_button": "",
   "menu.marioverse.block_spawner.replace_button.tooltip": "Replace Timer",

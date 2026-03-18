@@ -8,7 +8,6 @@ import com.wenxin2.marioverse.registries.MenuRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -35,6 +34,9 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
     private final ContainerData data;
     protected final Player player;
+    private GhostSlot blockSlot;
+    private GhostSlot disguiseSlot;
+    private int lastMenuType = -1;
 
     public BlockSpawnerMenu(int id, Inventory inventory) {
         this(id, inventory, new SimpleContainer(2), new SimpleContainerData(6), ContainerLevelAccess.NULL);
@@ -115,19 +117,29 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(inventory, column, 8 + column * 18, 142));
         }
 
-        this.addSlot(new GhostSlot(container, 1, 8, 22) {
+        this.blockSlot = new GhostSlot(container, 1, 8, 22) {
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
                 return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_BLOCK);
             }
-        });
+        };
 
-        this.addSlot(new GhostSlot(container, 0, 8, 48) {
+        this.disguiseSlot = new GhostSlot(container, 0, 8, 48) {
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
                 return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_SLOT_DISGUISE);
             }
-        });
+        };
+        this.addSlot(this.blockSlot);
+        this.addSlot(this.disguiseSlot);
+    }
+
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        int menuType = getMenuType();
+        if (menuType != this.lastMenuType)
+            this.lastMenuType = menuType;
     }
 
     public ContainerLevelAccess getAccess() {
@@ -150,7 +162,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
         return this.data.get(3);
     }
 
-    public int getPlaceOffset() {
+    public int getPlacementOffset() {
         return this.data.get(4);
     }
 
@@ -201,5 +213,13 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
                 level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
             }
         });
+    }
+
+    public GhostSlot getBlockSlot() {
+        return this.blockSlot;
+    }
+
+    public GhostSlot getDisguiseSlot() {
+        return this.disguiseSlot;
     }
 }
