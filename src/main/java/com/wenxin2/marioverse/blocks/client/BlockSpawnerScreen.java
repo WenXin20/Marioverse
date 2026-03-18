@@ -258,7 +258,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 Component.translatable("menu.marioverse.block_spawner.placement_offset_box.narrate"));
         this.placementOffsetBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.block_spawner.placement_offset_box.tooltip")));
         this.placementOffsetBox.setValue(String.valueOf(this.menu.getPlacementOffset()));
-        this.placementOffsetBox.setFilter(filter -> filter.matches("[1-9]\\d*"));
+        this.placementOffsetBox.setFilter(filter -> filter.matches("[0-9]\\d*"));
         this.placementOffsetBox.setBordered(false);
         this.placementOffsetBox.setVisible(false);
         this.placementOffsetBox.setMaxLength(15);
@@ -305,7 +305,14 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     @Override
     protected void containerTick() {
         super.containerTick();
+        int refillCountdown = this.menu.getRefillCountdown();
         int menuType = this.menu.getMenuType();
+
+        if (!this.countdownBox.isFocused() && this.countdownBox.visible && menuType == 0)
+            this.countdownBox.setValue(String.valueOf(this.menu.convertFromTicks(refillCountdown)));
+
+        if (!this.placementOffsetBox.isFocused() && this.placementOffsetBox.visible && menuType == 1)
+            this.placementOffsetBox.setValue(String.valueOf(this.menu.getPlacementOffset()));
 
         if (!this.initializedFromServer) {
             this.clockButton.visible = menuType == 0;
@@ -315,31 +322,9 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.minuteButton.visible = menuType == 0;
             this.hourButton.visible = menuType == 0;
             this.countdownBox.setVisible(menuType == 0);
-            this.countdownBox.setValue(String.valueOf(this.menu.getRefillCountdown()));
 
             this.placementOffsetBox.setVisible(menuType == 1);
             this.placementOffsetBox.setValue(String.valueOf(this.menu.getPlacementOffset()));
-
-//            if (menuType == 0) {
-//                this.countdownBox.setVisible(true);
-//                this.clockButton.visible = true;
-//                this.confirmButton.visible = true;
-//                this.ticksButton.visible = true;
-//                this.secondsButton.visible = true;
-//                this.minuteButton.visible = true;
-//                this.hourButton.visible = true;
-//                this.placementOffsetBox.setVisible(false);
-//            } else if (menuType == 1) {
-//                this.placementOffsetBox.setVisible(true);
-//
-//                this.countdownBox.setVisible(false);
-//                this.clockButton.visible = false;
-//                this.confirmButton.visible = false;
-//                this.ticksButton.visible = false;
-//                this.secondsButton.visible = false;
-//                this.minuteButton.visible = false;
-//                this.hourButton.visible = false;
-//            }
             this.initializedFromServer = true;
         }
     }

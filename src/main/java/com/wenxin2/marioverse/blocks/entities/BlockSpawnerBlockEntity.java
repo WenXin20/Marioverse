@@ -134,10 +134,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
         tag.putBoolean("lastPowered", this.lastPowered);
         tag.putInt("activeRefillCountdown", this.activeRefillCountdown);
-        tag.putInt("menuType", this.getMenuType());
         tag.putInt("placeDirection", this.placeDirection);
-        tag.putInt("placementOffset", this.getPlacementOffset());
-        tag.putInt("timeUnit", this.getTimeUnit());
 
         if (!this.trySaveLootTable(tag) && !this.ghostStack.isEmpty())
             tag.put("item", this.ghostStack.save(provider));
@@ -168,17 +165,8 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         if (tag.contains("activeRefillCountdown", 10))
             this.activeRefillCountdown = tag.getInt("activeRefillCountdown");
 
-        if (tag.contains("placementOffset"))
-            this.setPlacementOffset(tag.getInt("placementOffset"));
-
-        if (tag.contains("menuType"))
-            this.setMenuType(tag.getInt("menuType"));
-
         if (tag.contains("targetPos", 10))
             this.targetPos = BlockPos.of(tag.getLong("targetPos"));
-
-        if (tag.contains("timeUnit"))
-            this.setTimeUnit(tag.getInt("timeUnit"));
     }
 
     @Override
