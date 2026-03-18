@@ -24,7 +24,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu> {
     public static ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/block_spawner.png");
-    private boolean initializedFromServer = false;
+    private boolean waitingForServerPlacement = false;
     private String blockSpawnerName = "";
     Button clockButton;
     Button confirmButton;
@@ -175,10 +175,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.countdownBox = new EditBox(this.font, this.leftPos + 43, this.topPos + 27, 70, 16,
                 Component.translatable("menu.marioverse.block_spawner.countdown_box.narrate"));
         this.countdownBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.block_spawner.countdown_box.tooltip")));
-        this.countdownBox.setValue(String.valueOf(this.menu.getRefillCountdown()));
         this.countdownBox.setFilter(filter -> filter.matches("-?\\d*"));
         this.countdownBox.setBordered(false);
-        this.countdownBox.setVisible(true);
         this.countdownBox.setMaxLength(34);
         this.addRenderableWidget(this.countdownBox);
 
@@ -189,7 +187,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
         }).bounds(this.leftPos + 126, this.topPos + 22, 16, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.clock_button.narrate")).build();
-        this.clockButton.visible = true;
         this.clockButton.setAlpha(0);
         this.clockButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.clockButton);
@@ -201,7 +198,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
         }).bounds(this.leftPos + 61, this.topPos + 48, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.ticks_button.narrate")).build();
-        this.ticksButton.visible = true;
         this.ticksButton.setAlpha(0);
         this.ticksButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.ticksButton);
@@ -213,7 +209,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
         }).bounds(this.leftPos + 76, this.topPos + 48, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.seconds_button.narrate")).build();
-        this.secondsButton.visible = true;
         this.secondsButton.setAlpha(0);
         this.secondsButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.secondsButton);
@@ -225,7 +220,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
         }).bounds(this.leftPos + 90, this.topPos + 48, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.minute_button.narrate")).build();
-        this.minuteButton.visible = true;
         this.minuteButton.setAlpha(0);
         this.minuteButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.minuteButton);
@@ -237,7 +231,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
         }).bounds(this.leftPos + 104, this.topPos + 48, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.hour_button.narrate")).build();
-        this.hourButton.visible = true;
         this.hourButton.setAlpha(0);
         this.hourButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.hourButton);
@@ -249,7 +242,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
         }).bounds(this.leftPos + 124, this.topPos + 46, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.confirm_button.narrate")).build();
-        this.confirmButton.visible = true;
         this.confirmButton.setAlpha(0);
         this.confirmButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.confirmButton);
@@ -257,10 +249,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.placementOffsetBox = new EditBox(this.font, this.leftPos + 109, this.topPos + 40, 30, 18,
                 Component.translatable("menu.marioverse.block_spawner.placement_offset_box.narrate"));
         this.placementOffsetBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.block_spawner.placement_offset_box.tooltip")));
-        this.placementOffsetBox.setValue(String.valueOf(this.menu.getPlacementOffset()));
         this.placementOffsetBox.setFilter(filter -> filter.matches("[0-9]\\d*"));
         this.placementOffsetBox.setBordered(false);
-        this.placementOffsetBox.setVisible(false);
         this.placementOffsetBox.setMaxLength(15);
         this.addRenderableWidget(this.placementOffsetBox);
 
@@ -293,7 +283,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.disguiseButton = Button.builder(buttonName, button -> {
             this.confirmButtonOnPress();
             this.placementOffsetOnPress();
-            this.placementOffsetBox.setVisible(false);
             PacketHandler.sendToServer(new MenuTypePayload(this.menu.containerId, 2));
         }).bounds(this.leftPos + 149, this.topPos + 58, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.disguise_button.narrate")).build();
@@ -311,22 +300,26 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         if (!this.countdownBox.isFocused() && this.countdownBox.visible && menuType == 0)
             this.countdownBox.setValue(String.valueOf(this.menu.convertFromTicks(refillCountdown)));
 
-        if (!this.placementOffsetBox.isFocused() && this.placementOffsetBox.visible && menuType == 1)
-            this.placementOffsetBox.setValue(String.valueOf(this.menu.getPlacementOffset()));
+        if (!this.placementOffsetBox.isFocused() && this.placementOffsetBox.visible && menuType == 1) {
+            int placementOffset = this.menu.getPlacementOffset();
 
-        if (!this.initializedFromServer) {
-            this.clockButton.visible = menuType == 0;
-            this.confirmButton.visible = menuType == 0;
-            this.ticksButton.visible = menuType == 0;
-            this.secondsButton.visible = menuType == 0;
-            this.minuteButton.visible = menuType == 0;
-            this.hourButton.visible = menuType == 0;
-            this.countdownBox.setVisible(menuType == 0);
-
-            this.placementOffsetBox.setVisible(menuType == 1);
-            this.placementOffsetBox.setValue(String.valueOf(this.menu.getPlacementOffset()));
-            this.initializedFromServer = true;
+            if (waitingForServerPlacement) {
+                if (Integer.toString(placementOffset).equals(this.placementOffsetBox.getValue()))
+                    waitingForServerPlacement = false;
+                else return;
+            }
+            this.placementOffsetBox.setValue(String.valueOf(placementOffset));
         }
+
+        this.clockButton.visible = menuType == 0;
+        this.confirmButton.visible = menuType == 0;
+        this.ticksButton.visible = menuType == 0;
+        this.secondsButton.visible = menuType == 0;
+        this.minuteButton.visible = menuType == 0;
+        this.hourButton.visible = menuType == 0;
+        this.countdownBox.setVisible(menuType == 0);
+
+        this.placementOffsetBox.setVisible(menuType == 1);
     }
 
     @Override
@@ -383,7 +376,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 return true;
             }
         }
-
         return super.keyPressed(keyCode, b, c);
     }
 
@@ -393,6 +385,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (!value.isEmpty() && !value.equals("-"))
             parsed = Integer.parseInt(value);
+        this.waitingForServerPlacement = true;
 
         if (this.minecraft != null && this.minecraft.getConnection() != null)
             PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, parsed));
@@ -404,6 +397,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (!value.isEmpty())
             parsed = Integer.parseInt(value);
+        this.waitingForServerPlacement = true;
 
         if (this.minecraft != null && this.minecraft.getConnection() != null)
             PacketHandler.sendToServer(new PlacementOffsetPayload(this.menu.containerId, parsed));
@@ -411,26 +405,10 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
     private void replaceButtonOnPress() {
         PacketHandler.sendToServer(new MenuTypePayload(this.menu.containerId, 0));
-        this.countdownBox.setVisible(true);
-        this.clockButton.visible = true;
-        this.confirmButton.visible = true;
-        this.ticksButton.visible = true;
-        this.secondsButton.visible = true;
-        this.minuteButton.visible = true;
-        this.hourButton.visible = true;
-        this.placementOffsetBox.setVisible(false);
     }
 
     private void placementButtonOnPress() {
         PacketHandler.sendToServer(new MenuTypePayload(this.menu.containerId, 1));
-        this.countdownBox.setVisible(false);
-        this.clockButton.visible = false;
-        this.confirmButton.visible = false;
-        this.ticksButton.visible = false;
-        this.secondsButton.visible = false;
-        this.minuteButton.visible = false;
-        this.hourButton.visible = false;
-        this.placementOffsetBox.setVisible(true);
     }
 
     private void updateSlotPositions() {
@@ -440,11 +418,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         Slot disguiseSlot = this.menu.getDisguiseSlot();
 
         if (type == 0 || type == 2) {
-            setSlotPos(blockSlot, 8, 22);
-            setSlotPos(disguiseSlot, 8, 48);
+            this.setSlotPos(blockSlot, 8, 22);
+            this.setSlotPos(disguiseSlot, 8, 48);
         } else if (type == 1) {
-            setSlotPos(blockSlot, 58, 35);
-            setSlotPos(disguiseSlot, 8, 35);
+            this.setSlotPos(blockSlot, 58, 35);
+            this.setSlotPos(disguiseSlot, 8, 35);
         }
     }
 
