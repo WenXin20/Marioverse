@@ -20,6 +20,8 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.DebugStickItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -40,6 +42,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -105,10 +108,19 @@ public class BlockSpawnerBlock extends DisguisedBlock implements SimpleWaterlogg
 
     @NotNull
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        if (!state.getValue(DISGUISED) && state.getValue(INVISIBLE))
-            return SHAPE;
-        return super.getShape(state, blockGetter, pos, context);
+    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        if (context instanceof EntityCollisionContext && ((EntityCollisionContext) context).getEntity() instanceof Player player) {
+            if ((player.hasPermissions(1) && player.isCreative()) && !state.getValue(DISGUISED) && state.getValue(INVISIBLE))
+                return SHAPE;
+            if ((player.hasPermissions(1) && player.isCreative())
+                    || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
+                    || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DebugStickItem
+                    || !state.getValue(INVISIBLE)) {
+                return super.getShape(state, blockGetter, pos, context);
+            }
+        }
+        // Shapes.empty() causes a crash, use a tiny bounding box instead
+        return Shapes.box(8, 8, 8, 8.00001, 8.00001, 8.00001);
     }
 
     @NotNull
