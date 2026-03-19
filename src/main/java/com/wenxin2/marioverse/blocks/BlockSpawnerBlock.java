@@ -110,7 +110,7 @@ public class BlockSpawnerBlock extends DisguisedBlock implements SimpleWaterlogg
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (context instanceof EntityCollisionContext && ((EntityCollisionContext) context).getEntity() instanceof Player player) {
-            if ((player.hasPermissions(1) && player.isCreative()) && !state.getValue(DISGUISED) && state.getValue(INVISIBLE))
+            if (!state.getValue(DISGUISED) && !state.getValue(INVISIBLE))
                 return SHAPE;
             if ((player.hasPermissions(1) && player.isCreative())
                     || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
