@@ -483,7 +483,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         if (this.level == null) return;
 
         Direction dir = directionFromIndex(this.placeDirection);
-        BlockPos posOffset = this.worldPosition.relative(dir, this.placementOffset);
+        BlockPos posOffset = this.worldPosition.relative(dir, this.getPlacementOffset());
 
         if (this.ghostStack.getItem() instanceof BlockItem || this.ghostStack.getItem() instanceof BucketItem)
             this.targetPos = posOffset;
