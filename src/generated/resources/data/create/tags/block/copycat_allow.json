@@ -3,6 +3,7 @@
     "#marioverse:dotted_line_blocks",
     "#marioverse:question_blocks",
     "#marioverse:storage_bricks",
-    "#marioverse:warp_pipes"
+    "#marioverse:warp_pipes",
+    "marioverse:block_spawner"
   ]
 }

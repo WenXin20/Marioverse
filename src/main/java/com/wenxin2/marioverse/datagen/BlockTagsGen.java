@@ -73,27 +73,35 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(CompatRegistry.CREATE_BRITTLE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
                 .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.STAR_COIN.get());
 
         tag(CompatRegistry.CREATE_COPYCAT_ALLOW)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .addTag(TagRegistry.WARP_PIPE_BLOCKS);
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER)
                 .addTag(TagRegistry.BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get())
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
@@ -101,13 +109,16 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(CompatRegistry.CREATE_SAFE_NBT)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
-                .addTag(TagRegistry.WARP_PIPE_BLOCKS);
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .addTag(TagRegistry.QUESTION_BLOCKS);
+                .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());;
 
         tag(CompatRegistry.CREATE_SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
 

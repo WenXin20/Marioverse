@@ -4,6 +4,7 @@
   - Add a block to the top slot for replacing in world
   - Add a block to the bottom slot to disguise the block spawner
 - Add slot icon to refill GUI
+- Add trampoline caps and dango blossom to create tags to allow placement on contraptions
 - Fix shift-clicking into slots of the refill GUI
 
 ## Update 1.8.2
