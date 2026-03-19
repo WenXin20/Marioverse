@@ -57,8 +57,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         // Inventory
         graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
-
-        this.updateSlotPositions();
     }
 
     @Override
@@ -363,6 +361,19 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 this.countdownBox.setValue(String.valueOf(this.menu.convertFromTicks(refillCountdown)));
             if (menuType == 1)
                 this.placementOffsetBox.setValue(String.valueOf(placementOffset));
+            this.updateSlotPositions();
+
+            this.clockButton.visible = menuType == 0;
+            this.confirmButton.visible = menuType == 0;
+            this.ticksButton.visible = menuType == 0;
+            this.secondsButton.visible = menuType == 0;
+            this.minuteButton.visible = menuType == 0;
+            this.hourButton.visible = menuType == 0;
+            this.countdownBox.setVisible(menuType == 0);
+
+            this.placementOffsetBox.setVisible(menuType == 1);
+            this.northBlockFaceButton.visible = menuType == 1;
+            this.northButton.visible = menuType == 1;
         }
 
         if (!this.countdownBox.isFocused() && menuType == 0)
@@ -370,18 +381,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (!this.placementOffsetBox.isFocused() && menuType == 1)
             this.placementOffsetBox.setValue(String.valueOf(placementOffset));
-
-        this.clockButton.visible = menuType == 0;
-        this.confirmButton.visible = menuType == 0;
-        this.ticksButton.visible = menuType == 0;
-        this.secondsButton.visible = menuType == 0;
-        this.minuteButton.visible = menuType == 0;
-        this.hourButton.visible = menuType == 0;
-        this.countdownBox.setVisible(menuType == 0);
-
-        this.placementOffsetBox.setVisible(menuType == 1);
-        this.northBlockFaceButton.visible = menuType == 1;
-        this.northButton.visible = menuType == 1;
     }
 
     @Override
