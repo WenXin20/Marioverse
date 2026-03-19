@@ -1265,11 +1265,19 @@
   "menu.marioverse.block_spawner.countdown_box.tooltip": "Replace Countdown",
   "menu.marioverse.block_spawner.countdown_box.narrate": "Replace Countdown",
 
-  "menu.marioverse.block_spawner.disguise_slot.tooltip": "Block to Disguise as",
+  "menu.marioverse.block_spawner.disguise_slot.tooltip": "Block to disguise as",
 
   "menu.marioverse.block_spawner.disguise_button": "",
   "menu.marioverse.block_spawner.disguise_button.tooltip": "Fake Player",
   "menu.marioverse.block_spawner.disguise_button.narrate": "Fake Player Button",
+
+  "menu.marioverse.block_spawner.north_button": "N",
+  "menu.marioverse.block_spawner.north_button.tooltip": "Place Facing North",
+  "menu.marioverse.block_spawner.north_button.narrate": "Place Facing North Button",
+
+  "menu.marioverse.block_spawner.north_block_face_button": "",
+  "menu.marioverse.block_spawner.north_block_face_button.tooltip": "North Block Face",
+  "menu.marioverse.block_spawner.north_block_face_button.narrate": "North Block Face Button",
 
   "menu.marioverse.block_spawner.placement_button": "",
   "menu.marioverse.block_spawner.placement_button.tooltip": "Placement Properties",
@@ -1282,7 +1290,7 @@
   "menu.marioverse.block_spawner.replace_button.tooltip": "Replace Timer",
   "menu.marioverse.block_spawner.replace_button.narrate": "Replace Button",
 
-  "menu.marioverse.block_spawner.replace_slot.tooltip": "Block to Replace",
+  "menu.marioverse.block_spawner.replace_slot.tooltip": "Block to replace",
 
   "menu.marioverse.block_spawner.ticks_button": "t",
   "menu.marioverse.block_spawner.ticks_button.tooltip": "Ticks",

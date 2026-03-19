@@ -5,7 +5,9 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.network.PacketHandler;
+import com.wenxin2.marioverse.network.server_bound.data.BlockFacePayload;
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
+import com.wenxin2.marioverse.network.server_bound.data.PlacementDirectionPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PlacementOffsetPayload;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
@@ -31,6 +33,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     Button disguiseButton;
     Button hourButton;
     Button minuteButton;
+    Button northBlockFaceButton;
+    Button northButton;
     Button placementButton;
     Button replaceButton;
     Button secondsButton;
@@ -154,6 +158,22 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             else graphics.blit(GUI, this.leftPos + 104, this.topPos + 48, 177, 173, 15, 16);
         }
 
+        if (this.northButton.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.getPlacementDirection() == 2)
+                graphics.blit(GUI, this.leftPos + 58, this.topPos + 6, 34, 201, 16, 22);
+            else if (this.northButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 58, this.topPos + 6, 17, 201, 16, 22);
+            else graphics.blit(GUI, this.leftPos + 58, this.topPos + 6, 0, 201, 16, 22);
+        }
+
+        if (this.northBlockFaceButton.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.getBlockFace() == 2)
+                graphics.blit(GUI, this.leftPos + 59, this.topPos + 29, 102, 211, 14, 4);
+            else if (this.northBlockFaceButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 59, this.topPos + 29, 102, 206, 14, 4);
+            else graphics.blit(GUI, this.leftPos + 59, this.topPos + 29, 102, 201, 14, 4);
+        }
+
         if (this.menu.getMenuType() == 0 || this.menu.getMenuType() == 2) {
             // Replace Slot
             graphics.blit(GUI, this.leftPos + 7, this.topPos + 21, 216, 15, 18, 18);
@@ -253,6 +273,30 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.confirmButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.confirmButton);
 
+        buttonName = Component.translatable("menu.marioverse.block_spawner.north_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.north_button.tooltip");
+        this.northButton = Button.builder(buttonName, button -> {
+            int menuType2 = this.menu.getMenuType();
+            if (menuType2 == 1)
+                this.directionButtonOnPress(2);
+        }).bounds(this.leftPos + 58, this.topPos + 6, 16, 22)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.north_button.narrate")).build();
+        this.northButton.setAlpha(0);
+        this.northButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.northButton);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.north_block_face_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.north_block_face_button.tooltip");
+        this.northBlockFaceButton = Button.builder(buttonName, button -> {
+                    int menuType2 = this.menu.getMenuType();
+            if (menuType2 == 1)
+                this.blockFaceButtonOnPress(2);
+        }).bounds(this.leftPos + 59, this.topPos + 29, 14, 4)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.north_block_face_button.narrate")).build();
+        this.northBlockFaceButton.setAlpha(0);
+        this.northBlockFaceButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.northBlockFaceButton);
+
         this.placementOffsetBox = new EditBox(this.font, this.leftPos + 109, this.topPos + 40, 30, 18,
                 Component.translatable("menu.marioverse.block_spawner.placement_offset_box.narrate"));
         this.placementOffsetBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.block_spawner.placement_offset_box.tooltip")));
@@ -336,6 +380,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.countdownBox.setVisible(menuType == 0);
 
         this.placementOffsetBox.setVisible(menuType == 1);
+        this.northBlockFaceButton.visible = menuType == 1;
+        this.northButton.visible = menuType == 1;
     }
 
     @Override
@@ -395,6 +441,10 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         return super.keyPressed(keyCode, b, c);
     }
 
+    private void blockFaceButtonOnPress(int blockFace) {
+        PacketHandler.sendToServer(new BlockFacePayload(this.menu.containerId, blockFace));
+    }
+
     private void confirmButtonOnPress() {
         String value = this.countdownBox.getValue();
         int parsed = -1;
@@ -404,6 +454,10 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (this.minecraft != null && this.minecraft.getConnection() != null)
             PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, parsed));
+    }
+
+    private void directionButtonOnPress(int placementDirection) {
+        PacketHandler.sendToServer(new PlacementDirectionPayload(this.menu.containerId, placementDirection));
     }
 
     private void placementOffsetOnPress() {

@@ -39,7 +39,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     private int lastMenuType = -1;
 
     public BlockSpawnerMenu(int id, Inventory inventory) {
-        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(6), ContainerLevelAccess.NULL);
+        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(7), ContainerLevelAccess.NULL);
     }
 
     public BlockSpawnerMenu(int id, Inventory inventory, Container container, ContainerData data, ContainerLevelAccess access) {
@@ -158,7 +158,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
         return this.data.get(2);
     }
 
-    public int getPlaceDirection() {
+    public int getPlacementDirection() {
         return this.data.get(3);
     }
 
@@ -170,8 +170,8 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
         return this.data.get(5);
     }
 
-    public void setMenuType(int menuType) {
-        this.data.set(5, menuType);
+    public int getBlockFace() {
+        return this.data.get(6);
     }
 
     public int convertToTicks(int time) {
