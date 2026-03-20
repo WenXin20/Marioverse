@@ -114,7 +114,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
         }
 
         for (int column = 0; column < 9; column++) {
-            this.addSlot(new Slot(inventory, column, 8 + column * 18, 157));
+            this.addSlot(new Slot(inventory, column, 8 + column * 18, 158));
         }
 
         this.blockSlot = new GhostSlot(container, 1, 8, 30) {
