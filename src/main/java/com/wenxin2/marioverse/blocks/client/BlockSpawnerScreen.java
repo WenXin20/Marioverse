@@ -53,12 +53,12 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     @Override
     public void renderLabels(GuiGraphics graphics, int x, int y) {
         if (!this.blockSpawnerName.isEmpty()) // Block Spawner "Name"
-            graphics.drawString(this.font, this.blockSpawnerName, this.titleLabelX, this.titleLabelY, 4210752, false);
+            graphics.drawString(this.font, this.blockSpawnerName, this.titleLabelX, this.titleLabelY - 1, 4210752, false);
         else // "Block Spawner"
-            graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
+            graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY - 1, 4210752, false);
 
         // Inventory
-        graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY + 16, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY + 17, 4210752, false);
     }
 
     @Override
