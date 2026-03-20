@@ -1219,41 +1219,6 @@
 
   "tooltip.marioverse.smashable_blocks": "§6§oSmashable",
 
-  "menu.marioverse.question_block.clock_button": "",
-  "menu.marioverse.question_block.clock_button.tooltip": "Confirm",
-  "menu.marioverse.question_block.clock_button.narrate": "Confirm Button",
-
-  "menu.marioverse.question_block.confirm_button": "",
-  "menu.marioverse.question_block.confirm_button.tooltip": "Confirm",
-  "menu.marioverse.question_block.confirm_button.narrate": "Confirm Button",
-
-  "menu.marioverse.question_block.countdown_box.tooltip": "Refill Countdown",
-  "menu.marioverse.question_block.countdown_box.narrate": "Refill Countdown",
-
-  "menu.marioverse.question_block.refill_off_button": "",
-  "menu.marioverse.question_block.refill_off_button.tooltip": "Refill Off",
-  "menu.marioverse.question_block.refill_off_button.narrate": "Refill Off Button",
-
-  "menu.marioverse.question_block.refill_on_button": "",
-  "menu.marioverse.question_block.refill_on_button.tooltip": "Refill On",
-  "menu.marioverse.question_block.refill_on_button.narrate": "Refill On Button",
-
-  "menu.marioverse.question_block.ticks_button": "t",
-  "menu.marioverse.question_block.ticks_button.tooltip": "Ticks",
-  "menu.marioverse.question_block.ticks_button.narrate": "Time in Ticks Button",
-
-  "menu.marioverse.question_block.seconds_button": "s",
-  "menu.marioverse.question_block.seconds_button.tooltip": "Seconds",
-  "menu.marioverse.question_block.seconds_button.narrate": "Time in Seconds Button",
-
-  "menu.marioverse.question_block.minute_button": "m",
-  "menu.marioverse.question_block.minute_button.tooltip": "Minutes",
-  "menu.marioverse.question_block.minute_button.narrate": "Time in Minutes Button",
-
-  "menu.marioverse.question_block.hour_button": "h",
-  "menu.marioverse.question_block.hour_button.tooltip": "Hours",
-  "menu.marioverse.question_block.hour_button.narrate": "Time in Hours Button",
-
   "menu.marioverse.block_spawner.clock_button": "",
   "menu.marioverse.block_spawner.clock_button.tooltip": "Confirm",
   "menu.marioverse.block_spawner.clock_button.narrate": "Confirm Button",
@@ -1271,13 +1236,25 @@
   "menu.marioverse.block_spawner.disguise_button.tooltip": "Fake Player",
   "menu.marioverse.block_spawner.disguise_button.narrate": "Fake Player Button",
 
-  "menu.marioverse.block_spawner.north_button": "N",
-  "menu.marioverse.block_spawner.north_button.tooltip": "Place Facing North",
-  "menu.marioverse.block_spawner.north_button.narrate": "Place Facing North Button",
+  "menu.marioverse.block_spawner.down_button": "D",
+  "menu.marioverse.block_spawner.down_button.tooltip": "Place Facing Down",
+  "menu.marioverse.block_spawner.down_button.narrate": "Place Facing Down Button",
+
+  "menu.marioverse.block_spawner.hour_button": "h",
+  "menu.marioverse.block_spawner.hour_button.tooltip": "Hours",
+  "menu.marioverse.block_spawner.hour_button.narrate": "Time in Hours Button",
+
+  "menu.marioverse.block_spawner.minute_button": "m",
+  "menu.marioverse.block_spawner.minute_button.tooltip": "Minutes",
+  "menu.marioverse.block_spawner.minute_button.narrate": "Time in Minutes Button",
 
   "menu.marioverse.block_spawner.north_block_face_button": "",
   "menu.marioverse.block_spawner.north_block_face_button.tooltip": "North Block Face",
   "menu.marioverse.block_spawner.north_block_face_button.narrate": "North Block Face Button",
+
+  "menu.marioverse.block_spawner.north_button": "N",
+  "menu.marioverse.block_spawner.north_button.tooltip": "Place Facing North",
+  "menu.marioverse.block_spawner.north_button.narrate": "Place Facing North Button",
 
   "menu.marioverse.block_spawner.placement_button": "",
   "menu.marioverse.block_spawner.placement_button.tooltip": "Placement Properties",
@@ -1292,21 +1269,68 @@
 
   "menu.marioverse.block_spawner.replace_slot.tooltip": "Block to replace",
 
-  "menu.marioverse.block_spawner.ticks_button": "t",
-  "menu.marioverse.block_spawner.ticks_button.tooltip": "Ticks",
-  "menu.marioverse.block_spawner.ticks_button.narrate": "Time in Ticks Button",
-
   "menu.marioverse.block_spawner.seconds_button": "s",
   "menu.marioverse.block_spawner.seconds_button.tooltip": "Seconds",
   "menu.marioverse.block_spawner.seconds_button.narrate": "Time in Seconds Button",
 
-  "menu.marioverse.block_spawner.minute_button": "m",
-  "menu.marioverse.block_spawner.minute_button.tooltip": "Minutes",
-  "menu.marioverse.block_spawner.minute_button.narrate": "Time in Minutes Button",
+  "menu.marioverse.block_spawner.south_block_face_button": "",
+  "menu.marioverse.block_spawner.south_block_face_button.tooltip": "South Block Face",
+  "menu.marioverse.block_spawner.south_block_face_button.narrate": "South Block Face Button",
 
-  "menu.marioverse.block_spawner.hour_button": "h",
-  "menu.marioverse.block_spawner.hour_button.tooltip": "Hours",
-  "menu.marioverse.block_spawner.hour_button.narrate": "Time in Hours Button",
+  "menu.marioverse.block_spawner.south_button": "S",
+  "menu.marioverse.block_spawner.south_button.tooltip": "Place Facing South",
+  "menu.marioverse.block_spawner.south_button.narrate": "Place Facing South Button",
+
+  "menu.marioverse.block_spawner.ticks_button": "t",
+  "menu.marioverse.block_spawner.ticks_button.tooltip": "Ticks",
+  "menu.marioverse.block_spawner.ticks_button.narrate": "Time in Ticks Button",
+
+  "menu.marioverse.block_spawner.top_block_face_button": "",
+  "menu.marioverse.block_spawner.top_block_face_button.tooltip": "Top Block Face",
+  "menu.marioverse.block_spawner.top_block_face_button.narrate": "Top Block Face Button",
+
+  "menu.marioverse.block_spawner.up_button": "U",
+  "menu.marioverse.block_spawner.up_button.tooltip": "Place Facing Up",
+  "menu.marioverse.block_spawner.up_button.narrate": "Place Facing Up Button",
+
+  "menu.marioverse.question_block.clock_button": "",
+  "menu.marioverse.question_block.clock_button.tooltip": "Confirm",
+  "menu.marioverse.question_block.clock_button.narrate": "Confirm Button",
+
+  "menu.marioverse.question_block.confirm_button": "",
+  "menu.marioverse.question_block.confirm_button.tooltip": "Confirm",
+  "menu.marioverse.question_block.confirm_button.narrate": "Confirm Button",
+
+  "menu.marioverse.question_block.countdown_box.tooltip": "Refill Countdown",
+  "menu.marioverse.question_block.countdown_box.narrate": "Refill Countdown",
+
+  "menu.marioverse.question_block.hour_button": "h",
+  "menu.marioverse.question_block.hour_button.tooltip": "Hours",
+  "menu.marioverse.question_block.hour_button.narrate": "Time in Hours Button",
+
+  "menu.marioverse.question_block.minute_button": "m",
+  "menu.marioverse.question_block.minute_button.tooltip": "Minutes",
+  "menu.marioverse.question_block.minute_button.narrate": "Time in Minutes Button",
+
+  "menu.marioverse.question_block.refill_off_button": "",
+  "menu.marioverse.question_block.refill_off_button.tooltip": "Refill Off",
+  "menu.marioverse.question_block.refill_off_button.narrate": "Refill Off Button",
+
+  "menu.marioverse.question_block.refill_on_button": "",
+  "menu.marioverse.question_block.refill_on_button.tooltip": "Refill On",
+  "menu.marioverse.question_block.refill_on_button.narrate": "Refill On Button",
+
+  "menu.marioverse.question_block.seconds_button": "s",
+  "menu.marioverse.question_block.seconds_button.tooltip": "Seconds",
+  "menu.marioverse.question_block.seconds_button.narrate": "Time in Seconds Button",
+
+  "menu.marioverse.question_block.ticks_button": "t",
+  "menu.marioverse.question_block.ticks_button.tooltip": "Ticks",
+  "menu.marioverse.question_block.ticks_button.narrate": "Time in Ticks Button",
+
+  "menu.marioverse.block_spawner.bottom_block_face_button": "",
+  "menu.marioverse.block_spawner.bottom_block_face_button.tooltip": "Bottom Block Face",
+  "menu.marioverse.block_spawner.bottom_block_face_button.narrate": "Bottom Block Face Button",
 
   "menu.marioverse.warp_pipe.close_button": "",
   "menu.marioverse.warp_pipe.close_button.tooltip": "Close Pipe",
