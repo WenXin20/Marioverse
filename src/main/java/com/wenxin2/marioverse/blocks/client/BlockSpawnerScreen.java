@@ -46,6 +46,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     public BlockSpawnerScreen(BlockSpawnerMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
         this.inventory = inventory;
+        this.imageWidth = 176;
+        this.imageHeight = 182;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
 
         // Inventory
-        graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY + 16, 4210752, false);
     }
 
     @Override
@@ -84,102 +86,102 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (this.clockButton.visible && this.menu.getMenuType() == 0) {
             if (this.clockButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 126, this.topPos + 22, uOffset, 184, 16, 16);
-            else graphics.blit(GUI, this.leftPos + 126, this.topPos + 22, uOffset, 167, 16, 16);
+                graphics.blit(GUI, this.leftPos + 126, this.topPos + 30, uOffset, 200, 16, 16);
+            else graphics.blit(GUI, this.leftPos + 126, this.topPos + 30, uOffset, 183, 16, 16);
         }
 
         if (this.countdownBox.visible && this.menu.getMenuType() == 0)
-            graphics.blit(GUI, this.leftPos + 41, this.topPos + 24, 177, 0, 78, 14);
+            graphics.blit(GUI, this.leftPos + 41, this.topPos + 32, 177, 0, 78, 14);
 
         if (this.placementOffsetBox.visible && this.menu.getMenuType() == 1)
-            graphics.blit(GUI, this.leftPos + 107, this.topPos + 34, 177, 15, 38, 18);
+            graphics.blit(GUI, this.leftPos + 107, this.topPos + 42, 177, 15, 38, 18);
 
         if (this.confirmButton.visible) {
             if (this.confirmButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 124, this.topPos + 46, 198, 97, 20, 20);
-            else graphics.blit(GUI, this.leftPos + 124, this.topPos + 46, 177, 97, 20, 20);
+                graphics.blit(GUI, this.leftPos + 124, this.topPos + 54, 198, 97, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 124, this.topPos + 54, 177, 97, 20, 20);
         }
 
         if (this.replaceButton.visible) {
             if (this.menu.getMenuType() == 0)
-                graphics.blit(GUI, this.leftPos + 149, this.topPos + 8, 219, 34, 20, 20);
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 16, 219, 34, 20, 20);
             else if (this.replaceButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 149, this.topPos + 8, 198, 34, 20, 20);
-            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 8, 177, 34, 20, 20);
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 16, 198, 34, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 16, 177, 34, 20, 20);
         }
 
         if (this.placementButton.visible) {
             if (this.menu.getMenuType() == 1)
-                graphics.blit(GUI, this.leftPos + 149, this.topPos + 33, 219, 55, 20, 20);
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 41, 219, 55, 20, 20);
             else if (this.placementButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 149, this.topPos + 33, 198, 55, 20, 20);
-            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 33, 177, 55, 20, 20);
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 41, 198, 55, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 41, 177, 55, 20, 20);
         }
 
         if (this.disguiseButton.visible) {
             if (this.menu.getMenuType() == 2)
-                graphics.blit(GUI, this.leftPos + 149, this.topPos + 58, 219, 76, 20, 20);
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 66, 219, 76, 20, 20);
             else if (this.disguiseButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 149, this.topPos + 58, 198, 76, 20, 20);
-            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 58, 177, 76, 20, 20);
+                graphics.blit(GUI, this.leftPos + 149, this.topPos + 66, 198, 76, 20, 20);
+            else graphics.blit(GUI, this.leftPos + 149, this.topPos + 66, 177, 76, 20, 20);
         }
 
         if (this.ticksButton.visible && this.menu.getMenuType() == 0) {
             if (this.menu.getTimeUnit() == 0)
-                graphics.blit(GUI, this.leftPos + 61, this.topPos + 48, 209, 139, 15, 16);
+                graphics.blit(GUI, this.leftPos + 61, this.topPos + 56, 209, 139, 15, 16);
             else if (this.ticksButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 61, this.topPos + 48, 193, 139, 15, 16);
-            else graphics.blit(GUI, this.leftPos + 61, this.topPos + 48, 177, 139, 15, 16);
+                graphics.blit(GUI, this.leftPos + 61, this.topPos + 56, 193, 139, 15, 16);
+            else graphics.blit(GUI, this.leftPos + 61, this.topPos + 56, 177, 139, 15, 16);
         }
 
         if (this.secondsButton.visible && this.menu.getMenuType() == 0) {
             if (this.menu.getTimeUnit() == 1)
-                graphics.blit(GUI, this.leftPos + 76, this.topPos + 48, 207, 156, 14, 16);
+                graphics.blit(GUI, this.leftPos + 76, this.topPos + 56, 207, 156, 14, 16);
             else if (this.secondsButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 76, this.topPos + 48, 192, 156, 14, 16);
-            else graphics.blit(GUI, this.leftPos + 76, this.topPos + 48, 177, 156, 14, 16);
+                graphics.blit(GUI, this.leftPos + 76, this.topPos + 56, 192, 156, 14, 16);
+            else graphics.blit(GUI, this.leftPos + 76, this.topPos + 56, 177, 156, 14, 16);
         }
 
         if (this.minuteButton.visible && this.menu.getMenuType() == 0) {
             if (this.menu.getTimeUnit() == 2)
-                graphics.blit(GUI, this.leftPos + 90, this.topPos + 48, 207, 156, 14, 16);
+                graphics.blit(GUI, this.leftPos + 90, this.topPos + 56, 207, 156, 14, 16);
             else if (this.minuteButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 90, this.topPos + 48, 192, 156, 14, 16);
-            else graphics.blit(GUI, this.leftPos + 90, this.topPos + 48, 177, 156, 14, 16);
+                graphics.blit(GUI, this.leftPos + 90, this.topPos + 56, 192, 156, 14, 16);
+            else graphics.blit(GUI, this.leftPos + 90, this.topPos + 56, 177, 156, 14, 16);
         }
 
         if (this.hourButton.visible && this.menu.getMenuType() == 0) {
             if (this.menu.getTimeUnit() == 3)
-                graphics.blit(GUI, this.leftPos + 104, this.topPos + 48, 209, 173, 15, 16);
+                graphics.blit(GUI, this.leftPos + 104, this.topPos + 56, 209, 173, 15, 16);
             else if (this.hourButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 104, this.topPos + 48, 193, 173, 15, 16);
-            else graphics.blit(GUI, this.leftPos + 104, this.topPos + 48, 177, 173, 15, 16);
+                graphics.blit(GUI, this.leftPos + 104, this.topPos + 56, 193, 173, 15, 16);
+            else graphics.blit(GUI, this.leftPos + 104, this.topPos + 56, 177, 173, 15, 16);
         }
 
         if (this.northButton.visible && this.menu.getMenuType() == 1) {
             if (this.menu.getPlacementDirection() == 2)
-                graphics.blit(GUI, this.leftPos + 58, this.topPos + 6, 34, 201, 16, 22);
+                graphics.blit(GUI, this.leftPos + 58, this.topPos + 14, 34, 217, 16, 22);
             else if (this.northButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 58, this.topPos + 6, 17, 201, 16, 22);
-            else graphics.blit(GUI, this.leftPos + 58, this.topPos + 6, 0, 201, 16, 22);
+                graphics.blit(GUI, this.leftPos + 58, this.topPos + 14, 17, 217, 16, 22);
+            else graphics.blit(GUI, this.leftPos + 58, this.topPos + 14, 0, 217, 16, 22);
         }
 
         if (this.northBlockFaceButton.visible && this.menu.getMenuType() == 1) {
             if (this.menu.getBlockFace() == 2)
-                graphics.blit(GUI, this.leftPos + 59, this.topPos + 29, 102, 211, 14, 4);
+                graphics.blit(GUI, this.leftPos + 59, this.topPos + 37, 102, 227, 14, 4);
             else if (this.northBlockFaceButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 59, this.topPos + 29, 102, 206, 14, 4);
-            else graphics.blit(GUI, this.leftPos + 59, this.topPos + 29, 102, 201, 14, 4);
+                graphics.blit(GUI, this.leftPos + 59, this.topPos + 37, 102, 222, 14, 4);
+            else graphics.blit(GUI, this.leftPos + 59, this.topPos + 37, 102, 217, 14, 4);
         }
 
         if (this.menu.getMenuType() == 0 || this.menu.getMenuType() == 2) {
             // Replace Slot
-            graphics.blit(GUI, this.leftPos + 7, this.topPos + 21, 216, 15, 18, 18);
+            graphics.blit(GUI, this.leftPos + 7, this.topPos + 29, 216, 15, 18, 18);
             // Disguise Slot
-            graphics.blit(GUI, this.leftPos + 7, this.topPos + 47, 216, 15, 18, 18);
+            graphics.blit(GUI, this.leftPos + 7, this.topPos + 55, 216, 15, 18, 18);
         } else {
-            graphics.blit(GUI, this.leftPos + 57, this.topPos + 34, 216, 15, 18, 18);
-            graphics.blit(GUI, this.leftPos + 7, this.topPos + 34, 216, 15, 18, 18);
+            graphics.blit(GUI, this.leftPos + 57, this.topPos + 42, 216, 15, 18, 18);
+            graphics.blit(GUI, this.leftPos + 7, this.topPos + 42, 216, 15, 18, 18);
         }
     }
 
@@ -191,7 +193,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         Component tooltip = Component.literal("");
         Component buttonName = Component.literal("");
 
-        this.countdownBox = new EditBox(this.font, this.leftPos + 43, this.topPos + 27, 70, 16,
+        this.countdownBox = new EditBox(this.font, this.leftPos + 43, this.topPos + 35, 70, 16,
                 Component.translatable("menu.marioverse.block_spawner.countdown_box.narrate"));
         this.countdownBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.block_spawner.countdown_box.tooltip")));
         this.countdownBox.setFilter(filter -> filter.matches("-?\\d*"));
@@ -205,7 +207,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0 && this.countdownBox.isFocused())
                 this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
-        }).bounds(this.leftPos + 126, this.topPos + 22, 16, 16)
+        }).bounds(this.leftPos + 126, this.topPos + 30, 16, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.clock_button.narrate")).build();
         this.clockButton.setAlpha(0);
         this.clockButton.setTooltip(Tooltip.create(tooltip));
@@ -217,7 +219,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0)
                 this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
-        }).bounds(this.leftPos + 61, this.topPos + 48, 15, 16)
+        }).bounds(this.leftPos + 61, this.topPos + 56, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.ticks_button.narrate")).build();
         this.ticksButton.setAlpha(0);
         this.ticksButton.setTooltip(Tooltip.create(tooltip));
@@ -229,7 +231,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0)
                 this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
-        }).bounds(this.leftPos + 76, this.topPos + 48, 14, 16)
+        }).bounds(this.leftPos + 76, this.topPos + 56, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.seconds_button.narrate")).build();
         this.secondsButton.setAlpha(0);
         this.secondsButton.setTooltip(Tooltip.create(tooltip));
@@ -241,7 +243,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0)
                 this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
-        }).bounds(this.leftPos + 90, this.topPos + 48, 14, 16)
+        }).bounds(this.leftPos + 90, this.topPos + 56, 14, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.minute_button.narrate")).build();
         this.minuteButton.setAlpha(0);
         this.minuteButton.setTooltip(Tooltip.create(tooltip));
@@ -253,7 +255,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0)
                 this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
-        }).bounds(this.leftPos + 104, this.topPos + 48, 15, 16)
+        }).bounds(this.leftPos + 104, this.topPos + 56, 15, 16)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.hour_button.narrate")).build();
         this.hourButton.setAlpha(0);
         this.hourButton.setTooltip(Tooltip.create(tooltip));
@@ -265,7 +267,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0 && this.countdownBox.isFocused())
                 this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
-        }).bounds(this.leftPos + 124, this.topPos + 46, 20, 20)
+        }).bounds(this.leftPos + 124, this.topPos + 54, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.confirm_button.narrate")).build();
         this.confirmButton.setAlpha(0);
         this.confirmButton.setTooltip(Tooltip.create(tooltip));
@@ -277,7 +279,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType2 = this.menu.getMenuType();
             if (menuType2 == 1)
                 this.directionButtonOnPress(2);
-        }).bounds(this.leftPos + 58, this.topPos + 6, 16, 22)
+        }).bounds(this.leftPos + 58, this.topPos + 14, 16, 22)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.north_button.narrate")).build();
         this.northButton.setAlpha(0);
         this.northButton.setTooltip(Tooltip.create(tooltip));
@@ -289,13 +291,13 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                     int menuType2 = this.menu.getMenuType();
             if (menuType2 == 1)
                 this.blockFaceButtonOnPress(2);
-        }).bounds(this.leftPos + 59, this.topPos + 29, 14, 4)
+        }).bounds(this.leftPos + 59, this.topPos + 37, 14, 4)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.north_block_face_button.narrate")).build();
         this.northBlockFaceButton.setAlpha(0);
         this.northBlockFaceButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.northBlockFaceButton);
 
-        this.placementOffsetBox = new EditBox(this.font, this.leftPos + 109, this.topPos + 40, 30, 18,
+        this.placementOffsetBox = new EditBox(this.font, this.leftPos + 109, this.topPos + 48, 30, 18,
                 Component.translatable("menu.marioverse.block_spawner.placement_offset_box.narrate"));
         this.placementOffsetBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.block_spawner.placement_offset_box.tooltip")));
         this.placementOffsetBox.setFilter(filter -> filter.matches("[0-9]\\d*") || filter.isEmpty());
@@ -311,7 +313,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 1)
                 this.placementOffsetOnPress();
             this.replaceButtonOnPress();
-        }).bounds(this.leftPos + 149, this.topPos + 8, 20, 20)
+        }).bounds(this.leftPos + 149, this.topPos + 16, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.replace_button.narrate")).build();
         this.replaceButton.setAlpha(0);
         this.replaceButton.setTooltip(Tooltip.create(tooltip));
@@ -325,7 +327,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 1)
                 this.placementOffsetOnPress();
             this.placementButtonOnPress();
-        }).bounds(this.leftPos + 149, this.topPos + 33, 20, 20)
+        }).bounds(this.leftPos + 149, this.topPos + 41, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.placement_button.narrate")).build();
         this.placementButton.setAlpha(0);
         this.placementButton.setTooltip(Tooltip.create(tooltip));
@@ -339,7 +341,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 1)
                 this.placementOffsetOnPress();
             PacketHandler.sendToServer(new MenuTypePayload(this.menu.containerId, 2));
-        }).bounds(this.leftPos + 149, this.topPos + 58, 20, 20)
+        }).bounds(this.leftPos + 149, this.topPos + 66, 20, 20)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.disguise_button.narrate")).build();
         this.disguiseButton.setAlpha(0);
         this.disguiseButton.setTooltip(Tooltip.create(tooltip));
@@ -485,11 +487,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         Slot disguiseSlot = this.menu.getDisguiseSlot();
 
         if (type == 0 || type == 2) {
-            this.setSlotPos(blockSlot, 8, 22);
-            this.setSlotPos(disguiseSlot, 8, 48);
+            this.setSlotPos(blockSlot, 8, 30);
+            this.setSlotPos(disguiseSlot, 8, 56);
         } else if (type == 1) {
-            this.setSlotPos(blockSlot, 58, 35);
-            this.setSlotPos(disguiseSlot, 8, 35);
+            this.setSlotPos(blockSlot, 58, 43);
+            this.setSlotPos(disguiseSlot, 8, 43);
         }
     }
 
