@@ -1237,16 +1237,16 @@
   "menu.marioverse.block_spawner.disguise_button.narrate": "Fake Player Button",
 
   "menu.marioverse.block_spawner.down_button": "D",
-  "menu.marioverse.block_spawner.down_button.tooltip": "Place Facing Down",
-  "menu.marioverse.block_spawner.down_button.narrate": "Place Facing Down Button",
+  "menu.marioverse.block_spawner.down_button.tooltip": "Place Below",
+  "menu.marioverse.block_spawner.down_button.narrate": "Place Below Button",
 
   "menu.marioverse.block_spawner.east_block_face_button": "",
   "menu.marioverse.block_spawner.east_block_face_button.tooltip": "East Block Face",
   "menu.marioverse.block_spawner.east_block_face_button.narrate": "East Block Face Button",
 
   "menu.marioverse.block_spawner.east_button": "E",
-  "menu.marioverse.block_spawner.east_button.tooltip": "Place Facing East",
-  "menu.marioverse.block_spawner.east_button.narrate": "Place Facing East Button",
+  "menu.marioverse.block_spawner.east_button.tooltip": "Place East",
+  "menu.marioverse.block_spawner.east_button.narrate": "Place East Button",
 
   "menu.marioverse.block_spawner.hour_button": "h",
   "menu.marioverse.block_spawner.hour_button.tooltip": "Hours",
@@ -1261,8 +1261,8 @@
   "menu.marioverse.block_spawner.north_block_face_button.narrate": "North Block Face Button",
 
   "menu.marioverse.block_spawner.north_button": "N",
-  "menu.marioverse.block_spawner.north_button.tooltip": "Place Facing North",
-  "menu.marioverse.block_spawner.north_button.narrate": "Place Facing North Button",
+  "menu.marioverse.block_spawner.north_button.tooltip": "Place North",
+  "menu.marioverse.block_spawner.north_button.narrate": "Place North Button",
 
   "menu.marioverse.block_spawner.placement_button": "",
   "menu.marioverse.block_spawner.placement_button.tooltip": "Placement Properties",
@@ -1286,8 +1286,8 @@
   "menu.marioverse.block_spawner.south_block_face_button.narrate": "South Block Face Button",
 
   "menu.marioverse.block_spawner.south_button": "S",
-  "menu.marioverse.block_spawner.south_button.tooltip": "Place Facing South",
-  "menu.marioverse.block_spawner.south_button.narrate": "Place Facing South Button",
+  "menu.marioverse.block_spawner.south_button.tooltip": "Place South",
+  "menu.marioverse.block_spawner.south_button.narrate": "Place South Button",
 
   "menu.marioverse.block_spawner.ticks_button": "t",
   "menu.marioverse.block_spawner.ticks_button.tooltip": "Ticks",
@@ -1298,16 +1298,16 @@
   "menu.marioverse.block_spawner.top_block_face_button.narrate": "Top Block Face Button",
 
   "menu.marioverse.block_spawner.up_button": "U",
-  "menu.marioverse.block_spawner.up_button.tooltip": "Place Facing Up",
-  "menu.marioverse.block_spawner.up_button.narrate": "Place Facing Up Button",
+  "menu.marioverse.block_spawner.up_button.tooltip": "Place Above",
+  "menu.marioverse.block_spawner.up_button.narrate": "Place Above Button",
 
   "menu.marioverse.block_spawner.west_block_face_button": "",
   "menu.marioverse.block_spawner.west_block_face_button.tooltip": "West Block Face",
   "menu.marioverse.block_spawner.west_block_face_button.narrate": "West Block Face Button",
 
   "menu.marioverse.block_spawner.west_button": "W",
-  "menu.marioverse.block_spawner.west_button.tooltip": "Place Facing West",
-  "menu.marioverse.block_spawner.west_button.narrate": "Place Facing West Button",
+  "menu.marioverse.block_spawner.west_button.tooltip": "Place West",
+  "menu.marioverse.block_spawner.west_button.narrate": "Place West Button",
 
   "menu.marioverse.question_block.clock_button": "",
   "menu.marioverse.question_block.clock_button.tooltip": "Confirm",
