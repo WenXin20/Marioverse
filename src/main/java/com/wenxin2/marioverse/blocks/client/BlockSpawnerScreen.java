@@ -28,15 +28,20 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     public static ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/block_spawner.png");
     private int lastMenuType = -1;
     private String blockSpawnerName = "";
-    Button northBlockFaceButton;
-    Button southBlockFaceButton;
+
     Button topBlockFaceButton;
     Button bottomBlockFaceButton;
+    Button northBlockFaceButton;
+    Button southBlockFaceButton;
+    Button eastBlockFaceButton;
+    Button westBlockFaceButton;
 
     Button upButton;
     Button downButton;
     Button northButton;
     Button southButton;
+    Button eastButton;
+    Button westButton;
 
     Button ticksButton;
     Button secondsButton;
@@ -200,6 +205,38 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             else graphics.blit(GUI, this.leftPos + 59, this.topPos + 61, 102, 217, 14, 4);
         }
 
+        if (this.eastButton.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.getPlacementDirection() == 4)
+                graphics.blit(GUI, this.leftPos + 81, this.topPos + 43, 115, 240, 22, 16);
+            else if (this.eastButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 81, this.topPos + 43, 92, 240, 22, 16);
+            else graphics.blit(GUI, this.leftPos + 81, this.topPos + 43, 69, 240, 22, 16);
+        }
+
+        if (this.eastBlockFaceButton.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.getBlockFace() == 4)
+                graphics.blit(GUI, this.leftPos + 76, this.topPos + 44, 127, 217, 4, 14);
+            else if (this.eastBlockFaceButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 76, this.topPos + 44, 122, 217, 4, 14);
+            else graphics.blit(GUI, this.leftPos + 76, this.topPos + 44, 117, 217, 4, 14);
+        }
+
+        if (this.westButton.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.getPlacementDirection() == 5)
+                graphics.blit(GUI, this.leftPos + 29, this.topPos + 43, 46, 240, 22, 16);
+            else if (this.westButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 29, this.topPos + 43, 23, 240, 22, 16);
+            else graphics.blit(GUI, this.leftPos + 29, this.topPos + 43, 0, 240, 22, 16);
+        }
+
+        if (this.westBlockFaceButton.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.getBlockFace() == 5)
+                graphics.blit(GUI, this.leftPos + 52, this.topPos + 44, 127, 217, 4, 14);
+            else if (this.westBlockFaceButton.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 52, this.topPos + 44, 122, 217, 4, 14);
+            else graphics.blit(GUI, this.leftPos + 52, this.topPos + 44, 117, 217, 4, 14);
+        }
+
         if (this.upButton.visible && this.menu.getMenuType() == 1) {
             if (this.menu.getPlacementDirection() == 0)
                 graphics.blit(GUI, this.leftPos + 118, this.topPos + 14, 34, 217, 16, 22);
@@ -360,6 +397,30 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.northBlockFaceButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.northBlockFaceButton);
 
+        buttonName = Component.translatable("menu.marioverse.block_spawner.east_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.east_button.tooltip");
+        this.eastButton = Button.builder(buttonName, button -> {
+            int menuType = this.menu.getMenuType();
+            if (menuType == 1)
+                this.directionButtonOnPress(4);
+        }).bounds(this.leftPos + 81, this.topPos + 43, 22, 16)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.east_button.narrate")).build();
+        this.eastButton.setAlpha(0);
+        this.eastButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.eastButton);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.east_block_face_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.east_block_face_button.tooltip");
+        this.eastBlockFaceButton = Button.builder(buttonName, button -> {
+            int menuType = this.menu.getMenuType();
+            if (menuType == 1)
+                this.blockFaceButtonOnPress(4);
+        }).bounds(this.leftPos + 76, this.topPos + 44, 4, 14)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.east_block_face_button.narrate")).build();
+        this.eastBlockFaceButton.setAlpha(0);
+        this.eastBlockFaceButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.eastBlockFaceButton);
+
         buttonName = Component.translatable("menu.marioverse.block_spawner.south_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.south_button.tooltip");
         this.southButton = Button.builder(buttonName, button -> {
@@ -383,6 +444,30 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.southBlockFaceButton.setAlpha(0);
         this.southBlockFaceButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.southBlockFaceButton);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.west_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.west_button.tooltip");
+        this.westButton = Button.builder(buttonName, button -> {
+                    int menuType = this.menu.getMenuType();
+                    if (menuType == 1)
+                        this.directionButtonOnPress(5);
+                }).bounds(this.leftPos + 29, this.topPos + 43, 22, 16)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.west_button.narrate")).build();
+        this.westButton.setAlpha(0);
+        this.westButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.westButton);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.west_block_face_button");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.west_block_face_button.tooltip");
+        this.westBlockFaceButton = Button.builder(buttonName, button -> {
+                    int menuType = this.menu.getMenuType();
+                    if (menuType == 1)
+                        this.blockFaceButtonOnPress(5);
+                }).bounds(this.leftPos + 52, this.topPos + 44, 4, 14)
+                .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.west_block_face_button.narrate")).build();
+        this.westBlockFaceButton.setAlpha(0);
+        this.westBlockFaceButton.setTooltip(Tooltip.create(tooltip));
+        this.addRenderableWidget(this.westBlockFaceButton);
 
         buttonName = Component.translatable("menu.marioverse.block_spawner.up_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.up_button.tooltip");
@@ -493,7 +578,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         int refillCountdown = this.menu.getRefillCountdown();
         int menuType = this.menu.getMenuType();
 
-
         if (menuType != this.lastMenuType) {
             this.lastMenuType = menuType;
 
@@ -514,19 +598,23 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.placementOffsetBox.setVisible(menuType == 1);
             this.northBlockFaceButton.visible = menuType == 1;
             this.southBlockFaceButton.visible = menuType == 1;
+            this.eastBlockFaceButton.visible = menuType == 1;
+            this.westBlockFaceButton.visible = menuType == 1;
             this.topBlockFaceButton.visible = menuType == 1;
             this.bottomBlockFaceButton.visible = menuType == 1;
             this.northButton.visible = menuType == 1;
             this.southButton.visible = menuType == 1;
+            this.eastButton.visible = menuType == 1;
+            this.westButton.visible = menuType == 1;
             this.upButton.visible = menuType == 1;
             this.downButton.visible = menuType == 1;
+
+            if (!this.countdownBox.isFocused() && menuType == 0)
+                this.countdownBox.setValue(String.valueOf(this.menu.convertFromTicks(refillCountdown)));
+
+            if (!this.placementOffsetBox.isFocused() && menuType == 1)
+                this.placementOffsetBox.setValue(String.valueOf(placementOffset));
         }
-
-        if (!this.countdownBox.isFocused() && menuType == 0)
-            this.countdownBox.setValue(String.valueOf(this.menu.convertFromTicks(refillCountdown)));
-
-        if (!this.placementOffsetBox.isFocused() && menuType == 1)
-            this.placementOffsetBox.setValue(String.valueOf(placementOffset));
     }
 
     @Override
