@@ -10,6 +10,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -448,5 +449,14 @@ public class DisguisedBlock extends BaseEntityBlock {
         if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
             return blockEntity.getDisguiseState().getExplosionResistance(blockGetter, pos, explosion);
         else return super.getExplosionResistance(state, blockGetter, pos, explosion);
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
+        if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !blockEntity.getInventory().getStackInSlot(0).isEmpty())
+            level.setBlock(pos, state.setValue(DISGUISED, true), 3);
+
+        super.setPlacedBy(level, pos, state, entity, stack);
     }
 }

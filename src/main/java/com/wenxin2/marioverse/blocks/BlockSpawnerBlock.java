@@ -17,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.BlockItem;
@@ -141,6 +142,7 @@ public class BlockSpawnerBlock extends DisguisedBlock implements SimpleWaterlogg
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
+        Level level = placeContext.getLevel();
         BlockPos pos = placeContext.getClickedPos();
         FluidState fluidState = placeContext.getLevel().getFluidState(pos);
 
@@ -152,6 +154,17 @@ public class BlockSpawnerBlock extends DisguisedBlock implements SimpleWaterlogg
     @Override
     public FluidState getFluidState(final BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
+        if ((level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && !blockEntity.getItem(1).isEmpty())
+                || (level.getBlockEntity(pos) instanceof DisguisedBlockEntity disguisedBE
+                && !disguisedBE.getInventory().getStackInSlot(0).isEmpty()))
+            level.setBlock(pos, state.setValue(INVISIBLE, true), 3);
+
+        super.setPlacedBy(level, pos, state, entity, stack);
     }
 
     @NotNull

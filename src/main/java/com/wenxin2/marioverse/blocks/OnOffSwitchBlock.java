@@ -47,8 +47,8 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
     }
 
     @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
-        super.onPlace(state, level, pos, oldState, moved);
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        super.onPlace(state, level, pos, oldState, isMoving);
         if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel)
             this.checkAndFlip(oldState, serverlevel, pos);
     }

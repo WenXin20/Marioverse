@@ -43,15 +43,15 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
     }
 
     @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         this.onPlaceSavedData(level, pos);
-        super.onPlace(state, level, pos, oldState, moved);
+        super.onPlace(state, level, pos, oldState, isMoving);
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         this.onRemoveSavedData(level, pos);
-        super.onRemove(state, level, pos, newState, moved);
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
     @Override

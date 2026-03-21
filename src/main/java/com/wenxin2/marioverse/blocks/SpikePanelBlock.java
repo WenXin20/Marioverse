@@ -68,8 +68,8 @@ public class SpikePanelBlock extends PanelBlock implements SimpleWaterloggedBloc
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState neighborState, boolean b) {
-        if (neighborState.getBlock() != state.getBlock() && world instanceof ServerLevel serverWorld)
+    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
+        if (oldState.getBlock() != state.getBlock() && world instanceof ServerLevel serverWorld)
             this.checkAndFlip(state, serverWorld, pos);
     }
 
