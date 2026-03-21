@@ -18,19 +18,17 @@ public class WonderNamePacket {
         if (context.flow().isClientbound()) {
             context.enqueueWork(() -> {
                 Level level = context.player().level();
-                if (!level.isClientSide()) {
-                    BlockEntity blockEntity = level.getBlockEntity(payload.pos());
-                    if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
-                        goalPoleBE.setWonderFlag(payload.renderRenamedFlag());
-                        goalPoleBE.markUpdated();
-                        goalPoleBE.markUpdatedClients();
-                    }
+                BlockEntity blockEntity = level.getBlockEntity(payload.pos());
+                if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
+                    goalPoleBE.setWonderFlag(payload.renderRenamedFlag());
+                    goalPoleBE.markUpdated();
+                    goalPoleBE.markUpdatedClients();
+                }
 
-                    if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
-                        checkpointFlagBE.setWonderFlag(payload.renderRenamedFlag());
-                        checkpointFlagBE.markUpdated();
-                        checkpointFlagBE.markUpdatedClients();
-                    }
+                if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+                    checkpointFlagBE.setWonderFlag(payload.renderRenamedFlag());
+                    checkpointFlagBE.markUpdated();
+                    checkpointFlagBE.markUpdatedClients();
                 }
             });
         }

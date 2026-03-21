@@ -4,10 +4,15 @@ import com.mojang.datafixers.util.Pair;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
+import com.wenxin2.marioverse.network.PacketHandler;
+import com.wenxin2.marioverse.network.client_bound.data.DisguiseStatePayload;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,6 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockSpawnerMenu extends AbstractContainerMenu {
@@ -90,19 +96,23 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
 
             if (!carried.isEmpty() && ghostSlot.mayPlace(carried)) {
                 ItemStack ghostStack = carried.copy();
+
+                if (slot == 37)
+                    this.updateDisguise(ghostStack);
+
                 ghostStack.setCount(1);
                 ghostSlot.set(ghostStack);
-                this.updateDisguise(ghostStack);
                 return;
             }
 
             if (carried.isEmpty()) {
+                if (slot == 37)
+                    this.updateDisguise(ItemStack.EMPTY);
+
                 ghostSlot.set(ItemStack.EMPTY);
-                this.updateDisguise(ItemStack.EMPTY);
                 return;
             }
         }
-
         super.clicked(slot, button, clickType, player);
     }
 
@@ -202,15 +212,21 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     private void updateDisguise(ItemStack stack) {
         this.getAccess().execute((level, pos) -> {
             if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
-                if (stack.getItem() instanceof BlockItem blockItem)
-                    blockEntity.setDisguiseState(blockItem.getBlock().defaultBlockState());
-                else blockEntity.setDisguiseState(Blocks.AIR.defaultBlockState());
-
-                blockEntity.requestModelDataUpdate();
-                blockEntity.setChanged();
-
                 BlockState state = level.getBlockState(pos);
-                level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+
+                if (stack.getItem() instanceof BlockItem blockItem) {
+                    blockEntity.setDisguiseState(blockItem.getBlock().defaultBlockState());
+                    level.playSound(null, pos, blockItem.getBlock().defaultBlockState()
+                            .getSoundType(level, pos, player).getPlaceSound(), SoundSource.BLOCKS);
+                } else blockEntity.setDisguiseState(Blocks.AIR.defaultBlockState());
+
+                blockEntity.setDisguise();
+                blockEntity.setChanged();
+                this.broadcastChanges();
+                level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);
+
+                if (level instanceof ServerLevel && player instanceof ServerPlayer serverPlayer)
+                    PacketDistributor.sendToPlayer(serverPlayer, new DisguiseStatePayload(pos, blockEntity.getDisguiseState()));
             }
         });
     }

@@ -35,8 +35,7 @@ public class DisguisedBlockBakedModel implements IDynamicBakedModel {
 
         if (disguiseState == null || disguiseState.isAir()
                 || disguiseState.is(TagRegistry.CANNOT_USE_AS_DISGUISE)) {
-            if (state != null && !state.isAir()
-                    && !state.is(TagRegistry.CANNOT_USE_AS_DISGUISE)) {
+            if (state != null && !state.is(TagRegistry.CANNOT_USE_AS_DISGUISE)) {
                 BakedModel originalModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
                 return originalModel.getQuads(disguiseState, side, random, data, renderType);
             }

@@ -2,12 +2,16 @@ package com.wenxin2.marioverse.blocks.entities;
 
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import javax.annotation.Nullable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.RandomizableContainer;
@@ -37,7 +41,7 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
     @Nullable protected ResourceKey<LootTable> lootTable;
     protected long lootTableSeed;
 
-    protected final ItemStackHandler inventory = new ItemStackHandler(1) {
+    public final ItemStackHandler inventory = new ItemStackHandler(1) {
         @Override
         protected void onContentsChanged(int slot) {
             if (slot == 0 && DisguisedBlockEntity.this.level != null)
@@ -82,7 +86,7 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         super.saveAdditional(tag, provider);
         tag.put("inventory", this.inventory.serializeNBT(provider));
 
-        if (!this.disguiseState.isAir())
+        if (this.disguiseState != null)
             tag.put("disguiseBlock", NbtUtils.writeBlockState(this.disguiseState));
         if (this.disguiseBlockEntity != null)
             tag.put("disguiseBlockEntity", this.disguiseBlockEntity.saveWithoutMetadata(provider));
@@ -106,6 +110,33 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
                 BlockItem.updateCustomBlockEntityTag(this.level, null, this.worldPosition, this.inventory.getStackInSlot(0));
             }
         }
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @NotNull
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        return this.saveWithoutMetadata(provider);
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        super.handleUpdateTag(tag, lookupProvider);
+        this.requestModelDataUpdate();
+        if (this.level != null && this.level.getModelDataManager() != null)
+            this.level.getModelDataManager().requestRefresh(this);
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
+        super.onDataPacket(net, packet, lookupProvider);
+        this.requestModelDataUpdate();
+        if (this.level != null && this.level.getModelDataManager() != null)
+            this.level.getModelDataManager().requestRefresh(this);
     }
 
     @NotNull
@@ -228,13 +259,12 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
         return blockItem.getBlock().getStateForPlacement(context);
     }
 
-    protected void setDisguise() {
+    public void setDisguise() {
         ItemStack stack = this.inventory.getStackInSlot(0);
         boolean disguised = false;
 
-        if (stack.getItem() instanceof BlockItem) {
+        if (stack.getItem() instanceof BlockItem)
             disguised = true;
-        }
 
         if (this.level != null) {
             BlockState state = this.level.getBlockState(this.worldPosition);
@@ -243,8 +273,13 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
                 this.disguiseState = Blocks.AIR.defaultBlockState();
 
                 if (state.hasProperty(BlockStatePropertyRegistry.DISGUISED)
-                        && state.getValue(BlockStatePropertyRegistry.DISGUISED))
-                    this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.DISGUISED, false), 3);
+                        && state.getValue(BlockStatePropertyRegistry.DISGUISED)) {
+                    if (state.hasProperty(BlockStatePropertyRegistry.INVISIBLE)
+                            && state.hasProperty(BlockStatePropertyRegistry.DISGUISED))
+                        this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.DISGUISED, false)
+                                .setValue(BlockStatePropertyRegistry.INVISIBLE, false), 3);
+                    else this.level.setBlock(this.worldPosition, state.setValue(BlockStatePropertyRegistry.DISGUISED, false), 3);
+                }
             } else {
                 if (state.hasProperty(BlockStatePropertyRegistry.DISGUISED)
                         && state.getValue(BlockStatePropertyRegistry.DISGUISED) != disguised)
@@ -256,7 +291,11 @@ public class DisguisedBlockEntity extends BlockEntity implements RandomizableCon
             }
             this.createDisguiseBlockEntity(stack);
             this.requestModelDataUpdate();
-            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), Block.UPDATE_ALL);
+            this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_ALL);
+            if (this.level instanceof ServerLevel serverLevel)
+                serverLevel.getChunkSource().blockChanged(this.worldPosition);
+            if (this.level != null && this.level.getModelDataManager() != null)
+                this.level.getModelDataManager().requestRefresh(this);
             this.setChanged();
         }
     }
