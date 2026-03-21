@@ -21,6 +21,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CrossCollisionBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.FenceBlock;
@@ -111,11 +112,8 @@ public class DisguisedBlock extends BaseEntityBlock {
         if (state.getValue(DISGUISED)) {
             if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
                 BlockState disguiseState = blockEntity.getDisguiseState();
-                if (disguiseState != null && !disguiseState.isAir()) {
-                    if (blockGetter instanceof LevelAccessor levelAccessor)
-                        disguiseState = Block.updateFromNeighbourShapes(disguiseState, levelAccessor, pos);
+                if (disguiseState != null && !disguiseState.isAir())
                     return disguiseState.getShape(blockGetter, pos, context);
-                }
             }
         }
         return Shapes.block();
@@ -244,7 +242,7 @@ public class DisguisedBlock extends BaseEntityBlock {
 
                     BlockState updatedState = disguiseState.updateShape(direction, neighborState, levelAccessor, pos, neighborPos);
 
-                    if (updatedState != disguiseState) {
+                    if (updatedState != disguiseState && updatedState.getBlock() != Blocks.AIR) {
                         blockEntity.setDisguiseState(updatedState);
                         blockEntity.requestModelDataUpdate();
                         if (levelAccessor instanceof Level level)
