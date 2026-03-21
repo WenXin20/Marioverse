@@ -9,13 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record FireballShootPayload(BlockPos pos) implements CustomPacketPayload {
-    public static final Type<FireballShootPayload> FIREBALL_SHOOT_PAYLOAD =
+    public static final Type<FireballShootPayload> PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "fireball_shoot_payload"));
 
     @NotNull
     @Override
     public Type<FireballShootPayload> type() {
-        return FIREBALL_SHOOT_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, FireballShootPayload> STREAM_CODEC = StreamCodec.composite(

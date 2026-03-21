@@ -57,29 +57,29 @@ public class PacketHandler {
         final PayloadRegistrar registrar = event.registrar("marioverse").versioned("1.0.0");
 
         // Sends to client
-        registrar.playToClient(AmericaNamePayload.AMERICA_GOAL_POLE_PAYLOAD, AmericaNamePayload.STREAM_CODEC, AmericaNamePacket.get()::handle);
-        registrar.playToClient(OneUpPayload.ONE_UP_PAYLOAD, OneUpPayload.STREAM_CODEC, OneUpPacket.get()::handle);
-        registrar.playToClient(SwingHandPayload.SWING_HAND_PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
-        registrar.playToClient(WonderNamePayload.WONDER_GOAL_POLE_PAYLOAD, WonderNamePayload.STREAM_CODEC, WonderNamePacket.get()::handle);
+        registrar.playToClient(AmericaNamePayload.PAYLOAD, AmericaNamePayload.STREAM_CODEC, AmericaNamePacket.get()::handle);
+        registrar.playToClient(OneUpPayload.PAYLOAD, OneUpPayload.STREAM_CODEC, OneUpPacket.get()::handle);
+        registrar.playToClient(SwingHandPayload.PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
+        registrar.playToClient(WonderNamePayload.PAYLOAD, WonderNamePayload.STREAM_CODEC, WonderNamePacket.get()::handle);
 
         // Sends to server
         registrar.playToServer(BlockFacePayload.PAYLOAD, BlockFacePayload.STREAM_CODEC, BlockFacePacket.get()::handle);
-        registrar.playToServer(BouncePayload.BOUNCE_PAYLOAD, BouncePayload.STREAM_CODEC, BouncePacket.get()::handle);
-        registrar.playToServer(ClosePipeButtonPayload.CLOSE_STATE_PAYLOAD, ClosePipeButtonPayload.STREAM_CODEC, ClosePipeButtonPacket.get()::handle);
-        registrar.playToServer(FireballShootPayload.FIREBALL_SHOOT_PAYLOAD, FireballShootPayload.STREAM_CODEC, FireballShootPacket.get()::handle);
-        registrar.playToServer(IceBallShootPayload.ICE_BALL_SHOOT_PAYLOAD, IceBallShootPayload.STREAM_CODEC, IceBallShootPacket.get()::handle);
+        registrar.playToServer(BouncePayload.PAYLOAD, BouncePayload.STREAM_CODEC, BouncePacket.get()::handle);
+        registrar.playToServer(ClosePipeButtonPayload.PAYLOAD, ClosePipeButtonPayload.STREAM_CODEC, ClosePipeButtonPacket.get()::handle);
+        registrar.playToServer(FireballShootPayload.PAYLOAD, FireballShootPayload.STREAM_CODEC, FireballShootPacket.get()::handle);
+        registrar.playToServer(IceBallShootPayload.PAYLOAD, IceBallShootPayload.STREAM_CODEC, IceBallShootPacket.get()::handle);
         registrar.playToServer(MenuTypePayload.PAYLOAD, MenuTypePayload.STREAM_CODEC, MenuTypePacket.get()::handle);
-        registrar.playToServer(PipeBubblesButtonPayload.BUBBLES_STATE_PAYLOAD, PipeBubblesButtonPayload.STREAM_CODEC, PipeBubblesButtonPacket.get()::handle);
-        registrar.playToServer(PipeBubblesSliderPayload.BUBBLES_DISTANCE_PAYLOAD, PipeBubblesSliderPayload.STREAM_CODEC, PipeBubblesSliderPacket.get()::handle);
-        registrar.playToServer(PiranhaPlantHidePayload.HIDE_PAYLOAD, PiranhaPlantHidePayload.STREAM_CODEC, PiranhaPlantHidePacket.get()::handle);
+        registrar.playToServer(PipeBubblesButtonPayload.PAYLOAD, PipeBubblesButtonPayload.STREAM_CODEC, PipeBubblesButtonPacket.get()::handle);
+        registrar.playToServer(PipeBubblesSliderPayload.PAYLOAD, PipeBubblesSliderPayload.STREAM_CODEC, PipeBubblesSliderPacket.get()::handle);
+        registrar.playToServer(PiranhaPlantHidePayload.PAYLOAD, PiranhaPlantHidePayload.STREAM_CODEC, PiranhaPlantHidePacket.get()::handle);
         registrar.playToServer(PlacementDirectionPayload.PAYLOAD, PlacementDirectionPayload.STREAM_CODEC, PlacementDirectionPacket.get()::handle);
         registrar.playToServer(PlacementOffsetPayload.PAYLOAD, PlacementOffsetPayload.STREAM_CODEC, PlacementOffsetPacket.get()::handle);
-        registrar.playToServer(RefillCountdownPayload.REFILL_COUNTDOWN_PAYLOAD, RefillCountdownPayload.STREAM_CODEC, RefillCountdownPacket.get()::handle);
-        registrar.playToServer(RenamePipePayload.RENAME_PIPE_PAYLOAD, RenamePipePayload.STREAM_CODEC, RenamePipePacket.get()::handle);
-        registrar.playToServer(SquashEntityPayload.SQUASH_ENTITY_PAYLOAD, SquashEntityPayload.STREAM_CODEC, SquashEntityPacket.get()::handle);
+        registrar.playToServer(RefillCountdownPayload.PAYLOAD, RefillCountdownPayload.STREAM_CODEC, RefillCountdownPacket.get()::handle);
+        registrar.playToServer(RenamePipePayload.PAYLOAD, RenamePipePayload.STREAM_CODEC, RenamePipePacket.get()::handle);
+        registrar.playToServer(SquashEntityPayload.PAYLOAD, SquashEntityPayload.STREAM_CODEC, SquashEntityPacket.get()::handle);
         registrar.playToServer(TimeUnitPayload.PAYLOAD, TimeUnitPayload.STREAM_CODEC, TimeUnitPacket.get()::handle);
-        registrar.playToServer(WaterSpoutButtonPayload.SPOUT_STATE_PAYLOAD, WaterSpoutButtonPayload.STREAM_CODEC, WaterSpoutButtonPacket.get()::handle);
-        registrar.playToServer(WaterSpoutSliderPayload.SPOUT_HEIGHT_PAYLOAD, WaterSpoutSliderPayload.STREAM_CODEC, WaterSpoutSliderPacket.get()::handle);
+        registrar.playToServer(WaterSpoutButtonPayload.PAYLOAD, WaterSpoutButtonPayload.STREAM_CODEC, WaterSpoutButtonPacket.get()::handle);
+        registrar.playToServer(WaterSpoutSliderPayload.PAYLOAD, WaterSpoutSliderPayload.STREAM_CODEC, WaterSpoutSliderPacket.get()::handle);
     }
 
     public static <MSG extends CustomPacketPayload> void sendToServer(MSG message) {

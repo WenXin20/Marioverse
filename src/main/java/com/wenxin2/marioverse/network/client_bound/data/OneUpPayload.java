@@ -9,13 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record OneUpPayload(Boolean triggerOneUp) implements CustomPacketPayload {
-    public static final Type<OneUpPayload> ONE_UP_PAYLOAD =
+    public static final Type<OneUpPayload> PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "one_up_payload"));
 
     @NotNull
     @Override
     public Type<OneUpPayload> type() {
-        return ONE_UP_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, OneUpPayload> STREAM_CODEC = StreamCodec.composite(

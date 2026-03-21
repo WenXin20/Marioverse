@@ -9,13 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record BouncePayload(boolean isHoldingJump) implements CustomPacketPayload {
-    public static final Type<BouncePayload> BOUNCE_PAYLOAD =
+    public static final Type<BouncePayload> PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "bounce_payload"));
 
     @NotNull
     @Override
     public Type<BouncePayload> type() {
-        return BOUNCE_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, BouncePayload> STREAM_CODEC = StreamCodec.composite(

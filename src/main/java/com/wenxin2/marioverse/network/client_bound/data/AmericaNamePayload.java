@@ -10,13 +10,13 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record AmericaNamePayload(BlockPos pos, boolean renderRenamedFlag) implements CustomPacketPayload {
-    public static final Type<AmericaNamePayload> AMERICA_GOAL_POLE_PAYLOAD =
+    public static final Type<AmericaNamePayload> PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "america_goal_pole_payload"));
 
     @NotNull
     @Override
     public Type<AmericaNamePayload> type() {
-        return AMERICA_GOAL_POLE_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, AmericaNamePayload> STREAM_CODEC = StreamCodec.composite(

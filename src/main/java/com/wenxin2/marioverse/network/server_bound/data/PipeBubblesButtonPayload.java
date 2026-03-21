@@ -10,12 +10,12 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record PipeBubblesButtonPayload(BlockPos pos, Boolean hasPipeBubbles) implements CustomPacketPayload {
-    public static final Type<PipeBubblesButtonPayload> BUBBLES_STATE_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "bubbles_state_payload"));
+    public static final Type<PipeBubblesButtonPayload> PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "bubbles_state_payload"));
 
     @NotNull
     @Override
     public Type<PipeBubblesButtonPayload> type() {
-        return BUBBLES_STATE_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, PipeBubblesButtonPayload> STREAM_CODEC = StreamCodec.composite(

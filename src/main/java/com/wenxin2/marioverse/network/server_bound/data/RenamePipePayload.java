@@ -10,12 +10,12 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record RenamePipePayload(BlockPos pos, String customName) implements CustomPacketPayload {
-    public static final Type<RenamePipePayload> RENAME_PIPE_PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "rename_pipe_payload"));
+    public static final Type<RenamePipePayload> PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "rename_pipe_payload"));
 
     @NotNull
     @Override
     public Type<RenamePipePayload> type() {
-        return RENAME_PIPE_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, RenamePipePayload> STREAM_CODEC = StreamCodec.composite(

@@ -9,13 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record RefillCountdownPayload(int containerId, int refillCountdown) implements CustomPacketPayload {
-    public static final Type<RefillCountdownPayload> REFILL_COUNTDOWN_PAYLOAD =
+    public static final Type<RefillCountdownPayload> PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "refill_countdown_payload"));
 
     @NotNull
     @Override
     public Type<RefillCountdownPayload> type() {
-        return REFILL_COUNTDOWN_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, RefillCountdownPayload> STREAM_CODEC =
