@@ -54,8 +54,6 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     private ItemStack ghostStack = ItemStack.EMPTY;
     private boolean lastPowered;
     private int activeRefillCountdown = -1;
-    private int placeDirection = 0;
-    private int placementOffset = 1;
     protected long lootTableSeed;
     private BlockPos targetPos;
 
@@ -70,6 +68,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 4 -> BlockSpawnerBlockEntity.this.getPlacementOffset();
                 case 5 -> BlockSpawnerBlockEntity.this.getMenuType();
                 case 6 -> BlockSpawnerBlockEntity.this.getBlockFace();
+                case 7 -> BlockSpawnerBlockEntity.this.isUnbreakable();
                 default -> 0;
             };
         }
@@ -83,12 +82,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 4 -> BlockSpawnerBlockEntity.this.setPlacementOffset(value);
                 case 5 -> BlockSpawnerBlockEntity.this.setMenuType(value);
                 case 6 -> BlockSpawnerBlockEntity.this.setBlockFace(value);
+                case 7 -> BlockSpawnerBlockEntity.this.setUnbreakable(value);
             }
         }
 
         @Override
         public int getCount() {
-            return 7;
+            return 8;
         }
     };
 
@@ -175,6 +175,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.ghostStack = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.setData(DataAttachmentRegistry.BLOCK_FACE.get(), input.getOrDefault(DataComponentRegistry.BLOCK_FACE.get(), 0));
+        this.setData(DataAttachmentRegistry.IS_UNBREAKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_UNBREAKABLE.get(), true));
         this.setData(DataAttachmentRegistry.MENU_TYPE.get(), input.getOrDefault(DataComponentRegistry.MENU_TYPE.get(), 0));
         this.setData(DataAttachmentRegistry.PLACEMENT_DIRECTION.get(), input.getOrDefault(DataComponentRegistry.PLACEMENT_DIRECTION.get(), 0));
         this.setData(DataAttachmentRegistry.PLACEMENT_OFFSET.get(), input.getOrDefault(DataComponentRegistry.PLACEMENT_OFFSET.get(), 1));
@@ -188,6 +189,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.ghostStack)));
         builder.set(DataComponents.CUSTOM_NAME, this.name);
         builder.set(DataComponentRegistry.BLOCK_FACE.get(), this.getData(DataAttachmentRegistry.BLOCK_FACE.get()));
+        builder.set(DataComponentRegistry.IS_UNBREAKABLE.get(), this.getData(DataAttachmentRegistry.IS_UNBREAKABLE.get()));
         builder.set(DataComponentRegistry.MENU_TYPE.get(), this.getData(DataAttachmentRegistry.MENU_TYPE.get()));
         builder.set(DataComponentRegistry.PLACEMENT_DIRECTION.get(), this.getData(DataAttachmentRegistry.PLACEMENT_DIRECTION.get()));
         builder.set(DataComponentRegistry.PLACEMENT_OFFSET.get(), this.getData(DataAttachmentRegistry.PLACEMENT_OFFSET.get()));
@@ -424,6 +426,17 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
     public void setMenuType(int menuType) {
         this.setData(DataAttachmentRegistry.MENU_TYPE, menuType);
+        this.setChanged();
+    }
+
+    public int isUnbreakable() {
+        return this.getData(DataAttachmentRegistry.IS_UNBREAKABLE.get()) ? 1 : 0;
+    }
+
+    public void setUnbreakable(int isUnbreakable) {
+        if (isUnbreakable == 1)
+            this.setData(DataAttachmentRegistry.IS_UNBREAKABLE, true);
+        else this.setData(DataAttachmentRegistry.IS_UNBREAKABLE, false);
         this.setChanged();
     }
 

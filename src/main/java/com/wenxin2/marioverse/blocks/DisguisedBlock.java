@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import net.minecraft.core.BlockPos;
@@ -438,8 +439,12 @@ public class DisguisedBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected float getDestroyProgress(BlockState state, Player player, BlockGetter blockGetter, BlockPos pos) { // TODO: Gui edit
-        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
+    protected float getDestroyProgress(BlockState state, Player player, BlockGetter blockGetter, BlockPos pos) {
+        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isUnbreakable() == 0)
+            return blockEntity.getDisguiseState().getDestroyProgress(player, blockGetter, pos);
+        else if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(blockGetter.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity))
             return blockEntity.getDisguiseState().getDestroyProgress(player, blockGetter, pos);
         else return super.getDestroyProgress(state, player, blockGetter, pos);
     }

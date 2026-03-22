@@ -1297,6 +1297,10 @@
   "menu.marioverse.block_spawner.top_block_face_button.tooltip": "Top Block Face",
   "menu.marioverse.block_spawner.top_block_face_button.narrate": "Top Block Face Button",
 
+  "menu.marioverse.block_spawner.unbreakable_checkmark": "",
+  "menu.marioverse.block_spawner.unbreakable_checkmark.tooltip": "Unbreakable",
+  "menu.marioverse.block_spawner.unbreakable_checkmark.narrate": "Unbreakable Button",
+
   "menu.marioverse.block_spawner.up_button": "U",
   "menu.marioverse.block_spawner.up_button.tooltip": "Place Above",
   "menu.marioverse.block_spawner.up_button.narrate": "Place Above Button",
