@@ -215,6 +215,9 @@ public class QuestionBlock extends BaseEntityBlock {
                     if (!level.isClientSide)
                         this.spawnFromQuestionBlock(level, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
 
+                    if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
+                        level.setBlock(pos, state.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+
                     MarioverseSoundTypes.playSounds(level, pos, storedItem);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
@@ -223,8 +226,12 @@ public class QuestionBlock extends BaseEntityBlock {
                 if (storedItem.isEmpty())
                     level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
-                if (questionBE.getLootTable() != null)
-                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+                if (questionBE.getLootTable() != null) {
+                    if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
+                        level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE)
+                                .setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.TRUE), 3);
+                    else level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+                }
             }
         }
         super.onExplosionHit(state, level, pos, explosion, consumer);
