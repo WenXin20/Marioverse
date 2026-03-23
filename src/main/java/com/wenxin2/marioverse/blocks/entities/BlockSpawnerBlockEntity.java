@@ -179,7 +179,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.ghostStack = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.setData(DataAttachmentRegistry.BLOCK_FACE.get(), input.getOrDefault(DataComponentRegistry.BLOCK_FACE.get(), 0));
-        this.setData(DataAttachmentRegistry.IS_INTERACTABLE.get(), input.getOrDefault(DataComponentRegistry.IS_INTERACTABLE.get(), true));
+        this.setData(DataAttachmentRegistry.IS_INTERACTABLE.get(), input.getOrDefault(DataComponentRegistry.IS_INTERACTABLE.get(), false));
         this.setData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), false));
         this.setData(DataAttachmentRegistry.IS_UNBREAKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_UNBREAKABLE.get(), true));
         this.setData(DataAttachmentRegistry.MENU_TYPE.get(), input.getOrDefault(DataComponentRegistry.MENU_TYPE.get(), 0));
