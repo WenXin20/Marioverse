@@ -454,8 +454,12 @@ public class DisguisedBlock extends BaseEntityBlock {
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter blockGetter, BlockPos pos, Explosion explosion) { // TODO: Gui edit
-        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
+    public float getExplosionResistance(BlockState state, BlockGetter blockGetter, BlockPos pos, Explosion explosion) {
+        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isUnbreakable() == 0)
+            return blockEntity.getDisguiseState().getExplosionResistance(blockGetter, pos, explosion);
+        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(blockGetter.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity))
             return blockEntity.getDisguiseState().getExplosionResistance(blockGetter, pos, explosion);
         else return super.getExplosionResistance(state, blockGetter, pos, explosion);
     }
