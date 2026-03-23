@@ -392,7 +392,7 @@ public class DisguisedBlock extends BaseEntityBlock {
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) { // TODO: Gui edit
         if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
-                && blockEntity.isInteractable() == 0)
+                && blockEntity.isInteractable() == 1)
             blockEntity.getDisguiseState().entityInside(level, pos, entity);
         else if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
                 && !(level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity))
