@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.BlockFacePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsInteractablePayload;
+import com.wenxin2.marioverse.network.server_bound.data.IsRightClickablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsUnbreakablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
 import com.wenxin2.marioverse.network.server_bound.data.PlacementDirectionPayload;
@@ -63,6 +64,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     EditBox placementOffsetBox;
     Inventory inventory;
     ResizableCheckbox interactableCheckbox;
+    ResizableCheckbox rightClickableCheckbox;
     ResizableCheckbox unbreakableCheckbox;
 
     public BlockSpawnerScreen(BlockSpawnerMenu container, Inventory inventory, Component name) {
@@ -286,6 +288,16 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             else graphics.blit(GUI, this.leftPos + 7, this.topPos + 62, 235, 15, 8, 8);
         }
 
+        if (this.rightClickableCheckbox.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.isRightClickable() == 1 && this.rightClickableCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 16, this.topPos + 62, 244, 24, 10, 8);
+            else if (this.menu.isRightClickable() == 1)
+                graphics.blit(GUI, this.leftPos + 16, this.topPos + 62, 244, 15, 10, 8);
+            else if (this.rightClickableCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 17, this.topPos + 62, 235, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 17, this.topPos + 62, 235, 15, 8, 8);
+        }
+
         if (this.interactableCheckbox.visible && this.menu.getMenuType() == 1) {
             if (this.menu.isInteractable() == 1 && this.interactableCheckbox.isHoveredOrFocused())
                 graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 244, 24, 10, 8);
@@ -410,6 +422,14 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
                 .tooltip(Tooltip.create(tooltip)).build();
         this.unbreakableCheckbox.setAlpha(0);
         this.addRenderableWidget(this.unbreakableCheckbox);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.right_clickable_checkmark");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.right_clickable_checkmark.tooltip");
+        this.rightClickableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isRightClickableCheckbox)
+                .pos(this.leftPos + 17, this.topPos + 62).setSize(8)
+                .tooltip(Tooltip.create(tooltip)).build();
+        this.rightClickableCheckbox.setAlpha(0);
+        this.addRenderableWidget(this.rightClickableCheckbox);
 
         buttonName = Component.translatable("menu.marioverse.block_spawner.interactable_checkmark");
         tooltip = Component.translatable("menu.marioverse.block_spawner.interactable_checkmark.tooltip");
@@ -655,6 +675,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.upButton.visible = menuType == 1;
             this.downButton.visible = menuType == 1;
             this.interactableCheckbox.visible = menuType == 1;
+            this.rightClickableCheckbox.visible = menuType == 1;
             this.unbreakableCheckbox.visible = menuType == 1;
             this.showLine = menuType == 1;
 
@@ -725,6 +746,10 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
     private void isInteractableCheckbox(AbstractWidget widget, boolean isInteractable) {
         PacketHandler.sendToServer(new IsInteractablePayload(this.menu.containerId, isInteractable ? 1 : 0));
+    }
+
+    private void isRightClickableCheckbox(AbstractWidget widget, boolean isRightClickable) {
+        PacketHandler.sendToServer(new IsRightClickablePayload(this.menu.containerId, isRightClickable ? 1 : 0));
     }
 
     private void isUnbreakableCheckbox(AbstractWidget widget, boolean isUnbreakable) {

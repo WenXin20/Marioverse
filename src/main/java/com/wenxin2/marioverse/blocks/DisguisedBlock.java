@@ -343,8 +343,16 @@ public class DisguisedBlock extends BaseEntityBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (!player.isCreative() && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) { // TODO: Gui edit
+        if (!player.isCreative() && level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isRightClickable() == 1) {
             BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
+                return blockEntity.getDisguiseState().useItemOn(stack, level, player, hand, hitResult);
+        } else if (!player.isCreative() && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity)) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
             if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
                 return blockEntity.getDisguiseState().useItemOn(stack, level, player, hand, hitResult);
         }
@@ -354,8 +362,16 @@ public class DisguisedBlock extends BaseEntityBlock {
     @NotNull
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!player.isCreative() && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) { // TODO: Gui edit
+        if (!player.isCreative() && level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isRightClickable() == 1) {
             BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
+                return blockEntity.getDisguiseState().useWithoutItem(level, player, hitResult);
+        } else if (!player.isCreative() && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity)) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
             if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
                 return blockEntity.getDisguiseState().useWithoutItem(level, player, hitResult);
         }
@@ -370,7 +386,25 @@ public class DisguisedBlock extends BaseEntityBlock {
         Player player = context.getPlayer();
 
         if ((player == null || !player.isCreative())
-                && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+                && level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isRightClickable() == 1) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir()) {
+                BlockState modifiedState = disguiseState.getBlock().getToolModifiedState(disguiseState, context, itemAbility, simulate);
+
+                if (modifiedState != null && !simulate) {
+                    blockEntity.setDisguiseState(modifiedState);
+                    blockEntity.setItem(0, modifiedState.getBlock().asItem().getDefaultInstance());
+                    blockEntity.requestModelDataUpdate();
+                    blockEntity.setChanged();
+                    level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                }
+                return state;
+            }
+        } else if ((player == null || !player.isCreative())
+                && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity)) {
             BlockState disguiseState = blockEntity.getDisguiseState();
 
             if (disguiseState != null && !disguiseState.isAir()) {
@@ -390,20 +424,35 @@ public class DisguisedBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) { // TODO: Gui edit
-        if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
-                && blockEntity.isInteractable() == 1)
-            blockEntity.getDisguiseState().entityInside(level, pos, entity);
-        else if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
-                && !(level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity))
-            blockEntity.getDisguiseState().entityInside(level, pos, entity);
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isInteractable() == 1) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
+                blockEntity.getDisguiseState().entityInside(level, pos, entity);
+        } else if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity)) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
+                blockEntity.getDisguiseState().entityInside(level, pos, entity);
+        }
         else super.entityInside(state, level, pos, entity);
     }
 
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
-        if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+        if (level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isInteractable() == 1) {
             BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
+                blockEntity.getDisguiseState().getBlock().stepOn(level, pos, blockEntity.getDisguiseState(), entity);
+        } else if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity)) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
             if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
                 blockEntity.getDisguiseState().getBlock().stepOn(level, pos, blockEntity.getDisguiseState(), entity);
         }
@@ -412,8 +461,16 @@ public class DisguisedBlock extends BaseEntityBlock {
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+        if (level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isInteractable() == 1) {
             BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
+                blockEntity.getDisguiseState().getBlock().fallOn(level, blockEntity.getDisguiseState(), pos, entity, fallDistance);
+        } else if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity)) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
             if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
                 blockEntity.getDisguiseState().getBlock().fallOn(level, blockEntity.getDisguiseState(), pos, entity, fallDistance);
         }
@@ -424,8 +481,16 @@ public class DisguisedBlock extends BaseEntityBlock {
     public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
         BlockPos pos = entity.getOnPos();
 
-        if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+        if (blockGetter.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity
+                && blockEntity.isInteractable() == 1) {
             BlockState disguiseState = blockEntity.getDisguiseState();
+
+            if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
+                blockEntity.getDisguiseState().getBlock().updateEntityAfterFallOn(blockGetter, entity);
+        } else if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
+                && !(blockGetter.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity)) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
             if (disguiseState != null && !disguiseState.isAir() && !(disguiseState.getBlock() instanceof BlockSpawnerBlock))
                 blockEntity.getDisguiseState().getBlock().updateEntityAfterFallOn(blockGetter, entity);
         }

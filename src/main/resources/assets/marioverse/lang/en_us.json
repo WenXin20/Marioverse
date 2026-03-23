@@ -1280,6 +1280,9 @@
 
   "menu.marioverse.block_spawner.replace_slot.tooltip": "Block to replace",
 
+  "menu.marioverse.block_spawner.right_clickable_checkmark": "",
+  "menu.marioverse.block_spawner.right_clickable_checkmark.tooltip": "Right-Clickable",
+
   "menu.marioverse.block_spawner.seconds_button": "s",
   "menu.marioverse.block_spawner.seconds_button.tooltip": "Seconds",
   "menu.marioverse.block_spawner.seconds_button.narrate": "Time in Seconds Button",

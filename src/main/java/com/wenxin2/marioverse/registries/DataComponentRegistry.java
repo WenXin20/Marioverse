@@ -22,6 +22,9 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_INTERACTABLE =
             Marioverse.COMPONENTS.register("is_interactable", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_RIGHT_CLICKABLE =
+            Marioverse.COMPONENTS.register("is_right_clickable", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_LINKED =
             Marioverse.COMPONENTS.register("is_linked", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());

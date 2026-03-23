@@ -87,6 +87,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> IS_INTERACTABLE = Marioverse.ATTACHMENT_TYPES
             .register("is_interactable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_RIGHT_CLICKABLE = Marioverse.ATTACHMENT_TYPES
+            .register("is_right_clickable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_UNBREAKABLE = Marioverse.ATTACHMENT_TYPES
             .register("is_unbreakable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
