@@ -24,6 +24,7 @@ import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -83,6 +84,7 @@ import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -201,6 +203,31 @@ public class QuestionBlock extends BaseEntityBlock {
             QuestionBlock.hitQuestionBlock(level, pos, projectile, questionBlockEntity);
 
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
+    }
+
+    @Override
+    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
+        if (explosion.canTriggerBlocks() && level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE) {
+            if (!state.getValue(EMPTY) ) {
+                ItemStack storedItem = questionBE.getTheItem();
+
+                if (!storedItem.isEmpty()) {
+                    if (!level.isClientSide)
+                        this.spawnFromQuestionBlock(level, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
+
+                    MarioverseSoundTypes.playSounds(level, pos, storedItem);
+                    questionBE.splitTheItem(1);
+                    questionBE.setChanged();
+                }
+
+                if (storedItem.isEmpty())
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+
+                if (questionBE.getLootTable() != null)
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+            }
+        }
+        super.onExplosionHit(state, level, pos, explosion, consumer);
     }
 
     @Override
