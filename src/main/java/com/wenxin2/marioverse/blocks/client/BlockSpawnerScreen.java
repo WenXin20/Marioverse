@@ -2,10 +2,12 @@ package com.wenxin2.marioverse.blocks.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.client.ResizableCheckbox;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.BlockFacePayload;
+import com.wenxin2.marioverse.network.server_bound.data.IsInteractablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsUnbreakablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
 import com.wenxin2.marioverse.network.server_bound.data.PlacementDirectionPayload;
@@ -13,16 +15,11 @@ import com.wenxin2.marioverse.network.server_bound.data.PlacementOffsetPayload;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
 import com.wenxin2.marioverse.registries.SoundRegistry;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.narration.NarratedElementType;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.gui.narration.NarrationThunk;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -62,10 +59,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     Button placementButton;
     Button replaceButton;
 
-    Checkbox unbreakableCheckbox;
     EditBox countdownBox;
     EditBox placementOffsetBox;
     Inventory inventory;
+    ResizableCheckbox interactableCheckbox;
+    ResizableCheckbox unbreakableCheckbox;
 
     public BlockSpawnerScreen(BlockSpawnerMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -288,6 +286,16 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             else graphics.blit(GUI, this.leftPos + 7, this.topPos + 62, 235, 15, 8, 8);
         }
 
+        if (this.interactableCheckbox.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.isInteractable() == 1 && this.interactableCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 244, 24, 10, 8);
+            else if (this.menu.isInteractable() == 1)
+                graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 244, 15, 10, 8);
+            else if (this.interactableCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 235, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 235, 15, 8, 8);
+        }
+
         if (this.showLine)
             graphics.blit(GUI, this.leftPos + 26, this.topPos + 16, 240, 34, 2, 70);
 
@@ -397,11 +405,19 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         buttonName = Component.translatable("menu.marioverse.block_spawner.unbreakable_checkmark");
         tooltip = Component.translatable("menu.marioverse.block_spawner.unbreakable_checkmark.tooltip");
-        this.unbreakableCheckbox = Checkbox.builder(buttonName, this.font).onValueChange(this::isUnbreakableCheckbox)
-                .pos(this.leftPos + 7, this.topPos + 62).maxWidth(8)
+        this.unbreakableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isUnbreakableCheckbox)
+                .pos(this.leftPos + 7, this.topPos + 62).setSize(8)
                 .tooltip(Tooltip.create(tooltip)).build();
         this.unbreakableCheckbox.setAlpha(0);
         this.addRenderableWidget(this.unbreakableCheckbox);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.interactable_checkmark");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.interactable_checkmark.tooltip");
+        this.interactableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isInteractableCheckbox)
+                .pos(this.leftPos + 7, this.topPos + 72).setSize(8)
+                .tooltip(Tooltip.create(tooltip)).build();
+        this.interactableCheckbox.setAlpha(0);
+        this.addRenderableWidget(this.interactableCheckbox);
 
         buttonName = Component.translatable("menu.marioverse.block_spawner.north_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.north_button.tooltip");
@@ -638,6 +654,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.westButton.visible = menuType == 1;
             this.upButton.visible = menuType == 1;
             this.downButton.visible = menuType == 1;
+            this.interactableCheckbox.visible = menuType == 1;
             this.unbreakableCheckbox.visible = menuType == 1;
             this.showLine = menuType == 1;
 
@@ -704,6 +721,10 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             }
         }
         return super.keyPressed(keyCode, b, c);
+    }
+
+    private void isInteractableCheckbox(AbstractWidget widget, boolean isInteractable) {
+        PacketHandler.sendToServer(new IsInteractablePayload(this.menu.containerId, isInteractable ? 1 : 0));
     }
 
     private void isUnbreakableCheckbox(AbstractWidget widget, boolean isUnbreakable) {

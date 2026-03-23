@@ -69,6 +69,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 5 -> BlockSpawnerBlockEntity.this.getMenuType();
                 case 6 -> BlockSpawnerBlockEntity.this.getBlockFace();
                 case 7 -> BlockSpawnerBlockEntity.this.isUnbreakable();
+                case 8 -> BlockSpawnerBlockEntity.this.isInteractable();
                 default -> 0;
             };
         }
@@ -83,12 +84,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 5 -> BlockSpawnerBlockEntity.this.setMenuType(value);
                 case 6 -> BlockSpawnerBlockEntity.this.setBlockFace(value);
                 case 7 -> BlockSpawnerBlockEntity.this.setUnbreakable(value);
+                case 8 -> BlockSpawnerBlockEntity.this.setInteractable(value);
             }
         }
 
-        @Override
+        @Override // Increase this with ContainerData above
         public int getCount() {
-            return 8;
+            return 9;
         }
     };
 
@@ -175,6 +177,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.ghostStack = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.setData(DataAttachmentRegistry.BLOCK_FACE.get(), input.getOrDefault(DataComponentRegistry.BLOCK_FACE.get(), 0));
+        this.setData(DataAttachmentRegistry.IS_INTERACTABLE.get(), input.getOrDefault(DataComponentRegistry.IS_INTERACTABLE.get(), true));
         this.setData(DataAttachmentRegistry.IS_UNBREAKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_UNBREAKABLE.get(), true));
         this.setData(DataAttachmentRegistry.MENU_TYPE.get(), input.getOrDefault(DataComponentRegistry.MENU_TYPE.get(), 0));
         this.setData(DataAttachmentRegistry.PLACEMENT_DIRECTION.get(), input.getOrDefault(DataComponentRegistry.PLACEMENT_DIRECTION.get(), 0));
@@ -189,16 +192,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.ghostStack)));
         builder.set(DataComponents.CUSTOM_NAME, this.name);
         builder.set(DataComponentRegistry.BLOCK_FACE.get(), this.getData(DataAttachmentRegistry.BLOCK_FACE.get()));
+        builder.set(DataComponentRegistry.IS_INTERACTABLE.get(), this.getData(DataAttachmentRegistry.IS_INTERACTABLE.get()));
         builder.set(DataComponentRegistry.IS_UNBREAKABLE.get(), this.getData(DataAttachmentRegistry.IS_UNBREAKABLE.get()));
         builder.set(DataComponentRegistry.MENU_TYPE.get(), this.getData(DataAttachmentRegistry.MENU_TYPE.get()));
         builder.set(DataComponentRegistry.PLACEMENT_DIRECTION.get(), this.getData(DataAttachmentRegistry.PLACEMENT_DIRECTION.get()));
         builder.set(DataComponentRegistry.PLACEMENT_OFFSET.get(), this.getData(DataAttachmentRegistry.PLACEMENT_OFFSET.get()));
         builder.set(DataComponentRegistry.REFILL_COUNTDOWN.get(), this.getData(DataAttachmentRegistry.REFILL_COUNTDOWN.get()));
         builder.set(DataComponentRegistry.REFILL_TIME_UNIT.get(), this.getData(DataAttachmentRegistry.REFILL_TIME_UNIT.get()));
-    }
-
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @NotNull
@@ -437,6 +437,17 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         if (isUnbreakable == 1)
             this.setData(DataAttachmentRegistry.IS_UNBREAKABLE, true);
         else this.setData(DataAttachmentRegistry.IS_UNBREAKABLE, false);
+        this.setChanged();
+    }
+
+    public int isInteractable() {
+        return this.getData(DataAttachmentRegistry.IS_INTERACTABLE.get()) ? 1 : 0;
+    }
+
+    public void setInteractable(int isInteractable) {
+        if (isInteractable == 1)
+            this.setData(DataAttachmentRegistry.IS_INTERACTABLE, true);
+        else this.setData(DataAttachmentRegistry.IS_INTERACTABLE, false);
         this.setChanged();
     }
 
