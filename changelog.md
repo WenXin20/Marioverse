@@ -6,6 +6,7 @@
 - Add slot icon to refill GUI
 - Add trampoline caps and dango blossom to create tags to allow placement on contraptions
 - Windcharges can trigger On/Off Switches, ? Blocks, Spike Panels, and drop coins
+- Projectiles can claim checkpoint flags for you
 - Fix Star Coins checking the wrong tag
 - Fix shift-clicking into slots of the refill GUI
 
