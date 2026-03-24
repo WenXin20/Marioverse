@@ -1290,6 +1290,9 @@
   "menu.marioverse.block_spawner.seconds_button.tooltip": "Seconds",
   "menu.marioverse.block_spawner.seconds_button.narrate": "Time in Seconds Button",
 
+  "menu.marioverse.block_spawner.sneaking_checkbox": "",
+  "menu.marioverse.block_spawner.sneaking_checkbox.tooltip": "Sneak to Place",
+
   "menu.marioverse.block_spawner.south_block_face_button": "",
   "menu.marioverse.block_spawner.south_block_face_button.tooltip": "South Block Face",
   "menu.marioverse.block_spawner.south_block_face_button.narrate": "South Block Face Button",

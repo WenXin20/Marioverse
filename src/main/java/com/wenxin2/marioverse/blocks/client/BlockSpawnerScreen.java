@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.network.server_bound.data.BlockFacePayload;
 import com.wenxin2.marioverse.network.server_bound.data.HasCollisionPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsInteractablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsRightClickablePayload;
+import com.wenxin2.marioverse.network.server_bound.data.IsSneakingPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsUnbreakablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
 import com.wenxin2.marioverse.network.server_bound.data.PlacementDirectionPayload;
@@ -67,6 +68,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     ResizableCheckbox collisionCheckbox;
     ResizableCheckbox interactableCheckbox;
     ResizableCheckbox rightClickableCheckbox;
+    ResizableCheckbox sneakingCheckbox;
     ResizableCheckbox unbreakableCheckbox;
 
     public BlockSpawnerScreen(BlockSpawnerMenu container, Inventory inventory, Component name) {
@@ -318,6 +320,16 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             else if (this.collisionCheckbox.isHoveredOrFocused())
                 graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 235, 24, 8, 8);
             else graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 235, 15, 8, 8);
+        }
+
+        if (this.sneakingCheckbox.visible && this.menu.getMenuType() == 2) {
+            if (this.menu.isSneaking() == 1 && this.sneakingCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 136, this.topPos + 72, 244, 24, 10, 8);
+            else if (this.menu.isSneaking() == 1)
+                graphics.blit(GUI, this.leftPos + 136, this.topPos + 72, 244, 15, 10, 8);
+            else if (this.sneakingCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 137, this.topPos + 72, 235, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 137, this.topPos + 72, 235, 15, 8, 8);
         }
 
         if (this.showLine)
@@ -611,6 +623,14 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.placementOffsetBox.setMaxLength(15);
         this.addRenderableWidget(this.placementOffsetBox);
 
+        buttonName = Component.translatable("menu.marioverse.block_spawner.sneaking_checkbox");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.sneaking_checkbox.tooltip");
+        this.sneakingCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isSneakingCheckbox)
+                .pos(this.leftPos + 137, this.topPos + 72).setSize(8)
+                .tooltip(Tooltip.create(tooltip)).build();
+        this.sneakingCheckbox.setAlpha(0);
+        this.addRenderableWidget(this.sneakingCheckbox);
+
         buttonName = Component.translatable("menu.marioverse.block_spawner.replace_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.replace_button.tooltip");
         this.replaceButton = Button.builder(buttonName, button -> {
@@ -700,6 +720,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.unbreakableCheckbox.visible = menuType == 1;
             this.showLine = menuType == 1;
 
+            this.sneakingCheckbox.visible = menuType == 2;
+
             if (!this.countdownBox.isFocused() && menuType == 0)
                 this.countdownBox.setValue(String.valueOf(this.menu.convertFromTicks(refillCountdown)));
 
@@ -775,6 +797,10 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
     private void isRightClickableCheckbox(AbstractWidget widget, boolean isRightClickable) {
         PacketHandler.sendToServer(new IsRightClickablePayload(this.menu.containerId, isRightClickable ? 1 : 0));
+    }
+
+    private void isSneakingCheckbox(AbstractWidget widget, boolean isSneaking) {
+        PacketHandler.sendToServer(new IsSneakingPayload(this.menu.containerId, isSneaking ? 1 : 0));
     }
 
     private void isUnbreakableCheckbox(AbstractWidget widget, boolean isUnbreakable) {

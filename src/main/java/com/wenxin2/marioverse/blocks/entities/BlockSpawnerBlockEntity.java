@@ -72,6 +72,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 8 -> BlockSpawnerBlockEntity.this.isInteractable();
                 case 9 -> BlockSpawnerBlockEntity.this.isRightClickable();
                 case 10 -> BlockSpawnerBlockEntity.this.hasCollision();
+                case 11 -> BlockSpawnerBlockEntity.this.isSneaking();
                 default -> 0;
             };
         }
@@ -89,12 +90,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 8 -> BlockSpawnerBlockEntity.this.setInteractable(value);
                 case 9 -> BlockSpawnerBlockEntity.this.setRightClickable(value);
                 case 10 -> BlockSpawnerBlockEntity.this.setCollision(value);
+                case 11 -> BlockSpawnerBlockEntity.this.setSneaking(value);
             }
         }
 
         @Override // Increase this with ContainerData above
         public int getCount() {
-            return 11;
+            return 12;
         }
     };
 
@@ -184,6 +186,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.setData(DataAttachmentRegistry.HAS_COLLISION.get(), input.getOrDefault(DataComponentRegistry.HAS_COLLISION.get(), true));
         this.setData(DataAttachmentRegistry.IS_INTERACTABLE.get(), input.getOrDefault(DataComponentRegistry.IS_INTERACTABLE.get(), false));
         this.setData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), false));
+        this.setData(DataAttachmentRegistry.IS_SNEAKING.get(), input.getOrDefault(DataComponentRegistry.IS_SNEAKING.get(), false));
         this.setData(DataAttachmentRegistry.IS_UNBREAKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_UNBREAKABLE.get(), true));
         this.setData(DataAttachmentRegistry.MENU_TYPE.get(), input.getOrDefault(DataComponentRegistry.MENU_TYPE.get(), 0));
         this.setData(DataAttachmentRegistry.PLACEMENT_DIRECTION.get(), input.getOrDefault(DataComponentRegistry.PLACEMENT_DIRECTION.get(), 0));
@@ -201,6 +204,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         builder.set(DataComponentRegistry.HAS_COLLISION.get(), this.getData(DataAttachmentRegistry.HAS_COLLISION.get()));
         builder.set(DataComponentRegistry.IS_INTERACTABLE.get(), this.getData(DataAttachmentRegistry.IS_INTERACTABLE.get()));
         builder.set(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), this.getData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get()));
+        builder.set(DataComponentRegistry.IS_SNEAKING.get(), this.getData(DataAttachmentRegistry.IS_SNEAKING.get()));
         builder.set(DataComponentRegistry.IS_UNBREAKABLE.get(), this.getData(DataAttachmentRegistry.IS_UNBREAKABLE.get()));
         builder.set(DataComponentRegistry.MENU_TYPE.get(), this.getData(DataAttachmentRegistry.MENU_TYPE.get()));
         builder.set(DataComponentRegistry.PLACEMENT_DIRECTION.get(), this.getData(DataAttachmentRegistry.PLACEMENT_DIRECTION.get()));
@@ -377,11 +381,11 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     }
 
     public int getRefillCountdown() {
-        return this.getData(DataAttachmentRegistry.REFILL_COUNTDOWN.get());
+        return this.getData(DataAttachmentRegistry.REFILL_COUNTDOWN);
     }
 
     public void setRefillCountdown(int refillCountdown) {
-        this.setData(DataAttachmentRegistry.REFILL_COUNTDOWN.get(), refillCountdown);
+        this.setData(DataAttachmentRegistry.REFILL_COUNTDOWN, refillCountdown);
         this.setChanged();
     }
 
@@ -393,29 +397,29 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     }
 
     public int getPlacementDirection() {
-        return this.getData(DataAttachmentRegistry.PLACEMENT_DIRECTION.get());
+        return this.getData(DataAttachmentRegistry.PLACEMENT_DIRECTION);
     }
 
     public void setPlacementDirection(int placementDirection) {
-        this.setData(DataAttachmentRegistry.PLACEMENT_DIRECTION.get(), placementDirection);
+        this.setData(DataAttachmentRegistry.PLACEMENT_DIRECTION, placementDirection);
         this.setChanged();
     }
 
     public int getBlockFace() {
-        return this.getData(DataAttachmentRegistry.BLOCK_FACE.get());
+        return this.getData(DataAttachmentRegistry.BLOCK_FACE);
     }
 
     public void setBlockFace(int blockFace) {
-        this.setData(DataAttachmentRegistry.BLOCK_FACE.get(), blockFace);
+        this.setData(DataAttachmentRegistry.BLOCK_FACE, blockFace);
         this.setChanged();
     }
 
     public int getPlacementOffset() {
-        return this.getData(DataAttachmentRegistry.PLACEMENT_OFFSET.get());
+        return this.getData(DataAttachmentRegistry.PLACEMENT_OFFSET);
     }
 
     public void setPlacementOffset(int placementOffset) {
-        this.setData(DataAttachmentRegistry.PLACEMENT_OFFSET.get(), placementOffset);
+        this.setData(DataAttachmentRegistry.PLACEMENT_OFFSET, placementOffset);
         this.setChanged();
     }
 
@@ -438,7 +442,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     }
 
     public int isUnbreakable() {
-        return this.getData(DataAttachmentRegistry.IS_UNBREAKABLE.get()) ? 1 : 0;
+        return this.getData(DataAttachmentRegistry.IS_UNBREAKABLE) ? 1 : 0;
     }
 
     public void setUnbreakable(int isUnbreakable) {
@@ -449,7 +453,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     }
 
     public int isInteractable() {
-        return this.getData(DataAttachmentRegistry.IS_INTERACTABLE.get()) ? 1 : 0;
+        return this.getData(DataAttachmentRegistry.IS_INTERACTABLE) ? 1 : 0;
     }
 
     public void setInteractable(int isInteractable) {
@@ -460,7 +464,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     }
 
     public int isRightClickable() {
-        return this.getData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get()) ? 1 : 0;
+        return this.getData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE) ? 1 : 0;
     }
 
     public void setRightClickable(int isRightClickable) {
@@ -471,13 +475,24 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
     }
 
     public int hasCollision() {
-        return this.getData(DataAttachmentRegistry.HAS_COLLISION.get()) ? 1 : 0;
+        return this.getData(DataAttachmentRegistry.HAS_COLLISION) ? 1 : 0;
     }
 
     public void setCollision(int hasCollision) {
         if (hasCollision == 1)
             this.setData(DataAttachmentRegistry.HAS_COLLISION, true);
         else this.setData(DataAttachmentRegistry.HAS_COLLISION, false);
+        this.setChanged();
+    }
+
+    public int isSneaking() {
+        return this.getData(DataAttachmentRegistry.IS_SNEAKING.get()) ? 1 : 0;
+    }
+
+    public void setSneaking(int isSneaking) {
+        if (isSneaking == 1)
+            this.setData(DataAttachmentRegistry.IS_SNEAKING, true);
+        else this.setData(DataAttachmentRegistry.IS_SNEAKING, false);
         this.setChanged();
     }
 
@@ -526,7 +541,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
         fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
         fakePlayer.setPos(Vec3.atCenterOf(this.worldPosition));
-        fakePlayer.setShiftKeyDown(true); // TODO: Fake player sneaking
+        fakePlayer.setShiftKeyDown(this.isSneaking() == 1);
 
         if (placementDirection.getAxis().isHorizontal()) {
             float yaw = placementDirection.toYRot();
@@ -549,7 +564,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
             BlockState stateOffset = this.level.getBlockState(posOffset);
 
             if (stateOffset.getBlock() instanceof CoinBlock)
-                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverLevel, posOffset, UniformInt.of(1, 1));
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverLevel, posOffset, UniformInt.of(2, 5));
             else serverLevel.levelEvent(2001, posOffset, Block.getId(stateOffset));
         }
 
