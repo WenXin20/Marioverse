@@ -198,8 +198,9 @@ public class QuestionBlock extends BaseEntityBlock {
         BlockPos pos = hitResult.getBlockPos();
 
         if (level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBlockEntity
-            && projectile.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-            && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                && projectile.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
+                && !(projectile instanceof WindCharge))
             QuestionBlock.hitQuestionBlock(level, pos, projectile, questionBlockEntity);
 
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
