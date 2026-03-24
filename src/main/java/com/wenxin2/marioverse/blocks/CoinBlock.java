@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.function.BiConsumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -99,6 +101,21 @@ public class CoinBlock extends Block implements EntityBlock, SimpleWaterloggedBl
     @Override
     public FluidState getFluidState(final BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
+    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
+        Entity entity = explosion.getDirectSourceEntity();
+        ItemStack coinItem = new ItemStack(this.asItem());
+
+        if (explosion.canTriggerBlocks()) {
+            if (entity instanceof Projectile projectile && projectile.getOwner() != null)
+                CoinBlock.collectCoin(level, state, pos, projectile.getOwner(), coinItem);
+            else if (entity.getType().is(TagRegistry.CAN_COLLECT_COINS))
+                CoinBlock.collectCoin(level, state, pos, entity, coinItem);
+            else level.destroyBlock(pos, true);
+        }
+        super.onExplosionHit(state, level, pos, explosion, consumer);
     }
 
     @Override

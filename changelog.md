@@ -5,6 +5,8 @@
   - Add a block to the bottom slot to disguise the block spawner
 - Add slot icon to refill GUI
 - Add trampoline caps and dango blossom to create tags to allow placement on contraptions
+- Windcharges can trigger On/Off Switches, ? Blocks, Spike Panels, and drop coins
+- Fix Star Coins checking the wrong tag
 - Fix shift-clicking into slots of the refill GUI
 
 ## Update 1.8.2

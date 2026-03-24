@@ -3,14 +3,18 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.function.BiConsumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -52,6 +56,14 @@ public class SpikePanelBlock extends PanelBlock implements SimpleWaterloggedBloc
             if (!entity.getType().is(TagRegistry.SPIKE_PANEL_IMMUNE) && !(entity instanceof ItemEntity))
                 entity.hurt(DamageSourceRegistry.spiked(entity), ConfigRegistry.SPIKE_PANEL_DAMAGE.get().floatValue());
         }
+    }
+
+    @Override
+    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
+        if (explosion.canTriggerBlocks() && level instanceof ServerLevel serverLevel)
+            this.checkAndFlip(state, serverLevel, pos);
+
+        super.onExplosionHit(state, level, pos, explosion, consumer);
     }
 
     @Override
