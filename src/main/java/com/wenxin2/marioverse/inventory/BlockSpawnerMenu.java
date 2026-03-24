@@ -45,7 +45,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     private int lastMenuType = -1;
 
     public BlockSpawnerMenu(int id, Inventory inventory) {
-        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(10), ContainerLevelAccess.NULL);
+        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(11), ContainerLevelAccess.NULL);
     }
 
     public BlockSpawnerMenu(int id, Inventory inventory, Container container, ContainerData data, ContainerLevelAccess access) {
@@ -194,6 +194,10 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
 
     public int isRightClickable() {
         return this.data.get(9);
+    }
+
+    public int hasCollision() {
+        return this.data.get(10);
     }
 
     public int convertToTicks(int time) {

@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.BlockFacePayload;
+import com.wenxin2.marioverse.network.server_bound.data.HasCollisionPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsInteractablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsRightClickablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsUnbreakablePayload;
@@ -63,6 +64,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     EditBox countdownBox;
     EditBox placementOffsetBox;
     Inventory inventory;
+    ResizableCheckbox collisionCheckbox;
     ResizableCheckbox interactableCheckbox;
     ResizableCheckbox rightClickableCheckbox;
     ResizableCheckbox unbreakableCheckbox;
@@ -308,6 +310,16 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             else graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 235, 15, 8, 8);
         }
 
+        if (this.collisionCheckbox.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.hasCollision() == 1 && this.collisionCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 16, this.topPos + 72, 244, 24, 10, 8);
+            else if (this.menu.hasCollision() == 1)
+                graphics.blit(GUI, this.leftPos + 16, this.topPos + 72, 244, 15, 10, 8);
+            else if (this.collisionCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 235, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 235, 15, 8, 8);
+        }
+
         if (this.showLine)
             graphics.blit(GUI, this.leftPos + 26, this.topPos + 16, 240, 34, 2, 70);
 
@@ -415,29 +427,37 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.confirmButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.confirmButton);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.unbreakable_checkmark");
-        tooltip = Component.translatable("menu.marioverse.block_spawner.unbreakable_checkmark.tooltip");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.unbreakable_checkbox");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.unbreakable_checkbox.tooltip");
         this.unbreakableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isUnbreakableCheckbox)
                 .pos(this.leftPos + 7, this.topPos + 62).setSize(8)
                 .tooltip(Tooltip.create(tooltip)).build();
         this.unbreakableCheckbox.setAlpha(0);
         this.addRenderableWidget(this.unbreakableCheckbox);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.right_clickable_checkmark");
-        tooltip = Component.translatable("menu.marioverse.block_spawner.right_clickable_checkmark.tooltip");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.right_clickable_checkbox");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.right_clickable_checkbox.tooltip");
         this.rightClickableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isRightClickableCheckbox)
                 .pos(this.leftPos + 17, this.topPos + 62).setSize(8)
                 .tooltip(Tooltip.create(tooltip)).build();
         this.rightClickableCheckbox.setAlpha(0);
         this.addRenderableWidget(this.rightClickableCheckbox);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.interactable_checkmark");
-        tooltip = Component.translatable("menu.marioverse.block_spawner.interactable_checkmark.tooltip");
+        buttonName = Component.translatable("menu.marioverse.block_spawner.interactable_checkbox");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.interactable_checkbox.tooltip");
         this.interactableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isInteractableCheckbox)
                 .pos(this.leftPos + 7, this.topPos + 72).setSize(8)
                 .tooltip(Tooltip.create(tooltip)).build();
         this.interactableCheckbox.setAlpha(0);
         this.addRenderableWidget(this.interactableCheckbox);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.collision_checkbox");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.collision_checkbox.tooltip");
+        this.collisionCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::hasCollisionCheckbox)
+                .pos(this.leftPos + 17, this.topPos + 72).setSize(8)
+                .tooltip(Tooltip.create(tooltip)).build();
+        this.collisionCheckbox.setAlpha(0);
+        this.addRenderableWidget(this.collisionCheckbox);
 
         buttonName = Component.translatable("menu.marioverse.block_spawner.north_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.north_button.tooltip");
@@ -674,6 +694,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.westButton.visible = menuType == 1;
             this.upButton.visible = menuType == 1;
             this.downButton.visible = menuType == 1;
+            this.collisionCheckbox.visible = menuType == 1;
             this.interactableCheckbox.visible = menuType == 1;
             this.rightClickableCheckbox.visible = menuType == 1;
             this.unbreakableCheckbox.visible = menuType == 1;
@@ -742,6 +763,10 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             }
         }
         return super.keyPressed(keyCode, b, c);
+    }
+
+    private void hasCollisionCheckbox(AbstractWidget widget, boolean hasCollision) {
+        PacketHandler.sendToServer(new HasCollisionPayload(this.menu.containerId, hasCollision ? 1 : 0));
     }
 
     private void isInteractableCheckbox(AbstractWidget widget, boolean isInteractable) {

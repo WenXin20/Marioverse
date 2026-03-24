@@ -16,6 +16,9 @@ import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DataComponentRegistry {
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> HAS_COLLISION =
+            Marioverse.COMPONENTS.register("has_collision", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_BOUND =
             Marioverse.COMPONENTS.register("is_bound", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());

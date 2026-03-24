@@ -71,6 +71,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 7 -> BlockSpawnerBlockEntity.this.isUnbreakable();
                 case 8 -> BlockSpawnerBlockEntity.this.isInteractable();
                 case 9 -> BlockSpawnerBlockEntity.this.isRightClickable();
+                case 10 -> BlockSpawnerBlockEntity.this.hasCollision();
                 default -> 0;
             };
         }
@@ -87,12 +88,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 7 -> BlockSpawnerBlockEntity.this.setUnbreakable(value);
                 case 8 -> BlockSpawnerBlockEntity.this.setInteractable(value);
                 case 9 -> BlockSpawnerBlockEntity.this.setRightClickable(value);
+                case 10 -> BlockSpawnerBlockEntity.this.setCollision(value);
             }
         }
 
         @Override // Increase this with ContainerData above
         public int getCount() {
-            return 10;
+            return 11;
         }
     };
 
@@ -179,6 +181,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.ghostStack = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.setData(DataAttachmentRegistry.BLOCK_FACE.get(), input.getOrDefault(DataComponentRegistry.BLOCK_FACE.get(), 0));
+        this.setData(DataAttachmentRegistry.HAS_COLLISION.get(), input.getOrDefault(DataComponentRegistry.HAS_COLLISION.get(), true));
         this.setData(DataAttachmentRegistry.IS_INTERACTABLE.get(), input.getOrDefault(DataComponentRegistry.IS_INTERACTABLE.get(), false));
         this.setData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), false));
         this.setData(DataAttachmentRegistry.IS_UNBREAKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_UNBREAKABLE.get(), true));
@@ -195,6 +198,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.ghostStack)));
         builder.set(DataComponents.CUSTOM_NAME, this.name);
         builder.set(DataComponentRegistry.BLOCK_FACE.get(), this.getData(DataAttachmentRegistry.BLOCK_FACE.get()));
+        builder.set(DataComponentRegistry.HAS_COLLISION.get(), this.getData(DataAttachmentRegistry.HAS_COLLISION.get()));
         builder.set(DataComponentRegistry.IS_INTERACTABLE.get(), this.getData(DataAttachmentRegistry.IS_INTERACTABLE.get()));
         builder.set(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), this.getData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get()));
         builder.set(DataComponentRegistry.IS_UNBREAKABLE.get(), this.getData(DataAttachmentRegistry.IS_UNBREAKABLE.get()));
@@ -463,6 +467,17 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         if (isRightClickable == 1)
             this.setData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE, true);
         else this.setData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE, false);
+        this.setChanged();
+    }
+
+    public int hasCollision() {
+        return this.getData(DataAttachmentRegistry.HAS_COLLISION.get()) ? 1 : 0;
+    }
+
+    public void setCollision(int hasCollision) {
+        if (hasCollision == 1)
+            this.setData(DataAttachmentRegistry.HAS_COLLISION, true);
+        else this.setData(DataAttachmentRegistry.HAS_COLLISION, false);
         this.setChanged();
     }
 
