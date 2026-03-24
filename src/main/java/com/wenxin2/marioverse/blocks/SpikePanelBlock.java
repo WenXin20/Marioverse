@@ -60,8 +60,8 @@ public class SpikePanelBlock extends PanelBlock implements SimpleWaterloggedBloc
 
     @Override
     protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
-        if (explosion.canTriggerBlocks() && level instanceof ServerLevel serverLevel)
-            this.checkAndFlip(state, serverLevel, pos);
+        if (explosion.canTriggerBlocks())
+            level.setBlock(pos, state.cycle(SPIKES), 3);
 
         super.onExplosionHit(state, level, pos, explosion, consumer);
     }
