@@ -73,6 +73,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 9 -> BlockSpawnerBlockEntity.this.isRightClickable();
                 case 10 -> BlockSpawnerBlockEntity.this.hasCollision();
                 case 11 -> BlockSpawnerBlockEntity.this.isSneaking();
+                case 12 -> BlockSpawnerBlockEntity.this.getFacingDirection();
                 default -> 0;
             };
         }
@@ -91,12 +92,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 9 -> BlockSpawnerBlockEntity.this.setRightClickable(value);
                 case 10 -> BlockSpawnerBlockEntity.this.setCollision(value);
                 case 11 -> BlockSpawnerBlockEntity.this.setSneaking(value);
+                case 12 -> BlockSpawnerBlockEntity.this.setFacingDirection(value);
             }
         }
 
         @Override // Increase this with ContainerData above
         public int getCount() {
-            return 12;
+            return 13;
         }
     };
 
@@ -183,6 +185,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.ghostStack = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.setData(DataAttachmentRegistry.BLOCK_FACE.get(), input.getOrDefault(DataComponentRegistry.BLOCK_FACE.get(), 0));
+        this.setData(DataAttachmentRegistry.FACING_DIRECTION.get(), input.getOrDefault(DataComponentRegistry.FACING_DIRECTION.get(), 2));
         this.setData(DataAttachmentRegistry.HAS_COLLISION.get(), input.getOrDefault(DataComponentRegistry.HAS_COLLISION.get(), true));
         this.setData(DataAttachmentRegistry.IS_INTERACTABLE.get(), input.getOrDefault(DataComponentRegistry.IS_INTERACTABLE.get(), false));
         this.setData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), false));
@@ -201,6 +204,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.ghostStack)));
         builder.set(DataComponents.CUSTOM_NAME, this.name);
         builder.set(DataComponentRegistry.BLOCK_FACE.get(), this.getData(DataAttachmentRegistry.BLOCK_FACE.get()));
+        builder.set(DataComponentRegistry.FACING_DIRECTION.get(), this.getData(DataAttachmentRegistry.FACING_DIRECTION.get()));
         builder.set(DataComponentRegistry.HAS_COLLISION.get(), this.getData(DataAttachmentRegistry.HAS_COLLISION.get()));
         builder.set(DataComponentRegistry.IS_INTERACTABLE.get(), this.getData(DataAttachmentRegistry.IS_INTERACTABLE.get()));
         builder.set(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), this.getData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get()));
@@ -496,6 +500,15 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.setChanged();
     }
 
+    public int getFacingDirection() {
+        return this.getData(DataAttachmentRegistry.FACING_DIRECTION);
+    }
+
+    public void setFacingDirection(int facingDirection) {
+        this.setData(DataAttachmentRegistry.FACING_DIRECTION, facingDirection);
+        this.setChanged();
+    }
+
     public int convertToTicks(int time) {
         return switch (this.getTimeUnit()) {
             case 1 -> time * 20;
@@ -531,28 +544,41 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         if (!(this.level instanceof ServerLevel serverLevel))
             return;
 
-        Direction placementDirection = directionFromIndex(this.getPlacementDirection());
         Direction blockFace = directionFromIndex(this.getBlockFace());
+        Direction fakePlayerDirection = directionFromIndex(this.getFacingDirection());
+        Direction placementDirection = directionFromIndex(this.getPlacementDirection());
         BlockPos posOffset = this.worldPosition.relative(placementDirection, this.getPlacementOffset());
         ItemStack stack = this.ghostStack.copy();
         Item item = stack.getItem();
         boolean placed = false;
         var fakePlayer = FakePlayerFactory.getMinecraft(serverLevel);
 
+        float yaw = switch (fakePlayerDirection) {
+            case NORTH -> 180f;
+            case SOUTH -> 0f;
+            case WEST  -> 90f;
+            case EAST  -> -90f;
+            default    -> fakePlayer.getYRot();
+        };
+
+        float pitch = switch (fakePlayerDirection) {
+            case UP   -> -90f;
+            case DOWN -> 90f;
+            default   -> 0f;
+        };
+
         fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
         fakePlayer.setPos(Vec3.atCenterOf(this.worldPosition));
         fakePlayer.setShiftKeyDown(this.isSneaking() == 1);
-
-        if (placementDirection.getAxis().isHorizontal()) {
-            float yaw = placementDirection.toYRot();
-            fakePlayer.setYRot(yaw);
-            fakePlayer.setYHeadRot(yaw);
-            fakePlayer.setYBodyRot(yaw);
-        }
+        fakePlayer.setYRot(yaw);
+        fakePlayer.setXRot(pitch);
+        fakePlayer.setYHeadRot(yaw);
+        fakePlayer.setYBodyRot(yaw);
 
         if (item instanceof BlockItem blockItem) {
+            Vec3 hitVec = Vec3.atCenterOf(posOffset).relative(blockFace, 0.5);
             UseOnContext useContext = new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND,
-                    new BlockHitResult(Vec3.atCenterOf(posOffset), blockFace, posOffset, false));
+                    new BlockHitResult(hitVec, blockFace, posOffset, false));
 
             BlockPlaceContext placeContext = new BlockPlaceContext(useContext);
             placed = blockItem.place(placeContext).consumesAction();

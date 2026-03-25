@@ -54,23 +54,21 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BLOCK_FACE =
             Marioverse.COMPONENTS.register("block_face", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
-
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FACING_DIRECTION =
+            Marioverse.COMPONENTS.register("facing_direction", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MENU_TYPE =
             Marioverse.COMPONENTS.register("menu_type", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
-
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PLACEMENT_DIRECTION =
             Marioverse.COMPONENTS.register("placement_direction", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
-
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PLACEMENT_OFFSET =
             Marioverse.COMPONENTS.register("placement_offset", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
-
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> REFILL_COUNTDOWN =
             Marioverse.COMPONENTS.register("refill_countdown", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
-
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> REFILL_TIME_UNIT =
             Marioverse.COMPONENTS.register("refill_time_unit", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
