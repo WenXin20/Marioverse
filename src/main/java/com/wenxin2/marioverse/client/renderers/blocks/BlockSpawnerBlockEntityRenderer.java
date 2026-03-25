@@ -30,7 +30,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockSpawnerBlockEntityRenderer implements BlockEntityRenderer<BlockSpawnerBlockEntity> {
-    private static final int CHANGE_INTERVAL = 40;
+    private static final int CHANGE_INTERVAL = 20;
     private static List<ItemStack> BLOCK_ITEMS;
 
     public BlockSpawnerBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
@@ -94,7 +94,7 @@ public class BlockSpawnerBlockEntityRenderer implements BlockEntityRenderer<Bloc
         if (!blockEntity.isEmpty())
             stack = blockEntity.getItem(1);
 
-        float angle = ((blockEntity.getLevel().getGameTime() % 72000L) + partialTick) * 2.5F;
+        float angle = ((blockEntity.getLevel().getGameTime() % 72000L) + partialTick) * 4.0F;
         if (!blockEntity.isEmpty())
             angle = ((blockEntity.getLevel().getGameTime() % 72000L) + partialTick) * 1.25F;
 
