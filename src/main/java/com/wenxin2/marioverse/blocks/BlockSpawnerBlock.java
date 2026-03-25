@@ -177,7 +177,7 @@ public class BlockSpawnerBlock extends DisguisedBlock implements SimpleWaterlogg
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (player.isCreative() && level.getBlockEntity(pos) instanceof BlockSpawnerBlockEntity blockEntity) {
-            if (stack.getItem() instanceof BlockItem) {
+            if (stack.getItem() instanceof BlockItem || stack.getItem() instanceof BucketItem) {
                 blockEntity.setItem(1, stack);
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
