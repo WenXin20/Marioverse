@@ -201,6 +201,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
+        tag(TagRegistry.BLOCK_SPAWNER_CANNOT_DISPLAY);
+
         tag(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
                 .addTag(ItemTags.AXES)
                 .addTag(ItemTags.HOES)

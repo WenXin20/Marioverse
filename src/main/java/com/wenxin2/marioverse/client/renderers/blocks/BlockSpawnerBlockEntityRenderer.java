@@ -133,6 +133,9 @@ public class BlockSpawnerBlockEntityRenderer implements BlockEntityRenderer<Bloc
         Random random = new Random();
 
         for (Item item : BuiltInRegistries.ITEM) {
+            if (item.getDefaultInstance().is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISPLAY))
+                continue;
+            
             if (item instanceof BlockItem || item instanceof BucketItem) {
                 ItemStack stack = new ItemStack(item);
                 if (!stack.isEmpty()) {
