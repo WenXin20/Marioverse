@@ -1,8 +1,12 @@
 ## Update 1.8.3
 - Add Block Spawner
   - Right-click to open gui
-  - Add a block to the top slot for replacing in world
+  - Add a block to the top slot for replacing the block in world
   - Add a block to the bottom slot to disguise the block spawner
+  - Buttons to set a block replace timer.
+  - Buttons to configure placement direction and offset
+  - Buttons to configure the facing direction of blocks, such as stairs
+  - Checkboxes to enable/disable certain disguised block properties, such as collision or survival interaction
 - Add slot icon to refill GUI
 - Add trampoline caps and dango blossom to create tags to allow placement on contraptions
 - Windcharges can trigger On/Off Switches, ? Blocks, Spike Panels, and drop coins
