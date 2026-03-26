@@ -248,7 +248,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         if (nearestPlayer != null) {
             if (state.getValue(INVISIBLE) && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
                     || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
-                world.addParticle(new ItemParticleOption(ParticleRegistry.NO_MOVEMENT_ITEM.get(), this.asItem().getDefaultInstance()),
+                world.addAlwaysVisibleParticle(new ItemParticleOption(ParticleRegistry.NO_MOVEMENT_ITEM.get(), this.asItem().getDefaultInstance()),
                         x + 0.5, y + 0.5, z + 0.5, 0, 0, 0);
             }
         }
