@@ -70,6 +70,7 @@ dependencies {
     implementation "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
+    implementation "curse.maven:neoculus-1200907:6787071"
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
