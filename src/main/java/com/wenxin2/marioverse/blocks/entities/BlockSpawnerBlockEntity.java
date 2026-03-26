@@ -16,7 +16,6 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -74,6 +73,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 10 -> BlockSpawnerBlockEntity.this.hasCollision();
                 case 11 -> BlockSpawnerBlockEntity.this.isSneaking();
                 case 12 -> BlockSpawnerBlockEntity.this.getFacingDirection();
+                case 13 -> BlockSpawnerBlockEntity.this.isItemRenderHidden();
                 default -> 0;
             };
         }
@@ -93,12 +93,13 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
                 case 10 -> BlockSpawnerBlockEntity.this.setCollision(value);
                 case 11 -> BlockSpawnerBlockEntity.this.setSneaking(value);
                 case 12 -> BlockSpawnerBlockEntity.this.setFacingDirection(value);
+                case 13 -> BlockSpawnerBlockEntity.this.setItemRenderHidden(value);
             }
         }
 
         @Override // Increase this with ContainerData above
         public int getCount() {
-            return 13;
+            return 14;
         }
     };
 
@@ -187,6 +188,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         this.setData(DataAttachmentRegistry.BLOCK_FACE.get(), input.getOrDefault(DataComponentRegistry.BLOCK_FACE.get(), 0));
         this.setData(DataAttachmentRegistry.FACING_DIRECTION.get(), input.getOrDefault(DataComponentRegistry.FACING_DIRECTION.get(), 2));
         this.setData(DataAttachmentRegistry.HAS_COLLISION.get(), input.getOrDefault(DataComponentRegistry.HAS_COLLISION.get(), true));
+        this.setData(DataAttachmentRegistry.HIDE_ITEM_RENDERED.get(), input.getOrDefault(DataComponentRegistry.HIDE_ITEM_RENDERED.get(), false));
         this.setData(DataAttachmentRegistry.IS_INTERACTABLE.get(), input.getOrDefault(DataComponentRegistry.IS_INTERACTABLE.get(), false));
         this.setData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get(), input.getOrDefault(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), false));
         this.setData(DataAttachmentRegistry.IS_SNEAKING.get(), input.getOrDefault(DataComponentRegistry.IS_SNEAKING.get(), false));
@@ -206,6 +208,7 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
         builder.set(DataComponentRegistry.BLOCK_FACE.get(), this.getData(DataAttachmentRegistry.BLOCK_FACE.get()));
         builder.set(DataComponentRegistry.FACING_DIRECTION.get(), this.getData(DataAttachmentRegistry.FACING_DIRECTION.get()));
         builder.set(DataComponentRegistry.HAS_COLLISION.get(), this.getData(DataAttachmentRegistry.HAS_COLLISION.get()));
+        builder.set(DataComponentRegistry.HIDE_ITEM_RENDERED.get(), this.getData(DataAttachmentRegistry.HIDE_ITEM_RENDERED.get()));
         builder.set(DataComponentRegistry.IS_INTERACTABLE.get(), this.getData(DataAttachmentRegistry.IS_INTERACTABLE.get()));
         builder.set(DataComponentRegistry.IS_RIGHT_CLICKABLE.get(), this.getData(DataAttachmentRegistry.IS_RIGHT_CLICKABLE.get()));
         builder.set(DataComponentRegistry.IS_SNEAKING.get(), this.getData(DataAttachmentRegistry.IS_SNEAKING.get()));
@@ -506,6 +509,17 @@ public class BlockSpawnerBlockEntity extends DisguisedBlockEntity implements Men
 
     public void setFacingDirection(int facingDirection) {
         this.setData(DataAttachmentRegistry.FACING_DIRECTION, facingDirection);
+        this.setChanged();
+    }
+
+    public int isItemRenderHidden() {
+        return this.getData(DataAttachmentRegistry.HIDE_ITEM_RENDERED.get()) ? 1 : 0;
+    }
+
+    public void setItemRenderHidden(int isItemRenderHidden) {
+        if (isItemRenderHidden == 1)
+            this.setData(DataAttachmentRegistry.HIDE_ITEM_RENDERED, true);
+        else this.setData(DataAttachmentRegistry.HIDE_ITEM_RENDERED, false);
         this.setChanged();
     }
 

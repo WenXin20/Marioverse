@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.network.server_bound.data.FacingDirectionPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.network.server_bound.data.HasCollisionPayload;
+import com.wenxin2.marioverse.network.server_bound.data.HideItemRenderedPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsInteractablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsRightClickablePayload;
@@ -39,6 +40,7 @@ import com.wenxin2.marioverse.network.server_bound.handler.FacingDirectionPacket
 import com.wenxin2.marioverse.network.server_bound.handler.FireballShootPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.BouncePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.HasCollisionPacket;
+import com.wenxin2.marioverse.network.server_bound.handler.HideItemRenderedPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.IceBallShootPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.IsInteractablePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.IsRightClickablePacket;
@@ -84,6 +86,7 @@ public class PacketHandler {
         registrar.playToServer(FacingDirectionPayload.PAYLOAD, FacingDirectionPayload.STREAM_CODEC, FacingDirectionPacket.get()::handle);
         registrar.playToServer(FireballShootPayload.PAYLOAD, FireballShootPayload.STREAM_CODEC, FireballShootPacket.get()::handle);
         registrar.playToServer(HasCollisionPayload.PAYLOAD, HasCollisionPayload.STREAM_CODEC, HasCollisionPacket.get()::handle);
+        registrar.playToServer(HideItemRenderedPayload.PAYLOAD, HideItemRenderedPayload.STREAM_CODEC, HideItemRenderedPacket.get()::handle);
         registrar.playToServer(IceBallShootPayload.PAYLOAD, IceBallShootPayload.STREAM_CODEC, IceBallShootPacket.get()::handle);
         registrar.playToServer(IsInteractablePayload.PAYLOAD, IsInteractablePayload.STREAM_CODEC, IsInteractablePacket.get()::handle);
         registrar.playToServer(IsRightClickablePayload.PAYLOAD, IsRightClickablePayload.STREAM_CODEC, IsRightClickablePacket.get()::handle);

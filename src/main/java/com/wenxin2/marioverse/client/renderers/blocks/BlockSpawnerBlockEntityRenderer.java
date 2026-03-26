@@ -63,9 +63,9 @@ public class BlockSpawnerBlockEntityRenderer implements BlockEntityRenderer<Bloc
             poseStack.popPose();
         }
 
-        if (!invisible && !disguised)
+        if (!invisible && !disguised && blockEntity.isItemRenderHidden() == 0)
             this.renderSpinningItem(blockEntity, partialTick, poseStack, buffer, packedLight, packedOverlay);
-        if (invisible && !disguised && mc.player != null && mc.player.isCreative())
+        if (invisible && !disguised && blockEntity.isItemRenderHidden() == 0 && mc.player != null && mc.player.isCreative())
             this.renderSpinningItem(blockEntity, partialTick, poseStack, buffer, packedLight, packedOverlay);
     }
 
@@ -135,7 +135,7 @@ public class BlockSpawnerBlockEntityRenderer implements BlockEntityRenderer<Bloc
         for (Item item : BuiltInRegistries.ITEM) {
             if (item.getDefaultInstance().is(TagRegistry.BLOCK_SPAWNER_CANNOT_DISPLAY))
                 continue;
-            
+
             if (item instanceof BlockItem || item instanceof BucketItem) {
                 ItemStack stack = new ItemStack(item);
                 if (!stack.isEmpty()) {

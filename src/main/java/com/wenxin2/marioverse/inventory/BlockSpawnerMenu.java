@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Pair;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
-import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.client_bound.data.DisguiseStatePayload;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import net.minecraft.client.Minecraft;
@@ -45,7 +44,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     private int lastMenuType = -1;
 
     public BlockSpawnerMenu(int id, Inventory inventory) {
-        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(13), ContainerLevelAccess.NULL);
+        this(id, inventory, new SimpleContainer(2), new SimpleContainerData(14), ContainerLevelAccess.NULL);
     }
 
     public BlockSpawnerMenu(int id, Inventory inventory, Container container, ContainerData data, ContainerLevelAccess access) {
@@ -206,6 +205,10 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
 
     public int getFacingDirection() {
         return this.data.get(12);
+    }
+
+    public int isItemRenderHidden() {
+        return this.data.get(13);
     }
 
     public int convertToTicks(int time) {

@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.BlockFacePayload;
 import com.wenxin2.marioverse.network.server_bound.data.FacingDirectionPayload;
 import com.wenxin2.marioverse.network.server_bound.data.HasCollisionPayload;
+import com.wenxin2.marioverse.network.server_bound.data.HideItemRenderedPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsInteractablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsRightClickablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsSneakingPayload;
@@ -76,6 +77,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     Inventory inventory;
     ResizableCheckbox collisionCheckbox;
     ResizableCheckbox interactableCheckbox;
+    ResizableCheckbox hideItemRenderedCheckbox;
     ResizableCheckbox rightClickableCheckbox;
     ResizableCheckbox sneakingCheckbox;
     ResizableCheckbox unbreakableCheckbox;
@@ -131,7 +133,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             graphics.blit(GUI, this.leftPos + 41, this.topPos + 32, 177, 0, 78, 14);
 
         if (this.placementOffsetBox.visible && this.menu.getMenuType() == 1)
-            graphics.blit(GUI, this.leftPos + 107, this.topPos + 42, 177, 15, 38, 18);
+            graphics.blit(GUI, this.leftPos + 107, this.topPos + 42, 177, 15, 26, 18);
 
         if (this.confirmButton.visible) {
             if (this.confirmButton.isHoveredOrFocused())
@@ -261,34 +263,34 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (this.upButton.visible && this.menu.getMenuType() == 1) {
             if (this.menu.getPlacementDirection() == 0)
-                graphics.blit(GUI, this.leftPos + 118, this.topPos + 14, 34, 217, 16, 22);
+                graphics.blit(GUI, this.leftPos + 112, this.topPos + 14, 34, 217, 16, 22);
             else if (this.upButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 118, this.topPos + 14, 17, 217, 16, 22);
-            else graphics.blit(GUI, this.leftPos + 118, this.topPos + 14, 0, 217, 16, 22);
+                graphics.blit(GUI, this.leftPos + 112, this.topPos + 14, 17, 217, 16, 22);
+            else graphics.blit(GUI, this.leftPos + 112, this.topPos + 14, 0, 217, 16, 22);
         }
 
         if (this.topBlockFaceButton.visible && this.menu.getMenuType() == 1) {
             if (this.menu.getBlockFace() == 0)
-                graphics.blit(GUI, this.leftPos + 119, this.topPos + 37, 102, 227, 14, 4);
+                graphics.blit(GUI, this.leftPos + 113, this.topPos + 37, 102, 227, 14, 4);
             else if (this.topBlockFaceButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 119, this.topPos + 37, 102, 222, 14, 4);
-            else graphics.blit(GUI, this.leftPos + 119, this.topPos + 37, 102, 217, 14, 4);
+                graphics.blit(GUI, this.leftPos + 113, this.topPos + 37, 102, 222, 14, 4);
+            else graphics.blit(GUI, this.leftPos + 113, this.topPos + 37, 102, 217, 14, 4);
         }
 
         if (this.downButton.visible && this.menu.getMenuType() == 1) {
             if (this.menu.getPlacementDirection() == 1)
-                graphics.blit(GUI, this.leftPos + 118, this.topPos + 66, 85, 217, 16, 22);
+                graphics.blit(GUI, this.leftPos + 112, this.topPos + 66, 85, 217, 16, 22);
             else if (this.downButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 118, this.topPos + 66, 68, 217, 16, 22);
-            else graphics.blit(GUI, this.leftPos + 118, this.topPos + 66, 51, 217, 16, 22);
+                graphics.blit(GUI, this.leftPos + 112, this.topPos + 66, 68, 217, 16, 22);
+            else graphics.blit(GUI, this.leftPos + 112, this.topPos + 66, 51, 217, 16, 22);
         }
 
         if (this.bottomBlockFaceButton.visible && this.menu.getMenuType() == 1) {
             if (this.menu.getBlockFace() == 1)
-                graphics.blit(GUI, this.leftPos + 119, this.topPos + 61, 102, 227, 14, 4);
+                graphics.blit(GUI, this.leftPos + 113, this.topPos + 61, 102, 227, 14, 4);
             else if (this.bottomBlockFaceButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 119, this.topPos + 61, 102, 222, 14, 4);
-            else graphics.blit(GUI, this.leftPos + 119, this.topPos + 61, 102, 217, 14, 4);
+                graphics.blit(GUI, this.leftPos + 113, this.topPos + 61, 102, 222, 14, 4);
+            else graphics.blit(GUI, this.leftPos + 113, this.topPos + 61, 102, 217, 14, 4);
         }
 
         if (this.faceNorthButton.visible && this.menu.getMenuType() == 2) {
@@ -341,52 +343,62 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (this.unbreakableCheckbox.visible && this.menu.getMenuType() == 1) {
             if (this.menu.isUnbreakable() == 1 && this.unbreakableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 6, this.topPos + 62, 244, 24, 10, 8);
+                graphics.blit(GUI, this.leftPos + 6, this.topPos + 62, 232, 24, 10, 8);
             else if (this.menu.isUnbreakable() == 1)
-                graphics.blit(GUI, this.leftPos + 6, this.topPos + 62, 244, 15, 10, 8);
+                graphics.blit(GUI, this.leftPos + 6, this.topPos + 62, 232, 15, 10, 8);
             else if (this.unbreakableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 7, this.topPos + 62, 235, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 7, this.topPos + 62, 235, 15, 8, 8);
+                graphics.blit(GUI, this.leftPos + 7, this.topPos + 62, 223, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 7, this.topPos + 62, 223, 15, 8, 8);
         }
 
         if (this.rightClickableCheckbox.visible && this.menu.getMenuType() == 1) {
             if (this.menu.isRightClickable() == 1 && this.rightClickableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 16, this.topPos + 62, 244, 24, 10, 8);
+                graphics.blit(GUI, this.leftPos + 16, this.topPos + 62, 232, 24, 10, 8);
             else if (this.menu.isRightClickable() == 1)
-                graphics.blit(GUI, this.leftPos + 16, this.topPos + 62, 244, 15, 10, 8);
+                graphics.blit(GUI, this.leftPos + 16, this.topPos + 62, 232, 15, 10, 8);
             else if (this.rightClickableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 17, this.topPos + 62, 235, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 17, this.topPos + 62, 235, 15, 8, 8);
+                graphics.blit(GUI, this.leftPos + 17, this.topPos + 62, 223, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 17, this.topPos + 62, 223, 15, 8, 8);
         }
 
         if (this.interactableCheckbox.visible && this.menu.getMenuType() == 1) {
             if (this.menu.isInteractable() == 1 && this.interactableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 244, 24, 10, 8);
+                graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 232, 24, 10, 8);
             else if (this.menu.isInteractable() == 1)
-                graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 244, 15, 10, 8);
+                graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 232, 15, 10, 8);
             else if (this.interactableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 235, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 235, 15, 8, 8);
+                graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 223, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 223, 15, 8, 8);
+        }
+
+        if (this.hideItemRenderedCheckbox.visible && this.menu.getMenuType() == 1) {
+            if (this.menu.isItemRenderHidden() == 1 && this.hideItemRenderedCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 136, this.topPos + 47, 232, 24, 10, 8);
+            else if (this.menu.isItemRenderHidden() == 1)
+                graphics.blit(GUI, this.leftPos + 136, this.topPos + 47, 232, 15, 10, 8);
+            else if (this.hideItemRenderedCheckbox.isHoveredOrFocused())
+                graphics.blit(GUI, this.leftPos + 137, this.topPos + 47, 223, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 137, this.topPos + 47, 223, 15, 8, 8);
         }
 
         if (this.collisionCheckbox.visible && this.menu.getMenuType() == 1) {
             if (this.menu.hasCollision() == 1 && this.collisionCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 16, this.topPos + 72, 244, 24, 10, 8);
+                graphics.blit(GUI, this.leftPos + 16, this.topPos + 72, 232, 24, 10, 8);
             else if (this.menu.hasCollision() == 1)
-                graphics.blit(GUI, this.leftPos + 16, this.topPos + 72, 244, 15, 10, 8);
+                graphics.blit(GUI, this.leftPos + 16, this.topPos + 72, 232, 15, 10, 8);
             else if (this.collisionCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 235, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 235, 15, 8, 8);
+                graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 223, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 223, 15, 8, 8);
         }
 
         if (this.sneakingCheckbox.visible && this.menu.getMenuType() == 2) {
             if (this.menu.isSneaking() == 1 && this.sneakingCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 136, this.topPos + 72, 244, 24, 10, 8);
+                graphics.blit(GUI, this.leftPos + 136, this.topPos + 72, 232, 24, 10, 8);
             else if (this.menu.isSneaking() == 1)
-                graphics.blit(GUI, this.leftPos + 136, this.topPos + 72, 244, 15, 10, 8);
+                graphics.blit(GUI, this.leftPos + 136, this.topPos + 72, 232, 15, 10, 8);
             else if (this.sneakingCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 137, this.topPos + 72, 235, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 137, this.topPos + 72, 235, 15, 8, 8);
+                graphics.blit(GUI, this.leftPos + 137, this.topPos + 72, 223, 24, 8, 8);
+            else graphics.blit(GUI, this.leftPos + 137, this.topPos + 72, 223, 15, 8, 8);
         }
 
         if (this.showLine)
@@ -399,12 +411,12 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (this.menu.getMenuType() == 0 || this.menu.getMenuType() == 2) {
             // Replace Slot
-            graphics.blit(GUI, this.leftPos + 7, this.topPos + 29, 216, 15, 18, 18);
+            graphics.blit(GUI, this.leftPos + 7, this.topPos + 29, 204, 15, 18, 18);
             // Disguise Slot
-            graphics.blit(GUI, this.leftPos + 7, this.topPos + 55, 216, 15, 18, 18);
+            graphics.blit(GUI, this.leftPos + 7, this.topPos + 55, 204, 15, 18, 18);
         } else {
-            graphics.blit(GUI, this.leftPos + 57, this.topPos + 42, 216, 15, 18, 18);
-            graphics.blit(GUI, this.leftPos + 7, this.topPos + 42, 216, 15, 18, 18);
+            graphics.blit(GUI, this.leftPos + 57, this.topPos + 42, 204, 15, 18, 18);
+            graphics.blit(GUI, this.leftPos + 7, this.topPos + 42, 204, 15, 18, 18);
         }
     }
 
@@ -635,7 +647,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(0);
-        }).bounds(this.leftPos + 118, this.topPos + 14, 16, 22)
+        }).bounds(this.leftPos + 112, this.topPos + 14, 16, 22)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.up_button.narrate")).build();
         this.upButton.setAlpha(0);
         this.upButton.setTooltip(Tooltip.create(tooltip));
@@ -647,7 +659,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.blockFaceButtonOnPress(0);
-        }).bounds(this.leftPos + 119, this.topPos + 37, 14, 4)
+        }).bounds(this.leftPos + 113, this.topPos + 37, 14, 4)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.top_block_face_button.narrate")).build();
         this.topBlockFaceButton.setAlpha(0);
         this.topBlockFaceButton.setTooltip(Tooltip.create(tooltip));
@@ -659,7 +671,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(1);
-        }).bounds(this.leftPos + 118, this.topPos + 66, 16, 22)
+        }).bounds(this.leftPos + 112, this.topPos + 66, 16, 22)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.down_button.narrate")).build();
         this.downButton.setAlpha(0);
         this.downButton.setTooltip(Tooltip.create(tooltip));
@@ -671,19 +683,27 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.blockFaceButtonOnPress(1);
-        }).bounds(this.leftPos + 119, this.topPos + 61, 14, 4)
+        }).bounds(this.leftPos + 113, this.topPos + 61, 14, 4)
                 .createNarration(supplier -> Component.translatable("menu.marioverse.block_spawner.bottom_block_face_button.narrate")).build();
         this.bottomBlockFaceButton.setAlpha(0);
         this.bottomBlockFaceButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.bottomBlockFaceButton);
 
-        this.placementOffsetBox = new EditBox(this.font, this.leftPos + 109, this.topPos + 48, 30, 18,
+        this.placementOffsetBox = new EditBox(this.font, this.leftPos + 109, this.topPos + 48, 20, 18,
                 Component.translatable("menu.marioverse.block_spawner.placement_offset_box.narrate"));
         this.placementOffsetBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.block_spawner.placement_offset_box.tooltip")));
         this.placementOffsetBox.setFilter(filter -> filter.matches("[0-9]\\d*") || filter.isEmpty());
         this.placementOffsetBox.setBordered(false);
         this.placementOffsetBox.setMaxLength(15);
         this.addRenderableWidget(this.placementOffsetBox);
+
+        buttonName = Component.translatable("menu.marioverse.block_spawner.hide_item_rendered_checkbox");
+        tooltip = Component.translatable("menu.marioverse.block_spawner.hide_item_rendered_checkbox.tooltip");
+        this.hideItemRenderedCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::hideItemRenderedCheckbox)
+                .pos(this.leftPos + 137, this.topPos + 47).setSize(8)
+                .tooltip(Tooltip.create(tooltip)).build();
+        this.hideItemRenderedCheckbox.setAlpha(0);
+        this.addRenderableWidget(this.hideItemRenderedCheckbox);
 
         buttonName = Component.translatable("menu.marioverse.block_spawner.face_north_button");
         tooltip = Component.translatable("menu.marioverse.block_spawner.face_north_button.tooltip");
@@ -938,6 +958,10 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
     private void hasCollisionCheckbox(AbstractWidget widget, boolean hasCollision) {
         PacketHandler.sendToServer(new HasCollisionPayload(this.menu.containerId, hasCollision ? 1 : 0));
+    }
+
+    private void hideItemRenderedCheckbox(AbstractWidget widget, boolean hideItemRendered) {
+        PacketHandler.sendToServer(new HideItemRenderedPayload(this.menu.containerId, hideItemRendered ? 1 : 0));
     }
 
     private void isInteractableCheckbox(AbstractWidget widget, boolean isInteractable) {

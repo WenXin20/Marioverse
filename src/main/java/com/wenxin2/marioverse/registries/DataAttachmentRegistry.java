@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
 import java.util.UUID;
 import java.util.function.Supplier;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -26,6 +25,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> HAS_GOLDEN_CARROT = Marioverse.ATTACHMENT_TYPES
             .register("has_golden_carrot", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HIDE_ITEM_RENDERED = Marioverse.ATTACHMENT_TYPES
+            .register("hide_item_rendered", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_ATTACKING = Marioverse.ATTACHMENT_TYPES
             .register("is_attacking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
@@ -38,11 +40,23 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> IS_HIDING = Marioverse.ATTACHMENT_TYPES
             .register("is_hiding", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_INTERACTABLE = Marioverse.ATTACHMENT_TYPES
+            .register("is_interactable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_RIGHT_CLICKABLE = Marioverse.ATTACHMENT_TYPES
+            .register("is_right_clickable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_SLIDING = Marioverse.ATTACHMENT_TYPES
             .register("is_sliding", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_SNEAKING = Marioverse.ATTACHMENT_TYPES
+            .register("is_sneaking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_WAXED = Marioverse.ATTACHMENT_TYPES
             .register("is_waxed", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_UNBREAKABLE = Marioverse.ATTACHMENT_TYPES
+            .register("is_unbreakable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> PREVENT_WARP = Marioverse.ATTACHMENT_TYPES
             .register("prevent_warp", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
@@ -86,18 +100,6 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> HAS_SUPER_STAR = Marioverse.ATTACHMENT_TYPES
             .register("has_super_star", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
-    public static final Supplier<AttachmentType<Boolean>> IS_INTERACTABLE = Marioverse.ATTACHMENT_TYPES
-            .register("is_interactable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
-    public static final Supplier<AttachmentType<Boolean>> IS_RIGHT_CLICKABLE = Marioverse.ATTACHMENT_TYPES
-            .register("is_right_clickable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
-    public static final Supplier<AttachmentType<Boolean>> IS_SNEAKING = Marioverse.ATTACHMENT_TYPES
-            .register("is_sneaking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
-    public static final Supplier<AttachmentType<Boolean>> IS_UNBREAKABLE = Marioverse.ATTACHMENT_TYPES
-            .register("is_unbreakable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> PLAYED_MEGA_MUSHROOM_THEME = Marioverse.ATTACHMENT_TYPES
             .register("played_mega_mushroom_theme", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)

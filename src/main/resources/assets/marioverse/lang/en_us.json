@@ -1275,6 +1275,9 @@
   "menu.marioverse.block_spawner.face_west_button.tooltip": "Face West",
   "menu.marioverse.block_spawner.face_west_button.narrate": "Face Fake Player West Button",
 
+  "menu.marioverse.block_spawner.hide_item_rendered_checkbox": "",
+  "menu.marioverse.block_spawner.hide_item_rendered_checkbox.tooltip": "Hide Item Rendered",
+
   "menu.marioverse.block_spawner.hour_button": "h",
   "menu.marioverse.block_spawner.hour_button.tooltip": "Hours",
   "menu.marioverse.block_spawner.hour_button.narrate": "Time in Hours Button",
