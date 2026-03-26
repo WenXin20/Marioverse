@@ -68,6 +68,7 @@ dependencies {
     implementation "curse.maven:guard-villagers-360203:6066966"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
+    compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
@@ -86,6 +87,7 @@ dependencies {
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:selene-${moonlight_version}"
+    compileOnly "curse.maven:sodium-394468:6382651" // Incompatible w/ Embeddium
 
     // implementation "curse.maven:simple-clouds-${simple_clouds_version}"
 
