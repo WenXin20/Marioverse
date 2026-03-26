@@ -869,6 +869,7 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.upButton.visible = menuType == 1;
             this.downButton.visible = menuType == 1;
             this.collisionCheckbox.visible = menuType == 1;
+            this.hideItemRenderedCheckbox.visible = menuType == 1;
             this.interactableCheckbox.visible = menuType == 1;
             this.rightClickableCheckbox.visible = menuType == 1;
             this.unbreakableCheckbox.visible = menuType == 1;
