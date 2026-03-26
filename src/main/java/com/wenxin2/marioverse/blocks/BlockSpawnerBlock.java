@@ -147,7 +147,6 @@ public class BlockSpawnerBlock extends DisguisedBlock implements SimpleWaterlogg
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
-        Level level = placeContext.getLevel();
         BlockPos pos = placeContext.getClickedPos();
         FluidState fluidState = placeContext.getLevel().getFluidState(pos);
 

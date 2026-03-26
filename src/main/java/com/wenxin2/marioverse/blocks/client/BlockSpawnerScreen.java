@@ -924,15 +924,22 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         if (this.countdownBox.isFocused() || this.placementOffsetBox.isFocused()) {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
                 if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
-                    if (this.countdownBox.isFocused())
+                    if (this.countdownBox.isFocused()) {
                         this.confirmButtonOnPress();
-                    if (this.placementOffsetBox.isFocused())
+                        this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
+                    }
+                    if (this.placementOffsetBox.isFocused()) {
                         this.placementOffsetOnPress();
+                        this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
+                    }
                 }
                 if (this.countdownBox.isFocused())
                     this.countdownBox.setFocused(false);
-                if (this.placementOffsetBox.isFocused())
+                if (this.placementOffsetBox.isFocused()) {
                     this.placementOffsetBox.setFocused(false);
+                    this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
+                    this.placementOffsetOnPress();
+                }
                 return false;
             }
         }

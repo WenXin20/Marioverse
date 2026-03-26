@@ -673,6 +673,21 @@ public class MarioverseEventHandlers {
             BlockState placementState = disguiseBE.getPlacementState(player, stackCopy, event.getHitVec());
 
             if (placementState != null) {
+                BlockState currentState = placementState;
+
+                for (Direction direction : Direction.values()) {
+                    BlockPos neighborPos = pos.relative(direction);
+                    BlockState neighborState = world.getBlockState(neighborPos);
+
+                    if (world.getBlockEntity(neighborPos) instanceof DisguisedBlockEntity neighborBE) {
+                        BlockState neighborDisguise = neighborBE.getDisguiseState();
+                        if (neighborDisguise != null && !neighborDisguise.isAir())
+                            neighborState = neighborDisguise;
+                    }
+                    currentState = currentState.updateShape(direction, neighborState, world, pos, neighborPos);
+                }
+                placementState = currentState;
+
                 disguiseBE.setDisguiseState(placementState);
                 disguiseBE.setItem(0, stackCopy);
                 heldItem.consume(1, player);

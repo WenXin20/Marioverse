@@ -331,8 +331,10 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
     public boolean keyPressed(final int keyCode, final int b, final int c) {
         if (this.countdownBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
                 || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
-            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
+            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
                 this.confirmButtonOnPress();
+                this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
+            }
             this.countdownBox.setFocused(false);
             return false;
         }

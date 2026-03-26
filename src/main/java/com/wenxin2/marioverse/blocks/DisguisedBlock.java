@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
@@ -260,26 +261,27 @@ public class DisguisedBlock extends BaseEntityBlock {
     @NotNull
     @Override
     public MapColor getMapColor(BlockState state, BlockGetter blockGetter, BlockPos pos, MapColor defaultColor) {
-        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
-            return blockEntity.getDisguiseState().getMapColor(blockGetter, pos);
+        if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+            if (disguiseState != null && !disguiseState.isAir())
+                return blockEntity.getDisguiseState().getMapColor(blockGetter, pos);
+        }
         return super.getMapColor(state, blockGetter, pos, defaultColor);
     }
 
     @Override
     protected int getLightBlock(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        if (state.getValue(DISGUISED)) {
-            if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
-                BlockState disguiseState = blockEntity.getDisguiseState();
-                if (disguiseState != null && !disguiseState.isAir())
+        if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+            if (disguiseState != null && !disguiseState.isAir())
                     return disguiseState.getLightBlock(blockGetter, pos);
-            }
         }
         return super.getLightBlock(state, blockGetter, pos);
     }
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+        if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
             BlockState disguiseState = blockEntity.getDisguiseState();
             if (disguiseState != null && !disguiseState.isAir())
                 return blockEntity.getDisguiseState().getLightEmission(blockGetter, pos);
@@ -289,7 +291,7 @@ public class DisguisedBlock extends BaseEntityBlock {
 
     @Override
     protected float getShadeBrightness(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+        if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
             BlockState disguiseState = blockEntity.getDisguiseState();
             if (disguiseState != null && !disguiseState.isAir())
                 return blockEntity.getDisguiseState().getShadeBrightness(blockGetter, pos);
@@ -299,7 +301,7 @@ public class DisguisedBlock extends BaseEntityBlock {
 
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        if (state.getValue(DISGUISED) && blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+        if (blockGetter.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
             BlockState disguiseState = blockEntity.getDisguiseState();
             if (disguiseState != null && !disguiseState.isAir())
                 return blockEntity.getDisguiseState().propagatesSkylightDown(blockGetter, pos);
@@ -310,32 +312,43 @@ public class DisguisedBlock extends BaseEntityBlock {
     @NotNull
     @Override
     public SoundType getSoundType(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
-        if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
-            return blockEntity.getDisguiseState().getSoundType(level, pos, entity);
+        if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+            if (disguiseState != null && !disguiseState.isAir())
+                return blockEntity.getDisguiseState().getSoundType(level, pos, entity);
+        }
         return super.getSoundType(state, level, pos, entity);
     }
 
     @NotNull
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        if (player.isShiftKeyDown() && state.getValue(DISGUISED)
-                && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
-            return blockEntity.getDisguiseState().getCloneItemStack(target, level, pos, player);
+        if (player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+            if (disguiseState != null && !disguiseState.isAir())
+                return blockEntity.getDisguiseState().getCloneItemStack(target, level, pos, player);
+        }
         return super.getCloneItemStack(state, target, level, pos, player);
     }
 
     @Nullable
     @Override
     public Integer getBeaconColorMultiplier(BlockState state, LevelReader level, BlockPos pos, BlockPos beaconPos) {
-        if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
-            return blockEntity.getDisguiseState().getBeaconColorMultiplier(level, pos, beaconPos);
+        if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+            if (disguiseState != null && !disguiseState.isAir())
+                return blockEntity.getDisguiseState().getBeaconColorMultiplier(level, pos, beaconPos);
+        }
         return super.getBeaconColorMultiplier(state, level, pos, beaconPos);
     }
 
     @Override
     public boolean hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState state, BlockState neighborState, Direction direction) {
-        if (state.getValue(DISGUISED) && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity)
-            return blockEntity.getDisguiseState().hidesNeighborFace(level, pos, neighborState, direction);
+        if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+            if (disguiseState != null && !disguiseState.isAir())
+                return blockEntity.getDisguiseState().hidesNeighborFace(level, pos, neighborState, direction);
+        }
         return super.hidesNeighborFace(level, pos, state, neighborState, direction);
     }
 
@@ -532,8 +545,33 @@ public class DisguisedBlock extends BaseEntityBlock {
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack stack) {
         if (level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity
-                && !blockEntity.getInventory().getStackInSlot(0).isEmpty())
+                && !blockEntity.getInventory().getStackInSlot(0).isEmpty()) {
+            BlockState disguiseState = blockEntity.getDisguiseState();
+
             level.setBlock(pos, state.setValue(DISGUISED, true), 3);
+
+            if (disguiseState != null && !disguiseState.isAir()) {
+                BlockState currentState = disguiseState;
+
+                for (Direction direction : Direction.values()) {
+                    BlockPos neighborPos = pos.relative(direction);
+                    BlockState neighborState = level.getBlockState(neighborPos);
+
+                    if (level.getBlockEntity(neighborPos) instanceof DisguisedBlockEntity neighborBE) {
+                        BlockState neighborDisguise = neighborBE.getDisguiseState();
+                        if (neighborDisguise != null && !neighborDisguise.isAir())
+                            neighborState = neighborDisguise;
+                    }
+                    currentState = currentState.updateShape(direction, neighborState, level, pos, neighborPos);
+                }
+
+                if (!currentState.equals(disguiseState) && !currentState.isAir()) {
+                    blockEntity.setDisguiseState(currentState);
+                    blockEntity.requestModelDataUpdate();
+                    level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), Block.UPDATE_CLIENTS);
+                }
+            }
+        }
 
         super.setPlacedBy(level, pos, state, entity, stack);
     }
