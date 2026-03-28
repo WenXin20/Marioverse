@@ -57,6 +57,7 @@
   "block.marioverse.glow_block": "Glow Block",
   "block.marioverse.iron_spike": "Iron Spike",
   "block.marioverse.on_off_switch": "On/Off Switch",
+  "block.marioverse.pipe_bubbles": "Pipe Bubbles",
   "block.marioverse.quicksand": "Quicksand",
   "block.marioverse.red_dotted_line_block": "Red Dotted-Line Block",
   "block.marioverse.red_mushroom_trampoline": "Red Mushroom Trampoline",
@@ -68,6 +69,7 @@
   "block.marioverse.star_coin": "Star Coin",
   "block.marioverse.warp_door": "Warp %1$s",
   "block.marioverse.warp_trapdoor": "Warp %1$s",
+  "block.marioverse.water_spout": "Water Spout",
 
   "block.marioverse.acacia_log_bridge": "Acacia Log Bridge",
   "block.marioverse.bamboo_bridge": "Bamboo Bridge",
@@ -593,8 +595,23 @@
   "block.marioverse.white_warp_pipe": "White Warp Pipe",
   "block.marioverse.yellow_warp_pipe": "Yellow Warp Pipe",
 
-  "block.marioverse.pipe_bubbles": "Pipe Bubbles",
-  "block.marioverse.water_spout": "Water Spout",
+  "block.marioverse.death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.death_block.tooltip.ability": "§6Ability:",
+  "block.marioverse.death_block.tooltip.description": " §7• Instakills all entities",
+
+  "block.marioverse.warp_door.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.warp_door.tooltip.ability": "§6Ability:",
+  "block.marioverse.warp_door.tooltip.description": " §7• Warps players, mobs, & items",
+  "block.marioverse.warp_door.tooltip.guide": " §7• Link with a wrench",
+  "block.marioverse.warp_door.tooltip.mod": "§eSource Mod:",
+  "block.marioverse.warp_door.tooltip.source_mod": " §9• %1$s",
+
+  "block.marioverse.warp_trapdoor.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.warp_trapdoor.tooltip.ability": "§6Ability:",
+  "block.marioverse.warp_trapdoor.tooltip.description": " §7• Warps players, mobs, & items",
+  "block.marioverse.warp_trapdoor.tooltip.guide": " §7• Link with a wrench",
+  "block.marioverse.warp_trapdoor.tooltip.mod": "§eSource Mod:",
+  "block.marioverse.warp_trapdoor.tooltip.source_mod": " §9• %1$s",
 
   "block.marioverse.banner.bowser.black": "Black King Bowser",
   "block.marioverse.banner.bowser.blue": "Blue King Bowser",
@@ -782,20 +799,6 @@
   "item.marioverse.smithing_template.leather_armor.base_slot_description": "Add leather armor",
   "item.marioverse.smithing_template.character_costume.additions_slot_description": "Add dyed wool",
   "item.marioverse.smithing_template.character_costume.ingredients": "Dyed Wool",
-
-  "block.marioverse.warp_door.tooltip": "§e§o[Shift for §9ℹ§e§o]",
-  "block.marioverse.warp_door.tooltip.ability": "§6Ability:",
-  "block.marioverse.warp_door.tooltip.description": " §7• Warps players, mobs, & items",
-  "block.marioverse.warp_door.tooltip.guide": " §7• Link with a wrench",
-  "block.marioverse.warp_door.tooltip.mod": "§eSource Mod:",
-  "block.marioverse.warp_door.tooltip.source_mod": " §9• %1$s",
-
-  "block.marioverse.warp_trapdoor.tooltip": "§e§o[Shift for §9ℹ§e§o]",
-  "block.marioverse.warp_trapdoor.tooltip.ability": "§6Ability:",
-  "block.marioverse.warp_trapdoor.tooltip.description": " §7• Warps players, mobs, & items",
-  "block.marioverse.warp_trapdoor.tooltip.guide": " §7• Link with a wrench",
-  "block.marioverse.warp_trapdoor.tooltip.mod": "§eSource Mod:",
-  "block.marioverse.warp_trapdoor.tooltip.source_mod": " §9• %1$s",
 
   "upgrade.marioverse.mario_costume": "Mario's Costume",
   "upgrade.marioverse.fire_costume": "Fire Costume",
