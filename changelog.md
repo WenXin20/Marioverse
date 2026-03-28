@@ -1,5 +1,5 @@
-## Update 1.8.3
-- Add Block Spawner
+## Update 1.9
+- Added Block Spawner
   - Right-click to open gui
   - Add a block to the top slot for replacing the block in world
   - Add a block to the bottom slot to disguise the block spawner
@@ -7,17 +7,26 @@
   - Buttons to configure placement direction and offset
   - Buttons to configure the facing direction of blocks, such as stairs
   - Checkboxes to enable/disable certain disguised block properties, such as collision or survival interaction
-- Add Death Block
+- Added Death Block
   - Kills all entities with no loot drops
   - Players still drop loot
   - Unbreakable
-- Add shader support for Water Spouts and Dango Blossoms
-- Add slot icon to refill GUI
-- Add trampoline caps and dango blossom to create tags to allow placement on contraptions
+- Added Player Death Block
+  - Kills only players
+  - Unbreakable
+- Added Monster Death Block
+  - Kills all monsters with no loot drops
+  - Unbreakable
+- Added Passive Death Block
+  - Kills all passive mobs with no loot drops
+  - Unbreakable
+- Added shader support for Water Spouts and Dango Blossoms
+- Added slot icon to refill GUI
+- Added trampoline caps and dango blossom to create tags to allow placement on contraptions
 - Windcharges can trigger On/Off Switches, ? Blocks, Spike Panels, and drop coins
 - Projectiles can claim checkpoint flags for you
-- Fix Star Coins checking the wrong tag
-- Fix shift-clicking into slots of the refill GUI
+- Fixed Star Coins checking the wrong tag
+- Fixed shift-clicking into slots of the refill GUI
 
 ## Update 1.8.2
 - Add dispenser behavior for equipping carrots on Show Pokeys

@@ -72,8 +72,11 @@ public class BlockStateGen extends BlockStateProvider {
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
         String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
+        String monsterDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.MONSTER_DEATH_BLOCK.get()).getPath();
         String offSwitchName = "off_switch";
         String onSwitchName = "on_switch";
+        String passiveDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.PASSIVE_DEATH_BLOCK.get()).getPath();
+        String playerDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.PLAYER_DEATH_BLOCK.get()).getPath();
         String pumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
         String quicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.QUICKSAND.get()).getPath();
         String redBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_DOTTED_LINE_BLOCK.get()).getPath();
@@ -89,13 +92,16 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeAllModel(BlockRegistry.DEATH_BLOCK.get(), modLoc("block/" + deathBlockName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
-        this.blockSpawnerBlockModel(BlockRegistry.BLOCK_SPAWNER.get(), modLoc("block/" + blockSpawnerName + "_top"),
-                modLoc("block/" + blockSpawnerName), modLoc("block/" + blockSpawnerName + "_top"));
+        this.cubeAllModel(BlockRegistry.MONSTER_DEATH_BLOCK.get(), modLoc("block/" + monsterDeathBlockName));
+        this.cubeAllModel(BlockRegistry.PASSIVE_DEATH_BLOCK.get(), modLoc("block/" + passiveDeathBlockName));
+        this.cubeAllModel(BlockRegistry.PLAYER_DEATH_BLOCK.get(), modLoc("block/" + playerDeathBlockName));
         this.cubeInnerOverlayModel(BlockRegistry.QUICKSAND.get(), modLoc("block/" + quicksandName + "_top"),
                 modLoc("block/" + quicksandName), modLoc("block/" + quicksandName + "_top"));
         this.cubeInnerOverlayModel(BlockRegistry.RED_QUICKSAND.get(), modLoc("block/" + redQuicksandName + "_top"),
                 modLoc("block/" + redQuicksandName), modLoc("block/" + redQuicksandName + "_top"));
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
+        this.blockSpawnerBlockModel(BlockRegistry.BLOCK_SPAWNER.get(), modLoc("block/" + blockSpawnerName + "_top"),
+                modLoc("block/" + blockSpawnerName), modLoc("block/" + blockSpawnerName + "_top"));
         this.blossomModel(BlockRegistry.DANGO_BLOSSOM.get(), modLoc("block/" + dangoBlossomName),
                 modLoc("block/" + dangoBlossomName + "_leaves"));
         this.dottedLineBlockModel(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get(), modLoc("block/" + blueBlockName + "_off"), modLoc("block/" + blueBlockName), false);
