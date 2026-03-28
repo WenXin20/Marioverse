@@ -67,6 +67,7 @@ public class BlockStateGen extends BlockStateProvider {
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
         String dangoBlossomName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DANGO_BLOSSOM.get()).getPath();
+        String deathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEATH_BLOCK.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
@@ -85,6 +86,7 @@ public class BlockStateGen extends BlockStateProvider {
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
+        this.cubeAllModel(BlockRegistry.DEATH_BLOCK.get(), modLoc("block/" + deathBlockName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
         this.blockSpawnerBlockModel(BlockRegistry.BLOCK_SPAWNER.get(), modLoc("block/" + blockSpawnerName + "_top"),

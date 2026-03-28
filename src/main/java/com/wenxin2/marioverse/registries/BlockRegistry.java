@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.DeathBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
@@ -154,6 +155,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> DEATH_BLOCK;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_TILES;
@@ -396,6 +398,10 @@ public class BlockRegistry {
         BLOCK_SPAWNER = registerBlock("block_spawner",
                 () -> new BlockSpawnerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPAWNER)
                         .sound(SoundType.TRIAL_SPAWNER).strength(-1.0F, 3600000.0F).dynamicShape()));
+
+        DEATH_BLOCK = registerBlock("death_block",
+                () -> new DeathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BEDROCK)
+                        .sound(SoundType.NETHERITE_BLOCK)));
 
         STAR_COIN = registerNoItemBlock("star_coin",
                 () -> new StarCoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

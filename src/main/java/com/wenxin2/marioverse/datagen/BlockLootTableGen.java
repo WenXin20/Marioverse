@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.datagen;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.DeathBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
@@ -70,7 +71,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createCheckpointFlagDrop(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
-                    else if (block instanceof PipeBubblesBlock || block instanceof BlockSpawnerBlock)
+                    else if (block instanceof PipeBubblesBlock || block instanceof BlockSpawnerBlock
+                            || block instanceof DeathBlock)
                         this.add(block, this.createNoLootDrop());
                     else if (block instanceof StarCoinBlock)
                         this.add(block, this.createStarCoinDrop(block));

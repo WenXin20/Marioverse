@@ -46,6 +46,12 @@ public class DamageSourceRegistry {
         } else return null;
     }
 
+    public static DamageSource instakill(@Nullable Entity damagedEntity) {
+        if (damagedEntity != null) {
+            return new DamageSource(damagedEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.INSTAKILL));
+        } else return null;
+    }
+
     public static DamageSource largeSnowball(@Nullable Entity projectile, @Nullable Entity shooter) {
         if (shooter != null && projectile != null) {
             return new DamageSource(shooter.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.PLAYER_LARGE_SNOWBALL), projectile, shooter);
