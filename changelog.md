@@ -7,6 +7,10 @@
   - Buttons to configure placement direction and offset
   - Buttons to configure the facing direction of blocks, such as stairs
   - Checkboxes to enable/disable certain disguised block properties, such as collision or survival interaction
+- Add Death Block
+  - Kills all entities with no loot drops
+  - Players still drop loot
+  - Unbreakable
 - Add shader support for Water Spouts and Dango Blossoms
 - Add slot icon to refill GUI
 - Add trampoline caps and dango blossom to create tags to allow placement on contraptions

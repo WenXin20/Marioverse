@@ -59,12 +59,13 @@ public class DeathBlock extends Block {
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (!entity.getType().is(TagRegistry.DEATH_BLOCKS_IMMUNE) && entity.isAlive()) {
+            if (level instanceof ServerLevel serverLevel && !(entity instanceof Player))
+                ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleRegistry.GLOWING_STAR.get(), serverLevel, entity, 2.0, 10);
+            else ParticleUtils.spawnParticleInBlock(level, entity.blockPosition(), 5, ParticleRegistry.GLOWING_STAR.get());
+
             if (entity instanceof Player player && !player.isCreative() && !player.isSpectator())
                 entity.hurt(DamageSourceRegistry.instakill(entity), Float.MAX_VALUE);
             else if (!(entity instanceof Player)) entity.remove(Entity.RemovalReason.KILLED);
-
-            if (level instanceof ServerLevel serverLevel && !(entity instanceof Player))
-                ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleRegistry.GLOWING_STAR.get(), serverLevel, entity, 2.0, 10);
         }
         super.entityInside(state, level, pos, entity);
     }
@@ -75,7 +76,9 @@ public class DeathBlock extends Block {
             list.add(Component.literal(""));
 
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.ability"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.unbreakable"));
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip.description"));
+            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.no_loot"));
 
             list.add(Component.literal(""));
         } else list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));

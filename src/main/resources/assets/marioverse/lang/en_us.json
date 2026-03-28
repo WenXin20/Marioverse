@@ -598,6 +598,8 @@
   "block.marioverse.death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "block.marioverse.death_block.tooltip.ability": "§6Ability:",
   "block.marioverse.death_block.tooltip.description": " §7• Instakills all entities",
+  "block.marioverse.death_block.tooltip.no_loot": " §7• No loot or xp drops from mobs",
+  "block.marioverse.death_block.tooltip.unbreakable": " §7• §eUnbreakable",
 
   "block.marioverse.warp_door.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "block.marioverse.warp_door.tooltip.ability": "§6Ability:",
