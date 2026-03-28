@@ -52,7 +52,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.GOLDEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GOLD_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get());
@@ -136,6 +135,12 @@ public class ItemModelGen extends ItemModelProvider {
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet())
             this.handheldItem(entry.getValue().asItem());
+
+        this.basicItem(ItemRegistry.GOOMBA_SPAWN_EGG.get()).override()
+                .model(new ModelFile.UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/goombella_spawn_egg")))
+                .predicate(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "goombella"), 1.0F).end();
+        this.getBuilder("goombella_spawn_egg").parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/goombella_spawn_egg"));
     }
 
     public void largeItem(Item item) {
@@ -145,7 +150,6 @@ public class ItemModelGen extends ItemModelProvider {
     public void plasticFluidBucketItem(Item item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
         this.plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, applyTint, coverIsMask);
     }
-
 
     public void largeItem(ResourceLocation item) {
         this.getBuilder(item.toString())
@@ -168,13 +172,6 @@ public class ItemModelGen extends ItemModelProvider {
                         .coverIsMask(coverIsMask)
                         .fluid(fluid));
     }
-
-//    private void plasticFluidBucket(ResourceLocation itemId) {
-//        withExistingParent(itemId.getPath(), ResourceLocation("builtin/entity"))
-//                .customLoader(FluidContainerModelBuilder::new)
-//                .baseTexture(modLoc("item/" + itemId.getPath()))
-//                .end();
-//    }
 
     public void storageBrickModel(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
         getBuilder(modelName).parent(getExistingFile(modLoc("block/template_storage_bricks")))

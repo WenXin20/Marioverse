@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
@@ -31,10 +32,13 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -206,6 +210,19 @@ public class ClientEventHandlers {
                 for (RenderType layer : ItemBlockRenderTypes.getRenderLayers(source.defaultBlockState()))
                     ItemBlockRenderTypes.setRenderLayer(warp, layer);
             }
+
+            ItemProperties.register(
+                    ItemRegistry.GOOMBA_SPAWN_EGG.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "goombella"),
+                    (stack, level, entity, seed) -> {
+                        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+                            Component name = stack.get(DataComponents.CUSTOM_NAME);
+                            if (name != null && name.getString().equalsIgnoreCase("goombella"))
+                                return 1.0F;
+                        }
+                        return 0.0F;
+                    }
+            );
         });
     }
 
