@@ -42,6 +42,7 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     private GhostSlot blockSlot;
     private GhostSlot disguiseSlot;
     private int lastMenuType = -1;
+    private int lastGhostSlot = -1;
 
     public BlockSpawnerMenu(int id, Inventory inventory) {
         this(id, inventory, new SimpleContainer(2), new SimpleContainerData(14), ContainerLevelAccess.NULL);
@@ -66,21 +67,30 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         Slot slot = this.slots.get(index);
+        ItemStack stack = slot.getItem();
 
         if (slot instanceof GhostSlot ghostSlot) {
             ghostSlot.set(ItemStack.EMPTY);
             return ItemStack.EMPTY;
         }
 
-        ItemStack stack = slot.getItem();
-
         if (!stack.isEmpty()) {
-            for (Slot slots : this.slots) {
-                if (slots instanceof GhostSlot ghostSlot && ghostSlot.mayPlace(stack)) {
-                    ItemStack ghost = stack.copy();
-                    ghost.setCount(1);
+            int size = this.slots.size();
+            int start = (this.lastGhostSlot + 1 + size) % size;
 
-                    ghostSlot.set(ghost);
+            for (int i = 0; i < size; i++) {
+                int indexSize = (start + i) % size;
+                Slot indexSlot = this.slots.get(indexSize);
+
+                if (indexSlot instanceof GhostSlot ghostSlot && ghostSlot.mayPlace(stack)) {
+                    ItemStack stackGhost = stack.copy();
+                    stackGhost.setCount(1);
+                    ghostSlot.set(stackGhost);
+
+                    if (start == 37)
+                        this.updateDisguise(stackGhost);
+
+                    this.lastGhostSlot = indexSize;
                     return ItemStack.EMPTY;
                 }
             }
@@ -94,13 +104,13 @@ public class BlockSpawnerMenu extends AbstractContainerMenu {
             ItemStack carried = this.getCarried();
 
             if (!carried.isEmpty() && ghostSlot.mayPlace(carried)) {
-                ItemStack ghostStack = carried.copy();
+                ItemStack stackGhost = carried.copy();
 
                 if (slot == 37)
-                    this.updateDisguise(ghostStack);
+                    this.updateDisguise(stackGhost);
 
-                ghostStack.setCount(1);
-                ghostSlot.set(ghostStack);
+                stackGhost.setCount(1);
+                ghostSlot.set(stackGhost);
                 return;
             }
 
