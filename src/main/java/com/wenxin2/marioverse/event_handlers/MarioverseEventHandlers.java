@@ -203,7 +203,6 @@ public class MarioverseEventHandlers {
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
         if (!(entity instanceof LivingEntity)) return;
-
         CompoundTag tag = entity.getPersistentData();
 
         // TODO: Remove in 26.1+
