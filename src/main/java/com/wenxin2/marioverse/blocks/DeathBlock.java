@@ -61,7 +61,7 @@ public class DeathBlock extends Block {
         if (!entity.getType().is(TagRegistry.DEATH_BLOCKS_IMMUNE) && entity.isAlive()) {
             if (level instanceof ServerLevel serverLevel && !(entity instanceof Player))
                 ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleRegistry.GLOWING_STAR.get(), serverLevel, entity, 2.0, 10);
-            else ParticleUtils.spawnParticleInBlock(level, entity.blockPosition(), 5, ParticleRegistry.GLOWING_STAR.get());
+            else if (!(entity instanceof Player)) ParticleUtils.spawnParticleInBlock(level, entity.blockPosition(), 5, ParticleRegistry.GLOWING_STAR.get());
 
             if (entity instanceof Player player && !player.isCreative() && !player.isSpectator())
                 entity.hurt(DamageSourceRegistry.instakill(entity), Float.MAX_VALUE);
