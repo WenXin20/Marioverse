@@ -49,7 +49,9 @@ dependencies {
     // Imports
     // Dependencies
     implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib, Required Dependency
+    implementation "curse.maven:accessories-compat-layer-1315611:7585673" // Requires Accessories, Curios, Owo Lib
     implementation "curse.maven:ctm-${ctm_version}" // Optional Dependency
+    implementation "curse.maven:curios-309927:6529130"
     implementation "curse.maven:every-compat-${every_compat_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:fusion-connected-textures-${fusion_version}" // Optional Dependency
     implementation "curse.maven:geckolib-${geckolib_version}" // Required Dependency
@@ -74,7 +76,7 @@ dependencies {
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    implementation "curse.maven:the-twilight-forest-227639:5699076"
+    implementation "curse.maven:the-twilight-forest-227639:7797302"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
     compileOnly "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:6778051"
