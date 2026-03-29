@@ -93,7 +93,7 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .add(Biomes.SUNFLOWER_PLAINS);
 
         tag(TagRegistry.HAS_PIPE_TOWERS)
-                .addTag(Tags.Biomes.IS_MUSHROOM);
+                .add(Biomes.MUSHROOM_FIELDS);
 
         tag(TagRegistry.HAS_QUICKSAND)
                 .addTag(Tags.Biomes.IS_BEACH)

@@ -31,6 +31,7 @@
 - Fixed shift-clicking into slots of the refill GUI
 - Fixed super mushroom tooltip displaying the wrong value
 - Fixed mobs not scaling
+- Fixed pipe towers generating outside of mushroom islands if another mod adds a biome tagged as `is_mushroom`
 
 ## Update 1.8.2
 - Add dispenser behavior for equipping carrots on Show Pokeys
