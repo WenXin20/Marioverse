@@ -29,6 +29,7 @@
 - Projectiles can claim checkpoint flags for you
 - Fixed Star Coins checking the wrong tag
 - Fixed shift-clicking into slots of the refill GUI
+- Fixed super mushroom tooltip displaying the wrong value
 - Fixed mobs not scaling
 
 ## Update 1.8.2
