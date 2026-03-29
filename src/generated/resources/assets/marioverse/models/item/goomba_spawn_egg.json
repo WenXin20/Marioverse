@@ -4,7 +4,7 @@
     {
       "model": "marioverse:item/goombella_spawn_egg",
       "predicate": {
-        "marioverse:goombella": 1.0
+        "marioverse:custom_name": 1.0
       }
     }
   ],

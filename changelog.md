@@ -20,6 +20,8 @@
 - Added Passive Death Block
   - Kills all passive mobs with no loot drops
   - Unbreakable
+- Added textures for when the goomba spawn egg is named "Goombella"
+- Added textures for when the checkpoint flag and goal poles are named "Wonder" or "America"
 - Added shader support for Water Spouts and Dango Blossoms
 - Added slot icon to refill GUI
 - Added trampoline caps and dango blossom to create tags to allow placement on contraptions

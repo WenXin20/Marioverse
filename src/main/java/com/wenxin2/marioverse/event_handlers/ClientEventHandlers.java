@@ -44,6 +44,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -62,6 +63,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class ClientEventHandlers {
@@ -211,9 +213,8 @@ public class ClientEventHandlers {
                     ItemBlockRenderTypes.setRenderLayer(warp, layer);
             }
 
-            ItemProperties.register(
-                    ItemRegistry.GOOMBA_SPAWN_EGG.get(),
-                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "goombella"),
+            ItemProperties.register(ItemRegistry.GOOMBA_SPAWN_EGG.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> {
                         if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
                             Component name = stack.get(DataComponents.CUSTOM_NAME);
@@ -223,6 +224,79 @@ public class ClientEventHandlers {
                         return 0.0F;
                     }
             );
+
+            ItemProperties.register(BlockRegistry.CLASSIC_GOAL_POLE.asItem(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                    (stack, level, entity, seed) -> {
+                        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+                            Component name = stack.get(DataComponents.CUSTOM_NAME);
+                            if (name != null) {
+                                if (name.getString().equalsIgnoreCase("america")
+                                        || name.getString().equalsIgnoreCase("america flag")
+                                        || name.getString().equalsIgnoreCase("usa")
+                                        || name.getString().equalsIgnoreCase("usa flag")
+                                        || name.getString().equalsIgnoreCase("united states of america")
+                                        || name.getString().equalsIgnoreCase("united states")
+                                        || name.getString().equalsIgnoreCase("united states flag"))
+                                    return 1.0F;
+                                if (name.getString().equalsIgnoreCase("wonder")
+                                        || name.getString().equalsIgnoreCase("wonder flag"))
+                                    return 2.0F;
+                            }
+                        }
+                        return 0.0F;
+                    }
+            );
+
+            for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
+                ItemProperties.register(entry.getValue().asItem(),
+                        ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                        (stack, level, entity, seed) -> {
+                            if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+                                Component name = stack.get(DataComponents.CUSTOM_NAME);
+                                if (name != null) {
+                                    if (name.getString().equalsIgnoreCase("america")
+                                            || name.getString().equalsIgnoreCase("america flag")
+                                            || name.getString().equalsIgnoreCase("usa")
+                                            || name.getString().equalsIgnoreCase("usa flag")
+                                            || name.getString().equalsIgnoreCase("united states of america")
+                                            || name.getString().equalsIgnoreCase("united states")
+                                            || name.getString().equalsIgnoreCase("united states flag"))
+                                        return 1.0F;
+                                    if (name.getString().equalsIgnoreCase("wonder")
+                                            || name.getString().equalsIgnoreCase("wonder flag"))
+                                        return 2.0F;
+                                }
+                            }
+                            return 0.0F;
+                        }
+                );
+            }
+
+            for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
+                ItemProperties.register(entry.getValue().asItem(),
+                        ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                        (stack, level, entity, seed) -> {
+                            if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+                                Component name = stack.get(DataComponents.CUSTOM_NAME);
+                                if (name != null) {
+                                    if (name.getString().equalsIgnoreCase("america")
+                                            || name.getString().equalsIgnoreCase("america flag")
+                                            || name.getString().equalsIgnoreCase("usa")
+                                            || name.getString().equalsIgnoreCase("usa flag")
+                                            || name.getString().equalsIgnoreCase("united states of america")
+                                            || name.getString().equalsIgnoreCase("united states")
+                                            || name.getString().equalsIgnoreCase("united states flag"))
+                                        return 1.0F;
+                                    if (name.getString().equalsIgnoreCase("wonder")
+                                            || name.getString().equalsIgnoreCase("wonder flag"))
+                                        return 2.0F;
+                                }
+                            }
+                            return 0.0F;
+                        }
+                );
+            }
         });
     }
 
