@@ -26,9 +26,8 @@ public class OneUpRenderer implements SimpleItemRenderer {
                 this.translateIfSneaking(poseStack, slotReference.entity());
                 EntityRenderer<? super LivingEntity> render = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(slotReference.entity());
                 if (render instanceof LivingEntityRenderer) {
-                    if (model instanceof HumanoidModel humanoidModel) {
+                    if (model instanceof HumanoidModel humanoidModel)
                         this.rotateIfSneaking(poseStack, slotReference.entity(), humanoidModel);
-                    }
                 }
                 poseStack.mulPose(Direction.DOWN.getRotation());
                 poseStack.translate(0.15F, -0.45F, 0.145F);
