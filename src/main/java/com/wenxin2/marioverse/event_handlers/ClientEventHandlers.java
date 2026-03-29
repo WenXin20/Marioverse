@@ -242,7 +242,8 @@ public class ClientEventHandlers {
     private static float goombellaName(ItemStack stack) {
         if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
             Component name = stack.get(DataComponents.CUSTOM_NAME);
-            if (name != null && name.getString().equalsIgnoreCase("goombella"))
+            if (name != null && (name.getString().equalsIgnoreCase("goombella")
+                    || name.getString().equalsIgnoreCase("goombella spawn egg")))
                 return 1.0F;
         }
         return 0.0F;
