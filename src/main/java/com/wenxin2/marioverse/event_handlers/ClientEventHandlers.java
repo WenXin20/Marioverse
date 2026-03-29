@@ -215,89 +215,57 @@ public class ClientEventHandlers {
 
             ItemProperties.register(ItemRegistry.GOOMBA_SPAWN_EGG.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
-                    (stack, level, entity, seed) -> {
-                        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
-                            Component name = stack.get(DataComponents.CUSTOM_NAME);
-                            if (name != null && name.getString().equalsIgnoreCase("goombella"))
-                                return 1.0F;
-                        }
-                        return 0.0F;
-                    }
-            );
+                    (stack, level, entity, seed) -> goombellaName(stack));
+
+            ItemProperties.register(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                    (stack, level, entity, seed) -> wonderAmericaName(stack));
 
             ItemProperties.register(BlockRegistry.CLASSIC_GOAL_POLE.asItem(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
-                    (stack, level, entity, seed) -> {
-                        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
-                            Component name = stack.get(DataComponents.CUSTOM_NAME);
-                            if (name != null) {
-                                if (name.getString().equalsIgnoreCase("america")
-                                        || name.getString().equalsIgnoreCase("america flag")
-                                        || name.getString().equalsIgnoreCase("usa")
-                                        || name.getString().equalsIgnoreCase("usa flag")
-                                        || name.getString().equalsIgnoreCase("united states of america")
-                                        || name.getString().equalsIgnoreCase("united states")
-                                        || name.getString().equalsIgnoreCase("united states flag"))
-                                    return 1.0F;
-                                if (name.getString().equalsIgnoreCase("wonder")
-                                        || name.getString().equalsIgnoreCase("wonder flag"))
-                                    return 2.0F;
-                            }
-                        }
-                        return 0.0F;
-                    }
-            );
+                    (stack, level, entity, seed) -> wonderAmericaName(stack));
 
             for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
                 ItemProperties.register(entry.getValue().asItem(),
                         ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
-                        (stack, level, entity, seed) -> {
-                            if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
-                                Component name = stack.get(DataComponents.CUSTOM_NAME);
-                                if (name != null) {
-                                    if (name.getString().equalsIgnoreCase("america")
-                                            || name.getString().equalsIgnoreCase("america flag")
-                                            || name.getString().equalsIgnoreCase("usa")
-                                            || name.getString().equalsIgnoreCase("usa flag")
-                                            || name.getString().equalsIgnoreCase("united states of america")
-                                            || name.getString().equalsIgnoreCase("united states")
-                                            || name.getString().equalsIgnoreCase("united states flag"))
-                                        return 1.0F;
-                                    if (name.getString().equalsIgnoreCase("wonder")
-                                            || name.getString().equalsIgnoreCase("wonder flag"))
-                                        return 2.0F;
-                                }
-                            }
-                            return 0.0F;
-                        }
-                );
+                        (stack, level, entity, seed) -> wonderAmericaName(stack));
             }
 
             for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
                 ItemProperties.register(entry.getValue().asItem(),
                         ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
-                        (stack, level, entity, seed) -> {
-                            if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
-                                Component name = stack.get(DataComponents.CUSTOM_NAME);
-                                if (name != null) {
-                                    if (name.getString().equalsIgnoreCase("america")
-                                            || name.getString().equalsIgnoreCase("america flag")
-                                            || name.getString().equalsIgnoreCase("usa")
-                                            || name.getString().equalsIgnoreCase("usa flag")
-                                            || name.getString().equalsIgnoreCase("united states of america")
-                                            || name.getString().equalsIgnoreCase("united states")
-                                            || name.getString().equalsIgnoreCase("united states flag"))
-                                        return 1.0F;
-                                    if (name.getString().equalsIgnoreCase("wonder")
-                                            || name.getString().equalsIgnoreCase("wonder flag"))
-                                        return 2.0F;
-                                }
-                            }
-                            return 0.0F;
-                        }
-                );
+                        (stack, level, entity, seed) -> wonderAmericaName(stack));
             }
         });
+    }
+
+    private static float goombellaName(ItemStack stack) {
+        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+            Component name = stack.get(DataComponents.CUSTOM_NAME);
+            if (name != null && name.getString().equalsIgnoreCase("goombella"))
+                return 1.0F;
+        }
+        return 0.0F;
+    }
+
+    private static float wonderAmericaName(ItemStack stack) {
+        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+            Component name = stack.get(DataComponents.CUSTOM_NAME);
+            if (name != null) {
+                if (name.getString().equalsIgnoreCase("america")
+                        || name.getString().equalsIgnoreCase("america flag")
+                        || name.getString().equalsIgnoreCase("usa")
+                        || name.getString().equalsIgnoreCase("usa flag")
+                        || name.getString().equalsIgnoreCase("united states of america")
+                        || name.getString().equalsIgnoreCase("united states")
+                        || name.getString().equalsIgnoreCase("united states flag"))
+                    return 1.0F;
+                if (name.getString().equalsIgnoreCase("wonder")
+                        || name.getString().equalsIgnoreCase("wonder flag"))
+                    return 2.0F;
+            }
+        }
+        return 0.0F;
     }
 
     @SubscribeEvent

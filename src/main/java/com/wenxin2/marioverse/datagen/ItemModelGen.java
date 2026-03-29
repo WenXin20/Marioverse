@@ -121,7 +121,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
-        this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem());
         this.handheldItem(ItemRegistry.CREATIVE_WRENCH.get());
         this.handheldItem(ItemRegistry.WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
@@ -150,6 +149,12 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/american_goal_pole"));
         this.getBuilder("wonder_goal_pole").parent(new ModelFile.UncheckedModelFile("item/handheld"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/wonder_goal_pole"));
+
+        this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/american_checkpoint_flag")))
+                .predicate(modLoc("custom_name"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/wonder_checkpoint_flag")))
+                .predicate(modLoc("custom_name"), 2.0F).end();
 
         this.handheldItem(BlockRegistry.CLASSIC_GOAL_POLE.asItem()).override()
                 .model(new ModelFile.UncheckedModelFile(modLoc("item/american_classic_goal_pole")))
