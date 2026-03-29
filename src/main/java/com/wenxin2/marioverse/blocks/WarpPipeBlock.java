@@ -435,7 +435,6 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     public void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
-
         if (serverWorld.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE) {
             if (!serverWorld.isClientSide && pipeBE.getUUID() == null) {
                 UUID uuid = UUID.randomUUID();
