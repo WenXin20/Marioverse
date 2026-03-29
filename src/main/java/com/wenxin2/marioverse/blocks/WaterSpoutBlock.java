@@ -161,9 +161,8 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
 
     public void addAlwaysVisibleParticles(Level world, ParticleOptions particleOptions, double xPos, double yPos, double zPos,
                                           double xMotion, double yMotion, double zMotion) {
-        if (world.isClientSide) {
+        if (world.isClientSide)
             world.addAlwaysVisibleParticle(particleOptions, xPos, yPos, zPos, xMotion, yMotion, zMotion);
-        }
     }
 
     @Override
