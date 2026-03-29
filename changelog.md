@@ -1,6 +1,8 @@
 ## Update 1.9
 - Added Block Spawner
-  - Right-click to open gui
+  - Right-click with an empty hand to open gui
+  - Right-click with a block to set a block to auto replace
+  - Shift-right-click with a block to set a disguise
   - Add a block to the top slot for replacing the block in world
   - Add a block to the bottom slot to disguise the block spawner
   - Buttons to set a block replace timer.
