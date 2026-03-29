@@ -52,7 +52,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.GOLDEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GOLD_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get());
@@ -122,8 +121,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
-        this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem());
-        this.handheldItem(BlockRegistry.CLASSIC_GOAL_POLE.asItem());
         this.handheldItem(ItemRegistry.CREATIVE_WRENCH.get());
         this.handheldItem(ItemRegistry.WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
@@ -132,10 +129,48 @@ public class ItemModelGen extends ItemModelProvider {
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet())
-            this.handheldItem(entry.getValue().asItem());
+            this.handheldItem(entry.getValue().asItem()).override()
+                    .model(new ModelFile.UncheckedModelFile(modLoc("item/american_checkpoint_flag")))
+                    .predicate(modLoc("custom_name"), 1.0F).end().override()
+                    .model(new ModelFile.UncheckedModelFile(modLoc("item/wonder_checkpoint_flag")))
+                    .predicate(modLoc("custom_name"), 2.0F).end();
+        this.getBuilder("american_checkpoint_flag").parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/american_checkpoint_flag"));
+        this.getBuilder("wonder_checkpoint_flag").parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/wonder_checkpoint_flag"));
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet())
-            this.handheldItem(entry.getValue().asItem());
+            this.handheldItem(entry.getValue().asItem()).override()
+                    .model(new ModelFile.UncheckedModelFile(modLoc("item/american_goal_pole")))
+                    .predicate(modLoc("custom_name"), 1.0F).end().override()
+                    .model(new ModelFile.UncheckedModelFile(modLoc("item/wonder_goal_pole")))
+                    .predicate(modLoc("custom_name"), 2.0F).end();
+        this.getBuilder("american_goal_pole").parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/american_goal_pole"));
+        this.getBuilder("wonder_goal_pole").parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/wonder_goal_pole"));
+
+        this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/american_checkpoint_flag")))
+                .predicate(modLoc("custom_name"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/wonder_checkpoint_flag")))
+                .predicate(modLoc("custom_name"), 2.0F).end();
+
+        this.handheldItem(BlockRegistry.CLASSIC_GOAL_POLE.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/american_classic_goal_pole")))
+                .predicate(modLoc("custom_name"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/wonder_classic_goal_pole")))
+                .predicate(modLoc("custom_name"), 2.0F).end();
+        this.getBuilder("american_classic_goal_pole").parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/american_classic_goal_pole"));
+        this.getBuilder("wonder_classic_goal_pole").parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/wonder_classic_goal_pole"));
+
+        this.basicItem(ItemRegistry.GOOMBA_SPAWN_EGG.get()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/goombella_spawn_egg")))
+                .predicate(modLoc("custom_name"), 1.0F).end();
+        this.getBuilder("goombella_spawn_egg").parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/goombella_spawn_egg"));
     }
 
     public void largeItem(Item item) {
@@ -145,7 +180,6 @@ public class ItemModelGen extends ItemModelProvider {
     public void plasticFluidBucketItem(Item item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
         this.plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, applyTint, coverIsMask);
     }
-
 
     public void largeItem(ResourceLocation item) {
         this.getBuilder(item.toString())
@@ -168,13 +202,6 @@ public class ItemModelGen extends ItemModelProvider {
                         .coverIsMask(coverIsMask)
                         .fluid(fluid));
     }
-
-//    private void plasticFluidBucket(ResourceLocation itemId) {
-//        withExistingParent(itemId.getPath(), ResourceLocation("builtin/entity"))
-//                .customLoader(FluidContainerModelBuilder::new)
-//                .baseTexture(modLoc("item/" + itemId.getPath()))
-//                .end();
-//    }
 
     public void storageBrickModel(String modelName, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
         getBuilder(modelName).parent(getExistingFile(modLoc("block/template_storage_bricks")))

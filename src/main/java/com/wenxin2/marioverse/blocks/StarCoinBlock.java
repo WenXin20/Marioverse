@@ -3,12 +3,12 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
-import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.function.BiConsumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +27,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -143,15 +144,30 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     }
 
     @Override
+    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
+        Entity entity = explosion.getDirectSourceEntity();
+        ItemStack coinItem = new ItemStack(this.asItem());
+
+        if (explosion.canTriggerBlocks()) {
+            if (entity instanceof Projectile projectile && projectile.getOwner() != null)
+                StarCoinBlock.collectCoin(this, level, state, pos, projectile.getOwner(), coinItem);
+            else if (entity.getType().is(TagRegistry.CAN_COLLECT_STAR_COINS))
+                StarCoinBlock.collectCoin(this, level, state, pos, entity, coinItem);
+            else level.destroyBlock(pos, true);
+        }
+        super.onExplosionHit(state, level, pos, explosion, consumer);
+    }
+
+    @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         ItemStack coinItem = new ItemStack(this.asItem());
 
         if (entity instanceof KoopaShellEntity koopaShell && koopaShell.getOwner() != null
-                && koopaShell.getOwner().getType().is(TagRegistry.CAN_COLLECT_COINS))
+                && koopaShell.getOwner().getType().is(TagRegistry.CAN_COLLECT_STAR_COINS))
             StarCoinBlock.collectCoin(this, world, state, pos, koopaShell.getOwner(), coinItem);
         else if (entity instanceof Projectile projectile && projectile.getOwner() != null)
             StarCoinBlock.collectCoin(this, world, state, pos, projectile.getOwner(), coinItem);
-        else if (entity.getType().is(TagRegistry.CAN_COLLECT_COINS) && ConfigRegistry.STAR_COINS_COLLECTED_ON_COLLISION.get()) {
+        else if (entity.getType().is(TagRegistry.CAN_COLLECT_STAR_COINS) && ConfigRegistry.STAR_COINS_COLLECTED_ON_COLLISION.get()) {
             if (entity instanceof Player player && player.isCreative() && !ConfigRegistry.STAR_COINS_COLLECTED_IN_CREATIVE.get())
                 return;
             StarCoinBlock.collectCoin(this, world, state, pos, entity, coinItem);

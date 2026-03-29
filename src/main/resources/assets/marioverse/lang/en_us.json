@@ -23,6 +23,7 @@
   "attribute.marioverse.generic.safe_fall_distance": "Safe Fall Distance",
   "attribute.marioverse.generic.width_scale": "Width Scale",
 
+  "menu.marioverse.block_spawner": "Block Spawner",
   "menu.marioverse.checkpoint_flag": "Checkpoint Flag",
   "menu.marioverse.goal_pole": "Goal Pole",
   "menu.marioverse.invisible_question_block": "Invisible Question Block",
@@ -44,16 +45,22 @@
   "block_type.marioverse.stripped_log_bridge": "Stripped %s Log Bridge",
   "block_type.marioverse.stripped_log_bridge_stairs": "Stripped %s Log Bridge Stairs",
 
+  "block.marioverse.block_spawner": "Block Spawner",
   "block.marioverse.blue_dotted_line_block": "Blue Dotted-Line Block",
   "block.marioverse.blue_mushroom_trampoline": "Blue Mushroom Trampoline",
   "block.marioverse.blue_trampoline_cap": "Blue Trampoline Cap",
   "block.marioverse.coin": "Coin",
   "block.marioverse.dango_blossom": "Dango Blossom",
+  "block.marioverse.death_block": "Death Block",
   "block.marioverse.deep_fungal_question_panel": "Deep Fungal Question Panel",
   "block.marioverse.fungal_question_panel": "Fungal Question Panel",
   "block.marioverse.glow_block": "Glow Block",
   "block.marioverse.iron_spike": "Iron Spike",
+  "block.marioverse.monster_death_block": "Monster Death Block",
   "block.marioverse.on_off_switch": "On/Off Switch",
+  "block.marioverse.passive_death_block": "Passive Death Block",
+  "block.marioverse.pipe_bubbles": "Pipe Bubbles",
+  "block.marioverse.player_death_block": "Player Death Block",
   "block.marioverse.quicksand": "Quicksand",
   "block.marioverse.red_dotted_line_block": "Red Dotted-Line Block",
   "block.marioverse.red_mushroom_trampoline": "Red Mushroom Trampoline",
@@ -65,6 +72,7 @@
   "block.marioverse.star_coin": "Star Coin",
   "block.marioverse.warp_door": "Warp %1$s",
   "block.marioverse.warp_trapdoor": "Warp %1$s",
+  "block.marioverse.water_spout": "Water Spout",
 
   "block.marioverse.acacia_log_bridge": "Acacia Log Bridge",
   "block.marioverse.bamboo_bridge": "Bamboo Bridge",
@@ -590,8 +598,42 @@
   "block.marioverse.white_warp_pipe": "White Warp Pipe",
   "block.marioverse.yellow_warp_pipe": "Yellow Warp Pipe",
 
-  "block.marioverse.pipe_bubbles": "Pipe Bubbles",
-  "block.marioverse.water_spout": "Water Spout",
+  "block.marioverse.death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.death_block.tooltip.ability": "§6Ability:",
+  "block.marioverse.death_block.tooltip.description": " §7• Instakills all entities",
+  "block.marioverse.death_block.tooltip.no_loot": " §7• No loot or xp drops from mobs",
+  "block.marioverse.death_block.tooltip.unbreakable": " §7• §eUnbreakable",
+
+  "block.marioverse.monster_death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.monster_death_block.tooltip.ability": "§6Ability:",
+  "block.marioverse.monster_death_block.tooltip.description": " §7• Instakills all monsters",
+  "block.marioverse.monster_death_block.tooltip.no_loot": " §7• No loot or xp drops from mobs",
+  "block.marioverse.monster_death_block.tooltip.unbreakable": " §7• §eUnbreakable",
+
+  "block.marioverse.passive_death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.passive_death_block.tooltip.ability": "§6Ability:",
+  "block.marioverse.passive_death_block.tooltip.description": " §7• Instakills all passive mobs",
+  "block.marioverse.passive_death_block.tooltip.no_loot": " §7• No loot or xp drops from mobs",
+  "block.marioverse.passive_death_block.tooltip.unbreakable": " §7• §eUnbreakable",
+
+  "block.marioverse.player_death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.player_death_block.tooltip.ability": "§6Ability:",
+  "block.marioverse.player_death_block.tooltip.description": " §7• Instakills only players",
+  "block.marioverse.player_death_block.tooltip.unbreakable": " §7• §eUnbreakable",
+
+  "block.marioverse.warp_door.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.warp_door.tooltip.ability": "§6Ability:",
+  "block.marioverse.warp_door.tooltip.description": " §7• Warps players, mobs, & items",
+  "block.marioverse.warp_door.tooltip.guide": " §7• Link with a wrench",
+  "block.marioverse.warp_door.tooltip.mod": "§eSource Mod:",
+  "block.marioverse.warp_door.tooltip.source_mod": " §9• %1$s",
+
+  "block.marioverse.warp_trapdoor.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.warp_trapdoor.tooltip.ability": "§6Ability:",
+  "block.marioverse.warp_trapdoor.tooltip.description": " §7• Warps players, mobs, & items",
+  "block.marioverse.warp_trapdoor.tooltip.guide": " §7• Link with a wrench",
+  "block.marioverse.warp_trapdoor.tooltip.mod": "§eSource Mod:",
+  "block.marioverse.warp_trapdoor.tooltip.source_mod": " §9• %1$s",
 
   "block.marioverse.banner.bowser.black": "Black King Bowser",
   "block.marioverse.banner.bowser.blue": "Blue King Bowser",
@@ -779,20 +821,6 @@
   "item.marioverse.smithing_template.leather_armor.base_slot_description": "Add leather armor",
   "item.marioverse.smithing_template.character_costume.additions_slot_description": "Add dyed wool",
   "item.marioverse.smithing_template.character_costume.ingredients": "Dyed Wool",
-
-  "block.marioverse.warp_door.tooltip": "§e§o[Shift for §9ℹ§e§o]",
-  "block.marioverse.warp_door.tooltip.ability": "§6Ability:",
-  "block.marioverse.warp_door.tooltip.description": " §7• Warps players, mobs, & items",
-  "block.marioverse.warp_door.tooltip.guide": " §7• Link with a wrench",
-  "block.marioverse.warp_door.tooltip.mod": "§eSource Mod:",
-  "block.marioverse.warp_door.tooltip.source_mod": " §9• %1$s",
-
-  "block.marioverse.warp_trapdoor.tooltip": "§e§o[Shift for §9ℹ§e§o]",
-  "block.marioverse.warp_trapdoor.tooltip.ability": "§6Ability:",
-  "block.marioverse.warp_trapdoor.tooltip.description": " §7• Warps players, mobs, & items",
-  "block.marioverse.warp_trapdoor.tooltip.guide": " §7• Link with a wrench",
-  "block.marioverse.warp_trapdoor.tooltip.mod": "§eSource Mod:",
-  "block.marioverse.warp_trapdoor.tooltip.source_mod": " §9• %1$s",
 
   "upgrade.marioverse.mario_costume": "Mario's Costume",
   "upgrade.marioverse.fire_costume": "Fire Costume",
@@ -1014,8 +1042,6 @@
   "accessories.slot.costume_pants": "Costume Pants",
   "accessories.slot.costume_shoes": "Costume Shoes",
 
-  "death.attack.marioverse.bonked": "%1$s took a deadly hit from below",
-
   "commands.marioverse.boolean.true": "§atrue",
   "commands.marioverse.boolean.false": "§cfalse",
 
@@ -1060,6 +1086,7 @@
   "commands.marioverse.power_up.super_star.value": "§6Super Star §ris set to %1$s§r for %2$s§r.",
   "commands.marioverse.power_up.super_star.value.count": "§6Super Star §ris set to %1$s§r for %2$s§r entities.",
 
+  "death.attack.marioverse.bonked": "%1$s took a deadly hit from below",
   "death.attack.marioverse.bonked.player": "%2$s caused %1$s to take a deadly hit from below",
   "death.attack.marioverse.fireball": "%1$s was fireballed",
   "death.attack.marioverse.fireball.item": "%1$s was fireballed by %2$s using %3$s",
@@ -1069,6 +1096,7 @@
   "death.attack.marioverse.ice_ball.player": "%1$s was frozen to death whilst fighting %2$s",
   "death.attack.marioverse.ice_cube_crushed": "%1$s was crushed by ice cube",
   "death.attack.marioverse.ice_cube_crushed.player": "%2$s crushed %1$s with ice cube",
+  "death.attack.marioverse.instakill": "%1$s was instantly met with the sweet relief of death",
   "death.attack.marioverse.large_snowball": "%1$s was steamrolled by a large snowball",
   "death.attack.marioverse.large_snowball.player": "%1$s was steamrolled by a large snowball shot by %2$s",
   "death.attack.marioverse.light": "%1$s was vaporized by light",
@@ -1217,6 +1245,138 @@
 
   "tooltip.marioverse.smashable_blocks": "§6§oSmashable",
 
+  "menu.marioverse.block_spawner.clock_button": "",
+  "menu.marioverse.block_spawner.clock_button.tooltip": "Confirm",
+  "menu.marioverse.block_spawner.clock_button.narrate": "Confirm Button",
+
+  "menu.marioverse.block_spawner.collision_checkbox": "",
+  "menu.marioverse.block_spawner.collision_checkbox.tooltip": "Solid Collision",
+
+  "menu.marioverse.block_spawner.confirm_button": "",
+  "menu.marioverse.block_spawner.confirm_button.tooltip": "Confirm",
+  "menu.marioverse.block_spawner.confirm_button.narrate": "Confirm Button",
+
+  "menu.marioverse.block_spawner.countdown_box.tooltip": "Replace Countdown",
+  "menu.marioverse.block_spawner.countdown_box.narrate": "Replace Countdown",
+
+  "menu.marioverse.block_spawner.disguise_slot.tooltip": "Block to disguise as",
+
+  "menu.marioverse.block_spawner.disguise_button": "",
+  "menu.marioverse.block_spawner.disguise_button.tooltip": "Fake Player",
+  "menu.marioverse.block_spawner.disguise_button.narrate": "Fake Player Button",
+
+  "menu.marioverse.block_spawner.down_button": "D",
+  "menu.marioverse.block_spawner.down_button.tooltip": "Place Below",
+  "menu.marioverse.block_spawner.down_button.narrate": "Place Below Button",
+
+  "menu.marioverse.block_spawner.east_block_face_button": "",
+  "menu.marioverse.block_spawner.east_block_face_button.tooltip": "East Block Face",
+  "menu.marioverse.block_spawner.east_block_face_button.narrate": "East Block Face Button",
+
+  "menu.marioverse.block_spawner.east_button": "E",
+  "menu.marioverse.block_spawner.east_button.tooltip": "Place East",
+  "menu.marioverse.block_spawner.east_button.narrate": "Place East Button",
+
+  "menu.marioverse.block_spawner.face_down_button": "D",
+  "menu.marioverse.block_spawner.face_down_button.tooltip": "Face Down",
+  "menu.marioverse.block_spawner.face_down_button.narrate": "Face Fake Player Down Button",
+
+  "menu.marioverse.block_spawner.face_east_button": "E",
+  "menu.marioverse.block_spawner.face_east_button.tooltip": "Face East",
+  "menu.marioverse.block_spawner.face_east_button.narrate": "Face Fake Player East Button",
+
+  "menu.marioverse.block_spawner.face_north_button": "N",
+  "menu.marioverse.block_spawner.face_north_button.tooltip": "Face North",
+  "menu.marioverse.block_spawner.face_north_button.narrate": "Face Fake Player North Button",
+
+  "menu.marioverse.block_spawner.face_south_button": "S",
+  "menu.marioverse.block_spawner.face_south_button.tooltip": "Face South",
+  "menu.marioverse.block_spawner.face_south_button.narrate": "Face Fake Player South Button",
+
+  "menu.marioverse.block_spawner.face_up_button": "U",
+  "menu.marioverse.block_spawner.face_up_button.tooltip": "Face Up",
+  "menu.marioverse.block_spawner.face_up_button.narrate": "Face Fake Player Up Button",
+
+  "menu.marioverse.block_spawner.face_west_button": "W",
+  "menu.marioverse.block_spawner.face_west_button.tooltip": "Face West",
+  "menu.marioverse.block_spawner.face_west_button.narrate": "Face Fake Player West Button",
+
+  "menu.marioverse.block_spawner.hide_item_rendered_checkbox": "",
+  "menu.marioverse.block_spawner.hide_item_rendered_checkbox.tooltip": "Hide Item Rendered",
+
+  "menu.marioverse.block_spawner.hour_button": "h",
+  "menu.marioverse.block_spawner.hour_button.tooltip": "Hours",
+  "menu.marioverse.block_spawner.hour_button.narrate": "Time in Hours Button",
+
+  "menu.marioverse.block_spawner.interactable_checkbox": "",
+  "menu.marioverse.block_spawner.interactable_checkbox.tooltip": "Collision Interactable",
+
+  "menu.marioverse.block_spawner.minute_button": "m",
+  "menu.marioverse.block_spawner.minute_button.tooltip": "Minutes",
+  "menu.marioverse.block_spawner.minute_button.narrate": "Time in Minutes Button",
+
+  "menu.marioverse.block_spawner.north_block_face_button": "",
+  "menu.marioverse.block_spawner.north_block_face_button.tooltip": "North Block Face",
+  "menu.marioverse.block_spawner.north_block_face_button.narrate": "North Block Face Button",
+
+  "menu.marioverse.block_spawner.north_button": "N",
+  "menu.marioverse.block_spawner.north_button.tooltip": "Place North",
+  "menu.marioverse.block_spawner.north_button.narrate": "Place North Button",
+
+  "menu.marioverse.block_spawner.placement_button": "",
+  "menu.marioverse.block_spawner.placement_button.tooltip": "Placement Properties",
+  "menu.marioverse.block_spawner.placement_button.narrate": "Placement Properties Button",
+
+  "menu.marioverse.block_spawner.placement_offset_box.tooltip": "Placement Offset",
+  "menu.marioverse.block_spawner.placement_offset_box.narrate": "Placement Offset",
+
+  "menu.marioverse.block_spawner.replace_button": "",
+  "menu.marioverse.block_spawner.replace_button.tooltip": "Replace Timer",
+  "menu.marioverse.block_spawner.replace_button.narrate": "Replace Button",
+
+  "menu.marioverse.block_spawner.replace_slot.tooltip": "Block to replace",
+
+  "menu.marioverse.block_spawner.right_clickable_checkbox": "",
+  "menu.marioverse.block_spawner.right_clickable_checkbox.tooltip": "Right-Clickable",
+
+  "menu.marioverse.block_spawner.seconds_button": "s",
+  "menu.marioverse.block_spawner.seconds_button.tooltip": "Seconds",
+  "menu.marioverse.block_spawner.seconds_button.narrate": "Time in Seconds Button",
+
+  "menu.marioverse.block_spawner.sneaking_checkbox": "",
+  "menu.marioverse.block_spawner.sneaking_checkbox.tooltip": "Sneak to Place",
+
+  "menu.marioverse.block_spawner.south_block_face_button": "",
+  "menu.marioverse.block_spawner.south_block_face_button.tooltip": "South Block Face",
+  "menu.marioverse.block_spawner.south_block_face_button.narrate": "South Block Face Button",
+
+  "menu.marioverse.block_spawner.south_button": "S",
+  "menu.marioverse.block_spawner.south_button.tooltip": "Place South",
+  "menu.marioverse.block_spawner.south_button.narrate": "Place South Button",
+
+  "menu.marioverse.block_spawner.ticks_button": "t",
+  "menu.marioverse.block_spawner.ticks_button.tooltip": "Ticks",
+  "menu.marioverse.block_spawner.ticks_button.narrate": "Time in Ticks Button",
+
+  "menu.marioverse.block_spawner.top_block_face_button": "",
+  "menu.marioverse.block_spawner.top_block_face_button.tooltip": "Top Block Face",
+  "menu.marioverse.block_spawner.top_block_face_button.narrate": "Top Block Face Button",
+
+  "menu.marioverse.block_spawner.unbreakable_checkbox": "",
+  "menu.marioverse.block_spawner.unbreakable_checkbox.tooltip": "Unbreakable",
+
+  "menu.marioverse.block_spawner.up_button": "U",
+  "menu.marioverse.block_spawner.up_button.tooltip": "Place Above",
+  "menu.marioverse.block_spawner.up_button.narrate": "Place Above Button",
+
+  "menu.marioverse.block_spawner.west_block_face_button": "",
+  "menu.marioverse.block_spawner.west_block_face_button.tooltip": "West Block Face",
+  "menu.marioverse.block_spawner.west_block_face_button.narrate": "West Block Face Button",
+
+  "menu.marioverse.block_spawner.west_button": "W",
+  "menu.marioverse.block_spawner.west_button.tooltip": "Place West",
+  "menu.marioverse.block_spawner.west_button.narrate": "Place West Button",
+
   "menu.marioverse.question_block.clock_button": "",
   "menu.marioverse.question_block.clock_button.tooltip": "Confirm",
   "menu.marioverse.question_block.clock_button.narrate": "Confirm Button",
@@ -1228,6 +1388,14 @@
   "menu.marioverse.question_block.countdown_box.tooltip": "Refill Countdown",
   "menu.marioverse.question_block.countdown_box.narrate": "Refill Countdown",
 
+  "menu.marioverse.question_block.hour_button": "h",
+  "menu.marioverse.question_block.hour_button.tooltip": "Hours",
+  "menu.marioverse.question_block.hour_button.narrate": "Time in Hours Button",
+
+  "menu.marioverse.question_block.minute_button": "m",
+  "menu.marioverse.question_block.minute_button.tooltip": "Minutes",
+  "menu.marioverse.question_block.minute_button.narrate": "Time in Minutes Button",
+
   "menu.marioverse.question_block.refill_off_button": "",
   "menu.marioverse.question_block.refill_off_button.tooltip": "Refill Off",
   "menu.marioverse.question_block.refill_off_button.narrate": "Refill Off Button",
@@ -1236,21 +1404,17 @@
   "menu.marioverse.question_block.refill_on_button.tooltip": "Refill On",
   "menu.marioverse.question_block.refill_on_button.narrate": "Refill On Button",
 
-  "menu.marioverse.question_block.ticks_button": "t",
-  "menu.marioverse.question_block.ticks_button.tooltip": "Ticks",
-  "menu.marioverse.question_block.ticks_button.narrate": "Time in Ticks Button",
-
   "menu.marioverse.question_block.seconds_button": "s",
   "menu.marioverse.question_block.seconds_button.tooltip": "Seconds",
   "menu.marioverse.question_block.seconds_button.narrate": "Time in Seconds Button",
 
-  "menu.marioverse.question_block.minute_button": "m",
-  "menu.marioverse.question_block.minute_button.tooltip": "Minutes",
-  "menu.marioverse.question_block.minute_button.narrate": "Time in Minutes Button",
+  "menu.marioverse.question_block.ticks_button": "t",
+  "menu.marioverse.question_block.ticks_button.tooltip": "Ticks",
+  "menu.marioverse.question_block.ticks_button.narrate": "Time in Ticks Button",
 
-  "menu.marioverse.question_block.hour_button": "h",
-  "menu.marioverse.question_block.hour_button.tooltip": "Hours",
-  "menu.marioverse.question_block.hour_button.narrate": "Time in Hours Button",
+  "menu.marioverse.block_spawner.bottom_block_face_button": "",
+  "menu.marioverse.block_spawner.bottom_block_face_button.tooltip": "Bottom Block Face",
+  "menu.marioverse.block_spawner.bottom_block_face_button.narrate": "Bottom Block Face Button",
 
   "menu.marioverse.warp_pipe.close_button": "",
   "menu.marioverse.warp_pipe.close_button.tooltip": "Close Pipe",

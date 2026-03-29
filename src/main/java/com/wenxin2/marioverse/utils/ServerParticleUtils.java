@@ -72,7 +72,7 @@ public class ServerParticleUtils {
 
     public static void spawnParticleRingOnBlock(ParticleOptions particleOptions, ServerLevel serverWorld, BlockPos pos, double radius, int avgAmount) {
         float scaleFactor = 1.0F;
-        int numParticles = (int) (scaleFactor * avgAmount);
+        int numParticles = (int) (scaleFactor * Math.max(3, avgAmount));
 
         for (int i = 0; i < numParticles; i++) {
             // Calculate angle for each particle
@@ -92,7 +92,7 @@ public class ServerParticleUtils {
 
     public static void spawnThreeLayerBlockParticles(ParticleOptions particleOptions, ServerLevel serverWorld, @Nullable Entity entity, BlockPos pos, int avgAmount) {
         float scaleFactor = 1;
-        int numParticles = (int) (scaleFactor * avgAmount);
+        int numParticles = (int) (scaleFactor * Math.max(3, avgAmount));
         double radius = 0.65;
         if (entity instanceof Painting painting)
             radius = (double) painting.getVariant().value().width() / 2;
@@ -114,7 +114,7 @@ public class ServerParticleUtils {
 
     public static void spawnOneLayerBlockParticles(ParticleOptions particleOptions, ServerLevel serverWorld, @Nullable Entity entity, BlockPos pos, int avgAmount) {
         float scaleFactor = 1;
-        int numParticles = (int) (scaleFactor * avgAmount);
+        int numParticles = (int) (scaleFactor * Math.max(3, avgAmount));
         double radius = 0.65;
         if (entity instanceof Painting painting)
             radius = (double) painting.getVariant().value().width() / 2;
@@ -162,7 +162,7 @@ public class ServerParticleUtils {
         RandomSource rand = RandomSource.create();
 
         float scaleFactor = entity.getBbWidth() * entity.getBbHeight();
-        int numParticles = (int) (scaleFactor * avgAmount);
+        int numParticles = (int) (scaleFactor * Math.max(3, avgAmount));
 
         for (int i = 0; i < numParticles; i++) {
             double offsetX = rand.nextDouble() * entity.getBbWidth() - (entity.getBbWidth() / 2.0);
@@ -201,7 +201,7 @@ public class ServerParticleUtils {
 
     public static void spawnPoweredUpParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, int avgAmount) {
         float scaleFactor = entity.getBbWidth();
-        int numParticles = (int) (scaleFactor * avgAmount);
+        int numParticles = (int) (scaleFactor * Math.max(3, avgAmount));
         double radius = entity.getBbWidth() / 2;
         if (entity instanceof Painting painting)
             radius = (double) painting.getVariant().value().width() / 2;

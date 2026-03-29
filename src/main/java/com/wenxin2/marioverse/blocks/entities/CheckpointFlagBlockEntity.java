@@ -273,9 +273,7 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
 
     public boolean isWonderFlag() {
         return this.getName().getString().toLowerCase(Locale.ROOT).equals("wonder")
-                || this.getName().getString().toLowerCase(Locale.ROOT).equals("wonder flag")
-                || this.getName().getString().toLowerCase(Locale.ROOT).equals("flower")
-                || this.getName().getString().toLowerCase(Locale.ROOT).equals("flower flag");
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("wonder flag");
     }
 
     public void setWonderFlag(boolean hasWonderFlag) {

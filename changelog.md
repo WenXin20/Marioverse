@@ -1,3 +1,40 @@
+## Update 1.9
+- Added Block Spawner
+  - Right-click with an empty hand to open gui
+  - Right-click with a block to set a block to auto replace
+  - Shift-right-click with a block to set a disguise
+  - Add a block to the top slot for replacing the block in world
+  - Add a block to the bottom slot to disguise the block spawner
+  - Buttons to set a block replace timer.
+  - Buttons to configure placement direction and offset
+  - Buttons to configure the facing direction of blocks, such as stairs
+  - Checkboxes to enable/disable certain disguised block properties, such as collision or survival interaction
+- Added Death Block
+  - Kills all entities with no loot drops
+  - Players still drop loot
+  - Unbreakable
+- Added Player Death Block
+  - Kills only players
+  - Unbreakable
+- Added Monster Death Block
+  - Kills all monsters with no loot drops
+  - Unbreakable
+- Added Passive Death Block
+  - Kills all passive mobs with no loot drops
+  - Unbreakable
+- Added item textures for when the goomba spawn egg is named "Goombella"
+- Added item textures for when the checkpoint flag and goal poles are named "Wonder" or "America"
+- Added shader support for Water Spouts and Dango Blossoms
+- Added slot icon to refill GUI
+- Added trampoline caps and dango blossom to create tags to allow placement on contraptions
+- Windcharges can trigger On/Off Switches, ? Blocks, Spike Panels, and drop coins
+- Projectiles can claim checkpoint flags for you
+- Fixed Star Coins checking the wrong tag
+- Fixed shift-clicking into slots of the refill GUI
+- Fixed super mushroom tooltip displaying the wrong value
+- Fixed mobs not scaling
+- Fixed pipe towers generating outside of mushroom islands if another mod adds a biome tagged as `is_mushroom`
+
 ## Update 1.8.2
 - Add dispenser behavior for equipping carrots on Show Pokeys
 - Add dispenser behavior for shearing carrots from Show Pokeys

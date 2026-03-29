@@ -16,6 +16,10 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class BlockTagsGen extends BlockTagsProvider {
+    private static final ResourceLocation AUTOMOBILITY_SLOPE = ResourceLocation.fromNamespaceAndPath("automobility", "slope");
+    private static final ResourceLocation AUTOMOBILITY_STEEP_SLOPE = ResourceLocation.fromNamespaceAndPath("automobility", "steep_slope");
+    private static final ResourceLocation AUTOMOBILITY_DASH_PANEL_SLOPE = ResourceLocation.fromNamespaceAndPath("automobility", "slope_with_dash_panel");
+    private static final ResourceLocation AUTOMOBILITY_DASH_PANEL_STEEP_SLOPE = ResourceLocation.fromNamespaceAndPath("automobility", "steep_slope_with_dash_panel");
     private static final ResourceLocation BB_BLUE_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "blue_bigshroom_block");
     private static final ResourceLocation BB_GREEN_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "green_bigshroom_block");
     private static final ResourceLocation BB_LIME_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "lime_bigshroom_block");
@@ -69,27 +73,35 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(CompatRegistry.CREATE_BRITTLE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
                 .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.STAR_COIN.get());
 
         tag(CompatRegistry.CREATE_COPYCAT_ALLOW)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .addTag(TagRegistry.WARP_PIPE_BLOCKS);
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER)
                 .addTag(TagRegistry.BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get())
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
@@ -97,15 +109,25 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(CompatRegistry.CREATE_SAFE_NBT)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
-                .addTag(TagRegistry.WARP_PIPE_BLOCKS);
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .addTag(TagRegistry.QUESTION_BLOCKS);
+                .addTag(TagRegistry.QUESTION_BLOCKS)
+                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());;
 
         tag(CompatRegistry.CREATE_SINGLE_BLOCK_INVENTORIES); // Causes animated textures to unanimate
+
+        tag(TagRegistry.CANNOT_USE_AS_DISGUISE)
+                .add(BlockRegistry.BLOCK_SPAWNER.get())
+                .addOptional(AUTOMOBILITY_DASH_PANEL_SLOPE)
+                .addOptional(AUTOMOBILITY_DASH_PANEL_STEEP_SLOPE)
+                .addOptional(AUTOMOBILITY_SLOPE)
+                .addOptional(AUTOMOBILITY_STEEP_SLOPE);
 
         tag(TagRegistry.BONKABLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -210,6 +232,12 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
+
+        tag(TagRegistry.DEATH_BLOCKS)
+                .add(BlockRegistry.DEATH_BLOCK.get())
+                .add(BlockRegistry.MONSTER_DEATH_BLOCK.get())
+                .add(BlockRegistry.PASSIVE_DEATH_BLOCK.get())
+                .add(BlockRegistry.PLAYER_DEATH_BLOCK.get());
 
         tag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
@@ -634,6 +662,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
 
+        tag(BlockTags.DRAGON_IMMUNE)
+                .addTag(TagRegistry.DEATH_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
+
         tag(BlockTags.ENDERMAN_HOLDABLE)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.GLOW_BLOCK.get())
@@ -641,9 +673,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
 
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
+                .addTag(TagRegistry.DEATH_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
-                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS);
+                .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.FLOWER_POTS)
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
@@ -653,6 +687,10 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.FLOWERS)
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
+
+        tag(BlockTags.GEODE_INVALID_BLOCKS)
+                .addTag(TagRegistry.DEATH_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.GUARDED_BY_PIGLINS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -806,6 +844,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.BLOCK_SPAWNER.get())
                 .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILES.get())
@@ -902,6 +941,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
+
+        tag(BlockTags.WITHER_IMMUNE)
+                .addTag(TagRegistry.DEATH_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
                 .add(BlockRegistry.DANGO_BLOSSOM.get());

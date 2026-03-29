@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.datagen;
 
+import com.google.gson.JsonObject;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
@@ -14,6 +15,7 @@ import com.wenxin2.marioverse.blocks.SpikePanelBlock;
 import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
@@ -41,11 +43,13 @@ import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.level.block.state.properties.WallSide;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import org.jetbrains.annotations.NotNull;
 
 public class BlockStateGen extends BlockStateProvider {
     public BlockStateGen(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -54,6 +58,7 @@ public class BlockStateGen extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        String blockSpawnerName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLOCK_SPAWNER.get()).getPath();
         String blueBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get()).getPath();
         String blueMushroomTrampolineName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get()).getPath();
         String blueTrampolineCapName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()).getPath();
@@ -62,12 +67,16 @@ public class BlockStateGen extends BlockStateProvider {
         String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
         String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
         String dangoBlossomName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DANGO_BLOSSOM.get()).getPath();
+        String deathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEATH_BLOCK.get()).getPath();
         String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
         String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
         String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
         String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
+        String monsterDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.MONSTER_DEATH_BLOCK.get()).getPath();
         String offSwitchName = "off_switch";
         String onSwitchName = "on_switch";
+        String passiveDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.PASSIVE_DEATH_BLOCK.get()).getPath();
+        String playerDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.PLAYER_DEATH_BLOCK.get()).getPath();
         String pumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
         String quicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.QUICKSAND.get()).getPath();
         String redBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_DOTTED_LINE_BLOCK.get()).getPath();
@@ -80,13 +89,19 @@ public class BlockStateGen extends BlockStateProvider {
         String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
         String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
 
+        this.cubeAllModel(BlockRegistry.DEATH_BLOCK.get(), modLoc("block/" + deathBlockName));
         this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
         this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
+        this.cubeAllModel(BlockRegistry.MONSTER_DEATH_BLOCK.get(), modLoc("block/" + monsterDeathBlockName));
+        this.cubeAllModel(BlockRegistry.PASSIVE_DEATH_BLOCK.get(), modLoc("block/" + passiveDeathBlockName));
+        this.cubeAllModel(BlockRegistry.PLAYER_DEATH_BLOCK.get(), modLoc("block/" + playerDeathBlockName));
         this.cubeInnerOverlayModel(BlockRegistry.QUICKSAND.get(), modLoc("block/" + quicksandName + "_top"),
                 modLoc("block/" + quicksandName), modLoc("block/" + quicksandName + "_top"));
         this.cubeInnerOverlayModel(BlockRegistry.RED_QUICKSAND.get(), modLoc("block/" + redQuicksandName + "_top"),
                 modLoc("block/" + redQuicksandName), modLoc("block/" + redQuicksandName + "_top"));
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
+        this.blockSpawnerBlockModel(BlockRegistry.BLOCK_SPAWNER.get(), modLoc("block/" + blockSpawnerName + "_top"),
+                modLoc("block/" + blockSpawnerName), modLoc("block/" + blockSpawnerName + "_top"));
         this.blossomModel(BlockRegistry.DANGO_BLOSSOM.get(), modLoc("block/" + dangoBlossomName),
                 modLoc("block/" + dangoBlossomName + "_leaves"));
         this.dottedLineBlockModel(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get(), modLoc("block/" + blueBlockName + "_off"), modLoc("block/" + blueBlockName), false);
@@ -733,6 +748,48 @@ public class BlockStateGen extends BlockStateProvider {
         }));
     }
 
+    private void blockSpawnerBlockModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                        ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = this.models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top_inner_faces"))
+                .texture("bottom", bottomTexture).texture("side", sideTexture)
+                .texture("top", topTexture).renderType("cutout_mipped");
+        ModelFile modelInvisible = models()
+                .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
+                .texture("all", modLoc("block/empty")).renderType("cutout_mipped");
+        ModelFile modelDisguised = this.models()
+                .getBuilder("disguised_" + modelName)
+                .parent(this.models().getExistingFile(mcLoc("block/cube_all")))
+                .texture("all", modLoc("block/empty")).renderType("cutout_mipped")
+                .customLoader((builder, helper) -> new CustomLoaderBuilder<>(
+                        ResourceLocation.fromNamespaceAndPath("marioverse", "disguised_block"),
+                        builder, helper, false) {
+                    @NotNull
+                    @Override
+                    public JsonObject toJson(JsonObject json) {
+                        return super.toJson(json);
+                    }
+                }).end();
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().with(BlockStatePropertyRegistry.DISGUISED, false)
+                .with(BlockStatePropertyRegistry.INVISIBLE, false)
+                .addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(BlockStatePropertyRegistry.DISGUISED, true)
+                .with(BlockStatePropertyRegistry.INVISIBLE, false)
+                .addModels(new ConfiguredModel(modelDisguised));
+        variantBuilder.partialState().with(BlockStatePropertyRegistry.DISGUISED, false)
+                .with(BlockStatePropertyRegistry.INVISIBLE, true)
+                .addModels(new ConfiguredModel(modelInvisible));
+        variantBuilder.partialState().with(BlockStatePropertyRegistry.DISGUISED, true)
+                .with(BlockStatePropertyRegistry.INVISIBLE, true)
+                .addModels(new ConfiguredModel(modelDisguised));
+
+        this.simpleBlockItem(block, model);
+    }
+
     private void blossomModel(Block block, ResourceLocation blossomTexture, ResourceLocation leavesTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
@@ -902,6 +959,20 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, model);
     }
 
+    private void cubeBottomTopInnerFacesCutoutModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                                    ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top_inner_faces"))
+                .texture("bottom", bottomTexture)
+                .texture("side", sideTexture)
+                .texture("top", topTexture)
+                .renderType("cutout_mipped");
+
+        simpleBlockWithItem(block, model);
+    }
+
     private void cubeInnerOverlayModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
                                     ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
@@ -991,13 +1062,13 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("all", invisibleTexture).renderType("translucent");
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(BlockStatePropertyRegistry.INVISIBLE, false)
                 .addModels(new ConfiguredModel(model));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, false)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(BlockStatePropertyRegistry.INVISIBLE, false)
                 .addModels(new ConfiguredModel(modelEmpty));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, true)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(BlockStatePropertyRegistry.INVISIBLE, true)
                 .addModels(new ConfiguredModel(modelInvisible));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, true)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(BlockStatePropertyRegistry.INVISIBLE, true)
                 .addModels(new ConfiguredModel(modelEmpty));
     }
 
@@ -1014,13 +1085,13 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("all", invisibleTexture).renderType("translucent");
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(BlockStatePropertyRegistry.INVISIBLE, false)
                 .addModels(new ConfiguredModel(model));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, false)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(BlockStatePropertyRegistry.INVISIBLE, false)
                 .addModels(new ConfiguredModel(modelEmpty));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, true)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(BlockStatePropertyRegistry.INVISIBLE, true)
                 .addModels(new ConfiguredModel(modelInvisible));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, true)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(BlockStatePropertyRegistry.INVISIBLE, true)
                 .addModels(new ConfiguredModel(modelEmpty));
     }
 
@@ -1037,13 +1108,13 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("all", invisibleTexture).renderType("translucent");
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, false)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(BlockStatePropertyRegistry.INVISIBLE, false)
                 .addModels(new ConfiguredModel(model));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, false)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(BlockStatePropertyRegistry.INVISIBLE, false)
                 .addModels(new ConfiguredModel(modelEmpty));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(InvisibleQuestionBlock.INVISIBLE, true)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, false).with(BlockStatePropertyRegistry.INVISIBLE, true)
                 .addModels(new ConfiguredModel(modelInvisible));
-        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(InvisibleQuestionBlock.INVISIBLE, true)
+        variantBuilder.partialState().with(QuestionBlock.EMPTY, true).with(BlockStatePropertyRegistry.INVISIBLE, true)
                 .addModels(new ConfiguredModel(modelEmpty));
     }
 

@@ -49,7 +49,9 @@ dependencies {
     // Imports
     // Dependencies
     implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib, Required Dependency
+    implementation "curse.maven:accessories-compat-layer-1315611:7585673" // Requires Accessories, Curios, Owo Lib
     implementation "curse.maven:ctm-${ctm_version}" // Optional Dependency
+    implementation "curse.maven:curios-309927:6529130"
     implementation "curse.maven:every-compat-${every_compat_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:fusion-connected-textures-${fusion_version}" // Optional Dependency
     implementation "curse.maven:geckolib-${geckolib_version}" // Required Dependency
@@ -59,7 +61,7 @@ dependencies {
 
     implementation "curse.maven:aether-255308:6389857"
     implementation "curse.maven:amendments-896746:7352178" // Requires Moonlight
-    implementation "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
+    compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:6650033" // Requires Create
     implementation "curse.maven:create-328085:6641610"
     implementation "curse.maven:deep-aether-852465:6839619"
@@ -68,12 +70,14 @@ dependencies {
     implementation "curse.maven:guard-villagers-360203:6066966"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
+    compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
+    implementation "curse.maven:neoculus-1200907:6787071"
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    implementation "curse.maven:the-twilight-forest-227639:5699076"
-    compileOnly "curse.maven:vista-${vista_version}" // Requires Moonlight
+    implementation "curse.maven:the-twilight-forest-227639:7797302"
+    implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
     compileOnly "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:6778051"
     implementation "curse.maven:xaeros-world-map-317780:6778114"
@@ -86,6 +90,7 @@ dependencies {
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:selene-${moonlight_version}"
+    compileOnly "curse.maven:sodium-394468:6382651" // Incompatible w/ Embeddium
 
     // implementation "curse.maven:simple-clouds-${simple_clouds_version}"
 

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
+import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
@@ -21,6 +22,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BlockEntityRegistry {
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockSpawnerBlockEntity>> BLOCK_SPAWNER_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CoinBlockEntity>> COIN_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CheckpointFlagBlockEntity>> CHECKPOINT_FLAG_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GoalPoleBlockEntity>> GOAL_POLE_BLOCK_ENTITY;
@@ -34,6 +36,11 @@ public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpTrapDoorBlockEntity>> WARP_TRAPDOOR_BLOCK_ENTITY;
 
     static {
+        BLOCK_SPAWNER_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("block_spawner",
+                () -> BlockEntityType.Builder.of((pos, state) ->
+                                new BlockSpawnerBlockEntity(BlockEntityRegistry.BLOCK_SPAWNER_BLOCK_ENTITY.get(), pos, state),
+                        BlockRegistry.BLOCK_SPAWNER.get()).build(null));
+
         COIN_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("coin",
                 () -> BlockEntityType.Builder.of(CoinBlockEntity::new,
                                 BlockRegistry.COIN.get()).build(null));

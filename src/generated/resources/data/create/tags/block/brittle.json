@@ -1,10 +1,13 @@
 {
   "values": [
     "#marioverse:checkpoint_flags",
+    "marioverse:blue_trampoline_cap",
+    "marioverse:dango_blossom",
     "marioverse:potted_blue_trampoline_cap",
     "marioverse:potted_dango_blossom",
     "marioverse:potted_piranha_plant",
     "marioverse:potted_red_trampoline_cap",
+    "marioverse:red_trampoline_cap",
     "marioverse:star_coin"
   ]
 }

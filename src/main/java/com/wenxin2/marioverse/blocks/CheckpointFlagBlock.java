@@ -30,6 +30,7 @@ import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -64,6 +65,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.entity.projectile.ThrownExperienceBottle;
@@ -96,6 +98,7 @@ import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -537,85 +540,33 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         BlockState statePart = world.getBlockState(statePos);
 
         if (entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
-                && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0) {
-            if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {
-                if (world.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
-                    checkpointFlagBE.markUpdated();
+                && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0)
+            this.claimCheckpoint(state, world, pos, entity, statePart, statePos, respawnPos);
 
-                    if (!(entity instanceof Player)) {
-                        entity.level().broadcastEntityEvent(entity, (byte) 112);
-                        world.playSound(null, pos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
-                    } else ParticleUtils.spawnParticlesOnBlockFaces(world, statePos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
+        if (entity instanceof Projectile projectile && projectile.getOwner() != null
+                && projectile.getOwner().getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
+                && projectile.getOwner().getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0)
+            this.claimCheckpoint(state, world, pos, projectile.getOwner(), statePart, statePos, respawnPos);
+    }
 
-                    if (!checkpointFlagBE.isAmericanFlag() && statePart.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
-                        checkpointFlagBE.triggerAnim("switch_controller", "switch");
+    @Override
+    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
+        Entity entity = explosion.getDirectSourceEntity();
+        BlockPos respawnPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
+        BlockPos statePos = switch (state.getValue(PART)) {
+            case TOP -> pos.below(2);
+            case MIDDLE -> pos.below();
+            default -> pos;
+        };
+        BlockState statePart = level.getBlockState(statePos);
 
-                    world.scheduleTick(statePos, this, 40);
-                    world.gameEvent(entity, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
-                    checkpointFlagBE.triggerAnim("claim_controller", "claim");
-                }
-
-                world.scheduleTick(statePos, this, 3);
-                world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
-
-                if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
-                    if (world.getBlockState(pos.above()).hasProperty(CLAIMED)
-                            && world.getBlockState(pos.above(2)).hasProperty(CLAIMED)) {
-                        world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
-                        world.setBlock(pos.above(2), world.getBlockState(pos.above(2)).setValue(CLAIMED, Boolean.TRUE), 3);
-                    }
-                } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                    if (world.getBlockState(pos.above()).hasProperty(CLAIMED)
-                            && world.getBlockState(pos.below()).hasProperty(CLAIMED)) {
-                        world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
-                        world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
-                    }
-                } else {
-                    if (world.getBlockState(pos.below()).hasProperty(CLAIMED)
-                            && world.getBlockState(pos.below(2)).hasProperty(CLAIMED)) {
-                        world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
-                        world.setBlock(pos.below(2), world.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
-                    }
-                }
-
-                if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
-                        && ConfigRegistry.CHECKPOINT_FLAG_CLAIM_USES_ITEMS.get()) {
-                    ItemStack storedItem = flagBE.getTheItem();
-
-                    if (!storedItem.isEmpty() && entity instanceof LivingEntity livingEntity) {
-                        CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, livingEntity, true);
-                        MarioverseSoundTypes.playSounds(world, respawnPos, storedItem);
-                        flagBE.splitTheItem(1);
-                    }
-                }
-            }
-
-            if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())) {
-                BlockPos playerRespawnPos = player.getRespawnPosition();
-                BlockPos newRespawnPos = switch (state.getValue(PART)) {
-                    case TOP -> respawnPos.below(2);
-                    case MIDDLE -> respawnPos.below();
-                    default -> respawnPos;
-                };
-
-                if (world.getBlockEntity(newRespawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
-                        && !(newRespawnPos.equals(playerRespawnPos))) {
-                    world.scheduleTick(newRespawnPos, this, 40);
-                    world.gameEvent(entity, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
-                    checkpointFlagBE.triggerAnim("claim_controller", "claim");
-
-                    world.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
-                    player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
-                    entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, 40);
-
-                    if (world instanceof ServerLevel serverWorld)
-                        serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
-                                newRespawnPos.getX() + 0.5, newRespawnPos.getY() + 0.5, newRespawnPos.getZ() + 0.5,
-                                10, 0.4, 0.5, 0.4, 0.6);
-                }
-            }
+        if (explosion.canTriggerBlocks()) {
+            if (entity != null && entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
+                    && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0)
+                this.claimCheckpoint(state, level, pos, entity, statePart, statePos, respawnPos);
         }
+
+        super.onExplosionHit(state, level, pos, explosion, consumer);
     }
 
     @Override
@@ -664,6 +615,86 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     private boolean canPlaceBlock(Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         return (state.isAir() || state.canBeReplaced() || state.is(this));
+    }
+
+    private void claimCheckpoint(BlockState state, Level world, BlockPos pos, Entity entity, BlockState statePart, BlockPos statePos, BlockPos respawnPos) {
+        if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {
+            if (world.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+                checkpointFlagBE.markUpdated();
+
+                if (!(entity instanceof Player)) {
+                    entity.level().broadcastEntityEvent(entity, (byte) 112);
+                    world.playSound(null, pos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
+                } else ParticleUtils.spawnParticlesOnBlockFaces(world, statePos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
+
+                if (!checkpointFlagBE.isAmericanFlag() && statePart.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
+                    checkpointFlagBE.triggerAnim("switch_controller", "switch");
+
+                world.scheduleTick(statePos, this, 40);
+                world.gameEvent(entity, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
+                checkpointFlagBE.triggerAnim("claim_controller", "claim");
+            }
+
+            world.scheduleTick(statePos, this, 3);
+            world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
+
+            if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
+                if (world.getBlockState(pos.above()).hasProperty(CLAIMED)
+                        && world.getBlockState(pos.above(2)).hasProperty(CLAIMED)) {
+                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    world.setBlock(pos.above(2), world.getBlockState(pos.above(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                }
+            } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
+                if (world.getBlockState(pos.above()).hasProperty(CLAIMED)
+                        && world.getBlockState(pos.below()).hasProperty(CLAIMED)) {
+                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
+                }
+            } else {
+                if (world.getBlockState(pos.below()).hasProperty(CLAIMED)
+                        && world.getBlockState(pos.below(2)).hasProperty(CLAIMED)) {
+                    world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    world.setBlock(pos.below(2), world.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                }
+            }
+
+            if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
+                    && ConfigRegistry.CHECKPOINT_FLAG_CLAIM_USES_ITEMS.get()) {
+                ItemStack storedItem = flagBE.getTheItem();
+
+                if (!storedItem.isEmpty() && entity instanceof LivingEntity livingEntity) {
+                    CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, livingEntity, true);
+                    MarioverseSoundTypes.playSounds(world, respawnPos, storedItem);
+                    flagBE.splitTheItem(1);
+                }
+            }
+        }
+
+        if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())) {
+            BlockPos playerRespawnPos = player.getRespawnPosition();
+            BlockPos newRespawnPos = switch (state.getValue(PART)) {
+                case TOP -> respawnPos.below(2);
+                case MIDDLE -> respawnPos.below();
+                default -> respawnPos;
+            };
+
+            if (world.getBlockEntity(newRespawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
+                    && !(newRespawnPos.equals(playerRespawnPos))) {
+                world.scheduleTick(newRespawnPos, this, 40);
+                world.gameEvent(entity, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
+                checkpointFlagBE.triggerAnim("claim_controller", "claim");
+
+                world.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
+                ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
+                player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
+                entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, 40);
+
+                if (world instanceof ServerLevel serverWorld)
+                    serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
+                            newRespawnPos.getX() + 0.5, newRespawnPos.getY() + 0.5, newRespawnPos.getZ() + 0.5,
+                            10, 0.4, 0.5, 0.4, 0.6);
+            }
+        }
     }
 
     public static void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, LivingEntity livingEntity, boolean dropItemsAtPos) {

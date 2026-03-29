@@ -1,7 +1,9 @@
 {
   "values": [
+    "#marioverse:death_blocks",
     "#marioverse:invisible_question_blocks",
     "#marioverse:question_blocks",
-    "#marioverse:storage_bricks"
+    "#marioverse:storage_bricks",
+    "marioverse:block_spawner"
   ]
 }

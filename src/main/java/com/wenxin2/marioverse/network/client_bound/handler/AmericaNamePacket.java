@@ -18,19 +18,17 @@ public class AmericaNamePacket {
         if (context.flow().isClientbound()) {
             context.enqueueWork(() -> {
                 Level level = context.player().level();
-                if (!level.isClientSide()) {
-                    BlockEntity blockEntity = level.getBlockEntity(payload.pos());
-                    if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
-                        goalPoleBE.setAmericanFlag(payload.renderRenamedFlag());
-                        goalPoleBE.markUpdated();
-                        goalPoleBE.markUpdatedClients();
-                    }
+                BlockEntity blockEntity = level.getBlockEntity(payload.pos());
+                if (blockEntity instanceof GoalPoleBlockEntity goalPoleBE) {
+                    goalPoleBE.setAmericanFlag(payload.renderRenamedFlag());
+                    goalPoleBE.markUpdated();
+                    goalPoleBE.markUpdatedClients();
+                }
 
-                    if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
-                        checkpointFlagBE.setAmericanFlag(payload.renderRenamedFlag());
-                        checkpointFlagBE.markUpdated();
-                        checkpointFlagBE.markUpdatedClients();
-                    }
+                if (blockEntity instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+                    checkpointFlagBE.setAmericanFlag(payload.renderRenamedFlag());
+                    checkpointFlagBE.markUpdated();
+                    checkpointFlagBE.markUpdatedClients();
                 }
             });
         }

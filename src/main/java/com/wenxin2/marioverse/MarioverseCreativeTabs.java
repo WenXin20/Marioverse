@@ -386,6 +386,11 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
             add(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE);
             add(event, BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE);
+            add(event, BlockRegistry.DEATH_BLOCK);
+            add(event, BlockRegistry.PLAYER_DEATH_BLOCK);
+            add(event, BlockRegistry.MONSTER_DEATH_BLOCK);
+            add(event, BlockRegistry.PASSIVE_DEATH_BLOCK);
+            add(event, BlockRegistry.BLOCK_SPAWNER);
 
             add(event, BlockRegistry.CLEAR_WARP_PIPE);
             addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
@@ -505,6 +510,11 @@ public class MarioverseCreativeTabs {
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
             if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS && event.hasPermissions()) {
                 addAfter(event, Items.DEBUG_STICK, ItemRegistry.CREATIVE_WRENCH);
+                addAfter(event, Blocks.STRUCTURE_BLOCK, BlockRegistry.BLOCK_SPAWNER);
+                addAfter(event, BlockRegistry.BLOCK_SPAWNER, BlockRegistry.DEATH_BLOCK);
+                addAfter(event, BlockRegistry.DEATH_BLOCK, BlockRegistry.PLAYER_DEATH_BLOCK);
+                addAfter(event, BlockRegistry.PLAYER_DEATH_BLOCK, BlockRegistry.MONSTER_DEATH_BLOCK);
+                addAfter(event, BlockRegistry.MONSTER_DEATH_BLOCK, BlockRegistry.PASSIVE_DEATH_BLOCK);
             }
 
             if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {

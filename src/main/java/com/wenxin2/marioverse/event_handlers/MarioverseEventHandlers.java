@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
@@ -75,7 +76,6 @@ import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -90,6 +90,7 @@ import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
@@ -665,6 +666,40 @@ public class MarioverseEventHandlers {
             heldItem.consume(1, player);
         }
 
+        if (player.isCreative() && player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem blockItem
+                && !blockItem.getBlock().defaultBlockState().is(TagRegistry.CANNOT_USE_AS_DISGUISE)
+                && blockEntity instanceof DisguisedBlockEntity disguiseBE) {
+            ItemStack stackCopy = heldItem.copy();
+            BlockState placementState = disguiseBE.getPlacementState(player, stackCopy, event.getHitVec());
+
+            if (placementState != null) {
+                BlockState currentState = placementState;
+
+                for (Direction direction : Direction.values()) {
+                    BlockPos neighborPos = pos.relative(direction);
+                    BlockState neighborState = world.getBlockState(neighborPos);
+
+                    if (world.getBlockEntity(neighborPos) instanceof DisguisedBlockEntity neighborBE) {
+                        BlockState neighborDisguise = neighborBE.getDisguiseState();
+                        if (neighborDisguise != null && !neighborDisguise.isAir())
+                            neighborState = neighborDisguise;
+                    }
+                    currentState = currentState.updateShape(direction, neighborState, world, pos, neighborPos);
+                }
+                placementState = currentState;
+
+                disguiseBE.setDisguiseState(placementState);
+                disguiseBE.setItem(0, stackCopy);
+                heldItem.consume(1, player);
+                disguiseBE.requestModelDataUpdate();
+                world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos), Block.UPDATE_ALL);
+                world.playSound(null, pos, blockItem.getBlock().defaultBlockState()
+                        .getSoundType(world, pos, player).getPlaceSound(), SoundSource.BLOCKS);
+            }
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+        }
+
         if (player.isShiftKeyDown() && heldItem.getItem() == ItemRegistry.CREATIVE_WRENCH.get()) {
             if (blockEntity instanceof QuestionBlockEntity questionBE) {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
@@ -675,8 +710,8 @@ public class MarioverseEventHandlers {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, heldItem);
                     player.awardStat(Stats.ITEM_USED.get(heldItem.getItem()));
                 }
+                event.setCancellationResult(InteractionResult.SUCCESS);
             }
-            event.setCancellationResult(InteractionResult.SUCCESS);
         }
 
         if (heldItem.getItem() instanceof SpawnEggItem && state.getBlock() instanceof WarpPipeBlock

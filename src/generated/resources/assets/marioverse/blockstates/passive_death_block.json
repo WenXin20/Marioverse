@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "marioverse:block/passive_death_block"
+    }
+  }
+}

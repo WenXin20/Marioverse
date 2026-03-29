@@ -25,6 +25,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> HAS_GOLDEN_CARROT = Marioverse.ATTACHMENT_TYPES
             .register("has_golden_carrot", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HIDE_ITEM_RENDERED = Marioverse.ATTACHMENT_TYPES
+            .register("hide_item_rendered", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_ATTACKING = Marioverse.ATTACHMENT_TYPES
             .register("is_attacking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
@@ -37,11 +40,23 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> IS_HIDING = Marioverse.ATTACHMENT_TYPES
             .register("is_hiding", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_INTERACTABLE = Marioverse.ATTACHMENT_TYPES
+            .register("is_interactable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_RIGHT_CLICKABLE = Marioverse.ATTACHMENT_TYPES
+            .register("is_right_clickable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_SLIDING = Marioverse.ATTACHMENT_TYPES
             .register("is_sliding", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_SNEAKING = Marioverse.ATTACHMENT_TYPES
+            .register("is_sneaking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_WAXED = Marioverse.ATTACHMENT_TYPES
             .register("is_waxed", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_UNBREAKABLE = Marioverse.ATTACHMENT_TYPES
+            .register("is_unbreakable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> PREVENT_WARP = Marioverse.ATTACHMENT_TYPES
             .register("prevent_warp", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
@@ -59,6 +74,9 @@ public class DataAttachmentRegistry {
             .register("time_in_ticks", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
+    public static final Supplier<AttachmentType<Boolean>> HAS_COLLISION = Marioverse.ATTACHMENT_TYPES
+            .register("has_collision", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> HAS_DASH_MUSHROOM_BOOST = Marioverse.ATTACHMENT_TYPES
             .register("has_dash_mushroom_boost", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
@@ -103,6 +121,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> ATTACK_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("attack_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> BLOCK_FACE = Marioverse.ATTACHMENT_TYPES
+            .register("block_face", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> CHECKPOINT_FLAG_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("checkpoint_flag_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
@@ -111,6 +132,9 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> DEATH_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("death_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> FACING_DIRECTION = Marioverse.ATTACHMENT_TYPES
+            .register("facing_direction", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> FIREBALL_COUNT = Marioverse.ATTACHMENT_TYPES
             .register("fireball_count", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
@@ -136,11 +160,20 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> MEGA_MUSHROOM_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("mega_mushroom_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> MENU_TYPE = Marioverse.ATTACHMENT_TYPES
+            .register("menu_type", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> ONE_UPS_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("one_ups_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> ONE_UPS_REWARDED = Marioverse.ATTACHMENT_TYPES
             .register("one_ups_rewarded", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> PLACEMENT_DIRECTION = Marioverse.ATTACHMENT_TYPES
+            .register("placement_direction", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> PLACEMENT_OFFSET = Marioverse.ATTACHMENT_TYPES
+            .register("placement_offset", () -> AttachmentType.builder(() -> 1).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> PREVENT_WARP_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("prevent_warp_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)

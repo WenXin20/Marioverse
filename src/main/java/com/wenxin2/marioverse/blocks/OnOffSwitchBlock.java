@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.function.BiConsumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,6 +14,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.windcharge.WindCharge;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -47,8 +51,8 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
     }
 
     @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
-        super.onPlace(state, level, pos, oldState, moved);
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        super.onPlace(state, level, pos, oldState, isMoving);
         if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel)
             this.checkAndFlip(oldState, serverlevel, pos);
     }
@@ -62,10 +66,25 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
     @Override
     protected void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
         if (projectile.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
-                && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
+                && !(projectile instanceof WindCharge))
             OnOffSwitchBlock.hitSwitchBlock(level, hitResult.getBlockPos(), projectile);
 
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
+    }
+
+    @Override
+    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
+        Entity entity = explosion.getDirectSourceEntity();
+
+        if (explosion.canTriggerBlocks()) {
+            if (entity != null && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
+                    && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                OnOffSwitchBlock.hitSwitchBlock(level, pos, entity);
+            else OnOffSwitchBlock.hitSwitchBlock(level, pos, null);
+        }
+
+        super.onExplosionHit(state, level, pos, explosion, consumer);
     }
 
     public void checkAndFlip(BlockState state, ServerLevel serverLevel, BlockPos pos) {

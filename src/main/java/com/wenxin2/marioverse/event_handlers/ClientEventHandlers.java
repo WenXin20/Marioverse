@@ -5,13 +5,16 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
+import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
@@ -22,21 +25,26 @@ import java.util.UUID;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -47,6 +55,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
@@ -54,6 +63,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class ClientEventHandlers {
@@ -71,6 +81,28 @@ public class ClientEventHandlers {
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_shader"),
                 DefaultVertexFormat.POSITION_TEX_COLOR),
                 shader -> SuperStarRenderType.SUPER_STAR_SHADER = shader);
+    }
+
+    @SubscribeEvent
+    public static void registerLoader(ModelEvent.RegisterGeometryLoaders event) {
+        event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "disguised_block"),
+                new DisguisedBlockModelLoader());
+    }
+
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tintIndex) -> {
+            if (level != null && pos != null
+                    && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+                BlockState disguiseState = blockEntity.getDisguiseState();
+
+                if (disguiseState != null && !disguiseState.isAir() && !disguiseState.is(BlockRegistry.BLOCK_SPAWNER)) {
+                    BlockColors colors = Minecraft.getInstance().getBlockColors();
+                    return colors.getColor(disguiseState, level, pos, tintIndex);
+                }
+            }
+            return -1;
+        }, BlockRegistry.BLOCK_SPAWNER.get());
     }
 
     @SubscribeEvent
@@ -180,7 +212,61 @@ public class ClientEventHandlers {
                 for (RenderType layer : ItemBlockRenderTypes.getRenderLayers(source.defaultBlockState()))
                     ItemBlockRenderTypes.setRenderLayer(warp, layer);
             }
+
+            ItemProperties.register(ItemRegistry.GOOMBA_SPAWN_EGG.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                    (stack, level, entity, seed) -> goombellaName(stack));
+
+            ItemProperties.register(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                    (stack, level, entity, seed) -> wonderAmericaName(stack));
+
+            ItemProperties.register(BlockRegistry.CLASSIC_GOAL_POLE.asItem(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                    (stack, level, entity, seed) -> wonderAmericaName(stack));
+
+            for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
+                ItemProperties.register(entry.getValue().asItem(),
+                        ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                        (stack, level, entity, seed) -> wonderAmericaName(stack));
+            }
+
+            for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
+                ItemProperties.register(entry.getValue().asItem(),
+                        ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                        (stack, level, entity, seed) -> wonderAmericaName(stack));
+            }
         });
+    }
+
+    private static float goombellaName(ItemStack stack) {
+        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+            Component name = stack.get(DataComponents.CUSTOM_NAME);
+            if (name != null && (name.getString().equalsIgnoreCase("goombella")
+                    || name.getString().equalsIgnoreCase("goombella spawn egg")))
+                return 1.0F;
+        }
+        return 0.0F;
+    }
+
+    private static float wonderAmericaName(ItemStack stack) {
+        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+            Component name = stack.get(DataComponents.CUSTOM_NAME);
+            if (name != null) {
+                if (name.getString().equalsIgnoreCase("america")
+                        || name.getString().equalsIgnoreCase("america flag")
+                        || name.getString().equalsIgnoreCase("usa")
+                        || name.getString().equalsIgnoreCase("usa flag")
+                        || name.getString().equalsIgnoreCase("united states of america")
+                        || name.getString().equalsIgnoreCase("united states")
+                        || name.getString().equalsIgnoreCase("united states flag"))
+                    return 1.0F;
+                if (name.getString().equalsIgnoreCase("wonder")
+                        || name.getString().equalsIgnoreCase("wonder flag"))
+                    return 2.0F;
+            }
+        }
+        return 0.0F;
     }
 
     @SubscribeEvent

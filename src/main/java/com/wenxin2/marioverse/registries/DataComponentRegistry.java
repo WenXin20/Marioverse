@@ -16,11 +16,29 @@ import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DataComponentRegistry {
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> HAS_COLLISION =
+            Marioverse.COMPONENTS.register("has_collision", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> HIDE_ITEM_RENDERED =
+            Marioverse.COMPONENTS.register("hide_item_rendered", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_BOUND =
             Marioverse.COMPONENTS.register("is_bound", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_INTERACTABLE =
+            Marioverse.COMPONENTS.register("is_interactable", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_LINKED =
             Marioverse.COMPONENTS.register("is_linked", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_RIGHT_CLICKABLE =
+            Marioverse.COMPONENTS.register("is_right_clickable", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_SNEAKING =
+            Marioverse.COMPONENTS.register("is_sneaking", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_UNBREAKABLE =
+            Marioverse.COMPONENTS.register("is_unbreakable", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
@@ -36,10 +54,24 @@ public class DataComponentRegistry {
                     .persistent(ComponentSerialization.FLAT_CODEC).networkSynchronized(ComponentSerialization.STREAM_CODEC)
                     .cacheEncoding().build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BLOCK_FACE =
+            Marioverse.COMPONENTS.register("block_face", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FACING_DIRECTION =
+            Marioverse.COMPONENTS.register("facing_direction", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MENU_TYPE =
+            Marioverse.COMPONENTS.register("menu_type", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PLACEMENT_DIRECTION =
+            Marioverse.COMPONENTS.register("placement_direction", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PLACEMENT_OFFSET =
+            Marioverse.COMPONENTS.register("placement_offset", () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> REFILL_COUNTDOWN =
             Marioverse.COMPONENTS.register("refill_countdown", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
-
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> REFILL_TIME_UNIT =
             Marioverse.COMPONENTS.register("refill_time_unit", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());

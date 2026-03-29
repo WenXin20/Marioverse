@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -11,7 +12,6 @@ import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ItemParticleOption;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
@@ -52,7 +52,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWaterloggedBlock {
     public static final MapCodec<InvisibleQuestionBlock> CODEC = simpleCodec(InvisibleQuestionBlock::new);
-    public static final BooleanProperty INVISIBLE = BooleanProperty.create("invisible");
+    public static final BooleanProperty INVISIBLE = BlockStatePropertyRegistry.INVISIBLE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public InvisibleQuestionBlock(Properties properties) {
@@ -248,7 +248,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         if (nearestPlayer != null) {
             if (state.getValue(INVISIBLE) && (nearestPlayer.isCreative() && nearestPlayer.hasPermissions(1)
                     || nearestPlayer.isSpectator() && nearestPlayer.hasPermissions(1))) {
-                world.addParticle(new ItemParticleOption(ParticleRegistry.NO_MOVEMENT_ITEM.get(), this.asItem().getDefaultInstance()),
+                world.addAlwaysVisibleParticle(new ItemParticleOption(ParticleRegistry.NO_MOVEMENT_ITEM.get(), this.asItem().getDefaultInstance()),
                         x + 0.5, y + 0.5, z + 0.5, 0, 0, 0);
             }
         }

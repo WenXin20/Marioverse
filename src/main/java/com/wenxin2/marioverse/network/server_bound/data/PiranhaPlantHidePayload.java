@@ -9,13 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record PiranhaPlantHidePayload(boolean isHiding, int entityID) implements CustomPacketPayload {
-    public static final Type<PiranhaPlantHidePayload> HIDE_PAYLOAD =
+    public static final Type<PiranhaPlantHidePayload> PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "piranha_plant_hide_payload"));
 
     @NotNull
     @Override
     public Type<PiranhaPlantHidePayload> type() {
-        return HIDE_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, PiranhaPlantHidePayload> STREAM_CODEC = StreamCodec.composite(

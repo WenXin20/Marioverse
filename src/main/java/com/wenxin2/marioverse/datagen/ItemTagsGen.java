@@ -42,6 +42,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS, TagRegistry.CRACKED_CALCITE_BRICK_ITEMS);
+        copy(TagRegistry.DEATH_BLOCKS, TagRegistry.DEATH_BLOCK_ITEMS);
         copy(TagRegistry.DOTTED_LINE_BLOCKS, TagRegistry.DOTTED_LINE_BLOCK_ITEMS);
         copy(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS, TagRegistry.DYEABLE_CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS, TagRegistry.DYEABLE_GOAL_POLE_ITEMS);
@@ -200,6 +201,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(Tags.Items.TOOLS_WRENCH)
                 .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
+
+        tag(TagRegistry.BLOCK_SPAWNER_CANNOT_DISPLAY);
 
         tag(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
                 .addTag(ItemTags.AXES)

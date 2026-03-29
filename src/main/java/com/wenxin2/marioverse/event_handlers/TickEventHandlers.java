@@ -409,53 +409,66 @@ public class TickEventHandlers {
         boolean hasMegaMushroom = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
         boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
         boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
+        boolean hasSuperMushroomOverride = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE);
+        boolean isPlayer = entity instanceof Player;
         float health = entity.getHealth();
+        double thresholdHealth = entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get();
+        if (isPlayer)
+            thresholdHealth = ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get();
+        boolean lowHealth = health <= thresholdHealth;
+        boolean healHealth = health > thresholdHealth;
         float scalingSpeed = 0.1F;
 
         double targetEyeHeightScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_HEIGHT_SCALE.get();
         double targetHeightScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_HEIGHT_SCALE.get();
         double targetWidthScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_WIDTH_SCALE.get();
 
-        boolean isPlayer = entity instanceof Player;
         boolean shouldScale = !hasSuperMushroom && !hasMegaMushroom && !hasMiniMushroom
                 && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                && (isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
-                    || (isPlayer && health <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
-                        && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS))
-                    || (!isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
-                        || !isPlayer && health <= entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
-                        && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)));
+                    && ((isPlayer && (hasSuperMushroomOverride
+                        || (lowHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS))))
+                    || (!isPlayer && (hasSuperMushroomOverride
+                        || (lowHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)))));
 
         boolean shouldReset = hasSuperMushroom && !hasMegaMushroom && !hasMiniMushroom
-                && (isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
-                    || (isPlayer && health > ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
-                        && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS))
-                    || (!isPlayer && entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE)
-                        || !isPlayer && health > entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get()
-                        && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)));
+                && ((isPlayer && (hasSuperMushroomOverride
+                    || (healHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS))))
+                || (!isPlayer && (hasSuperMushroomOverride
+                    || (healHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)))));
+
+        System.out.println("Entity = " + entity.getName());
+        System.out.println("isPlayer = " + isPlayer);
+        System.out.println("health = " + health + " thresholdHealth = " + thresholdHealth);
+        System.out.println("lowHealth = " + lowHealth);
+        System.out.println("override = " + hasSuperMushroomOverride);
 
         TickEventHandlers.updateScale(entity, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
-    private static void updateScale(LivingEntity entity, boolean shouldScale, double targetHeightScale, double targetWidthScale, AttributeInstance eyeHeightScale, double targetEyeHeightScale, float scalingSpeed, AttributeInstance heightScale, AttributeInstance widthScale, boolean shouldReset) {
-        if (shouldScale && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+    private static void updateScale(LivingEntity entity, boolean shouldScale, double targetHeightScale, double targetWidthScale,
+                                    AttributeInstance eyeHeightScale, double targetEyeHeightScale, float scalingSpeed,
+                                    AttributeInstance heightScale, AttributeInstance widthScale, boolean shouldReset) {
+        double currentHeight = heightScale != null ? heightScale.getValue() : 1.0D;
+        double currentWidth = widthScale != null ? widthScale.getValue() : 1.0D;
+
+        if (shouldScale && (Math.abs(currentHeight - targetHeightScale) > 1e-4 || Math.abs(currentWidth - targetWidthScale) > 1e-4)) {
             if (entity.getLastDamageSource() != null && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
-            TickEventHandlers.scale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
-            TickEventHandlers.scale(heightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
-            TickEventHandlers.scale(widthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+            TickEventHandlers.scale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> {});
+            TickEventHandlers.scale(heightScale, targetHeightScale, scalingSpeed, v -> {});
+            TickEventHandlers.scale(widthScale, targetWidthScale, scalingSpeed, v -> {});
         }
 
-        if (shouldReset && currentHeightScale != targetHeightScale && currentWidthScale != targetWidthScale) {
+        if (shouldReset && (Math.abs(currentHeight - targetHeightScale) > 1e-4 || Math.abs(currentWidth - targetWidthScale) > 1e-4)) {
             if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                TickEventHandlers.scale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> currentEyeHeightScale = v);
+                TickEventHandlers.scale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> {});
 
             if (heightScale != null && heightScale.getValue() != 1.0D)
-                TickEventHandlers.scale(heightScale, targetHeightScale, scalingSpeed, v -> currentHeightScale = v);
+                TickEventHandlers.scale(heightScale, targetHeightScale, scalingSpeed, v -> {});
 
             if (widthScale != null && widthScale.getValue() != 1.0D)
-                TickEventHandlers.scale(widthScale, targetWidthScale, scalingSpeed, v -> currentWidthScale = v);
+                TickEventHandlers.scale(widthScale, targetWidthScale, scalingSpeed, v -> {});
         }
     }
 

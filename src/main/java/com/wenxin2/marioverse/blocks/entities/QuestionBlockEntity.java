@@ -139,6 +139,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
 
         tag.putBoolean("lastPowered", this.lastPowered);
         tag.putInt("activeRefillCountdown", this.activeRefillCountdown);
+        tag.putInt("timeUnit", this.getTimeUnit());
 
         if (!this.trySaveLootTable(tag) && !this.item.isEmpty())
             tag.put("item", this.item.save(provider));
@@ -177,6 +178,9 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         if (tag.contains("refillLootTable"))
             this.refillLootTable = ResourceKey.create(Registries.LOOT_TABLE,
                     ResourceLocation.parse(tag.getString("refillLootTable")));
+
+        if (tag.contains("timeUnit"))
+            this.setTimeUnit(tag.getInt("timeUnit"));
     }
 
     @Override
@@ -185,7 +189,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         this.item = input.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyOne();
         this.name = input.get(DataComponents.CUSTOM_NAME);
         this.setData(DataAttachmentRegistry.REFILL_COUNTDOWN.get(), input.getOrDefault(DataComponentRegistry.REFILL_COUNTDOWN.get(), -1));
-        this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT.get(), input.getOrDefault(DataComponentRegistry.REFILL_TIME_UNIT.get(), -1));
+        this.setData(DataAttachmentRegistry.REFILL_TIME_UNIT.get(), input.getOrDefault(DataComponentRegistry.REFILL_TIME_UNIT.get(), 0));
     }
 
     @Override

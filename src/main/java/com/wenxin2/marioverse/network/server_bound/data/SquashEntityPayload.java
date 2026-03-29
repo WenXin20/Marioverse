@@ -9,13 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record SquashEntityPayload(boolean isHoldingJump) implements CustomPacketPayload {
-    public static final Type<SquashEntityPayload> SQUASH_ENTITY_PAYLOAD =
+    public static final Type<SquashEntityPayload> PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "squash_entity_payload"));
 
     @NotNull
     @Override
     public Type<SquashEntityPayload> type() {
-        return SQUASH_ENTITY_PAYLOAD;
+        return PAYLOAD;
     }
 
     public static final StreamCodec<FriendlyByteBuf, SquashEntityPayload> STREAM_CODEC = StreamCodec.composite(

@@ -3,6 +3,8 @@
     "#marioverse:checkpoint_flags",
     "#marioverse:invisible_question_blocks",
     "#marioverse:storage_bricks",
-    "#marioverse:question_blocks"
+    "#marioverse:question_blocks",
+    "#marioverse:warp_pipes",
+    "marioverse:block_spawner"
   ]
 }

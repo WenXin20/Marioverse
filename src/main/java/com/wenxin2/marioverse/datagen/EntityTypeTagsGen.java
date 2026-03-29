@@ -524,7 +524,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
+        tag(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST)
+                .addTag(TagRegistry.POWER_UP_ENTITIES);
+
         tag(TagRegistry.DECORATED_POT_CANNOT_SPAWN);
+
+        tag(TagRegistry.DEATH_BLOCKS_IMMUNE);
 
         tag(TagRegistry.DRY_BONES_BONES)
                 .add(EntityRegistry.DRY_BONES_HEAD.get())
@@ -749,9 +754,6 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER)
                 .addOptional(TEST_DUMMY);
-
-        tag(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST)
-                .addTag(TagRegistry.POWER_UP_ENTITIES);
 
         tag(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)
                 .add(EntityType.BEE)

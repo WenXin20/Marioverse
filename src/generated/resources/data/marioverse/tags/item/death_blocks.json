@@ -1,0 +1,8 @@
+{
+  "values": [
+    "marioverse:death_block",
+    "marioverse:monster_death_block",
+    "marioverse:passive_death_block",
+    "marioverse:player_death_block"
+  ]
+}

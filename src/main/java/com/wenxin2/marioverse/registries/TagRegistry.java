@@ -44,9 +44,11 @@ public class TagRegistry {
     public static final TagKey<Block> CALCITE_BLOCKS = blockTags("calcite");
     public static final TagKey<Block> CALCITE_BRICK_BLOCKS = blockTags("calcite_bricks");
     public static final TagKey<Block> CALCITE_BRICK_PEDESTAL_BLOCKS = blockTags("calcite_brick_pedestals");
+    public static final TagKey<Block> CANNOT_USE_AS_DISGUISE = blockTags("cannot_use_as_disguise");
     public static final TagKey<Block> CHECKPOINT_FLAG_BLOCKS = blockTags("checkpoint_flags");
     public static final TagKey<Block> CHISELED_CALCITE_BRICK_BLOCKS = blockTags("chiseled_calcite_bricks");
     public static final TagKey<Block> CRACKED_CALCITE_BRICK_BLOCKS = blockTags("cracked_calcite_bricks");
+    public static final TagKey<Block> DEATH_BLOCKS = blockTags("death_blocks");
     public static final TagKey<Block> DOTTED_LINE_BLOCKS = blockTags("dotted_line_blocks");
     public static final TagKey<Block> DYEABLE_CHECKPOINT_FLAG_BLOCKS = blockTags("dyeable_checkpoint_flags");
     public static final TagKey<Block> DYEABLE_GOAL_POLE_BLOCKS = blockTags("dyeable_goal_poles");
@@ -116,6 +118,7 @@ public class TagRegistry {
     public static final TagKey<Fluid> FREEZES_INTO_FROSTED_ICE = fluidTags("freezes_into_frosted_ice");
     public static final TagKey<Fluid> FREEZES_INTO_OBSIDIAN = fluidTags("freezes_into_obsidian");
 
+    public static final TagKey<Item> BLOCK_SPAWNER_CANNOT_DISPLAY = itemTags("block_spawner_cannot_display");
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
     public static final TagKey<Item> BRIDGE_ITEMS = itemTags("bridges");
@@ -139,6 +142,7 @@ public class TagRegistry {
     public static final TagKey<Item> CRAFTS_WARP_DOOR = itemTags("crafts_warp_door");
     public static final TagKey<Item> CRAFTS_WARP_PAINTING = itemTags("crafts_warp_painting");
     public static final TagKey<Item> CRAFTS_WARP_TRAPDOOR = itemTags("crafts_warp_trapdoor");
+    public static final TagKey<Item> DEATH_BLOCK_ITEMS = itemTags("death_blocks");
     public static final TagKey<Item> DOTTED_LINE_BLOCK_ITEMS = itemTags("dotted_line_blocks");
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
@@ -245,6 +249,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CHECKPOINT_FLAG_CANNOT_SPAWN = entityTypeTags("checkpoint_flag_cannot_spawn");
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
+    public static final TagKey<EntityType<?>> DEATH_BLOCKS_IMMUNE = entityTypeTags("death_blocks_immune");
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
     public static final TagKey<EntityType<?>> DRY_BONES_BONES = entityTypeTags("dry_bones_bones");
     public static final TagKey<EntityType<?>> DRY_BONES_CAN_ATTACK = entityTypeTags("dry_bones_can_attack");
@@ -268,7 +273,6 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTERS_INSTANTLY = entityTypeTags("ice_cube_shatters_instantly");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CANNOT_DAMAGE = entityTypeTags("ice_cube_shatter_cannot_damage");
     public static final TagKey<EntityType<?>> ICE_CUBE_SHATTER_CAN_INSTAKILL = entityTypeTags("ice_cube_shatter_can_instakill");
-    public static final TagKey<EntityType<?>> THORNS_IMMUNE = entityTypeTags("thorns_immune");
     public static final TagKey<EntityType<?>> IRON_SPIKE_IMMUNE = entityTypeTags("iron_spike_immune");
     public static final TagKey<EntityType<?>> KOOPA_CAN_RIDE = entityTypeTags("koopa_can_ride");
     public static final TagKey<EntityType<?>> KOOPA_SHELL_CANNOT_DAMAGE = entityTypeTags("koopa_shell_cannot_damage");
@@ -289,6 +293,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> RED_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");
     public static final TagKey<EntityType<?>> SNOWBALL_CAN_INSTAKILL = entityTypeTags("snowball_can_instakill");
     public static final TagKey<EntityType<?>> SNOWBALL_IMMUNE = entityTypeTags("snowball_immune");
+    public static final TagKey<EntityType<?>> THORNS_IMMUNE = entityTypeTags("thorns_immune");
     public static final TagKey<EntityType<?>> SNOW_POKEY_CAN_ATTACK = entityTypeTags("snow_pokey_can_attack");
     public static final TagKey<EntityType<?>> SNOW_POKEY_ENTITIES = entityTypeTags("snow_pokeys");
     public static final TagKey<EntityType<?>> SPIKE_PANEL_IMMUNE = entityTypeTags("spike_panel_immune");

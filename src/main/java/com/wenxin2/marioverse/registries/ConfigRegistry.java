@@ -270,7 +270,7 @@ public class ConfigRegistry {
                     .comment("§9[Default: true]")
                     .define("display_button_tooltip", true);
             RENDER_ONE_UP_CHARM = BUILDER.translation("configuration.marioverse.render_one_up_charm")
-                    .comment("Render the 1-Up on the player when in an Accessory slot.")
+                    .comment("Render the 1-Up on the player or mobs when in an Accessory slot.")
                     .comment("§9[Default: true]")
                     .define("render_one_up_charm", true);
             WARP_COOLDOWN_MESSAGE = BUILDER.translation("configuration.marioverse.warp_cooldown_message")
