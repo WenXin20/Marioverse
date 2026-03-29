@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-18T22:25:36.3600985	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-03-28T21:29:00.9180171	Tags for minecraft:block mod id marioverse
 8d4f0dd7988f90839dbdcdc577b1bda901051c04 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 305282e1368fb138b2f4a504416dc5f3e6aba3c8 data/create/tags/block/movable_empty_collider.json
@@ -38,6 +38,7 @@ cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/block/calcite.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/block/checkpoint_flags.json
 8216809e2ce95f71085cc90bd77b7c41f0dae896 data/marioverse/tags/block/chiseled_calcite_bricks.json
 cc7691b6e87d0dc491b9e9b7106a5c012dd99e6d data/marioverse/tags/block/cracked_calcite_bricks.json
+ad09baeb916f2de58fa466c6e73c3433e30f0636 data/marioverse/tags/block/death_blocks.json
 bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/block/dotted_line_blocks.json
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/block/dyeable_goal_poles.json
@@ -80,10 +81,12 @@ d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_effic
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
+eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
 f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
-fa799ad2e74cffc00f687233018c4f3055eb0e20 data/minecraft/tags/block/features_cannot_replace.json
+d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
 ec9415c11c813735ff73b20f0d88b7ebdb8cf59b data/minecraft/tags/block/flower_pots.json
+eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
@@ -101,5 +104,6 @@ da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressur
 a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficient.json
 7b23db159d567133835a9e7c72691460e675fd78 data/minecraft/tags/block/walls.json
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
+eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/block/wooden_stairs.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/twilightforest/tags/block/portal/generated_decoration.json

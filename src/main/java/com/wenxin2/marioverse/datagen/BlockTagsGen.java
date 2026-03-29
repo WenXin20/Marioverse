@@ -233,6 +233,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
 
+        tag(TagRegistry.DEATH_BLOCKS)
+                .add(BlockRegistry.DEATH_BLOCK.get())
+                .add(BlockRegistry.MONSTER_DEATH_BLOCK.get())
+                .add(BlockRegistry.PASSIVE_DEATH_BLOCK.get())
+                .add(BlockRegistry.PLAYER_DEATH_BLOCK.get());
+
         tag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get());
@@ -656,6 +662,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
 
+        tag(BlockTags.DRAGON_IMMUNE)
+                .addTag(TagRegistry.DEATH_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
+
         tag(BlockTags.ENDERMAN_HOLDABLE)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.GLOW_BLOCK.get())
@@ -663,6 +673,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
 
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
+                .addTag(TagRegistry.DEATH_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
@@ -676,6 +687,10 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.FLOWERS)
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
+
+        tag(BlockTags.GEODE_INVALID_BLOCKS)
+                .addTag(TagRegistry.DEATH_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.GUARDED_BY_PIGLINS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
@@ -926,6 +941,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
+
+        tag(BlockTags.WITHER_IMMUNE)
+                .addTag(TagRegistry.DEATH_BLOCKS)
+                .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
                 .add(BlockRegistry.DANGO_BLOSSOM.get());

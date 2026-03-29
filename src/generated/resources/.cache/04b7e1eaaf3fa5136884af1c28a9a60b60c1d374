@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-24T23:51:30.3989947	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-03-28T21:29:00.9351323	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -62,6 +62,7 @@ cc7691b6e87d0dc491b9e9b7106a5c012dd99e6d data/marioverse/tags/item/cracked_calci
 79c86b7629e2a26714ed5d5558bac597397dfcb6 data/marioverse/tags/item/crafts_warp_door.json
 79c86b7629e2a26714ed5d5558bac597397dfcb6 data/marioverse/tags/item/crafts_warp_painting.json
 79c86b7629e2a26714ed5d5558bac597397dfcb6 data/marioverse/tags/item/crafts_warp_trapdoor.json
+ad09baeb916f2de58fa466c6e73c3433e30f0636 data/marioverse/tags/item/death_blocks.json
 bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/item/dotted_line_blocks.json
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/item/dyeable_goal_poles.json
