@@ -66,6 +66,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.GOAL_POLES.get(color).get())
+                    .add(BlockRegistry.PIPE_JUNCTION.get(color).get())
                     .add(BlockRegistry.POLISHED_CALCITE.get(color).get())
                     .add(BlockRegistry.STORAGE_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());

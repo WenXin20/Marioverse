@@ -1426,8 +1426,7 @@ public class BlockRegistry {
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",
-                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)
-                                .mapColor(color)))));
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
 
 
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",
