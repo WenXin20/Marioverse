@@ -1,0 +1,7 @@
+{
+    "pack": {
+        "description": "Restores the classic coin models",
+        "pack_format": 34,
+        "supported_formats": [ 34, 42 ]
+    }
+}

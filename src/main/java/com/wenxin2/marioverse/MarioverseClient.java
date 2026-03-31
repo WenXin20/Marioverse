@@ -150,6 +150,11 @@ public class MarioverseClient {
             event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
                     PackSource.BUILT_IN, false, Pack.Position.TOP);
 
+            packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_coins");
+            packNameDisplay = Component.translatable("resource_pack.marioverse.classic_coins");
+            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                    PackSource.BUILT_IN, false, Pack.Position.TOP);
+
             ResourceLocation dynamicPackLocation = ResourceLocation
                     .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/dynamic_client_resources");
             Component  dynamicPackNameDisplay = Component.translatable("resource_pack.marioverse.dynamic_client_resources");

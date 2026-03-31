@@ -1,0 +1,57 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.coin",
+				"texture_width": 16,
+				"texture_height": 16,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "coin",
+					"pivot": [0, 9, 0],
+					"cubes": [
+						{
+							"origin": [-5, 3.5, -1],
+							"size": [10, 9, 2],
+							"uv": {
+								"north": {"uv": [3, 3], "uv_size": [10, 9]},
+								"east": {"uv": [3, 3], "uv_size": [1, 9]},
+								"south": {"uv": [13, 3], "uv_size": [-10, 9]},
+								"west": {"uv": [12, 3], "uv_size": [1, 9]},
+								"up": {"uv": [13, 4], "uv_size": [-10, -1], "uv_rotation": 180},
+								"down": {"uv": [3, 12], "uv_size": [10, -1], "uv_rotation": 180}
+							}
+						},
+						{
+							"origin": [-4, 12.5, -1],
+							"size": [8, 1, 2],
+							"uv": {
+								"north": {"uv": [4, 2], "uv_size": [8, 1]},
+								"east": {"uv": [4, 2], "uv_size": [1, 1]},
+								"south": {"uv": [12, 2], "uv_size": [-8, 1]},
+								"west": {"uv": [11, 2], "uv_size": [1, 1]},
+								"up": {"uv": [12, 3], "uv_size": [-8, -1], "uv_rotation": 180}
+							}
+						},
+						{
+							"origin": [-4, 2.5, -1],
+							"size": [8, 1, 2],
+							"uv": {
+								"north": {"uv": [4, 12], "uv_size": [8, 1]},
+								"east": {"uv": [4, 12], "uv_size": [1, 1]},
+								"south": {"uv": [12, 12], "uv_size": [-8, 1]},
+								"west": {"uv": [11, 12], "uv_size": [1, 1]},
+								"down": {"uv": [4, 13], "uv_size": [8, -1], "uv_rotation": 180}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
