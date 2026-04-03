@@ -1,0 +1,14 @@
+{
+    "ctm":{
+        "ctm_version": 1,
+        "type":"ctm",
+        "layer":"SOLID",
+        "textures":[
+            "marioverse:block/blue_warp_pipe_bottom_ctm"
+        ],
+        "extra":{
+        	"ignore_states":false,
+        	"connect_inside":false
+        }
+    }
+}

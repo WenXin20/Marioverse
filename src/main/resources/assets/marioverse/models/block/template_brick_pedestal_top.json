@@ -1,9 +1,10 @@
 {
+	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/cube_bottom_top",
 	"textures": {
-		"bricks": "block/bricks",
-		"particle": "#bricks"
+		"particle": "block/bricks",
+		"bricks": "block/bricks"
 	},
 	"elements": [
 		{

@@ -1,8 +1,8 @@
 ## Update 1.9.1
-- Add new coin & star coin models
-- Add built-in Classic Coins resource pack for the old coin models
-- Add pipe junctions to dye tag
-- Fix incorrect textures for black & gray pipe junctions
+- Added new coin & star coin models
+- Added built-in Classic Coins resource pack for the old coin models
+- Added pipe junctions to dye tag
+- Fixed incorrect textures for black & gray pipe junctions
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

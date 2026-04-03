@@ -1,418 +1,418 @@
 {
   "variants": {
     "bubbles=false,closed=false,entrance=false,facing=down,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_down",
       "x": 180
     },
     "bubbles=false,closed=false,entrance=false,facing=down,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_down",
       "x": 180
     },
     "bubbles=false,closed=false,entrance=false,facing=east,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_east",
       "x": 90,
       "y": 90
     },
     "bubbles=false,closed=false,entrance=false,facing=east,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_east",
       "x": 90,
       "y": 90
     },
     "bubbles=false,closed=false,entrance=false,facing=north,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_north",
       "x": 90
     },
     "bubbles=false,closed=false,entrance=false,facing=north,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_north",
       "x": 90
     },
     "bubbles=false,closed=false,entrance=false,facing=south,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_south",
       "x": 90,
       "y": 180
     },
     "bubbles=false,closed=false,entrance=false,facing=south,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_south",
       "x": 90,
       "y": 180
     },
     "bubbles=false,closed=false,entrance=false,facing=up,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe"
+      "model": "marioverse:block/red_warp_pipe_up"
     },
     "bubbles=false,closed=false,entrance=false,facing=up,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe"
+      "model": "marioverse:block/red_warp_pipe_up"
     },
     "bubbles=false,closed=false,entrance=false,facing=west,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_west",
       "x": 90,
       "y": 270
     },
     "bubbles=false,closed=false,entrance=false,facing=west,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_west",
       "x": 90,
       "y": 270
     },
     "bubbles=false,closed=false,entrance=true,facing=down,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_down_entrance",
       "x": 180
     },
     "bubbles=false,closed=false,entrance=true,facing=down,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_down_entrance",
       "x": 180
     },
     "bubbles=false,closed=false,entrance=true,facing=east,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_east_entrance",
       "x": 90,
       "y": 90
     },
     "bubbles=false,closed=false,entrance=true,facing=east,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_east_entrance",
       "x": 90,
       "y": 90
     },
     "bubbles=false,closed=false,entrance=true,facing=north,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_north_entrance",
       "x": 90
     },
     "bubbles=false,closed=false,entrance=true,facing=north,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_north_entrance",
       "x": 90
     },
     "bubbles=false,closed=false,entrance=true,facing=south,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_south_entrance",
       "x": 90,
       "y": 180
     },
     "bubbles=false,closed=false,entrance=true,facing=south,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_south_entrance",
       "x": 90,
       "y": 180
     },
     "bubbles=false,closed=false,entrance=true,facing=up,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance"
+      "model": "marioverse:block/red_warp_pipe_up_entrance"
     },
     "bubbles=false,closed=false,entrance=true,facing=up,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance"
+      "model": "marioverse:block/red_warp_pipe_up_entrance"
     },
     "bubbles=false,closed=false,entrance=true,facing=west,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_west_entrance",
       "x": 90,
       "y": 270
     },
     "bubbles=false,closed=false,entrance=true,facing=west,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_west_entrance",
       "x": 90,
       "y": 270
     },
     "bubbles=false,closed=true,entrance=false,facing=down,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_down",
       "x": 180
     },
     "bubbles=false,closed=true,entrance=false,facing=down,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_down",
       "x": 180
     },
     "bubbles=false,closed=true,entrance=false,facing=east,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_east",
       "x": 90,
       "y": 90
     },
     "bubbles=false,closed=true,entrance=false,facing=east,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_east",
       "x": 90,
       "y": 90
     },
     "bubbles=false,closed=true,entrance=false,facing=north,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_north",
       "x": 90
     },
     "bubbles=false,closed=true,entrance=false,facing=north,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_north",
       "x": 90
     },
     "bubbles=false,closed=true,entrance=false,facing=south,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_south",
       "x": 90,
       "y": 180
     },
     "bubbles=false,closed=true,entrance=false,facing=south,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_south",
       "x": 90,
       "y": 180
     },
     "bubbles=false,closed=true,entrance=false,facing=up,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe"
+      "model": "marioverse:block/red_warp_pipe_up"
     },
     "bubbles=false,closed=true,entrance=false,facing=up,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe"
+      "model": "marioverse:block/red_warp_pipe_up"
     },
     "bubbles=false,closed=true,entrance=false,facing=west,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_west",
       "x": 90,
       "y": 270
     },
     "bubbles=false,closed=true,entrance=false,facing=west,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_west",
       "x": 90,
       "y": 270
     },
     "bubbles=false,closed=true,entrance=true,facing=down,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_down_entrance_closed",
       "x": 180
     },
     "bubbles=false,closed=true,entrance=true,facing=down,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_down_entrance_closed",
       "x": 180
     },
     "bubbles=false,closed=true,entrance=true,facing=east,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_east_entrance_closed",
       "x": 90,
       "y": 90
     },
     "bubbles=false,closed=true,entrance=true,facing=east,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_east_entrance_closed",
       "x": 90,
       "y": 90
     },
     "bubbles=false,closed=true,entrance=true,facing=north,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_north_entrance_closed",
       "x": 90
     },
     "bubbles=false,closed=true,entrance=true,facing=north,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_north_entrance_closed",
       "x": 90
     },
     "bubbles=false,closed=true,entrance=true,facing=south,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_south_entrance_closed",
       "x": 90,
       "y": 180
     },
     "bubbles=false,closed=true,entrance=true,facing=south,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_south_entrance_closed",
       "x": 90,
       "y": 180
     },
     "bubbles=false,closed=true,entrance=true,facing=up,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed"
+      "model": "marioverse:block/red_warp_pipe_up_entrance_closed"
     },
     "bubbles=false,closed=true,entrance=true,facing=up,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed"
+      "model": "marioverse:block/red_warp_pipe_up_entrance_closed"
     },
     "bubbles=false,closed=true,entrance=true,facing=west,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_west_entrance_closed",
       "x": 90,
       "y": 270
     },
     "bubbles=false,closed=true,entrance=true,facing=west,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_west_entrance_closed",
       "x": 90,
       "y": 270
     },
     "bubbles=true,closed=false,entrance=false,facing=down,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_down",
       "x": 180
     },
     "bubbles=true,closed=false,entrance=false,facing=down,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_down",
       "x": 180
     },
     "bubbles=true,closed=false,entrance=false,facing=east,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_east",
       "x": 90,
       "y": 90
     },
     "bubbles=true,closed=false,entrance=false,facing=east,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_east",
       "x": 90,
       "y": 90
     },
     "bubbles=true,closed=false,entrance=false,facing=north,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_north",
       "x": 90
     },
     "bubbles=true,closed=false,entrance=false,facing=north,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_north",
       "x": 90
     },
     "bubbles=true,closed=false,entrance=false,facing=south,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_south",
       "x": 90,
       "y": 180
     },
     "bubbles=true,closed=false,entrance=false,facing=south,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_south",
       "x": 90,
       "y": 180
     },
     "bubbles=true,closed=false,entrance=false,facing=up,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe"
+      "model": "marioverse:block/red_warp_pipe_up"
     },
     "bubbles=true,closed=false,entrance=false,facing=up,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe"
+      "model": "marioverse:block/red_warp_pipe_up"
     },
     "bubbles=true,closed=false,entrance=false,facing=west,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_west",
       "x": 90,
       "y": 270
     },
     "bubbles=true,closed=false,entrance=false,facing=west,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_west",
       "x": 90,
       "y": 270
     },
     "bubbles=true,closed=false,entrance=true,facing=down,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_down_entrance",
       "x": 180
     },
     "bubbles=true,closed=false,entrance=true,facing=down,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_down_entrance",
       "x": 180
     },
     "bubbles=true,closed=false,entrance=true,facing=east,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_east_entrance",
       "x": 90,
       "y": 90
     },
     "bubbles=true,closed=false,entrance=true,facing=east,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_east_entrance",
       "x": 90,
       "y": 90
     },
     "bubbles=true,closed=false,entrance=true,facing=north,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_north_entrance",
       "x": 90
     },
     "bubbles=true,closed=false,entrance=true,facing=north,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_north_entrance",
       "x": 90
     },
     "bubbles=true,closed=false,entrance=true,facing=south,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_south_entrance",
       "x": 90,
       "y": 180
     },
     "bubbles=true,closed=false,entrance=true,facing=south,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_south_entrance",
       "x": 90,
       "y": 180
     },
     "bubbles=true,closed=false,entrance=true,facing=up,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance"
+      "model": "marioverse:block/red_warp_pipe_up_entrance"
     },
     "bubbles=true,closed=false,entrance=true,facing=up,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance"
+      "model": "marioverse:block/red_warp_pipe_up_entrance"
     },
     "bubbles=true,closed=false,entrance=true,facing=west,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_west_entrance",
       "x": 90,
       "y": 270
     },
     "bubbles=true,closed=false,entrance=true,facing=west,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance",
+      "model": "marioverse:block/red_warp_pipe_west_entrance",
       "x": 90,
       "y": 270
     },
     "bubbles=true,closed=true,entrance=false,facing=down,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_down",
       "x": 180
     },
     "bubbles=true,closed=true,entrance=false,facing=down,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_down",
       "x": 180
     },
     "bubbles=true,closed=true,entrance=false,facing=east,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_east",
       "x": 90,
       "y": 90
     },
     "bubbles=true,closed=true,entrance=false,facing=east,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_east",
       "x": 90,
       "y": 90
     },
     "bubbles=true,closed=true,entrance=false,facing=north,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_north",
       "x": 90
     },
     "bubbles=true,closed=true,entrance=false,facing=north,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_north",
       "x": 90
     },
     "bubbles=true,closed=true,entrance=false,facing=south,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_south",
       "x": 90,
       "y": 180
     },
     "bubbles=true,closed=true,entrance=false,facing=south,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_south",
       "x": 90,
       "y": 180
     },
     "bubbles=true,closed=true,entrance=false,facing=up,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe"
+      "model": "marioverse:block/red_warp_pipe_up"
     },
     "bubbles=true,closed=true,entrance=false,facing=up,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe"
+      "model": "marioverse:block/red_warp_pipe_up"
     },
     "bubbles=true,closed=true,entrance=false,facing=west,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_west",
       "x": 90,
       "y": 270
     },
     "bubbles=true,closed=true,entrance=false,facing=west,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe",
+      "model": "marioverse:block/red_warp_pipe_west",
       "x": 90,
       "y": 270
     },
     "bubbles=true,closed=true,entrance=true,facing=down,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_down_entrance_closed",
       "x": 180
     },
     "bubbles=true,closed=true,entrance=true,facing=down,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_down_entrance_closed",
       "x": 180
     },
     "bubbles=true,closed=true,entrance=true,facing=east,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_east_entrance_closed",
       "x": 90,
       "y": 90
     },
     "bubbles=true,closed=true,entrance=true,facing=east,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_east_entrance_closed",
       "x": 90,
       "y": 90
     },
     "bubbles=true,closed=true,entrance=true,facing=north,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_north_entrance_closed",
       "x": 90
     },
     "bubbles=true,closed=true,entrance=true,facing=north,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_north_entrance_closed",
       "x": 90
     },
     "bubbles=true,closed=true,entrance=true,facing=south,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_south_entrance_closed",
       "x": 90,
       "y": 180
     },
     "bubbles=true,closed=true,entrance=true,facing=south,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_south_entrance_closed",
       "x": 90,
       "y": 180
     },
     "bubbles=true,closed=true,entrance=true,facing=up,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed"
+      "model": "marioverse:block/red_warp_pipe_up_entrance_closed"
     },
     "bubbles=true,closed=true,entrance=true,facing=up,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed"
+      "model": "marioverse:block/red_warp_pipe_up_entrance_closed"
     },
     "bubbles=true,closed=true,entrance=true,facing=west,water_spout=false": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_west_entrance_closed",
       "x": 90,
       "y": 270
     },
     "bubbles=true,closed=true,entrance=true,facing=west,water_spout=true": {
-      "model": "marioverse:block/red_warp_pipe_entrance_closed",
+      "model": "marioverse:block/red_warp_pipe_west_entrance_closed",
       "x": 90,
       "y": 270
     }

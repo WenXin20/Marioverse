@@ -1,0 +1,55 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#bottom",
+          "uv": [
+            0.0,
+            16.0,
+            16.0,
+            0.0
+          ]
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            16.0,
+            0.0,
+            0.0,
+            16.0
+          ]
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "textures": {
+    "bottom": "marioverse:block/green_warp_pipe_bottom",
+    "particle": "marioverse:block/green_warp_pipe_side",
+    "side": "marioverse:block/green_warp_pipe_side",
+    "top": "marioverse:block/green_warp_pipe_bottom"
+  }
+}

@@ -21,6 +21,7 @@ import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -44,6 +45,7 @@ import net.minecraft.world.level.block.state.properties.WallSide;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
+import net.neoforged.neoforge.client.model.generators.ModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
@@ -1606,20 +1608,9 @@ public class BlockStateGen extends BlockStateProvider {
 
     private void warpPipeModel(Block block, ResourceLocation entranceTexture, ResourceLocation bottomTexture,
                                ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation topClosedTexture) {
-        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        String baseName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile model = models()
-                .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
-                .texture("bottom", bottomTexture).texture("side", sideTexture).texture("top", bottomTexture);
-        ModelFile modelEntrance = models()
-                .withExistingParent(modelName + "_entrance", mcLoc("minecraft:block/cube_bottom_top"))
-                .texture("bottom", bottomTexture).texture("side", entranceTexture).texture("top", topTexture);
-        ModelFile modelClosed = models()
-                .withExistingParent(modelName + "_entrance_closed", mcLoc("minecraft:block/cube_bottom_top"))
-                .texture("bottom", bottomTexture).texture("side", entranceTexture).texture("top", topClosedTexture);
-
-        simpleBlockItem(block, modelEntrance);
-
+        Map<String, ModelFile> modelCache = new HashMap<>();
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
 
         for (Direction direction : Direction.values()) {
@@ -1630,7 +1621,16 @@ public class BlockStateGen extends BlockStateProvider {
                 for (boolean closed : new boolean[]{false, true}) {
                     for (boolean bubbles : new boolean[]{false, true}) {
                         for (boolean waterSpout : new boolean[]{false, true}) {
-                            ModelFile selectedModel = getModelForState(model, modelEntrance, modelClosed, entrance, closed);
+                            String modelName = baseName + "_"
+                                    + direction.getName()
+                                    + (entrance ? "_entrance" : "")
+                                    + (entrance ? (closed ? "_closed" : "") : "");
+
+                            ModelFile model = modelCache.computeIfAbsent(modelName, name -> {
+                                ResourceLocation side = entrance ? entranceTexture : sideTexture;
+                                ResourceLocation top = entrance ? (closed ? topClosedTexture : topTexture) : bottomTexture;
+                                return this.createWarpPipeModel(name, bottomTexture, side, top, direction);
+                            });
 
                             variantBuilder.partialState()
                                     .with(WarpPipeBlock.FACING, direction)
@@ -1638,12 +1638,66 @@ public class BlockStateGen extends BlockStateProvider {
                                     .with(WarpPipeBlock.CLOSED, closed)
                                     .with(WarpPipeBlock.BUBBLES, bubbles)
                                     .with(WarpPipeBlock.WATER_SPOUT, waterSpout)
-                                    .addModels(new ConfiguredModel(selectedModel, xRot, yRot, false));
+                                    .addModels(new ConfiguredModel(model, xRot, yRot, false));
                         }
                     }
                 }
             }
         }
+
+        ModelFile itemModel = modelCache.get(baseName + "_up_entrance");
+        this.simpleBlockItem(block, itemModel);
+    }
+
+    private ModelFile createWarpPipeModel(String name, ResourceLocation bottom, ResourceLocation side,
+                                          ResourceLocation top, Direction blockDir) {
+        return models()
+                .withExistingParent(name, mcLoc("minecraft:block/block"))
+                .texture("bottom", bottom)
+                .texture("side", side)
+                .texture("top", top)
+                .texture("particle", side)
+
+                .element()
+                .from(0, 0, 0)
+                .to(16, 16, 16)
+
+                .face(Direction.UP)
+                .texture("#top")
+                .uvs(getU1(blockDir, Direction.UP), getV1(blockDir, Direction.UP),
+                        getU2(blockDir, Direction.UP), getV2(blockDir, Direction.UP))
+                .end()
+
+                .face(Direction.DOWN)
+                .texture("#bottom")
+                .uvs(getU1(blockDir, Direction.DOWN), getV1(blockDir, Direction.DOWN),
+                        getU2(blockDir, Direction.DOWN), getV2(blockDir, Direction.DOWN))
+                .end()
+
+                .face(Direction.NORTH)
+                .texture("#side")
+                .uvs(getU1(blockDir, Direction.NORTH), getV1(blockDir, Direction.NORTH),
+                        getU2(blockDir, Direction.NORTH), getV2(blockDir, Direction.NORTH))
+                .end()
+
+                .face(Direction.SOUTH)
+                .texture("#side")
+                .uvs(getU1(blockDir, Direction.SOUTH), getV1(blockDir, Direction.SOUTH),
+                        getU2(blockDir, Direction.SOUTH), getV2(blockDir, Direction.SOUTH))
+                .end()
+
+                .face(Direction.WEST)
+                .texture("#side")
+                .uvs(getU1(blockDir, Direction.WEST), getV1(blockDir, Direction.WEST),
+                        getU2(blockDir, Direction.WEST), getV2(blockDir, Direction.WEST))
+                .end()
+
+                .face(Direction.EAST)
+                .texture("#side")
+                .uvs(getU1(blockDir, Direction.EAST), getV1(blockDir, Direction.EAST),
+                        getU2(blockDir, Direction.EAST), getV2(blockDir, Direction.EAST))
+                .end()
+                .end();
     }
 
     private void waterSpoutModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation splashTexture) {
@@ -1764,9 +1818,85 @@ public class BlockStateGen extends BlockStateProvider {
         };
     }
 
-    private ModelFile getModelForState(ModelFile model, ModelFile modelEntrance, ModelFile modelClosed, boolean entrance, boolean closed) {
-        if (entrance)
-            return closed ? modelClosed : modelEntrance;
-        return model;
+    private Direction rotateFace(Direction face, Direction blockDir) {
+        if (blockDir == Direction.DOWN)
+            return face;
+        if (blockDir == Direction.UP)
+            return face;
+
+        return switch (blockDir) {
+            case NORTH -> face;
+            case SOUTH -> face.getOpposite();
+            case WEST  -> rotateY(face, 90);
+            case EAST  -> rotateY(face, -90);
+            default -> face;
+        };
+    }
+
+    private Direction rotateY(Direction direction, int degrees) {
+        if (direction.getAxis().isVertical())
+            return direction;
+        int steps = ((degrees / 90) % 4 + 4) % 4;
+
+        Direction result = direction;
+        for (int i = 0; i < steps; i++) {
+            result = result.getClockWise();
+        }
+        return result;
+    }
+
+    private Direction.Axis getFlipAxis(Direction blockDir, Direction faceDir) {
+        return switch (blockDir) {
+            case UP, DOWN -> faceDir == Direction.NORTH ? Direction.Axis.Z
+                    : faceDir == Direction.WEST ? Direction.Axis.X : null;
+            case SOUTH -> faceDir == Direction.UP ? Direction.Axis.Z
+                    : faceDir == Direction.EAST ? Direction.Axis.X : null;
+            case NORTH -> faceDir == Direction.UP ? Direction.Axis.Z
+                    : faceDir == Direction.WEST ? Direction.Axis.X : null;
+            case WEST -> (faceDir == Direction.UP || faceDir == Direction.NORTH)
+                    ? Direction.Axis.X : null;
+            case EAST -> (faceDir == Direction.UP || faceDir == Direction.SOUTH)
+                    ? Direction.Axis.Z : null;
+            default -> null;
+        };
+    }
+
+    private boolean flipU(Direction faceDir, Direction.Axis axis) {
+        if (axis == null) return false;
+
+        return switch (faceDir) {
+            case UP, DOWN -> axis == Direction.Axis.X;
+            case NORTH, SOUTH -> axis == Direction.Axis.Z;
+            case EAST, WEST -> axis == Direction.Axis.X;
+        };
+    }
+
+    private boolean flipV(Direction faceDir, Direction.Axis axis) {
+        if (axis == null) return false;
+
+        return switch (faceDir) {
+            case UP -> axis == Direction.Axis.Z;
+            case NORTH, SOUTH, EAST, WEST, DOWN -> axis == Direction.Axis.Y;
+        };
+    }
+
+    private float getU1(Direction blockDir, Direction faceDir) {
+        Direction rotated = rotateFace(faceDir, blockDir);
+        return flipU(rotated, getFlipAxis(blockDir, rotated)) ? 16f : 0f;
+    }
+
+    private float getU2(Direction blockDir, Direction faceDir) {
+        Direction rotated = rotateFace(faceDir, blockDir);
+        return flipU(rotated, getFlipAxis(blockDir, rotated)) ? 0f : 16f;
+    }
+
+    private float getV1(Direction blockDir, Direction faceDir) {
+        Direction rotated = rotateFace(faceDir, blockDir);
+        return flipV(rotated, getFlipAxis(blockDir, rotated)) ? 16f : 0f;
+    }
+
+    private float getV2(Direction blockDir, Direction faceDir) {
+        Direction rotated = rotateFace(faceDir, blockDir);
+        return flipV(rotated, getFlipAxis(blockDir, rotated)) ? 0f : 16f;
     }
 }

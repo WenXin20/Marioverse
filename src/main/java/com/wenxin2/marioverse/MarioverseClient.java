@@ -155,6 +155,16 @@ public class MarioverseClient {
             event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
                     PackSource.BUILT_IN, false, Pack.Position.TOP);
 
+            packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_pipes");
+            packNameDisplay = Component.translatable("resource_pack.marioverse.classic_pipes");
+            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                    PackSource.BUILT_IN, false, Pack.Position.TOP);
+
+            packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_pipes_fusion");
+            packNameDisplay = Component.translatable("resource_pack.marioverse.classic_pipes_fusion");
+            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                    PackSource.BUILT_IN, false, Pack.Position.TOP);
+
             ResourceLocation dynamicPackLocation = ResourceLocation
                     .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/dynamic_client_resources");
             Component  dynamicPackNameDisplay = Component.translatable("resource_pack.marioverse.dynamic_client_resources");

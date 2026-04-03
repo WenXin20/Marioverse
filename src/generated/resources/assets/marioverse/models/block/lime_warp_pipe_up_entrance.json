@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "bottom": "marioverse:block/lime_warp_pipe_bottom",
+    "particle": "marioverse:block/lime_warp_pipe_entrance_side",
+    "side": "marioverse:block/lime_warp_pipe_entrance_side",
+    "top": "marioverse:block/lime_warp_pipe_top"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down": {
+          "texture": "#bottom"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "north": {
+          "texture": "#side",
+          "uv": [ 16.0, 0.0, 0.0, 16.0 ]
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [ 16.0, 0.0, 0.0, 16.0 ]
+        }
+      }
+    }
+  ]
+}
