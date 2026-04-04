@@ -1847,16 +1847,18 @@ public class BlockStateGen extends BlockStateProvider {
 
     private Direction.Axis getFlipAxis(Direction blockDir, Direction faceDir) {
         return switch (blockDir) {
-            case UP, DOWN -> faceDir == Direction.NORTH ? Direction.Axis.Z
+            case UP -> faceDir == Direction.NORTH ? Direction.Axis.Z
                     : faceDir == Direction.WEST ? Direction.Axis.X : null;
-            case SOUTH -> faceDir == Direction.UP ? Direction.Axis.Z
+            case DOWN -> faceDir == Direction.NORTH ? Direction.Axis.Z
                     : faceDir == Direction.EAST ? Direction.Axis.X : null;
-            case NORTH -> faceDir == Direction.UP ? Direction.Axis.Z
+            case NORTH -> faceDir == Direction.NORTH ? Direction.Axis.Z
                     : faceDir == Direction.WEST ? Direction.Axis.X : null;
-            case WEST -> (faceDir == Direction.UP || faceDir == Direction.NORTH)
-                    ? Direction.Axis.X : null;
-            case EAST -> (faceDir == Direction.UP || faceDir == Direction.SOUTH)
-                    ? Direction.Axis.Z : null;
+            case SOUTH -> faceDir == Direction.NORTH ? Direction.Axis.Z
+                    : faceDir == Direction.EAST ? Direction.Axis.X : null;
+            case EAST -> faceDir == Direction.EAST ? Direction.Axis.Z
+                    : faceDir == Direction.SOUTH ? Direction.Axis.Z : null;
+            case WEST -> faceDir == Direction.EAST ? Direction.Axis.Z
+                    : faceDir == Direction.NORTH ? Direction.Axis.Z : null;
             default -> null;
         };
     }
@@ -1865,9 +1867,8 @@ public class BlockStateGen extends BlockStateProvider {
         if (axis == null) return false;
 
         return switch (faceDir) {
-            case UP, DOWN -> axis == Direction.Axis.X;
-            case NORTH, SOUTH -> axis == Direction.Axis.Z;
-            case EAST, WEST -> axis == Direction.Axis.X;
+            case UP, DOWN -> axis == Direction.Axis.X || axis == Direction.Axis.Z || axis == Direction.Axis.Y;
+            case NORTH, SOUTH, EAST, WEST -> axis == Direction.Axis.X || axis == Direction.Axis.Z;
         };
     }
 
@@ -1875,7 +1876,7 @@ public class BlockStateGen extends BlockStateProvider {
         if (axis == null) return false;
 
         return switch (faceDir) {
-            case UP -> axis == Direction.Axis.Z;
+            case UP -> axis == Direction.Axis.X || axis == Direction.Axis.Z || axis == Direction.Axis.Y;
             case NORTH, SOUTH, EAST, WEST, DOWN -> axis == Direction.Axis.Y;
         };
     }

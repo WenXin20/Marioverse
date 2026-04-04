@@ -13,16 +13,16 @@
           "texture": "#side"
         },
         "south": {
-          "texture": "#side"
+          "texture": "#side",
+          "uv": [
+            16.0,
+            0.0,
+            0.0,
+            16.0
+          ]
         },
         "up": {
-          "texture": "#top",
-          "uv": [
-            0.0,
-            16.0,
-            16.0,
-            0.0
-          ]
+          "texture": "#top"
         },
         "west": {
           "texture": "#side",

@@ -10,13 +10,7 @@
           "texture": "#side"
         },
         "north": {
-          "texture": "#side"
-        },
-        "south": {
-          "texture": "#side"
-        },
-        "up": {
-          "texture": "#top",
+          "texture": "#side",
           "uv": [
             16.0,
             0.0,
@@ -24,8 +18,20 @@
             16.0
           ]
         },
-        "west": {
+        "south": {
           "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            16.0,
+            0.0,
+            0.0,
+            16.0
+          ]
         }
       },
       "from": [
