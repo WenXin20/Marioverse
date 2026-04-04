@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -86,6 +87,7 @@ import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -246,6 +248,12 @@ public class QuestionBlock extends BaseEntityBlock {
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
         return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+    }
+
+    @Override
+    public boolean isConduitFrame(BlockState state, LevelReader level, BlockPos pos, BlockPos conduit) {
+        return state.getBlock() == BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get()
+                || state.getBlock() == BlockRegistry.PRISMARINE_QUESTION_BRICKS.get();
     }
 
     @NotNull

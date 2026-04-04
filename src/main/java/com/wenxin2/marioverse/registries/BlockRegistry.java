@@ -22,6 +22,7 @@ import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
+import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.TrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
@@ -966,7 +967,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
         SMASHABLE_STONE_BRICKS = registerBlock("smashable_stone_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
         STONE_BRICK_PEDESTAL = registerBlock("stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
@@ -983,7 +984,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
 
         SMASHABLE_MOSSY_STONE_BRICKS = registerBlock("smashable_mossy_stone_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
 
         MOSSY_STONE_BRICK_PEDESTAL = registerBlock("mossy_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
@@ -1000,7 +1001,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
 
         SMASHABLE_TUFF_BRICKS = registerBlock("smashable_tuff_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
 
         TUFF_BRICK_PEDESTAL = registerBlock("tuff_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
@@ -1017,7 +1018,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
 
         SMASHABLE_DEEPSLATE_BRICKS = registerBlock("smashable_deepslate_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
 
         DEEPSLATE_BRICK_PEDESTAL = registerBlock("deepslate_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
@@ -1034,7 +1035,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
 
         SMASHABLE_DEEPSLATE_TILES = registerBlock("smashable_deepslate_tiles",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
 
         DEEPSLATE_TILE_PEDESTAL = registerBlock("deepslate_tile_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
@@ -1051,7 +1052,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
         SMASHABLE_BRICKS = registerBlock("smashable_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
         BRICK_PEDESTAL = registerBlock("brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
@@ -1068,7 +1069,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
 
         SMASHABLE_MUD_BRICKS = registerBlock("smashable_mud_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
 
         MUD_BRICK_PEDESTAL = registerBlock("mud_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
@@ -1085,7 +1086,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
 
         SMASHABLE_PRISMARINE_BRICKS = registerBlock("smashable_prismarine_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
 
         PRISMARINE_BRICK_PEDESTAL = registerBlock("prismarine_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
@@ -1102,7 +1103,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
 
         SMASHABLE_DARK_PRISMARINE = registerBlock("smashable_dark_prismarine",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
 
         DARK_PRISMARINE_PEDESTAL = registerBlock("dark_prismarine_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
@@ -1119,7 +1120,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
         SMASHABLE_NETHER_BRICKS = registerBlock("smashable_nether_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
         NETHER_BRICK_PEDESTAL = registerBlock("nether_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
@@ -1136,7 +1137,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
         SMASHABLE_RED_NETHER_BRICKS = registerBlock("smashable_red_nether_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
         RED_NETHER_BRICK_PEDESTAL = registerBlock("red_nether_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
@@ -1153,7 +1154,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
 
         SMASHABLE_BLACKSTONE_BRICKS = registerBlock("smashable_blackstone_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
 
         BLACKSTONE_BRICK_PEDESTAL = registerBlock("blackstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
@@ -1170,7 +1171,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
         SMASHABLE_END_STONE_BRICKS = registerBlock("smashable_end_stone_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
         END_STONE_BRICK_PEDESTAL = registerBlock("end_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
@@ -1187,7 +1188,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
         SMASHABLE_PURPUR_BLOCK = registerBlock("smashable_purpur_block",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
         PURPUR_BLOCK_PEDESTAL = registerBlock("purpur_block_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
@@ -1204,7 +1205,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
 
         SMASHABLE_QUARTZ_BRICKS = registerBlock("smashable_quartz_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
 
         QUARTZ_BRICK_PEDESTAL = registerBlock("quartz_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
@@ -1289,7 +1290,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
 
         SMASHABLE_WAXED_CUT_COPPER = registerBlock("smashable_waxed_cut_copper",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
 
         WAXED_CUT_COPPER_PEDESTAL = registerBlock("waxed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
@@ -1306,7 +1307,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
 
         SMASHABLE_WAXED_EXPOSED_CUT_COPPER = registerBlock("smashable_waxed_exposed_cut_copper",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
 
         WAXED_EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("waxed_exposed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
@@ -1323,7 +1324,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
 
         SMASHABLE_WAXED_WEATHERED_CUT_COPPER = registerBlock("smashable_waxed_weathered_cut_copper",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
 
         WAXED_WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("waxed_weathered_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
@@ -1340,7 +1341,7 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
         SMASHABLE_WAXED_OXIDIZED_CUT_COPPER = registerBlock("smashable_waxed_oxidized_cut_copper",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+                () -> new SmashableBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));

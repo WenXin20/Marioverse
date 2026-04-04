@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
@@ -182,14 +183,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && !entity.onGround() && entity.getY() > entity.yOld
                 && !entity.isSpectator() && !level.isClientSide
                 && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
-            StorageBrickBlock.smashBlock(level, posAboveEntity, stateAboveEntity, entity);
+            SmashableBrickBlock.smashBlock(level, posAboveEntity, stateAboveEntity, entity);
         }
 
         if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
                 && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)
                 && motion.horizontalDistance() > 0.01
                 && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
-            StorageBrickBlock.smashBlockFromSide(stateNorth, entity, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
+            SmashableBrickBlock.smashBlockFromSide(stateNorth, entity, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)

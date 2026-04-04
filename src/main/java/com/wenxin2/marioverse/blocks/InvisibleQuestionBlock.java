@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -30,6 +31,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -158,6 +160,12 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
             }
             questionBE.setLastPowered(isPowered);
         }
+    }
+
+    @Override
+    public boolean isConduitFrame(BlockState state, LevelReader level, BlockPos pos, BlockPos conduit) {
+        return (!state.getValue(INVISIBLE) && state.getBlock() == BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get())
+                || (!state.getValue(INVISIBLE) && state.getBlock() == BlockRegistry.INVISIBLE_PRISMARINE_QUESTION_BRICKS.get());
     }
 
     @NotNull
