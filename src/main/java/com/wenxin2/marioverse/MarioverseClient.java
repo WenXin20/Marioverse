@@ -79,6 +79,7 @@ import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -160,10 +161,12 @@ public class MarioverseClient {
             event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
                     PackSource.BUILT_IN, false, Pack.Position.TOP);
 
-            packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_pipes_fusion");
-            packNameDisplay = Component.translatable("resource_pack.marioverse.classic_pipes_fusion");
-            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
-                    PackSource.BUILT_IN, false, Pack.Position.TOP);
+            if (ModList.get().isLoaded("fusion")) {
+                packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_pipes_fusion");
+                packNameDisplay = Component.translatable("resource_pack.marioverse.classic_pipes_fusion");
+                event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                        PackSource.BUILT_IN, false, Pack.Position.TOP);
+            }
 
             ResourceLocation dynamicPackLocation = ResourceLocation
                     .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/dynamic_client_resources");
