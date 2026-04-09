@@ -436,12 +436,6 @@ public class TickEventHandlers {
                 || (!isPlayer && (hasSuperMushroomOverride
                     || (healHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)))));
 
-        System.out.println("Entity = " + entity.getName());
-        System.out.println("isPlayer = " + isPlayer);
-        System.out.println("health = " + health + " thresholdHealth = " + thresholdHealth);
-        System.out.println("lowHealth = " + lowHealth);
-        System.out.println("override = " + hasSuperMushroomOverride);
-
         TickEventHandlers.updateScale(entity, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
