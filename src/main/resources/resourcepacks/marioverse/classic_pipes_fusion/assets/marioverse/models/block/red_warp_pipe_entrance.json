@@ -4,8 +4,11 @@
   "type": "connecting",
   "connections": {
     "top": {
-      "type": "match_state",
-      "block": "marioverse:red_warp_pipe",
+      "type": "or",
+      "predicates": [
+        {
+          "type": "match_state",
+          "block": "marioverse:red_warp_pipe",
       "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
         "water_spout": ["true", "false"], "facing": ["up", "down", "north", "south", "east", "west"] }
     },
