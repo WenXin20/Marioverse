@@ -24,45 +24,10 @@
   ],
   "connections": {
     "top": {
-      "type": "or",
-      "predicates": [
-        {
-          "type": "match_state",
-          "block": "marioverse:red_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
-            "water_spout": ["true", "false"], "facing": ["up"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
-            "water_spout": ["true", "false"], "facing": ["down"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
-            "water_spout": ["true", "false"], "facing": ["north"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
-            "water_spout": ["true", "false"], "facing": ["south"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
-            "water_spout": ["true", "false"], "facing": ["east"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
-            "water_spout": ["true", "false"], "facing": ["west"] }
-        }
-      ]
+      "type": "match_state",
+      "block": "marioverse:red_warp_pipe",
+      "properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
+        "water_spout": ["true", "false"], "facing": ["up", "down", "north", "south", "east", "west"] }
     },
     "side": {
       "type": "or",
