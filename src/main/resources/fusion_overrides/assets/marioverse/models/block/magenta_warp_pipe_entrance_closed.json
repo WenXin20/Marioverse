@@ -9,37 +9,37 @@
         {
           "type": "match_state",
           "block": "marioverse:magenta_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
+          "properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
             "water_spout": ["true", "false"], "facing": ["up"] }
         },
         {
           "type": "match_state",
           "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
+          "properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
             "water_spout": ["true", "false"], "facing": ["down"] }
         },
         {
           "type": "match_state",
           "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
+          "properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
             "water_spout": ["true", "false"], "facing": ["north"] }
         },
         {
           "type": "match_state",
           "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
+          "properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
             "water_spout": ["true", "false"], "facing": ["south"] }
         },
         {
           "type": "match_state",
           "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
+          "properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
             "water_spout": ["true", "false"], "facing": ["east"] }
         },
         {
           "type": "match_state",
           "block": "marioverse:black_warp_pipe",
-          "properties": { "closed": ["false"], "bubbles": ["true", "false"], "entrance": ["true"],
+          "properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
             "water_spout": ["true", "false"], "facing": ["west"] }
         }
       ]

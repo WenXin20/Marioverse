@@ -19,11 +19,8 @@
       "properties": { "active": "true" }
     },
     "top": {
-      "type": "or",
-      "predicates": [
-        {
-          "type": "match_state",
-          "block": "marioverse:red_mushroom_trampoline",
+      "type": "match_state",
+      "block": "marioverse:red_mushroom_trampoline",
       "properties": { "active": "true" }
     },
     "default": { "type": "is_same_block" }
