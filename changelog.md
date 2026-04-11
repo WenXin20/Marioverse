@@ -4,6 +4,8 @@
 - Added built-in resource packs for the old models/textures
 - Added pipe junctions to dye tag
 - Added ability to use modded prismarine blocks in conduit frame
+- Added ability for plastic buckets to "pick up" lava
+- Added plastic bucket advacements
 - Fixed incorrect textures for black & gray pipe junctions
 - Fixed shearing pokeys not dropping items
 - Removed forgotten debug log
