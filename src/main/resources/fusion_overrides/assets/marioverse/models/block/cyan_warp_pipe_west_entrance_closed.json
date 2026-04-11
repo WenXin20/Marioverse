@@ -1,7 +1,27 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/block",
   "loader": "fusion:model",
   "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/cyan_warp_pipe_bottom",
+    "particle": "marioverse:block/cyan_warp_pipe_entrance_side",
+    "side": "marioverse:block/cyan_warp_pipe_entrance_side",
+    "top": "marioverse:block/cyan_warp_pipe_top_closed"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down": { "texture": "#bottom" },
+        "east": { "texture": "#side" },
+        "north": { "texture": "#side", "uv": [ 16.0, 0.0, 0.0, 16.0 ] },
+        "south": { "texture": "#side" },
+        "up": { "texture": "#top" },
+        "west": { "texture": "#side", "uv": [ 16.0, 0.0, 0.0, 16.0 ] }
+      }
+    }
+  ],
   "connections": {
     "top": {
       "type": "match_state",
@@ -88,10 +108,5 @@
       ]
     },
     "default": { "type": "is_same_block" }
-  },
-  "textures": {
-    "bottom": "marioverse:block/cyan_warp_pipe_bottom",
-    "side": "marioverse:block/cyan_warp_pipe_entrance_side",
-    "top": "marioverse:block/cyan_warp_pipe_top_closed"
   }
 }
