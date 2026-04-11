@@ -141,9 +141,11 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
             if (!stackPickup.isEmpty()) {
                 bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
 
-                if (!player.isCreative())
+                if (!player.isCreative() && level.getBlockState(player.blockPosition()).canBeReplaced())
                     level.setBlock(player.blockPosition(), Blocks.LAVA.defaultBlockState(), 3);
-                
+                else if (!player.isCreative() && state.canBeReplaced())
+                    level.setBlock(pos, Blocks.LAVA.defaultBlockState(), 3);
+
                 if (!level.isClientSide) {
                     CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) player, stack);
 
