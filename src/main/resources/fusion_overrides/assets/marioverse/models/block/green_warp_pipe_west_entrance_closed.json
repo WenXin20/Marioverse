@@ -1,48 +1,33 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/block",
   "loader": "fusion:model",
   "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/green_warp_pipe_bottom",
+    "particle": "marioverse:block/green_warp_pipe_entrance_side",
+    "side": "marioverse:block/green_warp_pipe_entrance_side",
+    "top": "marioverse:block/green_warp_pipe_top_closed"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down": { "texture": "#bottom" },
+        "east": { "texture": "#side" },
+        "north": { "texture": "#side", "uv": [ 16.0, 0.0, 0.0, 16.0 ] },
+        "south": { "texture": "#side" },
+        "up": { "texture": "#top" },
+        "west": { "texture": "#side", "uv": [ 16.0, 0.0, 0.0, 16.0 ] }
+      }
+    }
+  ],
   "connections": {
-    "bottom": {
-      "type": "or",
-      "predicates": [
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["up"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["down"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["north"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["south"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["east"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["west"] }
-        }
-      ]
+    "top": {
+      "type": "match_state",
+      "block": "marioverse:green_warp_pipe",
+      "properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
+        "water_spout": ["true", "false"], "facing": ["up", "down", "north", "south", "east", "west"] }
     },
     "side": {
       "type": "or",
@@ -122,52 +107,6 @@
         { "type": "match_block", "block": "minecraft:weathered_copper" }
       ]
     },
-    "top": {
-      "type": "or",
-      "predicates": [
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["up"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["down"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["north"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["south"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["east"] }
-        },
-        {
-          "type": "match_state",
-          "block": "marioverse:green_warp_pipe",
-          "properties": { "closed": ["true", "false"], "bubbles": ["true", "false"], "entrance": ["true", "false"],
-            "water_spout": ["true", "false"], "facing": ["west"] }
-        }
-      ]
-    },
     "default": { "type": "is_same_block" }
-  },
-  "textures": {
-    "bottom": "marioverse:block/green_warp_pipe_bottom",
-    "side": "marioverse:block/green_warp_pipe_side",
-    "top": "marioverse:block/green_warp_pipe_bottom"
   }
 }
