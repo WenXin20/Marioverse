@@ -219,9 +219,11 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
         if (stack.is(Tags.Items.TOOLS_SHEAR) && this.isShearable(player, stack, world, this.blockPosition())
             && !(this instanceof PokeyBodyEntity)) {
+            List<ItemStack> drops = this.onSheared(player, stack, world, this.blockPosition());
             this.gameEvent(GameEvent.SHEAR, player);
-            this.onSheared(player, stack, world, this.blockPosition());
 
+            for (ItemStack drop : drops)
+                this.spawnAtLocation(drop);
             if (!world.isClientSide)
                 stack.hurtAndBreak(1, player, getSlotForHand(hand));
 

@@ -5,6 +5,7 @@
 - Added pipe junctions to dye tag
 - Added ability to use modded prismarine blocks in conduit frame
 - Fixed incorrect textures for black & gray pipe junctions
+- Fixed shearing pokeys not dropping items
 - Removed forgotten debug log
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)

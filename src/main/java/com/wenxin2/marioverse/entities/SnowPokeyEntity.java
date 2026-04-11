@@ -148,9 +148,11 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         ItemStack stack = player.getItemInHand(hand);
 
         if (stack.is(Tags.Items.TOOLS_SHEAR) && this.isShearable(player, stack, world, this.blockPosition())) {
+            List<ItemStack> drops = this.onSheared(player, stack, world, this.blockPosition());
             this.gameEvent(GameEvent.SHEAR, player);
-            this.onSheared(player, stack, world, this.blockPosition());
 
+            for (ItemStack drop : drops)
+                this.spawnAtLocation(drop);
             if (!world.isClientSide)
                 stack.hurtAndBreak(1, player, getSlotForHand(hand));
 
