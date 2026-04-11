@@ -1,0 +1,31 @@
+{
+  "parent": "marioverse:helmet_bucket",
+  "criteria": {
+    "lava_unproof": {
+      "conditions": {
+        "item": {
+          "items": "marioverse:plastic_bucket"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.marioverse.lava_unproof.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "marioverse:plastic_bucket"
+    },
+    "title": {
+      "translate": "advancements.marioverse.lava_unproof.title"
+    }
+  },
+  "requirements": [
+    [
+      "lava_unproof"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "marioverse:root",
+  "criteria": {
+    "helmet_bucket": {
+      "conditions": {
+        "item": {
+          "items": "marioverse:plastic_water_bucket"
+        }
+      },
+      "trigger": "minecraft:filled_bucket"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.marioverse.helmet_bucket.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "marioverse:plastic_water_bucket"
+    },
+    "title": {
+      "translate": "advancements.marioverse.helmet_bucket.title"
+    }
+  },
+  "requirements": [
+    [
+      "helmet_bucket"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

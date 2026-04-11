@@ -127,8 +127,31 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
                     player.setItemInHand(hand, newStack);
                 else ItemUtils.createFilledResult(stack, player, newStack);
 
-                if (!level.isClientSide)
-                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, stackPickup);
+                if (!level.isClientSide) {
+                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, newStack);
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, newStack);
+                }
+                player.awardStat(Stats.ITEM_USED.get(this));
+                level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
+            }
+            return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
+        } else if (state.getBlock() instanceof BucketPickup bucketPickup && fluidState.is(Fluids.LAVA)) {
+            ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
+
+            if (!stackPickup.isEmpty()) {
+                bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
+
+                if (!player.isCreative())
+                    level.setBlock(player.blockPosition(), Blocks.LAVA.defaultBlockState(), 3);
+                
+                if (!level.isClientSide) {
+                    CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) player, stack);
+
+                    if (!player.isCreative())
+                        level.broadcastEntityEvent(player, (byte) 47);
+                }
+
+                stack.hurtAndBreak(Integer.MAX_VALUE, player, Player.getSlotForHand(player.getUsedItemHand()));
                 player.awardStat(Stats.ITEM_USED.get(this));
                 level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
             }

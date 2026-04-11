@@ -13,9 +13,13 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.AdvancementType;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.critereon.BlockPredicate;
+import net.minecraft.advancements.critereon.ConsumeItemTrigger;
 import net.minecraft.advancements.critereon.EnterBlockTrigger;
 import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.FilledBucketTrigger;
+import net.minecraft.advancements.critereon.FluidPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.ItemUsedOnLocationTrigger;
@@ -30,6 +34,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -59,6 +65,25 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .addCriterion("wrench", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.WRENCH.get()))
                     .rewards(AdvancementRewards.Builder.experience(50))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_wrench"), existingFileHelper);
+
+            AdvancementHolder HELMET_BUCKET = Advancement.Builder.advancement().parent(ROOT)
+                    .display(new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get()),
+                            Component.translatable("advancements.marioverse.helmet_bucket.title"),
+                            Component.translatable("advancements.marioverse.helmet_bucket.description"),
+                            null, AdvancementType.TASK, true, true, false)
+                    .addCriterion("helmet_bucket", FilledBucketTrigger.TriggerInstance
+                            .filledBucket(ItemPredicate.Builder.item().of(ItemRegistry.PLASTIC_WATER_BUCKET)))
+                    .rewards(AdvancementRewards.Builder.experience(50))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "helmet_bucket"), existingFileHelper);
+
+            AdvancementHolder LAVA_UNPROOF = Advancement.Builder.advancement().parent(HELMET_BUCKET)
+                    .display(new ItemStack(ItemRegistry.PLASTIC_BUCKET.get()),
+                            Component.translatable("advancements.marioverse.lava_unproof.title"),
+                            Component.translatable("advancements.marioverse.lava_unproof.description"),
+                            null, AdvancementType.TASK, true, true, false)
+                    .addCriterion("lava_unproof", ConsumeItemTrigger.TriggerInstance
+                            .usedItem(ItemPredicate.Builder.item().of(ItemRegistry.PLASTIC_BUCKET)))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "lava_unproof"), existingFileHelper);
 
             AdvancementHolder DANGO_IT = Advancement.Builder.advancement().parent(ROOT)
                     .display(new ItemStack(BlockRegistry.DANGO_BLOSSOM),

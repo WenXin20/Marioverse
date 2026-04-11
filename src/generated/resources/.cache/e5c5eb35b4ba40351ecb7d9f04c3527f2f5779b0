@@ -1,10 +1,12 @@
-// 1.21.1	2025-12-28T23:10:43.2365737	Advancements
+// 1.21.1	2026-04-11T14:55:28.3323673	Advancements
 808f49fa2e650f5aeee7ab7898f431158e51ad81 data/marioverse/advancement/brush_a_pipe.json
 33d5ddcc30069f05f0853e57251e8606749e91b1 data/marioverse/advancement/configure_pipes.json
 c65fcd3ef99774124a792d05fdbd0ca1ce5432df data/marioverse/advancement/dango_it.json
 10731c9be50c51daf8fc8b871156db756a2b18ee data/marioverse/advancement/doubloon_nose.json
 eaf148f8d3cf4e5fa7c65b87bd5066b613e92182 data/marioverse/advancement/dye_a_pipe.json
 941da26e1d7549671bcbc705587ff2892c4b3a40 data/marioverse/advancement/got_your_nose.json
+201c160edc5fdb4fcfc8f2fe44b1ba2f65bade72 data/marioverse/advancement/helmet_bucket.json
+a1cf1ab2daa337880a1746b8a2b3dfc6c13d2087 data/marioverse/advancement/lava_unproof.json
 b537083036802d779125e6b235f25eafca4c7283 data/marioverse/advancement/make_a_pipe_glow.json
 d870977ffafc3cdec6c3166b2952ba56328fb717 data/marioverse/advancement/obtain_all_dyeable_warp_pipes.json
 6ac4590e055cec69234b7f428e1cb4ee63e5b9ef data/marioverse/advancement/obtain_wrench.json
