@@ -1,7 +1,27 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/block",
   "loader": "fusion:model",
   "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/light_gray_warp_pipe_bottom",
+    "particle": "marioverse:block/light_gray_warp_pipe_side",
+    "side": "marioverse:block/light_gray_warp_pipe_side",
+    "top": "marioverse:block/light_gray_warp_pipe_bottom"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down": { "texture": "#bottom" },
+        "east": { "texture": "#side" },
+        "north": { "texture": "#side" },
+        "south": { "texture": "#side", "uv": [ 16.0, 0.0, 0.0, 16.0 ] },
+        "up": { "texture": "#top" },
+        "west": { "texture": "#side", "uv": [ 16.0, 0.0, 0.0, 16.0 ] }
+      }
+    }
+  ],
   "connections": {
     "bottom": {
       "type": "or",
@@ -164,10 +184,5 @@
       ]
     },
     "default": { "type": "is_same_block" }
-  },
-  "textures": {
-    "bottom": "marioverse:block/light_gray_warp_pipe_bottom",
-    "side": "marioverse:block/light_gray_warp_pipe_side",
-    "top": "marioverse:block/light_gray_warp_pipe_bottom"
   }
 }

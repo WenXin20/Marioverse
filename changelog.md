@@ -1,12 +1,11 @@
 ## Update 1.9.1
 - Added new coin & star coin models
-- Added built-in Classic Coins resource pack for the old coin models
 - Added new pipe textures
-- Added built-in Classic Pipes resource pack for the old pipe textures
+- Added built-in resource packs for the old models/textures
 - Added pipe junctions to dye tag
-- Add ability to use modded prismarine blocks in conduit frame
+- Added ability to use modded prismarine blocks in conduit frame
 - Fixed incorrect textures for black & gray pipe junctions
-- Rmemoved forgotten debug log
+- Removed forgotten debug log
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
