@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -10,7 +11,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -20,11 +24,61 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.event.EventHooks;
+import org.jetbrains.annotations.NotNull;
 
 public class SmashableBrickBlock extends Block {
+    protected static final VoxelShape SHAPE =
+            Block.box(0.1, 0.1, 0.1, 15.9, 15.9, 15.9).optimize();
+
     public SmashableBrickBlock(Properties properties) {
         super(properties);
     }
+//
+//    @NotNull
+//    @Override
+//    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+//        return SHAPE;
+//    }
+//
+//    @NotNull
+//    @Override
+//    protected VoxelShape getBlockSupportShape(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+//        return Shapes.block();
+//    }
+
+//    @Override
+//    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+//        if (level.isClientSide) return;
+//        if (!(entity instanceof LivingEntity)) return;
+//
+//        double dx = entity.getX() - entity.xOld;
+//        double dz = entity.getZ() - entity.zOld;
+//        boolean movingUp = entity.getY() > entity.yOld;
+//        boolean belowBlock = entity.getY() + entity.getBbHeight() - 0.1 < pos.getY();
+//        boolean canHitBlock = entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS);
+//        boolean canGrief = EventHooks.canEntityGrief(level, entity)
+//                || (entity instanceof Player player && !player.getAbilities().flying);
+//        boolean isMovingHorizontal = Math.abs(dx) > 1e-4 || Math.abs(dz) > 1e-4;
+//        boolean canHitBlockOnSide = entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE);
+//
+//        if (!entity.onGround() && !entity.isSpectator()
+//                && movingUp && belowBlock && canHitBlock && canGrief
+//                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
+//            SmashableBrickBlock.smashBlock(level, pos, state, entity);
+//            return;
+//        }
+//
+//        if (isMovingHorizontal && canHitBlockOnSide && canGrief
+//                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
+//            Direction direction = Direction.getNearest(dx, 0, dz);
+//            SmashableBrickBlock.smashBlockFromSide(level, pos, state, entity, direction);
+//        }
+//    }
 
     public static void smashBlock(Level world, BlockPos pos, BlockState state, Entity entity) {
         BlockState stateAbove = world.getBlockState(pos.above());
@@ -69,29 +123,11 @@ public class SmashableBrickBlock extends Block {
         }
     }
 
-    public static void smashBlockFromSide(BlockState stateNorth, Entity entity, Level world, BlockPos posNorth, BlockState stateSouth, BlockPos posSouth, BlockState stateEast, BlockPos posEast, BlockState stateWest, BlockPos posWest) {
-        if (stateNorth.is(TagRegistry.SMASHABLE_BLOCKS)) {
+    public static void smashBlockFromSide(Level world, BlockPos pos, BlockState state, Entity entity, Direction direction) {
+        if (state.is(TagRegistry.SMASHABLE_BLOCKS)) {
             if (entity instanceof KoopaShellEntity shell)
-                shell.bounceShell(world, Direction.NORTH);
-            smashBlock(world, posNorth, stateNorth, entity);
-        }
-
-        if (stateSouth.is(TagRegistry.SMASHABLE_BLOCKS)) {
-            if (entity instanceof KoopaShellEntity shell)
-                shell.bounceShell(world, Direction.SOUTH);
-            smashBlock(world, posSouth, stateSouth, entity);
-        }
-
-        if (stateEast.is(TagRegistry.SMASHABLE_BLOCKS)) {
-            if (entity instanceof KoopaShellEntity shell)
-                shell.bounceShell(world, Direction.EAST);
-            smashBlock(world, posEast, stateEast, entity);
-        }
-
-        if (stateWest.is(TagRegistry.SMASHABLE_BLOCKS)) {
-            if (entity instanceof KoopaShellEntity shell)
-                shell.bounceShell(world, Direction.WEST);
-            smashBlock(world, posWest, stateWest, entity);
+                shell.bounceShell(world, direction);
+            smashBlock(world, pos, state, entity);
         }
     }
 

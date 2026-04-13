@@ -637,7 +637,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
     }
 
-    public void bounceShell(Level world, Direction dir) {
+    public void bounceShell(Level world, Direction direction) {
         Crackiness.Level crackinessLevel = this.getCrackiness();
         Vec3 motion = this.slidingMovement;
         double speed = motion.horizontalDistance();
@@ -645,17 +645,17 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         double newX = motion.x;
         double newZ = motion.z;
 
-        if (dir.getAxis() == Direction.Axis.X) {
-            if (Math.signum(motion.x) == Math.signum(dir.getStepX()))
+        if (direction.getAxis() == Direction.Axis.X) {
+            if (Math.signum(motion.x) == Math.signum(direction.getStepX()))
                 newX = -motion.x;
         }
 
-        if (dir.getAxis() == Direction.Axis.Z) {
-            if (Math.signum(motion.z) == Math.signum(dir.getStepZ()))
+        if (direction.getAxis() == Direction.Axis.Z) {
+            if (Math.signum(motion.z) == Math.signum(direction.getStepZ()))
                 newZ = -motion.z;
         }
 
-        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(dir.getNormal()).scale(0.4));
+        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(direction.getNormal()).scale(0.4));
         double tolerance = (this.getBbWidth() / 2.0) + 0.075;
 
         if (this.position().distanceTo(hitPos) <= tolerance) {
@@ -673,8 +673,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 this.setBounceCount(this.getBounceCount() + 1);
         }
 
-        if (this.getDeltaMovement().horizontalDistance() > 0.25)
+        if (this.getDeltaMovement().horizontalDistance() > 0.25
+                && this.getData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get()) == 0) {
             world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            this.setData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get(), 2);
+        }
 
         if (this.getCrackiness() != crackinessLevel)
             this.playSound(SoundRegistry.KOOPA_SHELL_SHATTER.get(), 1.0F, 1.0F);

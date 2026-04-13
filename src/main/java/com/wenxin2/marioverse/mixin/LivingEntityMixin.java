@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -28,6 +29,7 @@ import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -145,6 +147,54 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         BlockState stateWest = level.getBlockState(posWest);
         RandomSource rand = RandomSource.create();
         Vec3 motion = entity.getDeltaMovement();
+        double dx = entity.getX() - entity.xOld;
+        double dy = entity.getY() - entity.yOld;
+        double dz = entity.getZ() - entity.zOld;
+        boolean movingUp = entity.getY() > entity.yOld;
+        boolean belowBlock = entity.getY() + entity.getBbHeight() - 0.1 < posAboveEntity.getY();
+        boolean canSmashBlock = entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS);
+        boolean canGrief = EventHooks.canEntityGrief(level, entity)
+                || (entity instanceof Player player && !player.getAbilities().flying);
+        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
+        boolean canSmashBlockOnSide = entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE);
+
+        Direction direction = null;
+        BlockPos targetPos = null;
+        BlockState targetState = null;
+
+        if (Math.abs(dx) > Math.abs(dz)) {
+            if (dx > 0) direction = Direction.EAST;
+            else if (dx < 0) direction = Direction.WEST;
+        } else {
+            if (dz > 0) direction = Direction.SOUTH;
+            else if (dz < 0) direction = Direction.NORTH;
+        }
+
+        if (direction != null) {
+            switch (direction) {
+                case NORTH -> {
+                    targetPos = posNorth;
+                    targetState = stateNorth;
+                }
+                case SOUTH -> {
+                    targetPos = posSouth;
+                    targetState = stateSouth;
+                }
+                case EAST -> {
+                    targetPos = posEast;
+                    targetState = stateEast;
+                }
+                case WEST -> {
+                    targetPos = posWest;
+                    targetState = stateWest;
+                }
+            }
+
+            if (isMovingHorizontal && canSmashBlockOnSide && canGrief
+                    && targetPos != null && targetState != null
+                    && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                SmashableBrickBlock.smashBlockFromSide(level, targetPos, targetState, entity, direction);
+        }
 
         this.mv$characterAbilities(entity);
 
@@ -164,38 +214,18 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 && motion.horizontalDistance() > 0.01)
             OnOffSwitchBlock.hitSwitchBlockFromSide(level, posNorth, entity, posSouth, posEast, posWest);
 
-        if (level.getBlockEntity(posAboveEntity) instanceof QuestionBlockEntity questionBlockEntity
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.getAbilities().flying)
-                && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !level.isClientSide
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
-            QuestionBlock.hitQuestionBlock(level, posAboveEntity, entity, questionBlockEntity);
-
-        if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
-                && motion.horizontalDistance() > 0.01)
-            QuestionBlock.hitQuestionBlockFromSide(level, posNorth, entity, posSouth, posEast, posWest);
-
-        if (stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.getAbilities().flying)
-                && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !level.isClientSide
+        if (!entity.onGround() && !entity.isSpectator()
+                && movingUp && canSmashBlock && canGrief
+                && stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
                 && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
             SmashableBrickBlock.smashBlock(level, posAboveEntity, stateAboveEntity, entity);
         }
 
-        if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
-                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)
-                && motion.horizontalDistance() > 0.01
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
-            SmashableBrickBlock.smashBlockFromSide(stateNorth, entity, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
-
         if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
                 && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
                 && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !level.isClientSide) {
+                && !entity.isSpectator() && !level.isClientSide
+                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
             if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
                 level.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             else level.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);

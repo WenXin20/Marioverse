@@ -85,6 +85,7 @@ import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -104,6 +105,10 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -111,6 +116,9 @@ import org.jetbrains.annotations.Nullable;
 public class QuestionBlock extends BaseEntityBlock {
     public static final MapCodec<QuestionBlock> CODEC = simpleCodec(QuestionBlock::new);
     public static final BooleanProperty EMPTY = BooleanProperty.create("empty");
+
+    protected static final VoxelShape SHAPE =
+            Block.box(0.1, 0.1, 0.1, 15.9, 15.9, 15.9).optimize();
 
     public QuestionBlock(Properties properties) {
         super(properties);
@@ -144,6 +152,18 @@ public class QuestionBlock extends BaseEntityBlock {
     @Override
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        return SHAPE;
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getBlockSupportShape(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return Shapes.block();
     }
 
     @Override
@@ -193,6 +213,35 @@ public class QuestionBlock extends BaseEntityBlock {
             }
             questionBE.setLastPowered(isPowered);
         }
+    }
+
+    @Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (level.isClientSide) return;
+        if (!(entity instanceof LivingEntity)) return;
+
+        Vec3 motion = entity.getDeltaMovement();
+        boolean movingUp = entity.getY() > entity.yOld;
+        boolean belowBlock = entity.getY() + entity.getBbHeight() - 0.1 < pos.getY();
+        boolean canHitBlock = entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS);
+        boolean canGrief = EventHooks.canEntityGrief(level, entity)
+                || (entity instanceof Player player && !player.getAbilities().flying);
+
+        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
+        boolean canHitBlockOnSide = entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE);
+
+        if (!entity.onGround() && !entity.isSpectator()
+                && movingUp && belowBlock && canHitBlock && canGrief
+                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
+                && level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE) {
+            QuestionBlock.hitQuestionBlock(level, pos, entity, questionBE);
+            return;
+        }
+
+        if (isMovingHorizontal && canHitBlockOnSide && canGrief
+                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
+                && level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE)
+            QuestionBlock.hitQuestionBlock(level, pos, entity, questionBE);
     }
 
     @Override
@@ -389,19 +438,16 @@ public class QuestionBlock extends BaseEntityBlock {
             }
         }
     }
+    public static void hitQuestionBlockFromSide(Level level, BlockPos pos, Entity entity, Direction direction) {
+        if (!(level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBlockEntity)) return;
 
-    public static void hitQuestionBlockFromSide(Level world, BlockPos posNorth, Entity entity, BlockPos posSouth, BlockPos posEast, BlockPos posWest) {
-        if (world.getBlockEntity(posNorth) instanceof QuestionBlockEntity questionBlockEntity)
-            QuestionBlock.hitQuestionBlock(world, posNorth, entity, questionBlockEntity);
-
-        if (world.getBlockEntity(posSouth) instanceof QuestionBlockEntity questionBlockEntity)
-            QuestionBlock.hitQuestionBlock(world, posSouth, entity, questionBlockEntity);
-
-        if (world.getBlockEntity(posEast) instanceof QuestionBlockEntity questionBlockEntity)
-            QuestionBlock.hitQuestionBlock(world, posEast, entity, questionBlockEntity);
-
-        if (world.getBlockEntity(posWest) instanceof QuestionBlockEntity questionBlockEntity)
-            QuestionBlock.hitQuestionBlock(world, posWest, entity, questionBlockEntity);
+        switch (direction) {
+            case NORTH -> QuestionBlock.hitQuestionBlock(level, pos.north(), entity, questionBlockEntity);
+            case SOUTH -> QuestionBlock.hitQuestionBlock(level, pos.south(), entity, questionBlockEntity);
+            case EAST -> QuestionBlock.hitQuestionBlock(level, pos.east(), entity, questionBlockEntity);
+            case WEST -> QuestionBlock.hitQuestionBlock(level, pos.west(), entity, questionBlockEntity);
+            default -> {}
+        }
     }
 
     public static void hitEntityAbove(BlockPos pos, Level world, Entity attackingEntity) {
