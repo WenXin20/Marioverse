@@ -127,17 +127,8 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
         }
     }
 
-    public static void hitSwitchBlockFromSide(Level level, BlockPos posNorth, Entity entity, BlockPos posSouth, BlockPos posEast, BlockPos posWest) {
-        if (level.getBlockState(posNorth).getBlock() instanceof OnOffSwitchBlock)
-            OnOffSwitchBlock.hitSwitchBlock(level, posNorth, entity);
-
-        if (level.getBlockState(posSouth).getBlock() instanceof OnOffSwitchBlock)
-            OnOffSwitchBlock.hitSwitchBlock(level, posSouth, entity);
-
-        if (level.getBlockState(posEast).getBlock() instanceof OnOffSwitchBlock)
-            OnOffSwitchBlock.hitSwitchBlock(level, posEast, entity);
-
-        if (level.getBlockState(posWest).getBlock() instanceof OnOffSwitchBlock)
-            OnOffSwitchBlock.hitSwitchBlock(level, posWest, entity);
+    public static void hitSwitchBlockFromSide(Level level, BlockPos pos, Entity entity) {
+        if (level.getBlockState(pos).getBlock() instanceof OnOffSwitchBlock)
+            OnOffSwitchBlock.hitSwitchBlock(level, pos, entity);
     }
 }

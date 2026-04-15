@@ -1,13 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
-import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
-import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
-import com.wenxin2.marioverse.blocks.StorageBrickBlock;
-import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -29,7 +23,6 @@ import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -66,7 +59,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -134,106 +126,9 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     public void tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level level = entity.level();
-        BlockPos pos = entity.blockPosition();
-        BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
-        BlockPos posNorth = pos.north(Math.round(this.getBbWidth() + 0.1F));
-        BlockPos posSouth = pos.south(Math.round(this.getBbWidth() + 0.1F));
-        BlockPos posEast = pos.east(Math.round(this.getBbWidth() + 0.1F));
-        BlockPos posWest = pos.west(Math.round(this.getBbWidth() + 0.1F));
-        BlockState stateAboveEntity = level.getBlockState(posAboveEntity);
-        BlockState stateNorth = level.getBlockState(posNorth);
-        BlockState stateSouth = level.getBlockState(posSouth);
-        BlockState stateEast = level.getBlockState(posEast);
-        BlockState stateWest = level.getBlockState(posWest);
         RandomSource rand = RandomSource.create();
-        Vec3 motion = entity.getDeltaMovement();
-        double dx = entity.getX() - entity.xOld;
-        double dy = entity.getY() - entity.yOld;
-        double dz = entity.getZ() - entity.zOld;
-        boolean movingUp = entity.getY() > entity.yOld;
-        boolean belowBlock = entity.getY() + entity.getBbHeight() - 0.1 < posAboveEntity.getY();
-        boolean canSmashBlock = entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS);
-        boolean canGrief = EventHooks.canEntityGrief(level, entity)
-                || (entity instanceof Player player && !player.getAbilities().flying);
-        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
-        boolean canSmashBlockOnSide = entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE);
-
-        Direction direction = null;
-        BlockPos targetPos = null;
-        BlockState targetState = null;
-
-        if (Math.abs(dx) > Math.abs(dz)) {
-            if (dx > 0) direction = Direction.EAST;
-            else if (dx < 0) direction = Direction.WEST;
-        } else {
-            if (dz > 0) direction = Direction.SOUTH;
-            else if (dz < 0) direction = Direction.NORTH;
-        }
-
-        if (direction != null) {
-            switch (direction) {
-                case NORTH -> {
-                    targetPos = posNorth;
-                    targetState = stateNorth;
-                }
-                case SOUTH -> {
-                    targetPos = posSouth;
-                    targetState = stateSouth;
-                }
-                case EAST -> {
-                    targetPos = posEast;
-                    targetState = stateEast;
-                }
-                case WEST -> {
-                    targetPos = posWest;
-                    targetState = stateWest;
-                }
-            }
-
-            if (isMovingHorizontal && canSmashBlockOnSide && canGrief
-                    && targetPos != null && targetState != null
-                    && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
-                SmashableBrickBlock.smashBlockFromSide(level, targetPos, targetState, entity, direction);
-        }
 
         this.mv$characterAbilities(entity);
-
-        if (entity.hasData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get())
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) > 0)
-            entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) - 1);
-
-        if (entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
-                && (EventHooks.canEntityGrief(level, entity) || entity instanceof Player player && !player.getAbilities().flying)
-                && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !level.isClientSide
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
-            OnOffSwitchBlock.hitSwitchBlock(level, posAboveEntity, entity);
-
-        if ((EventHooks.canEntityGrief(level, entity) || entity instanceof Player) && !level.isClientSide
-                && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)
-                && motion.horizontalDistance() > 0.01)
-            OnOffSwitchBlock.hitSwitchBlockFromSide(level, posNorth, entity, posSouth, posEast, posWest);
-
-        if (!entity.onGround() && !entity.isSpectator()
-                && movingUp && canSmashBlock && canGrief
-                && stateAboveEntity.is(TagRegistry.SMASHABLE_BLOCKS)
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
-            SmashableBrickBlock.smashBlock(level, posAboveEntity, stateAboveEntity, entity);
-        }
-
-        if (stateAboveEntity.is(TagRegistry.BONKABLE_BLOCKS)
-                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                && !entity.onGround() && entity.getY() > entity.yOld
-                && !entity.isSpectator() && !level.isClientSide
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
-            if (stateAboveEntity.hasProperty(QuestionBlock.EMPTY) && stateAboveEntity.getValue(QuestionBlock.EMPTY))
-                level.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else level.playSound(null, posAboveEntity, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        }
-
-        if (entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)
-                && motion.horizontalDistance() > 0.01)
-            StorageBrickBlock.bonkBlockFromSide(stateNorth, level, posNorth, stateSouth, posSouth, stateEast, posEast, stateWest, posWest);
 
         if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);

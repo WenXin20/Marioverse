@@ -1,10 +1,16 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
+import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
+import com.wenxin2.marioverse.blocks.StorageBrickBlock;
+import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import java.util.UUID;
@@ -14,9 +20,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -35,6 +43,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
@@ -49,11 +58,11 @@ public class TickEventHandlers {
         Level level = entity.level();
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
-                || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                 && (entity.onGround() || entity.isInWaterOrBubble())
                 && entity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES) > 0
-                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
+                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                    || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP)))
             entity.setData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES, 0);
 
         if (!level.isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
@@ -155,13 +164,58 @@ public class TickEventHandlers {
         Entity entity = event.getEntity();
         Level level = entity.level();
         Vec3 motion = entity.getDeltaMovement();
-        BlockPos pos = entity.blockPosition();
-        BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
-        BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
-        BlockState state = level.getBlockState(pos);
-        BlockState stateAboveEntity = level.getBlockState(posAboveEntity);
-        BlockState stateInBlock = level.getBlockState(posInBlock);
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
+        BlockPos pos = entity.blockPosition();
+        BlockPos posNorth = pos.north(Math.round(entity.getBbWidth() + 0.1F));
+        BlockPos posSouth = pos.south(Math.round(entity.getBbWidth() + 0.1F));
+        BlockPos posEast = pos.east(Math.round(entity.getBbWidth() + 0.1F));
+        BlockPos posWest = pos.west(Math.round(entity.getBbWidth() + 0.1F));
+        BlockState stateNorth = level.getBlockState(posNorth);
+        BlockState stateSouth = level.getBlockState(posSouth);
+        BlockState stateEast = level.getBlockState(posEast);
+        BlockState stateWest = level.getBlockState(posWest);
+        double dx = entity.getX() - entity.xOld;
+        double dz = entity.getZ() - entity.zOld;
+        boolean canGrief = EventHooks.canEntityGrief(level, entity)
+                || (entity instanceof Player player && !player.getAbilities().flying);
+        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
+
+        Direction direction = null;
+        BlockPos targetPos = null;
+        BlockState targetState = null;
+
+        if (Math.abs(dx) > Math.abs(dz)) {
+            if (dx > 0)
+                direction = Direction.EAST;
+            else if (dx < 0)
+                direction = Direction.WEST;
+        } else {
+            if (dz > 0)
+                direction = Direction.SOUTH;
+            else if (dz < 0)
+                direction = Direction.NORTH;
+        }
+
+        if (direction != null) {
+            switch (direction) {
+                case NORTH -> {
+                    targetPos = posNorth;
+                    targetState = stateNorth;
+                }
+                case SOUTH -> {
+                    targetPos = posSouth;
+                    targetState = stateSouth;
+                }
+                case EAST -> {
+                    targetPos = posEast;
+                    targetState = stateEast;
+                }
+                case WEST -> {
+                    targetPos = posWest;
+                    targetState = stateWest;
+                }
+            }
+        }
 
         if (!level.isClientSide && entity instanceof LivingEntity livingEntity) {
             TickEventHandlers.megaMushroomScale(livingEntity);
@@ -200,6 +254,57 @@ public class TickEventHandlers {
             entity.setOnGround(true);
             entity.fallDistance = 0.0F;
         }
+
+        if (!level.isClientSide && canGrief && motion.y > 0 && !entity.isSpectator()) {
+            AABB aboveBox = entity.getBoundingBox().move(0, 0.1, 0);
+            BlockPos min = BlockPos.containing(aboveBox.minX, aboveBox.minY, aboveBox.minZ);
+            BlockPos max = BlockPos.containing(aboveBox.maxX, aboveBox.maxY, aboveBox.maxZ);
+
+            for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
+                BlockState stateAbove = level.getBlockState(posAbove);
+
+                if (stateAbove.isAir())
+                    continue;
+
+                if (entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
+                        && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                    OnOffSwitchBlock.hitSwitchBlock(level, posAbove, entity);
+
+                if (entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                        && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
+                        && level.getBlockEntity(posAbove) instanceof QuestionBlockEntity questionBE)
+                    QuestionBlock.hitQuestionBlock(level, posAbove, entity, questionBE);
+
+                if (stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
+                        && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
+                        && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                    SmashableBrickBlock.smashBlock(level, posAbove, stateAbove, entity);
+
+                if (stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
+                        && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
+                        && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
+                    if (stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))
+                        level.playSound(null, posAbove, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                    else level.playSound(null, posAbove, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                }
+            }
+        }
+
+        if (!level.isClientSide && canGrief && isMovingHorizontal && targetPos != null
+                && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE))
+            OnOffSwitchBlock.hitSwitchBlockFromSide(level, targetPos, entity);
+
+        if (!level.isClientSide && canGrief && isMovingHorizontal && targetPos != null
+                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE))
+            QuestionBlock.hitQuestionBlockFromSide(level, targetPos, entity);
+
+        if (!level.isClientSide && canGrief && isMovingHorizontal && targetPos != null
+                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE) && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+            SmashableBrickBlock.smashBlockFromSide(level, targetPos, targetState, entity, direction);
+
+        if (isMovingHorizontal && targetPos != null
+                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE))
+            StorageBrickBlock.bonkBlockFromSide(level, targetPos, targetState);
     }
 
     public static void collideWithEntity(Entity attackingEntity) {
