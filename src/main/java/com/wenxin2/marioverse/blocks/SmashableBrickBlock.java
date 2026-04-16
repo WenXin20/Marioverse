@@ -45,6 +45,7 @@ public class SmashableBrickBlock extends Block {
                 } else world.destroyBlock(pos, false);
             }
 
+            entity.setDeltaMovement(entity.getDeltaMovement().x, -entity.getDeltaMovement().y, entity.getDeltaMovement().z);
             entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 1);
             world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
 

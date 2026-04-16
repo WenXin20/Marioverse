@@ -7,16 +7,19 @@ import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -24,7 +27,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -166,56 +168,8 @@ public class TickEventHandlers {
         Vec3 motion = entity.getDeltaMovement();
         int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
         BlockPos pos = entity.blockPosition();
-        BlockPos posNorth = pos.north(Math.round(entity.getBbWidth() + 0.1F));
-        BlockPos posSouth = pos.south(Math.round(entity.getBbWidth() + 0.1F));
-        BlockPos posEast = pos.east(Math.round(entity.getBbWidth() + 0.1F));
-        BlockPos posWest = pos.west(Math.round(entity.getBbWidth() + 0.1F));
-        BlockState stateNorth = level.getBlockState(posNorth);
-        BlockState stateSouth = level.getBlockState(posSouth);
-        BlockState stateEast = level.getBlockState(posEast);
-        BlockState stateWest = level.getBlockState(posWest);
-        double dx = entity.getX() - entity.xOld;
-        double dz = entity.getZ() - entity.zOld;
-        boolean canGrief = EventHooks.canEntityGrief(level, entity)
-                || (entity instanceof Player player && !player.getAbilities().flying);
-        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
 
-        Direction direction = null;
-        BlockPos targetPos = null;
-        BlockState targetState = null;
-
-        if (Math.abs(dx) > Math.abs(dz)) {
-            if (dx > 0)
-                direction = Direction.EAST;
-            else if (dx < 0)
-                direction = Direction.WEST;
-        } else {
-            if (dz > 0)
-                direction = Direction.SOUTH;
-            else if (dz < 0)
-                direction = Direction.NORTH;
-        }
-
-        if (direction != null) {
-            switch (direction) {
-                case NORTH -> {
-                    targetPos = posNorth;
-                    targetState = stateNorth;
-                }
-                case SOUTH -> {
-                    targetPos = posSouth;
-                    targetState = stateSouth;
-                }
-                case EAST -> {
-                    targetPos = posEast;
-                    targetState = stateEast;
-                }
-                case WEST -> {
-                    targetPos = posWest;
-                    targetState = stateWest;
-                }
-            }
-        }
+        TickEventHandlers.collideWithBlocks(level, entity);
 
         if (!level.isClientSide && entity instanceof LivingEntity livingEntity) {
             TickEventHandlers.megaMushroomScale(livingEntity);
@@ -254,57 +208,134 @@ public class TickEventHandlers {
             entity.setOnGround(true);
             entity.fallDistance = 0.0F;
         }
+    }
+
+    private static void collideWithBlocks(Level level, Entity entity) {
+        Vec3 motion = entity.getDeltaMovement();
+        boolean canGrief = EventHooks.canEntityGrief(level, entity)
+                || (entity instanceof Player player && !player.getAbilities().flying);
+        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
+        CompoundTag hitMap = TickEventHandlers.getHitMap(entity);
+        List<String> toRemove = new ArrayList<>();
+        CompoundTag data = entity.getPersistentData();
+
+        if (data.contains(HIT_BLOCKS_TAG)) {
+            for (String key : hitMap.getAllKeys()) {
+                int time = hitMap.getInt(key) - 1;
+
+                if (time <= 0)
+                    toRemove.add(key);
+                else hitMap.putInt(key, time);
+            }
+
+            for (String key : toRemove) {
+                hitMap.remove(key);
+            }
+            if (hitMap.isEmpty()) {
+                data.remove(HIT_BLOCKS_TAG);
+            }
+        }
 
         if (!level.isClientSide && canGrief && motion.y > 0 && !entity.isSpectator()) {
-            AABB aboveBox = entity.getBoundingBox().move(0, 0.1, 0);
+            AABB aboveBox = entity.getBoundingBox()
+                    .deflate(0.1, 0.0, 0.1)
+                    .expandTowards(0, motion.y + 0.2, 0);
             BlockPos min = BlockPos.containing(aboveBox.minX, aboveBox.minY, aboveBox.minZ);
             BlockPos max = BlockPos.containing(aboveBox.maxX, aboveBox.maxY, aboveBox.maxZ);
 
             for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
                 BlockState stateAbove = level.getBlockState(posAbove);
+                long posKey = posAbove.asLong();
+                String key = Long.toString(posKey);
 
                 if (stateAbove.isAir())
                     continue;
+                if (hitMap.contains(key))
+                    continue;
+                boolean didHit = false;
 
-                if (entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
-                        && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                if (!didHit && stateAbove.is(BlockRegistry.ON_OFF_SWITCH)
+                        && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)) {
                     OnOffSwitchBlock.hitSwitchBlock(level, posAbove, entity);
+                    didHit = true;
+                }
 
-                if (entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                        && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
-                        && level.getBlockEntity(posAbove) instanceof QuestionBlockEntity questionBE)
+                if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                        && level.getBlockEntity(posAbove) instanceof QuestionBlockEntity questionBE) {
                     QuestionBlock.hitQuestionBlock(level, posAbove, entity, questionBE);
+                    didHit = true;
+                }
 
-                if (stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
-                        && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)
-                        && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
+                if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
+                        && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
                     SmashableBrickBlock.smashBlock(level, posAbove, stateAbove, entity);
+                    didHit = true;
+                }
 
-                if (stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
-                        && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)
-                        && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0) {
+                if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
+                        && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
                     if (stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))
                         level.playSound(null, posAbove, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                     else level.playSound(null, posAbove, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                    didHit = true;
                 }
+
+                if (didHit)
+                    hitMap.putInt(key, 5);
             }
         }
 
-        if (!level.isClientSide && canGrief && isMovingHorizontal && targetPos != null
-                && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE))
-            OnOffSwitchBlock.hitSwitchBlockFromSide(level, targetPos, entity);
+        if (!level.isClientSide && canGrief && isMovingHorizontal && !entity.isSpectator()) {
+            AABB box = entity.getBoundingBox()
+                    .deflate(0, 0.2, 0)
+                    .inflate(0.1, 0, 0.1);
+            BlockPos min = BlockPos.containing(box.minX, box.minY, box.minZ);
+            BlockPos max = BlockPos.containing(box.maxX, box.maxY, box.maxZ);
 
-        if (!level.isClientSide && canGrief && isMovingHorizontal && targetPos != null
-                && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE))
-            QuestionBlock.hitQuestionBlockFromSide(level, targetPos, entity);
+            for (BlockPos tagertPos : BlockPos.betweenClosed(min, max)) {
+                BlockState targetState = level.getBlockState(tagertPos);
+                double diffX = tagertPos.getX() + 0.5 - entity.getX();
+                double diffZ = tagertPos.getZ() + 0.5 - entity.getZ();
+                long posKey = tagertPos.asLong();
+                String key = Long.toString(posKey);
 
-        if (!level.isClientSide && canGrief && isMovingHorizontal && targetPos != null
-                && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE) && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
-            SmashableBrickBlock.smashBlockFromSide(level, targetPos, targetState, entity, direction);
+                if (targetState.isAir())
+                    continue;
+                if (tagertPos.getY() >= entity.getBoundingBox().maxY - 0.1)
+                    continue;
+                if (hitMap.contains(key))
+                    continue;
+                boolean didHit = false;
 
-        if (isMovingHorizontal && targetPos != null
-                && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE))
-            StorageBrickBlock.bonkBlockFromSide(level, targetPos, targetState);
+                Direction direction;
+                if (Math.abs(diffX) > Math.abs(diffZ))
+                    direction = diffX > 0 ? Direction.EAST : Direction.WEST;
+                else direction = diffZ > 0 ? Direction.SOUTH : Direction.NORTH;
+
+                if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
+                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, tagertPos, entity);
+                    didHit = true;
+                }
+
+                if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)) {
+                    QuestionBlock.hitQuestionBlockFromSide(level, tagertPos, entity);
+                    didHit = true;
+                }
+
+                if (!didHit && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
+                    SmashableBrickBlock.smashBlockFromSide(level, tagertPos, targetState, entity, direction);
+                    didHit = true;
+                }
+
+                if (!didHit && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
+                    StorageBrickBlock.bonkBlockFromSide(level, tagertPos, targetState);
+                    didHit = true;
+                }
+
+                if (didHit)
+                    hitMap.putInt(key, 5);
+            }
+        }
     }
 
     public static void collideWithEntity(Entity attackingEntity) {
@@ -602,5 +633,14 @@ public class TickEventHandlers {
                 else setter.accept(lerpedScale);
             }
         }
+    }
+
+    private static final String HIT_BLOCKS_TAG = "marioverse:hit_blocks";
+
+    private static CompoundTag getHitMap(Entity entity) {
+        CompoundTag data = entity.getPersistentData();
+        if (!data.contains(HIT_BLOCKS_TAG))
+            data.put(HIT_BLOCKS_TAG, new CompoundTag());
+        return data.getCompound(HIT_BLOCKS_TAG);
     }
 }
