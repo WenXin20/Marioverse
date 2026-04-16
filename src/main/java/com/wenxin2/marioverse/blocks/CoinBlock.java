@@ -21,6 +21,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.player.Player;
@@ -148,7 +149,14 @@ public class CoinBlock extends Block implements EntityBlock, SimpleWaterloggedBl
 
             if (!itemAdded)
                 player.drop(coinItem, false);
+            if (state.is(BlockTags.GUARDED_BY_PIGLINS))
+                PiglinAi.angerNearbyPiglins(player, false);
+        } else if ((entity instanceof TraceableEntity traceableEntity
+                && traceableEntity.getOwner() instanceof Player player)) {
+            itemAdded = player.addItem(coinItem);
 
+            if (!itemAdded)
+                player.drop(coinItem, false);
             if (state.is(BlockTags.GUARDED_BY_PIGLINS))
                 PiglinAi.angerNearbyPiglins(player, false);
         } else if (entity instanceof LivingEntity livingEntity && livingEntity.getMainHandItem().isEmpty()) {

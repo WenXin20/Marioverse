@@ -393,6 +393,7 @@ public class QuestionBlock extends BaseEntityBlock {
             }
         }
     }
+
     public static void hitQuestionBlockFromSide(Level level, BlockPos pos, Entity entity) {
         if ((level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE))
             QuestionBlock.hitQuestionBlock(level, pos, entity, questionBE);
