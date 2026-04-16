@@ -1,3 +1,6 @@
+## Update 1.9.2
+- Improved code when hitting blocks with your head or a shell
+
 ## Update 1.9.1
 - Added new coin & star coin models
 - Added new pipe textures

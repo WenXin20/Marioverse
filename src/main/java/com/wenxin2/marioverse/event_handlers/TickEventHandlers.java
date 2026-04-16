@@ -47,9 +47,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class TickEventHandlers {
+    private static final String HIT_BLOCKS_TAG = "marioverse:hit_blocks";
     private static double currentEyeHeightScale = 1.0;
     private static double currentHeightScale = 1.0;
     private static double currentWidthScale = 1.0;
@@ -215,11 +217,11 @@ public class TickEventHandlers {
         boolean canGrief = EventHooks.canEntityGrief(level, entity)
                 || (entity instanceof Player player && !player.getAbilities().flying);
         boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
-        CompoundTag hitMap = TickEventHandlers.getHitMap(entity);
         List<String> toRemove = new ArrayList<>();
+        CompoundTag hitMap = TickEventHandlers.getHitMap(entity);
         CompoundTag data = entity.getPersistentData();
 
-        if (data.contains(HIT_BLOCKS_TAG)) {
+        if (hitMap != null) {
             for (String key : hitMap.getAllKeys()) {
                 int time = hitMap.getInt(key) - 1;
 
@@ -233,6 +235,7 @@ public class TickEventHandlers {
             }
             if (hitMap.isEmpty()) {
                 data.remove(HIT_BLOCKS_TAG);
+                hitMap = null;
             }
         }
 
@@ -250,7 +253,7 @@ public class TickEventHandlers {
 
                 if (stateAbove.isAir())
                     continue;
-                if (hitMap.contains(key))
+                if (hitMap != null && hitMap.contains(key))
                     continue;
                 boolean didHit = false;
 
@@ -280,8 +283,10 @@ public class TickEventHandlers {
                     didHit = true;
                 }
 
-                if (didHit)
+                if (didHit) {
+                    hitMap = getOrCreateHitMap(entity);
                     hitMap.putInt(key, 5);
+                }
             }
         }
 
@@ -301,9 +306,7 @@ public class TickEventHandlers {
 
                 if (targetState.isAir())
                     continue;
-                if (tagertPos.getY() >= entity.getBoundingBox().maxY - 0.1)
-                    continue;
-                if (hitMap.contains(key))
+                if (hitMap != null && hitMap.contains(key))
                     continue;
                 boolean didHit = false;
 
@@ -312,28 +315,34 @@ public class TickEventHandlers {
                     direction = diffX > 0 ? Direction.EAST : Direction.WEST;
                 else direction = diffZ > 0 ? Direction.SOUTH : Direction.NORTH;
 
-                if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
+                if (!didHit && targetState.is(BlockRegistry.ON_OFF_SWITCH)
+                        && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
                     OnOffSwitchBlock.hitSwitchBlockFromSide(level, tagertPos, entity);
                     didHit = true;
                 }
 
-                if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)) {
+                if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
+                        && level.getBlockEntity(tagertPos) instanceof QuestionBlockEntity questionBE) {
                     QuestionBlock.hitQuestionBlockFromSide(level, tagertPos, entity);
                     didHit = true;
                 }
 
-                if (!didHit && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
+                if (!didHit && targetState.is(TagRegistry.SMASHABLE_BLOCKS)
+                        && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
                     SmashableBrickBlock.smashBlockFromSide(level, tagertPos, targetState, entity, direction);
                     didHit = true;
                 }
 
-                if (!didHit && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
+                if (!didHit && targetState.is(TagRegistry.BONKABLE_BLOCKS)
+                        && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
                     StorageBrickBlock.bonkBlockFromSide(level, tagertPos, targetState);
                     didHit = true;
                 }
 
-                if (didHit)
+                if (didHit) {
+                    hitMap = getOrCreateHitMap(entity);
                     hitMap.putInt(key, 5);
+                }
             }
         }
     }
@@ -635,12 +644,21 @@ public class TickEventHandlers {
         }
     }
 
-    private static final String HIT_BLOCKS_TAG = "marioverse:hit_blocks";
-
+    @Nullable
     private static CompoundTag getHitMap(Entity entity) {
         CompoundTag data = entity.getPersistentData();
-        if (!data.contains(HIT_BLOCKS_TAG))
-            data.put(HIT_BLOCKS_TAG, new CompoundTag());
+        return data.contains(HIT_BLOCKS_TAG)
+                ? data.getCompound(HIT_BLOCKS_TAG)
+                : null;
+    }
+
+    private static CompoundTag getOrCreateHitMap(Entity entity) {
+        CompoundTag data = entity.getPersistentData();
+        if (!data.contains(HIT_BLOCKS_TAG)) {
+            CompoundTag tag = new CompoundTag();
+            data.put(HIT_BLOCKS_TAG, tag);
+            return tag;
+        }
         return data.getCompound(HIT_BLOCKS_TAG);
     }
 }
