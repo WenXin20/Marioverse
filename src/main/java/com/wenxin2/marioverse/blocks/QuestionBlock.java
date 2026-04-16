@@ -47,6 +47,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -541,6 +542,18 @@ public class QuestionBlock extends BaseEntityBlock {
                 } else this.spawnItem(world, pos, stack, dropItemsAtPos);
             } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
                     && entityHitBlock instanceof Player player) {
+                boolean itemAdded = player.addItem(stack.copyWithCount(1));
+
+                if (blockItem.getBlock() instanceof StarCoinBlock)
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(4, 6));
+                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(2, 3));
+
+                if (!itemAdded)
+                    player.drop(stack.copyWithCount(1), false);
+
+            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
+                    && entityHitBlock instanceof TraceableEntity traceableEntity
+                    && traceableEntity.getOwner() instanceof Player player) {
                 boolean itemAdded = player.addItem(stack.copyWithCount(1));
 
                 if (blockItem.getBlock() instanceof StarCoinBlock)
