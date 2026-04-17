@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-28T19:34:12.7965327	Item Models: marioverse
+// 1.21.1	2026-04-17T00:24:30.6078755	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -12,6 +12,7 @@ e7f0a92aaf049babc19d83d53336bb305e746d33 assets/marioverse/models/item/blue_tram
 afffda4529829c1e11ca56b1133f78c0e10f226f assets/marioverse/models/item/bowser_pottery_sherd.json
 bfc68262a560ac9d8e543df686eb8e5b212d83a7 assets/marioverse/models/item/brown_checkpoint_flag.json
 392376251cf5da22e0fd32a36fc57ff65f56ee0d assets/marioverse/models/item/brown_goal_pole.json
+bb3319928c385502b96d4d7340fb68ac8dab138d assets/marioverse/models/item/cheep_cheep_spawn_egg.json
 07180ddfc65fb552e8b77669c67c0a06ffdf1cd7 assets/marioverse/models/item/christmas_hat.json
 51382bffe35de7e44ee6a583cf6192a60181be1b assets/marioverse/models/item/classic_checkpoint_flag.json
 ca7ce517d08f4cc7bd491b61c64fa253ce822f61 assets/marioverse/models/item/classic_goal_pole.json

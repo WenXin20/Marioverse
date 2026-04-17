@@ -14,7 +14,6 @@ import com.wenxin2.marioverse.client.particles.RewardParticle;
 import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
 import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
-import com.wenxin2.marioverse.client.renderers.blocks.DisguisedBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CheckpointFlagBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.GoalPoleBlockEntityRenderer;
@@ -22,6 +21,7 @@ import com.wenxin2.marioverse.client.renderers.blocks.PottedPiranhaPlantBlockEnt
 import com.wenxin2.marioverse.client.renderers.blocks.StarCoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.BooRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.CheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.DryBonesPartRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.DryBonesRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.FireGoombaRenderer;
@@ -245,6 +245,7 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.SUPER_STAR.get(), SuperStarRenderer::new);
 
         event.registerEntityRenderer(EntityRegistry.BOO.get(), BooRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.CHEEP_CHEEP.get(), CheepCheepRenderer::new);
         event.registerEntityRenderer(EntityRegistry.DRY_BONES.get(), DryBonesRenderer::new);
         event.registerEntityRenderer(EntityRegistry.FIRE_GOOMBA.get(), FireGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GOOMBA.get(), GoombaRenderer::new);

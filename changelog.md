@@ -1,3 +1,6 @@
+## Update 1.10.0
+- Add Cheep Cheep
+
 ## Update 1.9.2
 - Improved code when hitting blocks with your head or a shell
 - Shells collect coins from ? blocks for you, directly giving you the coin

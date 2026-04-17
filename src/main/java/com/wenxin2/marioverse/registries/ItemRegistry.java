@@ -50,6 +50,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> BOO_SPAWN_EGG;
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
+    public static final DeferredItem<Item> CHEEP_CHEEP_SPAWN_EGG;
     public static final DeferredItem<Item> CHRISTMAS_HAT;
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredItem<Item> CREATIVE_WRENCH;
@@ -392,6 +393,8 @@ public class ItemRegistry {
 
         BOO_SPAWN_EGG = registerItem("boo_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.BOO, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        CHEEP_CHEEP_SPAWN_EGG = registerItem("cheep_cheep_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         DRY_BONES_SPAWN_EGG = registerItem("dry_bones_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.DRY_BONES, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.BooEntity;
+import com.wenxin2.marioverse.entities.CheepCheepEntity;
 import com.wenxin2.marioverse.entities.DryBonesEntity;
 import com.wenxin2.marioverse.entities.DryBonesPartEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
@@ -33,11 +34,13 @@ import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -109,6 +112,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<BooEntity>> BOO =
             Marioverse.ENTITIES.register("boo", () -> EntityType.Builder.of(BooEntity::new, MobCategory.MONSTER)
                     .sized(0.6875F, 0.6875F).ridingOffset(0.1F).fireImmune().build("boo"));
+    public static final DeferredHolder<EntityType<?>, EntityType<CheepCheepEntity>> CHEEP_CHEEP =
+            Marioverse.ENTITIES.register("cheep_cheep", () -> EntityType.Builder.of(CheepCheepEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(0.8F, 0.7F).fireImmune().build("cheep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<DryBonesEntity>> DRY_BONES =
             Marioverse.ENTITIES.register("dry_bones", () -> EntityType.Builder.of(DryBonesEntity::new, MobCategory.MONSTER)
                     .sized(0.8F, 1.65F).ridingOffset(0.1F).fireImmune().build("dry_bones"));
@@ -165,12 +171,18 @@ public class EntityRegistry {
             Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
                     .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
 
+    public static SpawnPlacementType IN_LAVA_OR_WATER = (levelReader, pos, type) -> type != null && levelReader.getWorldBorder().isWithinBounds(pos)
+            ? levelReader.getFluidState(pos).is(FluidTags.LAVA) || levelReader.getFluidState(pos).is(FluidTags.WATER)
+            : false;
+
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
         event.register(EntityRegistry.BOO.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING, BooEntity::checkBooSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.DRY_BONES.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DryBonesEntity::checkDryBonesSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.CHEEP_CHEEP.get(), IN_LAVA_OR_WATER,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CheepCheepEntity::checkCheepCheepSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.FIRE_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FireGoombaEntity::checkFireGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
@@ -203,6 +215,10 @@ public class EntityRegistry {
 
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
+        AttributeSupplier.Builder cheepCheepAttributes = Monster.createMobAttributes()
+                .add(Attributes.ATTACK_SPEED, 0.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.25F)
+                .add(Attributes.MAX_HEALTH, 10);
         AttributeSupplier.Builder dryBonesAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.3F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
@@ -302,6 +318,7 @@ public class EntityRegistry {
         event.put(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), dryBonesPartAttributes.build());
         event.put(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), dryBonesPartAttributes.build());
 
+        event.put(EntityRegistry.CHEEP_CHEEP.get(), cheepCheepAttributes.build());
         event.put(EntityRegistry.DRY_BONES.get(), dryBonesAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_SHELL.get(), redKoopaShellAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_TROOPA.get(), koopaAttributes.build());
