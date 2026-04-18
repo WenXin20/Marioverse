@@ -171,17 +171,13 @@ public class EntityRegistry {
             Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
                     .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
 
-    public static SpawnPlacementType IN_LAVA_OR_WATER = (levelReader, pos, type) -> type != null && levelReader.getWorldBorder().isWithinBounds(pos)
-            ? levelReader.getFluidState(pos).is(FluidTags.LAVA) || levelReader.getFluidState(pos).is(FluidTags.WATER)
-            : false;
-
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
         event.register(EntityRegistry.BOO.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING, BooEntity::checkBooSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.DRY_BONES.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DryBonesEntity::checkDryBonesSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
-        event.register(EntityRegistry.CHEEP_CHEEP.get(), IN_LAVA_OR_WATER,
+        event.register(EntityRegistry.CHEEP_CHEEP.get(), SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CheepCheepEntity::checkCheepCheepSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.FIRE_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FireGoombaEntity::checkFireGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
@@ -217,7 +213,8 @@ public class EntityRegistry {
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
         AttributeSupplier.Builder cheepCheepAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_SPEED, 0.0F)
-                .add(Attributes.MOVEMENT_SPEED, 0.25F)
+                .add(Attributes.MOVEMENT_SPEED, 0.8F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.0F)
                 .add(Attributes.MAX_HEALTH, 10);
         AttributeSupplier.Builder dryBonesAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.3F)

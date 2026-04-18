@@ -1,45 +1,58 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
+import java.util.Comparator;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.JumpGoal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class JumpOutOfWaterGoal extends JumpGoal {
+    @Nullable private final SoundEvent soundEvent;
+    @Nullable private LivingEntity lureTarget;
     private static final int[] STEPS_TO_CHECK = new int[]{0, 1, 4, 5, 6, 7};
     private final Mob mob;
-    @Nullable private final SoundEvent soundEvent;
-    private final int interval;
+    private final int baseInterval;
     private boolean breached;
+    private final TagKey<EntityType<?>> lureEntityTag;
+    private final double lureRadius;
 
-    public JumpOutOfWaterGoal(Mob mob, int jumpInterval, @Nullable SoundEvent soundEvent) {
+    public JumpOutOfWaterGoal(Mob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, int jumpInterval, @Nullable SoundEvent soundEvent) {
+        this.baseInterval = reducedTickDelay(jumpInterval);
+        this.lureRadius = lureRadius;
+        this.lureEntityTag = lureEntityTag;
         this.mob = mob;
-        this.interval = reducedTickDelay(jumpInterval);
         this.soundEvent = soundEvent;
     }
 
     @Override
     public boolean canUse() {
-        if (this.mob.getRandom().nextInt(this.interval) != 0)
-            return false;
-        else {
-            Direction direction = this.mob.getMotionDirection();
-            int i = direction.getStepX();
-            int j = direction.getStepZ();
-            BlockPos blockpos = this.mob.blockPosition();
+        this.lureTarget = this.findLureTarget();
+        int interval = (lureTarget != null) ? Math.max(2, baseInterval / 3) : baseInterval;
 
-            for (int k : STEPS_TO_CHECK) {
-                if (!this.waterIsClear(blockpos, i, j, k) || !this.surfaceIsClear(blockpos, i, j, k))
-                    return false;
-            }
-            return true;
+        if (this.mob.getRandom().nextInt(interval) != 0)
+            return false;
+
+        Direction direction = this.mob.getMotionDirection();
+        int stepX = direction.getStepX();
+        int stepZ = direction.getStepZ();
+        BlockPos pos = this.mob.blockPosition();
+
+        for (int stepToCheck : STEPS_TO_CHECK) {
+            if (!this.waterIsClear(pos, stepX, stepZ, stepToCheck) || !this.surfaceIsClear(pos, stepX, stepZ, stepToCheck))
+                return false;
         }
+        return true;
     }
 
     private boolean waterIsClear(BlockPos pos, int dx, int dz, int scale) {
@@ -68,9 +81,18 @@ public class JumpOutOfWaterGoal extends JumpGoal {
 
     @Override
     public void start() {
-        Direction direction = this.mob.getMotionDirection();
-        this.mob.setDeltaMovement(this.mob.getDeltaMovement()
-                .add((double) direction.getStepX() * 0.6, 0.7, (double) direction.getStepZ() * 0.6));
+        Direction direction = this.getBiasedDirection();
+        double upwardBoost = (this.lureTarget != null) ? 1.0 : 0.7;
+        double forwardBoost = (this.lureTarget != null) ? 0.9 : 0.6;
+        Vec3 jumpVec = new Vec3(direction.getStepX() * forwardBoost, upwardBoost,
+                direction.getStepZ() * forwardBoost);
+        float yaw = (float) (Mth.atan2(jumpVec.z, jumpVec.x) * (180F / Math.PI)) - 90F;
+
+        this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(jumpVec));
+        this.mob.setYRot(yaw);
+        this.mob.setYHeadRot(yaw);
+        this.mob.yBodyRot = yaw;
+
         this.mob.getNavigation().stop();
     }
 
@@ -98,5 +120,28 @@ public class JumpOutOfWaterGoal extends JumpGoal {
             double d1 = Math.atan2(-vec3.y, d0) * 180.0F / (float) Math.PI;
             this.mob.setXRot((float) d1);
         }
+    }
+
+    private Direction getBiasedDirection() {
+        if (this.lureTarget == null)
+            return this.mob.getMotionDirection();
+
+        Vec3 toTarget = this.lureTarget.position().subtract(this.mob.position());
+        return Direction.getNearest(toTarget.x, 0, toTarget.z);
+    }
+
+    @Nullable
+    private LivingEntity findLureTarget() {
+        List<LivingEntity> list = this.mob.level().getEntitiesOfClass(LivingEntity.class,
+                this.mob.getBoundingBox().inflate(this.lureRadius), this::isValidLureTarget);
+
+        return list.stream().min(Comparator.comparingDouble(entity -> entity.distanceToSqr(this.mob)))
+                .orElse(null);
+    }
+
+    private boolean isValidLureTarget(LivingEntity entity) {
+        return entity != this.mob && entity.getType().is(this.lureEntityTag) && !entity.isSpectator()
+                && (!(entity instanceof Player player) || !player.isCreative())
+                && !entity.isInWaterOrBubble();
     }
 }

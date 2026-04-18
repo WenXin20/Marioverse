@@ -521,6 +521,14 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
 
+        tag(TagRegistry.CHEEP_CHEEP_CAN_ATTACK)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
+
         tag(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 

@@ -247,6 +247,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_WEAR_SHIRTS = entityTypeTags("can_wear_shirts");
     public static final TagKey<EntityType<?>> CAN_WEAR_SHOES = entityTypeTags("can_wear_shoes");
     public static final TagKey<EntityType<?>> CHECKPOINT_FLAG_CANNOT_SPAWN = entityTypeTags("checkpoint_flag_cannot_spawn");
+    public static final TagKey<EntityType<?>> CHEEP_CHEEP_CAN_ATTACK = entityTypeTags("cheep_cheep_can_attack");
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> DEATH_BLOCKS_IMMUNE = entityTypeTags("death_blocks_immune");
