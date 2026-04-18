@@ -190,7 +190,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
     @Override
     public void tick() {
         super.tick();
-        this.pokeEntity();
+//        this.pokeEntity();
         this.triggerBloom();
 
         if (!this.hasData(DataAttachmentRegistry.HAS_FLOWER.get()) && !(this instanceof PokeyBodyEntity))
@@ -208,6 +208,29 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
             this.setYHeadRot(bottom.getYHeadRot());
             this.yHeadRotO = bottom.yHeadRotO;
+        }
+    }
+
+    @Override
+    public void push(Entity entity) {
+        super.push(entity);
+
+        if (!(entity instanceof PokeyEntity) && !entity.getType().is(TagRegistry.THORNS_IMMUNE)
+                && !this.getData(DataAttachmentRegistry.IS_BLOOMING)) {
+            float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+
+            if (entity instanceof Creeper)
+                entity.hurt(this.getDamageSource(entity), attackDamage);
+            else entity.hurt(this.getDamageSource(this), attackDamage);
+
+            if (entity instanceof NeutralMob neutralMob) {
+                neutralMob.isAngryAt(this);
+                neutralMob.setTarget(this);
+                neutralMob.setPersistentAngerTarget(this.getUUID());
+            }
+
+            this.swing(this.getUsedItemHand());
+            this.attackCooldown = 20;
         }
     }
 
