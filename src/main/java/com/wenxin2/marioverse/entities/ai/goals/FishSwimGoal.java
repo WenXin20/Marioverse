@@ -8,7 +8,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +20,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
     private final TagKey<EntityType<?>> lureEntityTag;
     private final double lureRadius;
 
-    private Vec3 origin;
+    private Vec3 originPos;
     private boolean forward = true;
 
     public FishSwimGoal(PathfinderMob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, double patrolRange, double speedModifier, int interval, boolean canRandomSwim, boolean patrolMode) {
@@ -47,7 +46,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
     public void start() {
         super.start();
         if (this.patrolMode)
-            this.origin = this.mob.position();
+            this.originPos = this.mob.position();
     }
 
     @Override
@@ -72,26 +71,36 @@ public class FishSwimGoal extends RandomSwimmingGoal {
             this.mob.getNavigation().moveTo(moveTo.x, moveTo.y, moveTo.z, 1.6);
         }
 
+        if (this.patrolMode && this.getPosition() != null && this.originPos != null && findLureTarget() == null) {
+            Vec3 targetPos = this.getPosition();
+
+            if (this.mob.distanceToSqr(targetPos) < 1.0) {
+                this.forward = !this.forward;
+                targetPos = this.getPosition();
+            }
+            this.mob.getLookControl().setLookAt(targetPos.x, targetPos.y, targetPos.z);
+            this.mob.getNavigation().moveTo(targetPos.x, targetPos.y, targetPos.z, 1.0);
+        }
+
         if (this.mob.getNavigation().isDone()) {
             Vec3 pos = this.getPosition();
-            if (pos != null) {
+            if (pos != null)
                 this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, 1.0);
-            }
         }
     }
 
     @Override
     protected Vec3 getPosition() {
-        if (!patrolMode)
+        if (!this.patrolMode)
             return super.getPosition();
-        if (origin == null)
-            origin = this.mob.position();
+        if (this.originPos == null)
+            this.originPos = this.mob.position();
 
-        double offset = forward ? patrolRange : -patrolRange;
-        Vec3 targetPos = origin.add(offset, 0, 0);
+        double offset = this.forward ? this.patrolRange : -this.patrolRange;
+        Vec3 targetPos = this.originPos.add(offset, 0, 0);
 
         if (this.mob.distanceToSqr(targetPos) < 1.0)
-            forward = !forward;
+            this.forward = !this.forward;
         return targetPos;
     }
 

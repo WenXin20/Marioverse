@@ -80,11 +80,11 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(1, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
-                10.0, 5, this.getJumpSound()));
+                10.0, 10, this.getJumpSound()));
         this.goalSelector.addGoal(2, new FishSwimGoal(this, this.getCanAttackTag(),
-                10.0, 4.0, 1.0, 40, false, true));
+                10.0, 4.0, 1.0, 20, false, true));
         this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
-                10.0, 4.0, 1.0, 40, true, false));
+                10.0, 4.0, 1.0, 20, true, false));
         this.goalSelector.addGoal(5, new FollowFlockLeaderGoal(this));
     }
 

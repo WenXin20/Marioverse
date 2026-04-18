@@ -103,10 +103,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     private void addAdditionalSaveData(CompoundTag tag, CallbackInfoReturnable<Boolean> ci) {
         Entity entity = (Entity) (Object) this;
         WARP_ENTITY_LOCATIONS.put(this.blockPosition(), this.mv$getWarpEntity());
-//        tag.putBoolean(BREAK_PAINTING, this.mv$breakPainting);
-//        tag.putBoolean(IS_WAXED, this.mv$isWaxed);
-//        tag.putBoolean(PREVENT_WARP, this.mv$preventWarp);
-//        tag.putInt(WARP_FUEL_COUNT, this.mv$warpFuelCount);
 
         if (this.mv$hasDestinationPos() && this.mv$destinationPos != null)
             tag.put(WARP_POS, NbtUtils.writeBlockPos(this.mv$destinationPos));
