@@ -212,6 +212,7 @@ public class EntityRegistry {
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
         AttributeSupplier.Builder cheepCheepAttributes = Monster.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.0F)

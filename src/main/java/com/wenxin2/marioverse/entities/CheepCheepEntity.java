@@ -16,11 +16,13 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FollowFlockLeaderGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -35,6 +37,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    public int attackCooldown = 0;
 
     public CheepCheepEntity(EntityType<? extends CheepCheepEntity> type, Level world) {
         super(type, world);
@@ -65,22 +68,22 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
 
     @NotNull
     public DamageSource getDamageSource(Entity collidingEntity) {
-        return DamageSourceRegistry.pokeyThorns(collidingEntity);
+        return DamageSourceRegistry.cheepCheepBite(collidingEntity);
     }
 
     public TagKey<EntityType<?>> getCanAttackTag() {
-        return TagRegistry.POKEY_CAN_ATTACK;
-    } // TODO
+        return TagRegistry.CHEEP_CHEEP_CAN_ATTACK;
+    }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(1, new JumpOutOfWaterGoal(this, TagRegistry.CHEEP_CHEEP_CAN_ATTACK,
+        this.goalSelector.addGoal(1, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 10.0, 5, this.getJumpSound()));
-        this.goalSelector.addGoal(2, new FishSwimGoal(this, TagRegistry.CHEEP_CHEEP_CAN_ATTACK,
+        this.goalSelector.addGoal(2, new FishSwimGoal(this, this.getCanAttackTag(),
                 10.0, 4.0, 1.0, 40, false, true));
-        this.goalSelector.addGoal(3, new FishSwimGoal(this, TagRegistry.CHEEP_CHEEP_CAN_ATTACK,
+        this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
                 10.0, 4.0, 1.0, 40, true, false));
         this.goalSelector.addGoal(5, new FollowFlockLeaderGoal(this));
     }
@@ -107,6 +110,25 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @Override
     public void tick() {
         super.tick();
+        if (this.attackCooldown > 0)
+            this.attackCooldown--;
+    }
+
+    @Override
+    public void push(Entity entity) {
+        super.push(entity);
+
+        if (this.isAlive() && this.attackCooldown == 0
+                && entity.getType().is(TagRegistry.CHEEP_CHEEP_CAN_ATTACK)) {
+            float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+
+            if (entity instanceof Creeper)
+                entity.hurt(this.getDamageSource(entity), attackDamage);
+            else entity.hurt(this.getDamageSource(this), attackDamage);
+
+            this.swing(this.getUsedItemHand());
+            this.attackCooldown = 20;
+        }
     }
 
     public static boolean checkCheepCheepSpawnRules(EntityType<CheepCheepEntity> entityType, LevelAccessor levelAccessor,

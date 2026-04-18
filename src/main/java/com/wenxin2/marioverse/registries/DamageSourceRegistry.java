@@ -14,6 +14,12 @@ public class DamageSourceRegistry {
         } else return null;
     }
 
+    public static DamageSource cheepCheepBite(@Nullable Entity attackingEntity) {
+        if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.CHEEP_CHEEP_BITE), attackingEntity);
+        } else return null;
+    }
+
     public static DamageSource defeated(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
         if (damagedEntity != null && attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypeRegistry.PLAYER_MINI_GOOMBA_DEFEATED), damagedEntity, attackingEntity);
