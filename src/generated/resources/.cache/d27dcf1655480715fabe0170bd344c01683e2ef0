@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-19T01:02:55.9949083	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-04-19T13:47:29.7557958	Tags for minecraft:block mod id marioverse
 8d4f0dd7988f90839dbdcdc577b1bda901051c04 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 305282e1368fb138b2f4a504416dc5f3e6aba3c8 data/create/tags/block/movable_empty_collider.json
@@ -106,4 +106,5 @@ a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficie
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/block/wooden_stairs.json
+94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/twilightforest/tags/block/portal/decoration.json
 132f7fa05987470fe6c5893238618629abacc326 data/twilightforest/tags/block/portal/generated_decoration.json

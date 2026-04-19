@@ -947,6 +947,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DEATH_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
+        tag(TagRegistry.blockTags("twilightforest", "portal/decoration"))
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
+
         tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())

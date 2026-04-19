@@ -31,7 +31,7 @@ public interface BlockWarpEntityHandler {
                 || (entity.isShiftKeyDown() && entity instanceof Player);
     }
 
-    default void enterWarp(Entity entity, Level world, BlockPos pos) {
+    static void enterWarp(Entity entity, Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
         BlockEntity blockEntity = world.getBlockEntity(pos);
