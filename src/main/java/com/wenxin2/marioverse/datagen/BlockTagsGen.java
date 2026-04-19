@@ -948,6 +948,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
-                .add(BlockRegistry.DANGO_BLOSSOM.get());
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.DANGO_BLOSSOM.get())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
     }
 }

@@ -1,3 +1,7 @@
+## Update 1.10.0
+- Added the Cheep Cheep
+- Added trampoline caps to twilight forest portal deco tag
+
 ## Update 1.9.2
 - Improved code when hitting blocks with your head or a shell
 - Shells collect coins from ? blocks for you, directly giving you the coin
