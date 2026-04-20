@@ -1,7 +1,11 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.utils.BlockWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
@@ -16,22 +20,26 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class WarpTrapDoorBlock extends TrapDoorBlock implements EntityBlock {
+public class WarpTrapDoorBlock extends TrapDoorBlock implements BlockWarpPlayerHandler, EntityBlock {
     private final TrapDoorBlock source;
 
     public WarpTrapDoorBlock(TrapDoorBlock source) {
@@ -101,6 +109,34 @@ public class WarpTrapDoorBlock extends TrapDoorBlock implements EntityBlock {
     public boolean skipRendering(BlockState state, BlockState neighborState, Direction direction) {
         return state.is(CompatRegistry.MV_FRAMED_GLASS_TRAPDOOR.get()) == neighborState.is(CompatRegistry.MV_FRAMED_GLASS_TRAPDOOR.get())
                 && isConnected(state, neighborState, direction);
+    }
+
+    @Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
+        BlockState stateInBlock = level.getBlockState(posInBlock);
+
+        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
+                && level.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
+                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+            this.enterWarp(entity, level, pos);
+
+        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
+                && level.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
+                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+            this.enterWarp(entity, level, posInBlock);
+        super.entityInside(state, level, pos, entity);
+    }
+
+    @Override
+    public boolean mv$getBlockWarpTeleportConfig(Entity entity) {
+        if (entity instanceof Player)
+            return ConfigRegistry.TELEPORT_PLAYERS.get();
+        else if (entity instanceof LivingEntity)
+            return ConfigRegistry.TELEPORT_MOBS.get();
+        return ConfigRegistry.TELEPORT_NON_MOBS.get();
     }
 
     public static boolean isConnected(BlockState state, BlockState neighborState, Direction direction) {

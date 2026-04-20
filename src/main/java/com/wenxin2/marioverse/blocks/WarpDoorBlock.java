@@ -1,6 +1,9 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.utils.BlockWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
@@ -9,7 +12,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
@@ -18,10 +23,11 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class WarpDoorBlock extends DoorBlock implements EntityBlock {
+public class WarpDoorBlock extends DoorBlock implements EntityBlock, BlockWarpPlayerHandler {
     private final DoorBlock source;
 
     public WarpDoorBlock(DoorBlock source) {
@@ -91,6 +97,26 @@ public class WarpDoorBlock extends DoorBlock implements EntityBlock {
             doorBE.onLoad();
         }
         super.setPlacedBy(world, pos, state, entity, stack);
+    }
+
+    @Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
+                && level.getBlockEntity(pos) instanceof WarpDoorBlockEntity
+                && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
+                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
+                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+            this.enterWarp(entity, level, pos);
+        super.entityInside(state, level, pos, entity);
+    }
+
+    @Override
+    public boolean mv$getBlockWarpTeleportConfig(Entity entity) {
+        if (entity instanceof Player)
+            return ConfigRegistry.TELEPORT_PLAYERS.get();
+        else if (entity instanceof LivingEntity)
+            return ConfigRegistry.TELEPORT_MOBS.get();
+        return ConfigRegistry.TELEPORT_NON_MOBS.get();
     }
 }
 

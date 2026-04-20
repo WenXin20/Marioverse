@@ -4,18 +4,24 @@ import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import java.util.EnumSet;
+import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 
 public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
     public static final String BREAK_DOOR = "BreakDoor";
@@ -71,8 +77,13 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
                 BlockWarpEntityHandler.displayDestinationMissingMessage(player);
 
             if (entity instanceof Player player) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                 entity.unRide();
-                entity.teleportTo(x, y, z);
+
+                if (entity instanceof ServerPlayer serverPlayer)
+                    serverPlayer.teleportTo((ServerLevel) world, x, y, z, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                else entity.teleportTo(x, y, z);
+
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_DOOR_COOLDOWN.get());
 
                 if (state.getBlock() instanceof DoorBlock)

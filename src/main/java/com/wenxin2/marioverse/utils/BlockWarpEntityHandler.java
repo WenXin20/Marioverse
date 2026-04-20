@@ -24,14 +24,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface BlockWarpEntityHandler {
-    boolean mv$getBlockWarpTeleportConfig();
+    boolean mv$getBlockWarpTeleportConfig(Entity entity);
 
     private static boolean getShiftKeyForEntity(Entity entity) {
         return (!entity.isShiftKeyDown() && !(entity instanceof Player))
                 || (entity.isShiftKeyDown() && entity instanceof Player);
     }
 
-    static void enterWarp(Entity entity, Level world, BlockPos pos) {
+    default void enterWarp(Entity entity, Level world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
         BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -69,7 +69,7 @@ public interface BlockWarpEntityHandler {
         BlockState state = world.getBlockState(pos);
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-            if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0 && !entity.isShiftKeyDown())
                     this.warp(entity, world, pos, state, warpPos, warpBE);
                 else if (warpBE.preventWarp && entity instanceof Player player)
@@ -89,7 +89,7 @@ public interface BlockWarpEntityHandler {
         int blockZ = pos.getZ();
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-            if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && getShiftKeyForEntity(entity) && (entityY + entity.getBbHeight() >= blockY - 1)
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
@@ -170,7 +170,7 @@ public interface BlockWarpEntityHandler {
         int blockZ = pos.getZ();
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-            if (this.mv$getBlockWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
