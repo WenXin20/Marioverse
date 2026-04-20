@@ -84,7 +84,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     }
 
     @Override
-    public boolean mv$getBlockWarpTeleportConfig() {
+    public boolean mv$getBlockWarpTeleportConfig(Entity entity) {
         return ConfigRegistry.TELEPORT_MOBS.get();
     }
 

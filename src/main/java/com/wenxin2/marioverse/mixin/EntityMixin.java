@@ -188,24 +188,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
-        if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
-                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
-                && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
-                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
-                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, world, pos);
-
-        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
-                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
-                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
-                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, world, pos);
-
-        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
-                && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
-                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
-                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, world, posInBlock);
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {

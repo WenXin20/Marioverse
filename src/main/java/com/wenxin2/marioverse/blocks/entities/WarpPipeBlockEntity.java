@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks.entities;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
+import com.sk89q.worldedit.math.Vector3;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
@@ -20,9 +21,12 @@ import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.world.PipeSpawner;
+import dev.ryanhcode.sable.Sable;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import javax.annotation.Nullable;
@@ -53,6 +57,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -102,6 +107,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.ContainerSingleItem;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3d;
 import org.slf4j.Logger;
 
 public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProvider, Nameable, Spawner, ContainerSingleItem.BlockContainerSingleItem {
@@ -669,9 +675,14 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
                 if (entity instanceof Player player) {
+                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120); // Enchant teleport particles TODO new particles
                     entity.unRide();
-                    entity.teleportTo(x + 0.5, y - 1.0, z + 0.5);
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y - 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x + 0.5, y - 1.0, z + 0.5);
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -703,9 +714,14 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.UP && state.getValue(WarpPipeBlock.ENTRANCE)) {
                 if (entity instanceof Player player) {
+                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
-                    entity.teleportTo(x + 0.5, y + 1.0, z + 0.5);
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y + 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x + 0.5, y + 1.0, z + 0.5);
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -736,9 +752,14 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.DOWN && state.getValue(WarpPipeBlock.ENTRANCE)) {
                 if (entity instanceof Player player) {
+                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
-                    entity.teleportTo(x + 0.5, y - entity.getBbHeight(), z + 0.5);
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y - entity.getBbHeight(), z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x + 0.5, y - entity.getBbHeight(), z + 0.5);
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -769,12 +790,17 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.NORTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
                 if (entity instanceof Player player) {
+                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(180);
                     entity.setYHeadRot(180);
                     entity.setYBodyRot(180);
-                    entity.teleportTo(x + 0.5, y, z - entity.getBbWidth());
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y, z - entity.getBbWidth(), flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x + 0.5, y, z - entity.getBbWidth());
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -814,12 +840,17 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.SOUTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
                 if (entity instanceof Player player) {
+                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(0);
                     entity.setYHeadRot(0);
                     entity.setYBodyRot(0);
-                    entity.teleportTo(x + 0.5, y, z + entity.getBbWidth() + 1.0);
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y, z + entity.getBbWidth() + 1.0, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x + 0.5, y, z + entity.getBbWidth() + 1.0);
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -859,12 +890,17 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.EAST && state.getValue(WarpPipeBlock.ENTRANCE)) {
                 if (entity instanceof Player player) {
+                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(-90);
                     entity.setYHeadRot(-90);
                     entity.setYBodyRot(-90);
-                    entity.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x + entity.getBbWidth() + 1.0, y, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -904,12 +940,17 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.WEST && state.getValue(WarpPipeBlock.ENTRANCE)) {
                 if (entity instanceof Player player) {
+                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(90);
                     entity.setYHeadRot(90);
                     entity.setYBodyRot(90);
-                    entity.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x - entity.getBbWidth(), y, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (ConfigRegistry.BLINDNESS_EFFECT.get())

@@ -3,17 +3,22 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -62,8 +67,13 @@ public interface WarpLinkableEntity {
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (entity instanceof Player player) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                 entity.unRide();
-                entity.teleportTo(x, y, z);
+
+                if (entity instanceof ServerPlayer serverPlayer)
+                    serverPlayer.teleportTo((ServerLevel) world, x, y, z, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                else entity.teleportTo(x, y, z);
+
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
 
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
