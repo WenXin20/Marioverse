@@ -3,8 +3,8 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/cube_bottom_top",
 	"textures": {
-		"particle": "block/bricks",
-		"bricks": "block/bricks"
+		"bricks": "block/bricks",
+		"particle": "#bricks"
 	},
 	"elements": [
 		{

@@ -1,6 +1,9 @@
 ## Update 1.10.0
 - Added the Cheep Cheep
+
+## Update 1.9.3
 - Added trampoline caps to twilight forest portal deco tag
+- Fixed brick pedestal particles
 
 ## Update 1.9.2
 - Improved code when hitting blocks with your head or a shell
