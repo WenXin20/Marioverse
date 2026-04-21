@@ -2,6 +2,7 @@
 - Added the Cheep Cheep
 
 ## Update 1.9.3
+- Added Sable block tags for Create Aeronautics compat 
 - Added trampoline caps to twilight forest portal deco tag
 - Fixed brick pedestal particles
 
