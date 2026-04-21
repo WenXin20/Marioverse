@@ -947,6 +947,13 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DEATH_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
+        tag(TagRegistry.blockTags("sable", "end_stones"))
+                .add(BlockRegistry.END_STONE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.END_STONE_QUESTION_BRICKS.get())
+                .add(BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
+                .add(BlockRegistry.SMASHABLE_END_STONE_BRICKS.get())
+                .add(BlockRegistry.STORAGE_END_STONE_BRICKS.get());
+
         tag(TagRegistry.blockTags("twilightforest", "portal/decoration"))
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
