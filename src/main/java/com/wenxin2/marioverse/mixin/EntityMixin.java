@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -34,6 +35,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -51,6 +53,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -76,6 +79,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Shadow public abstract int getId();
     @Shadow public abstract void setPos(Vec3 vec3);
 
+    @Shadow public abstract void load(CompoundTag p_20259_);
+
     @Unique private static final String UUID = "UUID";
     @Unique private static final String WARP_DIMENSION = "Dimension";
     @Unique private static final String WARP_POS = "WarpPos";
@@ -90,7 +95,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Unique protected float mv$appliedWidthScale = 1.0F;
 
     @Override
-    public boolean mv$getBlockWarpTeleportConfig() {
+    public boolean mv$getBlockWarpTeleportConfig(Entity entity) {
         return ConfigRegistry.TELEPORT_NON_MOBS.get();
     }
 
@@ -154,12 +159,15 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
     @Inject(at = @At("TAIL"), method = "tick")
     public void tick(CallbackInfo ci) {
+        boolean sable = ModList.get().isLoaded("sable");
         Entity entity = (Entity) (Object) this;
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
+        BlockState state = world.getBlockState(pos);
+        if (ModList.get().isLoaded("sable"))
+            state = SableProvider.getBlockState(entity, world, pos);
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
-        BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
         BlockState stateInBlock = world.getBlockState(posInBlock);
 
@@ -175,6 +183,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         for (Direction facing : Direction.values()) {
             BlockPos offsetPos = pos.relative(facing);
             BlockState offsetState = world.getBlockState(offsetPos);
+            if (ModList.get().isLoaded("sable"))
+                offsetState = SableProvider.getBlockState(entity, world, offsetPos);
 
             if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
                 if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
@@ -188,6 +198,24 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
+//        if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
+//                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
+//                && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
+//                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
+//                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+//            this.enterWarp(entity, world, pos);
+//
+//        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
+//                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
+//                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
+//                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+//            this.enterWarp(entity, world, pos);
+//
+//        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
+//                && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
+//                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
+//                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+//            this.enterWarp(entity, world, posInBlock);
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
