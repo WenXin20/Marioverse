@@ -947,6 +947,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DEATH_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
+        tag(TagRegistry.blockTags("sable", "bouncy"))
+                .addTag(TagRegistry.BOUNCY_BLOCKS)
+                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get());
+
         tag(TagRegistry.blockTags("sable", "end_stones"))
                 .add(BlockRegistry.END_STONE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.END_STONE_QUESTION_BRICKS.get())
