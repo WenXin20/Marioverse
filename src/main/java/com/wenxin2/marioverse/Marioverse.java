@@ -4,8 +4,10 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.event_handlers.MarioverseEventHandlers;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
+import com.wenxin2.marioverse.integration.SableCompat;
 import com.wenxin2.marioverse.integration.StoneZoneCompat;
 import com.wenxin2.marioverse.integration.WoodGoodCompat;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.loot.AddItemsModifier;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
@@ -24,7 +26,6 @@ import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TreeRegistry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -112,6 +113,7 @@ public class Marioverse {
 
         Marioverse.everyCompatModule();
         Marioverse.stoneZoneModule();
+        Marioverse.sableModule();
 
         if (dist.isClient()) {
             ConfigRegistry.registerClient(container);
@@ -145,6 +147,18 @@ public class Marioverse {
             else LOGGER.info("Stone Zone module is not loaded");
         } catch (Exception e) {
             LOGGER.error("Failed to start Stone Zone module", e);
+        }
+    }
+
+    private static void sableModule() {
+        try {
+            if (ModList.get().isLoaded("sable")) {
+                SableCompat.init();
+            } else {
+                LOGGER.info("Sable compat not loaded");
+            }
+        } catch (Throwable e) {
+            LOGGER.error("Failed to load Sable compat", e);
         }
     }
 
