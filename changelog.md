@@ -4,6 +4,7 @@
 ## Update 1.9.3
 - Added Sable block tags for Create Aeronautics compat 
 - Added trampoline caps to twilight forest portal deco tag
+- Added Warp Pipes, Question Blocks, & Storage Bricks to Framed Blocks whitelist tag
 - Fixed brick pedestal particles
 
 ## Update 1.9.2
