@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.ModList;
 
 public interface BlockWarpEntityHandler {
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
@@ -88,8 +90,16 @@ public interface BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
+        if (ModList.get().isLoaded("sable") && SableProvider.getContext(world, entity) != null) {
+            SableProvider.SableContext context = SableProvider.getContext(world, entity);
+            state = world.getBlockState(pos);
+            entityX = context.posLocal.x;
+            entityY = context.posLocal.y;
+            entityZ = context.posLocal.z;
+        }
+
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP) && state.hasProperty(WarpPipeBlock.FACING)) {
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && getShiftKeyForEntity(entity) && (entityY + entity.getBbHeight() >= blockY - 1)
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
@@ -169,8 +179,16 @@ public interface BlockWarpEntityHandler {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
 
+        if (ModList.get().isLoaded("sable") && SableProvider.getContext(world, entity) != null) {
+            SableProvider.SableContext context = SableProvider.getContext(world, entity);
+            stateAboveEntity = context.accessor.getBlockState(pos.above(Math.round(entity.getBbHeight())));
+            BlockPos posPlot = context.posPlot;
+            blockX = posPlot.getX();
+            blockZ = posPlot.getZ();
+        }
+
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP) && stateAboveEntity.hasProperty(WarpPipeBlock.FACING)) {
                 if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN
                         && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                     if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
