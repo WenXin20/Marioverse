@@ -3,8 +3,6 @@ package com.wenxin2.marioverse.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
@@ -35,7 +33,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -47,14 +44,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -158,14 +153,12 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
-    public void tick(CallbackInfo ci) {
+    public void mv$tick(CallbackInfo ci) {
         boolean sable = ModList.get().isLoaded("sable");
         Entity entity = (Entity) (Object) this;
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockState state = world.getBlockState(pos);
-        if (ModList.get().isLoaded("sable"))
-            state = SableProvider.getBlockState(entity, world, pos);
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
@@ -181,14 +174,12 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         mv$rideIceCube(entity);
 
         for (Direction facing : Direction.values()) {
-            BlockPos offsetPos = pos.relative(facing);
-            BlockState offsetState = world.getBlockState(offsetPos);
-            if (ModList.get().isLoaded("sable"))
-                offsetState = SableProvider.getBlockState(entity, world, offsetPos);
+            BlockPos posOffset = pos.relative(facing);
+            BlockState stateOffset = world.getBlockState(posOffset);
 
             if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
-                if (offsetState.getBlock() instanceof WarpPipeBlock && !offsetState.getValue(WarpPipeBlock.CLOSED))
-                    this.enterWarp(entity, world, offsetPos);
+                if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED))
+                    this.enterWarp(entity, world, posOffset);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
                     this.enterWarp(entity, world, pos);
             }
@@ -198,24 +189,56 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, world, pos);
 
-//        if (!ConfigRegistry.DISABLE_WARP_DOORS.get()
-//                && world.getBlockEntity(pos) instanceof WarpDoorBlockEntity
-//                && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
-//                && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
-//                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-//            this.enterWarp(entity, world, pos);
-//
-//        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
-//                && world.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
-//                && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
-//                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-//            this.enterWarp(entity, world, pos);
-//
-//        if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
-//                && world.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
-//                && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
-//                && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-//            this.enterWarp(entity, world, posInBlock);
+        if (ModList.get().isLoaded("sable")) {
+            SableProvider.SableContext context = SableProvider.getContext(world, entity);
+            BlockPos posEmbedded;
+            BlockState statePlot;
+            BlockPos posPlotAboveEntity;
+            BlockState statePlotAboveEntity;
+
+            if (context != null) {
+                posEmbedded = context.posEmbedded;
+                statePlot = context.accessor.getBlockState(posEmbedded);
+                posPlotAboveEntity = posEmbedded.above(Math.round(entity.getBbHeight()));
+                BlockPos embeddedAbove = posEmbedded.above(Math.round(entity.getBbHeight()));
+                statePlotAboveEntity = context.accessor.getBlockState(embeddedAbove);
+            } else {
+                posEmbedded = pos;
+                statePlot = state;
+                statePlotAboveEntity = stateAboveEntity;
+            }
+
+            if (this.moveDist > this.nextStep && entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+                    && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
+                    && world.getFluidState(posEmbedded).is(FluidTags.WATER) && !world.getFluidState(posEmbedded.above()).is(FluidTags.WATER)) {
+                this.playStepSound(posEmbedded, statePlot);
+                this.nextStep = this.nextStep();
+            }
+
+            for (Direction facing : Direction.values()) {
+                BlockPos posOffset;
+                BlockState stateOffset;
+
+                if (context != null) {
+                    posOffset = context.posEmbedded.relative(facing);
+                    stateOffset = world.getBlockState(posOffset);
+                } else {
+                    posOffset = posEmbedded.relative(facing);
+                    stateOffset = world.getBlockState(posOffset);
+                }
+
+                if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
+                    if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED))
+                        this.enterWarp(entity, world, posOffset);
+                    if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
+                        this.enterWarp(entity, world, posEmbedded);
+                }
+            }
+
+            if (statePlotAboveEntity.getBlock() instanceof WarpPipeBlock && !statePlotAboveEntity.getValue(WarpPipeBlock.CLOSED)
+                    && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+                this.enterWarp(entity, world, posEmbedded);
+        }
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {

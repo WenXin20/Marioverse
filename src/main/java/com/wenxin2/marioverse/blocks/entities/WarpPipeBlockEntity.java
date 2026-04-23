@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -22,6 +23,7 @@ import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.world.PipeSpawner;
 import dev.ryanhcode.sable.Sable;
+import dev.ryanhcode.sable.companion.math.Pose3dc;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -105,6 +107,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.ContainerSingleItem;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
@@ -671,6 +674,15 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         double x = warpPos.getX();
         double y = warpPos.getY();
         double z = warpPos.getZ();
+
+        if (ModList.get().isLoaded("sable") && SableProvider.getContext(world, entity) != null) {
+            SableProvider.SableContext context = SableProvider.getContext(world, entity);
+            Pose3dc pose = context.sub.logicalPose();
+            Vector3d worldVec = pose.transformPosition(new Vector3d(warpPos.getX(), warpPos.getY(), warpPos.getZ()));
+            x = worldVec.x;
+            y = worldVec.y;
+            z = worldVec.z;
+        }
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
