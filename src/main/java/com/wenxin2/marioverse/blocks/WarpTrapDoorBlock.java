@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -28,12 +27,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
@@ -120,13 +117,13 @@ public class WarpTrapDoorBlock extends TrapDoorBlock implements BlockWarpPlayerH
                 && level.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, level, pos);
+            this.enterWarp(entity, level, pos, null);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && level.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, level, posInBlock);
+            this.enterWarp(entity, level, posInBlock, null);
         super.entityInside(state, level, pos, entity);
     }
 

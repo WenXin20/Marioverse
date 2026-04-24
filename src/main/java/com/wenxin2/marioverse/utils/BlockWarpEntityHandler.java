@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.fml.ModList;
+import org.jetbrains.annotations.Nullable;
 
 public interface BlockWarpEntityHandler {
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
@@ -33,12 +34,19 @@ public interface BlockWarpEntityHandler {
                 || (entity.isShiftKeyDown() && entity instanceof Player);
     }
 
-    default void enterWarp(Entity entity, Level world, BlockPos pos) {
+    default void enterWarp(Entity entity, Level world, BlockPos pos, @Nullable SableProvider.SableContext context) {
         BlockState state = world.getBlockState(pos);
         BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockEntity blockEntityAbove = world.getBlockEntity(pos.above(Math.round(entity.getBbHeight())));
         BlockPos warpPos;
+
+        if (ModList.get().isLoaded("sable") && context != null) {
+            state = context.accessor.getBlockState(context.posWorld);
+            stateAboveEntity = context.accessor.getBlockState(context.posWorld.above(Math.round(entity.getBbHeight())));
+            blockEntity = context.accessor.getBlockEntity(context.posWorld);
+            blockEntityAbove = context.accessor.getBlockEntity(context.posWorld.above(Math.round(entity.getBbHeight())));
+        }
 
         if (blockEntity instanceof BaseWarpBlockEntity warpBE && warpBE.getLevel() != null) {
             warpPos = warpBE.destinationPos;
@@ -96,6 +104,9 @@ public interface BlockWarpEntityHandler {
             entityX = context.posLocal.x;
             entityY = context.posLocal.y;
             entityZ = context.posLocal.z;
+            blockX = context.posWorld.getX();
+            blockY = context.posWorld.getY();
+            blockZ = context.posWorld.getZ();
         }
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
@@ -182,9 +193,10 @@ public interface BlockWarpEntityHandler {
         if (ModList.get().isLoaded("sable") && SableProvider.getContext(world, entity) != null) {
             SableProvider.SableContext context = SableProvider.getContext(world, entity);
             stateAboveEntity = context.accessor.getBlockState(pos.above(Math.round(entity.getBbHeight())));
-            BlockPos posPlot = context.posPlot;
-            blockX = posPlot.getX();
-            blockZ = posPlot.getZ();
+            entityX = context.posLocal.x;
+            entityZ = context.posLocal.z;
+            blockX = context.posWorld.getX();
+            blockZ = context.posWorld.getZ();
         }
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
