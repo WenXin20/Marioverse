@@ -1,45 +1,87 @@
 package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
-import dev.ryanhcode.sable.Sable;
-import dev.ryanhcode.sable.companion.math.BoundingBox3d;
+import dev.ryanhcode.sable.api.entity.EntitySubLevelUtil;
+import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
+import dev.ryanhcode.sable.companion.SableCompanion;
+import dev.ryanhcode.sable.companion.SubLevelAccess;
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 
 public class SableCompat {
     public static void init() {
         SableProvider.set((level, entity) -> {
-            AABB box = entity.getBoundingBox().inflate(0.25, 0.5, 0.25)
-                    .move(0, -0.25, 0);
-            Iterable<SubLevel> subs = Sable.HELPER.getAllIntersecting(level, new BoundingBox3d(box));
-            Vec3 entityPos = entity.position();
+            SubLevelAccess access = SableCompanion.INSTANCE.getContaining(entity);
+            if (access == null)
+                access = EntitySubLevelUtil.getTrackingSubLevel(entity);
+            if (access == null)
+                access = EntitySubLevelUtil.getLastTrackingSubLevel(entity);
 
-            for (SubLevel sub : subs) {
-                Pose3dc pose = sub.logicalPose();
-                var plot = sub.getPlot();
-                var accessor = plot.getEmbeddedLevelAccessor();
-                Vector3d localVec = pose.transformPositionInverse(new Vector3d(entityPos.x, entityPos.y + 0.001, entityPos.z));
-                BlockPos plotPos = BlockPos.containing(localVec.x, localVec.y, localVec.z);
-                BlockPos embeddedPos = plotPos.subtract(plot.getCenterBlock());
+            if (!(access instanceof SubLevel)) {
+                SubLevelContainer container = SubLevelContainer.getContainer(level);
 
-                if (embeddedPos.getY() < accessor.getMinBuildHeight() ||
-                        embeddedPos.getY() >= accessor.getMaxBuildHeight())
-                    continue;
-                BlockPos localPos = BlockPos.containing(localVec.x, localVec.y, localVec.z);
-                BlockPos worldPos = embeddedPos.offset(plot.getCenterBlock());
-
-                if (!accessor.hasChunkAt(embeddedPos))
-                    continue;
-                if (!accessor.hasChunkAt(worldPos))
-                    continue;
-
-                return new SableProvider.SableContext(plotPos, worldPos, new Vec3(localVec.x, localVec.y, localVec.z), accessor, sub);
+                if (container != null) {
+                    for (SubLevel sub : container.getAllSubLevels()) {
+                        SableProvider.SableContext context = buildContext(entity, sub);
+                        if (context != null)
+                            return context;
+                    }
+                }
+                return null;
             }
-            return null;
+            return buildContext(entity, (SubLevel) access);
         });
+    }
+
+    private static SableProvider.SableContext buildContext(Entity entity, SubLevel sub) {
+        Pose3dc pose = sub.logicalPose();
+        var plot = sub.getPlot();
+        var accessor = plot.getEmbeddedLevelAccessor();
+
+        SableProvider.SafeAccessor safeAccessor = new SableProvider.SafeAccessor() {
+            @Override
+            public BlockState getBlockState(BlockPos pos) {
+                return accessor.getBlockState(pos);
+            }
+
+            @Override
+            public BlockEntity getBlockEntity(BlockPos pos) {
+                return accessor.getBlockEntity(pos);
+            }
+
+            @Override
+            public boolean hasChunkAt(BlockPos pos) {
+                return accessor.hasChunkAt(pos);
+            }
+
+            @Override
+            public int getMinY() {
+                return accessor.getMinBuildHeight();
+            }
+
+            @Override
+            public int getMaxY() {
+                return accessor.getMaxBuildHeight();
+            }
+        };
+
+        Vec3 entityPos = entity.position();
+        Vector3d localVec = pose.transformPositionInverse(new Vector3d(entityPos.x, entityPos.y + 0.001, entityPos.z));
+        BlockPos plotPos = BlockPos.containing(localVec.x, localVec.y, localVec.z);
+        BlockPos embeddedPos = plotPos.subtract(plot.getCenterBlock());
+
+        if (embeddedPos.getY() < safeAccessor.getMinY() || embeddedPos.getY() >= safeAccessor.getMaxY())
+            return null;
+        if (!safeAccessor.hasChunkAt(embeddedPos))
+            return null;
+        BlockPos worldPos = embeddedPos.offset(plot.getCenterBlock());
+
+        return new SableProvider.SableContext(embeddedPos, worldPos, new Vec3(localVec.x, localVec.y, localVec.z), safeAccessor, sub);
     }
 }

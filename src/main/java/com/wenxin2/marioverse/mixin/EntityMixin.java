@@ -49,7 +49,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -183,15 +182,15 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
             if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
                 if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED))
-                    this.enterWarp(entity, world, posOffset);
+                    this.enterWarp(entity, world, posOffset, null);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
-                    this.enterWarp(entity, world, pos);
+                    this.enterWarp(entity, world, pos, null);
             }
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, world, pos);
+            this.enterWarp(entity, world, pos, null);
 
         if (ModList.get().isLoaded("sable")) {
             SableProvider.SableContext context = SableProvider.getContext(world, entity);
@@ -199,49 +198,62 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             BlockState statePlot;
             BlockPos posPlotAboveEntity;
             BlockState statePlotAboveEntity;
+            BlockPos posWorld;
 
-            if (context != null) {
+            if (context != null && world.hasChunkAt(context.toWorld(context.posEmbedded))) {
                 posEmbedded = context.posEmbedded;
                 statePlot = context.accessor.getBlockState(posEmbedded);
                 posPlotAboveEntity = posEmbedded.above(Math.round(entity.getBbHeight()));
                 BlockPos embeddedAbove = posEmbedded.above(Math.round(entity.getBbHeight()));
                 statePlotAboveEntity = context.accessor.getBlockState(embeddedAbove);
+                posWorld = context.toWorld(posEmbedded);
             } else {
                 posEmbedded = pos;
                 statePlot = state;
                 statePlotAboveEntity = stateAboveEntity;
+                posWorld = posEmbedded;
             }
 
             if (this.moveDist > this.nextStep && entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                     && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
-                    && world.getFluidState(posEmbedded).is(FluidTags.WATER) && !world.getFluidState(posEmbedded.above()).is(FluidTags.WATER)) {
-                this.playStepSound(posEmbedded, statePlot);
+                    && world.getFluidState(posWorld).is(FluidTags.WATER) && !world.getFluidState(posWorld.above()).is(FluidTags.WATER)) {
+                this.playStepSound(posWorld, statePlot);
                 this.nextStep = this.nextStep();
             }
 
             for (Direction facing : Direction.values()) {
-                BlockPos posOffset;
                 BlockState stateOffset;
+                BlockPos worldOffset;
 
                 if (context != null) {
-                    posOffset = context.posEmbedded.relative(facing);
-                    stateOffset = world.getBlockState(posOffset);
+                    BlockPos embeddedOffset = context.posEmbedded.relative(facing);
+                    if (embeddedOffset.getY() < context.accessor.getMinY()
+                            || embeddedOffset.getY() >= context.accessor.getMaxY())
+                        continue;
+                    stateOffset = context.accessor.getBlockState(embeddedOffset);
+                    worldOffset = context.toWorld(embeddedOffset);
+                    if (!world.hasChunkAt(worldOffset))
+                        continue;
                 } else {
-                    posOffset = posEmbedded.relative(facing);
-                    stateOffset = world.getBlockState(posOffset);
+                    worldOffset = entity.blockPosition().relative(facing);
+                    if (!world.hasChunkAt(worldOffset))
+                        continue;
+                    stateOffset = world.getBlockState(worldOffset);
                 }
 
-                if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
-                    if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED))
-                        this.enterWarp(entity, world, posOffset);
+                if (/*!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || */entity instanceof Player) {
+                    if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED)) {
+                        System.out.println("WARP SIDE: " + (world.isClientSide ? "CLIENT" : "SERVER"));
+                        this.enterWarp(entity, world, worldOffset, null);
+                    }
                     if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
-                        this.enterWarp(entity, world, posEmbedded);
+                        this.enterWarp(entity, world, posWorld, null);
                 }
             }
 
             if (statePlotAboveEntity.getBlock() instanceof WarpPipeBlock && !statePlotAboveEntity.getValue(WarpPipeBlock.CLOSED)
                     && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-                this.enterWarp(entity, world, posEmbedded);
+                this.enterWarp(entity, world, posWorld, null);
         }
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()

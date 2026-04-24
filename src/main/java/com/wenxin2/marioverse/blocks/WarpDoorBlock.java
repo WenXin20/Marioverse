@@ -106,7 +106,7 @@ public class WarpDoorBlock extends DoorBlock implements EntityBlock, BlockWarpPl
                 && state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.OPEN)
                 && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, level, pos);
+            this.enterWarp(entity, level, pos, null);
         super.entityInside(state, level, pos, entity);
     }
 

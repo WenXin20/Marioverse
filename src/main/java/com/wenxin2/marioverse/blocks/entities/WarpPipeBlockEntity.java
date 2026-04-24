@@ -675,14 +675,14 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         double y = warpPos.getY();
         double z = warpPos.getZ();
 
-        if (ModList.get().isLoaded("sable") && SableProvider.getContext(world, entity) != null) {
-            SableProvider.SableContext context = SableProvider.getContext(world, entity);
-            Pose3dc pose = context.sub.logicalPose();
-            Vector3d worldVec = pose.transformPosition(new Vector3d(warpPos.getX(), warpPos.getY(), warpPos.getZ()));
-            x = worldVec.x;
-            y = worldVec.y;
-            z = worldVec.z;
-        }
+//        if (ModList.get().isLoaded("sable") && SableProvider.getContext(world, entity) != null) {
+//            SableProvider.SableContext context = SableProvider.getContext(world, entity);
+//            Pose3dc pose = context.sub.logicalPose();
+//            Vector3d worldVec = pose.transformPosition(new Vector3d(warpPos.getX(), warpPos.getY(), warpPos.getZ()));
+//            x = worldVec.x;
+//            y = worldVec.y;
+//            z = worldVec.z;
+//        }
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
