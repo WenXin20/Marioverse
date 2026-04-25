@@ -1,9 +1,9 @@
 {
   "values": [
     "#marioverse:dotted_line_blocks",
+    "#marioverse:dyeable_warp_pipes",
     "#marioverse:question_blocks",
     "#marioverse:storage_bricks",
-    "#marioverse:warp_pipes",
     "marioverse:block_spawner"
   ]
 }

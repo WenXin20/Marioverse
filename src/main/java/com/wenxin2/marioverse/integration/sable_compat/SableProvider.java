@@ -36,10 +36,17 @@ public class SableProvider {
         }
 
         public BlockPos toWorld(BlockPos embedded) {
-            BlockPos plot = embedded.offset(sub.getPlot().getCenterBlock());
-            Vector3d vec = sub.logicalPose().transformPosition(new Vector3d(plot.getX(), plot.getY(), plot.getZ()));
+            BlockPos plot = embedded.offset(this.sub.getPlot().getCenterBlock());
+            Vector3d vec = this.sub.logicalPose().transformPosition(new Vector3d(plot.getX(), plot.getY(), plot.getZ()));
 
             return BlockPos.containing(vec.x, vec.y, vec.z);
+        }
+
+        public BlockPos toEmbedded(BlockPos worldPos) {
+            Vector3d vec = this.sub.logicalPose().transformPositionInverse(new Vector3d(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
+
+            BlockPos plotPos = BlockPos.containing(vec.x, vec.y, vec.z);
+            return plotPos.subtract(this.sub.getPlot().getCenterBlock()).offset(this.sub.getPlot().getCenterBlock());
         }
     }
 

@@ -9,6 +9,7 @@ import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -47,11 +48,23 @@ public class SableCompat {
         SableProvider.SafeAccessor safeAccessor = new SableProvider.SafeAccessor() {
             @Override
             public BlockState getBlockState(BlockPos pos) {
+                if (pos == null)
+                    return Blocks.AIR.defaultBlockState();
+                if (pos.getY() < this.getMinY() || pos.getY() >= this.getMaxY())
+                    return Blocks.AIR.defaultBlockState();
+                if (!accessor.hasChunkAt(pos))
+                    return Blocks.AIR.defaultBlockState();
                 return accessor.getBlockState(pos);
             }
 
             @Override
             public BlockEntity getBlockEntity(BlockPos pos) {
+                if (pos == null)
+                    return null;
+                if (pos.getY() < this.getMinY() || pos.getY() >= this.getMaxY())
+                    return null;
+                if (!accessor.hasChunkAt(pos))
+                    return null;
                 return accessor.getBlockEntity(pos);
             }
 
