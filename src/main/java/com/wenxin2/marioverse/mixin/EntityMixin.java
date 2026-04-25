@@ -157,7 +157,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
     @Inject(at = @At("TAIL"), method = "tick")
     public void mv$tick(CallbackInfo ci) {
-        boolean sable = ModList.get().isLoaded("sable");
         Entity entity = (Entity) (Object) this;
         Level world = entity.level();
         BlockPos pos = entity.blockPosition();
@@ -165,7 +164,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
         BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState stateAboveEntity = world.getBlockState(posAboveEntity);
-        BlockState stateInBlock = world.getBlockState(posInBlock);
 
         if (this.moveDist > this.nextStep && entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
@@ -182,36 +180,36 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
             if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
                 if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED))
-                    this.enterWarp(entity, world, posOffset, null);
+                    this.enterWarp(entity, world, posOffset, posOffset, stateOffset, null);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
-                    this.enterWarp(entity, world, pos, null);
+                    this.enterWarp(entity, world, pos, pos, state, null);
             }
         }
 
         if (stateAboveEntity.getBlock() instanceof WarpPipeBlock && !stateAboveEntity.getValue(WarpPipeBlock.CLOSED)
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, world, pos, null);
+            this.enterWarp(entity, world, pos, pos, state, null);
 
         if (ModList.get().isLoaded("sable")) {
             SableProvider.SableContext context = SableProvider.getContext(world, entity);
             BlockPos posEmbedded;
-            BlockState statePlot;
-            BlockPos posPlotAboveEntity;
-            BlockState statePlotAboveEntity;
             BlockPos posWorld;
+            BlockState statePlot;
+            BlockPos posWorldAboveEntity;
+            BlockState statePlotAboveEntity;
 
-            if (context != null && world.hasChunkAt(context.toWorld(context.posEmbedded))) {
+            if (context != null) {
                 posEmbedded = context.posEmbedded;
                 statePlot = context.accessor.getBlockState(posEmbedded);
-                posPlotAboveEntity = posEmbedded.above(Math.round(entity.getBbHeight()));
-                BlockPos embeddedAbove = posEmbedded.above(Math.round(entity.getBbHeight()));
-                statePlotAboveEntity = context.accessor.getBlockState(embeddedAbove);
                 posWorld = context.toWorld(posEmbedded);
+                posWorldAboveEntity = context.toWorld(posEmbedded.above(Math.round(entity.getBbHeight())));
+                statePlotAboveEntity = context.accessor.getBlockState(posWorldAboveEntity);
             } else {
                 posEmbedded = pos;
                 statePlot = state;
-                statePlotAboveEntity = stateAboveEntity;
                 posWorld = posEmbedded;
+                posWorldAboveEntity = posAboveEntity;
+                statePlotAboveEntity = stateAboveEntity;
             }
 
             if (this.moveDist > this.nextStep && entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
@@ -224,36 +222,31 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             for (Direction facing : Direction.values()) {
                 BlockState stateOffset;
                 BlockPos worldOffset;
+                BlockPos embeddedOffset;
 
                 if (context != null) {
-                    BlockPos embeddedOffset = context.posEmbedded.relative(facing);
-                    if (embeddedOffset.getY() < context.accessor.getMinY()
-                            || embeddedOffset.getY() >= context.accessor.getMaxY())
-                        continue;
+                    embeddedOffset = context.posEmbedded.relative(facing);
                     stateOffset = context.accessor.getBlockState(embeddedOffset);
                     worldOffset = context.toWorld(embeddedOffset);
-                    if (!world.hasChunkAt(worldOffset))
-                        continue;
                 } else {
+                    embeddedOffset = entity.blockPosition().relative(facing);
                     worldOffset = entity.blockPosition().relative(facing);
-                    if (!world.hasChunkAt(worldOffset))
-                        continue;
                     stateOffset = world.getBlockState(worldOffset);
                 }
 
-                if (/*!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || */entity instanceof Player) {
+                if (/*!entity.getData(DataAttachmentRegistry.PREVENT_WARP) ||*/ entity instanceof Player) {
                     if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED)) {
                         System.out.println("WARP SIDE: " + (world.isClientSide ? "CLIENT" : "SERVER"));
-                        this.enterWarp(entity, world, worldOffset, null);
+                        this.enterWarp(entity, world, worldOffset, embeddedOffset, stateOffset, context);
                     }
                     if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
-                        this.enterWarp(entity, world, posWorld, null);
+                        this.enterWarp(entity, world, posWorld, posWorld, state, context);
                 }
             }
 
             if (statePlotAboveEntity.getBlock() instanceof WarpPipeBlock && !statePlotAboveEntity.getValue(WarpPipeBlock.CLOSED)
                     && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-                this.enterWarp(entity, world, posWorld, null);
+                this.enterWarp(entity, world, posWorldAboveEntity, posWorldAboveEntity, state, context);
         }
 
         if (!ConfigRegistry.DISABLE_WARP_PAINTINGS.get()

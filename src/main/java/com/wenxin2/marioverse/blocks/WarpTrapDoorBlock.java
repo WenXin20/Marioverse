@@ -117,13 +117,13 @@ public class WarpTrapDoorBlock extends TrapDoorBlock implements BlockWarpPlayerH
                 && level.getBlockEntity(pos) instanceof WarpTrapDoorBlockEntity
                 && state.getBlock() instanceof TrapDoorBlock && state.getValue(TrapDoorBlock.OPEN)
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, level, pos, null);
+            this.enterWarp(entity, level, pos, pos, state, null);
 
         if (!ConfigRegistry.DISABLE_WARP_TRAPDOORS.get()
                 && level.getBlockEntity(posInBlock) instanceof WarpTrapDoorBlockEntity
                 && stateInBlock.getBlock() instanceof TrapDoorBlock && stateInBlock.getValue(TrapDoorBlock.OPEN)
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
-            this.enterWarp(entity, level, posInBlock, null);
+            this.enterWarp(entity, level, posInBlock, posInBlock, state, null);
         super.entityInside(state, level, pos, entity);
     }
 
