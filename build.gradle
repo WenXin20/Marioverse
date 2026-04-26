@@ -61,12 +61,12 @@ dependencies {
     implementation "curse.maven:geckolib-${geckolib_version}" // Required Dependency
     implementation "curse.maven:mmmmmmmmmmmm-${test_dummy_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight, Optional Dependency
-    compileOnly "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
+    implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
 
     implementation "curse.maven:aether-255308:6389857"
     implementation "curse.maven:amendments-896746:7461027" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
-    implementation "curse.maven:copycats-968398:6650033" // Requires Create
+    implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7408951"
     implementation "maven.modrinth:create-aeronautics:1.0.2+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
     implementation "curse.maven:framedblocks-441647:7584453"
