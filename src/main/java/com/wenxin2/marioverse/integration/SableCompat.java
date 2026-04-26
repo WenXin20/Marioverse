@@ -48,10 +48,6 @@ public class SableCompat {
         SableProvider.SafeAccessor safeAccessor = new SableProvider.SafeAccessor() {
             @Override
             public BlockState getBlockState(BlockPos pos) {
-                if (pos == null)
-                    return Blocks.AIR.defaultBlockState();
-                if (pos.getY() < this.getMinY() || pos.getY() >= this.getMaxY())
-                    return Blocks.AIR.defaultBlockState();
                 if (!accessor.hasChunkAt(pos))
                     return Blocks.AIR.defaultBlockState();
                 return accessor.getBlockState(pos);
@@ -59,10 +55,6 @@ public class SableCompat {
 
             @Override
             public BlockEntity getBlockEntity(BlockPos pos) {
-                if (pos == null)
-                    return null;
-                if (pos.getY() < this.getMinY() || pos.getY() >= this.getMaxY())
-                    return null;
                 if (!accessor.hasChunkAt(pos))
                     return null;
                 return accessor.getBlockEntity(pos);

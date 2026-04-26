@@ -200,10 +200,11 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
             if (context != null) {
                 posEmbedded = context.posEmbedded;
-                statePlot = context.accessor.getBlockState(posEmbedded);
                 posWorld = context.toWorld(posEmbedded);
+                statePlot = context.accessor.getBlockState(posEmbedded);
+                posAboveEntity = posEmbedded.above(Math.round(entity.getBbHeight()));
                 posWorldAboveEntity = context.toWorld(posEmbedded.above(Math.round(entity.getBbHeight())));
-                statePlotAboveEntity = context.accessor.getBlockState(posWorldAboveEntity);
+                statePlotAboveEntity = context.accessor.getBlockState(posAboveEntity);
             } else {
                 posEmbedded = pos;
                 statePlot = state;
@@ -226,8 +227,11 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
                 if (context != null) {
                     embeddedOffset = context.posEmbedded.relative(facing);
-                    stateOffset = context.accessor.getBlockState(embeddedOffset);
                     worldOffset = context.toWorld(embeddedOffset);
+                    stateOffset = context.accessor.getBlockState(embeddedOffset);
+                    System.out.println("base = " + context.posEmbedded + " hasChunk = " + context.accessor.hasChunkAt(context.posEmbedded));
+                    BlockPos offset = context.posEmbedded.relative(facing);
+                    System.out.println("facing = " + facing + " offset = " + offset + " hasChunk = " + context.accessor.hasChunkAt(offset));
                 } else {
                     embeddedOffset = entity.blockPosition().relative(facing);
                     worldOffset = entity.blockPosition().relative(facing);
