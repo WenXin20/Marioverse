@@ -2,19 +2,13 @@ package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import dev.ryanhcode.sable.api.entity.EntitySubLevelUtil;
-import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import dev.ryanhcode.sable.companion.SubLevelAccess;
-import dev.ryanhcode.sable.companion.math.BoundingBox3ic;
-import dev.ryanhcode.sable.companion.math.Pose3d;
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
-import dev.ryanhcode.sable.sublevel.plot.EmbeddedPlotLevelAccessor;
-import dev.ryanhcode.sable.sublevel.plot.LevelPlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,52 +19,31 @@ public class SableCompat {
     public static void init() {
         SableProvider.set((level, entity) -> {
             SubLevelAccess access = SableCompanion.INSTANCE.getContaining(entity);
-            SubLevelContainer container = SubLevelContainer.getContainer(level);
-
-            if (!(entity instanceof Player))
-                return null;
-
             if (access == null)
                 access = EntitySubLevelUtil.getTrackingSubLevel(entity);
             if (access == null)
                 access = EntitySubLevelUtil.getLastTrackingSubLevel(entity);
 
             if (!(access instanceof SubLevel)) {
-                if (!level.isClientSide && container instanceof ServerSubLevelContainer serverContainer) {
-                    for (SubLevel sub : serverContainer.getAllSubLevels()) {
-                        SableProvider.SableContext ctx = buildContext(entity, sub);
-                        Pose3dc pose = sub.logicalPose();
-                        Vec3 entityPos = entity.position();
-                        BoundingBox3ic box = sub.getPlot().getBoundingBox();
-                        Vector3d localVec = pose.transformPositionInverse(new Vector3d(entityPos.x, entityPos.y, entityPos.z));
-                        BlockPos localPos = BlockPos.containing(localVec.x, localVec.y, localVec.z);
+                SubLevelContainer container = SubLevelContainer.getContainer(level);
 
-                        if (localPos.getX() < box.minX() || localPos.getX() > box.maxX()
-                                || localPos.getY() < box.minY() || localPos.getY() > box.maxY()
-                                || localPos.getZ() < box.minZ() || localPos.getZ() > box.maxZ()) {
-                            continue;
-                        }
-                        return ctx;
+                if (container != null) {
+                    for (SubLevel sub : container.getAllSubLevels()) {
+                        SableProvider.SableContext context = buildContext(entity, sub);
+                        if (context != null)
+                            return context;
                     }
-                    return null;
                 }
+                return null;
             }
-            if (access instanceof SubLevel sub)
-                return buildContext(entity, sub);
-            return null;
+            return buildContext(entity, (SubLevel) access);
         });
     }
 
     private static SableProvider.SableContext buildContext(Entity entity, SubLevel sub) {
-        Pose3d pose = sub.logicalPose();
+        Pose3dc pose = sub.logicalPose();
         var plot = sub.getPlot();
-        EmbeddedPlotLevelAccessor accessor = plot.getEmbeddedLevelAccessor();
-
-        Vec3 entityPos = entity.position();
-        Vector3d localVec = pose.transformPositionInverse(new Vector3d(entityPos.x, entityPos.y, entityPos.z));
-        BlockPos embeddedPos = BlockPos.containing(Math.floor(localVec.x), Math.floor(localVec.y - 0.001), Math.floor(localVec.z));
-        Vector3d worldVec = pose.transformPosition(new Vector3d(embeddedPos.getX(), embeddedPos.getY(), embeddedPos.getZ()));
-        BlockPos worldPos = BlockPos.containing(worldVec.x, worldVec.y, worldVec.z);
+        var accessor = plot.getEmbeddedLevelAccessor();
 
         SableProvider.SafeAccessor safeAccessor = new SableProvider.SafeAccessor() {
             @Override
@@ -102,6 +75,17 @@ public class SableCompat {
                 return accessor.getMaxBuildHeight();
             }
         };
+
+        Vec3 entityPos = entity.position();
+        Vector3d localVec = pose.transformPositionInverse(new Vector3d(entityPos.x, entityPos.y + 0.001, entityPos.z));
+        BlockPos plotPos = BlockPos.containing(localVec.x, localVec.y, localVec.z);
+        BlockPos embeddedPos = plotPos.subtract(plot.getCenterBlock());
+
+        if (embeddedPos.getY() < safeAccessor.getMinY() || embeddedPos.getY() >= safeAccessor.getMaxY())
+            return null;
+        if (!safeAccessor.hasChunkAt(embeddedPos))
+            return null;
+        BlockPos worldPos = embeddedPos.offset(plot.getCenterBlock());
 
         return new SableProvider.SableContext(embeddedPos, worldPos, new Vec3(localVec.x, localVec.y, localVec.z), safeAccessor, sub);
     }
