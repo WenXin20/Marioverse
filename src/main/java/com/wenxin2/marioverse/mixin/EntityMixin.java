@@ -229,20 +229,19 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                     embeddedOffset = context.posEmbedded.relative(facing);
                     worldOffset = context.toWorld(embeddedOffset);
                     stateOffset = context.accessor.getBlockState(embeddedOffset);
-                    System.out.println("base = " + context.posEmbedded + " hasChunk = " + context.accessor.hasChunkAt(context.posEmbedded));
-                    BlockPos offset = context.posEmbedded.relative(facing);
-                    System.out.println("facing = " + facing + " offset = " + offset + " hasChunk = " + context.accessor.hasChunkAt(offset));
+                    if (world instanceof ServerLevel) {
+                        embeddedOffset = context.posWorld.relative(facing);
+                        stateOffset = context.accessor.getServerBlockState(embeddedOffset);
+                    }
                 } else {
                     embeddedOffset = entity.blockPosition().relative(facing);
                     worldOffset = entity.blockPosition().relative(facing);
                     stateOffset = world.getBlockState(worldOffset);
                 }
 
-                if (/*!entity.getData(DataAttachmentRegistry.PREVENT_WARP) ||*/ entity instanceof Player) {
-                    if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED)) {
-                        System.out.println("WARP SIDE: " + (world.isClientSide ? "CLIENT" : "SERVER"));
+                if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP) || entity instanceof Player) {
+                    if (stateOffset.getBlock() instanceof WarpPipeBlock && !stateOffset.getValue(WarpPipeBlock.CLOSED))
                         this.enterWarp(entity, world, worldOffset, embeddedOffset, stateOffset, context);
-                    }
                     if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
                         this.enterWarp(entity, world, posWorld, posWorld, state, context);
                 }

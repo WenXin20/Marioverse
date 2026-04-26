@@ -14,6 +14,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -47,6 +48,11 @@ public interface BlockWarpEntityHandler {
             stateAboveEntity = context.accessor.getBlockState(posEmbedded.above(Math.round(entity.getBbHeight())));
             blockEntity = context.accessor.getBlockEntity(posEmbedded);
             blockEntityAbove = context.accessor.getBlockEntity(posEmbedded.above(Math.round(entity.getBbHeight())));
+            if (world instanceof ServerLevel) {
+                state = context.accessor.getServerBlockState(posEmbedded);
+                blockEntity = context.accessor.getServerBlockEntity(posEmbedded);
+                blockEntityAbove = context.accessor.getServerBlockEntity(posEmbedded.above(Math.round(entity.getBbHeight())));
+            }
             worldPos = pos;
         } else {
             stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
@@ -108,6 +114,8 @@ public interface BlockWarpEntityHandler {
 
         if (ModList.get().isLoaded("sable") && context != null) {
             state = context.accessor.getBlockState(pos);
+            if (world instanceof ServerLevel)
+                state = context.accessor.getServerBlockState(pos);
             entityX = context.posLocal.x;
             entityY = context.posLocal.y;
             entityZ = context.posLocal.z;

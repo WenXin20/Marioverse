@@ -14,7 +14,9 @@ public class SableProvider {
 
     public interface SafeAccessor {
         BlockState getBlockState(BlockPos pos);
+        BlockState getServerBlockState(BlockPos pos);
         BlockEntity getBlockEntity(BlockPos pos);
+        BlockEntity getServerBlockEntity(BlockPos pos);
         boolean hasChunkAt(BlockPos pos);
         int getMinY();
         int getMaxY();

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import dev.ryanhcode.sable.api.entity.EntitySubLevelUtil;
+import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import dev.ryanhcode.sable.companion.SubLevelAccess;
@@ -9,6 +10,7 @@ import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,18 +22,17 @@ public class SableCompat {
         SableProvider.set((level, entity) -> {
             SubLevelAccess access = SableCompanion.INSTANCE.getContaining(entity);
             if (access == null)
-                access = EntitySubLevelUtil.getTrackingSubLevel(entity);
-            if (access == null)
                 access = EntitySubLevelUtil.getLastTrackingSubLevel(entity);
+            if (access == null)
+                access = EntitySubLevelUtil.getTrackingSubLevel(entity);
 
             if (!(access instanceof SubLevel)) {
                 SubLevelContainer container = SubLevelContainer.getContainer(level);
 
-                if (container != null) {
+                if (!level.isClientSide && container instanceof ServerSubLevelContainer) {
                     for (SubLevel sub : container.getAllSubLevels()) {
                         SableProvider.SableContext context = buildContext(entity, sub);
-                        if (context != null)
-                            return context;
+                        return context;
                     }
                 }
                 return null;
@@ -54,10 +55,24 @@ public class SableCompat {
             }
 
             @Override
+            public BlockState getServerBlockState(BlockPos pos) {
+                if (!accessor.getLevel().hasChunkAt(pos))
+                    return Blocks.AIR.defaultBlockState();
+                return accessor.getLevel().getBlockState(pos);
+            }
+
+            @Override
             public BlockEntity getBlockEntity(BlockPos pos) {
                 if (!accessor.hasChunkAt(pos))
                     return null;
                 return accessor.getBlockEntity(pos);
+            }
+
+            @Override
+            public BlockEntity getServerBlockEntity(BlockPos pos) {
+                if (!accessor.getLevel().hasChunkAt(pos))
+                    return null;
+                return accessor.getLevel().getBlockEntity(pos);
             }
 
             @Override
@@ -80,11 +95,6 @@ public class SableCompat {
         Vector3d localVec = pose.transformPositionInverse(new Vector3d(entityPos.x, entityPos.y + 0.001, entityPos.z));
         BlockPos plotPos = BlockPos.containing(localVec.x, localVec.y, localVec.z);
         BlockPos embeddedPos = plotPos.subtract(plot.getCenterBlock());
-
-        if (embeddedPos.getY() < safeAccessor.getMinY() || embeddedPos.getY() >= safeAccessor.getMaxY())
-            return null;
-        if (!safeAccessor.hasChunkAt(embeddedPos))
-            return null;
         BlockPos worldPos = embeddedPos.offset(plot.getCenterBlock());
 
         return new SableProvider.SableContext(embeddedPos, worldPos, new Vec3(localVec.x, localVec.y, localVec.z), safeAccessor, sub);
