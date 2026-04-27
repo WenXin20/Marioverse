@@ -50,6 +50,7 @@ public interface BlockWarpEntityHandler {
             blockEntityAbove = context.accessor.getBlockEntity(posEmbedded.above(Math.round(entity.getBbHeight())));
             if (world instanceof ServerLevel) {
                 state = context.accessor.getServerBlockState(posEmbedded);
+                stateAboveEntity = context.accessor.getServerBlockState(posEmbedded.above(Math.round(entity.getBbHeight())));
                 blockEntity = context.accessor.getServerBlockEntity(posEmbedded);
                 blockEntityAbove = context.accessor.getServerBlockEntity(posEmbedded.above(Math.round(entity.getBbHeight())));
             }
@@ -138,9 +139,9 @@ public interface BlockWarpEntityHandler {
                     }
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !entity.isShiftKeyDown()
-                        && (entity.onGround() || entity.isInWaterOrBubble()
-                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                        || (entity instanceof Player player && player.getAbilities().flying))
+                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
+                            || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
+                            || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
                     if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
@@ -152,7 +153,7 @@ public interface BlockWarpEntityHandler {
                     }
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH && !entity.isShiftKeyDown()
-                        && (entity.onGround() || entity.isInWaterOrBubble()
+                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
@@ -166,7 +167,7 @@ public interface BlockWarpEntityHandler {
                     }
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST && !entity.isShiftKeyDown()
-                        && (entity.onGround() || entity.isInWaterOrBubble()
+                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -180,7 +181,7 @@ public interface BlockWarpEntityHandler {
                     }
                 }
                 if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST && !entity.isShiftKeyDown()
-                        && (entity.onGround() || entity.isInWaterOrBubble()
+                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
                         || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
                         || (entity instanceof Player player && player.getAbilities().flying))
                         && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
@@ -207,6 +208,8 @@ public interface BlockWarpEntityHandler {
 
         if (ModList.get().isLoaded("sable") && context != null) {
             stateAboveEntity = context.accessor.getBlockState(pos.above(Math.round(entity.getBbHeight())));
+            if (world instanceof ServerLevel)
+                stateAboveEntity = context.accessor.getServerBlockState(pos.above(Math.round(entity.getBbHeight())));
             entityX = context.posLocal.x;
             entityZ = context.posLocal.z;
             blockX = context.posWorld.getX();
