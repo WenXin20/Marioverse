@@ -36,14 +36,13 @@ public interface BlockWarpEntityHandler {
     }
 
     default void enterWarp(Entity entity, Level world, BlockPos pos, BlockPos posEmbedded, BlockState state,
-                           @Nullable SableProvider.SableContext context) {
+                           @Nullable Object object) {
         BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockEntity blockEntityAbove = world.getBlockEntity(pos.above(Math.round(entity.getBbHeight())));
-        BlockPos worldPos;
         BlockPos warpPos;
 
-        if (ModList.get().isLoaded("sable") && context != null) {
+        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
             state = context.accessor.getBlockState(posEmbedded);
             stateAboveEntity = context.accessor.getBlockState(posEmbedded.above(Math.round(entity.getBbHeight())));
             blockEntity = context.accessor.getBlockEntity(posEmbedded);
@@ -54,12 +53,6 @@ public interface BlockWarpEntityHandler {
                 blockEntity = context.accessor.getServerBlockEntity(posEmbedded);
                 blockEntityAbove = context.accessor.getServerBlockEntity(posEmbedded.above(Math.round(entity.getBbHeight())));
             }
-            worldPos = pos;
-        } else {
-            stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
-            blockEntity = world.getBlockEntity(pos);
-            blockEntityAbove = world.getBlockEntity(pos.above(Math.round(entity.getBbHeight())));
-            worldPos = pos;
         }
 
         if (blockEntity instanceof BaseWarpBlockEntity warpBE && warpBE.getLevel() != null) {
@@ -74,7 +67,7 @@ public interface BlockWarpEntityHandler {
                 this.enterWarpDoor(entity, world, posEmbedded, warpPos, warpBE);
 
             if (state.getBlock() instanceof WarpPipeBlock)
-                this.enterWarpPipe(entity, world, posEmbedded, warpPos, warpBE, context);
+                this.enterWarpPipe(entity, world, posEmbedded, warpPos, warpBE, object);
         }
 
         if (blockEntityAbove instanceof BaseWarpBlockEntity warpBE && warpBE.getLevel() != null) {
@@ -85,7 +78,7 @@ public interface BlockWarpEntityHandler {
                 BaseWarpBlockEntity.WARPED_ENTITIES.put(entityId, false);
 
             if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
-                this.enterWarpPipeAbove(entity, world, pos, warpPos, warpBE, context);
+                this.enterWarpPipeAbove(entity, world, pos, warpPos, warpBE, object);
         }
     }
 
@@ -103,7 +96,7 @@ public interface BlockWarpEntityHandler {
     }
 
     default void enterWarpPipe(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
-                               @Nullable SableProvider.SableContext context) {
+                               @Nullable Object object) {
         BlockState state = world.getBlockState(pos);
 
         double entityX = entity.getX();
@@ -113,7 +106,7 @@ public interface BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (ModList.get().isLoaded("sable") && context != null) {
+        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
             state = context.accessor.getBlockState(pos);
             if (world instanceof ServerLevel)
                 state = context.accessor.getServerBlockState(pos);
@@ -198,7 +191,8 @@ public interface BlockWarpEntityHandler {
         }
     }
 
-    default void enterWarpPipeAbove(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE, SableProvider.SableContext context) {
+    default void enterWarpPipeAbove(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
+                                    @Nullable Object object) {
         BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
 
         double entityX = entity.getX();
@@ -206,7 +200,7 @@ public interface BlockWarpEntityHandler {
         int blockX = pos.getX();
         int blockZ = pos.getZ();
 
-        if (ModList.get().isLoaded("sable") && context != null) {
+        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
             stateAboveEntity = context.accessor.getBlockState(pos.above(Math.round(entity.getBbHeight())));
             if (world instanceof ServerLevel)
                 stateAboveEntity = context.accessor.getServerBlockState(pos.above(Math.round(entity.getBbHeight())));
