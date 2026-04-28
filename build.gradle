@@ -68,12 +68,12 @@ dependencies {
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7408951"
-    compileOnly "maven.modrinth:create-aeronautics:1.0.2+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
+    implementation "maven.modrinth:create-aeronautics:1.0.2+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
     implementation "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:guard-villagers-360203:6066966"
-    implementation "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
+    compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
     implementation "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
@@ -93,9 +93,9 @@ dependencies {
     compileOnly "curse.maven:embeddium-${embeddium_version}" // Incompatible w/ Sodium
     implementation "curse.maven:kotlin-for-forge-351264:7471280"
     implementation "curse.maven:framework-549225:7530361"
-    implementation "curse.maven:fzzy-config-1005914:7568897"
+    compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    compileOnly "maven.modrinth:sable:1.0.5+mc1.21.1-neoforge" // Requires Create
+    implementation "maven.modrinth:sable:1.0.5+mc1.21.1-neoforge" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     implementation "curse.maven:sodium-394468:6382651" // Incompatible w/ Embeddium
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.4.2,)"

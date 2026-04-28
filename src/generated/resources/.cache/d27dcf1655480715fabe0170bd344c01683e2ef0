@@ -1,6 +1,6 @@
-// 1.21.1	2026-04-24T20:31:34.5317845	Tags for minecraft:block mod id marioverse
-8d4f0dd7988f90839dbdcdc577b1bda901051c04 data/create/tags/block/brittle.json
-1d9d760238dfc8b7ec2efc7559fd722ada60ebb3 data/create/tags/block/copycat_allow.json
+// 1.21.1	2026-04-27T19:25:03.4594753	Tags for minecraft:block mod id marioverse
+12e9d8b13c17abae45f70bf1c73bfd57855dea80 data/create/tags/block/brittle.json
+2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 305282e1368fb138b2f4a504416dc5f3e6aba3c8 data/create/tags/block/movable_empty_collider.json
 3328fc37e450afbca82611da12322d23408f0d7d data/create/tags/block/safe_nbt.json
 f8b64e2ef01c28cc3f45a012a987a1593637c2b4 data/create/tags/block/simple_mounted_storage.json
@@ -70,6 +70,7 @@ f62aa77ec565005717121de25d7a660229f0124a data/marioverse/tags/block/piranha_plan
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/block/polished_calcite.json
 05196126a22460d63899d1005ccb115203d709be data/marioverse/tags/block/question_blocks.json
 a7237a913ebc494e95c33837eb152a6c6ebd10a6 data/marioverse/tags/block/question_panels.json
+b5198f3739de7f61b4b40d9e39658a2b36218478 data/marioverse/tags/block/sable/floaty.json
 562d6608011d5c95e2bdd0f99fdfc3157e691e98 data/marioverse/tags/block/smashable_blocks.json
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/snowball_extinguishes.json
 129bdbfd56e1b77fb5044c8cd355398967f9819b data/marioverse/tags/block/storage_bricks.json
@@ -109,5 +110,11 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/block/wooden_stairs.json
 6a122a7b039065b4ecffae8e04e76c79c4f044c2 data/sable/tags/block/bouncy.json
 01dd6e4065586ee5b254a31109d7c694e7e5d5d6 data/sable/tags/block/end_stones.json
+50e8dc96e78e96d8d4049351037ce328ce9c7b62 data/sable/tags/block/frictive.json
+2566a22bd6f2a0f2d3cd6aab637341236c19a4d2 data/sable/tags/block/half_volume.json
+20393819e692e45e2c56af1ad11a83eac35330c5 data/sable/tags/block/heavy.json
+ed8318623af15718a46a312178a6a298f2fee8c8 data/sable/tags/block/light.json
+553e4864b7288acc9066cbe2d1419cfc14d14a9e data/sable/tags/block/quarter_volume.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/sable/tags/block/super_light.json
 94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/twilightforest/tags/block/portal/decoration.json
 132f7fa05987470fe6c5893238618629abacc326 data/twilightforest/tags/block/portal/generated_decoration.json

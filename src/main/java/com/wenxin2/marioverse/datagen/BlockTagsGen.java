@@ -73,15 +73,13 @@ public class BlockTagsGen extends BlockTagsProvider {
         }
 
         tag(CompatRegistry.CREATE_BRITTLE)
-                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
                 .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.STAR_COIN.get());
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
 
         tag(CompatRegistry.CREATE_COPYCAT_ALLOW)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
@@ -305,6 +303,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS.get());
+
+        tag(TagRegistry.FLOATY)
+                .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
+                .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.ON_OFF_SWITCH.get())
+                .add(BlockRegistry.STAR_COIN.get());
 
         tag(TagRegistry.FREEZES_INTO_PACKED_ICE)
                 .add(Blocks.ICE);
@@ -964,6 +968,33 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_END_STONE_BRICKS.get())
                 .add(BlockRegistry.STORAGE_END_STONE_BRICKS.get());
+
+        tag(TagRegistry.blockTags("sable", "frictive"))
+                .add(BlockRegistry.IRON_SPIKE.get())
+                .add(BlockRegistry.SPIKE_PANEL.get());
+
+        tag(TagRegistry.blockTags("sable", "half_volume"))
+                .remove(TagRegistry.WOODEN_BRIDGE_BLOCKS)
+                .remove(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS);
+
+        tag(TagRegistry.blockTags("sable", "heavy"))
+                .add(BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CRACKED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CRACKED_POLISHED_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_STONE.get());
+
+        tag(TagRegistry.blockTags("sable", "light"))
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS);
+
+        tag(TagRegistry.blockTags("sable", "quarter_volume"))
+                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
+                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS);
+
+        tag(TagRegistry.blockTags("sable", "super_light"));
 
         tag(TagRegistry.blockTags("twilightforest", "portal/decoration"))
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
