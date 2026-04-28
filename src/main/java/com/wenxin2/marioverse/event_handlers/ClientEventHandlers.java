@@ -354,9 +354,9 @@ public class ClientEventHandlers {
     public static void postEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
         UUID uuid = entity.getUUID();
-        Level world = entity.level();
+        Level level = entity.level();
         BlockPos pos = entity.blockPosition();
-        BlockState state = world.getBlockState(pos);
+        BlockState state = level.getBlockState(pos);
         boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
         boolean isEntrance = state.hasProperty(ClearWarpPipeBlock.ENTRANCE) && state.getValue(ClearWarpPipeBlock.ENTRANCE);
 

@@ -32,6 +32,7 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
@@ -107,6 +108,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -876,28 +878,51 @@ public class MarioverseEventHandlers {
         Player player = Minecraft.getInstance().player;
 
         if (player != null) {
-            BlockPos posBelowEntity = BlockPos.containing(player.position().x, player.position().y - 0.3, player.position().z);
-            BlockState stateBelowEntity = player.level().getBlockState(posBelowEntity);
-            Block blockBelow = stateBelowEntity.getBlock();
+            Vec3 motion = player.getDeltaMovement();
+            BlockPos playerPos = player.blockPosition();
 
-            boolean canBounce = (stateBelowEntity.is(TagRegistry.BOUNCY_BLOCKS)
-                    && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
-                    && !player.isSuppressingBounce() && !player.isNoGravity()
-                    && !player.getAbilities().flying)
+            if (!player.isSpectator()) {
+                AABB belowBox = player.getBoundingBox()
+                        .expandTowards(0, motion.y - 0.2, 0);
+                BlockPos min = BlockPos.containing(belowBox.minX, belowBox.minY, belowBox.minZ);
+                BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
 
-                    || (blockBelow instanceof BlueMushroomTrampolineBlock
-                        && !stateBelowEntity.getValue(OnBlock.ACTIVE)
-                        && !player.isSuppressingBounce() && !player.isNoGravity()
-                        && !player.getAbilities().flying)
+                for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
+                    BlockState stateBelow = player.level().getBlockState(posBelow);
 
-                    || (blockBelow instanceof RedMushroomTrampolineBlock
-                        && !(blockBelow instanceof BlueMushroomTrampolineBlock)
-                        && stateBelowEntity.getValue(OnBlock.ACTIVE)
-                        && !player.isSuppressingBounce() && !player.isNoGravity()
-                        && !player.getAbilities().flying);
+                    if (ModList.get().isLoaded("sable")) {
+                        SableProvider.SableContext context = SableProvider.getContext(player.level(), player);
 
-            if (canBounce)
-                PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
+                        if (context != null) {
+                            BlockPos posEmbedded = context.posEmbedded.below()
+                                    .offset(posBelow.getX() - min.getX(),
+                                    posBelow.getY() - min.getY(),
+                                    posBelow.getZ() - min.getZ());
+                            stateBelow = context.accessor.getBlockState(posEmbedded);
+                        }
+                    }
+                    Block blockBelow = stateBelow.getBlock();
+
+                    boolean canBounce = (stateBelow.is(TagRegistry.BOUNCY_BLOCKS)
+                            && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
+                            && !player.isSuppressingBounce() && !player.isNoGravity()
+                            && !player.getAbilities().flying)
+
+                            || (blockBelow instanceof BlueMushroomTrampolineBlock
+                                && !stateBelow.getValue(OnBlock.ACTIVE)
+                                && !player.isSuppressingBounce() && !player.isNoGravity()
+                                && !player.getAbilities().flying)
+
+                            || (blockBelow instanceof RedMushroomTrampolineBlock
+                                && !(blockBelow instanceof BlueMushroomTrampolineBlock)
+                                && stateBelow.getValue(OnBlock.ACTIVE)
+                                && !player.isSuppressingBounce() && !player.isNoGravity()
+                                && !player.getAbilities().flying);
+
+                    if (canBounce)
+                        PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
+                }
+            }
 
             if (!player.isSpectator()) {
                 if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
@@ -959,8 +984,8 @@ public class MarioverseEventHandlers {
 
     private static final ResourceLocation SLOWDOWN_MODIFIER =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
-    private static void removeMiniGoombaSpeedModifier(LivingEntity entity) {
-        AttributeInstance speedAttribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+    private static void removeMiniGoombaSpeedModifier(LivingEntity player) {
+        AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER))
             speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
     }
