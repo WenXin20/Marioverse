@@ -1,0 +1,11 @@
+{
+  "selector": "marioverse:blue_mushroom_trampoline",
+  "properties": {
+    "sable:restitution": 0.0
+  },
+  "overrides": {
+    "active=false": {
+      "sable:restitution": 1.0
+    }
+  }
+}
