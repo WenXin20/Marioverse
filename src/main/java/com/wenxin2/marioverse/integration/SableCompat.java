@@ -40,7 +40,6 @@ public class SableCompat {
                         if (entityBox.maxX > bb.minX() && entityBox.minX < bb.maxX()
                                 && entityBox.maxY > bb.minY() && entityBox.minY < bb.maxY()
                                 && entityBox.maxZ > bb.minZ() && entityBox.minZ < bb.maxZ()) {
-
                             return buildContext(entity, sub);
                         }
                     }

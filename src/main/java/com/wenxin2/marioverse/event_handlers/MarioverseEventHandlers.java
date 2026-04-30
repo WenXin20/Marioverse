@@ -883,7 +883,7 @@ public class MarioverseEventHandlers {
 
             if (!player.isSpectator()) {
                 AABB belowBox = player.getBoundingBox()
-                        .expandTowards(0, motion.y - 0.01, 0);
+                        .expandTowards(0, Math.max(motion.y, -0.2), 0);
                 BlockPos min = BlockPos.containing(belowBox.minX, belowBox.minY, belowBox.minZ);
                 BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
 
