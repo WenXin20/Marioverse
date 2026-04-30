@@ -879,19 +879,19 @@ public class MarioverseEventHandlers {
 
         if (player != null) {
             Vec3 motion = player.getDeltaMovement();
-            BlockPos playerPos = player.blockPosition();
+            Level level = player.level();
 
             if (!player.isSpectator()) {
                 AABB belowBox = player.getBoundingBox()
-                        .expandTowards(0, motion.y - 0.2, 0);
+                        .expandTowards(0, motion.y - 0.01, 0);
                 BlockPos min = BlockPos.containing(belowBox.minX, belowBox.minY, belowBox.minZ);
                 BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
 
                 for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
-                    BlockState stateBelow = player.level().getBlockState(posBelow);
+                    BlockState stateBelow = level.getBlockState(posBelow);
 
                     if (ModList.get().isLoaded("sable")) {
-                        SableProvider.SableContext context = SableProvider.getContext(player.level(), player);
+                        SableProvider.SableContext context = SableProvider.getContext(level, player);
 
                         if (context != null) {
                             BlockPos posEmbedded = context.posEmbedded.below()
@@ -899,10 +899,18 @@ public class MarioverseEventHandlers {
                                     posBelow.getY() - min.getY(),
                                     posBelow.getZ() - min.getZ());
                             stateBelow = context.accessor.getBlockState(posEmbedded);
+
+                            if (level instanceof ServerLevel) {
+                                posEmbedded = context.posWorld.below()
+                                    .offset(posBelow.getX() - min.getX(),
+                                            posBelow.getY() - min.getY(),
+                                            posBelow.getZ() - min.getZ());
+                                stateBelow = context.accessor.getServerBlockState(posEmbedded);
+                            }
                         }
                     }
-                    Block blockBelow = stateBelow.getBlock();
 
+                    Block blockBelow = stateBelow.getBlock();
                     boolean canBounce = (stateBelow.is(TagRegistry.BOUNCY_BLOCKS)
                             && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
@@ -934,7 +942,7 @@ public class MarioverseEventHandlers {
 
             if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                     && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
-                        || player.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
+                        || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                     && (player.fallDistance > 0 || player.isInWaterOrBubble())) {
                 if (Minecraft.getInstance().options.keyJump.isDown())
                     PacketDistributor.sendToServer(new SquashEntityPayload(true));

@@ -1,16 +1,19 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.ModList;
 
 public interface ToggleableBlock {
     default void onPlaceSavedData(Level level, BlockPos pos) {
@@ -36,8 +39,16 @@ public interface ToggleableBlock {
         return defaultState.setValue(OnBlock.ACTIVE, true);
     }
 
-    static void toggle(ServerLevel level, BlockPos switchPos) {
+    static void toggle(ServerLevel level, BlockPos switchPos, Entity entity) {
         BlockState stateSwitch = level.getBlockState(switchPos);
+
+        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+            SableProvider.SableContext context = SableProvider.getContext(level, entity);
+            stateSwitch = context.accessor.getBlockState(switchPos);
+            if (level instanceof ServerLevel)
+                stateSwitch = context.accessor.getServerBlockState(switchPos);
+        }
+
         int radius = stateSwitch.getValue(OnOffSwitchBlock.RADIUS);
         GlobalSwitchSavedData dataGlobal = GlobalSwitchSavedData.get(level);
         LinkedSwitchSavedData dataLinked = LinkedSwitchSavedData.get(level);

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -106,6 +108,13 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
     public static void hitSwitchBlock(Level level, BlockPos pos, @Nullable Entity entity) {
         BlockState state = level.getBlockState(pos);
 
+        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+            SableProvider.SableContext context = SableProvider.getContext(level, entity);
+            state = context.accessor.getBlockState(pos);
+            if (level instanceof ServerLevel)
+                state = context.accessor.getServerBlockState(pos);
+        }
+
         if (state.getBlock() instanceof OnOffSwitchBlock) {
             if (entity != null)
                 QuestionBlock.hitEntityAbove(pos, level, entity);
@@ -123,7 +132,7 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
             level.setBlock(pos, state.cycle(ACTIVE), 3);
 
             if (level instanceof ServerLevel serverWorld)
-                ToggleableBlock.toggle(serverWorld, pos);
+                ToggleableBlock.toggle(serverWorld, pos, entity);
         }
     }
 

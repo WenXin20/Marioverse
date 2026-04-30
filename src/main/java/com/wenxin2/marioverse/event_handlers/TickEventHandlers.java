@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -40,10 +41,12 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -248,7 +251,25 @@ public class TickEventHandlers {
 
             for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
                 BlockState stateAbove = level.getBlockState(posAbove);
+                BlockEntity blockEntityAbove = level.getBlockEntity(posAbove);
                 long posKey = posAbove.asLong();
+
+                if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+                    SableProvider.SableContext context = SableProvider.getContext(level, entity);
+
+                    BlockPos posEmbedded = context.posEmbedded.above(Math.round(entity.getBbHeight()))
+                            .offset(posAbove.getX() - min.getX(), posAbove.getY() - max.getY(), posAbove.getZ() - min.getZ());
+                    stateAbove = context.accessor.getBlockState(posEmbedded);
+                    blockEntityAbove = context.accessor.getBlockEntity(posEmbedded);
+                    if (level instanceof ServerLevel) {
+                        posEmbedded = context.posWorld.above(Math.round(entity.getBbHeight()))
+                                .offset(posAbove.getX() - min.getX(), posAbove.getY() - max.getY(), posAbove.getZ() - min.getZ());
+                        stateAbove = context.accessor.getServerBlockState(posEmbedded);
+                        blockEntityAbove = context.accessor.getServerBlockEntity(posEmbedded);
+                    }
+                    posKey = posEmbedded.asLong();
+                }
+
                 String key = Long.toString(posKey);
 
                 if (stateAbove.isAir())
@@ -259,27 +280,28 @@ public class TickEventHandlers {
 
                 if (!didHit && stateAbove.is(BlockRegistry.ON_OFF_SWITCH)
                         && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)) {
-                    OnOffSwitchBlock.hitSwitchBlock(level, posAbove, entity);
+                    OnOffSwitchBlock.hitSwitchBlock(level, BlockPos.of(posKey), entity);
                     didHit = true;
                 }
 
                 if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                        && level.getBlockEntity(posAbove) instanceof QuestionBlockEntity questionBE) {
-                    QuestionBlock.hitQuestionBlock(level, posAbove, entity, questionBE);
+                        && blockEntityAbove instanceof QuestionBlockEntity questionBE
+                        && !(stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))) {
+                    QuestionBlock.hitQuestionBlock(level, BlockPos.of(posKey), entity, questionBE);
                     didHit = true;
                 }
 
                 if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
-                    SmashableBrickBlock.smashBlock(level, posAbove, stateAbove, entity);
+                    SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), stateAbove, entity);
                     didHit = true;
                 }
 
                 if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
                     if (stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))
-                        level.playSound(null, posAbove, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    else level.playSound(null, posAbove, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                        level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                    else level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                     didHit = true;
                 }
 
@@ -297,11 +319,37 @@ public class TickEventHandlers {
             BlockPos min = BlockPos.containing(box.minX, box.minY, box.minZ);
             BlockPos max = BlockPos.containing(box.maxX, box.maxY, box.maxZ);
 
-            for (BlockPos tagertPos : BlockPos.betweenClosed(min, max)) {
-                BlockState targetState = level.getBlockState(tagertPos);
-                double diffX = tagertPos.getX() + 0.5 - entity.getX();
-                double diffZ = tagertPos.getZ() + 0.5 - entity.getZ();
-                long posKey = tagertPos.asLong();
+            for (BlockPos posTarget : BlockPos.betweenClosed(min, max)) {
+                BlockState targetState = level.getBlockState(posTarget);
+                BlockEntity blockEntity = level.getBlockEntity(posTarget);
+                double diffX = posTarget.getX() + 0.5 - entity.getX();
+                double diffZ = posTarget.getZ() + 0.5 - entity.getZ();
+                long posKey = posTarget.asLong();
+
+                if (ModList.get().isLoaded("sable")) {
+                    SableProvider.SableContext context = SableProvider.getContext(level, entity);
+
+                    if (context != null) {
+                        BlockPos posEmbedded = context.posEmbedded
+                                .offset(posTarget.getX() - BlockPos.containing(entity.getX(), box.minY, entity.getZ()).getX(),
+                                        posTarget.getY() - min.getY(),
+                                        posTarget.getZ() - BlockPos.containing(entity.getX(), box.minY, entity.getZ()).getZ());
+                        targetState = context.accessor.getBlockState(posEmbedded);
+                        blockEntity = context.accessor.getBlockEntity(posTarget);
+                        if (level instanceof ServerLevel) {
+                            posEmbedded = context.posWorld
+                                    .offset(posTarget.getX() - BlockPos.containing(entity.getX(), box.minY, entity.getZ()).getX(),
+                                            posTarget.getY() - min.getY(),
+                                            posTarget.getZ() - BlockPos.containing(entity.getX(), box.minY, entity.getZ()).getZ());
+                            targetState = context.accessor.getServerBlockState(posEmbedded);
+                            blockEntity = context.accessor.getServerBlockEntity(posEmbedded);
+                        }
+                        diffX = posEmbedded.getX() + 0.5 - entity.getX();
+                        diffZ = posEmbedded.getZ() + 0.5 - entity.getZ();
+                        posKey = posEmbedded.asLong();
+                    }
+                }
+
                 String key = Long.toString(posKey);
 
                 if (targetState.isAir())
@@ -317,25 +365,25 @@ public class TickEventHandlers {
 
                 if (!didHit && targetState.is(BlockRegistry.ON_OFF_SWITCH)
                         && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
-                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, tagertPos, entity);
+                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, posTarget, entity);
                     didHit = true;
                 }
 
                 if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
-                        && level.getBlockEntity(tagertPos) instanceof QuestionBlockEntity questionBE) {
-                    QuestionBlock.hitQuestionBlockFromSide(level, tagertPos, entity);
+                        && blockEntity instanceof QuestionBlockEntity questionBE) {
+                    QuestionBlock.hitQuestionBlockFromSide(level, posTarget, entity);
                     didHit = true;
                 }
 
                 if (!didHit && targetState.is(TagRegistry.SMASHABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
-                    SmashableBrickBlock.smashBlockFromSide(level, tagertPos, targetState, entity, direction);
+                    SmashableBrickBlock.smashBlockFromSide(level, posTarget, targetState, entity, direction);
                     didHit = true;
                 }
 
                 if (!didHit && targetState.is(TagRegistry.BONKABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
-                    StorageBrickBlock.bonkBlockFromSide(level, tagertPos, targetState);
+                    StorageBrickBlock.bonkBlockFromSide(level, posTarget, targetState);
                     didHit = true;
                 }
 
