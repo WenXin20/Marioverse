@@ -314,7 +314,6 @@ public class TickEventHandlers {
 
         if (!level.isClientSide && canGrief && isMovingHorizontal && !entity.isSpectator()) {
             AABB box = entity.getBoundingBox()
-                    .deflate(0, 0.2, 0)
                     .inflate(0.1, 0, 0.1);
             BlockPos min = BlockPos.containing(box.minX, box.minY, box.minZ);
             BlockPos max = BlockPos.containing(box.maxX, box.maxY, box.maxZ);
@@ -365,25 +364,26 @@ public class TickEventHandlers {
 
                 if (!didHit && targetState.is(BlockRegistry.ON_OFF_SWITCH)
                         && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
-                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, posTarget, entity);
+                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, BlockPos.of(posKey), entity);
                     didHit = true;
                 }
 
                 if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
-                        && blockEntity instanceof QuestionBlockEntity questionBE) {
-                    QuestionBlock.hitQuestionBlockFromSide(level, posTarget, entity);
+                        && blockEntity instanceof QuestionBlockEntity
+                        && !(targetState.hasProperty(QuestionBlock.EMPTY) && targetState.getValue(QuestionBlock.EMPTY))) {
+                    QuestionBlock.hitQuestionBlockFromSide(level, BlockPos.of(posKey), entity);
                     didHit = true;
                 }
 
                 if (!didHit && targetState.is(TagRegistry.SMASHABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
-                    SmashableBrickBlock.smashBlockFromSide(level, posTarget, targetState, entity, direction);
+                    SmashableBrickBlock.smashBlockFromSide(level, BlockPos.of(posKey), targetState, entity, direction);
                     didHit = true;
                 }
 
                 if (!didHit && targetState.is(TagRegistry.BONKABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
-                    StorageBrickBlock.bonkBlockFromSide(level, posTarget, targetState);
+                    StorageBrickBlock.bonkBlockFromSide(level, BlockPos.of(posKey), targetState);
                     didHit = true;
                 }
 
