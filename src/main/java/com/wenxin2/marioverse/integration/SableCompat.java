@@ -6,6 +6,7 @@ import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import dev.ryanhcode.sable.companion.SubLevelAccess;
+import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.minecraft.core.BlockPos;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 
@@ -32,8 +34,15 @@ public class SableCompat {
 
                 if (!level.isClientSide && container instanceof ServerSubLevelContainer) {
                     for (SubLevel sub : container.getAllSubLevels()) {
-                        SableProvider.SableContext context = buildContext(entity, sub);
-                        return context;
+                        BoundingBox3dc bb = sub.boundingBox();
+                        AABB entityBox = entity.getBoundingBox();
+
+                        if (entityBox.maxX > bb.minX() && entityBox.minX < bb.maxX()
+                                && entityBox.maxY > bb.minY() && entityBox.minY < bb.maxY()
+                                && entityBox.maxZ > bb.minZ() && entityBox.minZ < bb.maxZ()) {
+
+                            return buildContext(entity, sub);
+                        }
                     }
                 }
                 return null;
