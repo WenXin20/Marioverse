@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 
@@ -17,6 +18,8 @@ public class SableProvider {
         BlockState getServerBlockState(BlockPos pos);
         BlockEntity getBlockEntity(BlockPos pos);
         BlockEntity getServerBlockEntity(BlockPos pos);
+        BlockHitResult clip(Level level, Vec3 start, Vec3 end, Entity entity);
+        BlockHitResult clipServer(Level level, Vec3 start, Vec3 end, Entity entity);
         boolean hasChunkAt(BlockPos pos);
         int getMinY();
         int getMaxY();

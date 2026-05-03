@@ -13,10 +13,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 
@@ -82,6 +85,16 @@ public class SableCompat {
                 if (!accessor.getLevel().hasChunkAt(pos))
                     return null;
                 return accessor.getLevel().getBlockEntity(pos);
+            }
+
+            @Override
+            public BlockHitResult clip(Level level, Vec3 start, Vec3 end, Entity entity) {
+                return accessor.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+            }
+
+            @Override
+            public BlockHitResult clipServer(Level level, Vec3 start, Vec3 end, Entity entity) {
+                return accessor.getLevel().clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
             }
 
             @Override

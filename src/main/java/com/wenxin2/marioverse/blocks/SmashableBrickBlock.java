@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.fml.ModList;
 
 public class SmashableBrickBlock extends Block {
@@ -81,10 +82,10 @@ public class SmashableBrickBlock extends Block {
         }
     }
 
-    public static void smashBlockFromSide(Level world, BlockPos pos, BlockState state, Entity entity, Direction direction) {
+    public static void smashBlockFromSide(Level world, BlockPos pos, BlockState state, Entity entity, BlockHitResult hitResult) {
         if (state.is(TagRegistry.SMASHABLE_BLOCKS)) {
             if (entity instanceof KoopaShellEntity shell)
-                shell.bounceShell(world, direction);
+                shell.bounceShell(world, hitResult);
             smashBlock(world, pos, state, entity);
         }
     }
