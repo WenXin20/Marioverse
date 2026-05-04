@@ -871,7 +871,7 @@ public class MarioverseEventHandlers {
             }
         }
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
@@ -883,16 +883,12 @@ public class MarioverseEventHandlers {
 
             if (!player.isSpectator()) {
                 AABB belowBox = player.getBoundingBox()
-                        .expandTowards(0, Math.max(motion.y, -0.1), 0);
+                        .expandTowards(0, Math.max(motion.y, -0.2), 0);
                 BlockPos min = BlockPos.containing(belowBox.minX, belowBox.minY, belowBox.minZ);
                 BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
-                BlockPos bestPos = null;
-                double bestDelta = Double.MAX_VALUE;
-                BlockState bestState = null;
 
                 for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
                     BlockState stateBelow = level.getBlockState(posBelow);
-                    double delta = player.getBoundingBox().minY - (posBelow.getY() + 1);
 
                     if (ModList.get().isLoaded("sable")) {
                         SableProvider.SableContext context = SableProvider.getContext(level, player);
@@ -910,40 +906,28 @@ public class MarioverseEventHandlers {
 
                             if (level instanceof ServerLevel)
                                 stateBelow = context.accessor.getServerBlockState(posWorld);
-                            delta = player.getBoundingBox().minY - (posWorld.getY() + 1);
                         }
                     }
 
-                    if (stateBelow.isAir())
-                        continue;
-
-                    if (delta >= 0 && delta < bestDelta) {
-                        bestDelta = delta;
-                        bestPos = posBelow;
-                        bestState = stateBelow;
-                    }
-                }
-
-                if (bestPos != null) {
-                    Block blockBelow = bestState.getBlock();
-                    boolean canBounce = (bestState.is(TagRegistry.BOUNCY_BLOCKS)
+                    Block blockBelow = stateBelow.getBlock();
+                    boolean canBounce = (stateBelow.is(TagRegistry.BOUNCY_BLOCKS)
                             && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying)
 
                             || (blockBelow instanceof BlueMushroomTrampolineBlock
-                            && !bestState.getValue(OnBlock.ACTIVE)
+                            && !stateBelow.getValue(OnBlock.ACTIVE)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying)
 
                             || (blockBelow instanceof RedMushroomTrampolineBlock
                             && !(blockBelow instanceof BlueMushroomTrampolineBlock)
-                            && bestState.getValue(OnBlock.ACTIVE)
+                            && stateBelow.getValue(OnBlock.ACTIVE)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying);
 
-                    if (canBounce)
-                        PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
+                        if (canBounce)
+                            PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
                 }
             }
 
