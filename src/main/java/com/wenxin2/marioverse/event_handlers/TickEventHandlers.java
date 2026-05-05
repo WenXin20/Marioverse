@@ -320,14 +320,11 @@ public class TickEventHandlers {
             int minX = Mth.floor(box.minX);
             int minY = Mth.floor(box.minY);
             int minZ = Mth.floor(box.minZ);
-
             int maxX = Mth.ceil(box.maxX) - 1;
             int maxY = Mth.ceil(box.maxY) - 1;
             int maxZ = Mth.ceil(box.maxZ) - 1;
-
             BlockPos min = new BlockPos(minX, minY, minZ);
             BlockPos max = new BlockPos(maxX, maxY, maxZ);
-
 
             for (BlockPos posTarget : BlockPos.betweenClosed(min, max)) {
                 BlockState targetState = level.getBlockState(posTarget);
@@ -378,32 +375,34 @@ public class TickEventHandlers {
 
                 if (!didHit && targetState.is(BlockRegistry.ON_OFF_SWITCH)
                         && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
-                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, BlockPos.of(posKey), entity);
-                    if (entity instanceof KoopaShellEntity shell)
+                    if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                         shell.bounceShell(level, hitResult);
+                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, BlockPos.of(posKey), entity);
                     didHit = true;
                 }
 
                 if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
                         && blockEntity instanceof QuestionBlockEntity
                         && !(targetState.hasProperty(QuestionBlock.EMPTY) && targetState.getValue(QuestionBlock.EMPTY))) {
-                    QuestionBlock.hitQuestionBlockFromSide(level, BlockPos.of(posKey), entity);
-                    if (entity instanceof KoopaShellEntity shell)
+                    if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                         shell.bounceShell(level, hitResult);
+                    QuestionBlock.hitQuestionBlockFromSide(level, BlockPos.of(posKey), entity);
                     didHit = true;
                 }
 
                 if (!didHit && targetState.is(TagRegistry.SMASHABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
-                    SmashableBrickBlock.smashBlockFromSide(level, BlockPos.of(posKey), targetState, entity, hitResult);
+                    if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+                        shell.bounceShell(level, hitResult);
+                    SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), targetState, entity);
                     didHit = true;
                 }
 
                 if (!didHit && targetState.is(TagRegistry.BONKABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
-                    StorageBrickBlock.bonkBlockFromSide(level, BlockPos.of(posKey), targetState);
-                    if (entity instanceof KoopaShellEntity shell)
+                    if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                         shell.bounceShell(level, hitResult);
+                    StorageBrickBlock.bonkBlockFromSide(level, BlockPos.of(posKey), targetState);
                     didHit = true;
                 }
 

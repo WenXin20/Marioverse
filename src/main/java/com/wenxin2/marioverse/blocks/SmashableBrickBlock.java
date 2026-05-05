@@ -1,13 +1,11 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -22,7 +20,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.fml.ModList;
 
 public class SmashableBrickBlock extends Block {
@@ -79,14 +76,6 @@ public class SmashableBrickBlock extends Block {
                 else if (stateAbove.getBlock() instanceof CoinBlock)
                     CoinBlock.collectCoin(level, stateAbove, pos.above(), entity, coinItem);
             }
-        }
-    }
-
-    public static void smashBlockFromSide(Level world, BlockPos pos, BlockState state, Entity entity, BlockHitResult hitResult) {
-        if (state.is(TagRegistry.SMASHABLE_BLOCKS)) {
-            if (entity instanceof KoopaShellEntity shell)
-                shell.bounceShell(world, hitResult);
-            smashBlock(world, pos, state, entity);
         }
     }
 
