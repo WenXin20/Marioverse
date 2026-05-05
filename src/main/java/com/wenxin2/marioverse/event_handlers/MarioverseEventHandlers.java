@@ -887,26 +887,26 @@ public class MarioverseEventHandlers {
                 BlockPos min = BlockPos.containing(belowBox.minX, belowBox.minY, belowBox.minZ);
                 BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
 
+                Object context = null;
+                if (ModList.get().isLoaded("sable"))
+                    context = SableProvider.getContext(level, player);
+
                 for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
                     BlockState stateBelow = level.getBlockState(posBelow);
 
-                    if (ModList.get().isLoaded("sable")) {
-                        SableProvider.SableContext context = SableProvider.getContext(level, player);
+                    if (context instanceof SableProvider.SableContext ctx) {
+                        BlockPos posEmbedded = ctx.posEmbedded.below()
+                                .offset(posBelow.getX() - min.getX(),
+                                        posBelow.getY() - min.getY(),
+                                        posBelow.getZ() - min.getZ());
+                        BlockPos posWorld = ctx.posWorld.below()
+                                .offset(posBelow.getX() - min.getX(),
+                                        posBelow.getY() - min.getY(),
+                                        posBelow.getZ() - min.getZ());
+                        stateBelow = ctx.accessor.getBlockState(posEmbedded);
 
-                        if (context != null) {
-                            BlockPos posEmbedded = context.posEmbedded.below()
-                                    .offset(posBelow.getX() - min.getX(),
-                                            posBelow.getY() - min.getY(),
-                                            posBelow.getZ() - min.getZ());
-                            BlockPos posWorld = context.posWorld.below()
-                                    .offset(posBelow.getX() - min.getX(),
-                                            posBelow.getY() - min.getY(),
-                                            posBelow.getZ() - min.getZ());
-                            stateBelow = context.accessor.getBlockState(posEmbedded);
-
-                            if (level instanceof ServerLevel)
-                                stateBelow = context.accessor.getServerBlockState(posWorld);
-                        }
+                        if (level instanceof ServerLevel)
+                            stateBelow = ctx.accessor.getServerBlockState(posWorld);
                     }
 
                     Block blockBelow = stateBelow.getBlock();
@@ -916,18 +916,18 @@ public class MarioverseEventHandlers {
                             && !player.getAbilities().flying)
 
                             || (blockBelow instanceof BlueMushroomTrampolineBlock
-                            && !stateBelow.getValue(OnBlock.ACTIVE)
-                            && !player.isSuppressingBounce() && !player.isNoGravity()
-                            && !player.getAbilities().flying)
+                                && !stateBelow.getValue(OnBlock.ACTIVE)
+                                && !player.isSuppressingBounce() && !player.isNoGravity()
+                                && !player.getAbilities().flying)
 
                             || (blockBelow instanceof RedMushroomTrampolineBlock
-                            && !(blockBelow instanceof BlueMushroomTrampolineBlock)
-                            && stateBelow.getValue(OnBlock.ACTIVE)
-                            && !player.isSuppressingBounce() && !player.isNoGravity()
-                            && !player.getAbilities().flying);
+                                && !(blockBelow instanceof BlueMushroomTrampolineBlock)
+                                && stateBelow.getValue(OnBlock.ACTIVE)
+                                && !player.isSuppressingBounce() && !player.isNoGravity()
+                                && !player.getAbilities().flying);
 
-                        if (canBounce)
-                            PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
+                    if (canBounce)
+                        PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
                 }
             }
 

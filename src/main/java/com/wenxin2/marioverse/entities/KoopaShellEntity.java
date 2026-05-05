@@ -1,10 +1,12 @@
 package com.wenxin2.marioverse.entities;
 
 import com.google.common.base.MoreObjects;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -636,23 +638,24 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         double halfWidth = this.getBbWidth() * 0.5;
         double rayLength = horizontalSpeed;
 
-        SableProvider.SableContext context = null;
+        Object object = null;
         if (ModList.get().isLoaded("sable"))
-            context = SableProvider.getContext(level, this);
+            object = SableProvider.getContext(level, this);
 
         for (double offset : new double[]{0, -halfWidth, halfWidth}) {
             Vec3 start = rayOrigin.add(perpendicular.scale(offset));
             Vec3 end = start.add(horizontalDir.scale(rayLength));
             BlockHitResult hitResult = level.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+            BlockState state = level.getBlockState(hitResult.getBlockPos());
 
-            if (context != null) {
+            if (object instanceof SableProvider.SableContext context) {
                 BlockPos pos = hitResult.getBlockPos();
                 BlockPos base = BlockPos.containing(context.posLocal);
                 BlockPos localPos = context.posEmbedded
                         .offset(pos.getX() - base.getX(),
                                 pos.getY() - base.getY(),
                                 pos.getZ() - base.getZ());
-                BlockState state = context.accessor.getBlockState(localPos);
+                state = context.accessor.getBlockState(localPos);
 
                 if (level instanceof ServerLevel) {
                     localPos = context.posWorld
@@ -667,6 +670,12 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                 Vec3 hitPos = hitResult.getLocation();
                 hitResult = new BlockHitResult(hitPos, hitResult.getDirection(), pos, hitResult.isInside());
             }
+
+            if (state.is(BlockRegistry.ON_OFF_SWITCH)
+                    || state.is(TagRegistry.BONKABLE_BLOCKS)
+                    || state.is(TagRegistry.SMASHABLE_BLOCKS)
+                    || (state.hasProperty(QuestionBlock.EMPTY) && !state.getValue(QuestionBlock.EMPTY)))
+                continue;
 
             if (hitResult.getType() != HitResult.Type.BLOCK) continue;
             if (hitResult.getDirection().getAxis() == Direction.Axis.Y) continue;

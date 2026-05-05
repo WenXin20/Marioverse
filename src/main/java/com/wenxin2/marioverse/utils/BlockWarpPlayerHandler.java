@@ -61,9 +61,9 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
     }
 
     @Override
-    default void enterWarpPipeAbove(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
+    default void enterWarpPipeAbove(Entity entity, Level level, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
                                     @Nullable Object context) {
-        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
+        BlockState stateAboveEntity = level.getBlockState(pos.above(Math.round(entity.getBbHeight())));
 
         double entityX = entity.getX();
         double entityZ = entity.getZ();
@@ -77,7 +77,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 this.displayNoTeleportMessage(player, stateAboveEntity);
             }
-        } else BlockWarpEntityHandler.super.enterWarpPipeAbove(entity, world, pos, warpPos, warpBE, context);
+        } else BlockWarpEntityHandler.super.enterWarpPipeAbove(entity, level, pos, warpPos, warpBE, context);
     }
 
     private void displayNoTeleportMessage(Player player, BlockState state) {
