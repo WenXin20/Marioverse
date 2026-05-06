@@ -44,21 +44,15 @@ public interface BlockWarpEntityHandler {
 
     default void enterWarp(Entity entity, Level world, BlockPos pos, BlockPos posEmbedded, BlockState state,
                            @Nullable Object object) {
-        BlockState stateAboveEntity = state;
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        BlockEntity blockEntityAbove = world.getBlockEntity(pos);
         BlockPos warpPos;
 
         if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
             state = context.accessor.getBlockState(posEmbedded);
-            stateAboveEntity = state;
             blockEntity = context.accessor.getBlockEntity(posEmbedded);
-            blockEntityAbove = context.accessor.getBlockEntity(posEmbedded);
             if (world instanceof ServerLevel) {
                 state = context.accessor.getServerBlockState(posEmbedded);
-                stateAboveEntity = state;
                 blockEntity = context.accessor.getServerBlockEntity(posEmbedded);
-                blockEntityAbove = context.accessor.getServerBlockEntity(posEmbedded);
             }
         }
 
@@ -75,16 +69,8 @@ public interface BlockWarpEntityHandler {
 
             if (state.getBlock() instanceof WarpPipeBlock)
                 this.enterWarpPipe(entity, world, posEmbedded, warpPos, warpBE, object);
-        }
 
-        if (blockEntityAbove instanceof BaseWarpBlockEntity warpBE && warpBE.getLevel() != null) {
-            warpPos = warpBE.destinationPos;
-            int entityId = entity.getId();
-
-            if (BaseWarpBlockEntity.WARPED_ENTITIES.getOrDefault(entityId, true))
-                BaseWarpBlockEntity.WARPED_ENTITIES.put(entityId, false);
-
-            if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
+            if (state.getBlock() instanceof WarpPipeBlock)
                 this.enterWarpPipeAbove(entity, world, pos, warpPos, warpBE, object);
         }
     }
@@ -120,9 +106,6 @@ public interface BlockWarpEntityHandler {
             entityX = context.posLocal.x;
             entityY = context.posLocal.y;
             entityZ = context.posLocal.z;
-            blockX = context.posWorld.getX();
-            blockY = context.posWorld.getY();
-            blockZ = context.posWorld.getZ();
         }
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {

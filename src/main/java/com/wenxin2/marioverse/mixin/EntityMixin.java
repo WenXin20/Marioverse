@@ -202,22 +202,15 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             BlockPos posEmbedded;
             BlockPos posWorld;
             BlockState statePlot;
-            BlockPos posWorldAboveEntity;
-            BlockState statePlotAboveEntity;
 
             if (context != null) {
                 posEmbedded = context.posEmbedded;
                 posWorld = context.toWorld(posEmbedded);
                 statePlot = context.accessor.getBlockState(posEmbedded);
-                posAboveEntity = posEmbedded.above(Math.round(entity.getBbHeight()));
-                posWorldAboveEntity = context.toWorld(posEmbedded.above(Math.round(entity.getBbHeight())));
-                statePlotAboveEntity = context.accessor.getBlockState(posAboveEntity);
             } else {
                 posEmbedded = pos;
                 statePlot = state;
                 posWorld = posEmbedded;
-                posWorldAboveEntity = posAboveEntity;
-                statePlotAboveEntity = stateAboveEntity;
             }
 
             if (this.moveDist > this.nextStep && entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
