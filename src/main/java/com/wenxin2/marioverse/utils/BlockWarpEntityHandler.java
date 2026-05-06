@@ -91,6 +91,9 @@ public interface BlockWarpEntityHandler {
     default void enterWarpPipe(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
                                @Nullable Object object) {
         BlockState state = world.getBlockState(pos);
+        boolean canEnterSidePipe = entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
+                || (entity instanceof LivingEntity living && living.isFallFlying())
+                || (entity instanceof Player player && player.getAbilities().flying);
 
         double entityX = entity.getX();
         double entityY = entity.getY();
@@ -109,65 +112,42 @@ public interface BlockWarpEntityHandler {
         }
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP) && state.hasProperty(WarpPipeBlock.FACING)) {
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && getShiftKeyForEntity(entity) && (entityY + entity.getBbHeight() >= blockY - 1)
-                        && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, state);
-                    }
+            if (this.mv$getBlockWarpTeleportConfig(entity)
+                    && !entity.getType().is(TagRegistry.CANNOT_WARP)
+                    && state.hasProperty(WarpPipeBlock.FACING)) {
+                Direction facing = state.getValue(WarpPipeBlock.FACING);
+                double dx = entityX - (blockX + 0.5);
+                double dy = entityY - (blockY + 0.5);
+                double dz = entityZ - (blockZ + 0.5);
+
+                double dot = dx * facing.getStepX() +
+                                dy * facing.getStepY() +
+                                dz * facing.getStepZ();
+
+                boolean correctSide = dot > 0;
+                Vec3 look = entity.getLookAngle();
+                double lookDot = look.x * facing.getStepX() +
+                                look.y * facing.getStepY() +
+                                look.z * facing.getStepZ();
+                boolean facingIntoPipe = lookDot < -0.6;
+                boolean withinX = entityX > blockX && entityX < blockX + 1;
+                boolean withinY = entityY >= blockY && entityY < blockY + 1;
+                boolean withinZ = entityZ > blockZ && entityZ < blockZ + 1;
+                boolean insideFaceBounds;
+
+                switch (facing.getAxis()) {
+                    case X -> insideFaceBounds = withinY && withinZ;
+                    case Y -> insideFaceBounds = withinX && withinZ;
+                    case Z -> insideFaceBounds = withinX && withinY;
+                    default -> insideFaceBounds = false;
                 }
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !entity.isShiftKeyDown()
-                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
-                            || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                            || (entity instanceof Player player && player.getAbilities().flying))
-                        && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, state);
-                    }
-                }
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH && !entity.isShiftKeyDown()
-                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
-                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                        || (entity instanceof Player player && player.getAbilities().flying))
-                        && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, state);
-                    }
-                }
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST && !entity.isShiftKeyDown()
-                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
-                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                        || (entity instanceof Player player && player.getAbilities().flying))
-                        && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, state);
-                    }
-                }
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST && !entity.isShiftKeyDown()
-                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
-                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                        || (entity instanceof Player player && player.getAbilities().flying))
-                        && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                boolean canEnterPipe;
+
+                if (facing.getAxis().isHorizontal())
+                    canEnterPipe = !entity.isShiftKeyDown() && canEnterSidePipe && facingIntoPipe;
+                else canEnterPipe = getShiftKeyForEntity(entity);
+
+                if (correctSide && insideFaceBounds && canEnterPipe) {
                     if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                     else if (entity instanceof Player player) {
