@@ -10,6 +10,11 @@
   - Dotted-Line Blocks, On-Off Switches, Star Coins, & Coins are floaty
   - Wooden Bridges tagged as having Quarter Volume
   - CheckPoint Flags tagged as light
+- Added Create Aeronautics support
+  - Warp Pipe teleporting
+  - Hitting ? Blocks & Smashable Blocks
+  - Hitting On/Off Switches
+  - Bouncing on Mushroom Trampolines
 - Added trampoline caps to twilight forest portal deco tag
 - Added Warp Pipes, Question Blocks, & Storage Bricks to Framed Blocks whitelist tag
 - Fixed brick pedestal particles
