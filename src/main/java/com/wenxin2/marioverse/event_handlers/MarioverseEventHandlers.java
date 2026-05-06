@@ -887,26 +887,26 @@ public class MarioverseEventHandlers {
                 BlockPos min = BlockPos.containing(belowBox.minX, belowBox.minY, belowBox.minZ);
                 BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
 
-                Object context = null;
+                Object object = null;
                 if (ModList.get().isLoaded("sable"))
-                    context = SableProvider.getContext(level, player);
+                    object = SableProvider.getContext(level, player);
 
                 for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
                     BlockState stateBelow = level.getBlockState(posBelow);
 
-                    if (context instanceof SableProvider.SableContext ctx) {
-                        BlockPos posEmbedded = ctx.posEmbedded.below()
+                    if (object instanceof SableProvider.SableContext context) {
+                        BlockPos posEmbedded = context.posEmbedded.below()
                                 .offset(posBelow.getX() - min.getX(),
                                         posBelow.getY() - min.getY(),
                                         posBelow.getZ() - min.getZ());
-                        BlockPos posWorld = ctx.posWorld.below()
+                        BlockPos posWorld = context.posWorld.below()
                                 .offset(posBelow.getX() - min.getX(),
                                         posBelow.getY() - min.getY(),
                                         posBelow.getZ() - min.getZ());
-                        stateBelow = ctx.accessor.getBlockState(posEmbedded);
+                        stateBelow = context.accessor.getBlockState(posEmbedded);
 
                         if (level instanceof ServerLevel)
-                            stateBelow = ctx.accessor.getServerBlockState(posWorld);
+                            stateBelow = context.accessor.getServerBlockState(posWorld);
                     }
 
                     Block blockBelow = stateBelow.getBlock();

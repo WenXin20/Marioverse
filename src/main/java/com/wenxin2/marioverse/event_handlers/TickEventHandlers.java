@@ -273,9 +273,6 @@ public class TickEventHandlers {
                 }
 
                 String key = Long.toString(posKey);
-
-                if (stateAbove.isAir())
-                    continue;
                 if (hitMap != null && hitMap.contains(key))
                     continue;
                 boolean didHit = false;
