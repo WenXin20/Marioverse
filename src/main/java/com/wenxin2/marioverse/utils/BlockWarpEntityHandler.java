@@ -92,7 +92,7 @@ public interface BlockWarpEntityHandler {
                 || (entity instanceof LivingEntity living && living.isFallFlying())
                 || (entity instanceof Player player && player.getAbilities().flying);
 
-        Vec3 look = entity.getLookAngle();
+        Vec3 look = entity.getViewVector(1.0F);
         double entityX = entity.getX();
         double entityY = entity.getY();
         double entityZ = entity.getZ();
@@ -118,18 +118,16 @@ public interface BlockWarpEntityHandler {
                     && state.hasProperty(WarpPipeBlock.FACING)) {
                 Direction facing = state.getValue(WarpPipeBlock.FACING);
                 double dx = entityX - (blockX + 0.5);
-                double dy = entityY - (blockY + 0.5);
                 double dz = entityZ - (blockZ + 0.5);
-
-                double dot = dx * facing.getStepX() +
-                                dy * facing.getStepY() +
-                                dz * facing.getStepZ();
-
+                double dot = dx * facing.getStepX() + dz * facing.getStepZ();
                 boolean correctSide = dot > 0.1;
-                double lookDot = look.x * facing.getStepX() +
-                                look.y * facing.getStepY() +
-                                look.z * facing.getStepZ();
+
+                double horizontalLength = Math.sqrt(look.x * look.x + look.z * look.z);
+                double flatX = horizontalLength > 0.0001 ? look.x / horizontalLength : 0;
+                double flatZ = horizontalLength > 0.0001 ? look.z / horizontalLength : 0;
+                double lookDot = flatX * facing.getStepX() + flatZ * facing.getStepZ();
                 boolean facingIntoPipe = lookDot < -0.65;
+
                 boolean withinX = entityX > blockX && entityX < blockX + 1;
                 boolean withinY = entityY >= blockY && entityY < blockY + 1;
                 boolean withinZ = entityZ > blockZ && entityZ < blockZ + 1;
