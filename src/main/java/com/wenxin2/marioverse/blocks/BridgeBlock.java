@@ -1,13 +1,13 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
-import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
@@ -23,18 +23,14 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaterniondc;
-import org.joml.Vector3d;
 
 public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -101,34 +97,11 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
         HalfBlockStates stateValue = state.getValue(HALF);
 
         if (collisionContext instanceof EntityCollisionContext context && context.getEntity() != null) {
-            Entity entity = context.getEntity();
-            Vec3 entityPos = entity.position();
-            Vec3 up = new Vec3(0, 1, 0);
-
-            Object object = null;
-            if (ModList.get().isLoaded("sable")) // getCollisionShape isn't triggered on sublevels by players
-                object = SableProvider.getContext(entity.level(), entity);
-
-            if (object instanceof SableProvider.SableContext sableContext) {
-                Quaterniondc rotation = sableContext.subLevel.logicalPose().orientation();
-                Vector3d rotatedUp = rotation.transformInverse(new Vector3d(0, 1, 0));
-                up = new Vec3(rotatedUp.x, rotatedUp.y, rotatedUp.z).normalize();
-                entityPos = sableContext.posLocal;
-            }
-
-            Vec3 blockCenter = Vec3.atCenterOf(pos);
-            double relative = (entityPos.x - blockCenter.x) * up.x +
-                    (entityPos.y - blockCenter.y) * up.y +
-                    (entityPos.z - blockCenter.z) * up.z;
-            boolean above;
-
             if (stateValue == HalfBlockStates.TOP) {
-                above = relative > 0;
-                if (!above)
+                if (!context.isAbove(BOTTOM_COLLISION, pos, false))
                     return Shapes.empty();
             } else if (stateValue == HalfBlockStates.BOTTOM) {
-                above = relative > -1.0;
-                if (!above)
+                if (!context.isAbove(TOP_COLLISION, pos.below(), false))
                     return Shapes.empty();
             }
         }
