@@ -117,10 +117,6 @@ public interface BlockWarpEntityHandler {
                     && !entity.getType().is(TagRegistry.CANNOT_WARP)
                     && state.hasProperty(WarpPipeBlock.FACING)) {
                 Direction facing = state.getValue(WarpPipeBlock.FACING);
-                double dx = entityX - (blockX + 0.5);
-                double dz = entityZ - (blockZ + 0.5);
-                double dot = dx * facing.getStepX() + dz * facing.getStepZ();
-                boolean correctSide = dot > 0.1;
 
                 double horizontalLength = Math.sqrt(look.x * look.x + look.z * look.z);
                 double flatX = horizontalLength > 0.0001 ? look.x / horizontalLength : 0;
@@ -145,7 +141,7 @@ public interface BlockWarpEntityHandler {
                     canEnterPipe = !entity.isShiftKeyDown() && canEnterSidePipe && (facingIntoPipe || !(entity instanceof Player));
                 else canEnterPipe = getShiftKeyForEntity(entity);
 
-                if (correctSide && insideFaceBounds && canEnterPipe) {
+                if (insideFaceBounds && canEnterPipe) {
                     if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                     else if (entity instanceof Player player) {
