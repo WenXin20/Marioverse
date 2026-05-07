@@ -5,18 +5,14 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
-import com.wenxin2.marioverse.event_handlers.TickEventHandlers;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -31,8 +27,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaterniondc;
+import org.joml.Vector3d;
 
 public interface BlockWarpEntityHandler {
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
@@ -95,6 +92,7 @@ public interface BlockWarpEntityHandler {
                 || (entity instanceof LivingEntity living && living.isFallFlying())
                 || (entity instanceof Player player && player.getAbilities().flying);
 
+        Vec3 look = entity.getLookAngle();
         double entityX = entity.getX();
         double entityY = entity.getY();
         double entityZ = entity.getZ();
@@ -103,6 +101,9 @@ public interface BlockWarpEntityHandler {
         int blockZ = pos.getZ();
 
         if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+            Quaterniondc rotation = context.subLevel.logicalPose().orientation();
+            Vector3d localLook = rotation.transformInverse(new Vector3d(look.x, look.y, look.z));
+            look = new Vec3(localLook.x, localLook.y, localLook.z).normalize();
             state = context.accessor.getBlockState(pos);
             if (world instanceof ServerLevel)
                 state = context.accessor.getServerBlockState(pos);
@@ -124,12 +125,11 @@ public interface BlockWarpEntityHandler {
                                 dy * facing.getStepY() +
                                 dz * facing.getStepZ();
 
-                boolean correctSide = dot > 0;
-                Vec3 look = entity.getLookAngle();
+                boolean correctSide = dot > 0.1;
                 double lookDot = look.x * facing.getStepX() +
                                 look.y * facing.getStepY() +
                                 look.z * facing.getStepZ();
-                boolean facingIntoPipe = lookDot < -0.6;
+                boolean facingIntoPipe = lookDot < -0.65;
                 boolean withinX = entityX > blockX && entityX < blockX + 1;
                 boolean withinY = entityY >= blockY && entityY < blockY + 1;
                 boolean withinZ = entityZ > blockZ && entityZ < blockZ + 1;
@@ -144,7 +144,7 @@ public interface BlockWarpEntityHandler {
                 boolean canEnterPipe;
 
                 if (facing.getAxis().isHorizontal())
-                    canEnterPipe = !entity.isShiftKeyDown() && canEnterSidePipe && facingIntoPipe;
+                    canEnterPipe = !entity.isShiftKeyDown() && canEnterSidePipe && (facingIntoPipe || !(entity instanceof Player));
                 else canEnterPipe = getShiftKeyForEntity(entity);
 
                 if (correctSide && insideFaceBounds && canEnterPipe) {

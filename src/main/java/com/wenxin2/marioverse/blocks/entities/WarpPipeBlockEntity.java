@@ -675,10 +675,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         double y = warpPos.getY();
         double z = warpPos.getZ();
 
-        if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
+        if (!world.isClientSide && !entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
+
                 if (entity instanceof Player player) {
-                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120); // Enchant teleport particles TODO new particles
                     entity.unRide();
 
@@ -704,7 +705,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
                     if (passengerEntity instanceof Player player) {
                         entity.unRide();
-                        player.teleportTo(x + 0.5, y - 1.0, z + 0.5);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y - 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else entity.teleportTo(x + 0.5, y - 1.0, z + 0.5);
+
                         player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
                         player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -716,8 +721,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             }
 
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.UP && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
+
                 if (entity instanceof Player player) {
-                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
 
@@ -743,7 +749,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
                     if (passengerEntity instanceof Player player) {
                         entity.unRide();
-                        player.teleportTo(x + 0.5, y + 1.0, z + 0.5);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y + 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else entity.teleportTo(x + 0.5, y + 1.0, z + 0.5);
+
                         player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
                         player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -754,8 +764,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.DOWN && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
+
                 if (entity instanceof Player player) {
-                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
 
@@ -769,7 +780,10 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
 
                     if (vehicle != null) {
-                        vehicle.teleportTo(x + 0.5, y - entity.getBbHeight(), z + 0.5);
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y - entity.getBbHeight(), z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else vehicle.teleportTo(x + 0.5, y - entity.getBbHeight(), z + 0.5);
+
                         vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -781,7 +795,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
                     if (passengerEntity instanceof Player player) {
                         entity.unRide();
-                        player.teleportTo(x + 0.5, y - entity.getBbHeight(), z + 0.5);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y - entity.getBbHeight(), z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else entity.teleportTo(x + 0.5, y - entity.getBbHeight(), z + 0.5);
+
                         player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
                         player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -792,8 +810,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.NORTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
+
                 if (entity instanceof Player player) {
-                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(180);
@@ -813,7 +832,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         vehicle.setYRot(180);
                         vehicle.setYHeadRot(180);
                         vehicle.setYBodyRot(180);
-                        vehicle.teleportTo(x + 0.5, y, z - entity.getBbWidth());
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y, z - entity.getBbWidth(), flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else vehicle.teleportTo(x + 0.5, y, z - entity.getBbWidth());
+
                         vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -831,7 +854,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         player.setYRot(180);
                         player.setYHeadRot(180);
                         player.setYBodyRot(180);
-                        player.teleportTo(x + 0.5, y, z - entity.getBbWidth());
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y, z - entity.getBbWidth(), flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else entity.teleportTo(x + 0.5, y, z - entity.getBbWidth());
+
                         player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
                         player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -842,8 +869,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.SOUTH && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
+
                 if (entity instanceof Player player) {
-                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(0);
@@ -863,7 +891,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         vehicle.setYRot(0);
                         vehicle.setYHeadRot(0);
                         vehicle.setYBodyRot(0);
-                        vehicle.teleportTo(x + 0.5, y, z + entity.getBbWidth() + 1.0);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y, z + entity.getBbWidth() + 1.0, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else vehicle.teleportTo(x + 0.5, y, z + entity.getBbWidth() + 1.0);
+
                         vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -881,7 +913,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         player.setYRot(0);
                         player.setYHeadRot(0);
                         player.setYBodyRot(0);
-                        player.teleportTo(x + 0.5, y, z + entity.getBbWidth() + 1.0);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y, z + entity.getBbWidth() + 1.0, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else entity.teleportTo(x + 0.5, y, z + entity.getBbWidth() + 1.0);
+
                         player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
                         player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -892,8 +928,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.EAST && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
+
                 if (entity instanceof Player player) {
-                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(-90);
@@ -913,7 +950,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         vehicle.setYRot(-90);
                         vehicle.setYHeadRot(-90);
                         vehicle.setYBodyRot(-90);
-                        vehicle.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + entity.getBbWidth() + 1.0, y, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else vehicle.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+
                         vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -931,7 +972,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         player.setYRot(-90);
                         player.setYHeadRot(-90);
                         player.setYBodyRot(-90);
-                        player.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + entity.getBbWidth() + 1.0, y, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else entity.teleportTo(x + entity.getBbWidth() + 1.0, y, z + 0.5);
+
                         player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
                         player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -942,8 +987,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 }
             }
             if (world.getBlockState(warpPos).getValue(DirectionalBlock.FACING) == Direction.WEST && state.getValue(WarpPipeBlock.ENTRANCE)) {
+                Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
+
                 if (entity instanceof Player player) {
-                    Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
                     world.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(90);
@@ -963,7 +1009,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         vehicle.setYRot(90);
                         vehicle.setYHeadRot(90);
                         vehicle.setYBodyRot(90);
-                        vehicle.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x - entity.getBbWidth(), y, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else vehicle.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+
                         vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
@@ -981,7 +1031,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         player.setYRot(90);
                         player.setYHeadRot(90);
                         player.setYBodyRot(90);
-                        player.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x - entity.getBbWidth(), y, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else entity.teleportTo(x - entity.getBbWidth(), y, z + 0.5);
+
                         player.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         player.setData(DataAttachmentRegistry.VEHICLE_UUID, entity.getUUID());
                         player.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);

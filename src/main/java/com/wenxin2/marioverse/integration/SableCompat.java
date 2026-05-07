@@ -10,9 +10,7 @@ import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -118,7 +116,8 @@ public class SableCompat {
         BlockPos plotPos = BlockPos.containing(localVec.x, localVec.y, localVec.z);
         BlockPos embeddedPos = plotPos.subtract(plot.getCenterBlock());
         BlockPos worldPos = embeddedPos.offset(plot.getCenterBlock());
+        Vec3 posLocal = new Vec3(localVec.x, localVec.y, localVec.z);
 
-        return new SableProvider.SableContext(embeddedPos, worldPos, new Vec3(localVec.x, localVec.y, localVec.z), safeAccessor, sub);
+        return new SableProvider.SableContext(embeddedPos, worldPos, posLocal, pose, safeAccessor, sub);
     }
 }

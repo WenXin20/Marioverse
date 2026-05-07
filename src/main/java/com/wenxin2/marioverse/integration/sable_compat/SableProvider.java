@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.integration.sable_compat;
 
+import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -29,29 +30,31 @@ public class SableProvider {
         public final SafeAccessor accessor;
         public final BlockPos posEmbedded;
         public final BlockPos posWorld;
-        public final SubLevel sub;
+        public final Pose3dc pose3dc;
+        public final SubLevel subLevel;
         public final Vec3 posLocal;
 
-        public SableContext(BlockPos posEmbedded, BlockPos posWorld, Vec3 posLocal, SafeAccessor accessor, SubLevel sub) {
+        public SableContext(BlockPos posEmbedded, BlockPos posWorld, Vec3 posLocal, Pose3dc pose, SafeAccessor accessor, SubLevel sub) {
             this.accessor = accessor;
             this.posEmbedded = posEmbedded;
             this.posLocal = posLocal;
             this.posWorld = posWorld;
-            this.sub = sub;
+            this.pose3dc = pose;
+            this.subLevel = sub;
         }
 
         public BlockPos toWorld(BlockPos embedded) {
-            BlockPos plot = embedded.offset(this.sub.getPlot().getCenterBlock());
-            Vector3d vec = this.sub.logicalPose().transformPosition(new Vector3d(plot.getX(), plot.getY(), plot.getZ()));
+            BlockPos plot = embedded.offset(this.subLevel.getPlot().getCenterBlock());
+            Vector3d vec = this.subLevel.logicalPose().transformPosition(new Vector3d(plot.getX(), plot.getY(), plot.getZ()));
 
             return BlockPos.containing(vec.x, vec.y, vec.z);
         }
 
         public BlockPos toEmbedded(BlockPos worldPos) {
-            Vector3d vec = this.sub.logicalPose().transformPositionInverse(new Vector3d(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
+            Vector3d vec = this.subLevel.logicalPose().transformPositionInverse(new Vector3d(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
 
             BlockPos plotPos = BlockPos.containing(vec.x, vec.y, vec.z);
-            return plotPos.subtract(this.sub.getPlot().getCenterBlock()).offset(this.sub.getPlot().getCenterBlock());
+            return plotPos.subtract(this.subLevel.getPlot().getCenterBlock()).offset(this.subLevel.getPlot().getCenterBlock());
         }
     }
 
