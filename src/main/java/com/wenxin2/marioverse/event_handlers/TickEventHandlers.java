@@ -1,5 +1,9 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
@@ -19,8 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -218,6 +227,7 @@ public class TickEventHandlers {
             entity.fallDistance = 0.0F;
         }
     }
+    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
 
     private static void collideWithBlocks(Level level, Entity entity) {
         Vec3 motion = entity.getDeltaMovement();
@@ -252,12 +262,61 @@ public class TickEventHandlers {
 
         boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
 
-        if (!level.isClientSide && canGrief && motion.y > 0 && !entity.isSpectator()) {
+        if (canGrief && motion.y > 0 && !entity.isSpectator()) {
             AABB hitBox = entity.getBoundingBox()
-                    .deflate(0.1, 0.0, 0.1)
+                    .deflate(0.05, 0.0, 0.05)
                     .expandTowards(0, motion.y + 0.2, 0);
             BlockPos min = BlockPos.containing(hitBox.minX, hitBox.minY, hitBox.minZ);
             BlockPos max = BlockPos.containing(hitBox.maxX, hitBox.maxY, hitBox.maxZ);
+
+            if (object instanceof SableProvider.SableContext context) {
+                Quaterniondc rotation = context.subLevel.logicalPose().orientation();
+                double minLX = Double.MAX_VALUE;
+                double minLY = Double.MAX_VALUE;
+                double minLZ = Double.MAX_VALUE;
+                double maxLX = -Double.MAX_VALUE;
+                double maxLY = -Double.MAX_VALUE;
+                double maxLZ = -Double.MAX_VALUE;
+
+                for (double x : new double[]{hitBox.minX, hitBox.maxX}) {
+                    for (double y : new double[]{hitBox.minY, hitBox.maxY}) {
+                        for (double z : new double[]{hitBox.minZ, hitBox.maxZ}) {
+                            Vector3d local = rotation.transformInverse(new Vector3d(
+                                    x - entity.getX(), y - entity.getY(), z - entity.getZ()));
+
+                            minLX = Math.min(minLX, local.x);
+                            minLY = Math.min(minLY, local.y);
+                            minLZ = Math.min(minLZ, local.z);
+
+                            maxLX = Math.max(maxLX, local.x);
+                            maxLY = Math.max(maxLY, local.y);
+                            maxLZ = Math.max(maxLZ, local.z);
+                        }
+                    }
+                }
+
+                min = context.posEmbedded.offset(
+                        Mth.floor(minLX + 1.0E-4),
+                        Mth.floor(minLY + 1.0E-4),
+                        Mth.floor(minLZ + 1.0E-4));
+
+                max = context.posEmbedded.offset(
+                        Mth.ceil(maxLX) - 1,
+                        Mth.ceil(maxLY) - 1,
+                        Mth.ceil(maxLZ) - 1);
+
+                Vector3d rMin = rotation.transform(new Vector3d(minLX, minLY, minLZ));
+                Vector3d rMax = rotation.transform(new Vector3d(maxLX, maxLY, maxLZ));
+
+                DEBUG_BOXES.add(new AABB(
+                        entity.getX() + Math.min(rMin.x, rMax.x),
+                        entity.getY() + Math.min(rMin.y, rMax.y),
+                        entity.getZ() + Math.min(rMin.z, rMax.z),
+                        entity.getX() + Math.max(rMin.x, rMax.x),
+                        entity.getY() + Math.max(rMin.y, rMax.y),
+                        entity.getZ() + Math.max(rMin.z, rMax.z)
+                ));
+            }
 
             for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
                 BlockState stateAbove = level.getBlockState(posAbove);
@@ -265,24 +324,18 @@ public class TickEventHandlers {
                 long posKey = posAbove.asLong();
 
                 if (object instanceof SableProvider.SableContext context) {
-                    Quaterniondc rotation = context.subLevel.logicalPose().orientation();
-                    AABB box = entity.getBoundingBox();
-                    Vec3 localHit = new Vec3(Mth.clamp(posAbove.getX() + 0.5, box.minX, box.maxX),
-                            box.maxY + motion.y, Mth.clamp(posAbove.getZ() + 0.5, box.minZ, box.maxZ));
-                    Vector3d rotated = rotation.transformInverse(new Vector3d(localHit.x - entity.getX(),
-                            localHit.y - entity.getY(), localHit.z - entity.getZ()));
-
-                    BlockPos posEmbedded = context.posEmbedded.offset(Mth.floor(rotated.x),
-                            Mth.floor(rotated.y), Mth.floor(rotated.z));
-                    stateAbove = context.accessor.getBlockState(posEmbedded);
-                    blockEntityAbove = context.accessor.getBlockEntity(posEmbedded);
+                    stateAbove = context.accessor.getBlockState(posAbove);
+                    blockEntityAbove = context.accessor.getBlockEntity(posAbove);
                     if (level instanceof ServerLevel) {
-                        posEmbedded = context.posWorld.offset(Mth.floor(rotated.x),
-                                Mth.floor(rotated.y), Mth.floor(rotated.z));
-                        stateAbove = context.accessor.getServerBlockState(posEmbedded);
-                        blockEntityAbove = context.accessor.getServerBlockEntity(posEmbedded);
+                        BlockPos worldPos = context.posWorld.offset(
+                                posAbove.getX() - context.posEmbedded.getX(),
+                                posAbove.getY() - context.posEmbedded.getY(),
+                                posAbove.getZ() - context.posEmbedded.getZ());
+
+                        stateAbove = context.accessor.getServerBlockState(worldPos);
+                        blockEntityAbove = context.accessor.getServerBlockEntity(worldPos);
+                        posKey = worldPos.asLong();
                     }
-                    posKey = posEmbedded.asLong();
                 }
 
                 String key = Long.toString(posKey);
