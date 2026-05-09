@@ -53,6 +53,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaterniondc;
+import org.joml.Vector3d;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class TickEventHandlers {
@@ -221,7 +223,6 @@ public class TickEventHandlers {
         Vec3 motion = entity.getDeltaMovement();
         boolean canGrief = EventHooks.canEntityGrief(level, entity)
                 || (entity instanceof Player player && !player.getAbilities().flying);
-        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
         List<String> toRemove = new ArrayList<>();
         CompoundTag hitMap = TickEventHandlers.getHitMap(entity);
         CompoundTag data = entity.getPersistentData();
@@ -245,27 +246,39 @@ public class TickEventHandlers {
             }
         }
 
+        Object object = null;
+        if (ModList.get().isLoaded("sable"))
+            object = SableProvider.getContext(entity.level(), entity);
+
+        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
+
         if (!level.isClientSide && canGrief && motion.y > 0 && !entity.isSpectator()) {
-            AABB aboveBox = entity.getBoundingBox()
+            AABB hitBox = entity.getBoundingBox()
                     .deflate(0.1, 0.0, 0.1)
                     .expandTowards(0, motion.y + 0.2, 0);
-            BlockPos min = BlockPos.containing(aboveBox.minX, aboveBox.minY, aboveBox.minZ);
-            BlockPos max = BlockPos.containing(aboveBox.maxX, aboveBox.maxY, aboveBox.maxZ);
+            BlockPos min = BlockPos.containing(hitBox.minX, hitBox.minY, hitBox.minZ);
+            BlockPos max = BlockPos.containing(hitBox.maxX, hitBox.maxY, hitBox.maxZ);
 
             for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
                 BlockState stateAbove = level.getBlockState(posAbove);
                 BlockEntity blockEntityAbove = level.getBlockEntity(posAbove);
                 long posKey = posAbove.asLong();
 
-                if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
-                    SableProvider.SableContext context = SableProvider.getContext(level, entity);
-                    BlockPos base = context.posEmbedded.above(Math.round(entity.getBbHeight()));
-                    BlockPos posEmbedded = base.offset(posAbove.getX() - min.getX(), posAbove.getY() - min.getY(), posAbove.getZ() - min.getZ());
+                if (object instanceof SableProvider.SableContext context) {
+                    Quaterniondc rotation = context.subLevel.logicalPose().orientation();
+                    AABB box = entity.getBoundingBox();
+                    Vec3 localHit = new Vec3(Mth.clamp(posAbove.getX() + 0.5, box.minX, box.maxX),
+                            box.maxY + motion.y, Mth.clamp(posAbove.getZ() + 0.5, box.minZ, box.maxZ));
+                    Vector3d rotated = rotation.transformInverse(new Vector3d(localHit.x - entity.getX(),
+                            localHit.y - entity.getY(), localHit.z - entity.getZ()));
+
+                    BlockPos posEmbedded = context.posEmbedded.offset(Mth.floor(rotated.x),
+                            Mth.floor(rotated.y), Mth.floor(rotated.z));
                     stateAbove = context.accessor.getBlockState(posEmbedded);
                     blockEntityAbove = context.accessor.getBlockEntity(posEmbedded);
                     if (level instanceof ServerLevel) {
-                        base = context.posWorld.above(Math.round(entity.getBbHeight()));
-                        posEmbedded = base.offset(posAbove.getX() - min.getX(), posAbove.getY() - min.getY(), posAbove.getZ() - min.getZ());
+                        posEmbedded = context.posWorld.offset(Mth.floor(rotated.x),
+                                Mth.floor(rotated.y), Mth.floor(rotated.z));
                         stateAbove = context.accessor.getServerBlockState(posEmbedded);
                         blockEntityAbove = context.accessor.getServerBlockEntity(posEmbedded);
                     }
