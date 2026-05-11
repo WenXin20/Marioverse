@@ -263,116 +263,150 @@ public class TickEventHandlers {
         boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
 
         if (canGrief && motion.y > 0 && !entity.isSpectator()) {
-            AABB hitBox = entity.getBoundingBox()
-                    .deflate(0.05, 0.0, 0.05)
-                    .expandTowards(0, motion.y + 0.2, 0);
+            AABB hitBox = entity.getBoundingBox().deflate(0.05, 0.0, 0.05)
+                    .expandTowards(0, motion.y + 0.02, 0);
             BlockPos min = BlockPos.containing(hitBox.minX, hitBox.minY, hitBox.minZ);
             BlockPos max = BlockPos.containing(hitBox.maxX, hitBox.maxY, hitBox.maxZ);
 
             if (object instanceof SableProvider.SableContext context) {
                 Quaterniondc rotation = context.subLevel.logicalPose().orientation();
-                double minLX = Double.MAX_VALUE;
-                double minLY = Double.MAX_VALUE;
-                double minLZ = Double.MAX_VALUE;
-                double maxLX = -Double.MAX_VALUE;
-                double maxLY = -Double.MAX_VALUE;
-                double maxLZ = -Double.MAX_VALUE;
+                min = context.posEmbedded.offset(-2, -2, -2);
+                max = context.posEmbedded.offset(2, 2, 2);
 
-                for (double x : new double[]{hitBox.minX, hitBox.maxX}) {
-                    for (double y : new double[]{hitBox.minY, hitBox.maxY}) {
-                        for (double z : new double[]{hitBox.minZ, hitBox.maxZ}) {
-                            Vector3d local = rotation.transformInverse(new Vector3d(
-                                    x - entity.getX(), y - entity.getY(), z - entity.getZ()));
+                Vector3d c1 = rotation.transform(new Vector3d(hitBox.minX - entity.getX(), hitBox.minY - entity.getY(), hitBox.minZ - entity.getZ()));
+                Vector3d c2 = rotation.transform(new Vector3d(hitBox.minX - entity.getX(), hitBox.minY - entity.getY(), hitBox.maxZ - entity.getZ()));
+                Vector3d c3 = rotation.transform(new Vector3d(hitBox.minX - entity.getX(), hitBox.maxY - entity.getY(), hitBox.minZ - entity.getZ()));
+                Vector3d c4 = rotation.transform(new Vector3d(hitBox.minX - entity.getX(), hitBox.maxY - entity.getY(), hitBox.maxZ - entity.getZ()));
+                Vector3d c5 = rotation.transform(new Vector3d(hitBox.maxX - entity.getX(), hitBox.minY - entity.getY(), hitBox.minZ - entity.getZ()));
+                Vector3d c6 = rotation.transform(new Vector3d(hitBox.maxX - entity.getX(), hitBox.minY - entity.getY(), hitBox.maxZ - entity.getZ()));
+                Vector3d c7 = rotation.transform(new Vector3d(hitBox.maxX - entity.getX(), hitBox.maxY - entity.getY(), hitBox.minZ - entity.getZ()));
+                Vector3d c8 = rotation.transform(new Vector3d(hitBox.maxX - entity.getX(), hitBox.maxY - entity.getY(), hitBox.maxZ - entity.getZ()));
 
-                            minLX = Math.min(minLX, local.x);
-                            minLY = Math.min(minLY, local.y);
-                            minLZ = Math.min(minLZ, local.z);
+                double minWX = Math.min(Math.min(Math.min(c1.x, c2.x), Math.min(c3.x, c4.x)),
+                        Math.min(Math.min(c5.x, c6.x), Math.min(c7.x, c8.x)));
+                double minWY = Math.min(Math.min(Math.min(c1.y, c2.y), Math.min(c3.y, c4.y)),
+                        Math.min(Math.min(c5.y, c6.y), Math.min(c7.y, c8.y)));
+                double minWZ = Math.min(Math.min(Math.min(c1.z, c2.z), Math.min(c3.z, c4.z)),
+                        Math.min(Math.min(c5.z, c6.z), Math.min(c7.z, c8.z)));
+                double maxWX = Math.max(Math.max(Math.max(c1.x, c2.x), Math.max(c3.x, c4.x)),
+                        Math.max(Math.max(c5.x, c6.x), Math.max(c7.x, c8.x)));
+                double maxWY = Math.max(Math.max(Math.max(c1.y, c2.y), Math.max(c3.y, c4.y)),
+                        Math.max(Math.max(c5.y, c6.y), Math.max(c7.y, c8.y)));
+                double maxWZ = Math.max(Math.max(Math.max(c1.z, c2.z), Math.max(c3.z, c4.z)),
+                        Math.max(Math.max(c5.z, c6.z), Math.max(c7.z, c8.z)));
 
-                            maxLX = Math.max(maxLX, local.x);
-                            maxLY = Math.max(maxLY, local.y);
-                            maxLZ = Math.max(maxLZ, local.z);
-                        }
-                    }
-                }
+                Vec3 relativePlayerPos = new Vec3(entity.getX() - Math.floor(entity.getX()),
+                        entity.getY() - Math.floor(entity.getY()), entity.getZ() - Math.floor(entity.getZ()));
+                Vector3d rotatedPlayerOffset = rotation.transform(new Vector3d(relativePlayerPos.x, relativePlayerPos.y, relativePlayerPos.z));
+                double centerX = context.posWorld.getX() + rotatedPlayerOffset.x;
+                double centerY = context.posWorld.getY() + rotatedPlayerOffset.y;
+                double centerZ = context.posWorld.getZ() + rotatedPlayerOffset.z;
 
-                min = context.posEmbedded.offset(
-                        Mth.floor(minLX + 1.0E-4),
-                        Mth.floor(minLY + 1.0E-4),
-                        Mth.floor(minLZ + 1.0E-4));
+                AABB transformedHitBox = new AABB(centerX + minWX, centerY + minWY, centerZ + minWZ,
+                        centerX + maxWX, centerY + maxWY, centerZ + maxWZ);
 
-                max = context.posEmbedded.offset(
-                        Mth.ceil(maxLX) - 1,
-                        Mth.ceil(maxLY) - 1,
-                        Mth.ceil(maxLZ) - 1);
+                for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
+                    Vector3d rotated = rotation.transform(new Vector3d(posAbove.getX() - context.posEmbedded.getX(),
+                            posAbove.getY() - context.posEmbedded.getY(), posAbove.getZ() - context.posEmbedded.getZ()));
+                    Vec3 worldVec = new Vec3(context.posWorld.getX() + rotated.x + 0.5,
+                            context.posWorld.getY() + rotated.y + 0.5, context.posWorld.getZ() + rotated.z + 0.5);
+                    BlockPos worldPos = BlockPos.containing(worldVec);
+                    AABB blockBox = new AABB(worldPos);
 
-                Vector3d rMin = rotation.transform(new Vector3d(minLX, minLY, minLZ));
-                Vector3d rMax = rotation.transform(new Vector3d(maxLX, maxLY, maxLZ));
+                    DEBUG_BOXES.add(blockBox);
 
-                DEBUG_BOXES.add(new AABB(
-                        entity.getX() + Math.min(rMin.x, rMax.x),
-                        entity.getY() + Math.min(rMin.y, rMax.y),
-                        entity.getZ() + Math.min(rMin.z, rMax.z),
-                        entity.getX() + Math.max(rMin.x, rMax.x),
-                        entity.getY() + Math.max(rMin.y, rMax.y),
-                        entity.getZ() + Math.max(rMin.z, rMax.z)
-                ));
-            }
+                    if (!transformedHitBox.intersects(blockBox))
+                        continue;
 
-            for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
-                BlockState stateAbove = level.getBlockState(posAbove);
-                BlockEntity blockEntityAbove = level.getBlockEntity(posAbove);
-                long posKey = posAbove.asLong();
+                    BlockState stateAbove = context.accessor.getBlockState(posAbove);
+                    BlockEntity blockEntityAbove = context.accessor.getBlockEntity(posAbove);
+                    long posKey = worldPos.asLong();
 
-                if (object instanceof SableProvider.SableContext context) {
-                    stateAbove = context.accessor.getBlockState(posAbove);
-                    blockEntityAbove = context.accessor.getBlockEntity(posAbove);
                     if (level instanceof ServerLevel) {
-                        BlockPos worldPos = context.posWorld.offset(
-                                posAbove.getX() - context.posEmbedded.getX(),
-                                posAbove.getY() - context.posEmbedded.getY(),
-                                posAbove.getZ() - context.posEmbedded.getZ());
-
                         stateAbove = context.accessor.getServerBlockState(worldPos);
                         blockEntityAbove = context.accessor.getServerBlockEntity(worldPos);
-                        posKey = worldPos.asLong();
+                    }
+
+                    String key = Long.toString(posKey);
+                    if (hitMap != null && hitMap.contains(key))
+                        continue;
+                    boolean didHit = false;
+
+                    if (!didHit && stateAbove.is(BlockRegistry.ON_OFF_SWITCH)
+                            && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)) {
+                        OnOffSwitchBlock.hitSwitchBlock(level, BlockPos.of(posKey), entity);
+                        didHit = true;
+                    }
+
+                    if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                            && blockEntityAbove instanceof QuestionBlockEntity questionBE
+                            && !(stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))) {
+                        QuestionBlock.hitQuestionBlock(level, BlockPos.of(posKey), entity, questionBE);
+                        didHit = true;
+                    }
+
+                    if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
+                        SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), stateAbove, entity);
+                        didHit = true;
+                    }
+
+                    if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
+                        level.playSound(null, BlockPos.of(posKey),
+                                SoundRegistry.BLOCK_BONK.get(),
+                                SoundSource.BLOCKS, 1.0F, 1.0F);
+                        didHit = true;
+                    }
+
+                    if (didHit) {
+                        hitMap = getOrCreateHitMap(entity);
+                        hitMap.putInt(key, 5);
                     }
                 }
+            } else {
+                for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
+                    BlockState stateAbove = level.getBlockState(posAbove);
+                    BlockEntity blockEntityAbove = level.getBlockEntity(posAbove);
+                    long posKey = posAbove.asLong();
 
-                String key = Long.toString(posKey);
-                if (hitMap != null && hitMap.contains(key))
-                    continue;
-                boolean didHit = false;
+                    String key = Long.toString(posKey);
+                    if (hitMap != null && hitMap.contains(key))
+                        continue;
+                    boolean didHit = false;
 
-                if (!didHit && stateAbove.is(BlockRegistry.ON_OFF_SWITCH)
-                        && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)) {
-                    OnOffSwitchBlock.hitSwitchBlock(level, BlockPos.of(posKey), entity);
-                    didHit = true;
-                }
+                    if (!didHit && stateAbove.is(BlockRegistry.ON_OFF_SWITCH)
+                            && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)) {
+                        OnOffSwitchBlock.hitSwitchBlock(level, BlockPos.of(posKey), entity);
+                        didHit = true;
+                    }
 
-                if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                        && blockEntityAbove instanceof QuestionBlockEntity questionBE
-                        && !(stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))) {
-                    QuestionBlock.hitQuestionBlock(level, BlockPos.of(posKey), entity, questionBE);
-                    didHit = true;
-                }
+                    if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                            && blockEntityAbove instanceof QuestionBlockEntity questionBE
+                            && !(stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))) {
+                        QuestionBlock.hitQuestionBlock(level, BlockPos.of(posKey), entity, questionBE);
+                        didHit = true;
+                    }
 
-                if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
-                        && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
-                    SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), stateAbove, entity);
-                    didHit = true;
-                }
+                    if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
+                        SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), stateAbove, entity);
+                        didHit = true;
+                    }
 
-                if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
-                        && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
-                    if (stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))
-                        level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    else level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    didHit = true;
-                }
+                    if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
+                        if (stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))
+                            level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                        else
+                            level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                        didHit = true;
+                    }
 
-                if (didHit) {
-                    hitMap = getOrCreateHitMap(entity);
-                    hitMap.putInt(key, 5);
+                    if (didHit) {
+                        hitMap = getOrCreateHitMap(entity);
+                        hitMap.putInt(key, 5);
+                    }
                 }
             }
         }

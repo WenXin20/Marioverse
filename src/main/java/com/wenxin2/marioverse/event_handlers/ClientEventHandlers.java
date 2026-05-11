@@ -2,8 +2,6 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
@@ -21,9 +19,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import net.minecraft.client.Camera;
@@ -34,8 +30,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -55,8 +49,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -66,7 +58,6 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -83,38 +74,6 @@ public class ClientEventHandlers {
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/red_quicksand_overlay.png");
     public static final ResourceLocation SPLUNKIN_OVERLAY = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/splunkin_pumpkin_blur.png");
-
-    @SubscribeEvent
-    public static void onRenderLevelStage(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)
-            return;
-
-        Minecraft mc = Minecraft.getInstance();
-        Vec3 cam = mc.gameRenderer.getMainCamera().getPosition();
-
-        PoseStack poseStack = event.getPoseStack();
-        MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
-        VertexConsumer consumer = buffer.getBuffer(RenderType.lines());
-        poseStack.pushPose();
-            poseStack.translate(-cam.x, -cam.y, -cam.z);
-
-            RenderSystem.enableBlend();
-            RenderSystem.disableCull();
-
-            List<AABB> boxes = new ArrayList<>(TickEventHandlers.DEBUG_BOXES);
-            for (AABB box : boxes) {
-                LevelRenderer.renderLineBox(poseStack, consumer,
-                        box, 1F, 1F, 0F, 1F);
-            }
-
-            buffer.endBatch(RenderType.lines());
-            RenderSystem.enableCull();
-            RenderSystem.disableBlend();
-        poseStack.popPose();
-
-        TickEventHandlers.DEBUG_BOXES.clear();
-
-    }
 
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
