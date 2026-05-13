@@ -640,12 +640,19 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 && state.hasProperty(CLOSED)
                 && !state.getValue(CLOSED);
 
-        if (!openEntrance && !connections.contains(direction)) {
-            for (Direction connected : connections) {
-                if (connected != direction.getOpposite()) {
-                    nextDirection = connected;
-                    break;
+        if (!openEntrance) {
+            if (connections.contains(direction))
+                nextDirection = direction;
+            else {
+                for (Direction connected : connections) {
+                    if (connected != direction.getOpposite()) {
+                        nextDirection = connected;
+                        break;
+                    }
                 }
+
+                if (!connections.contains(nextDirection))
+                    nextDirection = direction.getOpposite();
             }
         }
 
