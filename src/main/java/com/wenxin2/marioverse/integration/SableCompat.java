@@ -28,6 +28,8 @@ public class SableCompat {
 
     public static void init() {
         SableProvider.set((level, entity) -> {
+            if (entity == null)
+                return null;
             SubLevelAccess access = SableCompanion.INSTANCE.getContaining(entity);
             if (!(access instanceof SubLevel))
                 access = EntitySubLevelUtil.getLastTrackingSubLevel(entity);
@@ -131,6 +133,9 @@ public class SableCompat {
     }
 
     private static boolean isInsideSublevel(Entity entity, SubLevel sub) {
+        if (entity == null)
+            return false;
+
         BoundingBox3dc bb = sub.boundingBox();
         AABB entityBox = entity.getBoundingBox();
 
