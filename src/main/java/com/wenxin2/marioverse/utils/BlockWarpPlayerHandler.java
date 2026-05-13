@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
-import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
 public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
@@ -28,7 +26,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
 
     @Override
     default void enterWarpPipe(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
-                               @Nullable SableProvider.SableContext context) {
+                               @Nullable Object context) {
         BlockState state = world.getBlockState(pos);
         double entityX = entity.getX();
         double entityY = entity.getY();
@@ -63,9 +61,9 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
     }
 
     @Override
-    default void enterWarpPipeAbove(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
-                                    @Nullable SableProvider.SableContext context) {
-        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
+    default void enterWarpPipeAbove(Entity entity, Level level, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
+                                    @Nullable Object context) {
+        BlockState stateAboveEntity = level.getBlockState(pos.above(Math.round(entity.getBbHeight())));
 
         double entityX = entity.getX();
         double entityZ = entity.getZ();
@@ -79,7 +77,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
                     && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
                 this.displayNoTeleportMessage(player, stateAboveEntity);
             }
-        } else BlockWarpEntityHandler.super.enterWarpPipeAbove(entity, world, pos, warpPos, warpBE, context);
+        } else BlockWarpEntityHandler.super.enterWarpPipeAbove(entity, level, pos, warpPos, warpBE, context);
     }
 
     private void displayNoTeleportMessage(Player player, BlockState state) {

@@ -24,8 +24,12 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaterniondc;
+import org.joml.Vector3d;
 
 public interface BlockWarpEntityHandler {
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
@@ -36,30 +40,17 @@ public interface BlockWarpEntityHandler {
     }
 
     default void enterWarp(Entity entity, Level world, BlockPos pos, BlockPos posEmbedded, BlockState state,
-                           @Nullable SableProvider.SableContext context) {
-        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
+                           @Nullable Object object) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        BlockEntity blockEntityAbove = world.getBlockEntity(pos.above(Math.round(entity.getBbHeight())));
-        BlockPos worldPos;
         BlockPos warpPos;
 
-        if (ModList.get().isLoaded("sable") && context != null) {
+        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
             state = context.accessor.getBlockState(posEmbedded);
-            stateAboveEntity = context.accessor.getBlockState(posEmbedded.above(Math.round(entity.getBbHeight())));
             blockEntity = context.accessor.getBlockEntity(posEmbedded);
-            blockEntityAbove = context.accessor.getBlockEntity(posEmbedded.above(Math.round(entity.getBbHeight())));
             if (world instanceof ServerLevel) {
                 state = context.accessor.getServerBlockState(posEmbedded);
-                stateAboveEntity = context.accessor.getServerBlockState(posEmbedded.above(Math.round(entity.getBbHeight())));
                 blockEntity = context.accessor.getServerBlockEntity(posEmbedded);
-                blockEntityAbove = context.accessor.getServerBlockEntity(posEmbedded.above(Math.round(entity.getBbHeight())));
             }
-            worldPos = pos;
-        } else {
-            stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
-            blockEntity = world.getBlockEntity(pos);
-            blockEntityAbove = world.getBlockEntity(pos.above(Math.round(entity.getBbHeight())));
-            worldPos = pos;
         }
 
         if (blockEntity instanceof BaseWarpBlockEntity warpBE && warpBE.getLevel() != null) {
@@ -74,18 +65,10 @@ public interface BlockWarpEntityHandler {
                 this.enterWarpDoor(entity, world, posEmbedded, warpPos, warpBE);
 
             if (state.getBlock() instanceof WarpPipeBlock)
-                this.enterWarpPipe(entity, world, posEmbedded, warpPos, warpBE, context);
-        }
+                this.enterWarpPipe(entity, world, posEmbedded, warpPos, warpBE, object);
 
-        if (blockEntityAbove instanceof BaseWarpBlockEntity warpBE && warpBE.getLevel() != null) {
-            warpPos = warpBE.destinationPos;
-            int entityId = entity.getId();
-
-            if (BaseWarpBlockEntity.WARPED_ENTITIES.getOrDefault(entityId, true))
-                BaseWarpBlockEntity.WARPED_ENTITIES.put(entityId, false);
-
-            if (stateAboveEntity.getBlock() instanceof WarpPipeBlock)
-                this.enterWarpPipeAbove(entity, world, pos, warpPos, warpBE, context);
+            if (state.getBlock() instanceof WarpPipeBlock)
+                this.enterWarpPipeAbove(entity, world, pos, warpPos, warpBE, object);
         }
     }
 
@@ -103,9 +86,13 @@ public interface BlockWarpEntityHandler {
     }
 
     default void enterWarpPipe(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
-                               @Nullable SableProvider.SableContext context) {
+                               @Nullable Object object) {
         BlockState state = world.getBlockState(pos);
+        boolean canEnterSidePipe = entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
+                || (entity instanceof LivingEntity living && living.isFallFlying())
+                || (entity instanceof Player player && player.getAbilities().flying);
 
+        Vec3 look = entity.getViewVector(1.0F);
         double entityX = entity.getX();
         double entityY = entity.getY();
         double entityZ = entity.getZ();
@@ -113,78 +100,48 @@ public interface BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (ModList.get().isLoaded("sable") && context != null) {
+        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+            Quaterniondc rotation = context.subLevel.logicalPose().orientation();
+            Vector3d localLook = rotation.transformInverse(new Vector3d(look.x, look.y, look.z));
+            look = new Vec3(localLook.x, localLook.y, localLook.z).normalize();
             state = context.accessor.getBlockState(pos);
             if (world instanceof ServerLevel)
                 state = context.accessor.getServerBlockState(pos);
             entityX = context.posLocal.x;
             entityY = context.posLocal.y;
             entityZ = context.posLocal.z;
-            blockX = context.posWorld.getX();
-            blockY = context.posWorld.getY();
-            blockZ = context.posWorld.getZ();
         }
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP) && state.hasProperty(WarpPipeBlock.FACING)) {
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.UP && getShiftKeyForEntity(entity) && (entityY + entity.getBbHeight() >= blockY - 1)
-                        && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, state);
-                    }
+            if (this.mv$getBlockWarpTeleportConfig(entity)
+                    && !entity.getType().is(TagRegistry.CANNOT_WARP)
+                    && state.hasProperty(WarpPipeBlock.FACING)) {
+                Direction facing = state.getValue(WarpPipeBlock.FACING);
+
+                double horizontalLength = Math.sqrt(look.x * look.x + look.z * look.z);
+                double flatX = horizontalLength > 0.0001 ? look.x / horizontalLength : 0;
+                double flatZ = horizontalLength > 0.0001 ? look.z / horizontalLength : 0;
+                double lookDot = flatX * facing.getStepX() + flatZ * facing.getStepZ();
+                boolean facingIntoPipe = lookDot < -0.65;
+
+                boolean withinX = entityX > blockX && entityX < blockX + 1;
+                boolean withinY = entityY >= blockY && entityY < blockY + 1;
+                boolean withinZ = entityZ > blockZ && entityZ < blockZ + 1;
+                boolean insideFaceBounds;
+
+                switch (facing.getAxis()) {
+                    case X -> insideFaceBounds = withinY && withinZ;
+                    case Y -> insideFaceBounds = withinX && withinZ;
+                    case Z -> insideFaceBounds = withinX && withinY;
+                    default -> insideFaceBounds = false;
                 }
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.NORTH && !entity.isShiftKeyDown()
-                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
-                            || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                            || (entity instanceof Player player && player.getAbilities().flying))
-                        && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, state);
-                    }
-                }
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.SOUTH && !entity.isShiftKeyDown()
-                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
-                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                        || (entity instanceof Player player && player.getAbilities().flying))
-                        && (entityX < blockX + 1 && entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ > blockZ + 0.25)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, state);
-                    }
-                }
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.EAST && !entity.isShiftKeyDown()
-                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
-                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                        || (entity instanceof Player player && player.getAbilities().flying))
-                        && (entityX > blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, state);
-                    }
-                }
-                if (state.getValue(WarpPipeBlock.FACING) == Direction.WEST && !entity.isShiftKeyDown()
-                        && (entity.verticalCollision || entity.onGround() || entity.isInWaterOrBubble()
-                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying())
-                        || (entity instanceof Player player && player.getAbilities().flying))
-                        && (entityX < blockX) && (entityY >= blockY && entityY < blockY + 0.75) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
+                boolean canEnterPipe;
+
+                if (facing.getAxis().isHorizontal())
+                    canEnterPipe = !entity.isShiftKeyDown() && canEnterSidePipe && (facingIntoPipe || !(entity instanceof Player));
+                else canEnterPipe = getShiftKeyForEntity(entity);
+
+                if (insideFaceBounds && canEnterPipe) {
                     if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                     else if (entity instanceof Player player) {
@@ -198,114 +155,119 @@ public interface BlockWarpEntityHandler {
         }
     }
 
-    default void enterWarpPipeAbove(Entity entity, Level world, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE, SableProvider.SableContext context) {
-        BlockState stateAboveEntity = world.getBlockState(pos.above(Math.round(entity.getBbHeight())));
+    default void enterWarpPipeAbove(Entity entity, Level level, BlockPos pos, BlockPos warpPos, BaseWarpBlockEntity warpBE,
+                                    @Nullable Object object) {
+        Vec3 motion = entity.getDeltaMovement();
+        AABB aboveBox = entity.getBoundingBox()
+                .deflate(0.1, 0.0, 0.1)
+                .expandTowards(0, motion.y + 0.2, 0);
+        BlockPos min = BlockPos.containing(aboveBox.minX, aboveBox.minY, aboveBox.minZ);
+        BlockPos max = BlockPos.containing(aboveBox.maxX, aboveBox.maxY, aboveBox.maxZ);
 
-        double entityX = entity.getX();
-        double entityZ = entity.getZ();
-        int blockX = pos.getX();
-        int blockZ = pos.getZ();
+        for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
+            BlockState stateAbove = level.getBlockState(posAbove);
 
-        if (ModList.get().isLoaded("sable") && context != null) {
-            stateAboveEntity = context.accessor.getBlockState(pos.above(Math.round(entity.getBbHeight())));
-            if (world instanceof ServerLevel)
-                stateAboveEntity = context.accessor.getServerBlockState(pos.above(Math.round(entity.getBbHeight())));
-            entityX = context.posLocal.x;
-            entityZ = context.posLocal.z;
-            blockX = context.posWorld.getX();
-            blockZ = context.posWorld.getZ();
-        }
+            if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+                BlockPos posEmbedded = context.posEmbedded.above(Math.round(entity.getBbHeight()))
+                        .offset(posAbove.getX() - min.getX(), posAbove.getY() - max.getY(), posAbove.getZ() - min.getZ());
+                stateAbove = context.accessor.getBlockState(posEmbedded);
+                if (level instanceof ServerLevel) {
+                    posEmbedded = context.posWorld.above(Math.round(entity.getBbHeight()))
+                            .offset(posAbove.getX() - min.getX(), posAbove.getY() - max.getY(), posAbove.getZ() - min.getZ());
+                    stateAbove = context.accessor.getServerBlockState(posEmbedded);
+                }
+            }
 
-        if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-            if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP) && stateAboveEntity.hasProperty(WarpPipeBlock.FACING)) {
-                if (stateAboveEntity.getValue(WarpPipeBlock.FACING) == Direction.DOWN
-                        && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
-                        this.warp(entity, world, pos, stateAboveEntity, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
-                        if (warpBE.preventWarp)
-                            this.displayWarpDisruptedMessage(player, stateAboveEntity);
-                        else if (warpBE.hasDestinationPos())
-                            this.displayCooldownMessage(player, stateAboveEntity);
+            if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
+                if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP) && stateAbove.hasProperty(WarpPipeBlock.FACING)) {
+                    if (stateAbove.getValue(WarpPipeBlock.FACING) == Direction.DOWN) {
+                        if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
+                            this.warp(entity, level, pos, stateAbove, warpPos, warpBE);
+                        else if (entity instanceof Player player) {
+                            if (warpBE.preventWarp)
+                                this.displayWarpDisruptedMessage(player, stateAbove);
+                            else if (warpBE.hasDestinationPos())
+                                this.displayCooldownMessage(player, stateAbove);
+                        }
                     }
                 }
             }
         }
     }
 
-    default void warp(Entity entity, Level world, BlockPos pos, BlockState state, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
-        if (warpPos != null && !(world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
+    default void warp(Entity entity, Level level, BlockPos pos, BlockState state, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
+        if (warpPos != null && !(level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
                 && entity instanceof Player player)
             BlockWarpEntityHandler.displayDestinationMissingMessage(player);
 
-        if (warpPos != null && world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity) {
-            BlockState warpState = world.getBlockState(warpPos);
+        if (warpPos != null && level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity) {
+            BlockState warpState = level.getBlockState(warpPos);
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
-                WarpDoorBlockEntity.warp(entity, warpPos, world, warpState, doorblock, warpBE);
+                WarpDoorBlockEntity.warp(entity, warpPos, level, warpState, doorblock, warpBE);
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                WarpTrapDoorBlockEntity.warp(entity, warpPos, world, warpState, trapdoorBlock, warpBE);
+                WarpTrapDoorBlockEntity.warp(entity, warpPos, level, warpState, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
-                WarpPipeBlockEntity.warp(entity, warpPos, world, warpState);
+                WarpPipeBlockEntity.warp(entity, warpPos, level, warpState);
             if (state.getBlock() instanceof WarpPipeBlock)
-                world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
-            this.updateDoorState(world, pos, state, warpPos, warpState);
+                level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
+            this.updateDoorState(level, pos, state, warpPos, warpState);
         } else if (warpBE.getUUID() != null && warpBE.getWarpUuid() != null
                 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID()) != null) {
             warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID());
-            BlockState warpState = world.getBlockState(warpPos);
+            BlockState warpState = level.getBlockState(warpPos);
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
-                WarpDoorBlockEntity.warp(entity, warpPos, world, warpState, doorblock, warpBE);
+                WarpDoorBlockEntity.warp(entity, warpPos, level, warpState, doorblock, warpBE);
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                WarpTrapDoorBlockEntity.warp(entity, warpPos, world, warpState, trapdoorBlock, warpBE);
+                WarpTrapDoorBlockEntity.warp(entity, warpPos, level, warpState, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
-                WarpPipeBlockEntity.warp(entity, warpPos, world, warpState);
+                WarpPipeBlockEntity.warp(entity, warpPos, level, warpState);
             if (state.getBlock() instanceof WarpPipeBlock)
-                world.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
-            this.updateDoorState(world, pos, state, warpPos, warpState);
+                level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
+            this.updateDoorState(level, pos, state, warpPos, warpState);
 
             warpBE.setDestinationPos(warpPos);
-            if (world.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity destBE)
+            if (level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity destBE)
                 destBE.setDestinationPos(pos);
         }
     }
 
-    private void updateDoorState(Level world, BlockPos pos, BlockState state, BlockPos warpPos, BlockState warpState) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        BlockEntity warpBE = world.getBlockEntity(warpPos);
+    private void updateDoorState(Level level, BlockPos pos, BlockState state, BlockPos warpPos, BlockState warpState) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        BlockEntity warpBE = level.getBlockEntity(warpPos);
 
-        if (!world.isClientSide) {
+        if (!level.isClientSide) {
             if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && warpDoorBE.breakDoor)
-                WarpDoorBlockEntity.breakDoor(warpPos, world);
+                WarpDoorBlockEntity.breakDoor(warpPos, level);
             if (warpBE instanceof WarpTrapDoorBlockEntity warpTrapdoorBE && warpTrapdoorBE.breakTrapdoor)
-                WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, world);
+                WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, level);
 
             if (state.getBlock() instanceof DoorBlock)
-                world.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE)
+                level.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE)
                         .setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
             if (state.getBlock() instanceof TrapDoorBlock)
-                world.setBlock(pos, state.setValue(TrapDoorBlock.OPEN, Boolean.FALSE)
+                level.setBlock(pos, state.setValue(TrapDoorBlock.OPEN, Boolean.FALSE)
                         .setValue(TrapDoorBlock.FACING, state.getValue(TrapDoorBlock.FACING)), 10);
 
             if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
-                world.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
+                level.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
                         .setValue(DoorBlock.FACING, warpState.getValue(DoorBlock.FACING)), 10);
             if (warpBE instanceof WarpTrapDoorBlockEntity warpDoorBE && !warpDoorBE.breakTrapdoor)
-                world.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE)
+                level.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE)
                         .setValue(TrapDoorBlock.FACING, warpState.getValue(TrapDoorBlock.FACING)), 10);
         }
 
         if (blockEntity instanceof BaseWarpBlockEntity warpDoorBE) {
             if (state.getBlock() instanceof DoorBlock doorBlock)
-                warpDoorBE.playDoorSounds(null, world, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                warpDoorBE.playDoorSounds(null, level, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
             if (warpState.getBlock() instanceof DoorBlock doorBlock)
-                warpDoorBE.playDoorSounds(null, world, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+                warpDoorBE.playDoorSounds(null, level, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
 
             if (state.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                warpDoorBE.playDoorSounds(null, world, pos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
+                warpDoorBE.playDoorSounds(null, level, pos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                warpDoorBE.playDoorSounds(null, world, warpPos, warpState.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
+                warpDoorBE.playDoorSounds(null, level, warpPos, warpState.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
         }
     }
 

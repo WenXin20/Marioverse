@@ -1,0 +1,6 @@
+{
+  "selector": "#marioverse:sable/floaty",
+  "properties": {
+    "sable:floating_material": "sable:end_stone"
+  }
+}

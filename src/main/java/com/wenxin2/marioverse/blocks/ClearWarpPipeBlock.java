@@ -3,15 +3,22 @@ package com.wenxin2.marioverse.blocks;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -20,6 +27,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -49,8 +58,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaterniondc;
+import org.joml.Vector3d;
 
 public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -312,48 +324,75 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
+        Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
+        Vec3 look = player.getViewVector(1.0F);
 
         double entityX = player.getX();
         double entityY = player.getY();
         double entityZ = player.getZ();
-        double height =  + player.getBbHeight();
+        double height = player.getBbHeight();
+
         int blockX = pos.getX();
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (state.getValue(ENTRANCE) && heldItem.isEmpty()) {
+        Object object = null;
+        if (ModList.get().isLoaded("sable"))
+            object = SableProvider.getContext(world, player);
+
+        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+            Quaterniondc rotation = context.subLevel.logicalPose().orientation();
+            Vector3d localLook = rotation.transformInverse(new Vector3d(look.x, look.y, look.z));
+            look = new Vec3(localLook.x, localLook.y, localLook.z).normalize();
+            entityX = context.posLocal.x;
+            entityY = context.posLocal.y;
+            entityZ = context.posLocal.z;
+        }
+
+        if (state.hasProperty(ENTRANCE) && state.getValue(ENTRANCE) && heldItem.isEmpty()) {
             Direction facing = state.getValue(FACING);
-            boolean yPosCheck = entityY + height >= blockY && entityY - height < blockY + 0.75;
-            
-            if (facing == Direction.UP && (entityY + height >= blockY - 1)
-                    && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+
+            double horizontalLength = Math.sqrt(look.x * look.x + look.z * look.z);
+            double flatX = horizontalLength > 0.0001 ? look.x / horizontalLength : 0;
+            double flatZ = horizontalLength > 0.0001 ? look.z / horizontalLength : 0;
+
+            double lookDot = flatX * facing.getStepX() + flatZ * facing.getStepZ();
+            boolean facingIntoPipe = lookDot < -0.65;
+
+            boolean withinX = entityX > blockX && entityX < blockX + 1;
+            boolean withinY = entityY + height >= blockY && entityY - height < blockY + 0.75;
+            boolean withinZ = entityZ > blockZ && entityZ < blockZ + 1;
+
+            boolean insideFaceBounds;
+
+            switch (facing.getAxis()) {
+                case X -> insideFaceBounds = withinY && withinZ;
+                case Y -> insideFaceBounds = withinX && withinZ;
+                case Z -> insideFaceBounds = withinX && withinY;
+                default -> insideFaceBounds = false;
+            }
+            boolean canEnterPipe;
+
+            if (facing.getAxis().isHorizontal())
+                canEnterPipe = facingIntoPipe;
+            else if (facing == Direction.UP)
+                canEnterPipe = entityY + height >= blockY - 1;
+            else
+                canEnterPipe = entityY + height <= blockY;
+
+            if (insideFaceBounds && canEnterPipe) {
+                if (player instanceof ServerPlayer serverPlayer)
+                    serverPlayer.teleportTo((ServerLevel) world, pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5,
+                            flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                else player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+
+                if (facing.getAxis().isHorizontal())
+                    player.setSwimming(true);
+
                 return InteractionResult.SUCCESS;
-            } else if (facing == Direction.DOWN && (entityY + height <= blockY)
-                    && (entityX < blockX + 1 && entityX > blockX) && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
-                return InteractionResult.SUCCESS;
-            } else if (facing == Direction.NORTH
-                    && (entityX < blockX + 1 && entityX > blockX) && yPosCheck && (entityZ < blockZ)) {
-                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
-                return InteractionResult.SUCCESS;
-            } else if (facing == Direction.SOUTH
-                    && (entityX < blockX + 1 && entityX > blockX) && yPosCheck && (entityZ > blockZ + 0.25)) {
-                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
-                player.setSwimming(true);
-                return InteractionResult.SUCCESS;
-            } else if (facing == Direction.EAST
-                    && (entityX > blockX) && yPosCheck && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
-                player.setSwimming(true);
-                return InteractionResult.SUCCESS;
-            } else if (facing == Direction.WEST
-                    && (entityX < blockX) && yPosCheck && (entityZ < blockZ + 1 && entityZ > blockZ)) {
-                player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
-                player.setSwimming(true);
-                return InteractionResult.SUCCESS;
-            } else return super.useWithoutItem(state, world, pos, player, hitResult);
-        } else return super.useWithoutItem(state, world, pos, player, hitResult);
+            }
+        }
+        return super.useWithoutItem(state, world, pos, player, hitResult);
     }
 
     @Override
@@ -513,6 +552,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+
         Direction facing = state.getValue(FACING);
 
         if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
@@ -529,7 +569,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             if (entity instanceof Player player) {
                 Direction moveDirection = this.getDirectionFromLook(player);
                 movePlayerInPipe(player, moveDirection);
-            } else moveEntityInPipe(entity);
+            } else moveEntityInPipe(entity, state, pos);
             super.entityInside(state, world, pos, entity);
         }
     }
@@ -558,25 +598,121 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         }
     }
 
-    private void moveEntityInPipe(Entity entity) {
-        Vec3 lookVec = entity.getLookAngle();
-        Vec3 moveVec = entity.getDeltaMovement();
-        double d0 = Math.min(1.5D, moveVec.y + 0.1D);
-        double speed = 1.25D;
-        double verticalSpeed = 1.15D;
+    private static final String PIPE_DIRECTION = "PipeDirection";
 
-        if (entity instanceof LivingEntity && !entity.isShiftKeyDown()) {
-            Vec3 movement = new Vec3(lookVec.x * speed, moveVec.y * verticalSpeed, lookVec.z * speed);
-            entity.setDeltaMovement(movement.x, movement.y, movement.z);
+    private void moveEntityInPipe(Entity entity, BlockState state, BlockPos pos) {
+        double speed = 0.35D;
+        double wallStrength = 0.08D;
+        List<Direction> connections = new ArrayList<>();
 
-            if (moveVec.y > 0 || moveVec.y < 0)
-                entity.setDeltaMovement(moveVec.x, d0, moveVec.z);
-        } else if (!entity.isShiftKeyDown()) {
-            Vec3 movement = new Vec3(moveVec.x * speed, moveVec.y * verticalSpeed, moveVec.z * speed);
-            entity.setDeltaMovement(movement.x, movement.y, movement.z);
-            if (moveVec.y > 0 || moveVec.y < 0)
-                entity.setDeltaMovement(moveVec.x, d0, moveVec.z);
+        if (state.getValue(NORTH)) connections.add(Direction.NORTH);
+        if (state.getValue(SOUTH)) connections.add(Direction.SOUTH);
+        if (state.getValue(EAST)) connections.add(Direction.EAST);
+        if (state.getValue(WEST)) connections.add(Direction.WEST);
+        if (state.getValue(UP)) connections.add(Direction.UP);
+        if (state.getValue(DOWN)) connections.add(Direction.DOWN);
+
+        if (connections.isEmpty())
+            return;
+
+        CompoundTag tag = entity.getPersistentData();
+        Direction direction;
+
+        if (tag.contains(PIPE_DIRECTION))
+            direction = Direction.from3DDataValue(tag.getInt(PIPE_DIRECTION));
+        else {
+            Vec3 motion = entity.getDeltaMovement();
+            direction = Direction.getNearest(motion.x, motion.y, motion.z);
+
+            if (!connections.contains(direction))
+                direction = connections.getFirst();
         }
+
+        Direction nextDirection = direction;
+        boolean openEntrance = state.hasProperty(ENTRANCE) && state.getValue(ENTRANCE)
+                && state.hasProperty(CLOSED) && !state.getValue(CLOSED);
+
+        if (!openEntrance) {
+            if (connections.contains(direction))
+                nextDirection = direction;
+            else {
+                List<Direction> possibleDirections = new ArrayList<>();
+
+                for (Direction connected : connections) {
+                    if (connected != direction.getOpposite())
+                        possibleDirections.add(connected);
+                }
+
+                if (!possibleDirections.isEmpty())
+                    nextDirection = possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
+                else nextDirection = direction.getOpposite();
+            }
+        }
+
+        tag.putInt(PIPE_DIRECTION, nextDirection.ordinal());
+
+        Vec3 motion = entity.getDeltaMovement();
+        Vec3 forwardMotion = new Vec3(nextDirection.getStepX() * speed,
+                nextDirection.getStepY() * speed,
+                nextDirection.getStepZ() * speed);
+
+        double pushX = 0;
+        double pushY = 0;
+        double pushZ = 0;
+
+        double localX = entity.getX() - pos.getX();
+        double localY = entity.getY() - pos.getY();
+        double localZ = entity.getZ() - pos.getZ();
+
+        double padding = entity.getBbWidth() * 0.5 + 0.1;
+
+        switch (nextDirection.getAxis()) {
+            case X -> {
+                if (localY < padding)
+                    pushY += wallStrength;
+
+                if (localY > 1 - padding)
+                    pushY -= wallStrength;
+
+                if (localZ < padding)
+                    pushZ += wallStrength;
+
+                if (localZ > 1 - padding)
+                    pushZ -= wallStrength;
+            }
+
+            case Y -> {
+                if (localX < padding)
+                    pushX += wallStrength;
+
+                if (localX > 1 - padding)
+                    pushX -= wallStrength;
+
+                if (localZ < padding)
+                    pushZ += wallStrength;
+
+                if (localZ > 1 - padding)
+                    pushZ -= wallStrength;
+            }
+
+            case Z -> {
+                if (localX < padding)
+                    pushX += wallStrength;
+
+                if (localX > 1 - padding)
+                    pushX -= wallStrength;
+
+                if (localY < padding)
+                    pushY += wallStrength;
+
+                if (localY > 1 - padding)
+                    pushY -= wallStrength;
+            }
+        }
+
+        entity.setDeltaMovement(motion.x * 0.75 + forwardMotion.x + pushX,
+                motion.y * 0.75 + forwardMotion.y + pushY,
+                motion.z * 0.75 + forwardMotion.z + pushZ);
         entity.resetFallDistance();
     }
 
@@ -587,7 +723,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             case WEST -> new Vec3(-0.75, 0, 0);
             case EAST -> new Vec3(0.75, 0, 0);
             case UP -> new Vec3(0, 0.6, 0);
-            case DOWN -> new Vec3(0, -0.25, 0);
+            case DOWN -> new Vec3(0, -0.3, 0);
         };
 
         entity.setDeltaMovement(motion);

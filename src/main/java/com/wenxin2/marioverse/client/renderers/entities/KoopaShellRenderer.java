@@ -176,15 +176,6 @@ public class KoopaShellRenderer extends GeoEntityRenderer<KoopaShellEntity> {
     }
 
     @Override
-    public void render(KoopaShellEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());
-
-        if (Minecraft.getInstance().getEntityRenderDispatcher().shouldRenderHitBoxes())
-            renderBounceCollisionBox(entity, poseStack, vertexConsumer);
-    }
-
-    @Override
     public void renderFinal(PoseStack poseStack, KoopaShellEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource,
                             @Nullable VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, int color) {
         if (animatable instanceof GoldKoopaShellEntity) {
@@ -203,19 +194,5 @@ public class KoopaShellRenderer extends GeoEntityRenderer<KoopaShellEntity> {
             });
         }
         super.renderFinal(poseStack, animatable, model, bufferSource, buffer, partialTick, packedLight, packedOverlay, color);
-    }
-
-    private static void renderBounceCollisionBox(KoopaShellEntity entity, PoseStack poseStack, VertexConsumer vertexConsumer) {
-        AABB bb = entity.getBoundingBox();
-
-        for (Direction dir : Direction.Plane.HORIZONTAL) {
-            AABB movedBox = bb.move(dir.getStepX() * 0.1, 0, dir.getStepZ() * 0.1);
-            AABB posBox = movedBox.move(-entity.getX(), -entity.getY(), -entity.getZ());
-
-            poseStack.pushPose();
-                LevelRenderer.renderLineBox(poseStack, vertexConsumer, posBox,
-                        0.0F, 1.0F, 0.0F, 1.0F);
-            poseStack.popPose();
-        }
     }
 }

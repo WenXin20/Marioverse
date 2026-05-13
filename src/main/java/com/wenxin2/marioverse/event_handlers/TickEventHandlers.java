@@ -1,11 +1,17 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -17,8 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -40,14 +51,19 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaterniondc;
+import org.joml.Vector3d;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class TickEventHandlers {
@@ -211,12 +227,12 @@ public class TickEventHandlers {
             entity.fallDistance = 0.0F;
         }
     }
+    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
 
     private static void collideWithBlocks(Level level, Entity entity) {
         Vec3 motion = entity.getDeltaMovement();
         boolean canGrief = EventHooks.canEntityGrief(level, entity)
                 || (entity instanceof Player player && !player.getAbilities().flying);
-        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
         List<String> toRemove = new ArrayList<>();
         CompoundTag hitMap = TickEventHandlers.getHitMap(entity);
         CompoundTag data = entity.getPersistentData();
@@ -233,79 +249,216 @@ public class TickEventHandlers {
             for (String key : toRemove) {
                 hitMap.remove(key);
             }
+
             if (hitMap.isEmpty()) {
                 data.remove(HIT_BLOCKS_TAG);
                 hitMap = null;
             }
         }
 
-        if (!level.isClientSide && canGrief && motion.y > 0 && !entity.isSpectator()) {
-            AABB aboveBox = entity.getBoundingBox()
-                    .deflate(0.1, 0.0, 0.1)
-                    .expandTowards(0, motion.y + 0.2, 0);
-            BlockPos min = BlockPos.containing(aboveBox.minX, aboveBox.minY, aboveBox.minZ);
-            BlockPos max = BlockPos.containing(aboveBox.maxX, aboveBox.maxY, aboveBox.maxZ);
+        Object object = null;
+        if (ModList.get().isLoaded("sable"))
+            object = SableProvider.getContext(entity.level(), entity);
 
-            for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
-                BlockState stateAbove = level.getBlockState(posAbove);
-                long posKey = posAbove.asLong();
-                String key = Long.toString(posKey);
+        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
 
-                if (stateAbove.isAir())
-                    continue;
-                if (hitMap != null && hitMap.contains(key))
-                    continue;
-                boolean didHit = false;
+        if (canGrief && motion.y > 0 && !entity.isSpectator()) {
+            AABB hitBox = entity.getBoundingBox().deflate(0.05, 0.0, 0.05)
+                    .expandTowards(0, motion.y + 0.02, 0);
+            BlockPos min = BlockPos.containing(hitBox.minX, hitBox.minY, hitBox.minZ);
+            BlockPos max = BlockPos.containing(hitBox.maxX, hitBox.maxY, hitBox.maxZ);
 
-                if (!didHit && stateAbove.is(BlockRegistry.ON_OFF_SWITCH)
-                        && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)) {
-                    OnOffSwitchBlock.hitSwitchBlock(level, posAbove, entity);
-                    didHit = true;
+            if (object instanceof SableProvider.SableContext context) {
+                Quaterniondc rotation = context.subLevel.logicalPose().orientation();
+                min = context.posEmbedded.offset(-2, -2, -2);
+                max = context.posEmbedded.offset(2, 2, 2);
+
+                Vector3d c1 = rotation.transform(new Vector3d(hitBox.minX - entity.getX(), hitBox.minY - entity.getY(), hitBox.minZ - entity.getZ()));
+                Vector3d c2 = rotation.transform(new Vector3d(hitBox.minX - entity.getX(), hitBox.minY - entity.getY(), hitBox.maxZ - entity.getZ()));
+                Vector3d c3 = rotation.transform(new Vector3d(hitBox.minX - entity.getX(), hitBox.maxY - entity.getY(), hitBox.minZ - entity.getZ()));
+                Vector3d c4 = rotation.transform(new Vector3d(hitBox.minX - entity.getX(), hitBox.maxY - entity.getY(), hitBox.maxZ - entity.getZ()));
+                Vector3d c5 = rotation.transform(new Vector3d(hitBox.maxX - entity.getX(), hitBox.minY - entity.getY(), hitBox.minZ - entity.getZ()));
+                Vector3d c6 = rotation.transform(new Vector3d(hitBox.maxX - entity.getX(), hitBox.minY - entity.getY(), hitBox.maxZ - entity.getZ()));
+                Vector3d c7 = rotation.transform(new Vector3d(hitBox.maxX - entity.getX(), hitBox.maxY - entity.getY(), hitBox.minZ - entity.getZ()));
+                Vector3d c8 = rotation.transform(new Vector3d(hitBox.maxX - entity.getX(), hitBox.maxY - entity.getY(), hitBox.maxZ - entity.getZ()));
+
+                double minWX = Math.min(Math.min(Math.min(c1.x, c2.x), Math.min(c3.x, c4.x)),
+                        Math.min(Math.min(c5.x, c6.x), Math.min(c7.x, c8.x)));
+                double minWY = Math.min(Math.min(Math.min(c1.y, c2.y), Math.min(c3.y, c4.y)),
+                        Math.min(Math.min(c5.y, c6.y), Math.min(c7.y, c8.y)));
+                double minWZ = Math.min(Math.min(Math.min(c1.z, c2.z), Math.min(c3.z, c4.z)),
+                        Math.min(Math.min(c5.z, c6.z), Math.min(c7.z, c8.z)));
+                double maxWX = Math.max(Math.max(Math.max(c1.x, c2.x), Math.max(c3.x, c4.x)),
+                        Math.max(Math.max(c5.x, c6.x), Math.max(c7.x, c8.x)));
+                double maxWY = Math.max(Math.max(Math.max(c1.y, c2.y), Math.max(c3.y, c4.y)),
+                        Math.max(Math.max(c5.y, c6.y), Math.max(c7.y, c8.y)));
+                double maxWZ = Math.max(Math.max(Math.max(c1.z, c2.z), Math.max(c3.z, c4.z)),
+                        Math.max(Math.max(c5.z, c6.z), Math.max(c7.z, c8.z)));
+
+                Vec3 relativePlayerPos = new Vec3(entity.getX() - Math.floor(entity.getX()),
+                        entity.getY() - Math.floor(entity.getY()), entity.getZ() - Math.floor(entity.getZ()));
+                Vector3d rotatedPlayerOffset = rotation.transform(new Vector3d(relativePlayerPos.x, relativePlayerPos.y, relativePlayerPos.z));
+                double centerX = context.posWorld.getX() + rotatedPlayerOffset.x;
+                double centerY = context.posWorld.getY() + rotatedPlayerOffset.y;
+                double centerZ = context.posWorld.getZ() + rotatedPlayerOffset.z;
+
+                AABB transformedHitBox = new AABB(centerX + minWX, centerY + minWY, centerZ + minWZ,
+                        centerX + maxWX, centerY + maxWY, centerZ + maxWZ);
+
+                for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
+                    Vector3d rotated = rotation.transform(new Vector3d(posAbove.getX() - context.posEmbedded.getX(),
+                            posAbove.getY() - context.posEmbedded.getY(), posAbove.getZ() - context.posEmbedded.getZ()));
+                    Vec3 worldVec = new Vec3(context.posWorld.getX() + rotated.x + 0.5,
+                            context.posWorld.getY() + rotated.y + 0.5, context.posWorld.getZ() + rotated.z + 0.5);
+                    BlockPos worldPos = BlockPos.containing(worldVec);
+                    AABB blockBox = new AABB(worldPos);
+
+                    DEBUG_BOXES.add(blockBox);
+
+                    if (!transformedHitBox.intersects(blockBox))
+                        continue;
+
+                    BlockState stateAbove = context.accessor.getBlockState(posAbove);
+                    BlockEntity blockEntityAbove = context.accessor.getBlockEntity(posAbove);
+                    long posKey = worldPos.asLong();
+
+                    if (level instanceof ServerLevel) {
+                        stateAbove = context.accessor.getServerBlockState(worldPos);
+                        blockEntityAbove = context.accessor.getServerBlockEntity(worldPos);
+                    }
+
+                    String key = Long.toString(posKey);
+                    if (hitMap != null && hitMap.contains(key))
+                        continue;
+                    boolean didHit = false;
+
+                    if (!didHit && stateAbove.is(BlockRegistry.ON_OFF_SWITCH)
+                            && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)) {
+                        OnOffSwitchBlock.hitSwitchBlock(level, BlockPos.of(posKey), entity);
+                        didHit = true;
+                    }
+
+                    if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                            && blockEntityAbove instanceof QuestionBlockEntity questionBE
+                            && !(stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))) {
+                        QuestionBlock.hitQuestionBlock(level, BlockPos.of(posKey), entity, questionBE);
+                        didHit = true;
+                    }
+
+                    if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
+                        SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), stateAbove, entity);
+                        didHit = true;
+                    }
+
+                    if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
+                        level.playSound(null, BlockPos.of(posKey),
+                                SoundRegistry.BLOCK_BONK.get(),
+                                SoundSource.BLOCKS, 1.0F, 1.0F);
+                        didHit = true;
+                    }
+
+                    if (didHit) {
+                        hitMap = getOrCreateHitMap(entity);
+                        hitMap.putInt(key, 5);
+                    }
                 }
+            } else {
+                for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
+                    BlockState stateAbove = level.getBlockState(posAbove);
+                    BlockEntity blockEntityAbove = level.getBlockEntity(posAbove);
+                    long posKey = posAbove.asLong();
 
-                if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
-                        && level.getBlockEntity(posAbove) instanceof QuestionBlockEntity questionBE) {
-                    QuestionBlock.hitQuestionBlock(level, posAbove, entity, questionBE);
-                    didHit = true;
-                }
+                    String key = Long.toString(posKey);
+                    if (hitMap != null && hitMap.contains(key))
+                        continue;
+                    boolean didHit = false;
 
-                if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
-                        && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
-                    SmashableBrickBlock.smashBlock(level, posAbove, stateAbove, entity);
-                    didHit = true;
-                }
+                    if (!didHit && stateAbove.is(BlockRegistry.ON_OFF_SWITCH)
+                            && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)) {
+                        OnOffSwitchBlock.hitSwitchBlock(level, BlockPos.of(posKey), entity);
+                        didHit = true;
+                    }
 
-                if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
-                        && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
-                    if (stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))
-                        level.playSound(null, posAbove, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    else level.playSound(null, posAbove, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    didHit = true;
-                }
+                    if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                            && blockEntityAbove instanceof QuestionBlockEntity questionBE
+                            && !(stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))) {
+                        QuestionBlock.hitQuestionBlock(level, BlockPos.of(posKey), entity, questionBE);
+                        didHit = true;
+                    }
 
-                if (didHit) {
-                    hitMap = getOrCreateHitMap(entity);
-                    hitMap.putInt(key, 5);
+                    if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
+                        SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), stateAbove, entity);
+                        didHit = true;
+                    }
+
+                    if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
+                        if (stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))
+                            level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                        else
+                            level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                        didHit = true;
+                    }
+
+                    if (didHit) {
+                        hitMap = getOrCreateHitMap(entity);
+                        hitMap.putInt(key, 5);
+                    }
                 }
             }
         }
 
         if (!level.isClientSide && canGrief && isMovingHorizontal && !entity.isSpectator()) {
             AABB box = entity.getBoundingBox()
-                    .deflate(0, 0.2, 0)
                     .inflate(0.1, 0, 0.1);
-            BlockPos min = BlockPos.containing(box.minX, box.minY, box.minZ);
-            BlockPos max = BlockPos.containing(box.maxX, box.maxY, box.maxZ);
+            int minX = Mth.floor(box.minX);
+            int minY = Mth.floor(box.minY);
+            int minZ = Mth.floor(box.minZ);
+            int maxX = Mth.ceil(box.maxX) - 1;
+            int maxY = Mth.ceil(box.maxY) - 1;
+            int maxZ = Mth.ceil(box.maxZ) - 1;
+            BlockPos min = new BlockPos(minX, minY, minZ);
+            BlockPos max = new BlockPos(maxX, maxY, maxZ);
 
-            for (BlockPos tagertPos : BlockPos.betweenClosed(min, max)) {
-                BlockState targetState = level.getBlockState(tagertPos);
-                double diffX = tagertPos.getX() + 0.5 - entity.getX();
-                double diffZ = tagertPos.getZ() + 0.5 - entity.getZ();
-                long posKey = tagertPos.asLong();
+            for (BlockPos posTarget : BlockPos.betweenClosed(min, max)) {
+                BlockState targetState = level.getBlockState(posTarget);
+                BlockEntity blockEntity = level.getBlockEntity(posTarget);
+                double diffX = posTarget.getX() + 0.5 - entity.getX();
+                double diffZ = posTarget.getZ() + 0.5 - entity.getZ();
+                long posKey = posTarget.asLong();
+
+                if (ModList.get().isLoaded("sable")) {
+                    SableProvider.SableContext context = SableProvider.getContext(level, entity);
+
+                    if (context != null) {
+                        BlockPos entityBase = BlockPos.containing(entity.getX(), entity.getY(), entity.getZ());
+                        int baseX = entityBase.getX();
+                        int baseY = entityBase.getY();
+                        int baseZ = entityBase.getZ();
+                        BlockPos posEmbedded = context.posEmbedded
+                                .offset(-(posTarget.getX() - baseX),
+                                        posTarget.getY() - baseY,
+                                        posTarget.getZ() - baseZ);
+                        targetState = context.accessor.getBlockState(posEmbedded);
+                        blockEntity = context.accessor.getBlockEntity(posEmbedded);
+                        if (level instanceof ServerLevel) {
+                            posEmbedded = context.posWorld
+                                    .offset(-(posTarget.getX() - baseX),
+                                            posTarget.getY() - baseY,
+                                            posTarget.getZ() - baseZ);
+                            targetState = context.accessor.getServerBlockState(posEmbedded);
+                            blockEntity = context.accessor.getServerBlockEntity(posEmbedded);
+                        }
+                        diffX = posEmbedded.getX() + 0.5 - entity.getX();
+                        diffZ = posEmbedded.getZ() + 0.5 - entity.getZ();
+                        posKey = posEmbedded.asLong();
+                    }
+                }
+
                 String key = Long.toString(posKey);
-
-                if (targetState.isAir())
-                    continue;
                 if (hitMap != null && hitMap.contains(key))
                     continue;
                 boolean didHit = false;
@@ -314,28 +467,39 @@ public class TickEventHandlers {
                 if (Math.abs(diffX) > Math.abs(diffZ))
                     direction = diffX > 0 ? Direction.EAST : Direction.WEST;
                 else direction = diffZ > 0 ? Direction.SOUTH : Direction.NORTH;
+                Vec3 hitPos = Vec3.atCenterOf(posTarget).subtract(Vec3.atLowerCornerOf(direction.getNormal()).scale(0.5));
+                BlockHitResult hitResult = new BlockHitResult(hitPos, direction, posTarget, false);
 
                 if (!didHit && targetState.is(BlockRegistry.ON_OFF_SWITCH)
                         && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
-                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, tagertPos, entity);
+                    if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+                        shell.bounceShell(level, hitResult);
+                    OnOffSwitchBlock.hitSwitchBlockFromSide(level, BlockPos.of(posKey), entity);
                     didHit = true;
                 }
 
                 if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
-                        && level.getBlockEntity(tagertPos) instanceof QuestionBlockEntity questionBE) {
-                    QuestionBlock.hitQuestionBlockFromSide(level, tagertPos, entity);
+                        && blockEntity instanceof QuestionBlockEntity
+                        && !(targetState.hasProperty(QuestionBlock.EMPTY) && targetState.getValue(QuestionBlock.EMPTY))) {
+                    if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+                        shell.bounceShell(level, hitResult);
+                    QuestionBlock.hitQuestionBlockFromSide(level, BlockPos.of(posKey), entity);
                     didHit = true;
                 }
 
                 if (!didHit && targetState.is(TagRegistry.SMASHABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
-                    SmashableBrickBlock.smashBlockFromSide(level, tagertPos, targetState, entity, direction);
+                    if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+                        shell.bounceShell(level, hitResult);
+                    SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), targetState, entity);
                     didHit = true;
                 }
 
                 if (!didHit && targetState.is(TagRegistry.BONKABLE_BLOCKS)
                         && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
-                    StorageBrickBlock.bonkBlockFromSide(level, tagertPos, targetState);
+                    if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+                        shell.bounceShell(level, hitResult);
+                    StorageBrickBlock.bonkBlockFromSide(level, BlockPos.of(posKey), targetState);
                     didHit = true;
                 }
 

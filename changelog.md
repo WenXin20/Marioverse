@@ -3,6 +3,20 @@
 
 ## Update 1.9.3
 - Added Sable block tags for Create Aeronautics compat 
+  - End Stone ? Blocks, Storage Bricks, & Smashable Bricks float
+  - Invisible ? Blocks float when invisible
+  - Mushroom Trampolines are bouncy
+  - Iron Spikes & Spike Panels are frictive
+  - Dotted-Line Blocks, On-Off Switches, Star Coins, & Coins are floaty
+  - Wooden Bridges tagged as having Quarter Volume
+  - CheckPoint Flags tagged as light
+- Added Create Aeronautics support
+  - Warp Pipe teleporting
+  - Right-click to enter clear pipes & proper movement inside
+  - Hitting ? Blocks & Smashable Blocks
+  - Hitting On/Off Switches
+  - Bouncing on Mushroom Trampolines
+- Improved item and mob movement through clear pipes
 - Added trampoline caps to twilight forest portal deco tag
 - Added Warp Pipes, Question Blocks, & Storage Bricks to Framed Blocks whitelist tag
 - Fixed brick pedestal particles

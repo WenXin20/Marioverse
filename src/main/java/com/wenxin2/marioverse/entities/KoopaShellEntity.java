@@ -1,9 +1,12 @@
 package com.wenxin2.marioverse.entities;
 
 import com.google.common.base.MoreObjects;
+import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -66,13 +69,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -615,72 +622,113 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         this.hideTicks = hideTicks;
     }
 
-    public void collideWithWall(Level world) {
-        AABB bb = this.getBoundingBox();
-        double maxStep = this.maxUpStep();
-        double forwardDistance = 0.1;
-        double stepIncrement = 0.1;
+    public void collideWithWall(Level level) {
+        Vec3 motion = this.slidingMovement;
+        double horizontalSpeed = motion.horizontalDistance();
+        if (horizontalSpeed < 1e-6) return;
 
-        outer:
-        for (Direction dir : Direction.Plane.HORIZONTAL) {
-            Vec3 forward = new Vec3(dir.getStepX() * forwardDistance, 0, dir.getStepZ() * forwardDistance);
+        Vec3 horizontalDir = new Vec3(motion.x, 0, motion.z);
+        if (horizontalDir.lengthSqr() < 1e-6) return;
 
-            for (double dy = 0; dy <= maxStep; dy += stepIncrement) {
-                Vec3 offset = forward.add(0, dy, 0);
-                AABB movedBox = bb.move(offset);
+        horizontalDir = horizontalDir.normalize();
+        Vec3 perpendicular = new Vec3(-horizontalDir.z, 0, horizontalDir.x);
+        Vec3 rayOrigin = this.position().add(0, this.getBbHeight() * 0.6, 0);
+        BlockHitResult closestHit = null;
+        double closestAlong = Double.MAX_VALUE;
+        double halfWidth = this.getBbWidth() * 0.5;
+        double rayLength = horizontalSpeed;
 
-                if (world.noCollision(this, movedBox))
-                    continue outer;
+        Object object = null;
+        if (ModList.get().isLoaded("sable"))
+            object = SableProvider.getContext(level, this);
+
+        for (double offset : new double[]{0, -halfWidth, halfWidth}) {
+            Vec3 start = rayOrigin.add(perpendicular.scale(offset));
+            Vec3 end = start.add(horizontalDir.scale(rayLength));
+            BlockHitResult hitResult = level.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+            BlockState state = level.getBlockState(hitResult.getBlockPos());
+
+            if (object instanceof SableProvider.SableContext context) {
+                BlockPos pos = hitResult.getBlockPos();
+                BlockPos base = BlockPos.containing(context.posLocal);
+                BlockPos localPos = context.posEmbedded
+                        .offset(pos.getX() - base.getX(),
+                                pos.getY() - base.getY(),
+                                pos.getZ() - base.getZ());
+                state = context.accessor.getBlockState(localPos);
+
+                if (level instanceof ServerLevel) {
+                    localPos = context.posWorld
+                            .offset(pos.getX() - base.getX(),
+                                    pos.getY() - base.getY(),
+                                    pos.getZ() - base.getZ());
+                    state = context.accessor.getServerBlockState(localPos);
+                }
+
+                if (!state.isSolid()) continue;
+
+                Vec3 hitPos = hitResult.getLocation();
+                hitResult = new BlockHitResult(hitPos, hitResult.getDirection(), pos, hitResult.isInside());
             }
 
-            this.bounceShell(world, dir);
+            if (state.is(BlockRegistry.ON_OFF_SWITCH)
+                    || state.is(TagRegistry.BONKABLE_BLOCKS)
+                    || state.is(TagRegistry.SMASHABLE_BLOCKS)
+                    || (state.hasProperty(QuestionBlock.EMPTY) && !state.getValue(QuestionBlock.EMPTY)))
+                continue;
+
+            if (hitResult.getType() != HitResult.Type.BLOCK) continue;
+            if (hitResult.getDirection().getAxis() == Direction.Axis.Y) continue;
+
+            double along = hitResult.getLocation().subtract(start).dot(horizontalDir);
+
+            if (along < closestAlong) {
+                closestAlong = along;
+                closestHit = hitResult;
+            }
         }
+
+        if (closestHit != null)
+            this.bounceShell(level, closestHit);
     }
 
-    public void bounceShell(Level world, Direction direction) {
-        Crackiness.Level crackinessLevel = this.getCrackiness();
+    public void bounceShell(Level level, BlockHitResult hitResult) {
+        Direction direction = hitResult.getDirection();
+
+        if (direction.getAxis() == Direction.Axis.Y)
+            return;
+
         Vec3 motion = this.slidingMovement;
         double speed = motion.horizontalDistance();
         if (speed < 1e-6) return;
+        if (level.getBlockState(hitResult.getBlockPos()).isAir()) return;
+
         double newX = motion.x;
         double newZ = motion.z;
+        if (direction.getAxis() == Direction.Axis.X)
+            newX = -motion.x;
+        else if (direction.getAxis() == Direction.Axis.Z)
+            newZ = -motion.z;
 
-        if (direction.getAxis() == Direction.Axis.X) {
-            if (Math.signum(motion.x) == Math.signum(direction.getStepX()))
-                newX = -motion.x;
-        }
+        Vec3 newMotion = new Vec3(newX, 0, newZ).normalize().scale(speed).add(0, this.getDeltaMovement().y, 0);
 
-        if (direction.getAxis() == Direction.Axis.Z) {
-            if (Math.signum(motion.z) == Math.signum(direction.getStepZ()))
-                newZ = -motion.z;
-        }
+        this.setDeltaMovement(newMotion);
+        this.slidingMovement = newMotion;
+        this.hasImpulse = true;
+        Vec3 hitPos = hitResult.getLocation();
 
-        Vec3 hitPos = this.position().add(Vec3.atLowerCornerOf(direction.getNormal()).scale(0.4));
-        double tolerance = (this.getBbWidth() / 2.0) + 0.075;
-
-        if (this.position().distanceTo(hitPos) <= tolerance) {
-            Vec3 newMotion = new Vec3(newX, 0, newZ).normalize().scale(speed);
-            newMotion = newMotion.add(0, this.getDeltaMovement().y, 0);
-            this.setDeltaMovement(newMotion);
-            this.slidingMovement = newMotion;
-            this.hasImpulse = true;
-        }
-
-        if (world instanceof ServerLevel serverWorld && this.getDeltaMovement().horizontalDistance() > 0.25) {
-            serverWorld.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() / 2, hitPos.z,
+        if (level instanceof ServerLevel server && speed > 0.25) {
+            server.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() * 0.5, hitPos.z,
                     3, 0.1, 0.1, 0.1, 0.0);
+
             if (this.getBounceCount() != -1)
                 this.setBounceCount(this.getBounceCount() + 1);
         }
 
-        if (this.getDeltaMovement().horizontalDistance() > 0.25
-                && this.getData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get()) == 0) {
-            world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+        if (speed > 0.25 && this.getData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get()) == 0) {
+            level.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
             this.setData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get(), 2);
         }
-
-        if (this.getCrackiness() != crackinessLevel)
-            this.playSound(SoundRegistry.KOOPA_SHELL_SHATTER.get(), 1.0F, 1.0F);
     }
 
     public void collideWithEntity() {

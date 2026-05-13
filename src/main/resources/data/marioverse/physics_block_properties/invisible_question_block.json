@@ -1,0 +1,12 @@
+{
+  "selector": "#marioverse:invisible_question_blocks",
+  "properties": {
+    "sable:floating_material": "sable:end_stone",
+    "sable:floating_scale": 1.0
+  },
+  "overrides": {
+    "invisible=true": {
+      "sable:floating_scale": 1.0
+    }
+  }
+}

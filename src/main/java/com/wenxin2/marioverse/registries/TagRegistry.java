@@ -57,6 +57,7 @@ public class TagRegistry {
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
     public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_BLOCKS = blockTags("flammable_wooden_bridges");
     public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("flammable_wooden_bridge_stairs");
+    public static final TagKey<Block> FLOATY = blockTags("sable/floaty");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
     public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");

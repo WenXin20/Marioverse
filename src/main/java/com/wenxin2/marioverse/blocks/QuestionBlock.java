@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
@@ -109,6 +110,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -348,49 +350,58 @@ public class QuestionBlock extends BaseEntityBlock {
         }
     }
 
-    public static void hitQuestionBlock(Level world, BlockPos pos, Entity entity, QuestionBlockEntity questionBlockEntity) {
-        if (world.getBlockState(pos).getBlock() instanceof QuestionBlock questionBlock) {
+    public static void hitQuestionBlock(Level level, BlockPos pos, Entity entity, QuestionBlockEntity questionBlockEntity) {
+        BlockState state = level.getBlockState(pos);
+
+        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+            SableProvider.SableContext context = SableProvider.getContext(level, entity);
+            state = context.accessor.getBlockState(pos);
+            if (level instanceof ServerLevel)
+                state = context.accessor.getServerBlockState(pos);
+        }
+
+        if (state.getBlock() instanceof QuestionBlock questionBlock) {
             ItemStack storedItem = questionBlockEntity.getTheItem();
 
-            if (!world.getBlockState(pos).getValue(QuestionBlock.EMPTY))
-                QuestionBlock.hitEntityAbove(pos, world, entity);
+            if (!state.getValue(QuestionBlock.EMPTY))
+                QuestionBlock.hitEntityAbove(pos, level, entity);
 
-            if (!storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                BlockState stateAbove = world.getBlockState(pos.above());
+            if (!storedItem.isEmpty() && !state.getValue(QuestionBlock.EMPTY)) {
+                BlockState stateAbove = level.getBlockState(pos.above());
                 ItemStack coinItem = new ItemStack(stateAbove.getBlock().asItem());
                 if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
-                    StarCoinBlock.collectCoin(starCoin, world, stateAbove, pos.above(), entity, coinItem);
+                    StarCoinBlock.collectCoin(starCoin, level, stateAbove, pos.above(), entity, coinItem);
                 else if (stateAbove.getBlock() instanceof CoinBlock)
-                    CoinBlock.collectCoin(world, stateAbove, pos.above(), entity, coinItem);
+                    CoinBlock.collectCoin(level, stateAbove, pos.above(), entity, coinItem);
 
-                if (!world.isClientSide)
-                    questionBlock.spawnFromQuestionBlock(world, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
+                if (!level.isClientSide)
+                    questionBlock.spawnFromQuestionBlock(level, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
 
-                if (world.getBlockState(pos).is(BlockTags.GUARDED_BY_PIGLINS) && entity instanceof Player player)
+                if (state.is(BlockTags.GUARDED_BY_PIGLINS) && entity instanceof Player player)
                     PiglinAi.angerNearbyPiglins(player, false);
 
-                if (world instanceof ServerLevel serverWorld)
+                if (level instanceof ServerLevel serverWorld)
                     ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.CRIT, serverWorld, pos, Direction.DOWN,
-                            UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(world.getRandom()), 0.65D);
+                            UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(level.getRandom()), 0.65D);
 
                 entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 2);
-                MarioverseSoundTypes.playSounds(world, pos, storedItem);
+                MarioverseSoundTypes.playSounds(level, pos, storedItem);
                 questionBlockEntity.splitTheItem(1);
                 questionBlockEntity.setChanged();
             }
 
-            if (storedItem.isEmpty() && !world.getBlockState(pos).getValue(QuestionBlock.EMPTY)) {
-                BlockState currentState = world.getBlockState(pos);
+            if (storedItem.isEmpty() && !state.getValue(QuestionBlock.EMPTY)) {
+                BlockState currentState = state;
                 if (currentState.getBlock() instanceof QuestionBlock)
-                    world.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
+                    level.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
 
-            if (world.getBlockState(pos).getBlock() instanceof InvisibleQuestionBlock
-                    && world.getBlockState(pos).getValue(InvisibleQuestionBlock.INVISIBLE)) {
-                BlockState currentState = world.getBlockState(pos);
-                world.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
-                world.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
+            if (state.getBlock() instanceof InvisibleQuestionBlock
+                    && state.getValue(InvisibleQuestionBlock.INVISIBLE)) {
+                BlockState currentState = state;
+                level.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+                level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
         }
     }

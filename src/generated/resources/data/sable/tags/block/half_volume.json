@@ -1,0 +1,7 @@
+{
+  "remove": [
+    "#marioverse:wooden_bridges",
+    "#marioverse:wooden_bridge_stairs"
+  ],
+  "values": []
+}
