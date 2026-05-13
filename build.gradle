@@ -72,7 +72,7 @@ dependencies {
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7408951"
-    implementation "curse.maven:create-aeronautics-676721:8003941" // Requires Create, Sable, Incompatible w/ Embeddium
+    implementation "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge"  // Requires Create, Sable, Incompatible w/ Embeddium
     implementation "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
