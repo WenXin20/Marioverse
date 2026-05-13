@@ -12,11 +12,13 @@
   - CheckPoint Flags tagged as light
 - Added Create Aeronautics support
   - Warp Pipe teleporting
+  - Right-click to enter clear pipes & proper movement inside
   - Hitting ? Blocks & Smashable Blocks
   - Hitting On/Off Switches
   - Bouncing on Mushroom Trampolines
 - Added trampoline caps to twilight forest portal deco tag
 - Added Warp Pipes, Question Blocks, & Storage Bricks to Framed Blocks whitelist tag
+- Improved item and mob movement through clear pipes
 - Fixed brick pedestal particles
 
 ## Update 1.9.2
