@@ -9,6 +9,8 @@ import dev.ryanhcode.sable.companion.SubLevelAccess;
 import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
+import java.util.Map;
+import java.util.WeakHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ClipContext;
@@ -22,32 +24,39 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 
 public class SableCompat {
+    private static final Map<SubLevel, SableProvider.SafeAccessor> ACCESSOR_CACHE = new WeakHashMap<>();
+
     public static void init() {
         SableProvider.set((level, entity) -> {
             SubLevelAccess access = SableCompanion.INSTANCE.getContaining(entity);
-            if (access == null)
+            if (!(access instanceof SubLevel))
                 access = EntitySubLevelUtil.getLastTrackingSubLevel(entity);
-            if (access == null)
+            if (!(access instanceof SubLevel))
                 access = EntitySubLevelUtil.getTrackingSubLevel(entity);
 
-            if (!(access instanceof SubLevel)) {
-                SubLevelContainer container = SubLevelContainer.getContainer(level);
+            if (access instanceof SubLevel sub) {
+                if (isInsideSublevel(entity, sub))
+                    return buildContext(entity, sub);
+            }
 
-                if (!level.isClientSide && container instanceof ServerSubLevelContainer) {
-                    for (SubLevel sub : container.getAllSubLevels()) {
-                        BoundingBox3dc bb = sub.boundingBox();
-                        AABB entityBox = entity.getBoundingBox();
+            SubLevelContainer container = SubLevelContainer.getContainer(level);
 
-                        if (entityBox.maxX > bb.minX() && entityBox.minX < bb.maxX()
-                                && entityBox.maxY > bb.minY() && entityBox.minY < bb.maxY()
-                                && entityBox.maxZ > bb.minZ() && entityBox.minZ < bb.maxZ()) {
-                            return buildContext(entity, sub);
-                        }
+            if (!level.isClientSide && container instanceof ServerSubLevelContainer) {
+                AABB entityBox = entity.getBoundingBox();
+
+                for (SubLevel sub : container.getAllSubLevels()) {
+                    BoundingBox3dc bb = sub.boundingBox();
+
+                    if (entityBox.maxX > bb.minX() && entityBox.minX < bb.maxX()
+                            && entityBox.maxY > bb.minY() && entityBox.minY < bb.maxY()
+                            && entityBox.maxZ > bb.minZ() && entityBox.minZ < bb.maxZ()) {
+
+                        return buildContext(entity, sub);
                     }
                 }
-                return null;
             }
-            return buildContext(entity, (SubLevel) access);
+
+            return null;
         });
     }
 
@@ -56,7 +65,7 @@ public class SableCompat {
         var plot = sub.getPlot();
         var accessor = plot.getEmbeddedLevelAccessor();
 
-        SableProvider.SafeAccessor safeAccessor = new SableProvider.SafeAccessor() {
+        SableProvider.SafeAccessor safeAccessor = ACCESSOR_CACHE.computeIfAbsent(sub, s -> new SableProvider.SafeAccessor() {
             @Override
             public BlockState getBlockState(BlockPos pos) {
                 if (!accessor.hasChunkAt(pos))
@@ -109,7 +118,7 @@ public class SableCompat {
             public int getMaxY() {
                 return accessor.getMaxBuildHeight();
             }
-        };
+        });
 
         Vec3 entityPos = entity.position();
         Vector3d localVec = pose.transformPositionInverse(new Vector3d(entityPos.x, entityPos.y + 0.001, entityPos.z));
@@ -119,5 +128,14 @@ public class SableCompat {
         Vec3 posLocal = new Vec3(localVec.x, localVec.y, localVec.z);
 
         return new SableProvider.SableContext(embeddedPos, worldPos, posLocal, pose, safeAccessor, sub);
+    }
+
+    private static boolean isInsideSublevel(Entity entity, SubLevel sub) {
+        BoundingBox3dc bb = sub.boundingBox();
+        AABB entityBox = entity.getBoundingBox();
+
+        return entityBox.maxX > bb.minX() && entityBox.minX < bb.maxX()
+                && entityBox.maxY > bb.minY() && entityBox.minY < bb.maxY()
+                && entityBox.maxZ > bb.minZ() && entityBox.minZ < bb.maxZ();
     }
 }
