@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
-import dev.ryanhcode.sable.api.entity.EntitySubLevelUtil;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
 import dev.ryanhcode.sable.companion.SableCompanion;
@@ -32,9 +31,9 @@ public class SableCompat {
                 return null;
             SubLevelAccess access = SableCompanion.INSTANCE.getContaining(entity);
             if (!(access instanceof SubLevel))
-                access = EntitySubLevelUtil.getLastTrackingSubLevel(entity);
+                access = SableCompanion.INSTANCE.getLastTrackingSubLevel(entity);
             if (!(access instanceof SubLevel))
-                access = EntitySubLevelUtil.getTrackingSubLevel(entity);
+                access = SableCompanion.INSTANCE.getTrackingSubLevel(entity);
 
             if (access instanceof SubLevel sub) {
                 if (isInsideSublevel(entity, sub))

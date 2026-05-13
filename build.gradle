@@ -1,15 +1,17 @@
  plugins {
-    id 'java-library'
-    id 'eclipse'
-    id 'idea'
-    id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.173'
+     id 'java-library'
+     id 'eclipse'
+     id 'idea'
+     id 'maven-publish'
+     id 'net.neoforged.gradle.userdev' version '7.0.173'
 }
+
 
 version = minecraft_version + "-" + mod_version
 group = mod_group_id
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
+jarJar.enable()
 
 base {
     archivesName = mod_id
@@ -28,9 +30,11 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
-    maven {
-        name = "RyanHCode Maven"
-        url = "https://maven.ryanhcode.dev/releases"
+    exclusiveContent {
+        forRepository {
+            maven { url = "https://maven.ryanhcode.dev/releases" }
+        }
+        filter { includeGroup("dev.ryanhcode.sable-companion") }
     }
     maven { url = "https://api.modrinth.com/maven" }
     maven { url = "https://maven.neoforged.net/releases" }
@@ -68,7 +72,7 @@ dependencies {
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7408951"
-    implementation "maven.modrinth:create-aeronautics:1.0.2+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
+    implementation "curse.maven:create-aeronautics-676721:8003941" // Requires Create, Sable, Incompatible w/ Embeddium
     implementation "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
@@ -95,10 +99,12 @@ dependencies {
     implementation "curse.maven:framework-549225:7530361"
     implementation "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    implementation "maven.modrinth:sable:1.0.5+mc1.21.1-neoforge" // Requires Create
+    implementation "curse.maven:sable-1312371:8007005" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     implementation "curse.maven:sodium-394468:6382651" // Incompatible w/ Embeddium
-    compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.4.2,)"
+    compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"
+
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:1.6.0"))
 
     // implementation "curse.maven:simple-clouds-${simple_clouds_version}"
 
