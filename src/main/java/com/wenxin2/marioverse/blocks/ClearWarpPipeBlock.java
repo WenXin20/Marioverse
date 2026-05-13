@@ -622,23 +622,15 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             direction = Direction.from3DDataValue(tag.getInt(PIPE_DIRECTION));
         else {
             Vec3 motion = entity.getDeltaMovement();
-
-            direction = Direction.getNearest(
-                    motion.x,
-                    motion.y,
-                    motion.z
-            );
+            direction = Direction.getNearest(motion.x, motion.y, motion.z);
 
             if (!connections.contains(direction))
                 direction = connections.getFirst();
         }
 
         Direction nextDirection = direction;
-
-        boolean openEntrance = state.hasProperty(ENTRANCE)
-                && state.getValue(ENTRANCE)
-                && state.hasProperty(CLOSED)
-                && !state.getValue(CLOSED);
+        boolean openEntrance = state.hasProperty(ENTRANCE) && state.getValue(ENTRANCE)
+                && state.hasProperty(CLOSED) && !state.getValue(CLOSED);
 
         if (!openEntrance) {
             if (connections.contains(direction))
@@ -660,12 +652,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         tag.putInt(PIPE_DIRECTION, nextDirection.ordinal());
 
         Vec3 motion = entity.getDeltaMovement();
-
-        Vec3 forwardMotion = new Vec3(
-                nextDirection.getStepX() * speed,
+        Vec3 forwardMotion = new Vec3(nextDirection.getStepX() * speed,
                 nextDirection.getStepY() * speed,
-                nextDirection.getStepZ() * speed
-        );
+                nextDirection.getStepZ() * speed);
 
         double pushX = 0;
         double pushY = 0;
@@ -721,12 +710,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             }
         }
 
-        entity.setDeltaMovement(
-                motion.x * 0.75 + forwardMotion.x + pushX,
+        entity.setDeltaMovement(motion.x * 0.75 + forwardMotion.x + pushX,
                 motion.y * 0.75 + forwardMotion.y + pushY,
-                motion.z * 0.75 + forwardMotion.z + pushZ
-        );
-
+                motion.z * 0.75 + forwardMotion.z + pushZ);
         entity.resetFallDistance();
     }
 
