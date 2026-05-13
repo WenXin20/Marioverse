@@ -644,15 +644,16 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             if (connections.contains(direction))
                 nextDirection = direction;
             else {
+                List<Direction> possibleDirections = new ArrayList<>();
+
                 for (Direction connected : connections) {
-                    if (connected != direction.getOpposite()) {
-                        nextDirection = connected;
-                        break;
-                    }
+                    if (connected != direction.getOpposite())
+                        possibleDirections.add(connected);
                 }
 
-                if (!connections.contains(nextDirection))
-                    nextDirection = direction.getOpposite();
+                if (!possibleDirections.isEmpty())
+                    nextDirection = possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
+                else nextDirection = direction.getOpposite();
             }
         }
 
