@@ -25,7 +25,7 @@ public class CheepCheepModel extends GeoModel<CheepCheepEntity> {
     @Override
     public ResourceLocation getTextureResource(CheepCheepEntity animatable) {
         ResourceLocation variant = animatable.getVariant();
-        if (animatable.getVariant() == CheepCheepVariants.NORMAL)
+        if (animatable.getVariant().equals(CheepCheepVariants.NORMAL))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/cheep_cheep/cheep_cheep.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/cheep_cheep/" + variant.getPath() + "_cheep_cheep.png");
     }
