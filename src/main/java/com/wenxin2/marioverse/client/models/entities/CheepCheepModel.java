@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.CheepCheepEntity;
+import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
@@ -23,7 +24,10 @@ public class CheepCheepModel extends GeoModel<CheepCheepEntity> {
 
     @Override
     public ResourceLocation getTextureResource(CheepCheepEntity animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/cheep_cheep/cheep_cheep.png");
+        ResourceLocation variant = animatable.getVariant();
+        if (animatable.getVariant() == CheepCheepVariants.NORMAL)
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/cheep_cheep/cheep_cheep.png");
+        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/cheep_cheep/" + variant.getPath() + "_cheep_cheep.png");
     }
 
     @Override

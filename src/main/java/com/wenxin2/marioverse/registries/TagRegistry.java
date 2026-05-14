@@ -19,7 +19,9 @@ public class TagRegistry {
 
     public static final TagKey<Biome> HAS_BOO = biomeTags("has_boo");
     public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
+    public static final TagKey<Biome> HAS_CHEEP_CHEEP = biomeTags("has_cheep_cheep");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
+    public static final TagKey<Biome> HAS_COLD_CHEEP_CHEEP = biomeTags("has_cold_cheep_cheep");
     public static final TagKey<Biome> HAS_DRY_BONES = biomeTags("has_dry_bones");
     public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
@@ -35,6 +37,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_SPLUNKIN = biomeTags("has_splunkin");
     public static final TagKey<Biome> HAS_SUBMERGED_PIPES = biomeTags("has_submerged_pipes");
     public static final TagKey<Biome> HAS_TRAMPOLINE_CAPS = biomeTags("has_trampoline_caps");
+    public static final TagKey<Biome> HAS_WARM_CHEEP_CHEEP = biomeTags("has_warm_cheep_cheep");
 
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");

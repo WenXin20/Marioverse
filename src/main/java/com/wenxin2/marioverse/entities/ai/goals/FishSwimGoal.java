@@ -50,6 +50,12 @@ public class FishSwimGoal extends RandomSwimmingGoal {
     }
 
     @Override
+    public void stop() {
+        this.mob.setSwimming(false);
+        super.stop();
+    }
+
+    @Override
     public void tick() {
         super.tick();
         LivingEntity target = this.findLureTarget();
@@ -69,6 +75,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
 
             this.mob.getLookControl().setLookAt(target, 10.0F, 10.0F);
             this.mob.getNavigation().moveTo(moveTo.x, moveTo.y, moveTo.z, 1.6);
+            this.mob.setSwimming(true);
         }
 
         if (this.patrolMode && this.getPosition() != null && this.originPos != null && findLureTarget() == null) {
@@ -80,6 +87,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
             }
             this.mob.getLookControl().setLookAt(targetPos.x, targetPos.y, targetPos.z);
             this.mob.getNavigation().moveTo(targetPos.x, targetPos.y, targetPos.z, 1.0);
+            this.mob.setSwimming(true);
         }
 
         if (this.mob.getNavigation().isDone()) {

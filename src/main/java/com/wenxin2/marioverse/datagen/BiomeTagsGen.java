@@ -22,6 +22,17 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .add(Biomes.DARK_FOREST)
                 .add(Biomes.SOUL_SAND_VALLEY);
 
+        tag(TagRegistry.HAS_CHEEP_CHEEP)
+                .addTag(BiomeTags.IS_OVERWORLD);
+
+        tag(TagRegistry.HAS_COLD_CHEEP_CHEEP)
+                .addTag(Tags.Biomes.IS_COLD_OVERWORLD)
+                .addTag(Tags.Biomes.IS_SNOWY);
+
+        tag(TagRegistry.HAS_WARM_CHEEP_CHEEP)
+                .addTag(Tags.Biomes.IS_HOT_NETHER)
+                .addTag(Tags.Biomes.IS_HOT_OVERWORLD);
+
         tag(TagRegistry.HAS_DRY_BONES)
                 .add(Biomes.DARK_FOREST)
                 .add(Biomes.SOUL_SAND_VALLEY);

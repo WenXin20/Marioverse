@@ -2,41 +2,63 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
+import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FollowFlockLeaderGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
+import net.minecraft.world.entity.animal.FrogVariant;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity {
+    private static final EntityDataAccessor<String> VARIANT = SynchedEntityData
+            .defineId(CheepCheepEntity.class, EntityDataSerializers.STRING);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    public static final RawAnimation BITE = RawAnimation.begin().thenLoop("attack.bite");
+    public static final RawAnimation SWIM_FAST = RawAnimation.begin().thenLoop("move.swim_fast");
     public int attackCooldown = 0;
 
     public CheepCheepEntity(EntityType<? extends CheepCheepEntity> type, Level world) {
@@ -82,7 +104,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         this.goalSelector.addGoal(1, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 10.0, 10, this.getJumpSound()));
         this.goalSelector.addGoal(2, new FishSwimGoal(this, this.getCanAttackTag(),
-                10.0, 4.0, 1.0, 20, false, true));
+                10.0, 4.0, 1.0, 20, false, false));
         this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
                 10.0, 4.0, 1.0, 20, true, false));
         this.goalSelector.addGoal(5, new FollowFlockLeaderGoal(this));
@@ -90,6 +112,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "swim_fast", 5, this::swimAnimation));
     }
 
     @Override
@@ -97,14 +120,31 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         return cache;
     }
 
+    protected <E extends GeoAnimatable> PlayState swimAnimation(final AnimationState<E> event) {
+        if (this.isInWaterOrBubble()) {
+            event.setAndContinue(SWIM_FAST);
+            return PlayState.CONTINUE;
+        } else return PlayState.CONTINUE;
+    }
+
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putString("Variant", getVariant().toString());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+
+        if (tag.contains("Variant"))
+            setVariant(ResourceLocation.parse(tag.getString("Variant")));
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT, CheepCheepVariants.NORMAL.toString());
     }
 
     @Override
@@ -131,6 +171,23 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         }
     }
 
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
+
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnData);
+        Holder<Biome> biome = level.getBiome(blockPosition());
+
+        if (biome.is(TagRegistry.HAS_COLD_CHEEP_CHEEP))
+            this.setVariant(CheepCheepVariants.COLD);
+        else if (biome.is(TagRegistry.HAS_WARM_CHEEP_CHEEP))
+            this.setVariant(CheepCheepVariants.WARM);
+        else this.setVariant(CheepCheepVariants.NORMAL);
+
+        return data;
+    }
+
     public static boolean checkCheepCheepSpawnRules(EntityType<CheepCheepEntity> entityType, LevelAccessor levelAccessor,
                                                     MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return levelAccessor.getFluidState(pos.below()).is(FluidTags.WATER)
@@ -146,4 +203,14 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
                 && (levelAccessor.getBiome(pos).is(BiomeTags.ALLOWS_TROPICAL_FISH_SPAWNS_AT_ANY_HEIGHT)
                         || WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random));
     }
+
+    public ResourceLocation getVariant() {
+        return ResourceLocation.parse(this.entityData.get(VARIANT));
+    }
+
+    public void setVariant(ResourceLocation variant) {
+        this.entityData.set(VARIANT, variant.toString());
+    }
+
+
 }
