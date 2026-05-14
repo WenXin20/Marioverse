@@ -57,10 +57,13 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -101,6 +104,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
         super(type, world);
+        ((GroundPathNavigation) this.getNavigation()).setCanOpenDoors(true);
         this.setPathfindingMalus(PathType.DOOR_OPEN, 1.0F);
         this.setPathfindingMalus(PathType.DANGER_FIRE, 16.0F);
         this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
@@ -141,6 +145,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(2, new OpenDoorGoal(this, true));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.6D, false));
         this.goalSelector.addGoal(3, new LookAtEntityTagGoal(this, this.getCanAttackTag(), 8.0F, 1.0F));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));

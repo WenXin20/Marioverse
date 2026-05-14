@@ -1,5 +1,6 @@
 ## Update 1.10.0
 - Added the Cheep Cheep
+- Added ability for Koopa Troopas to open doors
 
 ## Update 1.9.3
 - Added Sable block tags for Create Aeronautics compat 
