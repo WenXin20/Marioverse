@@ -190,7 +190,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
     @Override
     public void tick() {
         super.tick();
-//        this.pokeEntity();
         this.triggerBloom();
 
         if (!this.hasData(DataAttachmentRegistry.HAS_FLOWER.get()) && !(this instanceof PokeyBodyEntity))
@@ -212,10 +211,10 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
     }
 
     @Override
-    public void push(Entity entity) {
-        super.push(entity);
+    protected void doPush(Entity entity) {
+        super.doPush(entity);
 
-        if (!(entity instanceof PokeyEntity) && !entity.getType().is(TagRegistry.THORNS_IMMUNE)
+        if (!(entity instanceof PokeyEntity) && this.attackCooldown == 0 && !entity.getType().is(TagRegistry.THORNS_IMMUNE)
                 && !this.getData(DataAttachmentRegistry.IS_BLOOMING)) {
             float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
@@ -527,46 +526,6 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
             if (!(this instanceof PokeyBodyEntity))
                 this.setData(DataAttachmentRegistry.HAS_FLOWER, shouldBloom);
             hasBloomed = true;
-        }
-    }
-
-
-    public void pokeEntity() {
-        if (this.attackCooldown > 0 || !this.isAlive() || this.getData(DataAttachmentRegistry.IS_BLOOMING))
-            return;
-
-        List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.01, 0.0, 0.01), entity -> !entity.isSpectator()
-                        && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
-                        && !this.level().isClientSide());
-
-        if (!nearbyEntities.isEmpty()) {
-            for (Entity collidingEntity : nearbyEntities) {
-                if (collidingEntity instanceof PokeyEntity)
-                    continue;
-
-                if (collidingEntity.getType().is(TagRegistry.THORNS_IMMUNE))
-                    continue;
-
-                if (collidingEntity.isSpectator() || collidingEntity instanceof Player player && player.isCreative())
-                    continue;
-
-
-                float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-
-                if (collidingEntity instanceof Creeper)
-                    collidingEntity.hurt(this.getDamageSource(collidingEntity), attackDamage);
-                else collidingEntity.hurt(this.getDamageSource(this), attackDamage);
-
-                if (collidingEntity instanceof NeutralMob neutralMob) {
-                    neutralMob.isAngryAt(this);
-                    neutralMob.setTarget(this);
-                    neutralMob.setPersistentAngerTarget(this.getUUID());
-                }
-
-                this.attackCooldown = 20;
-                break;
-            }
         }
     }
 
