@@ -151,6 +151,18 @@ public class ItemModelGen extends ItemModelProvider {
         this.getBuilder("wonder_goal_pole").parent(new ModelFile.UncheckedModelFile("item/handheld"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/wonder_goal_pole"));
 
+        this.basicItem(ItemRegistry.CHEEP_CHEEP_BUCKET.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/cold_cheep_cheep_bucket")))
+                .predicate(modLoc("variant"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/warm_cheep_cheep_bucket")))
+                .predicate(modLoc("variant"), 2.0F).end();
+        this.getBuilder("cold_cheep_cheep_bucket")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/cold_cheep_cheep_bucket"));
+        this.getBuilder("warm_cheep_cheep_bucket")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/warm_cheep_cheep_bucket"));
+
         this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem()).override()
                 .model(new ModelFile.UncheckedModelFile(modLoc("item/american_checkpoint_flag")))
                 .predicate(modLoc("custom_name"), 1.0F).end().override()

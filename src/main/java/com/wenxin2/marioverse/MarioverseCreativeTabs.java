@@ -13,14 +13,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -74,6 +78,9 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
             add(event, ItemRegistry.QUICKSAND_BUCKET);
             add(event, ItemRegistry.RED_QUICKSAND_BUCKET);
+            add(event, ItemRegistry.CHEEP_CHEEP_BUCKET);
+            addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", Marioverse.MOD_ID + ":cold"));
+            addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", Marioverse.MOD_ID + ":warm"));
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
 
@@ -644,9 +651,16 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+                ItemLike normal = new ItemStack(ItemRegistry.CHEEP_CHEEP_BUCKET.get()).getItem();
+                ItemLike cold = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), Marioverse.MOD_ID + ":cold");
+                ItemLike warm = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), Marioverse.MOD_ID + ":warm");
+
                 addAfter(event, Items.FISHING_ROD, ItemRegistry.WRENCH);
                 addBefore(event, ItemRegistry.WRENCH, ItemRegistry.WARP_DISRUPTOR);
 
+                addAfter(event, Items.TADPOLE_BUCKET, normal);
+                addAfter(event, normal, cold);
+                addAfter(event, cold, warm);
                 addAfter(event, Items.POWDER_SNOW_BUCKET, ItemRegistry.QUICKSAND_BUCKET);
                 addAfter(event, ItemRegistry.QUICKSAND_BUCKET, ItemRegistry.RED_QUICKSAND_BUCKET);
                 addAfter(event, Items.MILK_BUCKET, ItemRegistry.PLASTIC_BUCKET);
@@ -1103,6 +1117,14 @@ public class MarioverseCreativeTabs {
         add(event, stack);
     }
 
+    public static void addBucket(BuildCreativeModeTabContentsEvent event, ItemLike item, Consumer<CompoundTag> tagConsumer) {
+        ItemStack stack = new ItemStack(item);
+        CompoundTag tag = new CompoundTag();
+        tagConsumer.accept(tag);
+        stack.set(DataComponents.BUCKET_ENTITY_DATA, CustomData.of(tag));
+        add(event, stack);
+    }
+
     public static void add(BuildCreativeModeTabContentsEvent event, ItemStack stack) {
         if (stack.isEmpty()) {
             System.out.println("Warning, attempting to register an empty stack to tab!");
@@ -1171,5 +1193,14 @@ public class MarioverseCreativeTabs {
                 listedBlocks.add(additionalBlock);
             }
         }
+    }
+
+    public static ItemLike bucketVariant(ItemLike item, String variant) {
+        ItemStack stack = new ItemStack(item);
+        CompoundTag tag = new CompoundTag();
+
+        tag.putString("Variant", variant);
+        stack.set(DataComponents.BUCKET_ENTITY_DATA, CustomData.of(tag));
+        return stack.getItem();
     }
 }

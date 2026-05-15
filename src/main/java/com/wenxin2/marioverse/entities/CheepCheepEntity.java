@@ -4,10 +4,13 @@ import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -36,6 +39,7 @@ import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -85,7 +89,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @NotNull
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(Items.TROPICAL_FISH_BUCKET); // TODO
+        return new ItemStack(ItemRegistry.CHEEP_CHEEP_BUCKET.get());
     }
 
     @NotNull
@@ -130,7 +134,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putString("Variant", getVariant().toString());
+        tag.putString("Variant", this.getVariant().toString());
     }
 
     @Override
@@ -138,13 +142,28 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         super.readAdditionalSaveData(tag);
 
         if (tag.contains("Variant"))
-            setVariant(ResourceLocation.parse(tag.getString("Variant")));
+            this.setVariant(ResourceLocation.parse(tag.getString("Variant")));
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(VARIANT, CheepCheepVariants.NORMAL.toString());
+    }
+
+    @Override
+    public void saveToBucketTag(ItemStack stack) {
+        super.saveToBucketTag(stack);
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack,
+                tag -> tag.putString("Variant", this.getVariant().toString()));
+    }
+
+    @Override
+    public void loadFromBucketTag(CompoundTag tag) {
+        super.loadFromBucketTag(tag);
+
+        if (tag.contains("Variant", Tag.TAG_STRING))
+            this.setVariant(ResourceLocation.parse(tag.getString("Variant")));
     }
 
     @Override
@@ -155,8 +174,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     }
 
     @Override
-    public void push(Entity entity) {
-        super.push(entity);
+    public void doPush(Entity entity) {
+        super.doPush(entity);
 
         if (this.isAlive() && this.attackCooldown == 0
                 && entity.getType().is(TagRegistry.CHEEP_CHEEP_CAN_ATTACK)) {
@@ -175,7 +194,6 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
-
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnData);
         Holder<Biome> biome = level.getBiome(blockPosition());
 

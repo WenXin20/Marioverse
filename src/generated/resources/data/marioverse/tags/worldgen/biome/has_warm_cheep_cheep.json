@@ -1,5 +1,6 @@
 {
   "values": [
+    "#c:is_hot/nether",
     "#c:is_hot/overworld"
   ]
 }

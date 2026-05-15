@@ -38,6 +38,8 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -46,6 +48,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -213,6 +216,10 @@ public class ClientEventHandlers {
                     ItemBlockRenderTypes.setRenderLayer(warp, layer);
             }
 
+            ItemProperties.register(ItemRegistry.CHEEP_CHEEP_BUCKET.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "variant"),
+                    (stack, level, entity, seed) -> cheepCheepVariant(stack));
+
             ItemProperties.register(ItemRegistry.GOOMBA_SPAWN_EGG.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> goombellaName(stack));
@@ -237,6 +244,27 @@ public class ClientEventHandlers {
                         (stack, level, entity, seed) -> wonderAmericaName(stack));
             }
         });
+    }
+
+    private static float cheepCheepVariant(ItemStack stack) {
+        CustomData data = stack.get(DataComponents.BUCKET_ENTITY_DATA);
+
+        if (data == null)
+            return 0.0F;
+
+        CompoundTag tag = data.copyTag();
+
+        if (!tag.contains("Variant", Tag.TAG_STRING))
+            return 0.0F;
+
+        String variant = tag.getString("Variant");
+
+        if (variant.equals(Marioverse.MOD_ID + ":cold"))
+            return 1.0F;
+        if (variant.equals(Marioverse.MOD_ID + ":warm"))
+            return 2.0F;
+
+        return 0.0F;
     }
 
     private static float goombellaName(ItemStack stack) {

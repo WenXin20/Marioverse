@@ -25,6 +25,7 @@ import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
@@ -33,9 +34,11 @@ import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
@@ -50,6 +53,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> BOO_SPAWN_EGG;
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
+    public static final DeferredItem<Item> CHEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> CHEEP_CHEEP_SPAWN_EGG;
     public static final DeferredItem<Item> CHRISTMAS_HAT;
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
@@ -155,6 +159,10 @@ public class ItemRegistry {
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));
 
+        CHEEP_CHEEP_BUCKET = registerItem("cheep_cheep_bucket",
+                () -> new MobBucketItem(EntityRegistry.CHEEP_CHEEP.get(), Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH,
+                        new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)
+                                .component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY)));
         QUICKSAND_BUCKET = registerItem("quicksand_bucket",
                 () -> new SolidBucketItem(BlockRegistry.QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));

@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/handheld",
+  "overrides": [
+    {
+      "model": "marioverse:item/cold_cheep_cheep_bucket",
+      "predicate": {
+        "marioverse:variant": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/warm_cheep_cheep_bucket",
+      "predicate": {
+        "marioverse:variant": 2.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "marioverse:item/cheep_cheep_bucket"
+  }
+}
