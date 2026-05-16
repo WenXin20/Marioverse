@@ -3,10 +3,12 @@ package com.wenxin2.marioverse.client.renderers.entities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.wenxin2.marioverse.client.models.entities.CheepCheepModel;
 import com.wenxin2.marioverse.entities.CheepCheepEntity;
+import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import software.bernie.geckolib.renderer.layer.BlockAndItemGeoLayer;
@@ -101,5 +104,20 @@ public class CheepCheepRenderer extends GeoEntityRenderer<CheepCheepEntity> {
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });
+    }
+
+    @Override
+    public void scaleModelForRender(float widthScale, float heightScale, PoseStack poseStack, CheepCheepEntity animatable,
+                                    BakedGeoModel model, boolean isReRender, float partialTick, int packedLight, int packedOverlay) {
+        float scale = 1.0F;
+        ResourceLocation size = animatable.getSize();
+
+        if (size.equals(CheepCheepVariants.SMALL))
+            scale = 0.75F;
+        else if (size.equals(CheepCheepVariants.LARGE))
+            scale = 1.25F;
+
+        poseStack.scale(scale, scale, scale);
+        super.scaleModelForRender(widthScale, heightScale, poseStack, animatable, model, isReRender, partialTick, packedLight, packedOverlay);
     }
 }

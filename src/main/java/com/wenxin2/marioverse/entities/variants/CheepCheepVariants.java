@@ -10,4 +10,9 @@ public class CheepCheepVariants {
             .fromNamespaceAndPath(Marioverse.MOD_ID, "cold");
     public static final ResourceLocation WARM = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "warm");
+
+    public static final ResourceLocation SMALL = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "small");
+    public static final ResourceLocation LARGE = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "large");
 }

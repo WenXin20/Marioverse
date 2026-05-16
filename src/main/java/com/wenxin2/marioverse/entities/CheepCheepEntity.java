@@ -58,6 +58,8 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity {
+    private static final EntityDataAccessor<String> SIZE = SynchedEntityData
+            .defineId(CheepCheepEntity.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<String> VARIANT = SynchedEntityData
             .defineId(CheepCheepEntity.class, EntityDataSerializers.STRING);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -134,6 +136,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putString("Size", this.getSize().toString());
         tag.putString("Variant", this.getVariant().toString());
     }
 
@@ -141,6 +144,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
 
+        if (tag.contains("Size"))
+            this.setSize(ResourceLocation.parse(tag.getString("Size")));
         if (tag.contains("Variant"))
             this.setVariant(ResourceLocation.parse(tag.getString("Variant")));
     }
@@ -148,6 +153,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(SIZE, CheepCheepVariants.NORMAL.toString());
         builder.define(VARIANT, CheepCheepVariants.NORMAL.toString());
     }
 
@@ -156,12 +162,16 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         super.saveToBucketTag(stack);
         CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack,
                 tag -> tag.putString("Variant", this.getVariant().toString()));
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack,
+                tag -> tag.putString("Size", this.getSize().toString()));
     }
 
     @Override
     public void loadFromBucketTag(CompoundTag tag) {
         super.loadFromBucketTag(tag);
 
+        if (tag.contains("Size", Tag.TAG_STRING))
+            this.setSize(ResourceLocation.parse(tag.getString("Size")));
         if (tag.contains("Variant", Tag.TAG_STRING))
             this.setVariant(ResourceLocation.parse(tag.getString("Variant")));
     }
@@ -196,12 +206,20 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnData);
         Holder<Biome> biome = level.getBiome(blockPosition());
+        RandomSource random = level.getRandom();
+        float chance = random.nextFloat();
 
         if (biome.is(TagRegistry.HAS_COLD_CHEEP_CHEEP))
             this.setVariant(CheepCheepVariants.COLD);
         else if (biome.is(TagRegistry.HAS_WARM_CHEEP_CHEEP))
             this.setVariant(CheepCheepVariants.WARM);
         else this.setVariant(CheepCheepVariants.NORMAL);
+
+        if (chance < 0.25F)
+            this.setSize(CheepCheepVariants.LARGE);
+        else if (chance < 0.50F)
+            this.setSize(CheepCheepVariants.SMALL);
+        else this.setSize(CheepCheepVariants.NORMAL);
 
         return data;
     }
@@ -222,6 +240,14 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
                         || WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random));
     }
 
+    public ResourceLocation getSize() {
+        return ResourceLocation.parse(this.entityData.get(SIZE));
+    }
+
+    public void setSize(ResourceLocation variant) {
+        this.entityData.set(SIZE, variant.toString());
+    }
+
     public ResourceLocation getVariant() {
         return ResourceLocation.parse(this.entityData.get(VARIANT));
     }
@@ -229,6 +255,4 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     public void setVariant(ResourceLocation variant) {
         this.entityData.set(VARIANT, variant.toString());
     }
-
-
 }
