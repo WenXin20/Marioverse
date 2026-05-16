@@ -1,6 +1,11 @@
 ## Update 1.10.0
 - Added the Cheep Cheep
+  - Normal Cheep Cheeps spawn anywhere
+  - Cold Cheep Cheeps spawn anywhere cold
+  - Warm Cheep Cheeps spawn anywhere hot
+  - Added Bucket of Cheep Cheep
 - Added ability for Koopa Troopas to open doors
+- Added special named flags to the Creative Tabs
 
 ## Update 1.9.3
 - Added Sable block tags for Create Aeronautics compat 

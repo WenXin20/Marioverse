@@ -141,6 +141,7 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG);
+            add(event, ItemRegistry.GOOMBA_SPAWN_EGG, Component.literal("Goombella"));
             add(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
@@ -383,8 +384,12 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.SPIKE_PANEL);
             add(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
             addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);
+            add(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE), Component.literal("Wonder Flag"));
+            add(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE), Component.literal("America Flag"));
             add(event, BlockRegistry.CLASSIC_GOAL_POLE);
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
+            add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("Wonder Flag"));
+            add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("America Flag"));
 
             add(event, BlockRegistry.GLOW_BLOCK);
             add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
@@ -651,9 +656,9 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-                ItemLike normal = new ItemStack(ItemRegistry.CHEEP_CHEEP_BUCKET.get()).getItem();
-                ItemLike cold = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), Marioverse.MOD_ID + ":cold");
-                ItemLike warm = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), Marioverse.MOD_ID + ":warm");
+                ItemStack normal = new ItemStack(ItemRegistry.CHEEP_CHEEP_BUCKET.get());
+                ItemStack cold = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), Marioverse.MOD_ID + ":cold");
+                ItemStack warm = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), Marioverse.MOD_ID + ":warm");
 
                 addAfter(event, Items.FISHING_ROD, ItemRegistry.WRENCH);
                 addBefore(event, ItemRegistry.WRENCH, ItemRegistry.WARP_DISRUPTOR);
@@ -1117,6 +1122,12 @@ public class MarioverseCreativeTabs {
         add(event, stack);
     }
 
+    public static void add(BuildCreativeModeTabContentsEvent event, ItemLike item, Component name) {
+        ItemStack stack = new ItemStack(item);
+        stack.set(DataComponents.CUSTOM_NAME, name);
+        add(event, stack);
+    }
+
     public static void addBucket(BuildCreativeModeTabContentsEvent event, ItemLike item, Consumer<CompoundTag> tagConsumer) {
         ItemStack stack = new ItemStack(item);
         CompoundTag tag = new CompoundTag();
@@ -1135,6 +1146,14 @@ public class MarioverseCreativeTabs {
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
         event.insertAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+    }
+
+    public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemStack stack) {
+        event.insertAfter(new ItemStack(afterItem), stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+    }
+
+    public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemStack stack) {
+        event.insertAfter(afterStack, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
     public static void addBefore(BuildCreativeModeTabContentsEvent event, ItemLike beforeItem, ItemLike item) {
@@ -1195,12 +1214,12 @@ public class MarioverseCreativeTabs {
         }
     }
 
-    public static ItemLike bucketVariant(ItemLike item, String variant) {
+    public static ItemStack bucketVariant(ItemLike item, String variant) {
         ItemStack stack = new ItemStack(item);
         CompoundTag tag = new CompoundTag();
 
         tag.putString("Variant", variant);
         stack.set(DataComponents.BUCKET_ENTITY_DATA, CustomData.of(tag));
-        return stack.getItem();
+        return stack;
     }
 }
