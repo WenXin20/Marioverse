@@ -1,5 +1,7 @@
 {
   "values": [
+    "#c:boats",
+    "#c:minecarts",
     {
       "id": "automobility:automobile",
       "required": false

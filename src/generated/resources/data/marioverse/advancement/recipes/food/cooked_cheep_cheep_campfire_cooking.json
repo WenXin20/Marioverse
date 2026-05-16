@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cheep_cheeps": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:cheep_cheeps"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:cooked_cheep_cheep_campfire_cooking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cheep_cheeps"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:cooked_cheep_cheep_campfire_cooking"
+    ]
+  }
+}

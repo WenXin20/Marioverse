@@ -7,6 +7,10 @@
     "minecraft:elder_guardian",
     "minecraft:warden",
     {
+      "id": "supplementaries:hat_stand",
+      "required": false
+    },
+    {
       "id": "#twilightforest:bosses",
       "required": false
     }
