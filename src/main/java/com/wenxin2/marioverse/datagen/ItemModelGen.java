@@ -43,8 +43,11 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.BOO_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());
+        this.basicItem(ItemRegistry.CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.CHRISTMAS_HAT.get());
+        this.basicItem(ItemRegistry.COLD_CHEEP_CHEEP.get());
+        this.basicItem(ItemRegistry.COOKED_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.DASH_MUSHROOM.get());
         this.basicItem(ItemRegistry.DRY_BONES_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get());
@@ -119,6 +122,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.SPLUNKIN_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_MUSHROOM.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());
+        this.basicItem(ItemRegistry.WARM_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
 

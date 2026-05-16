@@ -119,11 +119,17 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
+        tag(Tags.Items.ANIMAL_FOODS)
+                .addTag(TagRegistry.PIRANHA_PLANT_FOOD);
+
         tag(Tags.Items.BUCKETS)
                 .addTag(TagRegistry.itemTags("c", "buckets/quicksand"));
 
         tag(Tags.Items.BUCKETS_EMPTY)
                 .add(ItemRegistry.PLASTIC_BUCKET.get());
+
+        tag(Tags.Items.BUCKETS_ENTITY_WATER)
+                .add(ItemRegistry.CHEEP_CHEEP_BUCKET.get());
 
         tag(Tags.Items.BUCKETS_POWDER_SNOW)
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
@@ -140,9 +146,22 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(Tags.Items.ENCHANTABLES)
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
+        tag(Tags.Items.FOODS_COOKED_FISH)
+                .add(ItemRegistry.COOKED_CHEEP_CHEEP.get());
+
+        tag(Tags.Items.FOODS_RAW_FISH)
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS);
+
         tag(Tags.Items.MUSHROOMS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
+
+        tag(ItemTags.CAT_FOOD)
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS);
+
+        tag(ItemTags.FISHES)
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.COOKED_CHEEP_CHEEP.get());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 .addTag(TagRegistry.ICE_COSTUMES)
@@ -153,6 +172,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.WARPED_STEM_BRIDGE.asItem())
                 .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.asItem())
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.asItem());
+
+        tag(ItemTags.OCELOT_FOOD)
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS);
 
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())
@@ -223,6 +245,11 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
 
+        tag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.CHEEP_CHEEP.get())
+                .add(ItemRegistry.COLD_CHEEP_CHEEP.get())
+                .add(ItemRegistry.WARM_CHEEP_CHEEP.get());
+
         tag(TagRegistry.CRAFTS_WARP_DOOR)
                 .addTag(Tags.Items.ENDER_PEARLS);
 
@@ -252,7 +279,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get())
                 .add(ItemRegistry.RED_KOOPA_TROOPA_SPAWN_EGG.get());
 
-        tag(TagRegistry.PIRANHA_FOOD)
+        tag(TagRegistry.PIRANHA_PLANT_FOOD)
                 .addTag(ItemTags.FISHES)
                 .addTag(ItemTags.MEAT)
                 .add(Items.BONE_MEAL);

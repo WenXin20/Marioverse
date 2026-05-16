@@ -4,6 +4,7 @@
   - Cold Cheep Cheeps spawn anywhere cold
   - Warm Cheep Cheeps spawn anywhere hot
   - Added Bucket of Cheep Cheep
+  - Added Raw & Cooked Cheep Cheep
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
 

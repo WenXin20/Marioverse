@@ -697,10 +697,64 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem) + "_stonecutting");
     }
 
-    protected void smeltingRecipe(int cookingTime, float xp, ItemLike outputItem, RecipeCategory category, ItemLike inputItem, RecipeOutput output) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(inputItem), category, outputItem, xp, cookingTime)
-                .unlockedBy(getHasName(inputItem), has(inputItem))
-                .save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smelting");
+    protected void blastingRecipe(int cookingTime, float xp, ItemLike outputItem, RecipeCategory category, Object inputItem, RecipeOutput output) {
+        Ingredient ingredient;
+        if (inputItem instanceof ItemLike itemLike)
+            ingredient = Ingredient.of(itemLike);
+        else if (inputItem instanceof TagKey<?> tagKey
+                && tagKey.registry().equals(Registries.ITEM))
+            ingredient = Ingredient.of((TagKey<Item>) tagKey);
+        else throw new IllegalArgumentException("Unsupported blasting input: " + inputItem);
+
+        SimpleCookingRecipeBuilder builder = SimpleCookingRecipeBuilder
+                .blasting(ingredient, category, outputItem, xp, cookingTime);
+        builder.unlockedBy(getUnlockName(inputItem), unlockCriterion(inputItem));
+        builder.save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_blasting");
+    }
+
+    protected void campfireCookingRecipe(int cookingTime, float xp, ItemLike outputItem, RecipeCategory category, Object inputItem, RecipeOutput output) {
+        Ingredient ingredient;
+        if (inputItem instanceof ItemLike itemLike)
+            ingredient = Ingredient.of(itemLike);
+        else if (inputItem instanceof TagKey<?> tagKey
+                && tagKey.registry().equals(Registries.ITEM))
+            ingredient = Ingredient.of((TagKey<Item>) tagKey);
+        else throw new IllegalArgumentException("Unsupported campfire cooking input: " + inputItem);
+
+        SimpleCookingRecipeBuilder builder = SimpleCookingRecipeBuilder
+                .campfireCooking(ingredient, category, outputItem, xp, cookingTime);
+        builder.unlockedBy(getUnlockName(inputItem), unlockCriterion(inputItem));
+        builder.save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_campfire_cooking");
+    }
+
+    protected void smeltingRecipe(int cookingTime, float xp, ItemLike outputItem, RecipeCategory category, Object inputItem, RecipeOutput output) {
+        Ingredient ingredient;
+        if (inputItem instanceof ItemLike itemLike)
+            ingredient = Ingredient.of(itemLike);
+        else if (inputItem instanceof TagKey<?> tagKey
+                && tagKey.registry().equals(Registries.ITEM))
+            ingredient = Ingredient.of((TagKey<Item>) tagKey);
+        else throw new IllegalArgumentException("Unsupported smelting input: " + inputItem);
+
+        SimpleCookingRecipeBuilder builder = SimpleCookingRecipeBuilder
+                .smelting(ingredient, category, outputItem, xp, cookingTime);
+        builder.unlockedBy(getUnlockName(inputItem), unlockCriterion(inputItem));
+        builder.save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smelting");
+    }
+
+    protected void smokingRecipe(int cookingTime, float xp, ItemLike outputItem, RecipeCategory category, Object inputItem, RecipeOutput output) {
+        Ingredient ingredient;
+        if (inputItem instanceof ItemLike itemLike)
+            ingredient = Ingredient.of(itemLike);
+        else if (inputItem instanceof TagKey<?> tagKey
+                && tagKey.registry().equals(Registries.ITEM))
+            ingredient = Ingredient.of((TagKey<Item>) tagKey);
+        else throw new IllegalArgumentException("Unsupported smoking input: " + inputItem);
+
+        SimpleCookingRecipeBuilder builder = SimpleCookingRecipeBuilder
+                .smoking(ingredient, category, outputItem, xp, cookingTime);
+        builder.unlockedBy(getUnlockName(inputItem), unlockCriterion(inputItem));
+        builder.save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smoking");
     }
 
     protected static void smeltingResultFromBase(RecipeOutput output, ItemLike outputItem, ItemLike inputItem) {

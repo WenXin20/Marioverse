@@ -533,7 +533,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     }
 
     public boolean isFood(ItemStack stack) {
-        return stack.is(TagRegistry.PIRANHA_FOOD);
+        return stack.is(TagRegistry.PIRANHA_PLANT_FOOD);
     }
 
     @Override

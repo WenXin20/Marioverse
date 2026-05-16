@@ -38,8 +38,11 @@ public class RecipeGen extends RecipeUtils {
     @Override
     protected void buildRecipes(RecipeOutput output) {
         this.generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD, TagRegistry.CHEEP_CHEEP_ITEMS, output);
         smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_STONE, output);
         smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_STONE, output);
+        smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD, TagRegistry.CHEEP_CHEEP_ITEMS, output);
+        smokingRecipe(100, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD, TagRegistry.CHEEP_CHEEP_ITEMS, output);
         waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         smithingTemplateRecipe(2, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), Blocks.RED_WOOL, Tags.Items.LEATHERS, output);

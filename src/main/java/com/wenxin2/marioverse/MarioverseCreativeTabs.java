@@ -82,6 +82,11 @@ public class MarioverseCreativeTabs {
             addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", Marioverse.MOD_ID + ":cold"));
             addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", Marioverse.MOD_ID + ":warm"));
 
+            add(event, ItemRegistry.CHEEP_CHEEP);
+            add(event, ItemRegistry.COLD_CHEEP_CHEEP);
+            add(event, ItemRegistry.WARM_CHEEP_CHEEP);
+            add(event, ItemRegistry.COOKED_CHEEP_CHEEP);
+
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
 
             add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE);
@@ -564,6 +569,13 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.PINK), BlockRegistry.CLASSIC_GOAL_POLE);
                 addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
+            }
+
+            if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
+                addAfter(event, Items.PUFFERFISH, ItemRegistry.CHEEP_CHEEP);
+                addAfter(event, ItemRegistry.CHEEP_CHEEP, ItemRegistry.COLD_CHEEP_CHEEP);
+                addAfter(event, ItemRegistry.COLD_CHEEP_CHEEP, ItemRegistry.WARM_CHEEP_CHEEP);
+                addAfter(event, ItemRegistry.WARM_CHEEP_CHEEP, ItemRegistry.COOKED_CHEEP_CHEEP);
             }
 
             if (event.getTabKey() == CreativeModeTabs.COMBAT) {

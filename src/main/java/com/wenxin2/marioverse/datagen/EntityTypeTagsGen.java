@@ -31,7 +31,14 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        tag(EntityTypeTags.AQUATIC)
+                .addTag(TagRegistry.CHEEP_CHEEPS);
+
+        tag(EntityTypeTags.AXOLOTL_HUNT_TARGETS)
+                .addTag(TagRegistry.CHEEP_CHEEPS);
+
         tag(EntityTypeTags.CAN_BREATHE_UNDER_WATER)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
@@ -67,6 +74,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.LARGE_SNOWBALL.get());
 
         tag(EntityTypeTags.NOT_SCARY_FOR_PUFFERFISH)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.DRY_BONES_BONES)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
@@ -77,6 +85,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.GREEN_KOOPA_SHELL.get())
                 .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityRegistry.RED_KOOPA_SHELL.get());
+
+        tag(EntityTypeTags.SENSITIVE_TO_IMPALING)
+                .addTag(TagRegistry.CHEEP_CHEEPS);
 
         tag(EntityTypeTags.SKELETONS)
                 .add(EntityRegistry.DRY_BONES.get());
@@ -121,6 +132,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
 
         tag(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
+                .add(EntityRegistry.CHEEP_CHEEP.get())
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.GOOMBA.get())
                 .add(EntityRegistry.HEFTY_GOOMBA.get())
@@ -133,6 +145,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.CHEEP_CHEEP.get())
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityRegistry.SNOW_POKEY.get())
@@ -399,6 +412,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_WEAR_HATS)
                 .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
@@ -521,6 +535,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
 
+        tag(TagRegistry.CHEEP_CHEEPS)
+                .add(EntityRegistry.CHEEP_CHEEP.get());
+
         tag(TagRegistry.CHEEP_CHEEP_CAN_ATTACK)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
@@ -567,6 +584,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(GUARD_VILLAGER);
 
         tag(TagRegistry.FIREBALL_CAN_INSTAKILL)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.PIRANHA_PLANT.get())
@@ -618,6 +636,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.BOO.get());
 
         tag(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
@@ -674,6 +693,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.RED_KOOPA_TROOPA.get());
 
         tag(TagRegistry.GOLD_KOOPA_SHELL_CAN_INSTAKILL)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
@@ -691,6 +711,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
@@ -708,6 +729,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.RED_KOOPA_SHELL_CAN_INSTAKILL)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
@@ -791,12 +813,15 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.SUPER_STAR.get());
 
         tag(TagRegistry.POWERS_UP_RIDER)
+                .addTag(Tags.EntityTypes.BOATS)
+                .addTag(Tags.EntityTypes.MINECARTS)
                 .addOptional(AUTOMOBILE)
                 .addOptional(AUTOMOBILITY_HITBOX);
 
         tag(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
         tag(TagRegistry.SNOWBALL_CAN_INSTAKILL)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.POKEY_ENTITIES)
                 .addTag(TagRegistry.SNOW_POKEY_ENTITIES)
@@ -827,6 +852,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.ARMOR_STAND)
                 .add(EntityType.ELDER_GUARDIAN)
                 .add(EntityType.WARDEN)
+                .addOptional(HAT_STAND)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
 
         tag(TagRegistry.THORNS_IMMUNE)

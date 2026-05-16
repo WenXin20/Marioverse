@@ -53,10 +53,13 @@ public class ItemRegistry {
     public static final DeferredItem<Item> BOO_SPAWN_EGG;
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
+    public static final DeferredItem<Item> CHEEP_CHEEP;
     public static final DeferredItem<Item> CHEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> CHEEP_CHEEP_SPAWN_EGG;
     public static final DeferredItem<Item> CHRISTMAS_HAT;
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
+    public static final DeferredItem<Item> COLD_CHEEP_CHEEP;
+    public static final DeferredItem<Item> COOKED_CHEEP_CHEEP;
     public static final DeferredItem<Item> CREATIVE_WRENCH;
     public static final DeferredItem<Item> DASH_MUSHROOM;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
@@ -119,24 +122,25 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PIRANHA_PLANT_POD;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLASTIC_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_POWDER_SNOW_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_QUICKSAND_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_RED_QUICKSAND_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_WATER_BUCKET;
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
     public static final DeferredItem<Item> POKEY_SPAWN_EGG;
-    public static final DeferredItem<Item> PLASTIC_POWDER_SNOW_BUCKET;
     public static final DeferredItem<Item> QUICKSAND_BUCKET;
-    public static final DeferredItem<Item> PLASTIC_QUICKSAND_BUCKET;
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> RED_QUICKSAND_BUCKET;
-    public static final DeferredItem<Item> PLASTIC_RED_QUICKSAND_BUCKET;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
     public static final DeferredItem<Item> SUPER_MUSHROOM;
     public static final DeferredItem<Item> SUPER_STAR;
+    public static final DeferredItem<Item> WARM_CHEEP_CHEEP;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
-    public static final DeferredItem<Item> PLASTIC_WATER_BUCKET;
     public static final DeferredItem<Item> WHITE_KOOPA_SHOES;
     public static final DeferredItem<Item> WRENCH;
 
@@ -158,6 +162,15 @@ public class ItemRegistry {
                 () -> new CreativeWrenchItem(new Item.Properties()
                         .attributes(WrenchItem.createAttributes(Tiers.IRON, 3, -3.2F))
                         .durability(128), Tiers.IRON));
+
+        CHEEP_CHEEP = registerItem("cheep_cheep",
+                () -> new Item(new Item.Properties().food(FoodRegistry.RAW_CHEEP_CHEEP)));
+        COLD_CHEEP_CHEEP = registerItem("cold_cheep_cheep",
+                () -> new Item(new Item.Properties().food(FoodRegistry.RAW_CHEEP_CHEEP)));
+        WARM_CHEEP_CHEEP = registerItem("warm_cheep_cheep",
+                () -> new Item(new Item.Properties().food(FoodRegistry.RAW_CHEEP_CHEEP)));
+        COOKED_CHEEP_CHEEP = registerItem("cooked_cheep_cheep",
+                () -> new Item(new Item.Properties().food(FoodRegistry.COOKED_CHEEP_CHEEP)));
 
         CHEEP_CHEEP_BUCKET = registerItem("cheep_cheep_bucket",
                 () -> new MobBucketItem(EntityRegistry.CHEEP_CHEEP.get(), Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH,

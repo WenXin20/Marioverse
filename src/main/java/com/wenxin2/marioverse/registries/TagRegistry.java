@@ -136,6 +136,7 @@ public class TagRegistry {
     public static final TagKey<Item> CAN_SELECT_WATER_SPOUTS = itemTags("can_select_water_spouts");
     public static final TagKey<Item> CHARMS = itemTags("accessories", "charm");
     public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
+    public static final TagKey<Item> CHEEP_CHEEP_ITEMS = itemTags("cheep_cheeps");
     public static final TagKey<Item> CHISELED_CALCITE_BRICK_ITEMS = itemTags("chiseled_calcite_bricks");
     public static final TagKey<Item> COSTUMES = itemTags("costumes");
     public static final TagKey<Item> COSTUME_HAT = itemTags("accessories", "costume_hat");
@@ -190,7 +191,7 @@ public class TagRegistry {
     public static final TagKey<Item> PEACH_SHIRTS = itemTags("shirts/peach");
     public static final TagKey<Item> PEACH_SHOES = itemTags("shoes/peach");
     public static final TagKey<Item> PIPE_JUNCTION_BLOCK_ITEMS = itemTags("pipe_junction_blocks");
-    public static final TagKey<Item> PIRANHA_FOOD = itemTags("piranha_food");
+    public static final TagKey<Item> PIRANHA_PLANT_FOOD = itemTags("piranha_plant_food");
     public static final TagKey<Item> POLISHED_CALCITE_ITEMS = itemTags("polished_calcite");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
@@ -251,6 +252,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_WEAR_SHIRTS = entityTypeTags("can_wear_shirts");
     public static final TagKey<EntityType<?>> CAN_WEAR_SHOES = entityTypeTags("can_wear_shoes");
     public static final TagKey<EntityType<?>> CHECKPOINT_FLAG_CANNOT_SPAWN = entityTypeTags("checkpoint_flag_cannot_spawn");
+    public static final TagKey<EntityType<?>> CHEEP_CHEEPS = entityTypeTags("cheep_cheeps");
     public static final TagKey<EntityType<?>> CHEEP_CHEEP_CAN_ATTACK = entityTypeTags("cheep_cheep_can_attack");
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
