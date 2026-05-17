@@ -114,7 +114,7 @@ public class EntityRegistry {
                     .sized(0.6875F, 0.6875F).ridingOffset(0.1F).fireImmune().build("boo"));
     public static final DeferredHolder<EntityType<?>, EntityType<CheepCheepEntity>> CHEEP_CHEEP =
             Marioverse.ENTITIES.register("cheep_cheep", () -> EntityType.Builder.of(CheepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).fireImmune().build("cheep_cheep"));
+                    .sized(0.8F, 0.7F).build("cheep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<DryBonesEntity>> DRY_BONES =
             Marioverse.ENTITIES.register("dry_bones", () -> EntityType.Builder.of(DryBonesEntity::new, MobCategory.MONSTER)
                     .sized(0.8F, 1.65F).ridingOffset(0.1F).fireImmune().build("dry_bones"));
