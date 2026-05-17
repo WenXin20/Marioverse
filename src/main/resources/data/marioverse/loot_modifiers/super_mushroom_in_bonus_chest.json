@@ -1,10 +1,10 @@
 {
   "type": "neoforge:add_table",
-  "table": "marioverse:chests/spawn_bonus_chest",
+  "table": "marioverse:chests/super_mushroom_in_bonus_chest",
   "conditions": [
     {
-      "condition": "minecraft:random_chance",
-      "chance": 5
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/spawn_bonus_chest"
     }
   ]
 }
