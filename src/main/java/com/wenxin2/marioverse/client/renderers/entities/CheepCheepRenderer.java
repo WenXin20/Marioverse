@@ -61,8 +61,8 @@ public class CheepCheepRenderer extends GeoEntityRenderer<CheepCheepEntity> {
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.2F, 1.2F, 1.2F);
-                poseStack.translate(0.0F, -0.2F, 0.0F);
+                poseStack.scale(1.3F, 1.3F, 1.3F);
+                poseStack.translate(0.0F, -0.1F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
         });
@@ -98,9 +98,7 @@ public class CheepCheepRenderer extends GeoEntityRenderer<CheepCheepEntity> {
                 if (stack.getItem() instanceof BlockItem) {
                     poseStack.scale(0.875F, 0.875F, 0.875F);
                     poseStack.translate(0.0F, 0.2F, 0.0F);
-                } else {
-                    poseStack.translate(0.0F, 0.2F, 0.0F);
-                }
+                } else poseStack.translate(0.0F, 0.2F, 0.0F);
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });

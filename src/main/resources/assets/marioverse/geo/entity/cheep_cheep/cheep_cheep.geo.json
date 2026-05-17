@@ -88,6 +88,18 @@
 							}
 						}
 					]
+				},
+				{
+					"name": "armorBipedHead",
+					"parent": "bipedBody",
+					"pivot": [0, 1, 0],
+					"cubes": [
+						{
+							"origin": [-5, 1, -6],
+							"size": [10, 10, 12],
+							"uv": {}
+						}
+					]
 				}
 			]
 		}
