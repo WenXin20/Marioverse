@@ -31,6 +31,8 @@ import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import io.wispforest.accessories.api.AccessoriesAPI;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +70,9 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -78,6 +83,7 @@ import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
@@ -244,6 +250,31 @@ public class RegistryEventHandlers {
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_BUCKET);
         event.registerItem(Capabilities.FluidHandler.ITEM,
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_WATER_BUCKET);
+    }
+
+    @SubscribeEvent
+    public static void onLootTableLoad(LootTableLoadEvent event) {
+        if (!event.getName().equals(ResourceLocation.withDefaultNamespace("gameplay/fishing/fish")))
+            return;
+
+        try {
+            LootPool pool = event.getTable().getPool("main");
+            if (pool == null) return;
+
+            Field entriesField = LootPool.class.getDeclaredField("entries");
+            entriesField.setAccessible(true);
+
+            @SuppressWarnings("unchecked")
+            List<LootPoolEntryContainer> oldEntries = (List<LootPoolEntryContainer>) entriesField.get(pool);
+            List<LootPoolEntryContainer> newEntries = new ArrayList<>(oldEntries);
+
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.CHEEP_CHEEP.get()).setWeight(20).build());
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.COLD_CHEEP_CHEEP.get()).setWeight(15).build());
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.WARM_CHEEP_CHEEP.get()).setWeight(15).build());
+            entriesField.set(pool, newEntries);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            Marioverse.LOGGER.error("Failed to modify fishing loot table", e);
+        }
     }
 
     @SubscribeEvent
