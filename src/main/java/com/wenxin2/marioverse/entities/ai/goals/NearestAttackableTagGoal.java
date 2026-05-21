@@ -62,7 +62,7 @@ public class NearestAttackableTagGoal extends TargetGoal {
     }
 
     protected void findTarget() {
-        if (this.target == null || !this.target.isAlive() || !this.target.getType().is(this.entityTag)) {
+        if (this.target == null || !this.target.isAlive() || !this.target.getType().is(this.entityTag) || this.mob.isAlliedTo(this.target)) {
             List<LivingEntity> potentialTargets = this.mob.level().getEntitiesOfClass(
                     LivingEntity.class,
                     this.getTargetSearchArea(this.getFollowDistance()),

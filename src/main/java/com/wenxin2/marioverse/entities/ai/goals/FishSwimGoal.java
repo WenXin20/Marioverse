@@ -15,20 +15,16 @@ import org.jetbrains.annotations.Nullable;
 public class FishSwimGoal extends RandomSwimmingGoal {
     private final PathfinderMob mob;
     private final boolean canRandomSwim;
-    private final boolean patrolMode;
-    private final double patrolRange;
     private final TagKey<EntityType<?>> lureEntityTag;
     private final double lureRadius;
 
     private Vec3 originPos;
     private boolean forward = true;
 
-    public FishSwimGoal(PathfinderMob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, double patrolRange, double speedModifier, int interval, boolean canRandomSwim, boolean patrolMode) {
+    public FishSwimGoal(PathfinderMob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, double patrolRange, double speedModifier, int interval, boolean canRandomSwim) {
         super(mob, speedModifier, interval);
         this.canRandomSwim = canRandomSwim;
         this.mob = mob;
-        this.patrolMode = patrolMode;
-        this.patrolRange = patrolRange;
         this.lureEntityTag = lureEntityTag;
         this.lureRadius = lureRadius;
     }
@@ -37,16 +33,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
     public boolean canUse() {
         if (this.findLureTarget() != null)
             return this.mob.getRandom().nextInt(5) == 0;
-        if (this.patrolMode && this.patrolRange > 0)
-            return super.canUse();
         return this.canRandomSwim && super.canUse();
-    }
-
-    @Override
-    public void start() {
-        super.start();
-        if (this.patrolMode)
-            this.originPos = this.mob.position();
     }
 
     @Override
@@ -78,40 +65,12 @@ public class FishSwimGoal extends RandomSwimmingGoal {
             this.mob.setSwimming(true);
         }
 
-        if (this.patrolMode && this.getPosition() != null && this.originPos != null && findLureTarget() == null) {
-            Vec3 targetPos = this.getPosition();
-
-            if (this.mob.distanceToSqr(targetPos) < 1.0) {
-                this.forward = !this.forward;
-                targetPos = this.getPosition();
-            }
-            this.mob.getLookControl().setLookAt(targetPos.x, targetPos.y, targetPos.z);
-            this.mob.getNavigation().moveTo(targetPos.x, targetPos.y, targetPos.z, 1.0);
-            this.mob.setSwimming(true);
-        }
-
         if (this.mob.getNavigation().isDone()) {
             Vec3 pos = this.getPosition();
             if (pos != null)
                 this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, 1.0);
         }
     }
-
-    @Override
-    protected Vec3 getPosition() {
-        if (!this.patrolMode)
-            return super.getPosition();
-        if (this.originPos == null)
-            this.originPos = this.mob.position();
-
-        double offset = this.forward ? this.patrolRange : -this.patrolRange;
-        Vec3 targetPos = this.originPos.add(offset, 0, 0);
-
-        if (this.mob.distanceToSqr(targetPos) < 1.0)
-            this.forward = !this.forward;
-        return targetPos;
-    }
-
 
     @Nullable
     private LivingEntity findLureTarget() {
@@ -125,6 +84,6 @@ public class FishSwimGoal extends RandomSwimmingGoal {
     private boolean isValidLureTarget(LivingEntity entity) {
         return entity != this.mob && entity.getType().is(this.lureEntityTag) && !entity.isSpectator()
                 && (!(entity instanceof Player player) || !player.isCreative())
-                && !entity.isInWaterOrBubble();
+                && !entity.isInWaterOrBubble() && !this.mob.isAlliedTo(entity);
     }
 }
