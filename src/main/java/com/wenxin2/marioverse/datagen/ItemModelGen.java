@@ -119,6 +119,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.RED_QUICKSAND_BUCKET.get());
         this.basicItem(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
         this.basicItem(ItemRegistry.SNOW_POKEY_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SPLUNKIN_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_MUSHROOM.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());

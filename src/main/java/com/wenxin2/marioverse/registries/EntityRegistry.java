@@ -23,6 +23,7 @@ import com.wenxin2.marioverse.entities.RedKoopaShellEntity;
 import com.wenxin2.marioverse.entities.RedKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.SnowPokeyBodyEntity;
 import com.wenxin2.marioverse.entities.SnowPokeyEntity;
+import com.wenxin2.marioverse.entities.SpinyCheepCheepEntity;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
@@ -167,6 +168,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<SnowPokeyBodyEntity>> SNOW_POKEY_BODY =
             Marioverse.ENTITIES.register("snow_pokey_body", () -> EntityType.Builder.of(SnowPokeyBodyEntity::new, MobCategory.MONSTER)
                     .sized(0.75F, 0.75F).eyeHeight(0.5F).build("snow_pokey_body"));
+    public static final DeferredHolder<EntityType<?>, EntityType<SpinyCheepCheepEntity>> SPINY_CHEEP_CHEEP =
+            Marioverse.ENTITIES.register("spiny_cheep_cheep", () -> EntityType.Builder.of(SpinyCheepCheepEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(0.8F, 0.7F).build("spiny_cheep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN =
             Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
                     .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
@@ -205,6 +209,8 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SnowPokeyEntity::checkSnowPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.SNOW_POKEY_BODY.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SnowPokeyEntity::checkSnowPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.SPINY_CHEEP_CHEEP.get(), SpawnPlacementTypes.IN_WATER,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SpinyCheepCheepEntity::checkSpinyCheepCheepSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.SPLUNKIN.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SplunkinEntity::checkSplunkinSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
     }
@@ -217,6 +223,12 @@ public class EntityRegistry {
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.0F)
                 .add(Attributes.MAX_HEALTH, 10);
+        AttributeSupplier.Builder spinyCheepCheepAttributes = Monster.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 2.0F)
+                .add(Attributes.ATTACK_SPEED, 0.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.8F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.2F)
+                .add(Attributes.MAX_HEALTH, 15);
         AttributeSupplier.Builder dryBonesAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.3F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)
@@ -324,6 +336,7 @@ public class EntityRegistry {
         event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), koopaAttributes.build());
         event.put(EntityRegistry.RED_KOOPA_SHELL.get(), redKoopaShellAttributes.build());
         event.put(EntityRegistry.RED_KOOPA_TROOPA.get(), koopaAttributes.build());
+        event.put(EntityRegistry.SPINY_CHEEP_CHEEP.get(), spinyCheepCheepAttributes.build());
 
         event.put(EntityRegistry.PIRANHA_PLANT.get(), piranhaPlantAttributes.build());
         event.put(EntityRegistry.POKEY.get(), pokeyAttributes.build());

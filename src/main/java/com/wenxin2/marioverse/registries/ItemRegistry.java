@@ -135,6 +135,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> RED_QUICKSAND_BUCKET;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
+    public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_SPAWN_EGG;
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
     public static final DeferredItem<Item> SUPER_MUSHROOM;
@@ -440,6 +441,8 @@ public class ItemRegistry {
                 () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SNOW_POKEY_SPAWN_EGG = registerItem("snow_pokey_spawn_egg",
                 () -> new SnowPokeySpawnEggItem(EntityRegistry.SNOW_POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        SPINY_CHEEP_CHEEP_SPAWN_EGG = registerItem("spiny_cheep_cheep_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.SPINY_CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SPLUNKIN_SPAWN_EGG = registerItem("splunkin_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.SPLUNKIN, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
     }

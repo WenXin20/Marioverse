@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-15T22:12:25.9486131	Item Models: marioverse
+// 1.21.1	2026-05-20T22:42:24.821783	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -153,6 +153,7 @@ fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa
 387c93ea223f8fb42fde90cf4a4cd6b19c440c5a assets/marioverse/models/item/red_trampoline_cap.json
 9531b08e9ecae755def0a6d9a27bc747800f58fc assets/marioverse/models/item/snow_pokey_spawn_egg.json
 69da874887dd83827e13d267f33145b1d99a6d78 assets/marioverse/models/item/spike_panel.json
+071b3a220ce02ef7fcdf122fa746692abeed8587 assets/marioverse/models/item/spiny_cheep_cheep_spawn_egg.json
 9e1b3a21851c4ddcf4f584766f7f2b107fde06a9 assets/marioverse/models/item/splunkin_spawn_egg.json
 0d69b76d8f8eb602901b50db6df6d0ab6bf9d455 assets/marioverse/models/item/star_coin.json
 0d0b746657645950929cda4bc1e8358df86ed2ee assets/marioverse/models/item/storage_amethyst_bricks.json

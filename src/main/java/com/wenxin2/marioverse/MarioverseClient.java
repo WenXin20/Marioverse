@@ -35,6 +35,7 @@ import com.wenxin2.marioverse.client.renderers.entities.MiniGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PiranhaPlantRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PokeyBodyRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PokeyRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.SpinyCheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SplunkinRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
@@ -263,6 +264,7 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_TROOPA.get(), KoopaTroopaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SNOW_POKEY.get(), PokeyRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SNOW_POKEY_BODY.get(), PokeyBodyRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.SPINY_CHEEP_CHEEP.get(), SpinyCheepCheepRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SPLUNKIN.get(), SplunkinRenderer::new);
 
         event.registerEntityRenderer(EntityRegistry.DRY_BONES_HEAD.get(), DryBonesPartRenderer::new);
