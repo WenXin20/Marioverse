@@ -270,7 +270,8 @@ public class QuestionBlock extends BaseEntityBlock {
         ItemStack heldItem = player.getItemInHand(hand);
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)) {
+        if (blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)
+                && questionBE.getRefillCountdown() == -1) {
             ItemStack blockStack = questionBE.getTheItem();
 
             if (world.isClientSide) {
