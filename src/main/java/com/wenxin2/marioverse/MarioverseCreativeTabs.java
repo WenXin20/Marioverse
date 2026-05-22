@@ -79,8 +79,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.QUICKSAND_BUCKET);
             add(event, ItemRegistry.RED_QUICKSAND_BUCKET);
             add(event, ItemRegistry.CHEEP_CHEEP_BUCKET);
-            addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", Marioverse.MOD_ID + ":cold"));
-            addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", Marioverse.MOD_ID + ":warm"));
+            addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", "cold"));
+            addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", "warm"));
 
             add(event, ItemRegistry.CHEEP_CHEEP);
             add(event, ItemRegistry.COLD_CHEEP_CHEEP);
@@ -670,8 +670,8 @@ public class MarioverseCreativeTabs {
 
             if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
                 ItemStack normal = new ItemStack(ItemRegistry.CHEEP_CHEEP_BUCKET.get());
-                ItemStack cold = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), Marioverse.MOD_ID + ":cold");
-                ItemStack warm = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), Marioverse.MOD_ID + ":warm");
+                ItemStack cold = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), "cold");
+                ItemStack warm = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), "warm");
 
                 addAfter(event, Items.FISHING_ROD, ItemRegistry.WRENCH);
                 addBefore(event, ItemRegistry.WRENCH, ItemRegistry.WARP_DISRUPTOR);
