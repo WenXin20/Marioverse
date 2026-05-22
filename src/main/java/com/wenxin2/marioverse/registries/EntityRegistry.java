@@ -220,15 +220,16 @@ public class EntityRegistry {
         AttributeSupplier.Builder cheepCheepAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.0F)
                 .add(Attributes.ATTACK_SPEED, 0.0F)
+                .add(Attributes.MAX_HEALTH, 10)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
-                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.0F)
-                .add(Attributes.MAX_HEALTH, 10);
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.0F);
         AttributeSupplier.Builder spinyCheepCheepAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 2.0F)
                 .add(Attributes.ATTACK_SPEED, 0.0F)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, 1.0F)
+                .add(Attributes.MAX_HEALTH, 15)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
-                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.2F)
-                .add(Attributes.MAX_HEALTH, 15);
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.2F);
         AttributeSupplier.Builder dryBonesAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 1.3F)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0F)

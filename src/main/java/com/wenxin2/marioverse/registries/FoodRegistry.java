@@ -15,5 +15,5 @@ public class FoodRegistry {
             .nutrition(2).saturationModifier(0.1F).build();
     public static final FoodProperties RAW_SPINY_CHEEP_CHEEP = new FoodProperties.Builder()
             .nutrition(1).saturationModifier(0.1F)
-            .effect(() -> new MobEffectInstance(MobEffects.POISON, 20, 0), 1.0F).build(); // TODO Config
+            .effect(() -> new MobEffectInstance(MobEffects.POISON, 40, 0), 1.0F).build(); // TODO Config
 }

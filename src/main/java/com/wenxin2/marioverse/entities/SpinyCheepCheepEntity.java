@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -17,6 +18,7 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -79,6 +81,7 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        this.goalSelector.addGoal(6, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F, true));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), true));
     }
 
@@ -138,8 +141,8 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
 
             if (entity instanceof LivingEntity livingEntity && !entity.level().isClientSide) { // TODO Config
                 if (entity instanceof Player player && !player.isCreative())
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 20, 0));
-                else livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 20, 0));
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0));
+                else livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0));
             }
 
             this.swing(this.getUsedItemHand());
