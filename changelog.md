@@ -1,13 +1,18 @@
 ## Update 1.10.0
-- Added the Cheep Cheep
+- Added the Cheep Cheep+
+  - If the player is above water, it will jump out to attack you
+  - On contact, damages the player
   - Normal Cheep Cheeps spawn anywhere
   - Cold Cheep Cheeps spawn anywhere cold
   - Warm Cheep Cheeps spawn anywhere hot
   - Added Bucket of Cheep Cheep
   - Added Raw & Cooked Cheep Cheep
 - Added the Spiny Cheep Cheep
+  - If the player is above water, it will jump out to attack you
+  - On contact, damages the player with brief poison
   - Added Bucket of Spiny Cheep Cheep
   - Added Raw & Cooked Spiny Cheep Cheep
+  - Used to brew poison potions
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
 

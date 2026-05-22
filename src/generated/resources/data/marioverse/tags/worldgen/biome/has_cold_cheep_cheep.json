@@ -1,5 +1,6 @@
 {
   "values": [
+    "#c:is_cold/end",
     "#c:is_cold/overworld",
     "#c:is_snowy"
   ]
