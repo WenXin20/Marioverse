@@ -132,7 +132,7 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
         super.doPush(entity);
 
         if (this.isAlive() && !this.isAlliedTo(entity) && this.attackCooldown == 0
-                && entity.getType().is(this.getCanAttackTag())) {
+                && entity.getType().is(this.getCanAttackTag()) && this.level().getDifficulty() != Difficulty.PEACEFUL) {
             float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
             if (entity instanceof Creeper)

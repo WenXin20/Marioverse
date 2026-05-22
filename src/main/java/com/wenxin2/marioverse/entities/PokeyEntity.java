@@ -214,8 +214,10 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
     protected void doPush(Entity entity) {
         super.doPush(entity);
 
-        if (!(entity instanceof PokeyEntity) && this.attackCooldown == 0 && !entity.getType().is(TagRegistry.THORNS_IMMUNE)
-                && !this.getData(DataAttachmentRegistry.IS_BLOOMING)) {
+        if (!(entity instanceof PokeyEntity) && this.attackCooldown == 0
+                && !entity.getType().is(TagRegistry.THORNS_IMMUNE)
+                && !this.getData(DataAttachmentRegistry.IS_BLOOMING)
+                && this.level().getDifficulty() != Difficulty.PEACEFUL) {
             float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
             if (entity instanceof Creeper)
