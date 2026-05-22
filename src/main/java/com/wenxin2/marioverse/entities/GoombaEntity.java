@@ -411,7 +411,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && player.isCreative()
                 && (player.getItemInHand(hand).getItem() instanceof ArmorItem
                 || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
                     && (blockItem.getBlock() instanceof SkullBlock

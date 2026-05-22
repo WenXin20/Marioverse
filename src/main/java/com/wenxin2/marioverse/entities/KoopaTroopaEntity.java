@@ -304,7 +304,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @NotNull
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.canTakeItem(player.getItemInHand(hand))) {
+        if (this.canTakeItem(player.getItemInHand(hand)) && player.isCreative()) {
             this.equipItemIfPossible(player.getItemInHand(hand));
             return InteractionResult.SUCCESS;
         } else return super.mobInteract(player, hand);
