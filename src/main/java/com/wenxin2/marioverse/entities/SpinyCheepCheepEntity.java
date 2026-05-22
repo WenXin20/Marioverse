@@ -96,7 +96,7 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(SIZE, CheepCheepVariants.NORMAL.toString());
+        builder.define(SIZE, CheepCheepVariants.REGULAR.toString());
     }
 
     @Override
@@ -170,7 +170,7 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
             this.setSize(CheepCheepVariants.LARGE);
         else if (chance < 0.50F)
             this.setSize(CheepCheepVariants.SMALL);
-        else this.setSize(CheepCheepVariants.NORMAL);
+        else this.setSize(CheepCheepVariants.REGULAR);
 
         return data;
     }

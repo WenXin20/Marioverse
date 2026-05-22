@@ -192,7 +192,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         super.doPush(entity);
 
         if (this.isAlive() && !this.isAlliedTo(entity) && this.attackCooldown == 0
-                && entity.getType().is(TagRegistry.CHEEP_CHEEP_CAN_ATTACK)) {
+                && entity.getType().is(this.getCanAttackTag())) {
             float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
             if (entity instanceof Creeper)
