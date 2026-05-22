@@ -136,8 +136,11 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
                 entity.hurt(this.getDamageSource(entity), attackDamage);
             else entity.hurt(this.getDamageSource(this), attackDamage);
 
-            if (entity instanceof LivingEntity livingEntity && !entity.level().isClientSide)
-                livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 20, 0)); // TODO Config
+            if (entity instanceof LivingEntity livingEntity && !entity.level().isClientSide) { // TODO Config
+                if (entity instanceof Player player && !player.isCreative())
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 20, 0));
+                else livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 20, 0));
+            }
 
             this.swing(this.getUsedItemHand());
             this.attackCooldown = 20;
