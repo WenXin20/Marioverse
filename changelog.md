@@ -6,6 +6,8 @@
   - Added Bucket of Cheep Cheep
   - Added Raw & Cooked Cheep Cheep
 - Added the Spiny Cheep Cheep
+  - Added Bucket of Spiny Cheep Cheep
+  - Added Raw & Cooked Spiny Cheep Cheep
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
 

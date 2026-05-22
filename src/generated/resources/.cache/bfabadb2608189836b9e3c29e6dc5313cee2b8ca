@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-20T22:42:24.821783	Item Models: marioverse
+// 1.21.1	2026-05-21T22:11:11.6994471	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -22,6 +22,7 @@ fb209281fa76443b140297c0ff36c8fa23f5d6ce assets/marioverse/models/item/coin.json
 eb03964698096e1dd30994d3f302f5e51daaa6c1 assets/marioverse/models/item/cold_cheep_cheep.json
 0d660991eea440a9def376c524f919b00414e484 assets/marioverse/models/item/cold_cheep_cheep_bucket.json
 3f2d1846d768b2912543f56a4499cc3d091adbde assets/marioverse/models/item/cooked_cheep_cheep.json
+4d04b59aab5bac51c36def6f54aea0e5e43057f1 assets/marioverse/models/item/cooked_spiny_cheep_cheep.json
 f7a4e00025cf82017f2d4479ddc193d6cce02b55 assets/marioverse/models/item/creative_wrench.json
 b72a6d74334f9bdf98860f2c650b62f93f083542 assets/marioverse/models/item/cyan_checkpoint_flag.json
 077a1d14e92a5e4037337c3da71807649ed1682f assets/marioverse/models/item/cyan_goal_pole.json
@@ -153,6 +154,8 @@ fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa
 387c93ea223f8fb42fde90cf4a4cd6b19c440c5a assets/marioverse/models/item/red_trampoline_cap.json
 9531b08e9ecae755def0a6d9a27bc747800f58fc assets/marioverse/models/item/snow_pokey_spawn_egg.json
 69da874887dd83827e13d267f33145b1d99a6d78 assets/marioverse/models/item/spike_panel.json
+8e47f8d9a031f6dece0675c602f828c3d8e2905e assets/marioverse/models/item/spiny_cheep_cheep.json
+691a7382f4300a145fb9c9235a2c67f3171e6e23 assets/marioverse/models/item/spiny_cheep_cheep_bucket.json
 071b3a220ce02ef7fcdf122fa746692abeed8587 assets/marioverse/models/item/spiny_cheep_cheep_spawn_egg.json
 9e1b3a21851c4ddcf4f584766f7f2b107fde06a9 assets/marioverse/models/item/splunkin_spawn_egg.json
 0d69b76d8f8eb602901b50db6df6d0ab6bf9d455 assets/marioverse/models/item/star_coin.json

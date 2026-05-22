@@ -81,11 +81,14 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.CHEEP_CHEEP_BUCKET);
             addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", "cold"));
             addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", "warm"));
+            add(event, ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET);
 
             add(event, ItemRegistry.CHEEP_CHEEP);
             add(event, ItemRegistry.COLD_CHEEP_CHEEP);
             add(event, ItemRegistry.WARM_CHEEP_CHEEP);
             add(event, ItemRegistry.COOKED_CHEEP_CHEEP);
+            add(event, ItemRegistry.SPINY_CHEEP_CHEEP);
+            add(event, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP);
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
 
@@ -577,6 +580,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.CHEEP_CHEEP, ItemRegistry.COLD_CHEEP_CHEEP);
                 addAfter(event, ItemRegistry.COLD_CHEEP_CHEEP, ItemRegistry.WARM_CHEEP_CHEEP);
                 addAfter(event, ItemRegistry.WARM_CHEEP_CHEEP, ItemRegistry.COOKED_CHEEP_CHEEP);
+                addAfter(event, ItemRegistry.COOKED_CHEEP_CHEEP, ItemRegistry.SPINY_CHEEP_CHEEP);
+                addAfter(event, ItemRegistry.SPINY_CHEEP_CHEEP, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP);
             }
 
             if (event.getTabKey() == CreativeModeTabs.COMBAT) {
@@ -679,6 +684,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.TADPOLE_BUCKET, normal);
                 addAfter(event, normal, cold);
                 addAfter(event, cold, warm);
+                addAfter(event, warm, ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET);
                 addAfter(event, Items.POWDER_SNOW_BUCKET, ItemRegistry.QUICKSAND_BUCKET);
                 addAfter(event, ItemRegistry.QUICKSAND_BUCKET, ItemRegistry.RED_QUICKSAND_BUCKET);
                 addAfter(event, Items.MILK_BUCKET, ItemRegistry.PLASTIC_BUCKET);
@@ -1164,6 +1170,10 @@ public class MarioverseCreativeTabs {
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemStack stack) {
         event.insertAfter(new ItemStack(afterItem), stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+    }
+
+    public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemLike item) {
+        event.insertAfter(afterStack, new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemStack stack) {

@@ -21,9 +21,12 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -61,12 +64,12 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
     @NotNull
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(ItemRegistry.CHEEP_CHEEP_BUCKET.get());
+        return new ItemStack(ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET.get());
     }
 
     @NotNull
     public DamageSource getDamageSource(Entity collidingEntity) {
-        return DamageSourceRegistry.cheepCheepBite(collidingEntity);
+        return DamageSourceRegistry.cheepCheepBite(collidingEntity); //TODO
     }
 
     public TagKey<EntityType<?>> getCanAttackTag() {
@@ -132,6 +135,9 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
             if (entity instanceof Creeper)
                 entity.hurt(this.getDamageSource(entity), attackDamage);
             else entity.hurt(this.getDamageSource(this), attackDamage);
+
+            if (entity instanceof LivingEntity livingEntity && !entity.level().isClientSide)
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 20, 0)); // TODO Config
 
             this.swing(this.getUsedItemHand());
             this.attackCooldown = 20;

@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-15T22:12:25.9592422	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-05-21T22:11:11.7106076	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -7,7 +7,7 @@ c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pant
 35de035941203b4243a091bd1caf176db23cd17e data/c/tags/item/animal_foods.json
 c0f4685b342c133937969cb5a2c80e7ee93e1ce0 data/c/tags/item/buckets.json
 1d9f59c8c89ea3b59ff39d20864ab894d79e0b18 data/c/tags/item/buckets/empty.json
-ac590946a21a0aa32f66d0fcfdcc43b05368ec71 data/c/tags/item/buckets/entity_water.json
+68a45e4b69803f6d184ae75a93a564f0e8abdb54 data/c/tags/item/buckets/entity_water.json
 2711a0540211a06c8475614ec464d2b599635edd data/c/tags/item/buckets/powder_snow.json
 297c804e062e08f5137905c6da8813126055ba69 data/c/tags/item/buckets/quicksand.json
 c2dde9a3c935edfd74c8048c963710b698d7d47e data/c/tags/item/buckets/water.json
@@ -28,8 +28,8 @@ d29b31117342e8bb0b2637977901bf49e4502b6d data/c/tags/item/dyed/red.json
 e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/item/dyed/white.json
 42c7244e9fe2ffc622abca363bb299a6d7b78c9c data/c/tags/item/dyed/yellow.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/enchantables.json
-b9e7dae4cc98ab8bd825e75fa08d65096b1b0a43 data/c/tags/item/foods/cooked_fish.json
-ca049038b34d05d99a21a104618cd6ddbaf3b894 data/c/tags/item/foods/raw_fish.json
+fa9338c69f23682bfd5e6ab9f2f29643153cbc10 data/c/tags/item/foods/cooked_fish.json
+ad7367ee6a23a86add032e3b699d665382f552a7 data/c/tags/item/foods/raw_fish.json
 94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/c/tags/item/mushrooms.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/pumpkins/carved.json
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/item/pumpkins/jack_o_lanterns.json
@@ -116,7 +116,7 @@ d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calci
 c244f100071156df3560fa1b7792613d9c04a72c data/marioverse/tags/item/warp_pipe_cannot_spawn.json
 5f2a4811099dd21bc38ee2f540493664acb5a981 data/marioverse/tags/item/wooden_bridges.json
 42e766f60c03b962bc96d2bff4bdccb4f7e3c8ec data/marioverse/tags/item/wooden_bridge_stairs.json
-ca049038b34d05d99a21a104618cd6ddbaf3b894 data/minecraft/tags/item/cat_food.json
+ad7367ee6a23a86add032e3b699d665382f552a7 data/minecraft/tags/item/cat_food.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 4e4fd6f76a7b6263e1466677635cb6cd356190bf data/minecraft/tags/item/enchantable/armor.json
@@ -125,14 +125,14 @@ cf53e417f5f73265ca2e631ef96aa9ee670ba798 data/minecraft/tags/item/enchantable/du
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/fire_aspect.json
 5f6098308dd2681e812b9ca9cd741c532fce418d data/minecraft/tags/item/enchantable/vanishing.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/weapon.json
-a85856daab671dd422b4bc6ee413efcf2e0004f3 data/minecraft/tags/item/fishes.json
+821778fc9e9a9822990d0cfdb45497f42250267c data/minecraft/tags/item/fishes.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/item/flowers.json
 120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/minecraft/tags/item/foot_armor.json
 b16cb4a8b1a3db7bb88132d3a4831d0120ba599c data/minecraft/tags/item/freeze_immune_wearables.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/minecraft/tags/item/head_armor.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/minecraft/tags/item/leg_armor.json
 d81ff390eb607f163e038b57b32e094bd314f763 data/minecraft/tags/item/non_flammable_wood.json
-ca049038b34d05d99a21a104618cd6ddbaf3b894 data/minecraft/tags/item/ocelot_food.json
+ad7367ee6a23a86add032e3b699d665382f552a7 data/minecraft/tags/item/ocelot_food.json
 17ea19fe339864acdcbe14feb1a3ad8a15650797 data/minecraft/tags/item/piglin_loved.json
 8f2a21fd51e60bd26df382e3cd61d959ee3c226d data/minecraft/tags/item/slabs.json
 3223c0ac80c228b7211696c27c13272e7e3288a8 data/minecraft/tags/item/stairs.json

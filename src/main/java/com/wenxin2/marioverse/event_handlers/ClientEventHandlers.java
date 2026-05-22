@@ -259,9 +259,9 @@ public class ClientEventHandlers {
 
         String variant = tag.getString("Variant");
 
-        if (variant.equals(Marioverse.MOD_ID + ":cold"))
+        if (variant.equals("cold"))
             return 1.0F;
-        if (variant.equals(Marioverse.MOD_ID + ":warm"))
+        if (variant.equals("warm"))
             return 2.0F;
 
         return 0.0F;

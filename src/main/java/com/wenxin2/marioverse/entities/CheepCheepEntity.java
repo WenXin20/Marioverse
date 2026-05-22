@@ -66,7 +66,6 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     private static final EntityDataAccessor<String> VARIANT = SynchedEntityData
             .defineId(CheepCheepEntity.class, EntityDataSerializers.STRING);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    public static final RawAnimation BITE = RawAnimation.begin().thenLoop("attack.bite");
     public static final RawAnimation SWIM_FAST = RawAnimation.begin().thenLoop("move.swim_fast");
     public int attackCooldown = 0;
 

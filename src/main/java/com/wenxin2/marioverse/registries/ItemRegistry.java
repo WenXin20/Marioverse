@@ -60,6 +60,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredItem<Item> COLD_CHEEP_CHEEP;
     public static final DeferredItem<Item> COOKED_CHEEP_CHEEP;
+    public static final DeferredItem<Item> COOKED_SPINY_CHEEP_CHEEP;
     public static final DeferredItem<Item> CREATIVE_WRENCH;
     public static final DeferredItem<Item> DASH_MUSHROOM;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
@@ -135,6 +136,8 @@ public class ItemRegistry {
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> RED_QUICKSAND_BUCKET;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
+    public static final DeferredItem<Item> SPINY_CHEEP_CHEEP;
+    public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_SPAWN_EGG;
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
@@ -172,9 +175,17 @@ public class ItemRegistry {
                 () -> new Item(new Item.Properties().food(FoodRegistry.RAW_CHEEP_CHEEP)));
         COOKED_CHEEP_CHEEP = registerItem("cooked_cheep_cheep",
                 () -> new Item(new Item.Properties().food(FoodRegistry.COOKED_CHEEP_CHEEP)));
+        SPINY_CHEEP_CHEEP = registerItem("spiny_cheep_cheep",
+                () -> new Item(new Item.Properties().food(FoodRegistry.RAW_SPINY_CHEEP_CHEEP)));
+        COOKED_SPINY_CHEEP_CHEEP = registerItem("cooked_spiny_cheep_cheep",
+                () -> new Item(new Item.Properties().food(FoodRegistry.COOKED_SPINY_CHEEP_CHEEP)));
 
         CHEEP_CHEEP_BUCKET = registerItem("cheep_cheep_bucket",
                 () -> new MobBucketItem(EntityRegistry.CHEEP_CHEEP.get(), Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH,
+                        new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)
+                                .component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY)));
+        SPINY_CHEEP_CHEEP_BUCKET = registerItem("spiny_cheep_cheep_bucket",
+                () -> new MobBucketItem(EntityRegistry.SPINY_CHEEP_CHEEP.get(), Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH,
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)
                                 .component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY)));
         QUICKSAND_BUCKET = registerItem("quicksand_bucket",

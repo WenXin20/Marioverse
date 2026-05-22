@@ -304,6 +304,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> SNOW_POKEY_CAN_ATTACK = entityTypeTags("snow_pokey_can_attack");
     public static final TagKey<EntityType<?>> SNOW_POKEY_ENTITIES = entityTypeTags("snow_pokeys");
     public static final TagKey<EntityType<?>> SPIKE_PANEL_IMMUNE = entityTypeTags("spike_panel_immune");
+    public static final TagKey<EntityType<?>> SPINY_CHEEP_CHEEP_CAN_ATTACK = entityTypeTags("spiny_cheep_cheep_can_attack");
     public static final TagKey<EntityType<?>> SPLUNKIN_CAN_ATTACK = entityTypeTags("splunkin_can_attack");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
     public static final TagKey<EntityType<?>> WARP_PIPE_CANNOT_SPAWN = entityTypeTags("warp_pipe_cannot_spawn");

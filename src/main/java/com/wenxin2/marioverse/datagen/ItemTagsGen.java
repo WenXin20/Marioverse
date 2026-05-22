@@ -129,7 +129,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PLASTIC_BUCKET.get());
 
         tag(Tags.Items.BUCKETS_ENTITY_WATER)
-                .add(ItemRegistry.CHEEP_CHEEP_BUCKET.get());
+                .add(ItemRegistry.CHEEP_CHEEP_BUCKET.get())
+                .add(ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET.get());
 
         tag(Tags.Items.BUCKETS_POWDER_SNOW)
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
@@ -147,21 +148,26 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
 
         tag(Tags.Items.FOODS_COOKED_FISH)
-                .add(ItemRegistry.COOKED_CHEEP_CHEEP.get());
+                .add(ItemRegistry.COOKED_CHEEP_CHEEP.get())
+                .add(ItemRegistry.COOKED_SPINY_CHEEP_CHEEP.get());
 
         tag(Tags.Items.FOODS_RAW_FISH)
-                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS);
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(Tags.Items.MUSHROOMS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
 
         tag(ItemTags.CAT_FOOD)
-                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS);
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(ItemTags.FISHES)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
-                .add(ItemRegistry.COOKED_CHEEP_CHEEP.get());
+                .add(ItemRegistry.COOKED_CHEEP_CHEEP.get())
+                .add(ItemRegistry.COOKED_SPINY_CHEEP_CHEEP.get())
+                .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 .addTag(TagRegistry.ICE_COSTUMES)
@@ -174,7 +180,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.asItem());
 
         tag(ItemTags.OCELOT_FOOD)
-                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS);
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())

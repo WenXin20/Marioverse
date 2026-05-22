@@ -62,6 +62,8 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionBrewing;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
@@ -85,6 +87,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -104,7 +107,7 @@ public class RegistryEventHandlers {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onRegisterBlocks(RegisterEvent event) {
+    public static void registerBlocks(RegisterEvent event) {
         event.register(Registries.BLOCK, helper -> {
             for (Block block : BuiltInRegistries.BLOCK) {
                 if (!(block instanceof DoorBlock source))
@@ -253,6 +256,13 @@ public class RegistryEventHandlers {
     }
 
     @SubscribeEvent
+    public static void registerBrewingRecipes(RegisterBrewingRecipesEvent event) {
+        PotionBrewing.Builder builder = event.getBuilder();
+
+        builder.addMix(Potions.AWKWARD, ItemRegistry.SPINY_CHEEP_CHEEP.get(), Potions.POISON);
+    }
+
+    @SubscribeEvent
     public static void onLootTableLoad(LootTableLoadEvent event) {
         if (!event.getName().equals(ResourceLocation.withDefaultNamespace("gameplay/fishing/fish")))
             return;
@@ -271,6 +281,7 @@ public class RegistryEventHandlers {
             newEntries.add(LootItem.lootTableItem(ItemRegistry.CHEEP_CHEEP.get()).setWeight(20).build());
             newEntries.add(LootItem.lootTableItem(ItemRegistry.COLD_CHEEP_CHEEP.get()).setWeight(15).build());
             newEntries.add(LootItem.lootTableItem(ItemRegistry.WARM_CHEEP_CHEEP.get()).setWeight(15).build());
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.SPINY_CHEEP_CHEEP.get()).setWeight(8).build());
             entriesField.set(pool, newEntries);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             Marioverse.LOGGER.error("Failed to modify fishing loot table", e);
