@@ -1,0 +1,5 @@
+{
+  "exhaustion": 0.5,
+  "message_id": "marioverse.eep_cheep_bite",
+  "scaling": "when_caused_by_living_non_player"
+}
