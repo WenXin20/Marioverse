@@ -73,7 +73,7 @@ public class EepCheepEntity extends CheepCheepEntity implements GeoEntity {
 
     @NotNull
     public DamageSource getDamageSource(Entity collidingEntity) {
-        return DamageSourceRegistry.cheepCheepBite(collidingEntity); // TODO
+        return DamageSourceRegistry.eepCheepBite(collidingEntity);
     }
 
     public TagKey<EntityType<?>> getCanAttackTag() {
