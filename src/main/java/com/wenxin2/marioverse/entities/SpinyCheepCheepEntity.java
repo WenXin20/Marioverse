@@ -20,14 +20,11 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -37,16 +34,12 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
-import net.minecraft.world.level.block.SkullBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -71,11 +64,11 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
 
     @NotNull
     public DamageSource getDamageSource(Entity collidingEntity) {
-        return DamageSourceRegistry.cheepCheepBite(collidingEntity); //TODO
+        return DamageSourceRegistry.spinyCheepCheepBite(collidingEntity);
     }
 
     public TagKey<EntityType<?>> getCanAttackTag() {
-        return TagRegistry.CHEEP_CHEEP_CAN_ATTACK;
+        return TagRegistry.SPINY_CHEEP_CHEEP_CAN_ATTACK;
     }
 
     @Override
@@ -148,26 +141,6 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
             this.swing(this.getUsedItemHand());
             this.attackCooldown = 20;
         }
-    }
-
-    @Override // TODO REMOVE
-    public boolean canTakeItem(ItemStack stack) {
-        EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
-        return this.getItemBySlot(equipmentslot).isEmpty();
-    }
-
-    @NotNull
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
-                && (player.getItemInHand(hand).getItem() instanceof ArmorItem
-                || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
-                && (blockItem.getBlock() instanceof SkullBlock
-                || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock)))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
-            return InteractionResult.SUCCESS;
-        }
-        return super.mobInteract(player, hand);
     }
 
     @Nullable

@@ -21,6 +21,9 @@ public class DamageTypeRegistry extends DamageSources {
     public static final ResourceKey<DamageType> CHEEP_CHEEP_BITE =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "cheep_cheep_bite"));
 
+    public static final ResourceKey<DamageType> SPINY_CHEEP_CHEEP_BITE =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spiny_cheep_cheep_bite"));
+
     public static final ResourceKey<DamageType> FIREBALL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "fireball"));
     public static final ResourceKey<DamageType> PLAYER_FIREBALL =

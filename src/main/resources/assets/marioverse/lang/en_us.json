@@ -1128,6 +1128,7 @@
   "death.attack.marioverse.spiked": "%1$s was spiked",
   "death.attack.marioverse.spinning_shell": "%1$s couldn’t dodge the spinning shell",
   "death.attack.marioverse.spinning_shell.player": "%1$s couldn’t dodge the spinning shell shot by %2$s",
+  "death.attack.marioverse.spiny_cheep_cheep_bite": "%1$s was injected with fish poison",
   "death.attack.marioverse.stomp": "%1$s was stomped on",
   "death.attack.marioverse.stomp.player": "%1$s was stomped on by %2$s",
   "death.attack.marioverse.super_star": "%1$s was star struck!",
