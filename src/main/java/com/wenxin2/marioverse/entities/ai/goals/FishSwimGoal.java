@@ -18,10 +18,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
     private final TagKey<EntityType<?>> lureEntityTag;
     private final double lureRadius;
 
-    private Vec3 originPos;
-    private boolean forward = true;
-
-    public FishSwimGoal(PathfinderMob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, double patrolRange, double speedModifier, int interval, boolean canRandomSwim) {
+    public FishSwimGoal(PathfinderMob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, double speedModifier, int interval, boolean canRandomSwim) {
         super(mob, speedModifier, interval);
         this.canRandomSwim = canRandomSwim;
         this.mob = mob;

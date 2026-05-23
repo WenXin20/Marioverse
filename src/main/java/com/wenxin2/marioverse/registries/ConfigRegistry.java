@@ -40,6 +40,8 @@ public class ConfigRegistry {
     public static final String CATEGORY_WRENCH = "wrench";
 
     public static final String CATEGORY_BOO = "boo";
+    public static final String CATEGORY_CHEEP_CHEEP = "cheep_cheep";
+    public static final String CATEGORY_CHEEP_CHEEPS = "cheep_cheeps";
     public static final String CATEGORY_DRY_BONES = "dry_bones";
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
     public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
@@ -56,6 +58,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_RED_KOOPA_SHELL = "red_koopa_shell";
     public static final String CATEGORY_RED_KOOPA_TROOPA = "red_koopa_troopa";
     public static final String CATEGORY_SNOW_POKEY = "snow_pokey";
+    public static final String CATEGORY_SPINY_CHEEP_CHEEP = "spiny_cheep_cheep";
 
     public static final String CATEGORY_DASH_MUSHROOM = "dash_mushroom";
     public static final String CATEGORY_FIRE_FLOWER = "fire_flower";
@@ -159,6 +162,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue WAX_DISABLES_WATER_SPOUTS;
 
     public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
+    public static ModConfigSpec.DoubleValue CHEEP_CHEEP_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_BOOST_STRENGTH;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
@@ -177,14 +181,15 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_HEIGHT_SCALE;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_REACH_DISTANCE;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_WIDTH_SCALE;
+    public static ModConfigSpec.DoubleValue LARGE_SNOWBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_HEIGHT_SCALE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue SHRINK_PLAYERS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue SHRINK_WIDTH_SCALE;
-    public static ModConfigSpec.DoubleValue LARGE_SNOWBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue SPIKE_PANEL_DAMAGE;
+    public static ModConfigSpec.DoubleValue SPINY_CHEEP_CHEEP_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
@@ -232,6 +237,8 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_MOB_DETECTION_RADIUS;
     public static ModConfigSpec.IntValue RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS;
     public static ModConfigSpec.IntValue RED_KOOPA_TROOPA_HIDE_DURATION;
+    public static ModConfigSpec.IntValue SPINY_CHEEP_CHEEP_FOOD_POISON_DURATION;
+    public static ModConfigSpec.IntValue SPINY_CHEEP_CHEEP_POISON_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_DURATION;
     public static ModConfigSpec.IntValue SUPER_STAR_SPEED_DURATION;
     public static ModConfigSpec.IntValue WARP_DISRUPTING_COOLDOWN;
@@ -643,6 +650,30 @@ public class ConfigRegistry {
                             .comment("§61 will kill Boos in any daylight.")
                             .comment("§a16 will allow Boos to survive in daylight.§b")
                             .defineInRange("boo_sun_exposure_limit", 12, 1, 16);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_CHEEP_CHEEPS);
+
+                    BUILDER.push(CATEGORY_CHEEP_CHEEP);
+                        CHEEP_CHEEP_LURE_RADIUS = BUILDER.translation("configuration.marioverse.cheep_cheep_lure_radius")
+                                .comment("The radius Cheep Cheeps will be lured towards the target mob or player.§b")
+                                .defineInRange("cheep_cheep_lure_radius", 8.0, 0.0, 16.0);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_SPINY_CHEEP_CHEEP);
+                        SPINY_CHEEP_CHEEP_LURE_RADIUS = BUILDER.translation("configuration.marioverse.spiny_cheep_cheep_lure_radius")
+                                .comment("The radius Spiny Cheep Cheeps will be lured towards the target mob or player.§b")
+                                .defineInRange("spiny_cheep_cheep_lure_radius", 8.0, 0.0, 16.0);
+                        SPINY_CHEEP_CHEEP_POISON_DURATION = BUILDER.translation("configuration.marioverse.spiny_cheep_cheep_poison_duration")
+                                .comment("The duration Spiny Cheep Cheeps will poison on contact in ticks.§b")
+                                .comment("§6[20 ticks = 1 second]§b")
+                                .defineInRange("spiny_cheep_cheep_poison_duration", 40, 0, 1200);
+                        SPINY_CHEEP_CHEEP_FOOD_POISON_DURATION = BUILDER.translation("configuration.marioverse.spiny_cheep_cheep_food_poison_duration")
+                                .comment("The duration the raw Spiny Cheep Cheep item will poison on consumption in ticks.§b")
+                                .comment("§6[20 ticks = 1 second]§b")
+                                .defineInRange("spiny_cheep_cheep_food_poison_duration", 40, 0, 1200);
+                    BUILDER.pop();
+
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_DRY_BONES);

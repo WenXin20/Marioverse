@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -72,6 +73,11 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
     }
 
     @Override
+    public double getLureRadius() {
+        return ConfigRegistry.SPINY_CHEEP_CHEEP_LURE_RADIUS.get();
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(6, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F, true));
@@ -132,10 +138,12 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
                 entity.hurt(this.getDamageSource(entity), attackDamage);
             else entity.hurt(this.getDamageSource(this), attackDamage);
 
-            if (entity instanceof LivingEntity livingEntity && !entity.level().isClientSide) { // TODO Config
+            if (entity instanceof LivingEntity livingEntity && !entity.level().isClientSide) {
                 if (entity instanceof Player player && !player.isCreative())
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0));
-                else livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 0));
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON,
+                            ConfigRegistry.SPINY_CHEEP_CHEEP_POISON_DURATION.get(), 0));
+                else livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON,
+                        ConfigRegistry.SPINY_CHEEP_CHEEP_POISON_DURATION.get(), 0));
             }
 
             this.swing(this.getUsedItemHand());
@@ -151,7 +159,7 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
         RandomSource random = level.getRandom();
         float chance = random.nextFloat();
 
-        if (chance < 0.25F)
+        if (chance < 0.15F)
             this.setSize(CheepCheepVariants.LARGE);
         else if (chance < 0.50F)
             this.setSize(CheepCheepVariants.SMALL);
