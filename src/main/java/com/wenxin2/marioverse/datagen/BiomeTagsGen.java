@@ -25,6 +25,9 @@ public class BiomeTagsGen extends BiomeTagsProvider {
         tag(TagRegistry.HAS_CHEEP_CHEEP)
                 .addTag(BiomeTags.IS_OVERWORLD);
 
+        tag(TagRegistry.HAS_EEP_CHEEP)
+                .addTag(BiomeTags.IS_OVERWORLD);
+
         tag(TagRegistry.HAS_COLD_CHEEP_CHEEP)
                 .addTag(Tags.Biomes.IS_COLD_END)
                 .addTag(Tags.Biomes.IS_COLD_OVERWORLD)

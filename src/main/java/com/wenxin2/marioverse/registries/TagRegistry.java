@@ -23,6 +23,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
     public static final TagKey<Biome> HAS_COLD_CHEEP_CHEEP = biomeTags("has_cold_cheep_cheep");
     public static final TagKey<Biome> HAS_DRY_BONES = biomeTags("has_dry_bones");
+    public static final TagKey<Biome> HAS_EEP_CHEEP = biomeTags("has_eep_cheep");
     public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
     public static final TagKey<Biome> HAS_GOOMBA = biomeTags("has_goomba");
     public static final TagKey<Biome> HAS_KOOPA_TROOPA = biomeTags("has_koopa_troopa");
@@ -261,6 +262,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
     public static final TagKey<EntityType<?>> DRY_BONES_BONES = entityTypeTags("dry_bones_bones");
     public static final TagKey<EntityType<?>> DRY_BONES_CAN_ATTACK = entityTypeTags("dry_bones_can_attack");
+    public static final TagKey<EntityType<?>> EEP_CHEEP_AVOIDS = entityTypeTags("eep_cheep_avoids");
+    public static final TagKey<EntityType<?>> EEP_CHEEP_CAN_ATTACK = entityTypeTags("eep_cheep_can_attack");
     public static final TagKey<EntityType<?>> EQUIP_COSTUMES_IN_ARMOR_SLOTS = entityTypeTags("equip_costumes_in_armor_slots");
     public static final TagKey<EntityType<?>> FIREBALL_CAN_INSTAKILL = entityTypeTags("fireball_can_instakill");
     public static final TagKey<EntityType<?>> FIREBALL_IMMUNE = entityTypeTags("fireball_immune");

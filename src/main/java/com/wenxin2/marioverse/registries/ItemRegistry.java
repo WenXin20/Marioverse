@@ -64,6 +64,9 @@ public class ItemRegistry {
     public static final DeferredItem<Item> CREATIVE_WRENCH;
     public static final DeferredItem<Item> DASH_MUSHROOM;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
+    public static final DeferredItem<Item> EEP_CHEEP;
+    public static final DeferredItem<Item> EEP_CHEEP_BUCKET;
+    public static final DeferredItem<Item> EEP_CHEEP_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
@@ -173,6 +176,8 @@ public class ItemRegistry {
                 () -> new Item(new Item.Properties().food(FoodRegistry.RAW_CHEEP_CHEEP)));
         WARM_CHEEP_CHEEP = registerItem("warm_cheep_cheep",
                 () -> new Item(new Item.Properties().food(FoodRegistry.RAW_CHEEP_CHEEP)));
+        EEP_CHEEP = registerItem("eep_cheep",
+                () -> new Item(new Item.Properties().food(FoodRegistry.RAW_CHEEP_CHEEP)));
         COOKED_CHEEP_CHEEP = registerItem("cooked_cheep_cheep",
                 () -> new Item(new Item.Properties().food(FoodRegistry.COOKED_CHEEP_CHEEP)));
         SPINY_CHEEP_CHEEP = registerItem("spiny_cheep_cheep",
@@ -182,6 +187,10 @@ public class ItemRegistry {
 
         CHEEP_CHEEP_BUCKET = registerItem("cheep_cheep_bucket",
                 () -> new MobBucketItem(EntityRegistry.CHEEP_CHEEP.get(), Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH,
+                        new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)
+                                .component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY)));
+        EEP_CHEEP_BUCKET = registerItem("eep_cheep_bucket",
+                () -> new MobBucketItem(EntityRegistry.EEP_CHEEP.get(), Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH,
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)
                                 .component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY)));
         SPINY_CHEEP_CHEEP_BUCKET = registerItem("spiny_cheep_cheep_bucket",
@@ -430,6 +439,8 @@ public class ItemRegistry {
                 () -> new DeferredSpawnEggItem(EntityRegistry.CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         DRY_BONES_SPAWN_EGG = registerItem("dry_bones_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.DRY_BONES, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        EEP_CHEEP_SPAWN_EGG = registerItem("eep_cheep_spawn_egg",
+                () -> new DeferredSpawnEggItem(EntityRegistry.EEP_CHEEP, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         GOLD_KOOPA_TROOPA_SPAWN_EGG = registerItem("gold_koopa_troopa_spawn_egg",

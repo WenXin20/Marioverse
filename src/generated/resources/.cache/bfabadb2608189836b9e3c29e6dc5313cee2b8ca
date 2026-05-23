@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-21T22:11:11.6994471	Item Models: marioverse
+// 1.21.1	2026-05-23T13:41:55.0885921	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -29,6 +29,9 @@ b72a6d74334f9bdf98860f2c650b62f93f083542 assets/marioverse/models/item/cyan_chec
 af77997a00ce159863c0292f9482c1476862039f assets/marioverse/models/item/dango_blossom.json
 01e5e298e425b85e8373b06de32e23d6faea054c assets/marioverse/models/item/dash_mushroom.json
 ee376cd5ff494d5458fa9e37b4141c7caade1007 assets/marioverse/models/item/dry_bones_spawn_egg.json
+72b6e0a4cb544f2192d3a8b0b3ccf61b561cf0ac assets/marioverse/models/item/eep_cheep.json
+907586e11470848824c730e933926fc2c29939ed assets/marioverse/models/item/eep_cheep_bucket.json
+79027647ffa6ff07996301383f5559267b9c8e21 assets/marioverse/models/item/eep_cheep_spawn_egg.json
 9706025e48900bd63f97e5beeb8f5d089fa44a66 assets/marioverse/models/item/fire_costume_smithing_template.json
 0a071eda79e87a6dc996e8323c07ed7899626107 assets/marioverse/models/item/fire_flower.json
 88a5f9b9b81dbcb4811c848b3e9ddb1abf2b7d05 assets/marioverse/models/item/fire_goomba_spawn_egg.json

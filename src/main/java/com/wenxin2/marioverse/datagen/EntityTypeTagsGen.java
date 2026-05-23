@@ -134,6 +134,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
                 .add(EntityRegistry.CHEEP_CHEEP.get())
                 .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.EEP_CHEEP.get())
                 .add(EntityRegistry.GOOMBA.get())
                 .add(EntityRegistry.HEFTY_GOOMBA.get())
                 .add(EntityRegistry.MEGA_GOOMBA.get())
@@ -147,6 +148,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.CHEEP_CHEEP.get())
                 .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.EEP_CHEEP.get())
                 .add(EntityRegistry.LARGE_SNOWBALL.get())
                 .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
@@ -537,6 +539,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CHEEP_CHEEPS)
                 .add(EntityRegistry.CHEEP_CHEEP.get())
+                .add(EntityRegistry.EEP_CHEEP.get())
                 .add(EntityRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(TagRegistry.CHEEP_CHEEP_CAN_ATTACK)
@@ -567,6 +570,23 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.DRY_BONES_TAIL.get());
 
         tag(TagRegistry.DRY_BONES_CAN_ATTACK)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.EEP_CHEEP_AVOIDS)
+                .add(EntityType.DOLPHIN)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.EEP_CHEEP_CAN_ATTACK)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)

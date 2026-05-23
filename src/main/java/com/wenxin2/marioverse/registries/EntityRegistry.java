@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.BooEntity;
 import com.wenxin2.marioverse.entities.CheepCheepEntity;
 import com.wenxin2.marioverse.entities.DryBonesEntity;
 import com.wenxin2.marioverse.entities.DryBonesPartEntity;
+import com.wenxin2.marioverse.entities.EepCheepEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
@@ -116,6 +117,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<CheepCheepEntity>> CHEEP_CHEEP =
             Marioverse.ENTITIES.register("cheep_cheep", () -> EntityType.Builder.of(CheepCheepEntity::new, MobCategory.WATER_CREATURE)
                     .sized(0.8F, 0.7F).build("cheep_cheep"));
+    public static final DeferredHolder<EntityType<?>, EntityType<EepCheepEntity>> EEP_CHEEP =
+            Marioverse.ENTITIES.register("eep_cheep", () -> EntityType.Builder.of(EepCheepEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(0.8F, 0.7F).build("eep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<DryBonesEntity>> DRY_BONES =
             Marioverse.ENTITIES.register("dry_bones", () -> EntityType.Builder.of(DryBonesEntity::new, MobCategory.MONSTER)
                     .sized(0.8F, 1.65F).ridingOffset(0.1F).fireImmune().build("dry_bones"));
@@ -183,6 +187,8 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DryBonesEntity::checkDryBonesSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.CHEEP_CHEEP.get(), SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CheepCheepEntity::checkCheepCheepSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.EEP_CHEEP.get(), SpawnPlacementTypes.IN_WATER,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EepCheepEntity::checkEepCheepSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.FIRE_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FireGoombaEntity::checkFireGoombaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
@@ -331,6 +337,7 @@ public class EntityRegistry {
 
         event.put(EntityRegistry.CHEEP_CHEEP.get(), cheepCheepAttributes.build());
         event.put(EntityRegistry.DRY_BONES.get(), dryBonesAttributes.build());
+        event.put(EntityRegistry.EEP_CHEEP.get(), cheepCheepAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_SHELL.get(), redKoopaShellAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_TROOPA.get(), koopaAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), koopaShellAttributes.build());

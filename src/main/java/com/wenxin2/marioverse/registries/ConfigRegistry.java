@@ -43,6 +43,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_CHEEP_CHEEP = "cheep_cheep";
     public static final String CATEGORY_CHEEP_CHEEPS = "cheep_cheeps";
     public static final String CATEGORY_DRY_BONES = "dry_bones";
+    public static final String CATEGORY_EEP_CHEEP = "eep_cheep";
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
     public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
     public static final String CATEGORY_GOOMBAS = "goombas";
@@ -165,6 +166,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue CHEEP_CHEEP_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_BOOST_STRENGTH;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue EEP_CHEEP_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue GOLD_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue GREEN_KOOPA_SHELL_DAMAGE;
@@ -658,6 +660,12 @@ public class ConfigRegistry {
                         CHEEP_CHEEP_LURE_RADIUS = BUILDER.translation("configuration.marioverse.cheep_cheep_lure_radius")
                                 .comment("The radius Cheep Cheeps will be lured towards the target mob or player.§b")
                                 .defineInRange("cheep_cheep_lure_radius", 8.0, 0.0, 16.0);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_EEP_CHEEP);
+                        EEP_CHEEP_LURE_RADIUS = BUILDER.translation("configuration.marioverse.eep_cheep_lure_radius")
+                                .comment("The radius Eep Cheeps will be lured towards the target mob or player.§b")
+                                .defineInRange("eep_cheep_lure_radius", 0.0, 0.0, 16.0);
                     BUILDER.pop();
 
                     BUILDER.push(CATEGORY_SPINY_CHEEP_CHEEP);

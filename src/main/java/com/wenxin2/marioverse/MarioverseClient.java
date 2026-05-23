@@ -24,6 +24,7 @@ import com.wenxin2.marioverse.client.renderers.entities.BooRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.CheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.DryBonesPartRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.DryBonesRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.EepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.FireGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.GoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.HeftyGoombaRenderer;
@@ -143,57 +144,6 @@ public class MarioverseClient {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
     }
 
-    public static void addPackFinder(final AddPackFindersEvent event) {
-        if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            ResourceLocation packLocation = ResourceLocation
-                    .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/truly_invisible");
-            Component packNameDisplay = Component.translatable("resource_pack.marioverse.truly_invisible");
-
-            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
-                    PackSource.BUILT_IN, false, Pack.Position.TOP);
-
-            packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_coins");
-            packNameDisplay = Component.translatable("resource_pack.marioverse.classic_coins");
-            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
-                    PackSource.BUILT_IN, false, Pack.Position.TOP);
-
-            packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_pipes");
-            packNameDisplay = Component.translatable("resource_pack.marioverse.classic_pipes");
-            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
-                    PackSource.BUILT_IN, false, Pack.Position.TOP);
-
-            if (ModList.get().isLoaded("fusion")) {
-                packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_pipes_fusion");
-                packNameDisplay = Component.translatable("resource_pack.marioverse.classic_pipes_fusion");
-                event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
-                        PackSource.BUILT_IN, false, Pack.Position.TOP);
-            }
-
-            ResourceLocation dynamicPackLocation = ResourceLocation
-                    .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/dynamic_client_resources");
-            Component  dynamicPackNameDisplay = Component.translatable("resource_pack.marioverse.dynamic_client_resources");
-            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_client_resources",
-                    dynamicPackNameDisplay, PackSource.BUILT_IN, Optional.of(new KnownPack(Marioverse.MOD_ID, "mod/" + dynamicPackLocation, "22")));
-
-            event.addRepositorySource(consumer -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
-                            new Pack.ResourcesSupplier() {
-                                @Override
-                                public PackResources openPrimary(PackLocationInfo info) {
-                                    return new DynamicClientResources(info);
-                                }
-
-                                @Override
-                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
-                                    return new DynamicClientResources(info);
-                                }
-                            },
-                            PackType.CLIENT_RESOURCES,
-                            new PackSelectionConfig(true, Pack.Position.TOP, false)
-                    )
-            ));
-        }
-    }
-
     @SubscribeEvent
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         event.register((state, world, pos, tintIndex) -> {
@@ -248,6 +198,7 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.BOO.get(), BooRenderer::new);
         event.registerEntityRenderer(EntityRegistry.CHEEP_CHEEP.get(), CheepCheepRenderer::new);
         event.registerEntityRenderer(EntityRegistry.DRY_BONES.get(), DryBonesRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.EEP_CHEEP.get(), EepCheepRenderer::new);
         event.registerEntityRenderer(EntityRegistry.FIRE_GOOMBA.get(), FireGoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GOOMBA.get(), GoombaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.GOLD_KOOPA_SHELL.get(), KoopaShellRenderer::new);
@@ -349,5 +300,56 @@ public class MarioverseClient {
     private static <T extends LivingEntity & GeoAnimatable> void addGeoSuperStarLayer(GeoEntityRenderer<?> geoRendererRaw) {
         GeoEntityRenderer<T> geoRenderer = (GeoEntityRenderer<T>) geoRendererRaw;
         geoRenderer.addRenderLayer(new SuperStarGeoLayer<>(geoRenderer));
+    }
+
+    public static void addPackFinder(final AddPackFindersEvent event) {
+        if (event.getPackType() == PackType.CLIENT_RESOURCES) {
+            ResourceLocation packLocation = ResourceLocation
+                    .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/truly_invisible");
+            Component packNameDisplay = Component.translatable("resource_pack.marioverse.truly_invisible");
+
+            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                    PackSource.BUILT_IN, false, Pack.Position.TOP);
+
+            packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_coins");
+            packNameDisplay = Component.translatable("resource_pack.marioverse.classic_coins");
+            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                    PackSource.BUILT_IN, false, Pack.Position.TOP);
+
+            packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_pipes");
+            packNameDisplay = Component.translatable("resource_pack.marioverse.classic_pipes");
+            event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                    PackSource.BUILT_IN, false, Pack.Position.TOP);
+
+            if (ModList.get().isLoaded("fusion")) {
+                packLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/classic_pipes_fusion");
+                packNameDisplay = Component.translatable("resource_pack.marioverse.classic_pipes_fusion");
+                event.addPackFinders(packLocation, PackType.CLIENT_RESOURCES, packNameDisplay,
+                        PackSource.BUILT_IN, false, Pack.Position.TOP);
+            }
+
+            ResourceLocation dynamicPackLocation = ResourceLocation
+                    .fromNamespaceAndPath(Marioverse.MOD_ID, "resourcepacks/marioverse/dynamic_client_resources");
+            Component  dynamicPackNameDisplay = Component.translatable("resource_pack.marioverse.dynamic_client_resources");
+            PackLocationInfo packLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_client_resources",
+                    dynamicPackNameDisplay, PackSource.BUILT_IN, Optional.of(new KnownPack(Marioverse.MOD_ID, "mod/" + dynamicPackLocation, "22")));
+
+            event.addRepositorySource(consumer -> consumer.accept(Pack.readMetaAndCreate(packLocationInfo,
+                            new Pack.ResourcesSupplier() {
+                                @Override
+                                public PackResources openPrimary(PackLocationInfo info) {
+                                    return new DynamicClientResources(info);
+                                }
+
+                                @Override
+                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
+                                    return new DynamicClientResources(info);
+                                }
+                            },
+                            PackType.CLIENT_RESOURCES,
+                            new PackSelectionConfig(true, Pack.Position.TOP, false)
+                    )
+            ));
+        }
     }
 }

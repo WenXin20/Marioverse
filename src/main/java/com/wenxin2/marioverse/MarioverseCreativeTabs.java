@@ -81,11 +81,13 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.CHEEP_CHEEP_BUCKET);
             addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", "cold"));
             addBucket(event, ItemRegistry.CHEEP_CHEEP_BUCKET, tag -> tag.putString("Variant", "warm"));
+            add(event, ItemRegistry.EEP_CHEEP_BUCKET);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET);
 
             add(event, ItemRegistry.CHEEP_CHEEP);
             add(event, ItemRegistry.COLD_CHEEP_CHEEP);
             add(event, ItemRegistry.WARM_CHEEP_CHEEP);
+            add(event, ItemRegistry.EEP_CHEEP);
             add(event, ItemRegistry.COOKED_CHEEP_CHEEP);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP);
             add(event, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP);
@@ -163,6 +165,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
             add(event, ItemRegistry.BOO_SPAWN_EGG);
             add(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG);
+            add(event, ItemRegistry.EEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
         }
 
@@ -684,7 +687,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.TADPOLE_BUCKET, normal);
                 addAfter(event, normal, cold);
                 addAfter(event, cold, warm);
-                addAfter(event, warm, ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET);
+                addAfter(event, warm, ItemRegistry.EEP_CHEEP_BUCKET);
+                addAfter(event, ItemRegistry.EEP_CHEEP_BUCKET, ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET);
                 addAfter(event, Items.POWDER_SNOW_BUCKET, ItemRegistry.QUICKSAND_BUCKET);
                 addAfter(event, ItemRegistry.QUICKSAND_BUCKET, ItemRegistry.RED_QUICKSAND_BUCKET);
                 addAfter(event, Items.MILK_BUCKET, ItemRegistry.PLASTIC_BUCKET);
@@ -725,7 +729,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.SNOW_POKEY_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
                 addAfter(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, ItemRegistry.BOO_SPAWN_EGG);
                 addAfter(event, ItemRegistry.BOO_SPAWN_EGG, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG);
-                addAfter(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
+                addAfter(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG, ItemRegistry.EEP_CHEEP_SPAWN_EGG);
+                addAfter(event, ItemRegistry.EEP_CHEEP_SPAWN_EGG, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
             }
 
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
