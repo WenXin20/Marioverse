@@ -4,6 +4,10 @@
     {
       "id": "create:super_glue",
       "required": false
+    },
+    {
+      "id": "simulated:honey_glue",
+      "required": false
     }
   ]
 }

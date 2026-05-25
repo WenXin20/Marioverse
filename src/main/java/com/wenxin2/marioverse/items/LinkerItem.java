@@ -178,7 +178,7 @@ public class LinkerItem extends TieredItem {
                   //  }
                     setBound(stack, false);  // Reset binding
                 }
-                return InteractionResult.sidedSuccess(Boolean.TRUE);
+                return InteractionResult.sidedSuccess(true);
             }
         }
         return super.useOn(useOnContext);

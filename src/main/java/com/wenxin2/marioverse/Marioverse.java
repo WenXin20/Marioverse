@@ -152,11 +152,9 @@ public class Marioverse {
 
     private static void sableModule() {
         try {
-            if (ModList.get().isLoaded("sable")) {
+            if (ModList.get().isLoaded("sable"))
                 SableCompat.init();
-            } else {
-                LOGGER.info("Sable compat not loaded");
-            }
+            else LOGGER.info("Sable compat not loaded");
         } catch (Throwable e) {
             LOGGER.error("Failed to load Sable compat", e);
         }

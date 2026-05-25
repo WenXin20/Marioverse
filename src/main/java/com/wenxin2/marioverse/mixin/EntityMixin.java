@@ -163,7 +163,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         BlockPos pos = entity.blockPosition();
         BlockState state = level.getBlockState(pos);
         BlockPos posAboveEntity = pos.above(Math.round(entity.getBbHeight()));
-        BlockPos posInBlock = pos.above(Math.round(entity.getBbHeight()) - 1);
         BlockState stateAboveEntity = level.getBlockState(posAboveEntity);
         Vec3 motion = entity.getDeltaMovement();
         AABB aboveBox = entity.getBoundingBox()

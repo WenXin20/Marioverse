@@ -1,5 +1,6 @@
 {
   "values": [
+    "#c:tools/wrench",
     "#minecraft:axes",
     "#minecraft:hoes",
     "#minecraft:pickaxes",
@@ -10,6 +11,10 @@
     "minecraft:debug_stick",
     {
       "id": "create:super_glue",
+      "required": false
+    },
+    {
+      "id": "simulated:honey_glue",
       "required": false
     }
   ]

@@ -21,6 +21,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 public class ItemTagsGen extends ItemTagsProvider {
     private static final ResourceLocation CREATE_CARDBOARD_HELMET = ResourceLocation.fromNamespaceAndPath("create", "cardboard_helmet");
     private static final ResourceLocation CREATE_SUPER_GLUE = ResourceLocation.fromNamespaceAndPath("create", "super_glue");
+    private static final ResourceLocation SIMULATED_HONEY_GLUE = ResourceLocation.fromNamespaceAndPath("simulated", "honey_glue");
     private static final ResourceLocation SUPP_DEEPSLATE_LAMP = ResourceLocation.fromNamespaceAndPath("supplementaries", "deepslate_lamp");
     private static final ResourceLocation SUPP_ENDERMAN_HEAD = ResourceLocation.fromNamespaceAndPath("supplementaries", "enderman_head");
     private static final ResourceLocation VISTA_TV = ResourceLocation.fromNamespaceAndPath("vista", "television");
@@ -235,6 +236,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.BLOCK_SPAWNER_CANNOT_DISPLAY);
 
         tag(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)
+                .addTag(Tags.Items.TOOLS_WRENCH)
                 .addTag(ItemTags.AXES)
                 .addTag(ItemTags.HOES)
                 .addTag(ItemTags.PICKAXES)
@@ -243,11 +245,13 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get())
                 .add(Items.DEBUG_STICK)
-                .addOptional(CREATE_SUPER_GLUE);
+                .addOptional(CREATE_SUPER_GLUE)
+                .addOptional(SIMULATED_HONEY_GLUE);
 
         tag(TagRegistry.CAN_SELECT_WATER_SPOUTS)
                 .add(Items.DEBUG_STICK)
-                .addOptional(CREATE_SUPER_GLUE);
+                .addOptional(CREATE_SUPER_GLUE)
+                .addOptional(SIMULATED_HONEY_GLUE);
 
         tag(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS);
 
