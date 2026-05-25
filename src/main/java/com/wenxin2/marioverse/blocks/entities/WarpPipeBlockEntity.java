@@ -707,14 +707,20 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
 
                     if (vehicle != null) {
-                        vehicle.teleportTo(x + 0.5, y - 1.0, z + 0.5);
+                        if (vehicle instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y - 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else vehicle.teleportTo(x + 0.5, y - 1.0, z + 0.5);
                         vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
                     world.broadcastEntityEvent(entity, (byte) 120);
-                    entity.teleportTo(x + 0.5, y - 1.0, z + 0.5);
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y - 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x + 0.5, y - 1.0, z + 0.5);
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (passengerEntity instanceof Player player) {
@@ -751,14 +757,20 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
 
                     if (vehicle != null) {
-                        vehicle.teleportTo(x + 0.5, y + 1.0, z + 0.5);
+                        if (entity instanceof ServerPlayer serverPlayer)
+                            serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y + 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                        else vehicle.teleportTo(x + 0.5, y + 1.0, z + 0.5);
                         vehicle.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
                         entity.setData(DataAttachmentRegistry.VEHICLE_UUID, vehicle.getUUID());
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
                     world.broadcastEntityEvent(entity, (byte) 120);
-                    entity.teleportTo(x + 0.5, y + 1.0, z + 0.5);
+
+                    if (entity instanceof ServerPlayer serverPlayer)
+                        serverPlayer.teleportTo((ServerLevel) world, x + 0.5, y + 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    else entity.teleportTo(x + 0.5, y + 1.0, z + 0.5);
+
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
                     if (passengerEntity instanceof Player player) {

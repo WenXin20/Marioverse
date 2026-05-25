@@ -65,6 +65,7 @@ import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 
 public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock {
+    private static final String PIPE_DIRECTION = "PipeDirection";
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty ENTRANCE = WarpPipeBlock.ENTRANCE;
     public static final BooleanProperty CLOSED = WarpPipeBlock.CLOSED;
@@ -218,8 +219,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
                     if ((player.isCreative() && ConfigRegistry.DEBUG_SELECTION_BOX_CREATIVE.get() || ConfigRegistry.DEBUG_SELECTION_BOX.get())
                             || ((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                            || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
-                            || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)))) {
+                                || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
+                                || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)))) {
                         shape = Shapes.or(shape, PIPE_ALL);
                     }
                 }
@@ -233,8 +234,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
                 if ((player.isCreative() && ConfigRegistry.DEBUG_SELECTION_BOX_CREATIVE.get() || ConfigRegistry.DEBUG_SELECTION_BOX.get())
                         || ((player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem
-                        || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
-                        || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)))) {
+                            || player.getItemInHand(player.getUsedItemHand()).getItem() instanceof DiggerItem
+                            || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES)))) {
                     shape = Shapes.or(shape, PIPE_ALL);
                 }
             }
@@ -552,7 +553,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-
         Direction facing = state.getValue(FACING);
 
         if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
@@ -568,8 +568,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
             if (entity instanceof Player player) {
                 Direction moveDirection = this.getDirectionFromLook(player);
-                movePlayerInPipe(player, moveDirection);
-            } else moveEntityInPipe(entity, state, pos);
+                this.movePlayerInPipe(player, moveDirection);
+            } else this.moveEntityInPipe(entity, state, pos);
             super.entityInside(state, world, pos, entity);
         }
     }
@@ -597,8 +597,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             }
         }
     }
-
-    private static final String PIPE_DIRECTION = "PipeDirection";
 
     private void moveEntityInPipe(Entity entity, BlockState state, BlockPos pos) {
         double speed = 0.35D;
