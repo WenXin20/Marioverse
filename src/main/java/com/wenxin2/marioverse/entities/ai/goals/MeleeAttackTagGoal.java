@@ -12,27 +12,29 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
 
 public class MeleeAttackTagGoal extends Goal {
-    protected final PathfinderMob mob;
-    private final double speedModifier;
-    private final boolean followingTargetEvenIfNotSeen;
+    private static final long COOLDOWN_BETWEEN_CAN_USE_CHECKS = 20L;
     private Path path;
+    private boolean canPenalize = false;
     private double pathedTargetX;
     private double pathedTargetY;
     private double pathedTargetZ;
-    private int ticksUntilNextPathRecalculation;
-    private int ticksUntilNextAttack;
-    private final int attackInterval = 20;
-    private long lastCanUseCheck;
-    private static final long COOLDOWN_BETWEEN_CAN_USE_CHECKS = 20L;
-    private int failedPathFindingPenalty = 0;
-    private boolean canPenalize = false;
     private final TagKey<EntityType<?>> entityTag;
+    private final boolean doHurtTarget;
+    private final boolean followingTargetEvenIfNotSeen;
+    private final double speedModifier;
+    private final int attackInterval = 20;
+    private int failedPathFindingPenalty = 0;
+    private int ticksUntilNextAttack;
+    private int ticksUntilNextPathRecalculation;
+    private long lastCanUseCheck;
+    protected final PathfinderMob mob;
 
-    public MeleeAttackTagGoal(PathfinderMob mob, TagKey<EntityType<?>> entityTag, double speedModifier, boolean followingTargetEvenIfNotSeen) {
+    public MeleeAttackTagGoal(PathfinderMob mob, TagKey<EntityType<?>> entityTag, double speedModifier, boolean doHurtTarget, boolean followingTargetEvenIfNotSeen) {
         this.mob = mob;
         this.entityTag = entityTag;
-        this.speedModifier = speedModifier;
         this.followingTargetEvenIfNotSeen = followingTargetEvenIfNotSeen;
+        this.speedModifier = speedModifier;
+        this.doHurtTarget = doHurtTarget;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
@@ -160,7 +162,7 @@ public class MeleeAttackTagGoal extends Goal {
     }
 
     protected boolean canPerformAttack(LivingEntity entity) {
-        return this.isTimeToAttack()
+        return this.isTimeToAttack() && this.doHurtTarget
                 && entity.getType().is(this.entityTag)
                 && this.mob.isWithinMeleeAttackRange(entity)
                 && this.mob.getSensing().hasLineOfSight(entity);
