@@ -5,8 +5,8 @@
     {
       "type": "marioverse:deep_cheep",
       "weight": 20,
-      "minCount": 1,
-      "maxCount": 6
+      "minCount": 2,
+      "maxCount": 8
     }
   ]
 }

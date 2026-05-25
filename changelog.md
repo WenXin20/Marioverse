@@ -1,5 +1,5 @@
 ## Update 1.10.0
-- Added the Cheep Cheep+
+- Added the Cheep Cheep
   - Jumps out of water
   - On contact, damages the player
   - Normal Cheep Cheeps spawn anywhere
@@ -7,6 +7,11 @@
   - Warm Cheep Cheeps spawn anywhere hot
   - Added Bucket of Cheep Cheep
   - Added Raw & Cooked Cheep Cheep
+- Added the Deep Cheep
+  - Jumps out of water
+  - On contact, damages the player
+  - Added Bucket of Deep Cheep
+  - Deep Cheeps spawn in deep oceans
 - Added the Eep Cheep
   - Swims away from the player
   - Jumps out of water

@@ -5,7 +5,7 @@
     {
       "type": "marioverse:eep_cheep",
       "weight": 15,
-      "minCount": 2,
+      "minCount": 3,
       "maxCount": 10
     }
   ]
