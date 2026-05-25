@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities;
 import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -107,14 +108,18 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         return TagRegistry.CHEEP_CHEEP_CAN_ATTACK;
     }
 
+    public double getLureRadius() {
+        return ConfigRegistry.CHEEP_CHEEP_LURE_RADIUS.get();
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(1, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
-                10.0, 10, this.getJumpSound()));
+                this.getLureRadius(), 10, this.getJumpSound()));
         this.goalSelector.addGoal(2, new FishSwimGoal(this, this.getCanAttackTag(),
-                10.0, 4.0, 1.0, 20, false));
+                this.getLureRadius(), 1.0, 20, false));
         this.goalSelector.addGoal(5, new FollowFlockLeaderGoal(this));
     }
 
@@ -187,6 +192,13 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     }
 
     @Override
+    public void stopFollowing() {
+        if (!this.isFollower())
+            return;
+        super.stopFollowing();
+    }
+
+    @Override
     public void doPush(Entity entity) {
         super.doPush(entity);
 
@@ -218,7 +230,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
             this.setVariant(CheepCheepVariants.WARM);
         else this.setVariant(CheepCheepVariants.NORMAL);
 
-        if (chance < 0.25F)
+        if (chance < 0.15F)
             this.setSize(CheepCheepVariants.LARGE);
         else if (chance < 0.50F)
             this.setSize(CheepCheepVariants.SMALL);
