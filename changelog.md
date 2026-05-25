@@ -21,6 +21,7 @@
   - Used to brew poison potions
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
+- Added Pipe junctions to pipe world gen
 
 ## Update 1.9.3
 - Added Sable block tags for Create Aeronautics compat 
