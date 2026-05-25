@@ -16,6 +16,15 @@
           "prioritize_tip": true,
           "layers": [
             {
+              "height": 1,
+              "provider": {
+                "type": "minecraft:simple_state_provider",
+                "state": {
+                  "Name": "marioverse:lime_pipe_junction"
+                }
+              }
+            },
+            {
               "height": {
                 "type": "minecraft:weighted_list",
                 "distribution": [
@@ -24,7 +33,7 @@
                     "data": {
                       "type": "minecraft:uniform",
                       "min_inclusive": 1,
-                      "max_inclusive": 4
+                      "max_inclusive": 3
                     }
                   }
                 ]
