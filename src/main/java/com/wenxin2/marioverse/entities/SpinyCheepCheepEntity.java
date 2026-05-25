@@ -81,6 +81,7 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(6, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F, true));
+        this.goalSelector.addGoal(6, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F, false, true));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), true));
     }
 
@@ -165,8 +166,7 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
                                                     MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return levelAccessor.getFluidState(pos.below()).is(FluidTags.WATER)
                 && levelAccessor.getBlockState(pos.above()).is(Blocks.WATER)
-                && (levelAccessor.getBiome(pos).is(BiomeTags.ALLOWS_TROPICAL_FISH_SPAWNS_AT_ANY_HEIGHT)
-                        || WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random));
+                && WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random);
     }
 
     public ResourceLocation getSize() {

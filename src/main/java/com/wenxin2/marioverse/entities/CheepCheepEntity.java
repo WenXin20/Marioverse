@@ -255,8 +255,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
                                                     MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return levelAccessor.getFluidState(pos.below()).is(FluidTags.WATER)
                 && levelAccessor.getBlockState(pos.above()).is(Blocks.WATER)
-                && (levelAccessor.getBiome(pos).is(BiomeTags.ALLOWS_TROPICAL_FISH_SPAWNS_AT_ANY_HEIGHT)
-                        || WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random));
+                && WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random);
     }
 
     public static boolean checkCheepCheepLavaSpawnRules(EntityType<CheepCheepEntity> entityType, LevelAccessor levelAccessor,

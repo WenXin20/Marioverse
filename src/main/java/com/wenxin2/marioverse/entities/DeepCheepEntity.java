@@ -79,7 +79,7 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(6, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F, false));
+        this.goalSelector.addGoal(6, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F, false, false));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), true));
     }
 
@@ -139,8 +139,7 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
                                                          MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return levelAccessor.getFluidState(pos.below()).is(FluidTags.WATER)
                 && levelAccessor.getBlockState(pos.above()).is(Blocks.WATER)
-                && (levelAccessor.getBiome(pos).is(BiomeTags.ALLOWS_TROPICAL_FISH_SPAWNS_AT_ANY_HEIGHT)
-                        || WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random));
+                && WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random);
     }
 
     public ResourceLocation getSize() {
