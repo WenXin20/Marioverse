@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#marioverse:has_eep_cheep",
+  "spawners": [
+    {
+      "type": "marioverse:eep_cheep",
+      "weight": 15,
+      "minCount": 2,
+      "maxCount": 10
+    }
+  ]
+}

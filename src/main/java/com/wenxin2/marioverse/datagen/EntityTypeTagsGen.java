@@ -134,6 +134,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
                 .add(EntityRegistry.CHEEP_CHEEP.get())
                 .add(EntityRegistry.DRY_BONES.get())
+                .add(EntityRegistry.DEEP_CHEEP.get())
                 .add(EntityRegistry.EEP_CHEEP.get())
                 .add(EntityRegistry.GOOMBA.get())
                 .add(EntityRegistry.HEFTY_GOOMBA.get())
@@ -147,6 +148,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.CHEEP_CHEEP.get())
+                .add(EntityRegistry.DEEP_CHEEP.get())
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.EEP_CHEEP.get())
                 .add(EntityRegistry.LARGE_SNOWBALL.get())
@@ -539,6 +541,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CHEEP_CHEEPS)
                 .add(EntityRegistry.CHEEP_CHEEP.get())
+                .add(EntityRegistry.DEEP_CHEEP.get())
                 .add(EntityRegistry.EEP_CHEEP.get())
                 .add(EntityRegistry.SPINY_CHEEP_CHEEP.get());
 
@@ -556,9 +559,17 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
+        tag(TagRegistry.DEATH_BLOCKS_IMMUNE);
+
         tag(TagRegistry.DECORATED_POT_CANNOT_SPAWN);
 
-        tag(TagRegistry.DEATH_BLOCKS_IMMUNE);
+        tag(TagRegistry.DEEP_CHEEP_CAN_ATTACK)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.DRY_BONES_BONES)
                 .add(EntityRegistry.DRY_BONES_HEAD.get())

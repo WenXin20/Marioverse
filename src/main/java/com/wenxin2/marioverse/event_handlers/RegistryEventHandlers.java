@@ -279,9 +279,10 @@ public class RegistryEventHandlers {
             List<LootPoolEntryContainer> newEntries = new ArrayList<>(oldEntries);
 
             newEntries.add(LootItem.lootTableItem(ItemRegistry.CHEEP_CHEEP.get()).setWeight(20).build());
-            newEntries.add(LootItem.lootTableItem(ItemRegistry.COLD_CHEEP_CHEEP.get()).setWeight(15).build());
-            newEntries.add(LootItem.lootTableItem(ItemRegistry.WARM_CHEEP_CHEEP.get()).setWeight(15).build());
-            newEntries.add(LootItem.lootTableItem(ItemRegistry.EEP_CHEEP.get()).setWeight(15).build());
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.COLD_CHEEP_CHEEP.get()).setWeight(10).build());
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.DEEP_CHEEP.get()).setWeight(10).build());
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.EEP_CHEEP.get()).setWeight(10).build());
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.WARM_CHEEP_CHEEP.get()).setWeight(10).build());
             newEntries.add(LootItem.lootTableItem(ItemRegistry.SPINY_CHEEP_CHEEP.get()).setWeight(8).build());
             entriesField.set(pool, newEntries);
         } catch (NoSuchFieldException | IllegalAccessException e) {

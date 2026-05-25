@@ -43,6 +43,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_CHEEP_CHEEP = "cheep_cheep";
     public static final String CATEGORY_CHEEP_CHEEPS = "cheep_cheeps";
     public static final String CATEGORY_DRY_BONES = "dry_bones";
+    public static final String CATEGORY_DEEP_CHEEP = "deep_cheep";
     public static final String CATEGORY_EEP_CHEEP = "eep_cheep";
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
     public static final String CATEGORY_GOLD_KOOPA_TROOPA = "gold_koopa_troopa";
@@ -166,6 +167,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue CHEEP_CHEEP_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_BOOST_STRENGTH;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue DEEP_CHEEP_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue EEP_CHEEP_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue GOLD_KOOPA_SHELL_DAMAGE;
@@ -658,19 +660,25 @@ public class ConfigRegistry {
 
                     BUILDER.push(CATEGORY_CHEEP_CHEEP);
                         CHEEP_CHEEP_LURE_RADIUS = BUILDER.translation("configuration.marioverse.cheep_cheep_lure_radius")
-                                .comment("The radius Cheep Cheeps will be lured towards the target mob or player.§b")
+                                .comment("The radius Cheep Cheeps will be lured towards the target mob or player if above water.§b")
                                 .defineInRange("cheep_cheep_lure_radius", 8.0, 0.0, 16.0);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_DEEP_CHEEP);
+                        DEEP_CHEEP_LURE_RADIUS = BUILDER.translation("configuration.marioverse.deep_cheep_lure_radius")
+                                .comment("The radius Deep Cheeps will be lured towards the target mob or player if above water.§b")
+                                .defineInRange("deep_cheep_lure_radius", 8.0, 0.0, 16.0);
                     BUILDER.pop();
 
                     BUILDER.push(CATEGORY_EEP_CHEEP);
                         EEP_CHEEP_LURE_RADIUS = BUILDER.translation("configuration.marioverse.eep_cheep_lure_radius")
-                                .comment("The radius Eep Cheeps will be lured towards the target mob or player.§b")
+                                .comment("The radius Eep Cheeps will be lured towards the target mob or player if above water.§b")
                                 .defineInRange("eep_cheep_lure_radius", 0.0, 0.0, 16.0);
                     BUILDER.pop();
 
                     BUILDER.push(CATEGORY_SPINY_CHEEP_CHEEP);
                         SPINY_CHEEP_CHEEP_LURE_RADIUS = BUILDER.translation("configuration.marioverse.spiny_cheep_cheep_lure_radius")
-                                .comment("The radius Spiny Cheep Cheeps will be lured towards the target mob or player.§b")
+                                .comment("The radius Spiny Cheep Cheeps will be lured towards the target mob or player if above water.§b")
                                 .defineInRange("spiny_cheep_cheep_lure_radius", 8.0, 0.0, 16.0);
                         SPINY_CHEEP_CHEEP_POISON_DURATION = BUILDER.translation("configuration.marioverse.spiny_cheep_cheep_poison_duration")
                                 .comment("The duration Spiny Cheep Cheeps will poison on contact in ticks.§b")

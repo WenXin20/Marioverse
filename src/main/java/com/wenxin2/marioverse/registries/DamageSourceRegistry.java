@@ -23,6 +23,13 @@ public class DamageSourceRegistry {
         } else return null;
     }
 
+    public static DamageSource deepCheepBite(@Nullable Entity attackingEntity) {
+        if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
+                    .getHolderOrThrow(DamageTypeRegistry.DEEP_CHEEP_BITE), attackingEntity);
+        } else return null;
+    }
+
     public static DamageSource eepCheepBite(@Nullable Entity attackingEntity) {
         if (attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)

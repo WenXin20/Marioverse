@@ -22,6 +22,7 @@ import com.wenxin2.marioverse.client.renderers.blocks.StarCoinBlockEntityRendere
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.BooRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.CheepCheepRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.DeepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.DryBonesPartRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.DryBonesRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.EepCheepRenderer;
@@ -197,6 +198,7 @@ public class MarioverseClient {
 
         event.registerEntityRenderer(EntityRegistry.BOO.get(), BooRenderer::new);
         event.registerEntityRenderer(EntityRegistry.CHEEP_CHEEP.get(), CheepCheepRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.DEEP_CHEEP.get(), DeepCheepRenderer::new);
         event.registerEntityRenderer(EntityRegistry.DRY_BONES.get(), DryBonesRenderer::new);
         event.registerEntityRenderer(EntityRegistry.EEP_CHEEP.get(), EepCheepRenderer::new);
         event.registerEntityRenderer(EntityRegistry.FIRE_GOOMBA.get(), FireGoombaRenderer::new);

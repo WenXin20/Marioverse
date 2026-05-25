@@ -131,6 +131,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(Tags.Items.BUCKETS_ENTITY_WATER)
                 .add(ItemRegistry.CHEEP_CHEEP_BUCKET.get())
+                .add(ItemRegistry.DEEP_CHEEP_BUCKET.get())
                 .add(ItemRegistry.EEP_CHEEP_BUCKET.get())
                 .add(ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET.get());
 
@@ -260,6 +261,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.CHEEP_CHEEP_ITEMS)
                 .add(ItemRegistry.CHEEP_CHEEP.get())
                 .add(ItemRegistry.COLD_CHEEP_CHEEP.get())
+                .add(ItemRegistry.DEEP_CHEEP.get())
                 .add(ItemRegistry.EEP_CHEEP.get())
                 .add(ItemRegistry.WARM_CHEEP_CHEEP.get());
 

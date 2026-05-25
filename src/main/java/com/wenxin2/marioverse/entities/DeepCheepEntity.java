@@ -45,12 +45,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 
-public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity {
+public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
     private static final EntityDataAccessor<String> SIZE = SynchedEntityData
-            .defineId(SpinyCheepCheepEntity.class, EntityDataSerializers.STRING);
-    public int attackCooldown = 0;
+            .defineId(DeepCheepEntity.class, EntityDataSerializers.STRING);
 
-    public SpinyCheepCheepEntity(EntityType<? extends SpinyCheepCheepEntity> type, Level world) {
+    public DeepCheepEntity(EntityType<? extends DeepCheepEntity> type, Level world) {
         super(type, world);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
@@ -60,27 +59,27 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
     @NotNull
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET.get());
+        return new ItemStack(ItemRegistry.DEEP_CHEEP_BUCKET.get());
     }
 
     @NotNull
     public DamageSource getDamageSource(Entity collidingEntity) {
-        return DamageSourceRegistry.spinyCheepCheepBite(collidingEntity);
+        return DamageSourceRegistry.deepCheepBite(collidingEntity);
     }
 
     public TagKey<EntityType<?>> getCanAttackTag() {
-        return TagRegistry.SPINY_CHEEP_CHEEP_CAN_ATTACK;
+        return TagRegistry.DEEP_CHEEP_CAN_ATTACK;
     }
 
     @Override
     public double getLureRadius() {
-        return ConfigRegistry.SPINY_CHEEP_CHEEP_LURE_RADIUS.get();
+        return ConfigRegistry.DEEP_CHEEP_LURE_RADIUS.get();
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(6, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F, true));
+        this.goalSelector.addGoal(6, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F, false));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), true));
     }
 
@@ -119,31 +118,6 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
             this.setSize(ResourceLocation.parse(tag.getString("Size")));
     }
 
-    @Override
-    public void doPush(Entity entity) {
-        super.doPush(entity);
-
-        if (this.isAlive() && !this.isAlliedTo(entity) && this.attackCooldown == 0
-                && entity.getType().is(this.getCanAttackTag()) && this.level().getDifficulty() != Difficulty.PEACEFUL) {
-            float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-
-            if (entity instanceof Creeper)
-                entity.hurt(this.getDamageSource(entity), attackDamage);
-            else entity.hurt(this.getDamageSource(this), attackDamage);
-
-            if (entity instanceof LivingEntity livingEntity && !entity.level().isClientSide) {
-                if (entity instanceof Player player && !player.isCreative())
-                    livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON,
-                            ConfigRegistry.SPINY_CHEEP_CHEEP_POISON_DURATION.get(), 0));
-                else livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON,
-                        ConfigRegistry.SPINY_CHEEP_CHEEP_POISON_DURATION.get(), 0));
-            }
-
-            this.swing(this.getUsedItemHand());
-            this.attackCooldown = 20;
-        }
-    }
-
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
@@ -161,8 +135,8 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
         return data;
     }
 
-    public static boolean checkSpinyCheepCheepSpawnRules(EntityType<SpinyCheepCheepEntity> entityType, LevelAccessor levelAccessor,
-                                                    MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+    public static boolean checkDeepCheepSpawnRules(EntityType<DeepCheepEntity> entityType, LevelAccessor levelAccessor,
+                                                         MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return levelAccessor.getFluidState(pos.below()).is(FluidTags.WATER)
                 && levelAccessor.getBlockState(pos.above()).is(Blocks.WATER)
                 && (levelAccessor.getBiome(pos).is(BiomeTags.ALLOWS_TROPICAL_FISH_SPAWNS_AT_ANY_HEIGHT)

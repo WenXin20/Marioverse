@@ -22,6 +22,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_CHEEP_CHEEP = biomeTags("has_cheep_cheep");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
     public static final TagKey<Biome> HAS_COLD_CHEEP_CHEEP = biomeTags("has_cold_cheep_cheep");
+    public static final TagKey<Biome> HAS_DEEP_CHEEP = biomeTags("has_deep_cheep");
     public static final TagKey<Biome> HAS_DRY_BONES = biomeTags("has_dry_bones");
     public static final TagKey<Biome> HAS_EEP_CHEEP = biomeTags("has_eep_cheep");
     public static final TagKey<Biome> HAS_FIRE_GOOMBA = biomeTags("has_fire_goomba");
@@ -260,6 +261,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> DEATH_BLOCKS_IMMUNE = entityTypeTags("death_blocks_immune");
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
+    public static final TagKey<EntityType<?>> DEEP_CHEEP_CAN_ATTACK = entityTypeTags("deep_cheep_can_attack");
     public static final TagKey<EntityType<?>> DRY_BONES_BONES = entityTypeTags("dry_bones_bones");
     public static final TagKey<EntityType<?>> DRY_BONES_CAN_ATTACK = entityTypeTags("dry_bones_can_attack");
     public static final TagKey<EntityType<?>> EEP_CHEEP_AVOIDS = entityTypeTags("eep_cheep_avoids");

@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-23T23:37:40.7428406	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-05-25T12:16:39.5227317	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -7,7 +7,7 @@ c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pant
 35de035941203b4243a091bd1caf176db23cd17e data/c/tags/item/animal_foods.json
 c0f4685b342c133937969cb5a2c80e7ee93e1ce0 data/c/tags/item/buckets.json
 1d9f59c8c89ea3b59ff39d20864ab894d79e0b18 data/c/tags/item/buckets/empty.json
-d524ef7b2b8c99f59578a6c494582f1dba61eb0e data/c/tags/item/buckets/entity_water.json
+e024cf900c7e062fe97c49a94c9b0e34527a8a6a data/c/tags/item/buckets/entity_water.json
 2711a0540211a06c8475614ec464d2b599635edd data/c/tags/item/buckets/powder_snow.json
 297c804e062e08f5137905c6da8813126055ba69 data/c/tags/item/buckets/quicksand.json
 c2dde9a3c935edfd74c8048c963710b698d7d47e data/c/tags/item/buckets/water.json
@@ -49,7 +49,7 @@ cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/item/calcite.json
 537b73922a0abdcb0066b985d54eb32ac7faad4d data/marioverse/tags/item/can_select_clear_warp_pipes.json
 b2090841679d347ba3c0505963be72c130a2f24b data/marioverse/tags/item/can_select_water_spouts.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/item/checkpoint_flags.json
-ba514769101f9f1e63cbeb5463b91f3ea18f01dc data/marioverse/tags/item/cheep_cheeps.json
+554581cdf22cd376f4c62aa4a2a1a0f66ffe1d01 data/marioverse/tags/item/cheep_cheeps.json
 8216809e2ce95f71085cc90bd77b7c41f0dae896 data/marioverse/tags/item/chiseled_calcite_bricks.json
 88aca8ae7878dd2160595e5f9e1b2effe22b2ed1 data/marioverse/tags/item/costumes.json
 0d21a12a15b9b9d21dc05010d535797b5c86d661 data/marioverse/tags/item/costumes/fire.json

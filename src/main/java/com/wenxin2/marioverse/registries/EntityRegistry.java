@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.BooEntity;
 import com.wenxin2.marioverse.entities.CheepCheepEntity;
+import com.wenxin2.marioverse.entities.DeepCheepEntity;
 import com.wenxin2.marioverse.entities.DryBonesEntity;
 import com.wenxin2.marioverse.entities.DryBonesPartEntity;
 import com.wenxin2.marioverse.entities.EepCheepEntity;
@@ -117,6 +118,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<CheepCheepEntity>> CHEEP_CHEEP =
             Marioverse.ENTITIES.register("cheep_cheep", () -> EntityType.Builder.of(CheepCheepEntity::new, MobCategory.WATER_CREATURE)
                     .sized(0.8F, 0.7F).build("cheep_cheep"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DeepCheepEntity>> DEEP_CHEEP =
+            Marioverse.ENTITIES.register("deep_cheep", () -> EntityType.Builder.of(DeepCheepEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(0.8F, 0.7F).build("deep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<EepCheepEntity>> EEP_CHEEP =
             Marioverse.ENTITIES.register("eep_cheep", () -> EntityType.Builder.of(EepCheepEntity::new, MobCategory.WATER_CREATURE)
                     .sized(0.8F, 0.7F).build("eep_cheep"));
@@ -187,6 +191,8 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DryBonesEntity::checkDryBonesSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.CHEEP_CHEEP.get(), SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CheepCheepEntity::checkCheepCheepSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.DEEP_CHEEP.get(), SpawnPlacementTypes.IN_WATER,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepCheepEntity::checkDeepCheepSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.EEP_CHEEP.get(), SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EepCheepEntity::checkEepCheepSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.FIRE_GOOMBA.get(), SpawnPlacementTypes.ON_GROUND,
@@ -232,7 +238,7 @@ public class EntityRegistry {
         AttributeSupplier.Builder spinyCheepCheepAttributes = Monster.createMobAttributes()
                 .add(Attributes.ATTACK_DAMAGE, 2.0F)
                 .add(Attributes.ATTACK_SPEED, 0.0F)
-                .add(Attributes.ENTITY_INTERACTION_RANGE, 1.0F)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, 0.5F)
                 .add(Attributes.MAX_HEALTH, 15)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.2F);
@@ -336,6 +342,7 @@ public class EntityRegistry {
         event.put(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), dryBonesPartAttributes.build());
 
         event.put(EntityRegistry.CHEEP_CHEEP.get(), cheepCheepAttributes.build());
+        event.put(EntityRegistry.DEEP_CHEEP.get(), spinyCheepCheepAttributes.build());
         event.put(EntityRegistry.DRY_BONES.get(), dryBonesAttributes.build());
         event.put(EntityRegistry.EEP_CHEEP.get(), cheepCheepAttributes.build());
         event.put(EntityRegistry.GOLD_KOOPA_SHELL.get(), redKoopaShellAttributes.build());

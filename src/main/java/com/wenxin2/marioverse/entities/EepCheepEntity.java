@@ -56,7 +56,6 @@ import software.bernie.geckolib.animatable.GeoEntity;
 public class EepCheepEntity extends CheepCheepEntity implements GeoEntity {
     private static final EntityDataAccessor<String> SIZE = SynchedEntityData
             .defineId(EepCheepEntity.class, EntityDataSerializers.STRING);
-    public int attackCooldown = 0;
 
     public EepCheepEntity(EntityType<? extends EepCheepEntity> type, Level world) {
         super(type, world);
@@ -132,30 +131,6 @@ public class EepCheepEntity extends CheepCheepEntity implements GeoEntity {
 
         if (tag.contains("Size", Tag.TAG_STRING))
             this.setSize(ResourceLocation.parse(tag.getString("Size")));
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        if (this.attackCooldown > 0)
-            this.attackCooldown--;
-    }
-
-    @Override
-    public void doPush(Entity entity) {
-        super.doPush(entity);
-
-        if (this.isAlive() && !this.isAlliedTo(entity) && this.attackCooldown == 0
-                && entity.getType().is(this.getCanAttackTag()) && this.level().getDifficulty() != Difficulty.PEACEFUL) {
-            float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-
-            if (entity instanceof Creeper)
-                entity.hurt(this.getDamageSource(entity), attackDamage);
-            else entity.hurt(this.getDamageSource(this), attackDamage);
-
-            this.swing(this.getUsedItemHand());
-            this.attackCooldown = 20;
-        }
     }
 
     @Nullable
