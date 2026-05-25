@@ -26,7 +26,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -36,9 +36,7 @@ import net.minecraft.world.entity.ai.goal.FollowFlockLeaderGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
-import net.minecraft.world.entity.animal.FrogVariant;
 import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -203,7 +201,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         super.doPush(entity);
 
         if (this.isAlive() && !this.isAlliedTo(entity) && this.attackCooldown == 0
-                && entity.getType().is(this.getCanAttackTag())) {
+                && entity.getType().is(this.getCanAttackTag()) && this.level().getDifficulty() != Difficulty.PEACEFUL) {
             float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
             if (entity instanceof Creeper)
@@ -237,6 +235,20 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         else this.setSize(CheepCheepVariants.NORMAL);
 
         return data;
+    }
+
+    @Override
+    protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+        super.populateDefaultEquipmentSlots(random, difficulty);
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            if (random.nextFloat() < 0.01F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TURTLE_HELMET));
+            else if (random.nextFloat() < 0.015F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+            else if (random.nextFloat() < 0.05F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
+        }
     }
 
     public static boolean checkCheepCheepSpawnRules(EntityType<CheepCheepEntity> entityType, LevelAccessor levelAccessor,
