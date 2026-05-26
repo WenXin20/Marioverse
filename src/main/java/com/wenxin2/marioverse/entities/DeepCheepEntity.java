@@ -26,6 +26,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -36,6 +37,7 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -131,6 +133,15 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
         else if (chance < 0.50F)
             this.setSize(CheepCheepVariants.SMALL);
         else this.setSize(CheepCheepVariants.REGULAR);
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            if (random.nextFloat() < 0.01F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TURTLE_HELMET));
+            else if (random.nextFloat() < 0.015F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+            else if (random.nextFloat() < 0.05F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
+        }
 
         return data;
     }

@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.StopFollowFlockLeaderGoal;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -29,6 +30,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -44,6 +46,7 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -87,15 +90,15 @@ public class EepCheepEntity extends CheepCheepEntity implements GeoEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(1, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
+        this.goalSelector.addGoal(2, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 10, this.getJumpSound()));
-        this.goalSelector.addGoal(2, new FishSwimGoal(this, this.getCanAttackTag(),
+        this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 1.0, 20, false));
-        this.goalSelector.addGoal(3, new AvoidEntityTagGoal(this, this.getCanAttackTag(),
+        this.goalSelector.addGoal(4, new AvoidEntityTagGoal(this, this.getCanAttackTag(),
                 6.0F, 1.2, 2.0));
-        this.goalSelector.addGoal(5, new FollowFlockLeaderGoal(this));
+        this.goalSelector.addGoal(5, new StopFollowFlockLeaderGoal(this));
     }
 
     @Override
@@ -146,6 +149,15 @@ public class EepCheepEntity extends CheepCheepEntity implements GeoEntity {
         else if (chance < 0.50F)
             this.setSize(CheepCheepVariants.SMALL);
         else this.setSize(CheepCheepVariants.REGULAR);
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            if (random.nextFloat() < 0.01F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TURTLE_HELMET));
+            else if (random.nextFloat() < 0.015F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+            else if (random.nextFloat() < 0.05F)
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
+        }
 
         return data;
     }

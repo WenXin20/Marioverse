@@ -117,13 +117,13 @@ public class EntityRegistry {
                     .sized(0.6875F, 0.6875F).ridingOffset(0.1F).fireImmune().build("boo"));
     public static final DeferredHolder<EntityType<?>, EntityType<CheepCheepEntity>> CHEEP_CHEEP =
             Marioverse.ENTITIES.register("cheep_cheep", () -> EntityType.Builder.of(CheepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).build("cheep_cheep"));
+                    .sized(0.8F, 0.7F).eyeHeight(0.5F).build("cheep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<DeepCheepEntity>> DEEP_CHEEP =
             Marioverse.ENTITIES.register("deep_cheep", () -> EntityType.Builder.of(DeepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).build("deep_cheep"));
+                    .sized(0.8F, 0.7F).eyeHeight(0.5F).build("deep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<EepCheepEntity>> EEP_CHEEP =
             Marioverse.ENTITIES.register("eep_cheep", () -> EntityType.Builder.of(EepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).build("eep_cheep"));
+                    .sized(0.8F, 0.7F).eyeHeight(0.5F).build("eep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<DryBonesEntity>> DRY_BONES =
             Marioverse.ENTITIES.register("dry_bones", () -> EntityType.Builder.of(DryBonesEntity::new, MobCategory.MONSTER)
                     .sized(0.8F, 1.65F).ridingOffset(0.1F).fireImmune().build("dry_bones"));
@@ -178,7 +178,7 @@ public class EntityRegistry {
                     .sized(0.75F, 0.75F).eyeHeight(0.5F).build("snow_pokey_body"));
     public static final DeferredHolder<EntityType<?>, EntityType<SpinyCheepCheepEntity>> SPINY_CHEEP_CHEEP =
             Marioverse.ENTITIES.register("spiny_cheep_cheep", () -> EntityType.Builder.of(SpinyCheepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).build("spiny_cheep_cheep"));
+                    .sized(0.8F, 0.7F).eyeHeight(0.5F).build("spiny_cheep_cheep"));
     public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN =
             Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
                     .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));

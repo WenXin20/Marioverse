@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
+import com.wenxin2.marioverse.entities.ai.goals.StopFollowFlockLeaderGoal;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -32,7 +33,6 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
-import net.minecraft.world.entity.ai.goal.FollowFlockLeaderGoal;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
@@ -112,13 +112,13 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(1, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
+        this.goalSelector.addGoal(2, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 10, this.getJumpSound()));
-        this.goalSelector.addGoal(2, new FishSwimGoal(this, this.getCanAttackTag(),
+        this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 1.0, 20, false));
-        this.goalSelector.addGoal(5, new FollowFlockLeaderGoal(this));
+        this.goalSelector.addGoal(4, new StopFollowFlockLeaderGoal(this));
     }
 
     @Override
@@ -190,13 +190,6 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     }
 
     @Override
-    public void stopFollowing() {
-        if (!this.isFollower())
-            return;
-        super.stopFollowing();
-    }
-
-    @Override
     public void doPush(Entity entity) {
         super.doPush(entity);
 
@@ -233,13 +226,6 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         else if (chance < 0.50F)
             this.setSize(CheepCheepVariants.SMALL);
         else this.setSize(CheepCheepVariants.NORMAL);
-
-        return data;
-    }
-
-    @Override
-    protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
-        super.populateDefaultEquipmentSlots(random, difficulty);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             if (random.nextFloat() < 0.01F)
