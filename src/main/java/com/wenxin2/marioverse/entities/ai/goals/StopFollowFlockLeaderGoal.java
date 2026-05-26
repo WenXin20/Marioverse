@@ -15,6 +15,5 @@ public class StopFollowFlockLeaderGoal extends FollowFlockLeaderGoal {
     public void stop() {
         if (this.mob instanceof AbstractSchoolingFish fish && fish.isFollower())
             this.mob.stopFollowing();
-        else this.mob.stopFollowing();
     }
 }
