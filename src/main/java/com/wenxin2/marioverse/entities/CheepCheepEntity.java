@@ -235,6 +235,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
             else if (random.nextFloat() < 0.05F)
                 this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
         }
+
+        return data;
     }
 
     public static boolean checkCheepCheepSpawnRules(EntityType<CheepCheepEntity> entityType, LevelAccessor levelAccessor,
