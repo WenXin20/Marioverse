@@ -111,10 +111,11 @@ public class JumpOutOfWaterGoal extends JumpGoal {
             this.breached = fluidstate.is(FluidTags.WATER);
         }
 
-        if (this.breached && !hasBreached && this.soundEvent != null) {
+        if (this.breached && !hasBreached && this.soundEvent != null)
             this.mob.playSound(this.soundEvent, 1.0F, pitch);
+
+        if (this.breached)
             this.mob.setData(DataAttachmentRegistry.HAS_JUMPED, true);
-        }
 
         Vec3 vec3 = this.mob.getDeltaMovement();
         if (vec3.y * vec3.y < 0.03F && this.mob.getXRot() != 0.0F)

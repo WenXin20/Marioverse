@@ -10,7 +10,6 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -49,7 +48,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -73,7 +71,6 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     public static final RawAnimation JUMP = RawAnimation.begin().thenLoop("move.jump");
     public static final RawAnimation SWIM = RawAnimation.begin().thenLoop("move.swim");
     public int attackCooldown = 0;
-    private int jumpResetDelay;
 
     public CheepCheepEntity(EntityType<? extends CheepCheepEntity> type, Level world) {
         super(type, world);
@@ -225,10 +222,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         if (this.attackCooldown > 0)
             this.attackCooldown--;
 
-        if (this.jumpResetDelay > 0)
-            this.jumpResetDelay--;
-
-        if (this.jumpResetDelay == 0)
+        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && this.isInWaterOrBubble())
             this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
     }
 
@@ -247,19 +241,6 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
             this.swing(this.getUsedItemHand());
             this.attackCooldown = 20;
         }
-    }
-
-    @Override
-    protected void doWaterSplashEffect() {
-        Entity entity = Objects.requireNonNullElse(this.getControllingPassenger(), this);
-        float splashModifier = entity == this ? 0.2F : 0.9F;
-        Vec3 motion = entity.getDeltaMovement();
-        float splashVelocity = Math.min(1.0F, (float) Math
-                .sqrt(motion.x * motion.x * 0.2F + motion.y * motion.y + motion.z * motion.z * 0.2F) * splashModifier);
-
-        if (splashVelocity < 0.25F && this.jumpResetDelay <= 0)
-            this.jumpResetDelay = 20;
-        super.doWaterSplashEffect();
     }
 
     @Nullable
