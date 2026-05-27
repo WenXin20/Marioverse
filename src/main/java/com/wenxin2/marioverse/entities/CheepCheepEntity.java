@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -83,12 +84,35 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @NotNull
     @Override
     protected SoundEvent getFlopSound() {
-        return SoundEvents.TROPICAL_FISH_FLOP; // TODO
+        return SoundRegistry.CHEEP_CHEEP_FLOP.get();
     }
 
     @Nullable
-    protected SoundEvent getJumpSound() {
-        return SoundEvents.DOLPHIN_JUMP; // TODO
+    public SoundEvent getJumpSound() {
+        return SoundRegistry.CHEEP_CHEEP_JUMP.get();
+    }
+
+    @NotNull
+    @Override
+    protected SoundEvent getSwimSplashSound() {
+        return SoundRegistry.CHEEP_CHEEP_SPLASH.get();
+    }
+
+    @NotNull
+    @Override
+    protected SoundEvent getSwimSound() {
+        return SoundRegistry.CHEEP_CHEEP_SWIM.get();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundRegistry.CHEEP_CHEEP_HURT.get();
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.CHEEP_CHEEP_DEATH.get();
     }
 
     @NotNull

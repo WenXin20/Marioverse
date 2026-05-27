@@ -20,6 +20,12 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> BOO_LAUGH;
     public static final DeferredHolder<SoundEvent, SoundEvent> BOO_POOF;
     public static final DeferredHolder<SoundEvent, SoundEvent> CHECKPOINT_FLAG_CLAIMED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CHEEP_CHEEP_DEATH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CHEEP_CHEEP_FLOP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CHEEP_CHEEP_HURT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CHEEP_CHEEP_JUMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CHEEP_CHEEP_SPLASH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> CHEEP_CHEEP_SWIM;
     public static final DeferredHolder<SoundEvent, SoundEvent> CLEAR_PIPE_ENTER;
     public static final DeferredHolder<SoundEvent, SoundEvent> CLEAR_PIPE_EXIT;
     public static final DeferredHolder<SoundEvent, SoundEvent> CLEAR_PIPE_INSIDE;
@@ -242,6 +248,19 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_laugh")));
         BOO_POOF = Marioverse.SOUNDS.register("entity.boo_poof",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.boo_poof")));
+
+        CHEEP_CHEEP_DEATH = Marioverse.SOUNDS.register("entity.cheep_cheep_death",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.cheep_cheep_death")));
+        CHEEP_CHEEP_FLOP = Marioverse.SOUNDS.register("entity.cheep_cheep_flop",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.cheep_cheep_flop")));
+        CHEEP_CHEEP_HURT = Marioverse.SOUNDS.register("entity.cheep_cheep_hurt",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.cheep_cheep_hurt")));
+        CHEEP_CHEEP_JUMP = Marioverse.SOUNDS.register("entity.cheep_cheep_jump",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.cheep_cheep_jump")));
+        CHEEP_CHEEP_SPLASH = Marioverse.SOUNDS.register("entity.cheep_cheep_splash",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.cheep_cheep_splash")));
+        CHEEP_CHEEP_SWIM = Marioverse.SOUNDS.register("entity.cheep_cheep_swim",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.cheep_cheep_swim")));
 
         DRY_BONES_AMBIENT = Marioverse.SOUNDS.register("entity.dry_bones_ambient",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.dry_bones_ambient")));

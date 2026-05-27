@@ -92,7 +92,6 @@ public class JumpOutOfWaterGoal extends JumpGoal {
         this.mob.setYRot(yaw);
         this.mob.setYHeadRot(yaw);
         this.mob.yBodyRot = yaw;
-
         this.mob.getNavigation().stop();
     }
 
@@ -104,13 +103,15 @@ public class JumpOutOfWaterGoal extends JumpGoal {
     @Override
     public void tick() {
         boolean hasBreached = this.breached;
+        float pitch = 0.9F + this.mob.level().random.nextFloat() * 0.2F;
+
         if (!hasBreached) {
             FluidState fluidstate = this.mob.level().getFluidState(this.mob.blockPosition());
             this.breached = fluidstate.is(FluidTags.WATER);
         }
 
         if (this.breached && !hasBreached && this.soundEvent != null)
-            this.mob.playSound(this.soundEvent, 1.0F, 1.0F);
+            this.mob.playSound(this.soundEvent, 1.0F, pitch);
 
         Vec3 vec3 = this.mob.getDeltaMovement();
         if (vec3.y * vec3.y < 0.03F && this.mob.getXRot() != 0.0F)
