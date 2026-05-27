@@ -354,7 +354,7 @@
 				}
 			}
 		},
-		"move.swim_fast": {
+		"move.swim": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
