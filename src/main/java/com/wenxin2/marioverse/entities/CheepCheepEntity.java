@@ -6,9 +6,11 @@ import com.wenxin2.marioverse.entities.ai.goals.StopFollowFlockLeaderGoal;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -47,6 +49,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -66,8 +69,11 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     private static final EntityDataAccessor<String> VARIANT = SynchedEntityData
             .defineId(CheepCheepEntity.class, EntityDataSerializers.STRING);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    public static final RawAnimation SWIM_FAST = RawAnimation.begin().thenLoop("move.swim_fast");
+    public static final RawAnimation FLOP = RawAnimation.begin().thenLoop("move.flop");
+    public static final RawAnimation JUMP = RawAnimation.begin().thenLoop("move.jump");
+    public static final RawAnimation SWIM = RawAnimation.begin().thenLoop("move.swim");
     public int attackCooldown = 0;
+    private int jumpResetDelay;
 
     public CheepCheepEntity(EntityType<? extends CheepCheepEntity> type, Level world) {
         super(type, world);
@@ -147,7 +153,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "swim_fast", 5, this::swimAnimation));
+        controllers.add(new AnimationController<>(this, "swim", 5, this::swimAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
     }
 
@@ -157,10 +163,16 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     }
 
     protected <E extends GeoAnimatable> PlayState swimAnimation(final AnimationState<E> event) {
-        if (this.isInWaterOrBubble()) {
-            event.setAndContinue(SWIM_FAST);
+        if (this.getData(DataAttachmentRegistry.HAS_JUMPED)) {
+            event.setAndContinue(JUMP);
             return PlayState.CONTINUE;
-        } else return PlayState.CONTINUE;
+        } else if (this.isInWaterOrBubble()) {
+            event.setAndContinue(SWIM);
+            return PlayState.CONTINUE;
+        } else {
+            event.setAndContinue(FLOP);
+            return PlayState.CONTINUE;
+        }
     }
 
     @Override
@@ -209,8 +221,15 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @Override
     public void tick() {
         super.tick();
+
         if (this.attackCooldown > 0)
             this.attackCooldown--;
+
+        if (this.jumpResetDelay > 0)
+            this.jumpResetDelay--;
+
+        if (this.jumpResetDelay == 0)
+            this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
     }
 
     @Override
@@ -228,6 +247,19 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
             this.swing(this.getUsedItemHand());
             this.attackCooldown = 20;
         }
+    }
+
+    @Override
+    protected void doWaterSplashEffect() {
+        Entity entity = Objects.requireNonNullElse(this.getControllingPassenger(), this);
+        float splashModifier = entity == this ? 0.2F : 0.9F;
+        Vec3 motion = entity.getDeltaMovement();
+        float splashVelocity = Math.min(1.0F, (float) Math
+                .sqrt(motion.x * motion.x * 0.2F + motion.y * motion.y + motion.z * motion.z * 0.2F) * splashModifier);
+
+        if (splashVelocity < 0.25F && this.jumpResetDelay <= 0)
+            this.jumpResetDelay = 20;
+        super.doWaterSplashEffect();
     }
 
     @Nullable

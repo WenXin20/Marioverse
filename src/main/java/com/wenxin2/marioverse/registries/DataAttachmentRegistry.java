@@ -25,6 +25,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> HAS_GOLDEN_CARROT = Marioverse.ATTACHMENT_TYPES
             .register("has_golden_carrot", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_JUMPED = Marioverse.ATTACHMENT_TYPES
+            .register("has_jumped", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> HIDE_ITEM_RENDERED = Marioverse.ATTACHMENT_TYPES
             .register("hide_item_rendered", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
