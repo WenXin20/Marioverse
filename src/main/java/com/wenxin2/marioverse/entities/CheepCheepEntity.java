@@ -71,8 +71,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
 
     public CheepCheepEntity(EntityType<? extends CheepCheepEntity> type, Level world) {
         super(type, world);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.xpReward = 2;
     }
 
