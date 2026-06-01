@@ -80,7 +80,7 @@ public class EepCheepEntity extends CheepCheepEntity implements GeoEntity {
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(2, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
-                this.getLureRadius(), 10, this.getJumpSound()));
+                this.getLureRadius(), 10, false, this.getJumpSound()));
         this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 1.0, 20, true));
         this.goalSelector.addGoal(4, new AvoidEntityTagGoal(this, this.getCanAttackTag(),

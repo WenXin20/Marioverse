@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-25T12:16:39.5041188	Item Models: marioverse
+// 1.21.1	2026-06-01T00:48:00.4230339	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -148,6 +148,7 @@ d1a56b02036b95a0f0c57ad5d3b8e3a8066d47fe assets/marioverse/models/item/plastic_w
 d8a3acf65b44e338b04ea80adce5e17f5ce6d262 assets/marioverse/models/item/plumber_banner_pattern.json
 0d1fea66147a98e071d9361736d86ba391ed70c7 assets/marioverse/models/item/plumber_pottery_sherd.json
 fc029394ebf653775f7350dd93a119122ae1c02a assets/marioverse/models/item/pokey_spawn_egg.json
+069311f91d05d4e6db548d78eed246acd9faf919 assets/marioverse/models/item/porcupuffer_spawn_egg.json
 4a3746510cabf26b5c88a932e865786a21bf1b35 assets/marioverse/models/item/purple_checkpoint_flag.json
 ef059e518da49e15561b546a1b7735365e180852 assets/marioverse/models/item/purple_goal_pole.json
 36ae02ca8f637450363dd0388eccaedf018b4dc1 assets/marioverse/models/item/quicksand_bucket.json

@@ -136,6 +136,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
     public static final DeferredItem<Item> POKEY_SPAWN_EGG;
+    public static final DeferredItem<Item> PORCUPUFFER_SPAWN_EGG;
     public static final DeferredItem<Item> QUICKSAND_BUCKET;
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
@@ -470,6 +471,8 @@ public class ItemRegistry {
                 () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         POKEY_SPAWN_EGG = registerItem("pokey_spawn_egg",
                 () -> new PokeySpawnEggItem(EntityRegistry.POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        PORCUPUFFER_SPAWN_EGG = registerItem("porcupuffer_spawn_egg",
+                () -> new PokeySpawnEggItem(EntityRegistry.PORCUPUFFER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         RED_KOOPA_TROOPA_SPAWN_EGG = registerItem("red_koopa_troopa_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SNOW_POKEY_SPAWN_EGG = registerItem("snow_pokey_spawn_egg",

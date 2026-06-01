@@ -37,6 +37,7 @@ import com.wenxin2.marioverse.client.renderers.entities.MiniGoombaRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PiranhaPlantRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PokeyBodyRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PokeyRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.PorcupufferRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SpinyCheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SplunkinRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer;
@@ -213,6 +214,7 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.PIRANHA_PLANT.get(), PiranhaPlantRenderer::new);
         event.registerEntityRenderer(EntityRegistry.POKEY.get(), PokeyRenderer::new);
         event.registerEntityRenderer(EntityRegistry.POKEY_BODY.get(), PokeyBodyRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.PORCUPUFFER.get(), PorcupufferRenderer::new);
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_SHELL.get(), KoopaShellRenderer::new);
         event.registerEntityRenderer(EntityRegistry.RED_KOOPA_TROOPA.get(), KoopaTroopaRenderer::new);
         event.registerEntityRenderer(EntityRegistry.SNOW_POKEY.get(), PokeyRenderer::new);

@@ -26,12 +26,14 @@ public class JumpOutOfWaterGoal extends JumpGoal {
     private final int baseInterval;
     private boolean breached;
     private final TagKey<EntityType<?>> lureEntityTag;
+    private final boolean eatTarget;
     private final double lureRadius;
 
-    public JumpOutOfWaterGoal(Mob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, int jumpInterval, @Nullable SoundEvent soundEvent) {
+    public JumpOutOfWaterGoal(Mob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, int jumpInterval, boolean eatTarget, @Nullable SoundEvent soundEvent) {
         this.baseInterval = reducedTickDelay(jumpInterval);
-        this.lureRadius = lureRadius;
+        this.eatTarget = eatTarget;
         this.lureEntityTag = lureEntityTag;
+        this.lureRadius = lureRadius;
         this.mob = mob;
         this.soundEvent = soundEvent;
     }
@@ -124,6 +126,13 @@ public class JumpOutOfWaterGoal extends JumpGoal {
             double d0 = vec3.horizontalDistance();
             double d1 = Math.atan2(-vec3.y, d0) * 180.0F / (float) Math.PI;
             this.mob.setXRot((float) d1);
+        }
+
+        if (this.mob.getTarget() instanceof LivingEntity) {
+            boolean canSwallow = this.mob.getTarget().getBbWidth() <= 2.0F &&
+                    this.mob.getTarget().getBbHeight() <= 2.0F;
+            if (this.eatTarget && canSwallow)
+                this.mob.setData(DataAttachmentRegistry.IS_BITING, true);
         }
     }
 

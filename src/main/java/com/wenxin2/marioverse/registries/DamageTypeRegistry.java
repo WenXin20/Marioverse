@@ -74,6 +74,9 @@ public class DamageTypeRegistry extends DamageSources {
     public static final ResourceKey<DamageType> POKEY_THORNS =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "pokey_thorns"));
 
+    public static final ResourceKey<DamageType> PORCUPUFFER_SPIKES =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "porcupuffer_spikes"));
+
     public static final ResourceKey<DamageType> SHRAPNEL =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "shrapnel"));
     public static final ResourceKey<DamageType> PLAYER_SHRAPNEL =
@@ -99,6 +102,9 @@ public class DamageTypeRegistry extends DamageSources {
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star"));
     public static final ResourceKey<DamageType> PLAYER_SUPER_STAR =
             ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player_super_star"));
+
+    public static final ResourceKey<DamageType> SWALLOWED =
+            ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "swallowed"));
 
     public DamageTypeRegistry(RegistryAccess access) {
         super(access);

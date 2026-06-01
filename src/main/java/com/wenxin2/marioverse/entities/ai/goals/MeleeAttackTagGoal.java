@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.EnumSet;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -20,7 +21,8 @@ public class MeleeAttackTagGoal extends Goal {
     private double pathedTargetZ;
     private final TagKey<EntityType<?>> entityTag;
     private final boolean doHurtTarget;
-    private final boolean followingTargetEvenIfNotSeen;
+    private final boolean eatTarget;
+    private final boolean followTargetEvenIfNotSeen;
     private final double speedModifier;
     private final int attackInterval = 20;
     private int failedPathFindingPenalty = 0;
@@ -29,12 +31,14 @@ public class MeleeAttackTagGoal extends Goal {
     private long lastCanUseCheck;
     protected final PathfinderMob mob;
 
-    public MeleeAttackTagGoal(PathfinderMob mob, TagKey<EntityType<?>> entityTag, double speedModifier, boolean doHurtTarget, boolean followingTargetEvenIfNotSeen) {
+    public MeleeAttackTagGoal(PathfinderMob mob, TagKey<EntityType<?>> entityTag, double speedModifier,
+                              boolean doHurtTarget, boolean eatTarget, boolean followTargetEvenIfNotSeen) {
         this.mob = mob;
         this.entityTag = entityTag;
-        this.followingTargetEvenIfNotSeen = followingTargetEvenIfNotSeen;
+        this.followTargetEvenIfNotSeen = followTargetEvenIfNotSeen;
         this.speedModifier = speedModifier;
         this.doHurtTarget = doHurtTarget;
+        this.eatTarget = eatTarget;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
@@ -75,7 +79,7 @@ public class MeleeAttackTagGoal extends Goal {
             return false;
         else if (!livingEntity.getType().is(this.entityTag))
             return false;
-        else if (!this.followingTargetEvenIfNotSeen)
+        else if (!this.followTargetEvenIfNotSeen)
             return !this.mob.getNavigation().isDone();
         else
             return !this.mob.isWithinRestriction(livingEntity.blockPosition()) ? false
@@ -112,7 +116,7 @@ public class MeleeAttackTagGoal extends Goal {
         if (livingEntity != null) {
             this.mob.getLookControl().setLookAt(livingEntity, 30.0F, 30.0F);
             this.ticksUntilNextPathRecalculation = Math.max(this.ticksUntilNextPathRecalculation - 1, 0);
-            if ((this.followingTargetEvenIfNotSeen || this.mob.getSensing().hasLineOfSight(livingEntity))
+            if ((this.followTargetEvenIfNotSeen || this.mob.getSensing().hasLineOfSight(livingEntity))
                     && this.ticksUntilNextPathRecalculation <= 0
                     && (this.pathedTargetX == 0.0 && this.pathedTargetY == 0.0 && this.pathedTargetZ == 0.0
                             || livingEntity.distanceToSqr(this.pathedTargetX, this.pathedTargetY, this.pathedTargetZ) >= 1.0
@@ -139,6 +143,12 @@ public class MeleeAttackTagGoal extends Goal {
                 if (!this.mob.getNavigation().moveTo(livingEntity, this.speedModifier))
                     this.ticksUntilNextPathRecalculation += 15;
                 this.ticksUntilNextPathRecalculation = this.adjustedTickDelay(this.ticksUntilNextPathRecalculation);
+
+                boolean canSwallow = this.mob.getTarget().getBbWidth() <= 2.0F &&
+                        this.mob.getTarget().getBbHeight() <= 2.0F;
+
+                if (this.eatTarget && canSwallow)
+                    this.mob.setData(DataAttachmentRegistry.IS_BITING, true);
             }
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
             this.checkAndPerformAttack(livingEntity);

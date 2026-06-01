@@ -170,6 +170,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.EEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.DEEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
+            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG);
         }
 
         if (event.getTabKey() == MARIOVERSE_BUILDING_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
@@ -738,6 +739,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG, ItemRegistry.EEP_CHEEP_SPAWN_EGG);
                 addAfter(event, ItemRegistry.EEP_CHEEP_SPAWN_EGG, ItemRegistry.DEEP_CHEEP_SPAWN_EGG);
                 addAfter(event, ItemRegistry.DEEP_CHEEP_SPAWN_EGG, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG, ItemRegistry.PORCUPUFFER_SPAWN_EGG);
             }
 
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {

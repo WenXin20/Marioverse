@@ -1,4 +1,5 @@
 ## Update 1.10.0
+- Added the Porcupuffer
 - Added the Cheep Cheep
   - Jumps out of water
   - On contact, damages the player

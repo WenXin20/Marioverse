@@ -21,6 +21,7 @@ import com.wenxin2.marioverse.entities.MiniGoombaEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.PokeyBodyEntity;
 import com.wenxin2.marioverse.entities.PokeyEntity;
+import com.wenxin2.marioverse.entities.PorcupufferEntity;
 import com.wenxin2.marioverse.entities.RedKoopaShellEntity;
 import com.wenxin2.marioverse.entities.RedKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.SnowPokeyBodyEntity;
@@ -164,6 +165,9 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<PokeyBodyEntity>> POKEY_BODY =
             Marioverse.ENTITIES.register("pokey_body", () -> EntityType.Builder.of(PokeyBodyEntity::new, MobCategory.MONSTER)
                     .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey_body"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PorcupufferEntity>> PORCUPUFFER =
+            Marioverse.ENTITIES.register("porcupuffer", () -> EntityType.Builder.of(PorcupufferEntity::new, MobCategory.WATER_CREATURE)
+                    .sized(2.0F, 2.0F).eyeHeight(1.75F).build("porcupuffer"));
     public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaShellEntity>> RED_KOOPA_SHELL =
             Marioverse.ENTITIES.register("red_koopa_shell", () -> EntityType.Builder.of(RedKoopaShellEntity::new, MobCategory.AMBIENT)
                     .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("red_koopa_shell"));
@@ -211,6 +215,8 @@ public class EntityRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PokeyEntity::checkPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.POKEY_BODY.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PokeyEntity::checkPokeySpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(EntityRegistry.PORCUPUFFER.get(), SpawnPlacementTypes.IN_WATER,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PorcupufferEntity::checkPorcupufferSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.GREEN_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KoopaTroopaEntity::checkKoopaSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(EntityRegistry.RED_KOOPA_TROOPA.get(), SpawnPlacementTypes.ON_GROUND,
@@ -298,6 +304,12 @@ public class EntityRegistry {
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.1F)
                 .add(Attributes.SAFE_FALL_DISTANCE, 10.0F);
+        AttributeSupplier.Builder porcupufferAttributes = Monster.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 1.5F)
+                .add(Attributes.ATTACK_SPEED, 0.0F)
+                .add(Attributes.MAX_HEALTH, 20)
+                .add(Attributes.MOVEMENT_SPEED, 1.0F)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.2F);
         AttributeSupplier.Builder mushroomAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 6)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
@@ -349,6 +361,7 @@ public class EntityRegistry {
         event.put(EntityRegistry.GOLD_KOOPA_TROOPA.get(), koopaAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_SHELL.get(), koopaShellAttributes.build());
         event.put(EntityRegistry.GREEN_KOOPA_TROOPA.get(), koopaAttributes.build());
+        event.put(EntityRegistry.PORCUPUFFER.get(), porcupufferAttributes.build());
         event.put(EntityRegistry.RED_KOOPA_SHELL.get(), redKoopaShellAttributes.build());
         event.put(EntityRegistry.RED_KOOPA_TROOPA.get(), koopaAttributes.build());
         event.put(EntityRegistry.SPINY_CHEEP_CHEEP.get(), spinyCheepCheepAttributes.build());

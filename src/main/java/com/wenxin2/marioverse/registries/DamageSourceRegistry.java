@@ -121,6 +121,30 @@ public class DamageSourceRegistry {
         } else return null;
     }
 
+    public static DamageSource piranhaChomp(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
+        if (attackingEntity != null && damagedEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
+                    .getHolderOrThrow(DamageTypeRegistry.PLAYER_PIRANHA_CHOMP), damagedEntity, attackingEntity);
+        } else if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
+                    .getHolderOrThrow(DamageTypeRegistry.PIRANHA_CHOMP), null, attackingEntity);
+        } else return null;
+    }
+
+    public static DamageSource pokeyThorns(@Nullable Entity attackingEntity) {
+        if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
+                    .getHolderOrThrow(DamageTypeRegistry.POKEY_THORNS), attackingEntity);
+        } else return null;
+    }
+
+    public static DamageSource porcupufferSpikes(@Nullable Entity attackingEntity) {
+        if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
+                    .getHolderOrThrow(DamageTypeRegistry.PORCUPUFFER_SPIKES), attackingEntity);
+        } else return null;
+    }
+
     public static DamageSource shrapnel(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
         if (damagedEntity != null && attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
@@ -128,6 +152,13 @@ public class DamageSourceRegistry {
         } else if (attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
                     .getHolderOrThrow(DamageTypeRegistry.SHRAPNEL), null, attackingEntity);
+        } else return null;
+    }
+
+    public static DamageSource snowPokeyThorns(@Nullable Entity attackingEntity) {
+        if (attackingEntity != null) {
+            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
+                    .getHolderOrThrow(DamageTypeRegistry.SNOW_POKEY_THORNS), attackingEntity);
         } else return null;
     }
 
@@ -168,27 +199,10 @@ public class DamageSourceRegistry {
         } else return null;
     }
 
-    public static DamageSource piranhaChomp(@Nullable Entity damagedEntity, @Nullable Entity attackingEntity) {
-        if (attackingEntity != null && damagedEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypeRegistry.PLAYER_PIRANHA_CHOMP), damagedEntity, attackingEntity);
-        } else if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypeRegistry.PIRANHA_CHOMP), null, attackingEntity);
-        } else return null;
-    }
-
-    public static DamageSource pokeyThorns(@Nullable Entity attackingEntity) {
+    public static DamageSource swallowed(@Nullable Entity attackingEntity) {
         if (attackingEntity != null) {
             return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypeRegistry.POKEY_THORNS), attackingEntity);
-        } else return null;
-    }
-
-    public static DamageSource snowPokeyThorns(@Nullable Entity attackingEntity) {
-        if (attackingEntity != null) {
-            return new DamageSource(attackingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypeRegistry.SNOW_POKEY_THORNS), attackingEntity);
+                    .getHolderOrThrow(DamageTypeRegistry.SWALLOWED), attackingEntity);
         } else return null;
     }
 }
