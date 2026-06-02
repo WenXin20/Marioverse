@@ -263,6 +263,11 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     }
 
     @Override
+    public boolean canRiderInteract() {
+        return true;
+    }
+
+    @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         if (!this.getPassengers().isEmpty())
             return false;
@@ -323,7 +328,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         double x = this.getX() + look.x * offset;
         double y = this.getEyeY() - 0.2D;
         double z = this.getZ() + look.z * offset;
-        double launchStrength = 1.2D;
+        double launchStrength = 1.8D;
 
         passenger.stopRiding();
         passenger.teleportTo(x, y, z);
