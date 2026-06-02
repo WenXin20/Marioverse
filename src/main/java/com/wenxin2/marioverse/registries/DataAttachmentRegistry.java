@@ -34,9 +34,6 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> IS_ATTACKING = Marioverse.ATTACHMENT_TYPES
             .register("is_attacking", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
-    public static final Supplier<AttachmentType<Boolean>> IS_BITING = Marioverse.ATTACHMENT_TYPES
-            .register("is_biting", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_BLOOMING = Marioverse.ATTACHMENT_TYPES
             .register("is_blooming", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
@@ -51,6 +48,9 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_INTERACTABLE = Marioverse.ATTACHMENT_TYPES
             .register("is_interactable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_MOUTH_OPEN = Marioverse.ATTACHMENT_TYPES
+            .register("is_mouth_open", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_RIGHT_CLICKABLE = Marioverse.ATTACHMENT_TYPES
             .register("is_right_clickable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)

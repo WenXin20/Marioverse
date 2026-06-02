@@ -33,6 +33,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_PIRANHA_PLANT = biomeTags("has_piranha_plant");
     public static final TagKey<Biome> HAS_POKEY = biomeTags("has_pokey");
     public static final TagKey<Biome> HAS_POKEY_RARE = biomeTags("has_pokey_rare");
+    public static final TagKey<Biome> HAS_PORCUPUFFER = biomeTags("has_porcupuffer");
     public static final TagKey<Biome> HAS_QUICKSAND = biomeTags("has_quicksand");
     public static final TagKey<Biome> HAS_RED_QUICKSAND = biomeTags("has_red_quicksand");
     public static final TagKey<Biome> HAS_SNOW_POKEY = biomeTags("has_snow_pokey");
@@ -298,6 +299,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> PIRANHA_PLANT_CAN_ATTACK = entityTypeTags("piranha_plant_can_attack");
     public static final TagKey<EntityType<?>> POKEY_CAN_ATTACK = entityTypeTags("pokey_can_attack");
     public static final TagKey<EntityType<?>> POKEY_ENTITIES = entityTypeTags("pokeys");
+    public static final TagKey<EntityType<?>> PORCUPUFFER_CAN_ATTACK = entityTypeTags("porcupuffer_can_attack");
+    public static final TagKey<EntityType<?>> PORCUPUFFER_CAN_EAT = entityTypeTags("porcupuffer_can_attack");
     public static final TagKey<EntityType<?>> POWERS_UP_RIDER = entityTypeTags("powers_up_rider");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");

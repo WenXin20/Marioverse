@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-25T12:16:39.4937188	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-06-01T23:21:31.8078926	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -36,7 +36,7 @@ bb5bd7b027d1bb8941ccc3f06f3627805426cc8c data/marioverse/tags/entity_type/can_pi
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_stomp_enemies.json
 3a14066743d7a34e01eaa29837854934e775e7e3 data/marioverse/tags/entity_type/can_walk_on_quicksand.json
 6d6a1f59b8be5d33e1f564b40d2ce20b97270af7 data/marioverse/tags/entity_type/can_wear_costumes.json
-0c17a651253e6b818aa0f21d64e51414705505c1 data/marioverse/tags/entity_type/can_wear_hats.json
+305612d98eec09967b54050b93708c5c2aeea2fc data/marioverse/tags/entity_type/can_wear_hats.json
 cb5ec3613f4da6bbd6c7700eda601e92b706c660 data/marioverse/tags/entity_type/can_wear_pants.json
 cb5ec3613f4da6bbd6c7700eda601e92b706c660 data/marioverse/tags/entity_type/can_wear_shirts.json
 cb5ec3613f4da6bbd6c7700eda601e92b706c660 data/marioverse/tags/entity_type/can_wear_shoes.json
@@ -69,7 +69,7 @@ dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/has_no
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/ice_ball_can_instakill.json
 9be1b1a7b32d3cbdc78c32a786b05b182a873909 data/marioverse/tags/entity_type/ice_ball_immune.json
 659f755db95cec7ee3f93718a8d2c79e50583b3e data/marioverse/tags/entity_type/ice_cube_collision_cannot_damage.json
-56d8bf6178d387fb9a693a40ab9a34d9453a4009 data/marioverse/tags/entity_type/ice_cube_shatters_instantly.json
+25ec92619da5fccd5d1387124c63ee3bc1ffeb5c data/marioverse/tags/entity_type/ice_cube_shatters_instantly.json
 cb6692d9de98bf9616e20fb054a316698ef09b6c data/marioverse/tags/entity_type/ice_cube_shatter_cannot_damage.json
 c291d9ea12ae64d690c0228e13791492759fac79 data/marioverse/tags/entity_type/ice_cube_shatter_can_instakill.json
 659f755db95cec7ee3f93718a8d2c79e50583b3e data/marioverse/tags/entity_type/iron_spike_immune.json
@@ -84,6 +84,7 @@ bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/mega_m
 ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranha_plant_can_attack.json
 45bbf1961986f223f34bd5fbba2dfde40ad2c7bc data/marioverse/tags/entity_type/pokeys.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/pokey_can_attack.json
+0a3f9ec2b74565d652a012ab299b325e7b59baf5 data/marioverse/tags/entity_type/porcupuffer_can_attack.json
 e6c52a4e1b6410d7fc9af7270013744060dca861 data/marioverse/tags/entity_type/powers_up_rider.json
 518cef0adc9df26d69ffb74b5da8c22b4434f2c5 data/marioverse/tags/entity_type/power_ups.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/question_block_cannot_spawn.json

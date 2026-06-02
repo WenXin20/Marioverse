@@ -60,6 +60,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredItem<Item> COLD_CHEEP_CHEEP;
     public static final DeferredItem<Item> COOKED_CHEEP_CHEEP;
+    public static final DeferredItem<Item> COOKED_PORCUPUFFER;
     public static final DeferredItem<Item> COOKED_SPINY_CHEEP_CHEEP;
     public static final DeferredItem<Item> CREATIVE_WRENCH;
     public static final DeferredItem<Item> DASH_MUSHROOM;
@@ -136,6 +137,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PLUMBER_BANNER_PATTERN;
     public static final DeferredItem<Item> PLUMBER_POTTERY_SHERD;
     public static final DeferredItem<Item> POKEY_SPAWN_EGG;
+    public static final DeferredItem<Item> PORCUPUFFER;
     public static final DeferredItem<Item> PORCUPUFFER_SPAWN_EGG;
     public static final DeferredItem<Item> QUICKSAND_BUCKET;
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
@@ -190,6 +192,10 @@ public class ItemRegistry {
                 () -> new Item(new Item.Properties().food(FoodRegistry.RAW_SPINY_CHEEP_CHEEP)));
         COOKED_SPINY_CHEEP_CHEEP = registerItem("cooked_spiny_cheep_cheep",
                 () -> new Item(new Item.Properties().food(FoodRegistry.COOKED_SPINY_CHEEP_CHEEP)));
+        PORCUPUFFER = registerItem("porcupuffer",
+                () -> new Item(new Item.Properties().food(FoodRegistry.RAW_PORCUPUFFER)));
+        COOKED_PORCUPUFFER = registerItem("cooked_porcupuffer",
+                () -> new Item(new Item.Properties().food(FoodRegistry.COOKED_PORCUPUFFER)));
 
         CHEEP_CHEEP_BUCKET = registerItem("cheep_cheep_bucket",
                 () -> new MobBucketItem(EntityRegistry.CHEEP_CHEEP.get(), Fluids.WATER, SoundEvents.BUCKET_EMPTY_FISH,

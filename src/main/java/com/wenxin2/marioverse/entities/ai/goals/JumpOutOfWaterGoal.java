@@ -132,7 +132,7 @@ public class JumpOutOfWaterGoal extends JumpGoal {
             boolean canSwallow = this.mob.getTarget().getBbWidth() <= 2.0F &&
                     this.mob.getTarget().getBbHeight() <= 2.0F;
             if (this.eatTarget && canSwallow)
-                this.mob.setData(DataAttachmentRegistry.IS_BITING, true);
+                this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
         }
     }
 

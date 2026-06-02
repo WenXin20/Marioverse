@@ -2,8 +2,6 @@ package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.PorcupufferEntity;
-import com.wenxin2.marioverse.entities.PorcupufferEntity;
-import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +24,7 @@ public class PorcupufferModel extends GeoModel<PorcupufferEntity> {
 
     @Override
     public ResourceLocation getTextureResource(PorcupufferEntity animatable) {
-        if (animatable.getData(DataAttachmentRegistry.IS_BITING))
+        if (animatable.getData(DataAttachmentRegistry.IS_MOUTH_OPEN))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/porcupuffer_biting.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/porcupuffer.png");
     }

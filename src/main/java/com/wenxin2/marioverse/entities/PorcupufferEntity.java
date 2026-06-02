@@ -12,6 +12,8 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -20,6 +22,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -66,6 +69,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     public static final RawAnimation SWIM = RawAnimation.begin().thenLoop("move.swim");
     private static final float MAX_INTERNAL_DAMAGE = 8.0F;
     public int attackCooldown = 0;
+    public int eatCooldown = 0;
     private float internalDamage;
 
     public PorcupufferEntity(EntityType<? extends PorcupufferEntity> type, Level world) {
@@ -128,7 +132,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     }
 
     public TagKey<EntityType<?>> getCanAttackTag() {
-        return TagRegistry.CHEEP_CHEEP_CAN_ATTACK; // TODO
+        return TagRegistry.PORCUPUFFER_CAN_ATTACK;
     }
 
     public double getLureRadius() {
@@ -180,12 +184,15 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         if (this.attackCooldown > 0)
             this.attackCooldown--;
 
+        if (this.eatCooldown > 0)
+            this.eatCooldown--;
+
         if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && this.isInWaterOrBubble())
             this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
 
-        if (this.getData(DataAttachmentRegistry.IS_BITING)
+        if (this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)
                 && this.getData(DataAttachmentRegistry.IS_EATING) && this.getFirstPassenger() == null)
-            this.setData(DataAttachmentRegistry.IS_BITING, false);
+            this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
     }
 
     @Override
@@ -196,6 +203,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         if (hurt && this.getData(DataAttachmentRegistry.IS_EATING)) {
             if (attacker != null && attacker.isPassenger()) {
                 this.internalDamage += amount;
+                this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
 
                 if (this.internalDamage >= MAX_INTERNAL_DAMAGE) {
                     this.spitOutPassenger(attacker);
@@ -222,16 +230,21 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         Vec3 toTarget = entity.position().subtract(this.position()).normalize();
 
         if (this.isAlive() && !this.isAlliedTo(entity) && this.attackCooldown == 0
-                && entity.getType().is(this.getCanAttackTag()) && this.level().getDifficulty() != Difficulty.PEACEFUL) {
+                && this.level().getDifficulty() != Difficulty.PEACEFUL) {
             float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
-            if (entity instanceof Creeper)
-                entity.hurt(this.getDamageSource(entity), attackDamage);
-            else entity.hurt(this.getDamageSource(this), attackDamage);
+            if (!entity.isInvulnerableTo(level().damageSources().thorns(this))) {
+                if (entity instanceof Creeper)
+                    entity.hurt(this.getDamageSource(entity), attackDamage);
+                else entity.hurt(this.getDamageSource(this), attackDamage);
+            }
 
-            if (!this.isNoAi() && canSwallow && look.dot(toTarget) > 0.5D) {
+            if (!this.isNoAi() && this.eatCooldown == 0 && canSwallow && look.dot(toTarget) > 0.5D
+                    && entity.getType().is(TagRegistry.PORCUPUFFER_CAN_EAT)
+                    && this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
                 entity.startRiding(this, true);
                 this.setData(DataAttachmentRegistry.IS_EATING, true);
+                this.eatCooldown = 120;
             }
 
             this.swing(this.getUsedItemHand());
@@ -264,7 +277,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
 
     @Override
     public boolean canRiderInteract() {
-        return true;
+        return this.getData(DataAttachmentRegistry.IS_EATING);
     }
 
     @Override
@@ -329,7 +342,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         passenger.stopRiding();
         passenger.setDeltaMovement(look.x * launchStrength, 0.3D, look.z * launchStrength);
         passenger.hurtMarked = true;
-        this.setData(DataAttachmentRegistry.IS_BITING, false);
+        this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
         this.setData(DataAttachmentRegistry.IS_EATING, false);
     }
 }

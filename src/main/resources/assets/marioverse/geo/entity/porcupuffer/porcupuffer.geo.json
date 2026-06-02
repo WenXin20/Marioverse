@@ -151,12 +151,12 @@
 				{
 					"name": "armorBipedHead",
 					"parent": "bipedBody",
-					"pivot": [0, 4, 0],
+					"pivot": [0, 6, 0],
 					"cubes": [
 						{
 							"origin": [-16, 0, -16],
 							"size": [32, 32, 32],
-							"inflate": -0.3,
+							"inflate": -0.5,
 							"uv": {}
 						}
 					]

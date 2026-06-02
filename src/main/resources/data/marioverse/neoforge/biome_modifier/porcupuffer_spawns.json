@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#marioverse:has_porcupuffer",
+  "spawners": [
+    {
+      "type": "marioverse:porcupuffer",
+      "weight": 8,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

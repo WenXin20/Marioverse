@@ -260,6 +260,7 @@ public class RegistryEventHandlers {
         PotionBrewing.Builder builder = event.getBuilder();
 
         builder.addMix(Potions.AWKWARD, ItemRegistry.SPINY_CHEEP_CHEEP.get(), Potions.POISON);
+        builder.addMix(Potions.AWKWARD, ItemRegistry.PORCUPUFFER.get(), Potions.STRONG_POISON);
     }
 
     @SubscribeEvent
@@ -284,6 +285,7 @@ public class RegistryEventHandlers {
             newEntries.add(LootItem.lootTableItem(ItemRegistry.EEP_CHEEP.get()).setWeight(10).build());
             newEntries.add(LootItem.lootTableItem(ItemRegistry.WARM_CHEEP_CHEEP.get()).setWeight(10).build());
             newEntries.add(LootItem.lootTableItem(ItemRegistry.SPINY_CHEEP_CHEEP.get()).setWeight(8).build());
+            newEntries.add(LootItem.lootTableItem(ItemRegistry.PORCUPUFFER.get()).setWeight(2).build());
             entriesField.set(pool, newEntries);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             Marioverse.LOGGER.error("Failed to modify fishing loot table", e);

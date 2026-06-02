@@ -81,6 +81,9 @@ public class BiomeTagsGen extends BiomeTagsProvider {
         tag(TagRegistry.HAS_POKEY_RARE)
                 .addTag(Tags.Biomes.IS_BADLANDS);
 
+        tag(TagRegistry.HAS_PORCUPUFFER)
+                .addTag(Tags.Biomes.IS_DEEP_OCEAN);
+
         tag(TagRegistry.HAS_SNOW_POKEY)
                 .addTag(Tags.Biomes.IS_SNOWY);
 

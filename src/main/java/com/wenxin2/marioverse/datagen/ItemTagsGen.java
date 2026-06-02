@@ -152,10 +152,12 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(Tags.Items.FOODS_COOKED_FISH)
                 .add(ItemRegistry.COOKED_CHEEP_CHEEP.get())
+                .add(ItemRegistry.COOKED_PORCUPUFFER.get())
                 .add(ItemRegistry.COOKED_SPINY_CHEEP_CHEEP.get());
 
         tag(Tags.Items.FOODS_RAW_FISH)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.PORCUPUFFER.get())
                 .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(Tags.Items.MUSHROOMS)
@@ -164,12 +166,15 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.CAT_FOOD)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.PORCUPUFFER.get())
                 .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(ItemTags.FISHES)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
                 .add(ItemRegistry.COOKED_CHEEP_CHEEP.get())
+                .add(ItemRegistry.COOKED_PORCUPUFFER.get())
                 .add(ItemRegistry.COOKED_SPINY_CHEEP_CHEEP.get())
+                .add(ItemRegistry.PORCUPUFFER.get())
                 .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(ItemTags.FREEZE_IMMUNE_WEARABLES)
@@ -184,6 +189,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.OCELOT_FOOD)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.PORCUPUFFER.get())
                 .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(ItemTags.PIGLIN_LOVED)

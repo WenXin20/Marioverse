@@ -423,6 +423,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.BOO.get())
                 .add(EntityRegistry.DRY_BONES.get())
                 .add(EntityRegistry.POKEY.get())
+                .add(EntityRegistry.PORCUPUFFER.get())
                 .add(EntityRegistry.SNOW_POKEY.get())
                 .add(EntityRegistry.SPLUNKIN.get())
                 .add(EntityType.ARMOR_STAND)
@@ -650,6 +651,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY)
                 .addTag(Tags.EntityTypes.BOSSES)
                 .add(EntityRegistry.BOO.get())
+                .add(EntityRegistry.PORCUPUFFER.get())
                 .add(EntityType.ELDER_GUARDIAN)
                 .add(EntityType.WARDEN)
                 .addOptionalTag(CompatRegistry.TWILIGHT_FOREST_BOSSES);
@@ -834,6 +836,22 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.POKEY_ENTITIES)
                 .add(EntityRegistry.POKEY.get())
                 .add(EntityRegistry.POKEY_BODY.get());
+
+        tag(TagRegistry.PORCUPUFFER_CAN_ATTACK)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.PORCUPUFFER_CAN_EAT)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.FIRE_FLOWER.get())

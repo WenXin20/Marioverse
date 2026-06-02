@@ -148,7 +148,7 @@ public class MeleeAttackTagGoal extends Goal {
                         this.mob.getTarget().getBbHeight() <= 2.0F;
 
                 if (this.eatTarget && canSwallow)
-                    this.mob.setData(DataAttachmentRegistry.IS_BITING, true);
+                    this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
             }
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
             this.checkAndPerformAttack(livingEntity);
