@@ -61,7 +61,7 @@ public class PorcupufferRenderer extends GeoEntityRenderer<PorcupufferEntity> {
             @Override
             protected void renderSkullAsArmor(PoseStack poseStack, GeoBone bone, ItemStack stack, AbstractSkullBlock skullBlock,
                                               MultiBufferSource bufferSource, int packedLight) {
-                poseStack.scale(1.3F, 1.3F, 1.3F);
+                poseStack.scale(4.3F, 4.3F, 4.3F);
                 poseStack.translate(0.0F, -0.1F, 0.0F);
                 super.renderSkullAsArmor(poseStack, bone, stack, skullBlock, bufferSource, packedLight);
             }
@@ -96,7 +96,7 @@ public class PorcupufferRenderer extends GeoEntityRenderer<PorcupufferEntity> {
             protected void renderStackForBone(PoseStack poseStack, GeoBone bone, ItemStack stack, PorcupufferEntity animatable,
                                               MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay) {
                 if (stack.getItem() instanceof BlockItem) {
-                    poseStack.scale(0.875F, 0.875F, 0.875F);
+                    poseStack.scale(3.875F, 3.875F, 3.875F);
                     poseStack.translate(0.0F, 0.2F, 0.0F);
                 } else poseStack.translate(0.0F, 0.2F, 0.0F);
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);

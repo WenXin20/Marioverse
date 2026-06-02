@@ -93,6 +93,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.COOKED_CHEEP_CHEEP);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP);
             add(event, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP);
+            add(event, ItemRegistry.PORCUPUFFER);
+            add(event, ItemRegistry.COOKED_PORCUPUFFER);
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
 
@@ -591,6 +593,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.DEEP_CHEEP, ItemRegistry.COOKED_CHEEP_CHEEP);
                 addAfter(event, ItemRegistry.COOKED_CHEEP_CHEEP, ItemRegistry.SPINY_CHEEP_CHEEP);
                 addAfter(event, ItemRegistry.SPINY_CHEEP_CHEEP, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP);
+                addAfter(event, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, ItemRegistry.PORCUPUFFER);
+                addAfter(event, ItemRegistry.PORCUPUFFER, ItemRegistry.COOKED_PORCUPUFFER);
             }
 
             if (event.getTabKey() == CreativeModeTabs.COMBAT) {
@@ -707,6 +711,9 @@ public class MarioverseCreativeTabs {
 
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
                 addAfter(event, Items.SNOWBALL, ItemRegistry.LARGE_SNOWBALL);
+
+                addAfter(event, Items.PUFFERFISH, ItemRegistry.SPINY_CHEEP_CHEEP);
+                addAfter(event, ItemRegistry.SPINY_CHEEP_CHEEP, ItemRegistry.PORCUPUFFER);
 
                 addAfter(event, Items.GUSTER_BANNER_PATTERN, ItemRegistry.BOWSER_BANNER_PATTERN);
                 addAfter(event, ItemRegistry.BOWSER_BANNER_PATTERN, ItemRegistry.PLUMBER_BANNER_PATTERN);
