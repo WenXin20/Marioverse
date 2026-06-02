@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_porcupuffer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:porcupuffer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:cooked_porcupuffer_campfire_cooking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_porcupuffer"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:cooked_porcupuffer_campfire_cooking"
+    ]
+  }
+}
