@@ -324,14 +324,9 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         if (passenger == null)
             return;
         Vec3 look = this.getLookAngle().normalize();
-        double offset = this.getBbWidth() * 0.9D;
-        double x = this.getX() + look.x * offset;
-        double y = this.getEyeY() - 0.2D;
-        double z = this.getZ() + look.z * offset;
         double launchStrength = 1.8D;
 
         passenger.stopRiding();
-        passenger.teleportTo(x, y, z);
         passenger.setDeltaMovement(look.x * launchStrength, 0.3D, look.z * launchStrength);
         passenger.hurtMarked = true;
         this.setData(DataAttachmentRegistry.IS_BITING, false);
