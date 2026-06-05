@@ -838,7 +838,18 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.POKEY_BODY.get());
 
         tag(TagRegistry.PORCUPUFFER_CAN_ATTACK)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
+                .add(EntityType.AXOLOTL)
+                .add(EntityType.COD)
+                .add(EntityType.FROG)
+                .add(EntityType.GLOW_SQUID)
                 .add(EntityType.PLAYER)
+                .add(EntityType.PUFFERFISH)
+                .add(EntityType.SALMON)
+                .add(EntityType.SQUID)
+                .add(EntityType.TADPOLE)
+                .add(EntityType.TROPICAL_FISH)
+                .add(EntityType.TURTLE)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(GUARD_VILLAGER)
@@ -846,7 +857,18 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.PORCUPUFFER_CAN_EAT)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
+                .add(EntityType.AXOLOTL)
+                .add(EntityType.COD)
+                .add(EntityType.FROG)
+                .add(EntityType.GLOW_SQUID)
                 .add(EntityType.PLAYER)
+                .add(EntityType.PUFFERFISH)
+                .add(EntityType.SALMON)
+                .add(EntityType.SQUID)
+                .add(EntityType.TADPOLE)
+                .add(EntityType.TROPICAL_FISH)
+                .add(EntityType.TURTLE)
                 .add(EntityType.VILLAGER)
                 .add(EntityType.WANDERING_TRADER)
                 .addOptional(GUARD_VILLAGER)
@@ -915,7 +937,8 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.THORNS_IMMUNE)
                 .addTag(TagRegistry.POKEY_ENTITIES)
-                .addTag(TagRegistry.SNOW_POKEY_ENTITIES);
+                .addTag(TagRegistry.SNOW_POKEY_ENTITIES)
+                .add(EntityRegistry.PORCUPUFFER.get());
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN);
     }

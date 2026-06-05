@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-01T23:21:31.8078926	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-06-04T21:29:42.9782364	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -84,7 +84,7 @@ bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/mega_m
 ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranha_plant_can_attack.json
 45bbf1961986f223f34bd5fbba2dfde40ad2c7bc data/marioverse/tags/entity_type/pokeys.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/pokey_can_attack.json
-0a3f9ec2b74565d652a012ab299b325e7b59baf5 data/marioverse/tags/entity_type/porcupuffer_can_attack.json
+ac4a61622bad209e0445d9926f5525e033d2a75d data/marioverse/tags/entity_type/porcupuffer_can_attack.json
 e6c52a4e1b6410d7fc9af7270013744060dca861 data/marioverse/tags/entity_type/powers_up_rider.json
 518cef0adc9df26d69ffb74b5da8c22b4434f2c5 data/marioverse/tags/entity_type/power_ups.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/question_block_cannot_spawn.json
@@ -99,7 +99,7 @@ c923c56ac30dbd17b4c64c0310356b47f160132e data/marioverse/tags/entity_type/snow_p
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/spiny_cheep_cheep_can_attack.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/splunkin_can_attack.json
 b2b3127fa9ea194af6d1c99652122f6f0df458ea data/marioverse/tags/entity_type/super_star_immune.json
-312751c4cb03847922002764be854b0f8cd5974d data/marioverse/tags/entity_type/thorns_immune.json
+aae74dbfd956d87ff479f152e6ffb1e5896ee01e data/marioverse/tags/entity_type/thorns_immune.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/warp_pipe_cannot_spawn.json
 ca049038b34d05d99a21a104618cd6ddbaf3b894 data/minecraft/tags/entity_type/aquatic.json
 ca049038b34d05d99a21a104618cd6ddbaf3b894 data/minecraft/tags/entity_type/axolotl_hunt_targets.json

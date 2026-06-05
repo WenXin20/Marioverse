@@ -147,7 +147,8 @@ public class MeleeAttackTagGoal extends Goal {
                 boolean canSwallow = this.mob.getTarget().getBbWidth() <= 2.0F &&
                         this.mob.getTarget().getBbHeight() <= 2.0F;
 
-                if (this.eatTarget && canSwallow)
+                if (this.eatTarget && canSwallow
+                        && !this.mob.getData(DataAttachmentRegistry.IS_EATING))
                     this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
             }
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);

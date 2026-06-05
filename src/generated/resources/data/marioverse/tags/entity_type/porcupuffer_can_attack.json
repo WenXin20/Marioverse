@@ -1,6 +1,17 @@
 {
   "values": [
+    "#marioverse:cheep_cheeps",
+    "minecraft:axolotl",
+    "minecraft:cod",
+    "minecraft:frog",
+    "minecraft:glow_squid",
     "minecraft:player",
+    "minecraft:pufferfish",
+    "minecraft:salmon",
+    "minecraft:squid",
+    "minecraft:tadpole",
+    "minecraft:tropical_fish",
+    "minecraft:turtle",
     "minecraft:villager",
     "minecraft:wandering_trader",
     {
@@ -15,7 +26,18 @@
       "id": "mca:male_villager",
       "required": false
     },
+    "#marioverse:cheep_cheeps",
+    "minecraft:axolotl",
+    "minecraft:cod",
+    "minecraft:frog",
+    "minecraft:glow_squid",
     "minecraft:player",
+    "minecraft:pufferfish",
+    "minecraft:salmon",
+    "minecraft:squid",
+    "minecraft:tadpole",
+    "minecraft:tropical_fish",
+    "minecraft:turtle",
     "minecraft:villager",
     "minecraft:wandering_trader",
     {

@@ -257,10 +257,10 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     protected void positionRider(Entity passenger, MoveFunction moveFunction) {
         if (!this.hasPassenger(passenger))
             return;
-        Vec3 pos;
 
+        Vec3 pos;
         if (this.getData(DataAttachmentRegistry.IS_EATING))
-            pos = new Vec3(this.getX(), this.getY() + 0.1D, this.getZ() - 0.3D);
+            pos = new Vec3(this.getX(), this.getY() + 0.025D, this.getZ() - 0.3D);
         else pos = new Vec3(this.getX(), this.getY() + 1.0D, this.getZ());
 
         moveFunction.accept(passenger, pos.x, pos.y, pos.z);
