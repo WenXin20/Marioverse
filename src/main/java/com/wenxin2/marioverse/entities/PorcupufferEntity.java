@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.Locale;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -344,5 +345,11 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         passenger.hurtMarked = true;
         this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
         this.setData(DataAttachmentRegistry.IS_EATING, false);
+    }
+
+    public boolean isMrsPuff() {
+        return this.getName().getString().toLowerCase(Locale.ROOT).equals("mrs puff")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("mrs. puff")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("mrs_puff");
     }
 }
