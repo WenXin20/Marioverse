@@ -27,10 +27,14 @@ public class PorcupufferModel extends GeoModel<PorcupufferEntity> {
         if (animatable.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
             if (animatable.hasCustomName() && animatable.isMrsPuff())
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/mrs_puff_open_mouth.png");
+            if (animatable.hasCustomName() && animatable.isQwilfish())
+                return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/qwilfish_open_mouth.png");
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/porcupuffer_open_mouth.png");
         }
         if (animatable.hasCustomName() && animatable.isMrsPuff())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/mrs_puff.png");
+        if (animatable.hasCustomName() && animatable.isQwilfish())
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/qwilfish.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/porcupuffer.png");
     }
 

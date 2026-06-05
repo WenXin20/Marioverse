@@ -152,6 +152,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         this.goalSelector.addGoal(5, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F,
                 false, true, false));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), true));
+        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), false));
     }
 
     @Override
@@ -245,6 +246,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
                     && this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
                 entity.startRiding(this, true);
                 this.setData(DataAttachmentRegistry.IS_EATING, true);
+                this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
                 this.eatCooldown = 120;
             }
 

@@ -4,7 +4,8 @@
   - Attempts to eat players and other humanoids & fish
   - Porcupuffers spawn in deep oceans
   - Added Raw & Cooked Porcupuffer
-  - Added Mrs. Puff nametag easter egg
+  - Added Mrs. Puff name tag easter egg
+  - Added Qwilfish name tag easter egg
 - Added the Cheep Cheep
   - Jumps out of water
   - On contact, damages the player
