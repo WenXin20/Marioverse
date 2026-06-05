@@ -34,6 +34,7 @@
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
 - Added Pipe junctions to pipe world gen
+- Increased mini goomba spawn group size
 - Fixed teleporting using Clear Pipes with Sable
 
 ## Update 1.9.3

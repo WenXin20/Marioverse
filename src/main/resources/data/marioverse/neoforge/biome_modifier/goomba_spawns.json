@@ -5,8 +5,8 @@
     {
       "type": "marioverse:mini_goomba",
       "weight": 25,
-      "minCount": 1,
-      "maxCount": 3
+      "minCount": 4,
+      "maxCount": 10
     },
     {
       "type": "marioverse:goomba",
