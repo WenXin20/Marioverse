@@ -19,21 +19,21 @@ public class GoombaModel extends GeoModel<GoombaEntity> {
 
     @Override
     public ResourceLocation getModelResource(GoombaEntity animatable) {
-        if (animatable.hasCustomName() && animatable.getName().getString().toLowerCase(Locale.ROOT).equals("goombella"))
+        if (animatable.hasCustomName() && animatable.isGoombella())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/entity/goomba/goombella.geo.json");
         else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/entity/goomba/goomba.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(GoombaEntity animatable) {
-        if (animatable.hasCustomName() && animatable.getName().getString().toLowerCase(Locale.ROOT).equals("goombella"))
+        if (animatable.hasCustomName() && animatable.isGoombella())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goomba/goombella.png");
         else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/goomba/goomba.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(GoombaEntity animatable) {
-        if (animatable.hasCustomName() && animatable.getName().getString().toLowerCase(Locale.ROOT).equals("goombella"))
+        if (animatable.hasCustomName() && animatable.isGoombella())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/goomba/goombella.animation.json");
         else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/goomba/goomba.animation.json");
     }

@@ -17,6 +17,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -754,5 +755,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
         public GoombaGroupData(boolean canSpawnJockey) {
             this.canSpawnJockey = canSpawnJockey;
         }
+    }
+
+    public boolean isGoombella() {
+        return this.getName().getString().toLowerCase(Locale.ROOT).equals("goombella");
     }
 }
