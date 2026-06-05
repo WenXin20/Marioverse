@@ -24,7 +24,6 @@ public class MeleeAttackTagGoal extends Goal {
     private final boolean eatTarget;
     private final boolean followTargetEvenIfNotSeen;
     private final double speedModifier;
-    private final int attackInterval = 20;
     private int failedPathFindingPenalty = 0;
     private int ticksUntilNextAttack;
     private int ticksUntilNextPathRecalculation;
@@ -100,6 +99,9 @@ public class MeleeAttackTagGoal extends Goal {
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingEntity))
             this.mob.setTarget(null);
 
+        if (this.eatTarget)
+            this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+
         this.mob.setAggressive(false);
         this.mob.getNavigation().stop();
     }
@@ -146,10 +148,10 @@ public class MeleeAttackTagGoal extends Goal {
 
                 boolean canSwallow = this.mob.getTarget().getBbWidth() <= 2.0F &&
                         this.mob.getTarget().getBbHeight() <= 2.0F;
-
-                if (this.eatTarget && canSwallow
-                        && !this.mob.getData(DataAttachmentRegistry.IS_EATING))
-                    this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
+                boolean shouldOpenMouth = this.eatTarget && canSwallow
+                        && !this.mob.getData(DataAttachmentRegistry.IS_EATING)
+                        && this.mob.distanceToSqr(livingEntity) <= 256.0D;
+                this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, shouldOpenMouth);
             }
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
             this.checkAndPerformAttack(livingEntity);
