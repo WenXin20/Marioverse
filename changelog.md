@@ -1,5 +1,10 @@
 ## Update 1.10.0
 - Added the Porcupuffer
+  - Jumps out of water
+  - Attempts to eat players and other humanoids & fish
+  - Porcupuffers spawn in deep oceans
+  - Added Raw & Cooked Porcupuffer
+  - Added Mrs. Puff nametag easter egg
 - Added the Cheep Cheep
   - Jumps out of water
   - On contact, damages the player
