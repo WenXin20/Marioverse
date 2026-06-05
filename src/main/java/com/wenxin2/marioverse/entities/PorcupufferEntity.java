@@ -27,6 +27,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -68,7 +69,6 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     public static final RawAnimation FLOP = RawAnimation.begin().thenLoop("move.flop");
     public static final RawAnimation JUMP = RawAnimation.begin().thenLoop("move.jump");
     public static final RawAnimation SWIM = RawAnimation.begin().thenLoop("move.swim");
-    private static final float MAX_INTERNAL_DAMAGE = 8.0F;
     public int attackCooldown = 0;
     public int eatCooldown = 0;
     private float internalDamage;
@@ -76,8 +76,8 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     public PorcupufferEntity(EntityType<? extends PorcupufferEntity> type, Level world) {
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
-        this.xpReward = 2;
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 1.5F, 0.1F, true);
+        this.xpReward = 4;
     }
 
     @Override
@@ -146,19 +146,17 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(2, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 10, true, this.getJumpSound()));
-        this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
+        this.goalSelector.addGoal(3, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F,
+                false, true, true));
+        this.goalSelector.addGoal(4, new FishSwimGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 1.0, 20, true));
-        this.goalSelector.addGoal(4, new StopFollowFlockLeaderGoal(this));
-        this.goalSelector.addGoal(5, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F,
-                false, true, false));
-        this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), true));
+        this.goalSelector.addGoal(5, new StopFollowFlockLeaderGoal(this));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), false));
     }
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "swim", 5, this::swimAnimation));
-        controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
     }
 
     @Override
@@ -183,6 +181,8 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     public void tick() {
         super.tick();
 
+        this.entitySwallowed();
+
         if (this.attackCooldown > 0)
             this.attackCooldown--;
 
@@ -199,22 +199,22 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        boolean hurt = super.hurt(source, amount);
+        boolean isHurt = super.hurt(source, amount);
         Entity attacker = source.getEntity();
+        Entity passenger = this.getFirstPassenger();
 
-        if (hurt && this.getData(DataAttachmentRegistry.IS_EATING)) {
-            if (attacker != null && attacker.isPassenger()) {
+        if (isHurt && passenger != null && this.getData(DataAttachmentRegistry.IS_EATING)) {
+            if (attacker != null) {
                 this.internalDamage += amount;
                 this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
 
-                if (this.internalDamage >= MAX_INTERNAL_DAMAGE) {
-                    this.spitOutPassenger(attacker);
+                if (this.internalDamage >= 4.0F) { // TODO Config
+                    this.spitOutPassenger(passenger);
                     this.internalDamage = 0.0F;
                 }
             }
         }
-
-        return hurt;
+        return isHurt;
     }
 
 //    @NotNull
@@ -349,9 +349,27 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         this.setData(DataAttachmentRegistry.IS_EATING, false);
     }
 
+    private void entitySwallowed() {
+        Entity passenger = this.getFirstPassenger();
+        if (this.getData(DataAttachmentRegistry.IS_EATING)) {
+            if (!(passenger instanceof LivingEntity livingPassenger)
+                    || !livingPassenger.isAlive()) {
+                if (passenger != null)
+                    passenger.stopRiding();
+
+                this.setData(DataAttachmentRegistry.IS_EATING, false);
+                this.internalDamage = 0.0F;
+            }
+        }
+    }
+
     public boolean isMrsPuff() {
         return this.getName().getString().toLowerCase(Locale.ROOT).equals("mrs puff")
                 || this.getName().getString().toLowerCase(Locale.ROOT).equals("mrs. puff")
                 || this.getName().getString().toLowerCase(Locale.ROOT).equals("mrs_puff");
+    }
+
+    public boolean isQwilfish() {
+        return this.getName().getString().toLowerCase(Locale.ROOT).equals("qwilfish");
     }
 }
