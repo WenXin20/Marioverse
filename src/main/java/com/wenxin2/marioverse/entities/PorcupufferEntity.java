@@ -84,36 +84,36 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     @NotNull
     @Override
     protected SoundEvent getFlopSound() {
-        return SoundRegistry.CHEEP_CHEEP_FLOP.get();
-    } // TODO
+        return SoundRegistry.PORCUPUFFER_FLOP.get();
+    }
 
     @Nullable
     public SoundEvent getJumpSound() {
-        return SoundRegistry.CHEEP_CHEEP_JUMP.get();
-    } // TODO
+        return SoundRegistry.PORCUPUFFER_JUMP.get();
+    }
 
     @NotNull
     @Override
     protected SoundEvent getSwimSplashSound() {
-        return SoundRegistry.CHEEP_CHEEP_SPLASH.get();
-    } // TODO
+        return SoundRegistry.PORCUPUFFER_SPLASH.get();
+    }
 
     @NotNull
     @Override
     protected SoundEvent getSwimSound() {
-        return SoundRegistry.CHEEP_CHEEP_SWIM.get();
-    } // TODO
+        return SoundRegistry.PORCUPUFFER_SWIM.get();
+    }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.CHEEP_CHEEP_HURT.get();
-    } // TODO
+        return SoundRegistry.PORCUPUFFER_HURT.get();
+    }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundRegistry.CHEEP_CHEEP_DEATH.get();
-    } // TODO
+        return SoundRegistry.PORCUPUFFER_DEATH.get();
+    }
 
     @NotNull
     @Override

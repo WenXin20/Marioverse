@@ -97,6 +97,12 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_DEATH;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIRANHA_PLANT_HURT;
     public static final DeferredHolder<SoundEvent, SoundEvent> PLAYER_JUMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PORCUPUFFER_DEATH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PORCUPUFFER_FLOP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PORCUPUFFER_HURT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PORCUPUFFER_JUMP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PORCUPUFFER_SPLASH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PORCUPUFFER_SWIM;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP_MEGA_MUSHROOM;
     public static final DeferredHolder<SoundEvent, SoundEvent> POWERS_UP_MINI_MUSHROOM;
@@ -348,6 +354,19 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_death")));
         PIRANHA_PLANT_HURT = Marioverse.SOUNDS.register("entity.piranha_plant_hurt",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.piranha_plant_hurt")));
+
+        PORCUPUFFER_DEATH = Marioverse.SOUNDS.register("entity.porcupuffer_death",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.porcupuffer_death")));
+        PORCUPUFFER_FLOP = Marioverse.SOUNDS.register("entity.porcupuffer_flop",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.porcupuffer_flop")));
+        PORCUPUFFER_HURT = Marioverse.SOUNDS.register("entity.porcupuffer_hurt",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.porcupuffer_hurt")));
+        PORCUPUFFER_JUMP = Marioverse.SOUNDS.register("entity.porcupuffer_jump",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.porcupuffer_jump")));
+        PORCUPUFFER_SPLASH = Marioverse.SOUNDS.register("entity.porcupuffer_splash",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.porcupuffer_splash")));
+        PORCUPUFFER_SWIM = Marioverse.SOUNDS.register("entity.porcupuffer_swim",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.porcupuffer_swim")));
 
         SPLUNKIN_CRACKS = Marioverse.SOUNDS.register("entity.splunkin_cracks",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.splunkin_cracks")));
