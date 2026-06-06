@@ -173,6 +173,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.DEEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG);
+            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, Component.literal("Mrs. Puff"));
+            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, Component.literal("Qwilfish"));
         }
 
         if (event.getTabKey() == MARIOVERSE_BUILDING_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
@@ -728,9 +730,16 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+                ItemStack goomba = new ItemStack(ItemRegistry.GOOMBA_SPAWN_EGG.get());
+                ItemStack goombella = customName(ItemRegistry.GOOMBA_SPAWN_EGG.get(), Component.literal("Goombella Spawn Egg"));
+                ItemStack porcupuffer = new ItemStack(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get());
+                ItemStack mrsPuff = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Mrs. Puff Spawn Egg"));
+                ItemStack qwilfish = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Qwilfish Spawn Egg"));
+
                 addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
-                addAfter(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG, ItemRegistry.GOOMBA_SPAWN_EGG);
-                addAfter(event, ItemRegistry.GOOMBA_SPAWN_EGG, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
+                addAfter(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG, goomba);
+                addAfter(event, goomba, goombella);
+                addAfter(event, goombella, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG, ItemRegistry.SPLUNKIN_SPAWN_EGG);
@@ -746,7 +755,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG, ItemRegistry.EEP_CHEEP_SPAWN_EGG);
                 addAfter(event, ItemRegistry.EEP_CHEEP_SPAWN_EGG, ItemRegistry.DEEP_CHEEP_SPAWN_EGG);
                 addAfter(event, ItemRegistry.DEEP_CHEEP_SPAWN_EGG, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
-                addAfter(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG, ItemRegistry.PORCUPUFFER_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG, porcupuffer);
+                addAfter(event, porcupuffer, mrsPuff);
+                addAfter(event, mrsPuff, qwilfish);
             }
 
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
@@ -1265,6 +1276,13 @@ public class MarioverseCreativeTabs {
 
         tag.putString("Variant", variant);
         stack.set(DataComponents.BUCKET_ENTITY_DATA, CustomData.of(tag));
+        return stack;
+    }
+
+    public static ItemStack customName(ItemLike item, Component name) {
+        ItemStack stack = new ItemStack(item);
+
+        stack.set(DataComponents.CUSTOM_NAME, name);
         return stack;
     }
 }

@@ -121,7 +121,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.POKEY_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PORCUPUFFER.get());
-        this.basicItem(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.QUICKSAND_BUCKET.get());
         this.basicItem(ItemRegistry.RED_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.RED_KOOPA_SHOES.get());
@@ -201,6 +200,16 @@ public class ItemModelGen extends ItemModelProvider {
                 .predicate(modLoc("custom_name"), 1.0F).end();
         this.getBuilder("goombella_spawn_egg").parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/goombella_spawn_egg"));
+
+        this.basicItem(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/mrs_puff_spawn_egg")))
+                .predicate(modLoc("custom_name"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/qwilfish_spawn_egg")))
+                .predicate(modLoc("custom_name"), 2.0F).end();
+        this.getBuilder("mrs_puff_spawn_egg").parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/mrs_puff_spawn_egg"));
+        this.getBuilder("qwilfish_spawn_egg").parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/qwilfish_spawn_egg"));
     }
 
     public void largeItem(Item item) {

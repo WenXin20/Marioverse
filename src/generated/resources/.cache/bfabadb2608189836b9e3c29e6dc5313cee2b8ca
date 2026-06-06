@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-01T23:58:02.7683746	Item Models: marioverse
+// 1.21.1	2026-06-05T21:31:09.2380506	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -123,6 +123,7 @@ f16534875539ddc16f40c06e79c8e7938899b5aa assets/marioverse/models/item/mega_goom
 1b5993673a3ceec6b062a2b6ff1cb726b248c4f5 assets/marioverse/models/item/mega_mushroom.json
 15c0c9864410ac76dde40bb484d2ea40f2b10d16 assets/marioverse/models/item/mini_goomba_spawn_egg.json
 59e91ed31386dbdb37cb6e67d9727efbed5dba9b assets/marioverse/models/item/mini_mushroom.json
+5e4f22b9514f8ff7c62f46451c1bee66b86cefed assets/marioverse/models/item/mrs_puff_spawn_egg.json
 de0c3b51b45be55cd8615c33465ddeed4ad4fb6b assets/marioverse/models/item/one_up_mushroom.json
 d71e2369371eda26924578fbbc22e15b1f7c69ff assets/marioverse/models/item/orange_checkpoint_flag.json
 1ba34bbdf64a09d00da46fdb911a8b9b7f79324f assets/marioverse/models/item/orange_goal_pole.json
@@ -150,10 +151,11 @@ d8a3acf65b44e338b04ea80adce5e17f5ce6d262 assets/marioverse/models/item/plumber_b
 0d1fea66147a98e071d9361736d86ba391ed70c7 assets/marioverse/models/item/plumber_pottery_sherd.json
 fc029394ebf653775f7350dd93a119122ae1c02a assets/marioverse/models/item/pokey_spawn_egg.json
 5c25a1b36f32fbdcec8568fd9b1e326057068893 assets/marioverse/models/item/porcupuffer.json
-069311f91d05d4e6db548d78eed246acd9faf919 assets/marioverse/models/item/porcupuffer_spawn_egg.json
+883ff031d533a31fcdbb7defc7e7961cf6e92181 assets/marioverse/models/item/porcupuffer_spawn_egg.json
 4a3746510cabf26b5c88a932e865786a21bf1b35 assets/marioverse/models/item/purple_checkpoint_flag.json
 ef059e518da49e15561b546a1b7735365e180852 assets/marioverse/models/item/purple_goal_pole.json
 36ae02ca8f637450363dd0388eccaedf018b4dc1 assets/marioverse/models/item/quicksand_bucket.json
+f99db32fd9eb5049590e4fddcf966a2cc577401e assets/marioverse/models/item/qwilfish_spawn_egg.json
 27f7ca8c3d184467af24f4c72267ce5d11362b40 assets/marioverse/models/item/red_checkpoint_flag.json
 b09eace6cd341193e99d9e8b060de4648046b875 assets/marioverse/models/item/red_goal_pole.json
 fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa_shell.json

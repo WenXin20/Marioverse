@@ -20,6 +20,7 @@ import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import net.minecraft.client.Camera;
@@ -224,6 +225,10 @@ public class ClientEventHandlers {
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> goombellaName(stack));
 
+            ItemProperties.register(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
+                    (stack, level, entity, seed) -> porcupufferCustomName(stack));
+
             ItemProperties.register(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> wonderAmericaName(stack));
@@ -273,6 +278,24 @@ public class ClientEventHandlers {
             if (name != null && (name.getString().equalsIgnoreCase("goombella")
                     || name.getString().equalsIgnoreCase("goombella spawn egg")))
                 return 1.0F;
+        }
+        return 0.0F;
+    }
+
+    private static float porcupufferCustomName(ItemStack stack) {
+        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
+            Component name = stack.get(DataComponents.CUSTOM_NAME);
+            if (name != null && (name.getString().equalsIgnoreCase("mrs puff")
+                    || name.getString().toLowerCase(Locale.ROOT).equals("mrs. puff")
+                    || name.getString().toLowerCase(Locale.ROOT).equals("mrs_puff")
+                    || name.getString().equalsIgnoreCase("mrs puff spawn egg")
+                    || name.getString().equalsIgnoreCase("mrs. puff spawn egg")
+                    || name.getString().equalsIgnoreCase("mrs_puff spawn egg")))
+                return 1.0F;
+
+            if (name != null && (name.getString().equalsIgnoreCase("qwilfish")
+                    || name.getString().equalsIgnoreCase("qwilfish spawn egg")))
+                return 2.0F;
         }
         return 0.0F;
     }
