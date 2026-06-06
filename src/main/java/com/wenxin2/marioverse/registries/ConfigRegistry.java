@@ -57,6 +57,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
     public static final String CATEGORY_PIRANHA_PLANT = "piranha_plant";
     public static final String CATEGORY_POKEY = "pokey";
+    public static final String CATEGORY_PORCUPUFFER = "porcupuffer";
     public static final String CATEGORY_RED_KOOPA_SHELL = "red_koopa_shell";
     public static final String CATEGORY_RED_KOOPA_TROOPA = "red_koopa_troopa";
     public static final String CATEGORY_SNOW_POKEY = "snow_pokey";
@@ -187,6 +188,9 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue LARGE_SNOWBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue PORCUPUFFER_DAMAGE_THRESHOLD;
+    public static ModConfigSpec.DoubleValue PORCUPUFFER_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue PORCUPUFFER_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue SHRINK_HEIGHT_SCALE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
@@ -838,6 +842,18 @@ public class ConfigRegistry {
                             .comment("§6Set to 0 to always bloom.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("pokey_bloom_frequency", 1000, 0, 12000);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_PORCUPUFFER);
+                    PORCUPUFFER_LURE_RADIUS = BUILDER.translation("configuration.marioverse.porcupuffer_lure_radius")
+                            .comment("The radius Porcupuffers will be lured towards the target mob or player if above water.§b")
+                            .defineInRange("porcupuffer_lure_radius", 16.0, 0.0, 32.0);
+                    PORCUPUFFER_DAMAGE_THRESHOLD = BUILDER.translation("configuration.marioverse.porcupuffer_damage_threshold")
+                            .comment("The amount of damage Porcupuffers can take before spitting out the swallowed mob or player.§b")
+                            .defineInRange("porcupuffer_damage_threshold", 4.0, 0.0, 40.0);
+                    PORCUPUFFER_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.porcupuffer_health_healed")
+                            .comment("The amount of health Porcupuffers heal after swallowing a mob or player.§b")
+                            .defineInRange("porcupuffer_health_healed", 2.0, 0.0, 40.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SNOW_POKEY);

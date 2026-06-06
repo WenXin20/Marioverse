@@ -13,8 +13,6 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Locale;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -23,7 +21,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -61,7 +58,6 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntity {
@@ -137,7 +133,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     }
 
     public double getLureRadius() {
-        return ConfigRegistry.CHEEP_CHEEP_LURE_RADIUS.get(); // TODO
+        return ConfigRegistry.PORCUPUFFER_LURE_RADIUS.get();
      }
 
     @Override
@@ -208,7 +204,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
                 this.internalDamage += amount;
                 this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
 
-                if (this.internalDamage >= 4.0F) { // TODO Config
+                if (this.internalDamage >= ConfigRegistry.PORCUPUFFER_DAMAGE_THRESHOLD.get()) {
                     this.spitOutPassenger(passenger);
                     this.internalDamage = 0.0F;
                 }
@@ -228,8 +224,9 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         super.doPush(entity);
         boolean canSwallow = entity.getBbWidth() <= 2.0F &&
                 entity.getBbHeight() <= 2.0F;
-        Vec3 look = this.getLookAngle();
-        Vec3 toTarget = entity.position().subtract(this.position()).normalize();
+        Vec3 look = new Vec3(this.getLookAngle().x, 0.0D, this.getLookAngle().z).normalize();
+        Vec3 toTarget = entity.position().subtract(this.position());
+        toTarget = new Vec3(toTarget.x, 0.0D, toTarget.z).normalize();
 
         if (this.isAlive() && !this.isAlliedTo(entity) && this.attackCooldown == 0
                 && this.level().getDifficulty() != Difficulty.PEACEFUL) {
@@ -357,6 +354,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
                 if (passenger != null)
                     passenger.stopRiding();
 
+                this.heal(ConfigRegistry.PORCUPUFFER_HEALTH_HEALED.get().floatValue());
                 this.setData(DataAttachmentRegistry.IS_EATING, false);
                 this.internalDamage = 0.0F;
             }
