@@ -155,7 +155,7 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG);
-            add(event, ItemRegistry.GOOMBA_SPAWN_EGG, Component.literal("Goombella"));
+            add(event, ItemRegistry.GOOMBA_SPAWN_EGG, Component.literal("Goombella Spawn Egg"));
             add(event, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.MEGA_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.FIRE_GOOMBA_SPAWN_EGG);
@@ -173,8 +173,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.DEEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG);
-            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, Component.literal("Mrs. Puff"));
-            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, Component.literal("Qwilfish"));
+            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, Component.literal("Mrs. Puff Spawn Egg"));
+            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, Component.literal("Qwilfish Spawn Egg"));
         }
 
         if (event.getTabKey() == MARIOVERSE_BUILDING_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
