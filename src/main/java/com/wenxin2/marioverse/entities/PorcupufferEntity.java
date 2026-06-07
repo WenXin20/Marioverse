@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.entities.ai.goals.PickupItemGoal;
 import com.wenxin2.marioverse.entities.ai.goals.StopFollowFlockLeaderGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -12,8 +13,10 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Locale;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -42,6 +45,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -140,9 +144,10 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
                 this.getLureRadius(), 10, true, this.getJumpSound()));
         this.goalSelector.addGoal(3, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F,
                 false, true, true));
-        this.goalSelector.addGoal(4, new FishSwimGoal(this, this.getCanAttackTag(),
-                this.getLureRadius(), 1.0, 20, true));
-        this.goalSelector.addGoal(5, new StopFollowFlockLeaderGoal(this));
+        this.goalSelector.addGoal(4, new PickupItemGoal(this, ItemTags.FISHES, this.getLureRadius(), 1.2F, true));
+        this.goalSelector.addGoal(5, new FishSwimGoal(this, this.getCanAttackTag(),
+                this.getLureRadius(), 20.0, 20, true));
+        this.goalSelector.addGoal(6, new StopFollowFlockLeaderGoal(this));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), false));
     }
 
@@ -234,7 +239,8 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
                 else entity.hurt(this.getDamageSource(this), attackDamage);
             }
 
-            if (!this.isNoAi() && this.eatCooldown == 0 && canSwallow && look.dot(toTarget) > 0.5D
+            if (!entity.level().isClientSide && !this.isNoAi() && this.eatCooldown == 0
+                    && canSwallow && look.dot(toTarget) > 0.5D
                     && entity.getType().is(TagRegistry.PORCUPUFFER_CAN_EAT)
                     && this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
                 entity.startRiding(this, true);
@@ -329,6 +335,10 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
                     || !livingPassenger.isAlive()) {
                 if (passenger != null)
                     passenger.stopRiding();
+
+                if (ConfigRegistry.PORCUPUFFER_HEALTH_HEALED.get().floatValue() > 0)
+                    this.level().addAlwaysVisibleParticle(ParticleTypes.HEART, this.getX() + 0.5,
+                            this.getY() + this.getBbHeight(), this.getZ() + 0.5, 0.0, 0.2, 0.0);
 
                 this.heal(ConfigRegistry.PORCUPUFFER_HEALTH_HEALED.get().floatValue());
                 this.setData(DataAttachmentRegistry.IS_EATING, false);

@@ -305,6 +305,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(ItemTags.MEAT)
                 .add(Items.BONE_MEAL);
 
+        tag(TagRegistry.PORCUPUFFER_FOOD)
+                .addTag(ItemTags.FISHES);
+
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 .addTag(Tags.Items.DYES)
                 .addTag(Tags.Items.TOOLS_WRENCH)
