@@ -36,16 +36,12 @@ import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
-import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -285,26 +281,6 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         if (!this.getPassengers().isEmpty())
             return false;
         return super.removeWhenFarAway(distanceToClosestPlayer);
-    }
-
-    @Override // TODO remove
-    public boolean canTakeItem(ItemStack stack) {
-        EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
-        return this.getItemBySlot(equipmentslot).isEmpty();
-    }
-
-    @NotNull
-    @Override
-    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty() && player.isCreative()
-                && (player.getItemInHand(hand).getItem() instanceof ArmorItem
-                || (player.getItemInHand(hand).getItem() instanceof BlockItem blockItem
-                && (blockItem.getBlock() instanceof SkullBlock
-                || blockItem.getBlock() instanceof EquipableCarvedPumpkinBlock)))) {
-            this.equipItemIfPossible(player.getItemInHand(hand));
-            return InteractionResult.SUCCESS;
-        }
-        return super.mobInteract(player, hand);
     }
 
     @Nullable
