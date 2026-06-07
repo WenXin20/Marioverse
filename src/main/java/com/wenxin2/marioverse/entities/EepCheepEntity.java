@@ -65,8 +65,14 @@ public class EepCheepEntity extends CheepCheepEntity implements GeoEntity {
         return DamageSourceRegistry.eepCheepBite(collidingEntity);
     }
 
+    @Override
     public TagKey<EntityType<?>> getCanAttackTag() {
         return TagRegistry.EEP_CHEEP_CAN_ATTACK;
+    }
+
+    @Override
+    public TagKey<EntityType<?>> getAvoidEntityTag() {
+        return TagRegistry.EEP_CHEEP_AVOIDS;
     }
 
     @Override
@@ -81,10 +87,10 @@ public class EepCheepEntity extends CheepCheepEntity implements GeoEntity {
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(2, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 10, false, this.getJumpSound()));
-        this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
-                this.getLureRadius(), 1.0, 20, true));
-        this.goalSelector.addGoal(4, new AvoidEntityTagGoal(this, this.getCanAttackTag(),
+        this.goalSelector.addGoal(3, new AvoidEntityTagGoal(this, this.getAvoidEntityTag(),
                 6.0F, 1.2, 2.0));
+        this.goalSelector.addGoal(4, new FishSwimGoal(this, this.getCanAttackTag(),
+                this.getLureRadius(), 1.0, 20, true));
         this.goalSelector.addGoal(5, new StopFollowFlockLeaderGoal(this));
     }
 

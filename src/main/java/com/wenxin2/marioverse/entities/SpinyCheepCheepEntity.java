@@ -69,8 +69,14 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
         return DamageSourceRegistry.spinyCheepCheepBite(collidingEntity);
     }
 
+    @Override
     public TagKey<EntityType<?>> getCanAttackTag() {
         return TagRegistry.SPINY_CHEEP_CHEEP_CAN_ATTACK;
+    }
+
+    @Override
+    public TagKey<EntityType<?>> getAvoidEntityTag() {
+        return TagRegistry.SPINY_CHEEP_CHEEP_AVOIDS;
     }
 
     @Override

@@ -61,8 +61,14 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
         return DamageSourceRegistry.deepCheepBite(collidingEntity);
     }
 
+    @Override
     public TagKey<EntityType<?>> getCanAttackTag() {
         return TagRegistry.DEEP_CHEEP_CAN_ATTACK;
+    }
+
+    @Override
+    public TagKey<EntityType<?>> getAvoidEntityTag() {
+        return TagRegistry.DEEP_CHEEP_AVOIDS;
     }
 
     @Override

@@ -1,16 +1,20 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.Comparator;
 import java.util.EnumSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.Path;
 
@@ -66,12 +70,18 @@ public class PickupItemGoal extends Goal {
 
         if (this.mob.distanceToSqr(this.targetItem) < 2.25D) {
             ItemStack stack = this.targetItem.getItem();
+            boolean shouldOpenMouth = this.eatIfEdible
+                    && !this.mob.getData(DataAttachmentRegistry.IS_EATING);
+
+            this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, shouldOpenMouth);
 
             if (this.eatIfEdible && stack.has(DataComponents.FOOD) && this.mob.getHealth() < this.mob.getMaxHealth()) {
                 FoodProperties foodProperties = stack.getFoodProperties(this.mob);
                 float nutrition = foodProperties != null ? (float) foodProperties.nutrition() : 1.0F;
 
+                this.mob.playSound(this.mob.getEatingSound(stack), 1.0F, 1.0F);
                 this.mob.heal(ConfigRegistry.PORCUPUFFER_HEALTH_HEALED.get().floatValue() * nutrition);
+                this.mob.level().broadcastEntityEvent(this.mob, (byte)45);
                 this.mob.gameEvent(GameEvent.EAT);
                 stack.consume(1, this.mob);
 
@@ -95,6 +105,9 @@ public class PickupItemGoal extends Goal {
     public void stop() {
         this.targetItem = null;
         this.mob.getNavigation().stop();
+
+        if (this.eatIfEdible)
+            this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
     }
 
     private ItemEntity findNearestItem() {

@@ -546,6 +546,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.EEP_CHEEP.get())
                 .add(EntityRegistry.SPINY_CHEEP_CHEEP.get());
 
+        tag(TagRegistry.CHEEP_CHEEP_AVOIDS)
+                .add(EntityRegistry.PORCUPUFFER.get());
+
         tag(TagRegistry.CHEEP_CHEEP_CAN_ATTACK)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
@@ -563,6 +566,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.DEATH_BLOCKS_IMMUNE);
 
         tag(TagRegistry.DECORATED_POT_CANNOT_SPAWN);
+
+        tag(TagRegistry.DEEP_CHEEP_AVOIDS)
+                .add(EntityRegistry.PORCUPUFFER.get());
 
         tag(TagRegistry.DEEP_CHEEP_CAN_ATTACK)
                 .add(EntityType.PLAYER)
@@ -590,6 +596,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(MALE_VILLAGER);
 
         tag(TagRegistry.EEP_CHEEP_AVOIDS)
+                .add(EntityRegistry.PORCUPUFFER.get())
                 .add(EntityType.DOLPHIN)
                 .add(EntityType.PLAYER)
                 .add(EntityType.VILLAGER)
@@ -915,6 +922,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.SPIKE_PANEL_IMMUNE)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.BOO.get());
+
+        tag(TagRegistry.SPINY_CHEEP_CHEEP_AVOIDS)
+                .add(EntityRegistry.PORCUPUFFER.get());
 
         tag(TagRegistry.SPINY_CHEEP_CHEEP_CAN_ATTACK)
                 .add(EntityType.PLAYER)

@@ -308,7 +308,7 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 1.5F)
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.MAX_HEALTH, 40)
-                .add(Attributes.MOVEMENT_SPEED, 1.0F)
+                .add(Attributes.MOVEMENT_SPEED, 10.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.2F);
         AttributeSupplier.Builder mushroomAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 6)

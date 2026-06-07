@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.goals.AvoidEntityTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.ai.goals.StopFollowFlockLeaderGoal;
@@ -133,6 +134,10 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         return TagRegistry.CHEEP_CHEEP_CAN_ATTACK;
     }
 
+    public TagKey<EntityType<?>> getAvoidEntityTag() {
+        return TagRegistry.CHEEP_CHEEP_CAN_ATTACK;
+    }
+
     public double getLureRadius() {
         return ConfigRegistry.CHEEP_CHEEP_LURE_RADIUS.get();
     }
@@ -143,9 +148,11 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(2, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 10, false, this.getJumpSound()));
-        this.goalSelector.addGoal(3, new FishSwimGoal(this, this.getCanAttackTag(),
+        this.goalSelector.addGoal(3, new AvoidEntityTagGoal(this, this.getAvoidEntityTag(),
+                6.0F, 1.2, 2.0));
+        this.goalSelector.addGoal(4, new FishSwimGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 1.0, 20, true));
-        this.goalSelector.addGoal(4, new StopFollowFlockLeaderGoal(this));
+        this.goalSelector.addGoal(5, new StopFollowFlockLeaderGoal(this));
     }
 
     @Override

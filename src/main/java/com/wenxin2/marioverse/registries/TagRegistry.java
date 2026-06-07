@@ -258,11 +258,13 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_WEAR_SHOES = entityTypeTags("can_wear_shoes");
     public static final TagKey<EntityType<?>> CHECKPOINT_FLAG_CANNOT_SPAWN = entityTypeTags("checkpoint_flag_cannot_spawn");
     public static final TagKey<EntityType<?>> CHEEP_CHEEPS = entityTypeTags("cheep_cheeps");
+    public static final TagKey<EntityType<?>> CHEEP_CHEEP_AVOIDS = entityTypeTags("cheep_cheep_avoids");
     public static final TagKey<EntityType<?>> CHEEP_CHEEP_CAN_ATTACK = entityTypeTags("cheep_cheep_can_attack");
     public static final TagKey<EntityType<?>> DAMAGE_CANNOT_SHRINK = entityTypeTags("damage_cannot_shrink");
     public static final TagKey<EntityType<?>> DASH_MUSHROOM_CANNOT_BOOST = entityTypeTags("dash_mushroom_cannot_boost");
     public static final TagKey<EntityType<?>> DEATH_BLOCKS_IMMUNE = entityTypeTags("death_blocks_immune");
     public static final TagKey<EntityType<?>> DECORATED_POT_CANNOT_SPAWN = entityTypeTags("decorated_pot_cannot_spawn");
+    public static final TagKey<EntityType<?>> DEEP_CHEEP_AVOIDS = entityTypeTags("deep_cheep_avoids");
     public static final TagKey<EntityType<?>> DEEP_CHEEP_CAN_ATTACK = entityTypeTags("deep_cheep_can_attack");
     public static final TagKey<EntityType<?>> DRY_BONES_BONES = entityTypeTags("dry_bones_bones");
     public static final TagKey<EntityType<?>> DRY_BONES_CAN_ATTACK = entityTypeTags("dry_bones_can_attack");
@@ -314,6 +316,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> SNOW_POKEY_CAN_ATTACK = entityTypeTags("snow_pokey_can_attack");
     public static final TagKey<EntityType<?>> SNOW_POKEY_ENTITIES = entityTypeTags("snow_pokeys");
     public static final TagKey<EntityType<?>> SPIKE_PANEL_IMMUNE = entityTypeTags("spike_panel_immune");
+    public static final TagKey<EntityType<?>> SPINY_CHEEP_CHEEP_AVOIDS = entityTypeTags("spiny_cheep_cheep_avoids");
     public static final TagKey<EntityType<?>> SPINY_CHEEP_CHEEP_CAN_ATTACK = entityTypeTags("spiny_cheep_cheep_can_attack");
     public static final TagKey<EntityType<?>> SPLUNKIN_CAN_ATTACK = entityTypeTags("splunkin_can_attack");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
