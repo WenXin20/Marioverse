@@ -73,7 +73,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 1.5F, 0.1F, true);
-        this.xpReward = 4;
+        this.xpReward = 10;
     }
 
     @Override

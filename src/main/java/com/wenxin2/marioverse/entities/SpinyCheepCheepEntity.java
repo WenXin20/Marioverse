@@ -55,7 +55,7 @@ public class SpinyCheepCheepEntity extends CheepCheepEntity implements GeoEntity
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
-        this.xpReward = 2;
+        this.xpReward = 6;
     }
 
     @NotNull
