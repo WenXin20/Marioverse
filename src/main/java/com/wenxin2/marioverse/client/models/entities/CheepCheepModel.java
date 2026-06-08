@@ -5,7 +5,11 @@ import com.wenxin2.marioverse.entities.CheepCheepEntity;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 
 public class CheepCheepModel extends GeoModel<CheepCheepEntity> {
     public CheepCheepModel() {
@@ -33,5 +37,17 @@ public class CheepCheepModel extends GeoModel<CheepCheepEntity> {
     @Override
     public ResourceLocation getAnimationResource(CheepCheepEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/cheep_cheep/cheep_cheep.animation.json");
+    }
+
+    @Override
+    public void setCustomAnimations(CheepCheepEntity animatable, long instanceId, AnimationState<CheepCheepEntity> animationState) {
+        GeoBone head = this.getAnimationProcessor().getBone("bipedBody");
+        if (head != null) {
+            EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
+            if (entityData != null) {
+                head.setRotX(entityData.headPitch() * 0.017453292F);
+                head.setRotY(entityData.netHeadYaw() * 0.017453292F);
+            }
+        }
     }
 }
