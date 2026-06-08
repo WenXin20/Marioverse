@@ -17,6 +17,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
     private final boolean canRandomSwim;
     private final TagKey<EntityType<?>> lureEntityTag;
     private final double lureRadius;
+    private final double speedModifier;
 
     public FishSwimGoal(PathfinderMob mob, TagKey<EntityType<?>> lureEntityTag, double lureRadius, double speedModifier, int interval, boolean canRandomSwim) {
         super(mob, speedModifier, interval);
@@ -24,6 +25,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
         this.mob = mob;
         this.lureEntityTag = lureEntityTag;
         this.lureRadius = lureRadius;
+        this.speedModifier = speedModifier;
     }
 
     @Override
@@ -58,14 +60,14 @@ public class FishSwimGoal extends RandomSwimmingGoal {
             this.mob.yBodyRot = this.mob.getYRot();
 
             this.mob.getLookControl().setLookAt(target, 10.0F, 10.0F);
-            this.mob.getNavigation().moveTo(moveTo.x, moveTo.y, moveTo.z, 1.6);
+            this.mob.getNavigation().moveTo(moveTo.x, moveTo.y, moveTo.z, this.speedModifier);
             this.mob.setSwimming(true);
         }
 
         if (this.mob.getNavigation().isDone()) {
             Vec3 pos = this.getPosition();
             if (pos != null)
-                this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, 1.0);
+                this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, this.speedModifier);
         }
     }
 

@@ -52,6 +52,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> IS_MOUTH_OPEN = Marioverse.ATTACHMENT_TYPES
             .register("is_mouth_open", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> IS_MOVING = Marioverse.ATTACHMENT_TYPES
+            .register("is_moving", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> IS_RIGHT_CLICKABLE = Marioverse.ATTACHMENT_TYPES
             .register("is_right_clickable", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());

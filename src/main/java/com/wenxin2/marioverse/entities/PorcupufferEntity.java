@@ -1,11 +1,11 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.controls.UndulatingSwimMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupItemGoal;
-import com.wenxin2.marioverse.entities.ai.goals.StopFollowFlockLeaderGoal;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -21,8 +21,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -32,13 +30,11 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
-import net.minecraft.world.entity.animal.AbstractSchoolingFish;
+import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -60,7 +56,7 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntity {
+public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public static final RawAnimation FLOP = RawAnimation.begin().thenLoop("move.flop");
     public static final RawAnimation JUMP = RawAnimation.begin().thenLoop("move.jump");
@@ -72,7 +68,7 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
     public PorcupufferEntity(EntityType<? extends PorcupufferEntity> type, Level world) {
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 1.5F, 0.1F, true);
+        this.moveControl = new UndulatingSwimMoveControl(this);
         this.xpReward = 10;
     }
 
@@ -142,12 +138,11 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(2, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 10, true, this.getJumpSound()));
-        this.goalSelector.addGoal(3, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.2F,
+        this.goalSelector.addGoal(3, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.8F,
                 false, true, true));
-        this.goalSelector.addGoal(4, new PickupItemGoal(this, ItemTags.FISHES, this.getLureRadius(), 1.2F, true));
+        this.goalSelector.addGoal(4, new PickupItemGoal(this, TagRegistry.PORCUPUFFER_FOOD, this.getLureRadius(), 1.8F, true));
         this.goalSelector.addGoal(5, new FishSwimGoal(this, this.getCanAttackTag(),
-                this.getLureRadius(), 20.0, 20, true));
-        this.goalSelector.addGoal(6, new StopFollowFlockLeaderGoal(this));
+                this.getLureRadius(), 1.8, 20, true));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), false));
     }
 
@@ -192,6 +187,23 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
         if (this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)
                 && this.getData(DataAttachmentRegistry.IS_EATING) && this.getFirstPassenger() == null)
             this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+    }
+
+    @Override
+    public void aiStep() {
+        super.aiStep();
+
+        if (this.isMoving() && this.isInWaterOrBubble()) {
+            Vec3 vec31 = this.getViewVector(0.0F);
+
+            for (int i = 0; i < 2; i++) {
+                this.level().addParticle(ParticleTypes.BUBBLE,
+                        this.getRandomX(0.5) - vec31.x * 1.5,
+                        this.getRandomY() - vec31.y * 1.5,
+                        this.getRandomZ(0.5) - vec31.z * 1.5,
+                        0.0, 0.0, 0.0);
+            }
+        }
     }
 
     @Override
@@ -342,9 +354,18 @@ public class PorcupufferEntity extends AbstractSchoolingFish implements GeoEntit
 
                 this.heal(ConfigRegistry.PORCUPUFFER_HEALTH_HEALED.get().floatValue());
                 this.setData(DataAttachmentRegistry.IS_EATING, false);
+                this.gameEvent(GameEvent.EAT);
                 this.internalDamage = 0.0F;
             }
         }
+    }
+
+    public boolean isMoving() {
+        return this.getData(DataAttachmentRegistry.IS_MOVING);
+    }
+
+    public void setMoving(boolean isMoving) {
+        this.setData(DataAttachmentRegistry.IS_MOVING, isMoving);
     }
 
     public boolean isMrsPuff() {
