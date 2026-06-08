@@ -4,7 +4,7 @@
   "spawners": [
     {
       "type": "marioverse:mini_goomba",
-      "weight": 25,
+      "weight": 40,
       "minCount": 4,
       "maxCount": 10
     },
