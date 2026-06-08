@@ -154,8 +154,8 @@ public class EntityRegistry {
                     .sized(2.875F, 3.25F).eyeHeight(2.625F).ridingOffset(0.125F).build("mega_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA =
             Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.25F, 0.3125F).eyeHeight(0.3125F).ridingOffset(0.1F)
-                    .nameTagOffset(-0.05F).build("mini_goomba"));
+                    .sized(0.3125F, 0.375F).eyeHeight(0.3125F).ridingOffset(0.1F)
+                    .nameTagOffset(-0.05F).clientTrackingRange(20).build("mini_goomba"));
     public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT =
             Marioverse.ENTITIES.register("piranha_plant", () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
                     .sized(1.0F, 2.3125F).eyeHeight(0.8F).ridingOffset(0.1F).build("piranha_plant"));
@@ -308,23 +308,23 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_DAMAGE, 1.5F)
                 .add(Attributes.ATTACK_SPEED, 0.0F)
                 .add(Attributes.MAX_HEALTH, 40)
-                .add(Attributes.MOVEMENT_SPEED, 10.0F)
+                .add(Attributes.MOVEMENT_SPEED, 0.8F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1.2F);
         AttributeSupplier.Builder mushroomAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 6)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 20.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
         AttributeSupplier.Builder megaMushroomAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.JUMP_STRENGTH, 0.55F)
                 .add(Attributes.MAX_HEALTH, 20)
                 .add(Attributes.MOVEMENT_SPEED, 0.5F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 20.0F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 25.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.2F);
         AttributeSupplier.Builder miniMushroomAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 2)
                 .add(Attributes.MOVEMENT_SPEED, 0.3F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 10.0F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 20.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.4F);
         AttributeSupplier.Builder powerUpAttributes = PathfinderMob.createMobAttributes()
                 .add(Attributes.JUMP_STRENGTH, 0.25F)
@@ -334,7 +334,7 @@ public class EntityRegistry {
                 .add(Attributes.JUMP_STRENGTH, 0.5F)
                 .add(Attributes.MAX_HEALTH, 20)
                 .add(Attributes.MOVEMENT_SPEED, 0.8F)
-                .add(Attributes.SAFE_FALL_DISTANCE, 20.0F)
+                .add(Attributes.SAFE_FALL_DISTANCE, 40.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
 
         event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
