@@ -43,10 +43,10 @@ public class UndulatingSwimMoveControl extends MoveControl {
 
             this.mob.setSpeed(currentSpeed);
 
-            double sway = Math.sin((this.mob.tickCount + this.mob.getId()) * 0.5D) * 0.01D;
+            double sway = Math.sin((this.mob.tickCount + this.mob.getId()) * 0.5D) * 0.02D;
             double yawCos = Math.cos(this.mob.getYRot() * (Math.PI / 180.0F));
             double yawSin = Math.sin(this.mob.getYRot() * (Math.PI / 180.0F));
-            double bob = Math.sin((this.mob.tickCount + this.mob.getId()) * 0.75D) * 0.01D;
+            double bob = Math.sin((this.mob.tickCount + this.mob.getId()) * 0.75D) * 0.02D;
 
             this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(sway * yawCos,
                     bob * (yawSin + yawCos) * 0.25D + currentSpeed * yNorm * 0.3D, sway * yawSin));

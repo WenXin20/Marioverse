@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
-import com.wenxin2.marioverse.entities.ai.controls.UndulatingSwimMoveControl;
+import com.wenxin2.marioverse.entities.ai.controls.ConfigurableSmoothSwimmingMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
@@ -16,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -68,7 +67,8 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     public PorcupufferEntity(EntityType<? extends PorcupufferEntity> type, Level world) {
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        this.moveControl = new UndulatingSwimMoveControl(this);
+        this.moveControl = new ConfigurableSmoothSwimmingMoveControl(this, 85, 10,
+                1.5F, 0.1F, 1.2F, true);
         this.xpReward = 10;
     }
 

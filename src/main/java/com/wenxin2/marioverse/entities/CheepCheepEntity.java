@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.controls.ConfigurableSmoothSwimmingMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.AvoidEntityTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.FishSwimGoal;
 import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
@@ -14,6 +15,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -35,7 +37,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
@@ -49,6 +50,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -76,7 +78,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     public CheepCheepEntity(EntityType<? extends CheepCheepEntity> type, Level world) {
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
+        this.moveControl = new ConfigurableSmoothSwimmingMoveControl(this, 85, 10,
+                1.5F, 0.1F, 1.0F, true);
         this.xpReward = 2;
     }
 
@@ -234,6 +237,23 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     }
 
     @Override
+    public void aiStep() {
+        super.aiStep();
+
+        if (this.isMoving() && this.isInWaterOrBubble() && this.random.nextFloat() < 0.25F) {
+            Vec3 vec31 = this.getViewVector(0.0F);
+
+            for (int i = 0; i < 1; i++) {
+                this.level().addParticle(ParticleTypes.BUBBLE,
+                        this.getRandomX(0.15) - vec31.x,
+                        this.getRandomY() - vec31.y,
+                        this.getRandomZ(0.15) - vec31.z,
+                        0.0, 0.0, 0.0);
+            }
+        }
+    }
+
+    @Override
     public void doPush(Entity entity) {
         super.doPush(entity);
 
@@ -312,5 +332,13 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
 
     public void setVariant(ResourceLocation variant) {
         this.entityData.set(VARIANT, variant.toString());
+    }
+
+    public boolean isMoving() {
+        return this.getData(DataAttachmentRegistry.IS_MOVING);
+    }
+
+    public void setMoving(boolean isMoving) {
+        this.setData(DataAttachmentRegistry.IS_MOVING, isMoving);
     }
 }

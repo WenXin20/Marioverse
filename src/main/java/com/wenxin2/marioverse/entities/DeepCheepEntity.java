@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.entities.ai.controls.ConfigurableSmoothSwimmingMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
@@ -26,7 +27,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -46,7 +46,8 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
     public DeepCheepEntity(EntityType<? extends DeepCheepEntity> type, Level world) {
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
+        this.moveControl = new ConfigurableSmoothSwimmingMoveControl(this, 85, 10,
+                1.5F, 0.1F, 1.2F, true);
         this.xpReward = 4;
     }
 
