@@ -132,7 +132,7 @@ public class JumpOutOfWaterGoal extends JumpGoal {
         if (this.mob.getTarget() instanceof LivingEntity) {
             boolean canSwallow = this.mob.getTarget().getBbWidth() <= this.mob.getBbWidth() &&
                     this.mob.getTarget().getBbHeight() <= this.mob.getBbHeight();
-            if (this.eatTarget && canSwallow) {
+            if (this.eatTarget && canSwallow && !this.mob.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
                 if (this.mob instanceof PorcupufferEntity porcupuffer)
                     porcupuffer.setMouthOpen(true);
                 else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);

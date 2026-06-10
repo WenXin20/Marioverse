@@ -160,13 +160,22 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "swim", 5, this::swimAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(new AnimationController<>(this, "flop", 2, this::flopAnimation));
+        controllers.add(new AnimationController<>(this, "swim", 5, this::swimAnimation));
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    protected <E extends GeoAnimatable> PlayState flopAnimation(final AnimationState<E> event) {
+        if (!this.getData(DataAttachmentRegistry.HAS_JUMPED) && !this.isInWaterOrBubble()) {
+            event.setAndContinue(FLOP);
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
     }
 
     protected <E extends GeoAnimatable> PlayState swimAnimation(final AnimationState<E> event) {
@@ -176,10 +185,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         } else if (this.isInWaterOrBubble()) {
             event.setAndContinue(SWIM);
             return PlayState.CONTINUE;
-        } else {
-            event.setAndContinue(FLOP);
-            return PlayState.CONTINUE;
         }
+        return PlayState.STOP;
     }
 
     @Override
@@ -232,7 +239,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         if (this.attackCooldown > 0)
             this.attackCooldown--;
 
-        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && this.isInWaterOrBubble())
+        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && (this.isInWaterOrBubble() || this.onGround()))
             this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
     }
 

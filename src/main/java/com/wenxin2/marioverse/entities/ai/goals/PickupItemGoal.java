@@ -9,13 +9,10 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.Path;
 
@@ -74,9 +71,11 @@ public class PickupItemGoal extends Goal {
             boolean shouldOpenMouth = this.eatIfEdible
                     && !this.mob.getData(DataAttachmentRegistry.IS_EATING);
 
-            if (this.mob instanceof PorcupufferEntity porcupuffer)
-                porcupuffer.setMouthOpen(shouldOpenMouth);
-            else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, shouldOpenMouth);
+            if (shouldOpenMouth && !this.mob.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
+                if (this.mob instanceof PorcupufferEntity porcupuffer)
+                    porcupuffer.setMouthOpen(true);
+                else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
+            }
 
             if (this.eatIfEdible && stack.has(DataComponents.FOOD) && this.mob.getHealth() < this.mob.getMaxHealth()) {
                 FoodProperties foodProperties = stack.getFoodProperties(this.mob);

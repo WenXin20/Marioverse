@@ -153,12 +153,14 @@ public class MeleeAttackTagGoal extends Goal {
                 boolean canSwallow = this.mob.getTarget().getBbWidth() <= this.mob.getBbWidth() &&
                         this.mob.getTarget().getBbHeight() <= this.mob.getBbHeight();
                 boolean shouldOpenMouth = this.eatTarget && canSwallow
-                        && !this.mob.getData(DataAttachmentRegistry.IS_EATING)
-                        && this.mob.distanceToSqr(livingEntity) <= 256.0D;
+                        && this.mob.distanceToSqr(livingEntity) <= 256.0D
+                        && !this.mob.getData(DataAttachmentRegistry.IS_EATING);
 
-                if (this.mob instanceof PorcupufferEntity porcupuffer)
-                    porcupuffer.setMouthOpen(shouldOpenMouth);
-                else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, shouldOpenMouth);
+                if (shouldOpenMouth && !this.mob.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
+                    if (this.mob instanceof PorcupufferEntity porcupuffer)
+                        porcupuffer.setMouthOpen(true);
+                    else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
+                }
             }
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
             this.checkAndPerformAttack(livingEntity);

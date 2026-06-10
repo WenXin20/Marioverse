@@ -163,12 +163,21 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+        controllers.add(new AnimationController<>(this, "flop", 2, this::flopAnimation));
         controllers.add(new AnimationController<>(this, "swim", 5, this::swimAnimation));
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    protected <E extends GeoAnimatable> PlayState flopAnimation(final AnimationState<E> event) {
+        if (!this.getData(DataAttachmentRegistry.HAS_JUMPED) && !this.isInWaterOrBubble()) {
+            event.setAndContinue(FLOP);
+            return PlayState.CONTINUE;
+        }
+        return PlayState.STOP;
     }
 
     protected <E extends GeoAnimatable> PlayState swimAnimation(final AnimationState<E> event) {
@@ -178,10 +187,8 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         } else if (this.isInWaterOrBubble()) {
             event.setAndContinue(SWIM);
             return PlayState.CONTINUE;
-        } else {
-            event.setAndContinue(FLOP);
-            return PlayState.CONTINUE;
         }
+        return PlayState.STOP;
     }
 
     @Override
@@ -196,7 +203,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         if (this.eatCooldown > 0)
             this.eatCooldown--;
 
-        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && this.isInWaterOrBubble())
+        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && (this.isInWaterOrBubble() || this.onGround()))
             this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
 
         if (this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)
