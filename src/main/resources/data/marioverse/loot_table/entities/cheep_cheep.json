@@ -14,7 +14,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "nbt": "{Variant:\"marioverse:normal\"}"
+                "nbt": "{Variant:\"normal\"}"
               }
             }
           ],
@@ -70,7 +70,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "nbt": "{Variant:\"marioverse:cold\"}"
+                "nbt": "{Variant:\"cold\"}"
               }
             }
           ],
@@ -126,7 +126,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "nbt": "{Variant:\"marioverse:warm\"}"
+                "nbt": "{Variant:\"warm\"}"
               }
             }
           ],
