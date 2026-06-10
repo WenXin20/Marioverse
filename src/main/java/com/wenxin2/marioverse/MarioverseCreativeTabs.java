@@ -731,7 +731,7 @@ public class MarioverseCreativeTabs {
 
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
                 ItemStack goomba = new ItemStack(ItemRegistry.GOOMBA_SPAWN_EGG.get());
-                ItemStack goombella = customName(ItemRegistry.GOOMBA_SPAWN_EGG.get(), Component.literal("Goombellag"));
+                ItemStack goombella = customName(ItemRegistry.GOOMBA_SPAWN_EGG.get(), Component.literal("Goombella"));
                 ItemStack porcupuffer = new ItemStack(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get());
                 ItemStack mrsPuff = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Mrs. Puff"));
                 ItemStack qwilfish = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Qwilfish"));
