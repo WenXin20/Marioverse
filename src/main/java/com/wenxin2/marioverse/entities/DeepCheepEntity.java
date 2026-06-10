@@ -87,7 +87,7 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putString("Size", this.getSize().toString());
+        tag.putString("Size", this.getSize());
     }
 
     @Override
@@ -95,20 +95,20 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
         super.readAdditionalSaveData(tag);
 
         if (tag.contains("Size"))
-            this.setSize(ResourceLocation.parse(tag.getString("Size")));
+            this.setSize(tag.getString("Size"));
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(SIZE, CheepCheepVariants.REGULAR.toString());
+        builder.define(SIZE, CheepCheepVariants.REGULAR);
     }
 
     @Override
     public void saveToBucketTag(ItemStack stack) {
         super.saveToBucketTag(stack);
         CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack,
-                tag -> tag.putString("Size", this.getSize().toString()));
+                tag -> tag.putString("Size", this.getSize()));
     }
 
     @Override
@@ -116,7 +116,7 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
         super.loadFromBucketTag(tag);
 
         if (tag.contains("Size", Tag.TAG_STRING))
-            this.setSize(ResourceLocation.parse(tag.getString("Size")));
+            this.setSize(tag.getString("Size"));
     }
 
     @Nullable
@@ -152,11 +152,11 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
                 && WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random);
     }
 
-    public ResourceLocation getSize() {
-        return ResourceLocation.parse(this.entityData.get(SIZE));
+    public String getSize() {
+        return this.entityData.get(SIZE);
     }
 
-    public void setSize(ResourceLocation variant) {
-        this.entityData.set(SIZE, variant.toString());
+    public void setSize(String variant) {
+        this.entityData.set(SIZE, variant);
     }
 }

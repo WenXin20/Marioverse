@@ -6,7 +6,6 @@ import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupItemGoal;
-import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -17,7 +16,6 @@ import java.util.Locale;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -204,7 +202,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putString("Variant", this.getVariant().toString());
+        tag.putString("Variant", this.getVariant());
     }
 
     @Override
@@ -212,13 +210,13 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         super.readAdditionalSaveData(tag);
 
         if (tag.contains("Variant"))
-            this.setVariant(ResourceLocation.parse(tag.getString("Variant")));
+            this.setVariant(tag.getString("Variant"));
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(VARIANT, CheepCheepVariants.NORMAL.toString());
+        builder.define(VARIANT, PorcupufferVariants.NORMAL);
     }
 
     @Override
@@ -451,12 +449,12 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         this.setData(DataAttachmentRegistry.IS_MOVING, isMoving);
     }
 
-    public ResourceLocation getVariant() {
-        return ResourceLocation.parse(this.entityData.get(VARIANT));
+    public String getVariant() {
+        return this.entityData.get(VARIANT);
     }
 
-    public void setVariant(ResourceLocation variant) {
-        this.entityData.set(VARIANT, variant.toString());
+    public void setVariant(String variant) {
+        this.entityData.set(VARIANT, variant);
     }
 
     public boolean isMrsPuff() {

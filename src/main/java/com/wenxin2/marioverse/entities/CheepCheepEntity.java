@@ -192,8 +192,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putString("Size", this.getSize().toString());
-        tag.putString("Variant", this.getVariant().toString());
+        tag.putString("Size", this.getSize());
+        tag.putString("Variant", this.getVariant());
     }
 
     @Override
@@ -201,9 +201,9 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         super.readAdditionalSaveData(tag);
 
         if (tag.contains("Size"))
-            this.setSize(ResourceLocation.parse(tag.getString("Size")));
+            this.setSize(tag.getString("Size"));
         if (tag.contains("Variant"))
-            this.setVariant(ResourceLocation.parse(tag.getString("Variant")));
+            this.setVariant(tag.getString("Variant"));
     }
 
     @Override
@@ -217,9 +217,9 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     public void saveToBucketTag(ItemStack stack) {
         super.saveToBucketTag(stack);
         CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack,
-                tag -> tag.putString("Variant", this.getVariant().toString()));
+                tag -> tag.putString("Variant", this.getVariant()));
         CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack,
-                tag -> tag.putString("Size", this.getSize().toString()));
+                tag -> tag.putString("Size", this.getSize()));
     }
 
     @Override
@@ -227,9 +227,9 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         super.loadFromBucketTag(tag);
 
         if (tag.contains("Size", Tag.TAG_STRING))
-            this.setSize(ResourceLocation.parse(tag.getString("Size")));
+            this.setSize(tag.getString("Size"));
         if (tag.contains("Variant", Tag.TAG_STRING))
-            this.setVariant(ResourceLocation.parse(tag.getString("Variant")));
+            this.setVariant(tag.getString("Variant"));
     }
 
     @Override
@@ -325,20 +325,20 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
                         || WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random));
     }
 
-    public ResourceLocation getSize() {
-        return ResourceLocation.parse(this.entityData.get(SIZE));
+    public String getSize() {
+        return this.entityData.get(SIZE);
     }
 
-    public void setSize(ResourceLocation variant) {
-        this.entityData.set(SIZE, variant.toString());
+    public void setSize(String variant) {
+        this.entityData.set(SIZE, variant);
     }
 
-    public ResourceLocation getVariant() {
-        return ResourceLocation.parse(this.entityData.get(VARIANT));
+    public String getVariant() {
+        return this.entityData.get(VARIANT);
     }
 
-    public void setVariant(ResourceLocation variant) {
-        this.entityData.set(VARIANT, variant.toString());
+    public void setVariant(String variant) {
+        this.entityData.set(VARIANT, variant);
     }
 
     public boolean isMoving() {

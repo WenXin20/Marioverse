@@ -26,6 +26,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
@@ -58,6 +59,7 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
         return !serverWorld.getBlockState(pos.below()).is(Blocks.NETHER_WART_BLOCK);
     }
 
+    @NotNull
     @Override
     protected PathNavigation createNavigation(Level world) {
         return new GroundPathNavigation(this, world);

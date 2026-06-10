@@ -108,7 +108,7 @@ public class SpinyCheepCheepRenderer extends GeoEntityRenderer<SpinyCheepCheepEn
     public void scaleModelForRender(float widthScale, float heightScale, PoseStack poseStack, SpinyCheepCheepEntity animatable,
                                     BakedGeoModel model, boolean isReRender, float partialTick, int packedLight, int packedOverlay) {
         float scale = 1.0F;
-        ResourceLocation size = animatable.getSize();
+        String size = animatable.getSize();
 
         if (size.equals(CheepCheepVariants.SMALL))
             scale = 0.75F;
