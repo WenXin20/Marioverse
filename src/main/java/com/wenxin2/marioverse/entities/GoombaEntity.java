@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.entities.ai.goals.GoombaSitGoal;
 import com.wenxin2.marioverse.entities.ai.goals.GoombaSleepGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
+import com.wenxin2.marioverse.entities.variants.GoombaVariants;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
@@ -87,10 +88,16 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class GoombaEntity extends Monster implements GeoEntity {
-    private static final EntityDataAccessor<Byte> DATA_ID_RIDE_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Byte> DATA_ID_SCARE_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData.defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_ID_RIDE_FLAGS = SynchedEntityData
+            .defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_ID_SCARE_FLAGS = SynchedEntityData
+            .defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_ID_SIT_FLAGS = SynchedEntityData
+            .defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_ID_SLEEP_FLAGS = SynchedEntityData
+            .defineId(GoombaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<String> VARIANT = SynchedEntityData
+            .defineId(GoombaEntity.class, EntityDataSerializers.STRING);
     public static final RawAnimation DEATH_ANIM = RawAnimation.begin().thenPlayAndHold("goomba.death");
     public static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("goomba.idle");
     public static final RawAnimation IDLE_SWIM_ANIM = RawAnimation.begin().thenLoop("goomba.idle_swim");
@@ -161,15 +168,6 @@ public class GoombaEntity extends Monster implements GeoEntity {
     @Override
     public int getAmbientSoundInterval() {
         return 360;
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(DATA_ID_RIDE_FLAGS, (byte)0);
-        builder.define(DATA_ID_SCARE_FLAGS, (byte)0);
-        builder.define(DATA_ID_SIT_FLAGS, (byte)0);
-        builder.define(DATA_ID_SLEEP_FLAGS, (byte)0);
     }
 
     @Override
@@ -262,21 +260,35 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        this.entityData.set(DATA_ID_RIDE_FLAGS, tag.getByte("RideFlags"));
-        this.entityData.set(DATA_ID_SCARE_FLAGS, tag.getByte("ScareFlags"));
-        this.entityData.set(DATA_ID_SIT_FLAGS, tag.getByte("SitFlags"));
-        this.entityData.set(DATA_ID_SLEEP_FLAGS, tag.getByte("SleepFlags"));
-    }
-
-    @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("RideFlags", this.entityData.get(DATA_ID_RIDE_FLAGS));
         tag.putByte("ScareFlags", this.entityData.get(DATA_ID_SCARE_FLAGS));
         tag.putByte("SitFlags", this.entityData.get(DATA_ID_SIT_FLAGS));
         tag.putByte("SleepFlags", this.entityData.get(DATA_ID_SLEEP_FLAGS));
+        tag.putString("Variant", this.getVariant());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_ID_RIDE_FLAGS, tag.getByte("RideFlags"));
+        this.entityData.set(DATA_ID_SCARE_FLAGS, tag.getByte("ScareFlags"));
+        this.entityData.set(DATA_ID_SIT_FLAGS, tag.getByte("SitFlags"));
+        this.entityData.set(DATA_ID_SLEEP_FLAGS, tag.getByte("SleepFlags"));
+
+        if (tag.contains("Variant"))
+            this.setVariant(tag.getString("Variant"));
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_ID_RIDE_FLAGS, (byte)0);
+        builder.define(DATA_ID_SCARE_FLAGS, (byte)0);
+        builder.define(DATA_ID_SIT_FLAGS, (byte)0);
+        builder.define(DATA_ID_SLEEP_FLAGS, (byte)0);
+        builder.define(VARIANT, GoombaVariants.NORMAL);
     }
 
     public boolean isSitting() {
@@ -359,9 +371,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
         super.baseTick();
         this.handleAirSupply(i);
 
-        if (this.getTarget() != null) {
+        if (this.getTarget() != null)
             this.setSpeed(0.8F);
-        }
     }
 
     @Override
@@ -370,11 +381,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
             this.moveRelative(this.getSpeed(), travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
-        } else {
-            super.travel(travelVector);
-        }
+        } else super.travel(travelVector);
     }
 
+    @NotNull
     @Override
     protected PathNavigation createNavigation(Level world) {
         return new AmphibiousPathNavigation(this, world);
@@ -428,8 +438,13 @@ public class GoombaEntity extends Monster implements GeoEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
         RandomSource random = serverWorld.getRandom();
+        float chance = random.nextFloat();
         this.populateDefaultEquipmentSlots(random, difficulty);
         this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
+
+        if (chance < 0.01F)
+            this.setVariant(GoombaVariants.GOOMBELLA);
+        else this.setVariant(GoombaVariants.NORMAL);
 
         if (groupData instanceof GoombaGroupData goombaGroupData) {
             if (goombaGroupData.canSpawnJockey) {
@@ -755,6 +770,14 @@ public class GoombaEntity extends Monster implements GeoEntity {
         public GoombaGroupData(boolean canSpawnJockey) {
             this.canSpawnJockey = canSpawnJockey;
         }
+    }
+
+    public String getVariant() {
+        return this.entityData.get(VARIANT);
+    }
+
+    public void setVariant(String variant) {
+        this.entityData.set(VARIANT, variant);
     }
 
     public boolean isGoombella() {
