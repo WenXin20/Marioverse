@@ -1,4 +1,5 @@
 {
+  "effects": "thorns",
   "exhaustion": 0.8,
   "message_id": "marioverse.porcupuffer_spikes",
   "scaling": "when_caused_by_living_non_player"

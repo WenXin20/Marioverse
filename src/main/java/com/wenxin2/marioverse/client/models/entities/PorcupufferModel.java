@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.PorcupufferEntity;
+import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -29,15 +30,15 @@ public class PorcupufferModel extends GeoModel<PorcupufferEntity> {
     @Override
     public ResourceLocation getTextureResource(PorcupufferEntity animatable) {
         if (animatable.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
-            if (animatable.hasCustomName() && animatable.isMrsPuff())
+            if (animatable.isMrsPuff() || animatable.getVariant().equals(PorcupufferVariants.MRS_PUFF))
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/mrs_puff_open_mouth.png");
-            if (animatable.hasCustomName() && animatable.isQwilfish())
+            if (animatable.isQwilfish() || animatable.getVariant().equals(PorcupufferVariants.QWILFISH))
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/qwilfish_open_mouth.png");
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/porcupuffer_open_mouth.png");
         }
-        if (animatable.hasCustomName() && animatable.isMrsPuff())
+        if (animatable.isMrsPuff() || animatable.getVariant().equals(PorcupufferVariants.MRS_PUFF))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/mrs_puff.png");
-        if (animatable.hasCustomName() && animatable.isQwilfish())
+        if (animatable.isQwilfish() || animatable.getVariant().equals(PorcupufferVariants.QWILFISH))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/qwilfish.png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/entity/porcupuffer/porcupuffer.png");
     }

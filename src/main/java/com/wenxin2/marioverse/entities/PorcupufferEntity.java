@@ -6,6 +6,8 @@ import com.wenxin2.marioverse.entities.ai.goals.JumpOutOfWaterGoal;
 import com.wenxin2.marioverse.entities.ai.goals.MeleeAttackTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupItemGoal;
+import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
+import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -14,6 +16,12 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Locale;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -60,6 +68,8 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     public static final RawAnimation FLOP = RawAnimation.begin().thenLoop("move.flop");
     public static final RawAnimation JUMP = RawAnimation.begin().thenLoop("move.jump");
     public static final RawAnimation SWIM = RawAnimation.begin().thenLoop("move.swim");
+    private static final EntityDataAccessor<String> VARIANT = SynchedEntityData
+            .defineId(PorcupufferEntity.class, EntityDataSerializers.STRING);
     public int attackCooldown = 0;
     public int eatCooldown = 0;
     private float internalDamage;
@@ -68,7 +78,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
         this.moveControl = new ConfigurableSmoothSwimmingMoveControl(this, 85, 10,
-                1.5F, 0.1F, 1.2F, true);
+                1.5F, 0.1F, 1.8F, true);
         this.xpReward = 10;
     }
 
@@ -109,7 +119,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         return SoundRegistry.PORCUPUFFER_JUMP.get();
     }
 
-    @Nullable
+    @NotNull
     public SoundEvent getStingSound() {
         return SoundRegistry.PORCUPUFFER_STING.get();
     }
@@ -192,6 +202,26 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     }
 
     @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putString("Variant", this.getVariant().toString());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+
+        if (tag.contains("Variant"))
+            this.setVariant(ResourceLocation.parse(tag.getString("Variant")));
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VARIANT, CheepCheepVariants.NORMAL.toString());
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
@@ -206,8 +236,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && (this.isInWaterOrBubble() || this.onGround()))
             this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
 
-        if (this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)
-                && this.getData(DataAttachmentRegistry.IS_EATING) && this.getFirstPassenger() == null)
+        if (this.isMouthOpen() && this.getData(DataAttachmentRegistry.IS_EATING) && this.getFirstPassenger() == null)
             this.setMouthOpen(false);
     }
 
@@ -223,6 +252,18 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
                         this.getRandomX(0.5) - vec31.x * 1.5,
                         this.getRandomY() - vec31.y * 1.5,
                         this.getRandomZ(0.5) - vec31.z * 1.5,
+                        0.0, 0.0, 0.0);
+            }
+        }
+
+        if (this.isMouthOpen() && this.isInWaterOrBubble()) {
+            Vec3 vec31 = this.getViewVector(0.0F);
+
+            for (int i = 0; i < 2; i++) {
+                this.level().addParticle(ParticleTypes.BUBBLE,
+                        this.getRandomX(0.5) + vec31.x * 1.25,
+                        this.getRandomY() + vec31.y * 1.25,
+                        this.getRandomZ(0.5) + vec31.z * 1.25,
                         0.0, 0.0, 0.0);
             }
         }
@@ -277,7 +318,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
             if (!entity.level().isClientSide && !this.isNoAi() && this.eatCooldown == 0
                     && canSwallow && look.dot(toTarget) > 0.5D
                     && entity.getType().is(TagRegistry.PORCUPUFFER_CAN_EAT)
-                    && this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
+                    && this.isMouthOpen()) {
                 entity.startRiding(this, true);
                 this.setData(DataAttachmentRegistry.IS_EATING, true);
                 this.setMouthOpen(false);
@@ -330,6 +371,13 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnData);
         RandomSource random = level.getRandom();
+        float chance = random.nextFloat();
+
+        if (chance < 0.005F)
+            this.setVariant(PorcupufferVariants.QWILFISH);
+        else if (chance < 0.01F)
+            this.setVariant(PorcupufferVariants.MRS_PUFF);
+        else this.setVariant(PorcupufferVariants.NORMAL);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             if (random.nextFloat() < 0.01F)
@@ -383,6 +431,10 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         }
     }
 
+    public boolean isMouthOpen() {
+        return this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN);
+    }
+
     public void setMouthOpen(boolean isMouthOpen) {
         this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, isMouthOpen);
 
@@ -397,6 +449,14 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
 
     public void setMoving(boolean isMoving) {
         this.setData(DataAttachmentRegistry.IS_MOVING, isMoving);
+    }
+
+    public ResourceLocation getVariant() {
+        return ResourceLocation.parse(this.entityData.get(VARIANT));
+    }
+
+    public void setVariant(ResourceLocation variant) {
+        this.entityData.set(VARIANT, variant.toString());
     }
 
     public boolean isMrsPuff() {
