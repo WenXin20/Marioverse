@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
+import com.wenxin2.marioverse.entities.PorcupufferEntity;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.Comparator;
 import java.util.List;
@@ -129,10 +130,13 @@ public class JumpOutOfWaterGoal extends JumpGoal {
         }
 
         if (this.mob.getTarget() instanceof LivingEntity) {
-            boolean canSwallow = this.mob.getTarget().getBbWidth() <= 2.0F &&
-                    this.mob.getTarget().getBbHeight() <= 2.0F;
-            if (this.eatTarget && canSwallow)
-                this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
+            boolean canSwallow = this.mob.getTarget().getBbWidth() <= this.mob.getBbWidth() &&
+                    this.mob.getTarget().getBbHeight() <= this.mob.getBbHeight();
+            if (this.eatTarget && canSwallow) {
+                if (this.mob instanceof PorcupufferEntity porcupuffer)
+                    porcupuffer.setMouthOpen(true);
+                else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
+            }
         }
     }
 

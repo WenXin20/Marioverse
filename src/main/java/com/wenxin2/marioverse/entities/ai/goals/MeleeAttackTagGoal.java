@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
+import com.wenxin2.marioverse.entities.PorcupufferEntity;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.EnumSet;
 import net.minecraft.tags.TagKey;
@@ -99,8 +100,11 @@ public class MeleeAttackTagGoal extends Goal {
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingEntity))
             this.mob.setTarget(null);
 
-        if (this.eatTarget)
-            this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+        if (this.eatTarget) {
+            if (this.mob instanceof PorcupufferEntity porcupuffer)
+                porcupuffer.setMouthOpen(false);
+            else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+        }
 
         this.mob.setAggressive(false);
         this.mob.getNavigation().stop();
@@ -146,12 +150,15 @@ public class MeleeAttackTagGoal extends Goal {
                     this.ticksUntilNextPathRecalculation += 15;
                 this.ticksUntilNextPathRecalculation = this.adjustedTickDelay(this.ticksUntilNextPathRecalculation);
 
-                boolean canSwallow = this.mob.getTarget().getBbWidth() <= 2.0F &&
-                        this.mob.getTarget().getBbHeight() <= 2.0F;
+                boolean canSwallow = this.mob.getTarget().getBbWidth() <= this.mob.getBbWidth() &&
+                        this.mob.getTarget().getBbHeight() <= this.mob.getBbHeight();
                 boolean shouldOpenMouth = this.eatTarget && canSwallow
                         && !this.mob.getData(DataAttachmentRegistry.IS_EATING)
                         && this.mob.distanceToSqr(livingEntity) <= 256.0D;
-                this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, shouldOpenMouth);
+
+                if (this.mob instanceof PorcupufferEntity porcupuffer)
+                    porcupuffer.setMouthOpen(shouldOpenMouth);
+                else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, shouldOpenMouth);
             }
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
             this.checkAndPerformAttack(livingEntity);

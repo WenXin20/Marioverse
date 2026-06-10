@@ -78,6 +78,27 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     }
 
     @NotNull
+    public SoundEvent getBlowOutSound() {
+        return SoundRegistry.PORCUPUFFER_BLOW_OUT.get();
+    }
+
+    @NotNull
+    public SoundEvent getBlowUpSound() {
+        return SoundRegistry.PORCUPUFFER_BLOW_UP.get();
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundRegistry.PORCUPUFFER_DEATH.get();
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundRegistry.PORCUPUFFER_HURT.get();
+    }
+
+    @NotNull
     @Override
     protected SoundEvent getFlopSound() {
         return SoundRegistry.PORCUPUFFER_FLOP.get();
@@ -86,6 +107,11 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     @Nullable
     public SoundEvent getJumpSound() {
         return SoundRegistry.PORCUPUFFER_JUMP.get();
+    }
+
+    @Nullable
+    public SoundEvent getStingSound() {
+        return SoundRegistry.PORCUPUFFER_STING.get();
     }
 
     @NotNull
@@ -98,17 +124,6 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     @Override
     protected SoundEvent getSwimSound() {
         return SoundRegistry.PORCUPUFFER_SWIM.get();
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundRegistry.PORCUPUFFER_HURT.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundRegistry.PORCUPUFFER_DEATH.get();
     }
 
     @NotNull
@@ -186,7 +201,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
 
         if (this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)
                 && this.getData(DataAttachmentRegistry.IS_EATING) && this.getFirstPassenger() == null)
-            this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+            this.setMouthOpen(false);
     }
 
     @Override
@@ -215,7 +230,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         if (isHurt && passenger != null && this.getData(DataAttachmentRegistry.IS_EATING)) {
             if (attacker != null) {
                 this.internalDamage += amount;
-                this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, true);
+                this.setMouthOpen(true);
 
                 if (this.internalDamage >= ConfigRegistry.PORCUPUFFER_DAMAGE_THRESHOLD.get()) {
                     this.spitOutPassenger(passenger);
@@ -249,6 +264,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
                 if (entity instanceof Creeper)
                     entity.hurt(this.getDamageSource(entity), attackDamage);
                 else entity.hurt(this.getDamageSource(this), attackDamage);
+                this.makeSound(this.getStingSound());
             }
 
             if (!entity.level().isClientSide && !this.isNoAi() && this.eatCooldown == 0
@@ -257,7 +273,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
                     && this.getData(DataAttachmentRegistry.IS_MOUTH_OPEN)) {
                 entity.startRiding(this, true);
                 this.setData(DataAttachmentRegistry.IS_EATING, true);
-                this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+                this.setMouthOpen(false);
                 this.eatCooldown = 120;
             }
 
@@ -336,7 +352,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         passenger.stopRiding();
         passenger.setDeltaMovement(look.x * launchStrength, 0.3D, look.z * launchStrength);
         passenger.hurtMarked = true;
-        this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+        this.setMouthOpen(false);
         this.setData(DataAttachmentRegistry.IS_EATING, false);
     }
 
@@ -358,6 +374,14 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
                 this.internalDamage = 0.0F;
             }
         }
+    }
+
+    public void setMouthOpen(boolean isMouthOpen) {
+        this.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, isMouthOpen);
+
+        if (isMouthOpen)
+            this.makeSound(this.getBlowOutSound());
+        else this.makeSound(this.getBlowUpSound());
     }
 
     public boolean isMoving() {

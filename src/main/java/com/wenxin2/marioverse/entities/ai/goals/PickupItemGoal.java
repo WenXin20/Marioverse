@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
+import com.wenxin2.marioverse.entities.PorcupufferEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.Comparator;
@@ -73,7 +74,9 @@ public class PickupItemGoal extends Goal {
             boolean shouldOpenMouth = this.eatIfEdible
                     && !this.mob.getData(DataAttachmentRegistry.IS_EATING);
 
-            this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, shouldOpenMouth);
+            if (this.mob instanceof PorcupufferEntity porcupuffer)
+                porcupuffer.setMouthOpen(shouldOpenMouth);
+            else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, shouldOpenMouth);
 
             if (this.eatIfEdible && stack.has(DataComponents.FOOD) && this.mob.getHealth() < this.mob.getMaxHealth()) {
                 FoodProperties foodProperties = stack.getFoodProperties(this.mob);
@@ -106,8 +109,11 @@ public class PickupItemGoal extends Goal {
         this.targetItem = null;
         this.mob.getNavigation().stop();
 
-        if (this.eatIfEdible)
-            this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+        if (this.eatIfEdible) {
+            if (this.mob instanceof PorcupufferEntity porcupuffer)
+                porcupuffer.setMouthOpen(false);
+            else this.mob.setData(DataAttachmentRegistry.IS_MOUTH_OPEN, false);
+        }
     }
 
     private ItemEntity findNearestItem() {
