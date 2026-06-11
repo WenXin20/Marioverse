@@ -849,10 +849,12 @@ public class ConfigRegistry {
                             .comment("The radius Porcupuffers will be lured towards the target mob or player if above water.§b")
                             .defineInRange("porcupuffer_lure_radius", 16.0, 0.0, 32.0);
                     PORCUPUFFER_DAMAGE_THRESHOLD = BUILDER.translation("configuration.marioverse.porcupuffer_damage_threshold")
-                            .comment("The amount of damage Porcupuffers can take before spitting out the swallowed mob or player.§b")
+                            .comment("The amount of damage Porcupuffers can take before spitting out the swallowed mob or player.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("porcupuffer_damage_threshold", 4.0, 0.0, 40.0);
                     PORCUPUFFER_HEALTH_HEALED = BUILDER.translation("configuration.marioverse.porcupuffer_health_healed")
-                            .comment("The amount of health Porcupuffers heal after swallowing a mob or player.§b")
+                            .comment("The amount of health Porcupuffers heal after swallowing a mob or player.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("porcupuffer_health_healed", 2.0, 0.0, 40.0);
                 BUILDER.pop();
 

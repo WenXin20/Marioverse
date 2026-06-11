@@ -19,7 +19,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -47,6 +46,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -142,7 +142,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
 
     @NotNull
     public DamageSource getDamageSource(Entity collidingEntity) {
-        if (this.getData(DataAttachmentRegistry.IS_EATING))
+        if (this.isEating())
             return DamageSourceRegistry.swallowed(collidingEntity);
         return DamageSourceRegistry.porcupufferSpikes(collidingEntity);
     }
@@ -171,7 +171,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "flop", 2, this::flopAnimation));
+        controllers.add(new AnimationController<>(this, "flop", 5, this::flopAnimation));
         controllers.add(new AnimationController<>(this, "swim", 5, this::swimAnimation));
     }
 
@@ -223,7 +223,11 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     public void tick() {
         super.tick();
 
-        this.entitySwallowed();
+        this.pullTargetToEntity();
+        this.swallowTarget();
+
+        if (this.getTarget() != null)
+            this.setSpeed(2.8F);
 
         if (this.attackCooldown > 0)
             this.attackCooldown--;
@@ -234,35 +238,33 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && (this.isInWaterOrBubble() || this.onGround()))
             this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
 
-        if (this.isMouthOpen() && this.getData(DataAttachmentRegistry.IS_EATING) && this.getFirstPassenger() == null)
+        if (this.isMouthOpen() && this.isEating() && this.getFirstPassenger() == null)
             this.setMouthOpen(false);
     }
 
     @Override
     public void aiStep() {
         super.aiStep();
+        Vec3 look = this.getViewVector(0.0F);
+        double bubbleSpeed = -1.25D;
 
         if (this.isMoving() && this.isInWaterOrBubble()) {
-            Vec3 vec31 = this.getViewVector(0.0F);
-
             for (int i = 0; i < 2; i++) {
                 this.level().addParticle(ParticleTypes.BUBBLE,
-                        this.getRandomX(0.5) - vec31.x * 1.5,
-                        this.getRandomY() - vec31.y * 1.5,
-                        this.getRandomZ(0.5) - vec31.z * 1.5,
+                        this.getRandomX(0.5) - look.x * 1.5,
+                        this.getRandomY() - look.y * 1.5,
+                        this.getRandomZ(0.5) - look.z * 1.5,
                         0.0, 0.0, 0.0);
             }
         }
 
         if (this.isMouthOpen() && this.isInWaterOrBubble()) {
-            Vec3 vec31 = this.getViewVector(0.0F);
-
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 4; i++) {
                 this.level().addParticle(ParticleTypes.BUBBLE,
-                        this.getRandomX(0.5) + vec31.x * 1.25,
-                        this.getRandomY() + vec31.y * 1.25,
-                        this.getRandomZ(0.5) + vec31.z * 1.25,
-                        0.0, 0.0, 0.0);
+                        this.getRandomX(0.5) + look.x * 1.2,
+                        this.getY() + look.y * 0.15,
+                        this.getRandomZ(0.5) + look.z * 1.2,
+                        look.x * bubbleSpeed, look.y * bubbleSpeed, look.z * bubbleSpeed);
             }
         }
     }
@@ -273,7 +275,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         Entity attacker = source.getEntity();
         Entity passenger = this.getFirstPassenger();
 
-        if (isHurt && passenger != null && this.getData(DataAttachmentRegistry.IS_EATING)) {
+        if (isHurt && passenger != null && this.isEating()) {
             if (attacker != null) {
                 this.internalDamage += amount;
                 this.setMouthOpen(true);
@@ -296,8 +298,8 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     @Override
     public void doPush(Entity entity) {
         super.doPush(entity);
-        boolean canSwallow = entity.getBbWidth() <= 2.0F &&
-                entity.getBbHeight() <= 2.0F;
+        boolean canSwallow = entity.getBbWidth() <= this.getBbWidth() &&
+                entity.getBbHeight() <= this.getBbHeight();
         Vec3 look = new Vec3(this.getLookAngle().x, 0.0D, this.getLookAngle().z).normalize();
         Vec3 toTarget = entity.position().subtract(this.position());
         toTarget = new Vec3(toTarget.x, 0.0D, toTarget.z).normalize();
@@ -334,7 +336,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
             return;
 
         Vec3 pos;
-        if (this.getData(DataAttachmentRegistry.IS_EATING))
+        if (this.isEating())
             pos = new Vec3(this.getX(), this.getY() + 0.025D, this.getZ() - 0.3D);
         else pos = new Vec3(this.getX(), this.getY() + 1.0D, this.getZ());
 
@@ -353,7 +355,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
 
     @Override
     public boolean canRiderInteract() {
-        return this.getData(DataAttachmentRegistry.IS_EATING);
+        return this.isEating();
     }
 
     @Override
@@ -402,16 +404,40 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         Vec3 look = this.getLookAngle().normalize();
         double launchStrength = 1.8D;
 
+        this.setData(DataAttachmentRegistry.IS_EATING, false);
         passenger.stopRiding();
         passenger.setDeltaMovement(look.x * launchStrength, 0.3D, look.z * launchStrength);
         passenger.hurtMarked = true;
         this.setMouthOpen(false);
-        this.setData(DataAttachmentRegistry.IS_EATING, false);
     }
 
-    private void entitySwallowed() {
+    private void pullTargetToEntity() {
+        if (this.isMouthOpen() && !this.isVehicle()) {
+            AABB suctionBox = this.getBoundingBox().inflate(3.0D);
+
+            for (LivingEntity target : this.level().getEntitiesOfClass(LivingEntity.class, suctionBox,
+                    entity -> entity != this && entity.isInWaterOrBubble()
+                            && entity.getType().is(TagRegistry.PORCUPUFFER_CAN_EAT)
+                            && entity.getBbWidth() <= this.getBbWidth()
+                            && entity.getBbHeight() <= this.getBbHeight())) {
+                Vec3 look = new Vec3(this.getLookAngle().x, 0.0D, this.getLookAngle().z).normalize();
+                Vec3 toTarget = target.position().subtract(this.position());
+                toTarget = new Vec3(toTarget.x, 0.0D, toTarget.z).normalize();
+
+                if (look.dot(toTarget) > 0.5D) {
+                    Vec3 pull = this.position().add(0.0D, this.getBbHeight() * 0.5D, 0.0D)
+                            .subtract(target.position()).normalize().scale(0.05D);
+
+                    target.setDeltaMovement(target.getDeltaMovement().add(pull));
+                    target.hurtMarked = true;
+                }
+            }
+        }
+    }
+
+    private void swallowTarget() {
         Entity passenger = this.getFirstPassenger();
-        if (this.getData(DataAttachmentRegistry.IS_EATING)) {
+        if (this.isEating()) {
             if (!(passenger instanceof LivingEntity livingPassenger)
                     || !livingPassenger.isAlive()) {
                 if (passenger != null)
@@ -427,6 +453,10 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
                 this.internalDamage = 0.0F;
             }
         }
+    }
+
+    public boolean isEating() {
+        return this.getData(DataAttachmentRegistry.IS_EATING);
     }
 
     public boolean isMouthOpen() {

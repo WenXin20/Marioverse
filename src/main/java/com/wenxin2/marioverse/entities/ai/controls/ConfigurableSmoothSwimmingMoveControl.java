@@ -68,9 +68,9 @@ public class ConfigurableSmoothSwimmingMoveControl extends MoveControl {
 
                 float cosPitch = Mth.cos(this.mob.getXRot() * ((float)Math.PI / 180.0F));
                 float sinPitch = Mth.sin(this.mob.getXRot() * ((float)Math.PI / 180.0F));
-
                 this.mob.zza = cosPitch * speed;
                 this.mob.yya = -sinPitch * speed;
+
                 this.mob.setData(DataAttachmentRegistry.IS_MOVING, true);
             } else {
                 float turnAmount = Math.abs(Mth.wrapDegrees(this.mob.getYRot() - targetYaw));
