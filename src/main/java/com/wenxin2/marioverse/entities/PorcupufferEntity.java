@@ -76,7 +76,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         super(type, world);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
         this.moveControl = new ConfigurableSmoothSwimmingMoveControl(this, 85, 10,
-                1.5F, 0.1F, 1.8F, true);
+                1.5F, 0.1F, 2.8F, true);
         this.xpReward = 10;
     }
 
@@ -161,11 +161,11 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(2, new JumpOutOfWaterGoal(this, this.getCanAttackTag(),
                 this.getLureRadius(), 10, true, this.getJumpSound()));
-        this.goalSelector.addGoal(3, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 1.8F,
+        this.goalSelector.addGoal(3, new MeleeAttackTagGoal(this, this.getCanAttackTag(), 2.8F,
                 false, true, true));
-        this.goalSelector.addGoal(4, new PickupItemGoal(this, TagRegistry.PORCUPUFFER_FOOD, this.getLureRadius(), 1.8F, true));
+        this.goalSelector.addGoal(4, new PickupItemGoal(this, TagRegistry.PORCUPUFFER_FOOD, this.getLureRadius(), 2.8F, true));
         this.goalSelector.addGoal(5, new FishSwimGoal(this, this.getCanAttackTag(),
-                this.getLureRadius(), 1.8, 20, true));
+                this.getLureRadius(), 2.8, 20, true));
         this.targetSelector.addGoal(0, new NearestAttackableTagGoal(this, this.getCanAttackTag(), false));
     }
 
@@ -225,9 +225,6 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
 
         this.pullTargetToEntity();
         this.swallowTarget();
-
-        if (this.getTarget() != null)
-            this.setSpeed(2.8F);
 
         if (this.attackCooldown > 0)
             this.attackCooldown--;
@@ -416,7 +413,7 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
             AABB suctionBox = this.getBoundingBox().inflate(3.0D);
 
             for (LivingEntity target : this.level().getEntitiesOfClass(LivingEntity.class, suctionBox,
-                    entity -> entity != this && entity.isInWaterOrBubble()
+                    entity -> entity != this && entity.isInWaterOrBubble() && !entity.isSpectator()
                             && entity.getType().is(TagRegistry.PORCUPUFFER_CAN_EAT)
                             && entity.getBbWidth() <= this.getBbWidth()
                             && entity.getBbHeight() <= this.getBbHeight())) {
