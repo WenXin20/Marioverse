@@ -20,6 +20,7 @@ import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.PorcupufferEntity;
 import com.wenxin2.marioverse.entities.ai.goals.ChaseTargetGoal;
 import com.wenxin2.marioverse.entities.ai.goals.CollectBlockGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
@@ -967,6 +968,17 @@ public class MarioverseEventHandlers {
         if (event.getEntityBeingMounted() instanceof IceCubeEntity iceCube && iceCube.isAlive()) {
             if (event.isDismounting()) {
                 if (event.getEntityMounting() instanceof Player player && !player.isCreative() && player.isAlive())
+                    event.setCanceled(true);
+                else if (!(event.getEntityMounting() instanceof Player))
+                    event.setCanceled(true);
+            }
+        }
+
+        if (event.getEntityBeingMounted() instanceof PorcupufferEntity porcupuffer
+                && porcupuffer.isAlive() && porcupuffer.isEating()) {
+            if (event.isDismounting()) {
+                if (event.getEntityMounting() instanceof Player player && !player.isCreative() && player.isAlive()
+                        && porcupuffer.isEating())
                     event.setCanceled(true);
                 else if (!(event.getEntityMounting() instanceof Player))
                     event.setCanceled(true);
