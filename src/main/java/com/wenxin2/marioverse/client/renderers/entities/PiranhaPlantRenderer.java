@@ -27,29 +27,6 @@ public class PiranhaPlantRenderer extends GeoEntityRenderer<PiranhaPlantEntity> 
     }
 
     @Override
-    public void scaleModelForRender(float widthScale, float heightScale, PoseStack poseStack, PiranhaPlantEntity animatable, BakedGeoModel model,
-                                    boolean isReRender, float partialTick, int packedLight, int packedOverlay) {
-        super.scaleModelForRender(widthScale, heightScale, poseStack, animatable, model, isReRender, partialTick, packedLight, packedOverlay);
-
-        Optional<GeoBone> root = model.getBone("root");
-        Optional<GeoBone> head = model.getBone("head");
-
-        if (animatable.isBaby()) {
-            if (root.isPresent()) {
-                root.get().setScaleX(0.5F);
-                root.get().setScaleY(0.5F);
-                root.get().setScaleZ(0.5F);
-            }
-
-            if (head.isPresent()) {
-                head.get().setScaleX(1.25F);
-                head.get().setScaleY(1.25F);
-                head.get().setScaleZ(1.25F);
-            }
-        }
-    }
-
-    @Override
     public void render(PiranhaPlantEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lines());

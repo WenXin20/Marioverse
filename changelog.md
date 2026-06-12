@@ -34,6 +34,7 @@
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
 - Added Pipe junctions to pipe world gen
+- Added new baby piranha plant model for vanilla consistency
 - Increased mini goomba spawn rate & group size
 - Goombas car rarely spawn as a goombella variant
 - Fixed teleporting using Clear Pipes with Sable
