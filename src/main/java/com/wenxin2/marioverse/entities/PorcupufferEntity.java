@@ -181,7 +181,8 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
     }
 
     protected <E extends GeoAnimatable> PlayState flopAnimation(final AnimationState<E> event) {
-        if (!this.getData(DataAttachmentRegistry.HAS_JUMPED) && !this.isInWaterOrBubble()) {
+        if (!this.getData(DataAttachmentRegistry.HAS_JUMPED) && !this.isInWaterOrBubble()
+                && !this.level().getFluidState(this.blockPosition().below()).is(FluidTags.WATER)) {
             event.setAndContinue(FLOP);
             return PlayState.CONTINUE;
         }
@@ -370,9 +371,9 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         RandomSource random = level.getRandom();
         float chance = random.nextFloat();
 
-        if (chance < 0.005F)
+        if (chance < 0.0005F)
             this.setVariant(PorcupufferVariants.QWILFISH);
-        else if (chance < 0.01F)
+        else if (chance < 0.001F)
             this.setVariant(PorcupufferVariants.MRS_PUFF);
         else this.setVariant(PorcupufferVariants.NORMAL);
 
@@ -450,6 +451,10 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
                 this.internalDamage = 0.0F;
             }
         }
+    }
+
+    private boolean isFullySubmerged() {
+        return this.level().getFluidState(BlockPos.containing(this.getX(), this.getBoundingBox().maxY, this.getZ())).is(FluidTags.WATER);
     }
 
     public boolean isEating() {

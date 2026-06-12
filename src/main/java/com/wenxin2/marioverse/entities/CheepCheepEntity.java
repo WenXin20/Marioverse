@@ -171,7 +171,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     }
 
     protected <E extends GeoAnimatable> PlayState flopAnimation(final AnimationState<E> event) {
-        if (!this.getData(DataAttachmentRegistry.HAS_JUMPED) && !this.isInWaterOrBubble()) {
+        if (!this.getData(DataAttachmentRegistry.HAS_JUMPED) && !this.isInWaterOrBubble()
+                && !this.level().getFluidState(this.blockPosition().below()).is(FluidTags.WATER)) {
             event.setAndContinue(FLOP);
             return PlayState.CONTINUE;
         }
@@ -239,7 +240,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         if (this.attackCooldown > 0)
             this.attackCooldown--;
 
-        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && (this.isInWaterOrBubble() || this.onGround()))
+        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && (this.isFullySubmerged() || this.onGround()))
             this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
     }
 
@@ -323,6 +324,10 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
                 && levelAccessor.getBlockState(pos.above()).is(Blocks.LAVA)
                 && (levelAccessor.getBiome(pos).is(BiomeTags.ALLOWS_TROPICAL_FISH_SPAWNS_AT_ANY_HEIGHT)
                         || WaterAnimal.checkSurfaceWaterAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random));
+    }
+
+    private boolean isFullySubmerged() {
+        return this.level().getFluidState(BlockPos.containing(this.getX(), this.getBoundingBox().maxY, this.getZ())).is(FluidTags.WATER);
     }
 
     public String getSize() {

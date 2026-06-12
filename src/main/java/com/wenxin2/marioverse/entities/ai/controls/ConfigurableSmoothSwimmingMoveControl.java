@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities.ai.controls;
 
+import com.wenxin2.marioverse.entities.PorcupufferEntity;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
@@ -35,7 +36,8 @@ public class ConfigurableSmoothSwimmingMoveControl extends MoveControl {
 
         if (this.operation == Operation.MOVE_TO && !this.mob.getNavigation().isDone()) {
             double dx = this.wantedX - this.mob.getX();
-            double dy = this.wantedY - this.mob.getY();
+            double dy = this.wantedY + this.mob.getBbHeight() * 0.5D
+                    - this.mob.getY(this.mob.getBbHeight() * 0.5D);
             double dz = this.wantedZ - this.mob.getZ();
 
             double distanceSqr = dx * dx + dy * dy + dz * dz;
@@ -44,6 +46,11 @@ public class ConfigurableSmoothSwimmingMoveControl extends MoveControl {
                 this.mob.setData(DataAttachmentRegistry.IS_MOVING, false);
                 this.mob.setZza(0.0F);
                 return;
+            }
+
+            if (this.mob instanceof PorcupufferEntity porcupuffer
+                    && porcupuffer.isInShallowWater()) {
+                dy += 1.0D;
             }
 
             float targetYaw = (float)(Mth.atan2(dz, dx) * 180.0D / Math.PI) - 90.0F;
