@@ -36,6 +36,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
@@ -233,11 +234,31 @@ public class PorcupufferEntity extends AbstractFish implements GeoEntity {
         if (this.eatCooldown > 0)
             this.eatCooldown--;
 
-        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && (this.isInWaterOrBubble() || this.onGround()))
+        if (this.getData(DataAttachmentRegistry.HAS_JUMPED) && (this.isFullySubmerged() || this.onGround()))
             this.setData(DataAttachmentRegistry.HAS_JUMPED, false);
 
         if (this.isMouthOpen() && this.isEating() && this.getFirstPassenger() == null)
             this.setMouthOpen(false);
+
+        if (!this.isFullySubmerged() && this.getNavigation().isDone()) {
+            BlockPos center = this.blockPosition();
+
+            for (BlockPos pos : BlockPos.withinManhattan(center, 8, 2, 8)) {
+                if (level().getFluidState(pos).is(FluidTags.WATER)
+                        && level().getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    this.getNavigation().moveTo(pos.getX(), pos.getY(), pos.getZ(), 1.0D);
+                    break;
+                }
+            }
+        }
+    }
+
+    public boolean isInShallowWater() {
+        BlockPos pos = this.blockPosition();
+
+        return this.level().getFluidState(pos).is(FluidTags.WATER)
+                && this.level().getFluidState(pos.above()).isEmpty()
+                && this.level().getBlockState(pos.below()).isSolid();
     }
 
     @Override

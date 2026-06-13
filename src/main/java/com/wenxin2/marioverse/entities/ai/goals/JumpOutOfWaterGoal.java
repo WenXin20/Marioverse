@@ -56,7 +56,7 @@ public class JumpOutOfWaterGoal extends JumpGoal {
             if (!this.waterIsClear(pos, stepX, stepZ, stepToCheck) || !this.surfaceIsClear(pos, stepX, stepZ, stepToCheck))
                 return false;
         }
-        return true;
+        return this.isSafeToLand(pos, stepX, stepZ, 7);
     }
 
     private boolean waterIsClear(BlockPos pos, int dx, int dz, int scale) {
@@ -68,6 +68,21 @@ public class JumpOutOfWaterGoal extends JumpGoal {
     private boolean surfaceIsClear(BlockPos pos, int dx, int dz, int scale) {
         return this.mob.level().getBlockState(pos.offset(dx * scale, 1, dz * scale)).isAir()
                 && this.mob.level().getBlockState(pos.offset(dx * scale, 2, dz * scale)).isAir();
+    }
+
+    private boolean isSafeToLand(BlockPos pos, int dx, int dz, int scale) {
+        BlockPos waterPos = pos.offset(dx * scale, 0, dz * scale);
+
+        if (!this.mob.level().getFluidState(waterPos).is(FluidTags.WATER))
+            return false;
+
+        int requiredDepth = Mth.ceil(this.mob.getBbHeight() - 0.1F);
+
+        for (int depth = 1; depth < requiredDepth; depth++) {
+            if (!this.mob.level().getFluidState(waterPos.below(depth)).is(FluidTags.WATER))
+                return false;
+        }
+        return true;
     }
 
     @Override

@@ -125,8 +125,8 @@ public class ContainersMixin {
                 if (!entityType.is(cannotSpawn)) {
                     Entity entity = entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
 
-                    if (entity instanceof PiranhaPlantEntity piranhaPlant)
-                        piranhaPlant.setAge(-24000);
+//                    if (entity instanceof PiranhaPlantEntity piranhaPlant)
+//                        piranhaPlant.setAge(-24000);
 
                     stack.copyWithCount(1);
                 } else mv$spawnItem(world, pos, stack);

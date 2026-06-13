@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.entities.ai.goals;
 
 import java.util.Comparator;
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -9,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,6 +55,9 @@ public class FishSwimGoal extends RandomSwimmingGoal {
             if (horizontal.lengthSqr() > 1.0E-6)
                 horizontal = horizontal.normalize().scale(2.0);
             double vertical = Mth.clamp(toTarget.y * 0.75, 0.5, 4.0);
+            if (this.isInShallowWater()) {
+                vertical = -0.5D;
+            }
 
             Vec3 moveTo = this.mob.position().add(horizontal.x, vertical, horizontal.z);
             float targetYaw = (float) (Mth.atan2(toTarget.z, toTarget.x) * (180F / Math.PI)) - 90.0F;
@@ -65,7 +71,10 @@ public class FishSwimGoal extends RandomSwimmingGoal {
         }
 
         if (this.mob.getNavigation().isDone()) {
+            Path path = this.mob.getNavigation().getPath();
             Vec3 pos = this.getPosition();
+            System.out.println("Path = " + path);
+            System.out.println("Done = " + this.mob.getNavigation().isDone());
             if (pos != null)
                 this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, this.speedModifier);
         }
@@ -84,5 +93,13 @@ public class FishSwimGoal extends RandomSwimmingGoal {
         return entity != this.mob && entity.getType().is(this.lureEntityTag) && !entity.isSpectator()
                 && (!(entity instanceof Player player) || !player.isCreative())
                 && !entity.isInWaterOrBubble() && !this.mob.isAlliedTo(entity);
+    }
+
+    public boolean isInShallowWater() {
+        BlockPos pos = this.mob.blockPosition();
+
+        return this.mob.level().getFluidState(pos).is(FluidTags.WATER)
+                && this.mob.level().getFluidState(pos.above()).isEmpty()
+                && this.mob.level().getBlockState(pos.below()).isSolid();
     }
 }

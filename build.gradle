@@ -73,11 +73,12 @@ dependencies {
     implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7963363"
     implementation "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge"  // Requires Create, Sable, Incompatible w/ Embeddium
+    implementation "maven.modrinth:porkchop-express:0.1.1-neoforge"  // Requires Sable
     implementation "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:guard-villagers-360203:6066966"
-    implementation "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
+    compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
     implementation "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
@@ -86,7 +87,7 @@ dependencies {
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:7797302"
-    implementation "curse.maven:tree-physics-1522010:8095413"
+//    implementation "curse.maven:tree-physics-1522010:8126510"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
     implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:7598595"
@@ -98,7 +99,7 @@ dependencies {
     compileOnly "curse.maven:embeddium-${embeddium_version}" // Incompatible w/ Sodium
     implementation "curse.maven:kotlin-for-forge-351264:7471280"
     implementation "curse.maven:framework-549225:7530361"
-    implementation "curse.maven:fzzy-config-1005914:7568897"
+    compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:sable-1312371:8007005" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
