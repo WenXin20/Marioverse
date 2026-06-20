@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -58,20 +59,14 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
                 return InteractionResult.CONSUME;
             } else {
                 EntityType<?> entityType = this.getType(stack);
-                Entity entity = entityType.create(world);
+                BlockPos spawnPos = pos.relative(context.getClickedFace());
+                Entity entity = entityType.spawn((ServerLevel) world, stack, context.getPlayer(), spawnPos, MobSpawnType.MOB_SUMMONED, true,
+                        direction == Direction.UP);
 
                 if (entity instanceof PiranhaPlantEntity piranhaPlant) {
-                    piranhaPlant.setAge(-24000);
-                    BlockPos spawnPos = pos.relative(context.getClickedFace());
-
-                    piranhaPlant.moveTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D,
-                            piranhaPlant.getYRot(), piranhaPlant.getXRot());
-
                     BlockPos newPos = piranhaPlant.findValidBlockPos();
-
                     piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
                     piranhaPlant.setOwner(context.getPlayer());
-                    world.addFreshEntity(piranhaPlant);
                     stack.shrink(1);
                     world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);
                 }

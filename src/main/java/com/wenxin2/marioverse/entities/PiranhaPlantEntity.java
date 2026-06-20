@@ -2,16 +2,19 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
+import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -33,16 +36,20 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -55,6 +62,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -64,6 +73,7 @@ import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -80,7 +90,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableEntity {
+public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, TraceableEntity {
     public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlay("piranha_plant.emerge");
@@ -134,6 +144,12 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         return 120;
     }
 
+    @Nullable
+    @Override
+    public PiranhaPlantEntity getBreedOffspring(ServerLevel serverLevel, AgeableMob mob) {
+        return EntityRegistry.PIRANHA_PLANT.get().create(serverLevel);
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
@@ -148,12 +164,16 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(new AnimationController<>(this, "eat_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("eat", DefaultAnimations.ATTACK_BITE));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("emerge", EMERGE));
         controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hide", HIDE));
         controllers.add(new AnimationController<>(this, "hurt_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hurt", HURT));
+        controllers.add(new AnimationController<>(this, "spawn_controller", 5, state -> PlayState.STOP)
+                .triggerableAnim("spawn", EMERGE));
     }
 
     protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
@@ -334,9 +354,6 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 this.setAge(++age);
             else if (age > 0)
                 this.setAge(--age);
-
-            if (age == -5 || age == 5)
-                this.triggerAnim("grow_controller", "grow");
         }
     }
 
@@ -344,6 +361,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+
         if (this.isFood(stack)) {
             int age = this.getAge();
 
@@ -351,6 +369,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                 stack.consume(1, player);
                 this.swing(InteractionHand.MAIN_HAND);
                 this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
+                this.triggerAnim("eat_controller", "eat");
                 
                 if (stack.getComponents().has(DataComponents.FOOD) && stack.getComponents().get(DataComponents.FOOD) != null)
                     this.ageUp(getSpeedUpSecondsWhenFeeding(-age), stack.getComponents().get(DataComponents.FOOD).nutrition() * 10, true);
@@ -394,6 +413,16 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
                     && this.getOwner() instanceof ServerPlayer)
                 this.getOwner().sendSystemMessage(deathMessage);
         }
+    }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficulty, MobSpawnType type, @Nullable SpawnGroupData data) {
+        this.triggerAnim("spawn_controller", "spawn");
+
+        if (type == MobSpawnType.MOB_SUMMONED)
+           this.setAge(-24000);
+       return super.finalizeSpawn(levelAccessor, difficulty, type, data);
     }
 
     @NotNull
@@ -465,7 +494,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
         };
     }
 
-    public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
+    public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends AgeableMob> entityType, ServerLevelAccessor serverWorld,
                                                       MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return serverWorld.getDifficulty() != Difficulty.PEACEFUL
                 && (MobSpawnType.ignoresLightRequirements(spawnType) || isBrightEnoughToSpawn(serverWorld, pos))
@@ -475,7 +504,7 @@ public class PiranhaPlantEntity extends Monster implements GeoEntity, TraceableE
     protected static boolean isBrightEnoughToSpawn(BlockAndTintGetter blockGetter, BlockPos pos) {
         int skyLight = blockGetter.getRawBrightness(pos, 0);
         int blockLight = blockGetter.getBrightness(LightLayer.BLOCK, pos);
-        return skyLight > 7 && blockLight <= 7;
+        return skyLight > 7 && blockLight <= 0;
     }
 
     @Override
