@@ -104,6 +104,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     public static final int BABY_START_AGE = -24000;
     private static final int FORCED_AGE_PARTICLE_TICKS = 40;
 
+
     private BlockPos attachedBlockPos;
     private Direction attachedSide;
     private PiranhaPlantPart[] subEntities;
@@ -164,6 +165,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 5));
         controllers.add(new AnimationController<>(this, "eat_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("eat", DefaultAnimations.ATTACK_BITE));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
@@ -172,8 +174,6 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                 .triggerableAnim("hide", HIDE));
         controllers.add(new AnimationController<>(this, "hurt_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hurt", HURT));
-        controllers.add(new AnimationController<>(this, "spawn_controller", 5, state -> PlayState.STOP)
-                .triggerableAnim("spawn", EMERGE));
     }
 
     protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
@@ -418,11 +418,9 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficulty, MobSpawnType type, @Nullable SpawnGroupData data) {
-        this.triggerAnim("spawn_controller", "spawn");
-
         if (type == MobSpawnType.MOB_SUMMONED)
-           this.setAge(-24000);
-       return super.finalizeSpawn(levelAccessor, difficulty, type, data);
+            this.setAge(-24000);
+        return super.finalizeSpawn(levelAccessor, difficulty, type, data);
     }
 
     @NotNull
