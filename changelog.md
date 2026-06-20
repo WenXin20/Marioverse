@@ -41,6 +41,7 @@
 - Goombas car rarely spawn as a goombella variant
 - Fixed teleporting using Clear Pipes with Sable
 - Fixed piranha plant pod flashing a full-grown piranha for a tick
+- Fixed tamed piranha plants spawned from pods despawning
 
 ## Update 1.9.3
 - Added Sable block tags for Create Aeronautics compat 
