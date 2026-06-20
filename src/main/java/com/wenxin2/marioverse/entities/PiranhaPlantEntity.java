@@ -494,17 +494,16 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         };
     }
 
-    public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends AgeableMob> entityType, ServerLevelAccessor serverWorld,
+    public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends AgeableMob> entityType, ServerLevelAccessor levelAccessor,
                                                       MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return serverWorld.getDifficulty() != Difficulty.PEACEFUL
-                && (MobSpawnType.ignoresLightRequirements(spawnType) || isBrightEnoughToSpawn(serverWorld, pos))
-                && serverWorld.getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_SPAWNABLE_ON);
+        return levelAccessor.getDifficulty() != Difficulty.PEACEFUL
+                && (MobSpawnType.ignoresLightRequirements(spawnType) || isBrightEnoughToSpawn(levelAccessor.getLevel(), pos))
+                && levelAccessor.getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_SPAWNABLE_ON);
     }
 
-    protected static boolean isBrightEnoughToSpawn(BlockAndTintGetter blockGetter, BlockPos pos) {
-        int skyLight = blockGetter.getRawBrightness(pos, 0);
-        int blockLight = blockGetter.getBrightness(LightLayer.BLOCK, pos);
-        return skyLight > 7 && blockLight <= 0;
+    protected static boolean isBrightEnoughToSpawn(ServerLevel level, BlockPos pos) {
+        return level.isDay() && level.getBrightness(LightLayer.SKY, pos) > 0
+                && level.getBrightness(LightLayer.BLOCK, pos) <= 0;
     }
 
     @Override
