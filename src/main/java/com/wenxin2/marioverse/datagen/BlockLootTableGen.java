@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.datagen;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.CoralTowerBlock;
+import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
@@ -69,6 +71,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.genBlockVariants();
                     else if (block instanceof CheckpointFlagBlock)
                         this.add(block, this.createCheckpointFlagDrop(block));
+                    else if (block instanceof CoralTowerBlock || block instanceof DeadCoralTowerBlock)
+                        this.add(block, this.createSilkTouchOnlyTable(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
                     else if (block instanceof PipeBubblesBlock || block instanceof BlockSpawnerBlock

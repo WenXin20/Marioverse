@@ -31,6 +31,11 @@
   - Added Bucket of Spiny Cheep Cheep
   - Added Raw & Cooked Spiny Cheep Cheep
   - Used to brew poison potions
+- Added 5 types of Coral Tower blocks
+  - Generates in coral reefs
+  - Can be bonemealed
+  - Can die above water
+  - Solid hitbox, similar to coral in Mario underwater levels
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
 - Added Pipe junctions to pipe world gen

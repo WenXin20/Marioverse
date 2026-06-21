@@ -212,6 +212,11 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/qwilfish_spawn_egg"));
     }
 
+    private ResourceLocation blockTexture(Block block) {
+        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
+        return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + id.getPath());
+    }
+
     public void largeItem(Item item) {
         this.largeItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
     }

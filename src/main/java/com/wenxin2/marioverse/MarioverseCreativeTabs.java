@@ -183,6 +183,16 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DANGO_BLOSSOM);
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
+            add(event, BlockRegistry.TUBE_CORAL_TOWER);
+            add(event, BlockRegistry.BRAIN_CORAL_TOWER);
+            add(event, BlockRegistry.BUBBLE_CORAL_TOWER);
+            add(event, BlockRegistry.FIRE_CORAL_TOWER);
+            add(event, BlockRegistry.HORN_CORAL_TOWER);
+            add(event, BlockRegistry.DEAD_TUBE_CORAL_TOWER);
+            add(event, BlockRegistry.DEAD_BRAIN_CORAL_TOWER);
+            add(event, BlockRegistry.DEAD_BUBBLE_CORAL_TOWER);
+            add(event, BlockRegistry.DEAD_FIRE_CORAL_TOWER);
+            add(event, BlockRegistry.DEAD_HORN_CORAL_TOWER);
 
             add(event, BlockRegistry.SMASHABLE_STONE_BRICKS);
             add(event, BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS);
@@ -560,6 +570,17 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.PITCHER_POD, ItemRegistry.PIRANHA_PLANT_POD);
 
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
+
+                addAfter(event, Blocks.DEAD_HORN_CORAL_FAN, BlockRegistry.TUBE_CORAL_TOWER);
+                addAfter(event, BlockRegistry.TUBE_CORAL_TOWER, BlockRegistry.BRAIN_CORAL_TOWER);
+                addAfter(event, BlockRegistry.BRAIN_CORAL_TOWER, BlockRegistry.BUBBLE_CORAL_TOWER);
+                addAfter(event, BlockRegistry.BUBBLE_CORAL_TOWER, BlockRegistry.FIRE_CORAL_TOWER);
+                addAfter(event, BlockRegistry.FIRE_CORAL_TOWER, BlockRegistry.HORN_CORAL_TOWER);
+                addAfter(event, BlockRegistry.HORN_CORAL_TOWER, BlockRegistry.DEAD_TUBE_CORAL_TOWER);
+                addAfter(event, BlockRegistry.DEAD_TUBE_CORAL_TOWER, BlockRegistry.DEAD_BRAIN_CORAL_TOWER);
+                addAfter(event, BlockRegistry.DEAD_BRAIN_CORAL_TOWER, BlockRegistry.DEAD_BUBBLE_CORAL_TOWER);
+                addAfter(event, BlockRegistry.DEAD_BUBBLE_CORAL_TOWER, BlockRegistry.DEAD_FIRE_CORAL_TOWER);
+                addAfter(event, BlockRegistry.DEAD_FIRE_CORAL_TOWER, BlockRegistry.DEAD_HORN_CORAL_TOWER);
 
                 addAfter(event, Blocks.JACK_O_LANTERN, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
                 addAfter(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, BlockRegistry.SPLUNKIN_O_LANTERN);

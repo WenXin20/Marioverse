@@ -13,7 +13,6 @@ import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
 import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
@@ -56,83 +55,76 @@ public class BlockStateGen extends BlockStateProvider {
         super(output, Marioverse.MOD_ID, existingFileHelper);
     }
 
+    private ResourceLocation texture(Block block, String suffix) {
+        ResourceLocation texture = this.blockTexture(block);
+        return texture.withPath(texture.getPath() + suffix);
+    }
+
+    private void cubeAllBlocks(Block... blocks) {
+        for (Block block : blocks)
+            this.cubeAllModel(block, blockTexture(block));
+    }
+
+    private void coralTowerBlocks(Block... blocks) {
+        for (Block block : blocks)
+            this.coralTowerModel(block, blockTexture(block));
+    }
+
+    private String name(Block block) {
+        return BuiltInRegistries.BLOCK.getKey(block).getPath();
+    }
+
     @Override
     protected void registerStatesAndModels() {
-        String blockSpawnerName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLOCK_SPAWNER.get()).getPath();
-        String blueBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get()).getPath();
-        String blueMushroomTrampolineName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get()).getPath();
-        String blueTrampolineCapName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()).getPath();
-        String calciteCheckeredName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CALCITE_CHECKERED_TILES.get()).getPath();
-        String classicCheckpointName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get()).getPath();
-        String classicGoalPoleName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.CLASSIC_GOAL_POLE.get()).getPath();
-        String coinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.COIN.get()).getPath();
-        String dangoBlossomName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DANGO_BLOSSOM.get()).getPath();
-        String deathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEATH_BLOCK.get()).getPath();
-        String deepFungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.DEEP_FUNGAL_STONE.get()).getPath();
-        String fungalStoneName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.FUNGAL_STONE.get()).getPath();
-        String glowBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.GLOW_BLOCK.get()).getPath();
-        String ironSpikeName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.IRON_SPIKE.get()).getPath();
-        String monsterDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.MONSTER_DEATH_BLOCK.get()).getPath();
-        String offSwitchName = "off_switch";
-        String onSwitchName = "on_switch";
-        String passiveDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.PASSIVE_DEATH_BLOCK.get()).getPath();
-        String playerDeathBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.PLAYER_DEATH_BLOCK.get()).getPath();
-        String pumpkinName = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
-        String quicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.QUICKSAND.get()).getPath();
-        String redBlockName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_DOTTED_LINE_BLOCK.get()).getPath();
-        String redMushroomTrampolineName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()).getPath();
-        String redQuicksandName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_QUICKSAND.get()).getPath();
-        String redTrampolineCapName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.RED_TRAMPOLINE_CAP.get()).getPath();
-        String spikePanelName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPIKE_PANEL.get()).getPath();
-        String splunkinCarvedPumpkinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get()).getPath();
-        String splunkinOLanternName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.SPLUNKIN_O_LANTERN.get()).getPath();
-        String starCoinName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.STAR_COIN.get()).getPath();
-        String waterSpoutName = BuiltInRegistries.BLOCK.getKey(BlockRegistry.WATER_SPOUT.get()).getPath();
+        String pumpkin = BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN).getPath();
+        Block quicksand = BlockRegistry.QUICKSAND.get(),
+                redQuicksand = BlockRegistry.RED_QUICKSAND.get(),
+                spawner = BlockRegistry.BLOCK_SPAWNER.get(),
+                blossom = BlockRegistry.DANGO_BLOSSOM.get(),
+                blueDotted = BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get(),
+                redDotted = BlockRegistry.RED_DOTTED_LINE_BLOCK.get(),
+                glow = BlockRegistry.GLOW_BLOCK.get(),
+                splunkin = BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(),
+                lantern = BlockRegistry.SPLUNKIN_O_LANTERN.get();
+        Block waterSpout = BlockRegistry.WATER_SPOUT.get();
 
-        this.cubeAllModel(BlockRegistry.DEATH_BLOCK.get(), modLoc("block/" + deathBlockName));
-        this.cubeAllModel(BlockRegistry.DEEP_FUNGAL_STONE.get(), modLoc("block/" + deepFungalStoneName));
-        this.cubeAllModel(BlockRegistry.FUNGAL_STONE.get(), modLoc("block/" + fungalStoneName));
-        this.cubeAllModel(BlockRegistry.MONSTER_DEATH_BLOCK.get(), modLoc("block/" + monsterDeathBlockName));
-        this.cubeAllModel(BlockRegistry.PASSIVE_DEATH_BLOCK.get(), modLoc("block/" + passiveDeathBlockName));
-        this.cubeAllModel(BlockRegistry.PLAYER_DEATH_BLOCK.get(), modLoc("block/" + playerDeathBlockName));
-        this.cubeInnerOverlayModel(BlockRegistry.QUICKSAND.get(), modLoc("block/" + quicksandName + "_top"),
-                modLoc("block/" + quicksandName), modLoc("block/" + quicksandName + "_top"));
-        this.cubeInnerOverlayModel(BlockRegistry.RED_QUICKSAND.get(), modLoc("block/" + redQuicksandName + "_top"),
-                modLoc("block/" + redQuicksandName), modLoc("block/" + redQuicksandName + "_top"));
-        this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), modLoc("block/" + calciteCheckeredName));
-        this.blockSpawnerBlockModel(BlockRegistry.BLOCK_SPAWNER.get(), modLoc("block/" + blockSpawnerName + "_top"),
-                modLoc("block/" + blockSpawnerName), modLoc("block/" + blockSpawnerName + "_top"));
-        this.blossomModel(BlockRegistry.DANGO_BLOSSOM.get(), modLoc("block/" + dangoBlossomName),
-                modLoc("block/" + dangoBlossomName + "_leaves"));
-        this.dottedLineBlockModel(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get(), modLoc("block/" + blueBlockName + "_off"), modLoc("block/" + blueBlockName), false);
-        this.dottedLineBlockModel(BlockRegistry.RED_DOTTED_LINE_BLOCK.get(), modLoc("block/" + redBlockName), modLoc("block/" + redBlockName + "_off"), true);
-        this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + classicCheckpointName));
-        this.emptyModel(BlockRegistry.COIN.get(), modLoc("block/" + coinName));
-        this.emptyModel(BlockRegistry.STAR_COIN.get(), modLoc("block/" + starCoinName));
-        this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), classicGoalPoleName, modLoc("block/" + classicGoalPoleName));
-        this.horizontalModel(BlockRegistry.GLOW_BLOCK.get(), modLoc("block/" + glowBlockName + "_front"),
-                modLoc("block/" + glowBlockName), modLoc("block/" + glowBlockName));
-        this.horizontalModel(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get(), modLoc("block/" + splunkinCarvedPumpkinName),
-                mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"));
-        this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), modLoc("block/" + ironSpikeName));
-        this.mushroomTrampolineRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(), modLoc("block/" + redMushroomTrampolineName));
-        this.mushroomTrampolineBlueModel(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get(), modLoc("block/" + blueMushroomTrampolineName));
-        this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/" + onSwitchName), modLoc("block/" + onSwitchName + "_top"),
-                modLoc("block/" + offSwitchName), modLoc("block/" + offSwitchName + "_top"));
+        this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(), BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.FUNGAL_STONE.get(),
+                BlockRegistry.MONSTER_DEATH_BLOCK.get(), BlockRegistry.PASSIVE_DEATH_BLOCK.get(), BlockRegistry.PLAYER_DEATH_BLOCK.get());
+        this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(), BlockRegistry.BUBBLE_CORAL_TOWER.get(), BlockRegistry.FIRE_CORAL_TOWER.get(),
+                BlockRegistry.HORN_CORAL_TOWER.get(), BlockRegistry.TUBE_CORAL_TOWER.get(), BlockRegistry.DEAD_BRAIN_CORAL_TOWER.get(),
+                BlockRegistry.DEAD_BUBBLE_CORAL_TOWER.get(), BlockRegistry.DEAD_FIRE_CORAL_TOWER.get(), BlockRegistry.DEAD_HORN_CORAL_TOWER.get(),
+                BlockRegistry.DEAD_TUBE_CORAL_TOWER.get());
+
+        this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));
+        this.blossomModel(blossom, blockTexture(blossom), texture(blossom, "_leaves"));
+        this.cubeInnerOverlayModel(quicksand, texture(quicksand, "_top"), blockTexture(quicksand), texture(quicksand, "_top"));
+        this.cubeInnerOverlayModel(redQuicksand, texture(redQuicksand, "_top"), blockTexture(redQuicksand), texture(redQuicksand, "_top"));
+        this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), blockTexture(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
+        this.dottedLineBlockModel(blueDotted, texture(blueDotted, "_off"), blockTexture(blueDotted), false);
+        this.dottedLineBlockModel(redDotted, blockTexture(redDotted), texture(redDotted, "_off"), true);
+        this.emptyModel(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), modLoc("item/" + name(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get())));
+        this.emptyModel(BlockRegistry.COIN.get(), blockTexture(BlockRegistry.COIN.get()));
+        this.emptyModel(BlockRegistry.STAR_COIN.get(), blockTexture(BlockRegistry.STAR_COIN.get()));
+        this.goalPoleModel(BlockRegistry.CLASSIC_GOAL_POLE.get(), name(BlockRegistry.CLASSIC_GOAL_POLE.get()), blockTexture(BlockRegistry.CLASSIC_GOAL_POLE.get()));
+        this.horizontalModel(glow, texture(glow, "_front"), blockTexture(glow), blockTexture(glow));
+        this.horizontalModel(splunkin, blockTexture(splunkin), mcLoc("block/" + pumpkin + "_side"), mcLoc("block/" + pumpkin + "_top"));
+        this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), blockTexture(BlockRegistry.IRON_SPIKE.get()));
+        this.mushroomTrampolineBlueModel(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get(), blockTexture(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get()));
+        this.mushroomTrampolineRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(), blockTexture(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()));
+        this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
+                modLoc("block/off_switch"), modLoc("block/off_switch_top"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
-        this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/" + "potted_" + dangoBlossomName),
-                modLoc("block/" + "potted_" + dangoBlossomName + "_leaves"));
-        this.pottedTrampolineCapRedModel(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get(), modLoc("block/" + redTrampolineCapName));
-        this.pottedTrampolineCapBlueModel(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get(), modLoc("block/" + blueTrampolineCapName));
-        this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), modLoc("block/" + spikePanelName));
-        this.splunkinOLanternModel(BlockRegistry.SPLUNKIN_O_LANTERN.get(), modLoc("block/" + splunkinOLanternName),
-                mcLoc("block/" + pumpkinName + "_side"), mcLoc("block/" + pumpkinName + "_top"),
-                modLoc("block/" + splunkinOLanternName + "_cracked"),
-                modLoc("block/" + splunkinOLanternName + "_cracked_side"), modLoc("block/" + splunkinOLanternName + "_cracked_top"));
-        this.trampolineCapRedModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), modLoc("block/" + redTrampolineCapName));
-        this.trampolineCapBlueModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), modLoc("block/" + blueTrampolineCapName));
-        this.waterSpoutModel(BlockRegistry.WATER_SPOUT.get(), modLoc("block/" + waterSpoutName + "_flow"),
-                modLoc("block/" + waterSpoutName + "_still"), modLoc("block/" + waterSpoutName + "_splash"));
+        this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/potted_dango_blossom"),
+                modLoc("block/potted_dango_blossom_leaves"));
+        this.pottedTrampolineCapBlueModel(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
+        this.pottedTrampolineCapRedModel(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
+        this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), blockTexture(BlockRegistry.SPIKE_PANEL.get()));
+        this.splunkinOLanternModel(lantern, blockTexture(lantern), mcLoc("block/" + pumpkin + "_side"),
+                mcLoc("block/" + pumpkin + "_top"), texture(lantern, "_cracked"), texture(lantern, "_cracked_side"), texture(lantern, "_cracked_top"));
+        this.trampolineCapBlueModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
+        this.trampolineCapRedModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
+        this.waterSpoutModel(waterSpout, texture(waterSpout, "_flow"), texture(waterSpout, "_still"),
+                texture(waterSpout, "_splash"));
 
         this.genBridges();
         this.genBridgeStairs();
@@ -936,6 +928,26 @@ public class BlockStateGen extends BlockStateProvider {
                 }, StairBlock.WATERLOGGED);
     }
 
+    private void coralTowerModel(Block block, ResourceLocation crossTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/cross"))
+                .texture("cross", crossTexture).renderType("cutout_mipped");
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", mcLoc("block/cross"))
+                .texture("cross", crossTexture + "_top").renderType("cutout_mipped");
+        ModelFile modelItem = models()
+                .withExistingParent(modelName + "_inventory", mcLoc("item/generated"))
+                .texture("layer0", crossTexture + "_top");
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, false).addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, true).addModels(new ConfiguredModel(modelTop));
+
+        this.simpleBlockItem(block, modelItem);
+    }
+
     private void cubeAllModel(Block block, ResourceLocation mainTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
@@ -1709,8 +1721,8 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("splash", splashTexture).texture("side", sideTexture).texture("top", topTexture);
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
-        variantBuilder.partialState().with(WaterSpoutBlock.TOP, false).addModels(new ConfiguredModel(model));
-        variantBuilder.partialState().with(WaterSpoutBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
+        variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, false).addModels(new ConfiguredModel(model));
+        variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, true).addModels(new ConfiguredModel(modelTop));
     }
 
     // Unfinished

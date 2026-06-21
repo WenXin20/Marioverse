@@ -1,7 +1,8 @@
-// 1.21.1	2026-04-27T19:44:33.4232177	Tags for minecraft:block mod id marioverse
-12e9d8b13c17abae45f70bf1c73bfd57855dea80 data/create/tags/block/brittle.json
+// 1.21.1	2026-06-21T01:14:02.8150949	Tags for minecraft:block mod id marioverse
+f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
-305282e1368fb138b2f4a504416dc5f3e6aba3c8 data/create/tags/block/movable_empty_collider.json
+b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
+ec03c1325fa26175603eceeea5f9f92018fe96a0 data/create/tags/block/movable_empty_collider.json
 3328fc37e450afbca82611da12322d23408f0d7d data/create/tags/block/safe_nbt.json
 f8b64e2ef01c28cc3f45a012a987a1593637c2b4 data/create/tags/block/simple_mounted_storage.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/create/tags/block/single_block_inventories.json
@@ -38,7 +39,9 @@ cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/block/calcite.json
 4677a62f0d83bd3bb4d6f24178f69a7607086794 data/marioverse/tags/block/cannot_use_as_disguise.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/block/checkpoint_flags.json
 8216809e2ce95f71085cc90bd77b7c41f0dae896 data/marioverse/tags/block/chiseled_calcite_bricks.json
+199eca6dc47a69842481034a1fccd44118fda48b data/marioverse/tags/block/coral_towers.json
 cc7691b6e87d0dc491b9e9b7106a5c012dd99e6d data/marioverse/tags/block/cracked_calcite_bricks.json
+e9334e2d2faa6b91089289ce322ac853585c88ff data/marioverse/tags/block/dead_coral_towers.json
 ad09baeb916f2de58fa466c6e73c3433e30f0636 data/marioverse/tags/block/death_blocks.json
 bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/block/dotted_line_blocks.json
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_checkpoint_flags.json
@@ -82,6 +85,7 @@ d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calc
 d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_efficient.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/block/base_stone_overworld.json
+a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/corals.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
 f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
@@ -94,7 +98,7 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
 33888c331b3878eaceb10bc26f26e4b6c91b82a4 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-2b78793577b6473380d0cff1902b024ca34122cf data/minecraft/tags/block/mineable/pickaxe.json
+5e06f1907188bdf29aaeb29329461d47aa594b38 data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
 648abb645b702128eae0df287c7a5c1decf5fd06 data/minecraft/tags/block/needs_stone_tool.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json
@@ -104,6 +108,7 @@ b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/block/stone_buttons.json
 da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
 a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficient.json
+a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
 7b23db159d567133835a9e7c72691460e675fd78 data/minecraft/tags/block/walls.json
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -43,12 +44,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WaterSpoutBlock extends Block implements BucketPickup {
-    public static final BooleanProperty TOP = BooleanProperty.create("top");
+    public static final BooleanProperty TOP = BlockStatePropertyRegistry.TOP;
 
-    public static final VoxelShape SPOUT = Shapes.or(
-            Block.box(5, 0, 5, 11, 16, 11).optimize());
-    public static final VoxelShape SPOUT_TOP = Shapes.or(
-            Block.box(5, 0, 5, 11, 12, 11).optimize());
+    public static final VoxelShape SPOUT = Block.box(5, 0, 5, 11, 16, 11).optimize();
+    public static final VoxelShape SPOUT_TOP = Block.box(5, 0, 5, 11, 12, 11).optimize();
 
     public WaterSpoutBlock(Properties properties) {
         super(properties);

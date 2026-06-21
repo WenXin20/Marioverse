@@ -54,7 +54,9 @@ public class TagRegistry {
     public static final TagKey<Block> CANNOT_USE_AS_DISGUISE = blockTags("cannot_use_as_disguise");
     public static final TagKey<Block> CHECKPOINT_FLAG_BLOCKS = blockTags("checkpoint_flags");
     public static final TagKey<Block> CHISELED_CALCITE_BRICK_BLOCKS = blockTags("chiseled_calcite_bricks");
+    public static final TagKey<Block> CORAL_TOWER_BLOCKS = blockTags("coral_towers");
     public static final TagKey<Block> CRACKED_CALCITE_BRICK_BLOCKS = blockTags("cracked_calcite_bricks");
+    public static final TagKey<Block> DEAD_CORAL_TOWER_BLOCKS = blockTags("dead_coral_towers");
     public static final TagKey<Block> DEATH_BLOCKS = blockTags("death_blocks");
     public static final TagKey<Block> DOTTED_LINE_BLOCKS = blockTags("dotted_line_blocks");
     public static final TagKey<Block> DYEABLE_CHECKPOINT_FLAG_BLOCKS = blockTags("dyeable_checkpoint_flags");
@@ -142,6 +144,7 @@ public class TagRegistry {
     public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
     public static final TagKey<Item> CHEEP_CHEEP_ITEMS = itemTags("cheep_cheeps");
     public static final TagKey<Item> CHISELED_CALCITE_BRICK_ITEMS = itemTags("chiseled_calcite_bricks");
+    public static final TagKey<Item> CORAL_TOWERS = itemTags("coral_towers");
     public static final TagKey<Item> COSTUMES = itemTags("costumes");
     public static final TagKey<Item> COSTUME_HAT = itemTags("accessories", "costume_hat");
     public static final TagKey<Item> COSTUME_PANTS = itemTags("accessories", "costume_pants");
@@ -151,6 +154,7 @@ public class TagRegistry {
     public static final TagKey<Item> CRAFTS_WARP_DOOR = itemTags("crafts_warp_door");
     public static final TagKey<Item> CRAFTS_WARP_PAINTING = itemTags("crafts_warp_painting");
     public static final TagKey<Item> CRAFTS_WARP_TRAPDOOR = itemTags("crafts_warp_trapdoor");
+    public static final TagKey<Item> DEAD_CORAL_TOWERS = itemTags("dead_coral_towers");
     public static final TagKey<Item> DEATH_BLOCK_ITEMS = itemTags("death_blocks");
     public static final TagKey<Item> DOTTED_LINE_BLOCK_ITEMS = itemTags("dotted_line_blocks");
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");

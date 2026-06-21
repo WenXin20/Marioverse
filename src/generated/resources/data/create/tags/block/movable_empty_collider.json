@@ -2,6 +2,8 @@
   "values": [
     "#marioverse:bridge_stairs",
     "#marioverse:checkpoint_flags",
+    "#marioverse:coral_towers",
+    "#marioverse:dead_coral_towers",
     "#marioverse:dotted_line_blocks",
     "#marioverse:invisible_question_blocks",
     "marioverse:block_spawner",

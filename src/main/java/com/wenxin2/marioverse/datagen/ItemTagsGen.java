@@ -42,6 +42,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS, TagRegistry.CALCITE_BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS);
+        copy(TagRegistry.CORAL_TOWER_BLOCKS, TagRegistry.CORAL_TOWERS);
+        copy(TagRegistry.DEAD_CORAL_TOWER_BLOCKS, TagRegistry.DEAD_CORAL_TOWERS);
         copy(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS, TagRegistry.CRACKED_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.DEATH_BLOCKS, TagRegistry.DEATH_BLOCK_ITEMS);
         copy(TagRegistry.DOTTED_LINE_BLOCKS, TagRegistry.DOTTED_LINE_BLOCK_ITEMS);

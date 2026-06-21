@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/horn_coral_tower"
+    },
+    "top=true": {
+      "model": "marioverse:block/horn_coral_tower_top"
+    }
+  }
+}

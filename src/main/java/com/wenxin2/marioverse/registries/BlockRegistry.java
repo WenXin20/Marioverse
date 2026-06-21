@@ -4,6 +4,8 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.CoralTowerBlock;
+import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
 import com.wenxin2.marioverse.blocks.PassiveDeathBlock;
@@ -119,7 +121,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> BRAIN_CORAL_TOWER;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> BUBBLE_CORAL_TOWER;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_SLAB;
@@ -159,6 +163,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> DEAD_BRAIN_CORAL_TOWER;
+    public static final DeferredBlock<Block> DEAD_BUBBLE_CORAL_TOWER;
+    public static final DeferredBlock<Block> DEAD_FIRE_CORAL_TOWER;
+    public static final DeferredBlock<Block> DEAD_HORN_CORAL_TOWER;
+    public static final DeferredBlock<Block> DEAD_TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> DEATH_BLOCK;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_BRICKS;
@@ -181,6 +190,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> FIRE_CORAL_TOWER;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICK_SLAB;
@@ -195,6 +205,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
+    public static final DeferredBlock<Block> HORN_CORAL_TOWER;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_CALCITE_QUESTION_BLOCK;
@@ -282,10 +293,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUICKSAND;
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
+    public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
-    public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
-    public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> RED_QUICKSAND;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
@@ -293,6 +303,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_WALL;
     public static final DeferredBlock<Block> RED_SANDSTONE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_SLAB;
@@ -382,6 +393,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE;
@@ -491,6 +503,48 @@ public class BlockRegistry {
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.BLUE_TRAMPOLINE_CAP,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
 
+
+        BRAIN_CORAL_TOWER = registerBlock("brain_coral_tower",
+                () -> new CoralTowerBlock(BlockRegistry.DEAD_BRAIN_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_PINK)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+        BUBBLE_CORAL_TOWER = registerBlock("bubble_coral_tower",
+                () -> new CoralTowerBlock(BlockRegistry.DEAD_BUBBLE_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_PURPLE)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+        FIRE_CORAL_TOWER = registerBlock("fire_coral_tower",
+                () -> new CoralTowerBlock(BlockRegistry.DEAD_FIRE_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_RED)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+        HORN_CORAL_TOWER = registerBlock("horn_coral_tower",
+                () -> new CoralTowerBlock(BlockRegistry.DEAD_HORN_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_YELLOW)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+        TUBE_CORAL_TOWER = registerBlock("tube_coral_tower",
+                () -> new CoralTowerBlock(BlockRegistry.DEAD_TUBE_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_BLUE)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+        DEAD_BRAIN_CORAL_TOWER = registerBlock("dead_brain_coral_tower",
+                () -> new DeadCoralTowerBlock(BlockRegistry.BRAIN_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_GRAY)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+        DEAD_BUBBLE_CORAL_TOWER = registerBlock("dead_bubble_coral_tower",
+                () -> new DeadCoralTowerBlock(BlockRegistry.BUBBLE_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_GRAY)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+        DEAD_FIRE_CORAL_TOWER = registerBlock("dead_fire_coral_tower",
+                () -> new DeadCoralTowerBlock(BlockRegistry.FIRE_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_GRAY)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+        DEAD_HORN_CORAL_TOWER = registerBlock("dead_horn_coral_tower",
+                () -> new DeadCoralTowerBlock(BlockRegistry.HORN_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_GRAY)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+        DEAD_TUBE_CORAL_TOWER = registerBlock("dead_tube_coral_tower",
+                () -> new DeadCoralTowerBlock(BlockRegistry.TUBE_CORAL_TOWER, BlockBehaviour.Properties.of()
+                        .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_GRAY)
+                        .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
                 () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));

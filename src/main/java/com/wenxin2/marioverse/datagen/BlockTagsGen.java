@@ -73,6 +73,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         }
 
         tag(CompatRegistry.CREATE_BRITTLE)
+                .addTag(TagRegistry.CORAL_TOWER_BLOCKS)
+                .addTag(TagRegistry.DEAD_CORAL_TOWER_BLOCKS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
@@ -91,6 +93,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER)
                 .addTag(TagRegistry.BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .addTag(TagRegistry.CORAL_TOWER_BLOCKS)
+                .addTag(TagRegistry.DEAD_CORAL_TOWER_BLOCKS)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get())
@@ -231,6 +235,20 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS)
                 .add(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get());
+
+        tag(TagRegistry.CORAL_TOWER_BLOCKS)
+                .add(BlockRegistry.BRAIN_CORAL_TOWER.get())
+                .add(BlockRegistry.BUBBLE_CORAL_TOWER.get())
+                .add(BlockRegistry.FIRE_CORAL_TOWER.get())
+                .add(BlockRegistry.HORN_CORAL_TOWER.get())
+                .add(BlockRegistry.TUBE_CORAL_TOWER.get());
+
+        tag(TagRegistry.DEAD_CORAL_TOWER_BLOCKS)
+                .add(BlockRegistry.DEAD_BRAIN_CORAL_TOWER.get())
+                .add(BlockRegistry.DEAD_BUBBLE_CORAL_TOWER.get())
+                .add(BlockRegistry.DEAD_FIRE_CORAL_TOWER.get())
+                .add(BlockRegistry.DEAD_HORN_CORAL_TOWER.get())
+                .add(BlockRegistry.DEAD_TUBE_CORAL_TOWER.get());
 
         tag(TagRegistry.DEATH_BLOCKS)
                 .add(BlockRegistry.DEATH_BLOCK.get())
@@ -647,6 +665,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get());
 
+        tag(BlockTags.CORALS)
+                .addTag(TagRegistry.CORAL_TOWER_BLOCKS);
+
         tag(BlockTags.CRYSTAL_SOUND_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
@@ -831,7 +852,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
                 .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
                 .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.CORAL_TOWER_BLOCKS)
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
+                .addTag(TagRegistry.DEAD_CORAL_TOWER_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
@@ -947,9 +970,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
+        tag(BlockTags.UNDERWATER_BONEMEALS)
+                .addTag(TagRegistry.CORAL_TOWER_BLOCKS);
+
         tag(BlockTags.WITHER_IMMUNE)
                 .addTag(TagRegistry.DEATH_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
+
+        tag(TagRegistry.blockTags("create", "corals"))
+                .addTag(TagRegistry.CORAL_TOWER_BLOCKS)
+                .addTag(TagRegistry.DEAD_CORAL_TOWER_BLOCKS);
 
         tag(TagRegistry.blockTags("framedblocks", "blockentity_whitelisted"))
                 .addTag(TagRegistry.QUESTION_BLOCKS)

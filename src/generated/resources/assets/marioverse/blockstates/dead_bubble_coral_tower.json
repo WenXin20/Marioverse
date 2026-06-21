@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/dead_bubble_coral_tower"
+    },
+    "top=true": {
+      "model": "marioverse:block/dead_bubble_coral_tower_top"
+    }
+  }
+}

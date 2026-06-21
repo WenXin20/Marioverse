@@ -396,13 +396,13 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                            LevelAccessor levelAccessor, BlockPos pos, BlockPos posNeighbor) {
         if (direction == state.getValue(FACING))
-            return calculateEntrance(state, levelAccessor, pos);
+            return this.calculateEntrance(state, levelAccessor, pos);
         return state;
     }
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        BlockState newState = calculateEntrance(state, level, pos);
+        BlockState newState = this.calculateEntrance(state, level, pos);
         Direction direction = state.getValue(FACING);
         BlockState stateRelative = level.getBlockState(pos.relative(direction));
 
