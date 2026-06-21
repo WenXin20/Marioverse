@@ -665,8 +665,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get());
 
-        tag(BlockTags.CORALS)
-                .addTag(TagRegistry.CORAL_TOWER_BLOCKS);
+        tag(BlockTags.CORALS);
 
         tag(BlockTags.CRYSTAL_SOUND_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())

@@ -25,6 +25,9 @@ public class BiomeTagsGen extends BiomeTagsProvider {
         tag(TagRegistry.HAS_CHEEP_CHEEP)
                 .addTag(BiomeTags.IS_OVERWORLD);
 
+        tag(TagRegistry.HAS_CORAL_TOWERS)
+                .add(Biomes.WARM_OCEAN);
+
         tag(TagRegistry.HAS_DEEP_CHEEP)
                 .addTag(Tags.Biomes.IS_DEEP_OCEAN);
 
@@ -92,6 +95,7 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .addTag(BiomeTags.IS_JUNGLE)
                 .add(Biomes.DARK_FOREST);
 
+
         tag(TagRegistry.HAS_BRICK_LANES)
                 .addTag(Tags.Biomes.IS_MUSHROOM)
                 .addTag(Tags.Biomes.IS_PLAINS)
@@ -100,7 +104,6 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .add(Biomes.PLAINS)
                 .add(Biomes.SNOWY_PLAINS)
                 .add(Biomes.SUNFLOWER_PLAINS);
-        
 
         tag(TagRegistry.HAS_CLASSIC_UNDERGROUND)
                 .addTag(Tags.Biomes.IS_MUSHROOM)

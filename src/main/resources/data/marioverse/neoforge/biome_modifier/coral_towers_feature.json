@@ -1,0 +1,7 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#marioverse:has_coral_towers",
+  "features": [ "marioverse:patch_brain_coral_towers", "marioverse:patch_bubble_coral_towers",
+    "marioverse:patch_fire_coral_towers", "marioverse:patch_horn_coral_towers", "marioverse:patch_tube_coral_towers" ],
+  "step": "vegetal_decoration"
+}

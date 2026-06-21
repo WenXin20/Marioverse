@@ -22,6 +22,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_CHEEP_CHEEP = biomeTags("has_cheep_cheep");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
     public static final TagKey<Biome> HAS_COLD_CHEEP_CHEEP = biomeTags("has_cold_cheep_cheep");
+    public static final TagKey<Biome> HAS_CORAL_TOWERS = biomeTags("has_coral_towers");
     public static final TagKey<Biome> HAS_DEEP_CHEEP = biomeTags("has_deep_cheep");
     public static final TagKey<Biome> HAS_DRY_BONES = biomeTags("has_dry_bones");
     public static final TagKey<Biome> HAS_EEP_CHEEP = biomeTags("has_eep_cheep");
