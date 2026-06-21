@@ -136,11 +136,23 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.WARM_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
-        this.largeItem(ItemRegistry.MEGA_MUSHROOM.get());
+
+        this.coralTowerItem(BlockRegistry.BRAIN_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.BUBBLE_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.DEAD_BRAIN_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.DEAD_BUBBLE_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.DEAD_FIRE_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.DEAD_HORN_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.DEAD_TUBE_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.FIRE_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.HORN_CORAL_TOWER.asItem());
+        this.coralTowerItem(BlockRegistry.TUBE_CORAL_TOWER.asItem());
 
         this.handheldItem(ItemRegistry.CREATIVE_WRENCH.get());
         this.handheldItem(ItemRegistry.WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
+
+        this.largeItem(ItemRegistry.MEGA_MUSHROOM.get());
 
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_BUCKET.get(), Fluids.EMPTY, false, false);
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
@@ -212,9 +224,11 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/qwilfish_spawn_egg"));
     }
 
-    private ResourceLocation blockTexture(Block block) {
-        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
-        return ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/" + id.getPath());
+    public void coralTowerItem(Item item) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "block/" + location.getPath() + "_top"));
     }
 
     public void largeItem(Item item) {

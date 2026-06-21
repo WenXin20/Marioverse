@@ -33,7 +33,7 @@
   - Used to brew poison potions
 - Added 5 types of Coral Tower blocks
   - Generates in coral reefs
-  - Can be bonemealed
+  - Can be bone mealed
   - Can die above water
   - Solid hitbox, similar to coral in Mario underwater levels
 - Added ability for Koopa Troopas to open doors

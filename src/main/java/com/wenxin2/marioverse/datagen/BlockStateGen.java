@@ -944,8 +944,6 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, true).addModels(new ConfiguredModel(modelTop));
-
-        this.simpleBlockItem(block, modelItem);
     }
 
     private void cubeAllModel(Block block, ResourceLocation mainTexture) {
