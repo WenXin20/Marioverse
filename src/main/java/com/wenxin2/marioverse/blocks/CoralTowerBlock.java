@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -122,7 +123,9 @@ public class CoralTowerBlock extends BaseCoralPlantTypeBlock implements Bonemeal
 
     @Override
     public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos pos, BlockState state) {
-        return levelReader.getBlockState(pos.above()).canBeReplaced() || levelReader.getBlockState(pos.above()).is(this);
+        return levelReader.getBlockState(pos).getValue(WATERLOGGED) &&
+                (levelReader.getBlockState(pos.above()).canBeReplaced()
+                    || levelReader.getBlockState(pos.above()).is(this));
     }
 
     @Override
@@ -135,8 +138,8 @@ public class CoralTowerBlock extends BaseCoralPlantTypeBlock implements Bonemeal
         BlockPos growPos = pos.above();
         int blocksToGrow = 2 + random.nextInt(3);
 
-        for (int i = 0; i < blocksToGrow && (level.getBlockState(growPos).canBeReplaced()
-                || level.getBlockState(growPos).is(this)); i++) {
+        for (int i = 0; i < blocksToGrow && level.getBlockState(growPos).getValue(WATERLOGGED)
+                && (level.getBlockState(growPos).canBeReplaced() || level.getBlockState(growPos).is(this)); i++) {
             boolean waterlogged = level.getFluidState(growPos).is(FluidTags.WATER);
             level.setBlockAndUpdate(growPos, defaultBlockState().setValue(WATERLOGGED, waterlogged));
             growPos = growPos.above();
@@ -157,12 +160,8 @@ public class CoralTowerBlock extends BaseCoralPlantTypeBlock implements Bonemeal
         return state;
     }
 
-    public static int getBlocksToGrowWhenBonemealed(RandomSource random) {
-        double d0 = 1.0;
-        int i;
-
-        for (i = 0; random.nextDouble() < d0; i++)
-            d0 *= 0.826;
-        return i;
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
+        return false;
     }
 }
