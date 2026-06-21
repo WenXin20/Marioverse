@@ -123,22 +123,29 @@ public class CoralTowerBlock extends BaseCoralPlantTypeBlock implements Bonemeal
 
     @Override
     public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos pos, BlockState state) {
-        return levelReader.getBlockState(pos).getValue(WATERLOGGED) &&
-                (levelReader.getBlockState(pos.above()).canBeReplaced()
-                    || levelReader.getBlockState(pos.above()).is(this));
+        BlockPos growPos = pos.above();
+        while (levelReader.getBlockState(growPos).is(this))
+            growPos = growPos.above();
+
+        return state.getValue(WATERLOGGED)
+                && levelReader.getFluidState(growPos).is(FluidTags.WATER)
+                && (levelReader.getBlockState(growPos).canBeReplaced()
+                    || levelReader.getBlockState(growPos).is(this));
     }
 
     @Override
     public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
-        return level.getBlockState(pos).getValue(WATERLOGGED);
+        return level.getBlockState(pos).getValue(WATERLOGGED) && level.getFluidState(pos.above()).is(FluidTags.WATER);
     }
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         BlockPos growPos = pos.above();
+        while (level.getBlockState(growPos.above()).is(this))
+            growPos = growPos.above();
         int blocksToGrow = 2 + random.nextInt(3);
 
-        for (int i = 0; i < blocksToGrow && level.getBlockState(growPos).getValue(WATERLOGGED)
+        for (int i = 0; i < blocksToGrow && level.getFluidState(growPos).is(FluidTags.WATER)
                 && (level.getBlockState(growPos).canBeReplaced() || level.getBlockState(growPos).is(this)); i++) {
             boolean waterlogged = level.getFluidState(growPos).is(FluidTags.WATER);
             level.setBlockAndUpdate(growPos, defaultBlockState().setValue(WATERLOGGED, waterlogged));
