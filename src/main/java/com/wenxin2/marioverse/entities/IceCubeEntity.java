@@ -186,6 +186,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             if (this.getEntityFrozenDuration() > 0)
                 this.setEntityFrozenDuration(this.getEntityFrozenDuration() - 1);
         }
+
         if (this.getEntityFrozenDuration() == 0)
             this.shatterIceCube(this, false, false, false);
 
@@ -669,7 +670,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 entity.setXRot(this.getPitch());
                 entity.setIsInPowderSnow(true);
                 this.discard();
-                if (entity.canFreeze())
+                Entity owner = this.getOwner();
+                if (entity.canFreeze() && entity != owner && (owner == null || !entity.isAlliedTo(owner)))
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
 
                 this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
@@ -783,7 +785,9 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             entity.extinguishFire();
             if (entity instanceof Player player && !player.isCreative()) {
                 entity.setIsInPowderSnow(true);
-                if (player.canFreeze())
+                Entity owner = this.getOwner();
+
+                if (player.canFreeze() && player != owner && (owner == null || !player.isAlliedTo(owner)))
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
             }
         }
