@@ -89,6 +89,7 @@ public class TagRegistry {
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
     public static final TagKey<Block> POLISHED_CALCITE_BLOCKS = blockTags("polished_calcite");
     public static final TagKey<Block> QUESTION_BLOCKS = blockTags("question_blocks");
+    public static final TagKey<Block> QUESTION_BLOCKS_CAN_PLACE = blockTags("question_blocks_can_place");
     public static final TagKey<Block> QUESTION_PANEL_BLOCKS = blockTags("question_panels");
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags("smashable_blocks");
     public static final TagKey<Block> SNOWBALL_EXTINGUISHES = blockTags("snowball_extinguishes");

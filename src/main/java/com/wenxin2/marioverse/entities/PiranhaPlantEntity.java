@@ -168,15 +168,18 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 20));
         controllers.add(new AnimationController<>(this, "eat_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("eat", DefaultAnimations.ATTACK_BITE));
-        controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "emerge_controller", 20, state -> PlayState.STOP)
                 .triggerableAnim("emerge", EMERGE));
-        controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "hide_controller", 20, state -> PlayState.STOP)
                 .triggerableAnim("hide", HIDE));
         controllers.add(new AnimationController<>(this, "hurt_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hurt", HURT));
     }
 
     protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
+        if (this.hideAnimationTicks > 0)
+            return PlayState.STOP;
+
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(5.0D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity));
@@ -184,7 +187,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         if (!nearbyEntities.isEmpty() && !this.isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
                 if (collidingEntity instanceof PiranhaPlantEntity
-                        || (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
+                        || this.isAlliedTo(collidingEntity))
                     continue;
 
                 if ((this.getOwner() != null && !((collidingEntity instanceof Monster)
@@ -192,13 +195,11 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                         || (this.getOwner() == null && !collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
                     continue;
 
-                if (this.getOwner() != null && collidingEntity.getTeam() != null && this.getOwner().getTeam() != null
-                        && collidingEntity.getTeam() == this.getOwner().getTeam())
-                    continue;
-
                 event.setAndContinue(CONSTANT_BITES);
+                return PlayState.CONTINUE;
             }
-        } else event.setAndContinue(IDLE);
+        }
+        event.setAndContinue(IDLE);
         return PlayState.CONTINUE;
     }
 
@@ -813,13 +814,8 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                     if (direction != attachDir) continue;
 
                     if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
-                        if (this.isBaby()) {
-                            this.stopTriggeredAnim("baby_hide_controller", "baby_hide");
-                            this.triggerAnim("baby_emerge_controller", "baby_emerge");
-                        } else {
-                            this.stopTriggeredAnim("hide_controller", "hide");
-                            this.triggerAnim("emerge_controller", "emerge");
-                        }
+                        this.stopTriggeredAnim("hide_controller", "hide");
+                        this.triggerAnim("emerge_controller", "emerge");
                         this.hide(false);
                     }
                 }
@@ -835,15 +831,10 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
                     if (direction != attachDir) continue;
 
-                    this.hideAnimationTicks = 15;
+                    this.hideAnimationTicks = 20;
                     this.hideTicks = this.getHideDuration();
-                    if (this.isBaby()) {
-                        this.stopTriggeredAnim("baby_emerge_controller", "baby_emerge");
-                        this.triggerAnim("baby_hide_controller", "baby_hide");
-                    } else {
-                        this.stopTriggeredAnim("emerge_controller", "emerge");
-                        this.triggerAnim("hide_controller", "hide");
-                    }
+                    this.stopTriggeredAnim("emerge_controller", "emerge");
+                    this.triggerAnim("hide_controller", "hide");
                     this.hide(true);
                 }
             }
@@ -853,27 +844,17 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L
                     && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                     && !isPlayerNearby(1.0)) {
-                if (this.isBaby()) {
-                    this.stopTriggeredAnim("baby_hide_controller", "baby_hide");
-                    this.triggerAnim("baby_emerge_controller", "baby_emerge");
-                } else {
-                    this.stopTriggeredAnim("hide_controller", "hide");
-                    this.triggerAnim("emerge_controller", "emerge");
-                }
+                this.stopTriggeredAnim("hide_controller", "hide");
+                this.triggerAnim("emerge_controller", "emerge");
                 this.hide(false);
             }
         } else if (world.getGameTime() % this.getHideDuration() == 0L
                 && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 && !stateBelow.hasProperty(BlockStateProperties.FACING)) {
-            this.hideAnimationTicks = 15;
+            this.hideAnimationTicks = 20;
             this.hideTicks = this.getHideDuration();
-            if (this.isBaby()) {
-                this.stopTriggeredAnim("baby_emerge_controller", "baby_emerge");
-                this.triggerAnim("baby_hide_controller", "baby_hide");
-            } else {
-                this.stopTriggeredAnim("emerge_controller", "emerge");
-                this.triggerAnim("hide_controller", "hide");
-            }
+            this.stopTriggeredAnim("emerge_controller", "emerge");
+            this.triggerAnim("hide_controller", "hide");
             this.hide(true);
         }
     }

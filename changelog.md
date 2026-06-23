@@ -41,6 +41,7 @@
 - Added Pipe junctions to pipe world gen
 - Added new baby piranha plant model for vanilla consistency
 - Added Piranha Plant spawn animation
+- Added new Piranha Plant emerge/hide animations in pipes
 - Improved Piranha Plant spawning, spawns during the day in Jungles
 - Increased mini goomba spawn rate & group size
 - Goombas car rarely spawn as a goombella variant
