@@ -32,6 +32,8 @@ public class PiranhaPlantModel extends GeoModel<PiranhaPlantEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(PiranhaPlantEntity animatable) {
+        if (animatable.isBaby())
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/piranha_plant/baby_piranha_plant.animation.json");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/piranha_plant/piranha_plant.animation.json");
     }
 }

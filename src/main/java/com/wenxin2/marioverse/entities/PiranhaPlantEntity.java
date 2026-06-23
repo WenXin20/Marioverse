@@ -165,7 +165,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
-        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 5));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 20));
         controllers.add(new AnimationController<>(this, "eat_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("eat", DefaultAnimations.ATTACK_BITE));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.STOP)
