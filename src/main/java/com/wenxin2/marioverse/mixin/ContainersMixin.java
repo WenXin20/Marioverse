@@ -14,8 +14,10 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
+import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -24,6 +26,8 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -50,6 +54,7 @@ import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.LingeringPotionItem;
@@ -59,12 +64,17 @@ import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -84,7 +94,7 @@ public class ContainersMixin {
 
                 mv$stackCount = decoratedPotBE.getTheItem().getCount();
                 for (int j = 0; j < mv$stackCount; j++) {
-                    mv$spawnFromContainer(world, decoratedPotBE.getBlockPos(), container.getItem(i),
+                    mv$spawnFromContainer2(world, decoratedPotBE.getBlockPos(), container.getItem(i),
                             ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
                             ConfigRegistry.DECORATED_POT_BUCKET_TWEAKS.get(), TagRegistry.DECORATED_POT_CANNOT_SPAWN);
                 }
@@ -97,7 +107,7 @@ public class ContainersMixin {
 
                 mv$stackCount = questionBE.getTheItem().getCount();
                 for (int j = 0; j < mv$stackCount; j++) {
-                    mv$spawnFromContainer(world, questionBE.getBlockPos(), container.getItem(i),
+                    mv$spawnFromContainer2(world, questionBE.getBlockPos(), container.getItem(i),
                             ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
                             ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
                 }
@@ -106,6 +116,145 @@ public class ContainersMixin {
                     questionBE.removeTheItem();
             }
         }
+    }
+
+    @Unique
+    private static boolean mv$useItem(ServerLevel level, BlockPos pos, ItemStack stack) {
+        FakePlayer fakePlayer = FakePlayerFactory.getMinecraft(level);
+
+        fakePlayer.moveTo(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, 0.0F, 90.0F);
+        fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
+
+        BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false);
+        InteractionResult result = stack.useOn(new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND, hit));
+
+        if (!result.consumesAction())
+            result = stack.use(level, fakePlayer, InteractionHand.MAIN_HAND).getResult();
+
+        return result.consumesAction() || stack.isEmpty() || stack.getCount() != 1;
+    }
+
+    @Unique
+    private static void mv$spawnFromContainer2(Level level, BlockPos pos, ItemStack stack, boolean spawnMobs,
+                                               boolean spawnPowerUps, boolean canEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
+        if (!(level instanceof ServerLevel serverLevel)) return;
+
+        ItemStack stackCopy = stack.copyWithCount(1);
+
+        if (!spawnMobs && stackCopy.getItem() instanceof SpawnEggItem spawnEgg) {
+            EntityType<?> entityType = spawnEgg.getType(stack);
+            if (entityType.is(cannotSpawn))
+                return;
+            mv$spawnItem(level, pos, stackCopy);
+            return;
+        }
+
+        if (!spawnPowerUps && stackCopy.getItem() instanceof BasePowerUpItem powerUpItem) {
+            EntityType<?> entityType = powerUpItem.getType(stack);
+            if (entityType.is(cannotSpawn))
+                return;
+            mv$spawnItem(level, pos, stackCopy);
+            return;
+        }
+
+        if (!canEmptyBuckets && (stackCopy.getItem() instanceof BucketItem
+                || stackCopy.getItem() instanceof SolidBucketItem)) {
+            mv$spawnItem(level, pos, stackCopy);
+            return;
+        }
+
+        if (stackCopy.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
+            PrimedTnt primedtnt = new PrimedTnt(serverLevel, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
+
+            if (!primedtnt.getType().is(cannotSpawn)) {
+                primedtnt.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                level.addFreshEntity(primedtnt);
+                serverLevel.gameEvent(null, GameEvent.PRIME_FUSE, pos);
+                return;
+            }
+        }
+
+        if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
+            Entity entity = CompatRegistry.BOMB.get().create(serverLevel);
+
+            if (entity != null && !entity.getType().is(cannotSpawn)) {
+                if (level.getBlockState(pos.above()).isAir() || level.getFluidState(pos.above()).is(FluidTags.WATER)) {
+                    entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(
+                            level.random.triangle(0.0, 0.2),
+                            level.random.triangle(0.5, 0.2),
+                            level.random.triangle(0.0, 0.2)));
+                } else {
+                    entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
+                    entity.setDeltaMovement(new Vec3(0, -0.5, 0));
+                }
+                level.addFreshEntity(entity);
+            }
+            return;
+        } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
+            Entity entity = CompatRegistry.BOMB.get().create(serverLevel);
+
+            if (entity != null && !entity.getType().is(cannotSpawn)) {
+                CompoundTag nbt = new CompoundTag();
+                entity.save(nbt);
+                nbt.putInt("Type", 1);
+                entity.load(nbt);
+
+                entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                entity.setDeltaMovement(new Vec3(
+                        level.random.triangle(0.0, 0.2),
+                        level.random.triangle(0.5, 0.2),
+                        level.random.triangle(0.0, 0.2)));
+                level.addFreshEntity(entity);
+            }
+            return;
+        } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
+            Entity entity = CompatRegistry.BOMB.get().create(serverLevel);
+
+            if (entity != null && !entity.getType().is(cannotSpawn)) {
+                CompoundTag nbt = new CompoundTag();
+                entity.save(nbt);
+                nbt.putInt("Type", 2);
+                entity.load(nbt);
+
+                entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                entity.setDeltaMovement(new Vec3(
+                        level.random.triangle(0.0, 0.2),
+                        level.random.triangle(0.5, 0.2),
+                        level.random.triangle(0.0, 0.2)));
+                level.addFreshEntity(entity);
+            }
+            return;
+        } else if (stackCopy.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
+            Creeper entity = EntityType.CREEPER.create(serverLevel);
+
+            if (entity != null) {
+                CompoundTag nbt = new CompoundTag();
+                entity.save(nbt);
+                nbt.putBoolean("Party", true);
+                nbt.putInt("Fuse", 0);
+
+                entity.setNoAi(true);
+                entity.ignite();
+                entity.setInvisible(true);
+                entity.setSilent(true);
+                entity.load(nbt);
+
+                entity.setPos(pos.getX() + 0.5D, pos.getY() - 1.0D, pos.getZ() + 0.5D);
+                level.broadcastEntityEvent(entity, (byte) 113);
+                level.addFreshEntity(entity);
+            }
+            level.gameEvent(null, GameEvent.EXPLODE, pos);
+        }
+
+        if (stackCopy.getItem() instanceof BlockItem blockItem
+                && !blockItem.getBlock().defaultBlockState().is(TagRegistry.QUESTION_BLOCKS_CAN_PLACE)) {
+            mv$spawnItem(level, pos, stackCopy);
+            return;
+        }
+
+        if (!mv$useItem(serverLevel, pos, stackCopy))
+            mv$spawnItem(level, pos, stackCopy);
     }
 
     @Unique
