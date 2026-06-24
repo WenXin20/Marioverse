@@ -115,6 +115,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     public boolean isHiding;
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
+    public int emergeAnimationTicks = 0;
     public int attackCooldown = 0;
     protected int age;
     protected int forcedAge;
@@ -331,6 +332,12 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
 
         if (this.hideAnimationTicks > 0)
             this.hideAnimationTicks--;
+
+        if (this.emergeAnimationTicks > 0)
+            this.emergeAnimationTicks--;
+
+        if (this.emergeAnimationTicks == 0)
+            this.stopTriggeredAnim("emerge_controller", "emerge");
 
         this.biteEntity();
         this.hideInBlock();
@@ -814,6 +821,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                     if (direction != attachDir) continue;
 
                     if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
+                        this.emergeAnimationTicks = 20;
                         this.stopTriggeredAnim("hide_controller", "hide");
                         this.triggerAnim("emerge_controller", "emerge");
                         this.hide(false);
@@ -831,7 +839,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
                     if (direction != attachDir) continue;
 
-                    this.hideAnimationTicks = 20;
+                    this.emergeAnimationTicks = 20;
                     this.hideTicks = this.getHideDuration();
                     this.stopTriggeredAnim("emerge_controller", "emerge");
                     this.triggerAnim("hide_controller", "hide");
@@ -844,6 +852,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L
                     && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                     && !isPlayerNearby(1.0)) {
+                this.hideAnimationTicks = 20;
                 this.stopTriggeredAnim("hide_controller", "hide");
                 this.triggerAnim("emerge_controller", "emerge");
                 this.hide(false);

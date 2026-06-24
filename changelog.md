@@ -44,7 +44,7 @@
 - Added new Piranha Plant emerge/hide animations in pipes
 - Improved Piranha Plant spawning, spawns during the day in Jungles
 - Increased mini goomba spawn rate & group size
-- Goombas car rarely spawn as a goombella variant
+- Goombas can rarely spawn as a goombella variant
 - Fixed teleporting using Clear Pipes with Sable
 - Fixed piranha plant pod flashing a full-grown piranha for a tick
 - Fixed tamed piranha plants spawned from pods despawning
