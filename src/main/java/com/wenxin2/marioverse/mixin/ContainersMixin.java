@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -51,6 +52,8 @@ import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
+import net.minecraft.world.item.EnderpearlItem;
+import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
@@ -63,6 +66,7 @@ import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -121,15 +125,33 @@ public class ContainersMixin {
     @Unique
     private static boolean mv$useItem(ServerLevel level, BlockPos pos, ItemStack stack) {
         FakePlayer fakePlayer = FakePlayerFactory.getMinecraft(level);
+        UseAnim anim = stack.getUseAnimation();
 
-        fakePlayer.moveTo(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, 0.0F, 90.0F);
+        fakePlayer.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 90.0F);
         fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
 
         BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false);
-        InteractionResult result = stack.useOn(new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND, hit));
+        InteractionResult result = stack.use(level, fakePlayer, InteractionHand.MAIN_HAND).getResult();
 
-        if (!result.consumesAction())
-            result = stack.use(level, fakePlayer, InteractionHand.MAIN_HAND).getResult();
+        if (stack.getItem() instanceof Equipable || stack.getItem() instanceof EnderpearlItem
+                || stack.get(DataComponents.FOOD) != null)
+            return false;
+
+        if (stack.getItem() instanceof PotionItem && !(stack.getItem() instanceof ThrowablePotionItem))
+            return false;
+
+        if (anim == UseAnim.BOW || anim == UseAnim.CROSSBOW || anim == UseAnim.SPEAR
+                || anim == UseAnim.BLOCK || anim == UseAnim.SPYGLASS || anim == UseAnim.TOOT_HORN
+                || anim == UseAnim.EAT)
+            return false;
+
+        if (!result.consumesAction()) {
+            BlockPos targetPos = pos.below();
+            hit = new BlockHitResult(Vec3.atCenterOf(targetPos).add(0.0D, 0.5D, 0.0D),
+                    Direction.UP, targetPos, false);
+            fakePlayer.moveTo(pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D, 0.0F, 90.0F);
+            result = stack.useOn(new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND, hit));
+        }
 
         return result.consumesAction() || stack.isEmpty() || stack.getCount() != 1;
     }
@@ -170,6 +192,18 @@ public class ContainersMixin {
                 primedtnt.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
                 level.addFreshEntity(primedtnt);
                 serverLevel.gameEvent(null, GameEvent.PRIME_FUSE, pos);
+                return;
+            }
+        }
+
+        if (stack.getItem() instanceof MinecartItem cart) {
+            AbstractMinecart abstractMinecart =
+                    AbstractMinecart.createMinecart(serverLevel, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, cart.type, stack, null);
+
+            if (!abstractMinecart.getType().is(cannotSpawn)) {
+                abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                level.addFreshEntity(abstractMinecart);
+                stack.copyWithCount(1);
                 return;
             }
         }
@@ -245,6 +279,18 @@ public class ContainersMixin {
                 level.addFreshEntity(entity);
             }
             level.gameEvent(null, GameEvent.EXPLODE, pos);
+        } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
+            Entity entity = CompatRegistry.CANNONBALL.get().create(serverLevel);
+
+            if (entity != null && !entity.getType().is(cannotSpawn)) {
+                entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+                entity.setDeltaMovement(new Vec3(
+                        level.random.triangle(0.0, 0.3),
+                        level.random.triangle(0.5, 0.3),
+                        level.random.triangle(0.0, 0.3)));
+                level.addFreshEntity(entity);
+                stack.copyWithCount(1);
+            } else mv$spawnItem(level, pos, stack);
         }
 
         if (stackCopy.getItem() instanceof BlockItem blockItem
@@ -258,256 +304,30 @@ public class ContainersMixin {
     }
 
     @Unique
-    private static void mv$spawnFromContainer(Level world, BlockPos pos, ItemStack stack, boolean spawnMobs, boolean spawnPowerUps,
+    private static void mv$spawnFromContainer(Level level, BlockPos pos, ItemStack stack, boolean spawnMobs, boolean spawnPowerUps,
                                                       boolean canEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
-        if (world instanceof ServerLevel serverWorld) {
-            if (stack.getItem() instanceof BasePowerUpItem powerUpItem && spawnPowerUps) {
-                EntityType<?> entityType = powerUpItem.getType(stack);
-
-                if (!entityType.is(cannotSpawn)) {
-                    entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && spawnMobs) {
-                EntityType<?> entityType = pod.getType(stack);
-
-                if (!entityType.is(cannotSpawn)) {
-                    Entity entity = entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
-
-//                    if (entity instanceof PiranhaPlantEntity piranhaPlant)
-//                        piranhaPlant.setAge(-24000);
-
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && spawnMobs) {
-                EntityType<?> entityType = spawnEgg.getType(stack);
-
-                if (!entityType.is(cannotSpawn)) {
-                    entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof LargeSnowballItem) {
-                LargeSnowballProjectile snowball = new LargeSnowballProjectile(serverWorld, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
-
-                if (!snowball.getType().is(cannotSpawn)) {
-                    snowball.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
-                    world.addFreshEntity(snowball);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof ArmorStandItem) {
-                Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
-                ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
-
-                if (armorStand != null && !armorStand.getType().is(cannotSpawn)) {
-                    armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(armorStand);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof MinecartItem cart) {
-                AbstractMinecart abstractMinecart =
-                        AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, cart.type, stack, null);
-
-                if (!abstractMinecart.getType().is(cannotSpawn)) {
-                    abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(abstractMinecart);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof BoatItem boatItem) {
-                Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D)
-                        : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-
-                if (!boat.getType().is(cannotSpawn)) {
-                    boat.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    boat.setVariant(boatItem.type);
-                    world.addFreshEntity(boat);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
-                PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
-
-                if (!primedtnt.getType().is(cannotSpawn)) {
-                    primedtnt.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(primedtnt);
-                    stack.copyWithCount(1);
-                    serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof WindChargeItem) {
-                WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, -0.5, 0));
-
-                if (!windCharge.getType().is(cannotSpawn)) {
-                    windCharge.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(windCharge);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof FireChargeItem) {
-                SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
+        if (level instanceof ServerLevel serverLevel) {
+            if (stack.getItem() instanceof FireChargeItem) {
+                SmallFireball fireball = new SmallFireball(serverLevel, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
                         new Vec3(0, -0.5, 0));
 
                 if (!fireball.getType().is(cannotSpawn)) {
                     fireball.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(fireball);
+                    level.addFreshEntity(fireball);
                     stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof ThrowablePotionItem) {
-                ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!potion.getType().is(cannotSpawn)) {
-                    potion.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
-                    potion.setItem(stack);
-                    world.addFreshEntity(potion);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof ExperienceBottleItem) {
-                ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!xpBottle.getType().is(cannotSpawn)) {
-                    xpBottle.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
-                    xpBottle.setItem(stack);
-                    world.addFreshEntity(xpBottle);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
+                } else mv$spawnItem(level, pos, stack);
             } else if (stack.getItem() instanceof EndCrystalItem) {
-                EndCrystal endCrystal = new EndCrystal(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+                EndCrystal endCrystal = new EndCrystal(serverLevel, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 
                 if (!endCrystal.getType().is(cannotSpawn)) {
                     endCrystal.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
                     endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
                     endCrystal.setShowBottom(false);
-                    world.addFreshEntity(endCrystal);
-                    world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
+                    level.addFreshEntity(endCrystal);
+                    level.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
                     stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof FireworkRocketItem) {
-                FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
-
-                if (!firework.getType().is(cannotSpawn)) {
-                    firework.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(firework);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof EggItem) {
-                ThrownEgg egg = new ThrownEgg(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!egg.getType().is(cannotSpawn)) {
-                    egg.setPos(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D);
-                    egg.setItem(stack);
-                    world.addFreshEntity(egg);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() instanceof BucketItem bucket
-                    && bucket.content != Fluids.EMPTY && canEmptyBuckets) {
-                if (bucket.emptyContents(null, world, pos, null, stack))
-                    bucket.checkExtraContent(null, world, stack, pos);
-                mv$spawnItem(world, pos, new ItemStack(Items.BUCKET));
-            } else if (stack.getItem() instanceof SolidBucketItem bucket && canEmptyBuckets) {
-                if (bucket.emptyContents(null, world, pos, null, stack))
-                    bucket.checkExtraContent(null, world, stack, pos);
-                mv$spawnItem(world, pos, new ItemStack(Items.BUCKET));
-            } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
-                Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(cannotSpawn)) {
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
-                Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(cannotSpawn)) {
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    entity.setDeltaMovement(new Vec3(
-                            world.random.triangle(0.0, 0.3),
-                            world.random.triangle(0.5, 0.3),
-                            world.random.triangle(0.0, 0.3)));
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(cannotSpawn)) {
-                    if (world.getBlockState(pos.above()).isAir() || world.getFluidState(pos.above()).is(FluidTags.WATER)) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(cannotSpawn)) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putInt("Type", 1);
-                    entity.load(nbt);
-
-                    entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    entity.setDeltaMovement(new Vec3(
-                            world.random.triangle(0.0, 0.2),
-                            world.random.triangle(0.5, 0.2),
-                            world.random.triangle(0.0, 0.2)));
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(cannotSpawn)) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putInt("Type", 2);
-                    entity.load(nbt);
-
-                    entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    entity.setDeltaMovement(new Vec3(
-                            world.random.triangle(0.0, 0.2),
-                            world.random.triangle(0.5, 0.2),
-                            world.random.triangle(0.0, 0.2)));
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
-                Creeper entity = EntityType.CREEPER.create(serverWorld);
-
-                if (entity != null) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putBoolean("Party", true);
-                    nbt.putInt("Fuse", 0);
-
-                    entity.setNoAi(true);
-                    entity.ignite();
-                    entity.setInvisible(true);
-                    entity.setSilent(true);
-                    entity.load(nbt);
-
-                    entity.setPos(pos.getX() + 0.5D, pos.getY() - 1.0D, pos.getZ() + 0.5D);
-                    world.broadcastEntityEvent(entity, (byte) 113);
-                    world.addFreshEntity(entity);
-                }
-                world.gameEvent(null, GameEvent.EXPLODE, pos);
-            } else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get()) {
-                Entity entity = CompatRegistry.ICE_BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(cannotSpawn)) {
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    entity.setDeltaMovement(new Vec3(
-                            world.random.triangle(0.0, 0.2),
-                            world.random.triangle(0.5, 0.2),
-                            world.random.triangle(0.0, 0.2)));
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else mv$spawnItem(world, pos, stack);
-            } else mv$spawnItem(world, pos, stack);
+                } else mv$spawnItem(level, pos, stack);
+            } else mv$spawnItem(level, pos, stack);
         }
     }
 
@@ -554,17 +374,16 @@ public class ContainersMixin {
             world.playSound(null, pos, SoundRegistry.MOB_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof WindChargeItem)
             world.playSound(null, pos, SoundEvents.WIND_CHARGE_THROW, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()
-                || stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()
-                || stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get())
+        else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get() || stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()
+                || stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get() && CompatRegistry.BOMB_SOUND.get() != null)
             world.playSound(null, pos, CompatRegistry.BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get())
+        else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get() && CompatRegistry.CANNON_SOUND.get() != null)
             world.playSound(null, pos, CompatRegistry.CANNON_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get())
+        else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get() && CompatRegistry.CONFETTI_POPPER_SOUND.get() != null)
             world.playSound(null, pos, CompatRegistry.CONFETTI_POPPER_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get())
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-        else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get())
+        else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get() && CompatRegistry.ICE_BOMB_SOUND.get() != null)
             world.playSound(null, pos, CompatRegistry.ICE_BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (!stack.isEmpty() && !(container instanceof DecoratedPotBlockEntity))
             world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);

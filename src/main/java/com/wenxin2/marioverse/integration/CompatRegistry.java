@@ -50,7 +50,7 @@ public class CompatRegistry {
     public static final Supplier<ParticleType<?>> STREAMER_PARTICLE = make("supplementaries:streamer", BuiltInRegistries.PARTICLE_TYPE);
     public static final Supplier<ParticleType<?>> SUDS_PARTICLE = make("supplementaries:suds", BuiltInRegistries.PARTICLE_TYPE);
 
-    public static final Supplier<SoundEvent> BOMB_SOUND = make("supplementaries:item.bomb", BuiltInRegistries.SOUND_EVENT);
+    public static final Supplier<SoundEvent> BOMB_SOUND = make("supplementaries:explosion.bomb", BuiltInRegistries.SOUND_EVENT);
     public static final Supplier<SoundEvent> BUBBLE_BLOWER_SOUND = make("supplementaries:item.bubble_blower", BuiltInRegistries.SOUND_EVENT);
     public static final Supplier<SoundEvent> CANNON_SOUND = make("supplementaries:block.cannon.fire", BuiltInRegistries.SOUND_EVENT);
     public static final Supplier<SoundEvent> CONFETTI_POPPER_SOUND = make("supplementaries:item.confetti_popper", BuiltInRegistries.SOUND_EVENT);

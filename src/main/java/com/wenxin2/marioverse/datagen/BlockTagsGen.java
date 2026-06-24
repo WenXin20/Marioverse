@@ -527,7 +527,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get());
 
         tag(TagRegistry.QUESTION_BLOCKS_CAN_PLACE)
-                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS);
+                .addTag(TagRegistry.CHECKPOINT_FLAG_BLOCKS)
+                .add(Blocks.CAKE);
 
         tag(TagRegistry.QUESTION_PANEL_BLOCKS)
                 .add(BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL.get())
