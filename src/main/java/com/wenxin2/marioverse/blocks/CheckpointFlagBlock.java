@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -33,6 +34,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
@@ -46,19 +48,21 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
@@ -81,6 +85,8 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
+import net.minecraft.world.item.EnderpearlItem;
+import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
@@ -88,14 +94,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MinecartItem;
+import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -126,6 +135,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -134,7 +145,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public static final MapCodec<CheckpointFlagBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(DyeColor.CODEC.optionalFieldOf("color")
                             .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
-                    .apply(instance, (dyeColor, properties) -> new CheckpointFlagBlock(dyeColor.orElse(null), properties)));
+                    .apply(instance, (dyeColor, properties) -> new CheckpointFlagBlock(3, dyeColor.orElse(null), properties)));
 
     public static final EnumProperty<TripleBlockStates> PART = EnumProperty.create("part", TripleBlockStates.class);
     public static final BooleanProperty CLAIMED = BooleanProperty.create("claimed");
@@ -145,6 +156,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     public static final int MAX = RotationSegment.getMaxSegmentIndex();
     private static final int ROTATIONS = MAX + 1;
     @Nullable private final DyeColor color;
+    int tooltipLineAmt;
 
     protected static final VoxelShape CHECKPOINT_FLAG_TOP =
             Shapes.or(Block.box(7, 0, 7, 9, 4, 9),
@@ -155,11 +167,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             Shapes.or(Block.box(4, 0, 4, 12, 2, 12),
             Block.box(7, 2, 7, 9, 16, 9)).optimize();
 
-    public CheckpointFlagBlock(@Nullable DyeColor color, Properties properties) {
+    public CheckpointFlagBlock(int tooltipLineAmt, @Nullable DyeColor color, Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(CLAIMED, Boolean.FALSE)
                 .setValue(PART, TripleBlockStates.BOTTOM).setValue(ROTATION, 0).setValue(WATERLOGGED, Boolean.FALSE));
         this.color = color;
+        this.tooltipLineAmt = tooltipLineAmt;
     }
 
     @NotNull
@@ -579,30 +592,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
     }
 
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
-        super.appendHoverText(stack, tooltipContext, list, options);
-        list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
-        if (stack.has(DataComponents.CONTAINER_LOOT)) {
-            list.add(UNKNOWN_CONTENTS);
-        }
-
-        int i = 0;
-        int j = 0;
-
-        for (ItemStack itemstack : stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItems()) {
-            j++;
-            if (i <= 4) {
-                i++;
-                list.add(Component.translatable("container.marioverse.checkpoint_flag.itemCount", itemstack.getHoverName(), itemstack.getCount()));
-            }
-        }
-
-        if (j - i > 0) {
-            list.add(Component.translatable("container.marioverse.checkpoint_flag.more", j - i).withStyle(ChatFormatting.ITALIC));
-        }
-    }
-
     @Nullable
     public DyeColor getColor() {
         return this.color;
@@ -617,54 +606,56 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         return (state.isAir() || state.canBeReplaced() || state.is(this));
     }
 
-    private void claimCheckpoint(BlockState state, Level world, BlockPos pos, Entity entity, BlockState statePart, BlockPos statePos, BlockPos respawnPos) {
+    private void claimCheckpoint(BlockState state, Level level, BlockPos pos, Entity entity, BlockState statePart, BlockPos statePos, BlockPos respawnPos) {
         if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {
-            if (world.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
+            if (level.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                 checkpointFlagBE.markUpdated();
 
                 if (!(entity instanceof Player)) {
                     entity.level().broadcastEntityEvent(entity, (byte) 112);
-                    world.playSound(null, pos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
-                } else ParticleUtils.spawnParticlesOnBlockFaces(world, statePos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
+                    level.playSound(null, pos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
+                } else ParticleUtils.spawnParticlesOnBlockFaces(level, statePos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
 
                 if (!checkpointFlagBE.isAmericanFlag() && statePart.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
                     checkpointFlagBE.triggerAnim("switch_controller", "switch");
 
-                world.scheduleTick(statePos, this, 40);
-                world.gameEvent(entity, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
+                level.scheduleTick(statePos, this, 40);
+                level.gameEvent(entity, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
                 checkpointFlagBE.triggerAnim("claim_controller", "claim");
             }
 
-            world.scheduleTick(statePos, this, 3);
-            world.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
+            level.scheduleTick(statePos, this, 3);
+            level.setBlock(pos, state.setValue(CLAIMED, Boolean.TRUE), 3);
 
             if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
-                if (world.getBlockState(pos.above()).hasProperty(CLAIMED)
-                        && world.getBlockState(pos.above(2)).hasProperty(CLAIMED)) {
-                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
-                    world.setBlock(pos.above(2), world.getBlockState(pos.above(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                if (level.getBlockState(pos.above()).hasProperty(CLAIMED)
+                        && level.getBlockState(pos.above(2)).hasProperty(CLAIMED)) {
+                    level.setBlock(pos.above(), level.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    level.setBlock(pos.above(2), level.getBlockState(pos.above(2)).setValue(CLAIMED, Boolean.TRUE), 3);
                 }
             } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                if (world.getBlockState(pos.above()).hasProperty(CLAIMED)
-                        && world.getBlockState(pos.below()).hasProperty(CLAIMED)) {
-                    world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
-                    world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
+                if (level.getBlockState(pos.above()).hasProperty(CLAIMED)
+                        && level.getBlockState(pos.below()).hasProperty(CLAIMED)) {
+                    level.setBlock(pos.above(), level.getBlockState(pos.above()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    level.setBlock(pos.below(), level.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
                 }
             } else {
-                if (world.getBlockState(pos.below()).hasProperty(CLAIMED)
-                        && world.getBlockState(pos.below(2)).hasProperty(CLAIMED)) {
-                    world.setBlock(pos.below(), world.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
-                    world.setBlock(pos.below(2), world.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
+                if (level.getBlockState(pos.below()).hasProperty(CLAIMED)
+                        && level.getBlockState(pos.below(2)).hasProperty(CLAIMED)) {
+                    level.setBlock(pos.below(), level.getBlockState(pos.below()).setValue(CLAIMED, Boolean.TRUE), 3);
+                    level.setBlock(pos.below(2), level.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
                 }
             }
 
-            if (world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
+            if (level.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
                     && ConfigRegistry.CHECKPOINT_FLAG_CLAIM_USES_ITEMS.get()) {
                 ItemStack storedItem = flagBE.getTheItem();
 
                 if (!storedItem.isEmpty() && entity instanceof LivingEntity livingEntity) {
-                    CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, livingEntity, true);
-                    MarioverseSoundTypes.playSounds(world, respawnPos, storedItem, flagBE);
+                    MarioverseSoundTypes.playSounds(level, respawnPos, storedItem, flagBE);
+                    CheckpointFlagBlock.spawnFromContainer(level, respawnPos, storedItem, livingEntity,
+                            ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get(), ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get(),
+                            ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get(), TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
                     flagBE.splitTheItem(1);
                 }
             }
@@ -678,18 +669,18 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 default -> respawnPos;
             };
 
-            if (world.getBlockEntity(newRespawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
+            if (level.getBlockEntity(newRespawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
                     && !(newRespawnPos.equals(playerRespawnPos))) {
-                world.scheduleTick(newRespawnPos, this, 40);
-                world.gameEvent(entity, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
+                level.scheduleTick(newRespawnPos, this, 40);
+                level.gameEvent(entity, GameEventRegistry.CHECKPOINT_ACTIVATED, statePos);
                 checkpointFlagBE.triggerAnim("claim_controller", "claim");
 
-                world.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
-                ParticleUtils.spawnParticlesOnBlockFaces(world, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
-                player.setRespawnPosition(world.dimension(), newRespawnPos, player.getYRot(), false, true);
+                level.playSound(null, newRespawnPos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, newRespawnPos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
+                player.setRespawnPosition(level.dimension(), newRespawnPos, player.getYRot(), false, true);
                 entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, 40);
 
-                if (world instanceof ServerLevel serverWorld)
+                if (level instanceof ServerLevel serverWorld)
                     serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
                             newRespawnPos.getX() + 0.5, newRespawnPos.getY() + 0.5, newRespawnPos.getZ() + 0.5,
                             10, 0.4, 0.5, 0.4, 0.6);
@@ -697,329 +688,383 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         }
     }
 
-    public static void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, LivingEntity livingEntity, boolean dropItemsAtPos) {
-        if (world instanceof ServerLevel serverWorld) {
-            if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get()) {
-                
-                CheckpointFlagBlock.spawnPowerUps(world, pos, stack, livingEntity, powerUpItem, dropItemsAtPos);
-            } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()) {
-                EntityType<?> entityType = pod.getType(stack);
+//    public static void spawnFromCheckpointFlag(Level world, BlockPos pos, ItemStack stack, LivingEntity livingEntity, boolean dropItemsAtPos) {
+//        if (world instanceof ServerLevel serverWorld) {
+//            if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get()) {
+//
+//                CheckpointFlagBlock.applyPowerUps(world, pos, stack, livingEntity, powerUpItem);
+//            } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()) {
+//                EntityType<?> entityType = pod.getType(stack);
+//
+//                if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    Entity entity = entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
+//
+//                    if (entity instanceof PiranhaPlantEntity piranhaPlant) {
+//                        piranhaPlant.setAge(-24000);
+//                        piranhaPlant.setOwner(livingEntity);
+//                    }
+//
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()
+//                    && !(stack.getItem() instanceof BasePowerUpItem)) {
+//                EntityType<?> entityType = spawnEgg.getType(stack);
+//
+//                if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//
+//                    Entity entity = entityType.create(serverWorld);
+//                    if (entity != null)
+//                        entityType.spawn(serverWorld, stack, null,
+//                                BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
+//                                MobSpawnType.SPAWN_EGG, true, false);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof ArmorStandItem) {
+//                Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
+//                ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
+//
+//                if (armorStand != null && !armorStand.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(armorStand);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof MinecartItem cart) {
+//                AbstractMinecart abstractMinecart =
+//                        AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, cart.type, stack, null);
+//
+//                if (!abstractMinecart.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(abstractMinecart);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof BoatItem boatItem) {
+//                Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D)
+//                        : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+//
+//                if (!boat.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                     boat.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    boat.setVariant(boatItem.type);
+//                    world.addFreshEntity(boat);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
+//                PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
+//
+//                if (!primedtnt.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    primedtnt.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(primedtnt);
+//                    stack.copyWithCount(1);
+//                    serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
+//                    && livingEntity instanceof Player player) {
+//                boolean itemAdded = player.addItem(stack.copyWithCount(1));
+//
+//                if (blockItem.getBlock() instanceof StarCoinBlock)
+//                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(2, 3));
+//                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
+//
+//                if (!itemAdded)
+//                    player.drop(stack.copyWithCount(1), false);
+//
+//            } else if (stack.getItem() instanceof WindChargeItem) {
+//                WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
+//                        new Vec3(0, -0.5, 0));
+//
+//                if (!windCharge.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    windCharge.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(windCharge);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof FireChargeItem) {
+//                SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
+//                        new Vec3(0, -0.5, 0));
+//
+//                if (!fireball.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    fireball.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(fireball);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof ThrowablePotionItem) {
+//                ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+//
+//                if (!potion.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    potion.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    potion.setItem(stack);
+//                    world.addFreshEntity(potion);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof ExperienceBottleItem) {
+//                ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+//
+//                if (!xpBottle.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    xpBottle.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    xpBottle.setItem(stack);
+//                    world.addFreshEntity(xpBottle);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof EndCrystalItem) {
+//                EndCrystal endCrystal = new EndCrystal(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+//
+//                if (!endCrystal.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
+//                    endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
+//                    endCrystal.setShowBottom(false);
+//                    world.addFreshEntity(endCrystal);
+//                    world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof FireworkRocketItem) {
+//                FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
+//
+//                if (!firework.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    firework.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(firework);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof EggItem) {
+//                ThrownEgg egg = new ThrownEgg(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+//
+//                if (!egg.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    egg.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    egg.setItem(stack);
+//                    world.addFreshEntity(egg);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY
+//                    && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
+//                if (bucket.content.isSame(Fluids.WATER)) {
+//                    if (bucket.emptyContents(null, world, pos, null, stack))
+//                        bucket.checkExtraContent(null, world, stack, pos);
+//                    CheckpointFlagBlock.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
+//                } else if (world.getBlockState(pos.above(3)).canBeReplaced()) {
+//                    if (bucket.emptyContents(null, world, pos.above(3), null, stack))
+//                        bucket.checkExtraContent(null, world, stack, pos.above(3));
+//                    CheckpointFlagBlock.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
+//                } else if (!world.getBlockState(pos.above(3)).canBeReplaced())
+//                    CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
+//                if (world.getBlockState(pos.above(3)).canBeReplaced()) {
+//                    if (bucket.emptyContents(null, world, pos.above(3), null, stack))
+//                        bucket.checkExtraContent(null, world, stack, pos.above(3));
+//                    CheckpointFlagBlock.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
+//                Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
+//
+//                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(entity);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
+//                Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
+//
+//                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    entity.setDeltaMovement(new Vec3(
+//                            world.random.triangle(0.0, 0.3),
+//                            world.random.triangle(0.5, 0.3),
+//                            world.random.triangle(0.0, 0.3)));
+//                    world.addFreshEntity(entity);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
+//                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
+//
+//                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    entity.setDeltaMovement(new Vec3(
+//                            world.random.triangle(0.0, 0.2),
+//                            world.random.triangle(0.5, 0.2),
+//                            world.random.triangle(0.0, 0.2)));
+//                    world.addFreshEntity(entity);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
+//                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
+//
+//                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    CompoundTag nbt = new CompoundTag();
+//                    entity.save(nbt);
+//                    nbt.putInt("Type", 1);
+//                    entity.load(nbt);
+//
+//                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    entity.setDeltaMovement(new Vec3(0, -0.5, 0));
+//                    world.addFreshEntity(entity);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
+//                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
+//
+//                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    CompoundTag nbt = new CompoundTag();
+//                    entity.save(nbt);
+//                    nbt.putInt("Type", 2);
+//                    entity.load(nbt);
+//
+//                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    entity.setDeltaMovement(new Vec3(0, -0.5, 0));
+//                    world.addFreshEntity(entity);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
+//                Creeper entity = EntityType.CREEPER.create(serverWorld);
+//
+//                if (entity != null) {
+//                    CompoundTag nbt = new CompoundTag();
+//                    entity.save(nbt);
+//                    nbt.putBoolean("Party", true);
+//                    nbt.putInt("Fuse", 0);
+//
+//                    entity.setNoAi(true);
+//                    entity.ignite();
+//                    entity.setInvisible(true);
+//                    entity.setSilent(true);
+//                    entity.load(nbt);
+//
+//                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(entity);
+//                }
+//                world.gameEvent(null, GameEvent.EXPLODE, pos);
+//            } else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get()) {
+//                Entity entity = CompatRegistry.ICE_BOMB.get().create(serverWorld);
+//
+//                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+//                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+//                    world.addFreshEntity(entity);
+//                    stack.copyWithCount(1);
+//                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//
+//            } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+//        }
+//    }
 
-                if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    Entity entity = entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
+    public static void spawnFromContainer(Level level, BlockPos pos, ItemStack stack, LivingEntity livingEntity, boolean spawnMobs,
+                                          boolean applyPowerUps, boolean canEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
-                    if (entity instanceof PiranhaPlantEntity piranhaPlant) {
-                        piranhaPlant.setAge(-24000);
-                        piranhaPlant.setOwner(livingEntity);
-                    }
+        if (!spawnMobs && stack.getItem() instanceof SpawnEggItem spawnEgg) {
+            EntityType<?> entityType = spawnEgg.getType(stack);
+            if (entityType.is(cannotSpawn))
+                return;
+            QuestionBlock.spawnItem(level, pos, stack, true);
+            return;
+        }
 
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get()
-                    && !(stack.getItem() instanceof BasePowerUpItem)) {
-                EntityType<?> entityType = spawnEgg.getType(stack);
+        if (applyPowerUps && stack.getItem() instanceof BasePowerUpItem powerUpItem) {
+            CheckpointFlagBlock.applyPowerUps(level, pos, stack, livingEntity, powerUpItem);
+            return;
+        }
 
-                if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
+        if ((!canEmptyBuckets || !level.getBlockState(pos.above(3)).canBeReplaced() || stack.getItem() instanceof SolidBucketItem)
+                && (stack.getItem() instanceof BucketItem || stack.getItem() instanceof SolidBucketItem)) {
+            QuestionBlock.spawnItem(level, pos, stack, true);
+            return;
+        }
 
-                    Entity entity = entityType.create(serverWorld);
-                    if (entity != null)
-                        entityType.spawn(serverWorld, stack, null,
-                                BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
-                                MobSpawnType.SPAWN_EGG, true, false);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+        if (QuestionBlock.spawnTNT(level, pos, stack, cannotSpawn))
+            return;
+        if (QuestionBlock.spawnMinecart(level, pos, stack, cannotSpawn))
+            return;
+        if (QuestionBlock.spawnEndCrystal(level, pos, stack, cannotSpawn))
+            return;
+        if (QuestionBlock.spawnBomb(level, pos, stack, cannotSpawn))
+            return;
+        if (QuestionBlock.spawnCannonball(level, pos, stack, cannotSpawn))
+            return;
+        QuestionBlock.spawnConfetti(level, pos, stack);
 
-            } else if (stack.getItem() instanceof ArmorStandItem) {
-                Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
-                ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
+        if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock) {
+            Player player = null;
 
-                if (armorStand != null && !armorStand.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    armorStand.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(armorStand);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+            if (livingEntity instanceof Player hitPlayer)
+                player = hitPlayer;
+            else if (livingEntity instanceof TraceableEntity traceableEntity
+                    && traceableEntity.getOwner() instanceof Player owner)
+                player = owner;
 
-            } else if (stack.getItem() instanceof MinecartItem cart) {
-                AbstractMinecart abstractMinecart =
-                        AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, cart.type, stack, null);
-
-                if (!abstractMinecart.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(abstractMinecart);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof BoatItem boatItem) {
-                Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D)
-                        : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-
-                if (!boat.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                     boat.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    boat.setVariant(boatItem.type);
-                    world.addFreshEntity(boat);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
-                PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
-
-                if (!primedtnt.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    primedtnt.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(primedtnt);
-                    stack.copyWithCount(1);
-                    serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
-                    && livingEntity instanceof Player player) {
-                boolean itemAdded = player.addItem(stack.copyWithCount(1));
+            if (player != null) {
+                boolean itemAdded = player.addItem(stack);
 
                 if (blockItem.getBlock() instanceof StarCoinBlock)
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(2, 3));
-                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverLevel, pos,
+                            UniformInt.of(4, 6));
+                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverLevel, pos,
+                        UniformInt.of(2, 3));
 
                 if (!itemAdded)
-                    player.drop(stack.copyWithCount(1), false);
-
-            } else if (stack.getItem() instanceof WindChargeItem) {
-                WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, -0.5, 0));
-
-                if (!windCharge.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    windCharge.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(windCharge);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof FireChargeItem) {
-                SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, -0.5, 0));
-
-                if (!fireball.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    fireball.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(fireball);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof ThrowablePotionItem) {
-                ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!potion.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    potion.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    potion.setItem(stack);
-                    world.addFreshEntity(potion);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof ExperienceBottleItem) {
-                ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!xpBottle.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    xpBottle.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    xpBottle.setItem(stack);
-                    world.addFreshEntity(xpBottle);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof EndCrystalItem) {
-                EndCrystal endCrystal = new EndCrystal(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!endCrystal.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
-                    endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    endCrystal.setShowBottom(false);
-                    world.addFreshEntity(endCrystal);
-                    world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof FireworkRocketItem) {
-                FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
-
-                if (!firework.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    firework.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(firework);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof EggItem) {
-                ThrownEgg egg = new ThrownEgg(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!egg.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    egg.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    egg.setItem(stack);
-                    world.addFreshEntity(egg);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY
-                    && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
-                if (bucket.content.isSame(Fluids.WATER)) {
-                    if (bucket.emptyContents(null, world, pos, null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos);
-                    CheckpointFlagBlock.spawnItem(world, pos, new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else if (world.getBlockState(pos.above(3)).canBeReplaced()) {
-                    if (bucket.emptyContents(null, world, pos.above(3), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.above(3));
-                    CheckpointFlagBlock.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else if (!world.getBlockState(pos.above(3)).canBeReplaced())
-                    CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get()) {
-                if (world.getBlockState(pos.above(3)).canBeReplaced()) {
-                    if (bucket.emptyContents(null, world, pos.above(3), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.above(3));
-                    CheckpointFlagBlock.spawnItem(world, pos.above(3), new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
-                Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
-                Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    entity.setDeltaMovement(new Vec3(
-                            world.random.triangle(0.0, 0.3),
-                            world.random.triangle(0.5, 0.3),
-                            world.random.triangle(0.0, 0.3)));
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    entity.setDeltaMovement(new Vec3(
-                            world.random.triangle(0.0, 0.2),
-                            world.random.triangle(0.5, 0.2),
-                            world.random.triangle(0.0, 0.2)));
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putInt("Type", 1);
-                    entity.load(nbt);
-
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putInt("Type", 2);
-                    entity.load(nbt);
-
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
-                Creeper entity = EntityType.CREEPER.create(serverWorld);
-
-                if (entity != null) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putBoolean("Party", true);
-                    nbt.putInt("Fuse", 0);
-
-                    entity.setNoAi(true);
-                    entity.ignite();
-                    entity.setInvisible(true);
-                    entity.setSilent(true);
-                    entity.load(nbt);
-
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(entity);
-                }
-                world.gameEvent(null, GameEvent.EXPLODE, pos);
-            } else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get()) {
-                Entity entity = CompatRegistry.ICE_BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                    entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+                    QuestionBlock.spawnItem(level, pos, stack, true);
+                return;
+            }
         }
+
+        if (stack.getItem() instanceof BlockItem) {
+            QuestionBlock.spawnItem(level, pos, stack, true);
+            return;
+        }
+
+        if (!QuestionBlock.useItem(serverLevel, pos, stack, livingEntity))
+            QuestionBlock.spawnItem(level, pos, stack, true);
+
     }
 
-    public static void spawnItem(Level world, BlockPos pos, ItemStack stack, boolean dropItemsAtPos) {
-        if (dropItemsAtPos) {
-            ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.copyWithCount(1));
-            world.addFreshEntity(itemEntity);
-        } else if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-            ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, stack.copyWithCount(1));
-            world.addFreshEntity(itemEntity);
-        } else {
-            ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() - 0.5D, pos.getZ() + 0.5D, stack.copyWithCount(1));
-            world.addFreshEntity(itemEntity);
-        }
-    }
-
-    public static void spawnPowerUps(Level world, BlockPos pos, ItemStack stack, LivingEntity entity,
-                                     BasePowerUpItem powerUpItem, boolean dropItemsAtPos) {
+    public static void applyPowerUps(Level level, BlockPos pos, ItemStack stack, LivingEntity entity, BasePowerUpItem powerUpItem) {
         EntityType<?> entityType = powerUpItem.getType(stack);
 
-        if (world instanceof ServerLevel serverWorld) {
+        if (level instanceof ServerLevel serverLevel) {
             if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
-                Entity spawnedEntity = entityType.create(serverWorld);
+                Entity spawnedEntity = entityType.create(serverLevel);
                 if (spawnedEntity != null && entity instanceof AbilitiesHandler handler) {
                     if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()
                             && spawnedEntity instanceof SuperMushroomEntity powerUp) {
-                        handler.applySuperMushroomPowerUp(world, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                        handler.applySuperMushroomPowerUp(level, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
                     } else if (stack.getItem() == ItemRegistry.MEGA_MUSHROOM.get()
                             && spawnedEntity instanceof MegaMushroomEntity powerUp) {
-                        handler.applyMegaMushroomPowerUp(world, entity, powerUp);
+                        handler.applyMegaMushroomPowerUp(level, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.MINI_MUSHROOM.get()
                             && spawnedEntity instanceof MiniMushroomEntity powerUp) {
-                        handler.applyMiniMushroomPowerUp(world, entity, powerUp);
+                        handler.applyMiniMushroomPowerUp(level, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()
                             && spawnedEntity instanceof OneUpMushroomEntity powerUp) {
-                        handler.applyOneUpMushroomPowerUp(world, stack, entity, powerUp);
+                        handler.applyOneUpMushroomPowerUp(level, stack, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.FIRE_FLOWER.get()
                             && spawnedEntity instanceof FireFlowerEntity powerUp) {
-                        handler.applyFireFlowerPowerUp(world, entity, powerUp);
+                        handler.applyFireFlowerPowerUp(level, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.ICE_FLOWER.get()
                             && spawnedEntity instanceof IceFlowerEntity powerUp) {
-                        handler.applyIceFlowerPowerUp(world, entity, powerUp);
+                        handler.applyIceFlowerPowerUp(level, entity, powerUp);
                     } else if (stack.getItem() == ItemRegistry.SUPER_STAR.get()
                             && spawnedEntity instanceof SuperStarEntity powerUp) {
-                        handler.applySuperStarPowerUp(world, entity, powerUp);
+                        handler.applySuperStarPowerUp(level, entity, powerUp);
                     } else {
-                        entityType.spawn(serverWorld, stack, null,
+                        entityType.spawn(serverLevel, stack, null,
                                 BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
                                 MobSpawnType.SPAWN_EGG, true, false);
                     }
                 }
                 stack.copyWithCount(1);
-            } else CheckpointFlagBlock.spawnItem(world, pos, stack, dropItemsAtPos);
+            } else QuestionBlock.spawnItem(level, pos, stack, true);
         }
     }
 }

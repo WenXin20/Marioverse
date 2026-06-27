@@ -447,7 +447,7 @@ public class QuestionBlock extends BaseEntityBlock {
         }
     }
 
-    private static boolean useItem(ServerLevel level, BlockPos pos, ItemStack stack, @Nullable Entity entityHitBlock) {
+    public static boolean useItem(ServerLevel level, BlockPos pos, ItemStack stack, @Nullable Entity entityHitBlock) {
         ItemStack stackCopy = stack.copy();
         FakePlayer fakePlayer = FakePlayerFactory.getMinecraft(level);
         UseAnim anim = stackCopy.getUseAnimation();
@@ -584,7 +584,7 @@ public class QuestionBlock extends BaseEntityBlock {
 
     }
 
-    private static void dropResult(ServerLevel level, BlockPos pos, ItemStack stackCopy, ItemStack resultStack, FakePlayer fakePlayer) {
+    public static void dropResult(ServerLevel level, BlockPos pos, ItemStack stackCopy, ItemStack resultStack, FakePlayer fakePlayer) {
         if (!ItemStack.isSameItemSameComponents(stackCopy, resultStack)) {
             QuestionBlock.spawnItem(level, pos, resultStack.copy(), true);
 
@@ -643,7 +643,7 @@ public class QuestionBlock extends BaseEntityBlock {
         return false;
     }
 
-    private static void spawnConfetti(Level level, BlockPos pos, ItemStack stack) {
+    public static void spawnConfetti(Level level, BlockPos pos, ItemStack stack) {
         if (!(level instanceof ServerLevel serverLevel)) return;
 
         if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
@@ -669,7 +669,7 @@ public class QuestionBlock extends BaseEntityBlock {
         }
     }
 
-    private static boolean spawnBomb(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {
+    public static boolean spawnBomb(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {
         if (!(level instanceof ServerLevel serverLevel)) return false;
 
         if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
@@ -727,7 +727,7 @@ public class QuestionBlock extends BaseEntityBlock {
         return false;
     }
 
-    private static boolean spawnEndCrystal(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {
+    public static boolean spawnEndCrystal(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {
         if (!(level instanceof ServerLevel serverLevel)) return false;
 
         if (stack.getItem() instanceof EndCrystalItem) {
@@ -746,7 +746,7 @@ public class QuestionBlock extends BaseEntityBlock {
         return false;
     }
 
-    private static boolean spawnMinecart(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {
+    public static boolean spawnMinecart(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {
         if (!(level instanceof ServerLevel serverLevel)) return false;
 
         if (stack.getItem() instanceof MinecartItem cart) {
@@ -763,7 +763,7 @@ public class QuestionBlock extends BaseEntityBlock {
         return false;
     }
 
-    private static boolean spawnTNT(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {
+    public static boolean spawnTNT(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {
         if (!(level instanceof ServerLevel serverLevel)) return false;
 
         if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {

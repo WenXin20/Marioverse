@@ -841,8 +841,8 @@ public class MarioverseEventHandlers {
             BlockPos respawnPos = player.getRespawnPosition();
 
             if (respawnPos != null) {
-                Level world = player.level();
-                BlockState state = world.getBlockState(respawnPos);
+                Level level = player.level();
+                BlockState state = level.getBlockState(respawnPos);
 
                 if (state.getBlock() instanceof CheckpointFlagBlock) {
                     if (ConfigRegistry.CHECKPOINT_FLAG_MODIFY_HEALTH.get()) {
@@ -852,20 +852,22 @@ public class MarioverseEventHandlers {
                             player.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, false);
                     }
 
-                    if (world instanceof ServerLevel serverWorld)
+                    if (level instanceof ServerLevel serverWorld)
                         serverWorld.sendParticles(ParticleRegistry.GLOWING_STAR.get(),
                                 respawnPos.getX() + 0.5, respawnPos.getY() + 0.5, respawnPos.getZ() + 0.5,
                                 10, 0.4, 0.5, 0.4, 0.6);
                 }
 
                 if (state.getBlock() instanceof CheckpointFlagBlock
-                        && world.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
+                        && level.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
                         && ConfigRegistry.CHECKPOINT_FLAG_RESPAWN_USES_ITEMS.get()) {
                     ItemStack storedItem = flagBE.getTheItem();
 
                     if (!storedItem.isEmpty()) {
-                        CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, player, true);
-                        MarioverseSoundTypes.playSounds(world, respawnPos, storedItem, flagBE);
+                        MarioverseSoundTypes.playSounds(level, respawnPos, storedItem, flagBE);
+                        CheckpointFlagBlock.spawnFromContainer(level, respawnPos, storedItem, player,
+                                ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get(), ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get(),
+                                ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get(), TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
                         flagBE.splitTheItem(1);
                     }
                 }
