@@ -223,6 +223,38 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     }
 
     @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
+        super.appendHoverText(stack, tooltipContext, list, options);
+        list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+
+        if (Screen.hasShiftDown() && this.tooltipLineAmt > 0) {
+            list.add(Component.literal(""));
+            for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
+                list.add(Component.translatable("block.marioverse.tooltip.line" + lineAmt));
+            list.add(Component.literal(""));
+        } else if (this.tooltipLineAmt > 0)
+            list.add(Component.translatable("block.marioverse.tooltip"));
+
+        if (stack.has(DataComponents.CONTAINER_LOOT))
+            list.add(UNKNOWN_CONTENTS);
+
+        int i = 0;
+        int j = 0;
+
+        for (ItemStack itemstack : stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItems()) {
+            j++;
+            if (i <= 4) {
+                i++;
+                list.add(Component.translatable("container.marioverse.checkpoint_flag.itemCount",
+                        itemstack.getHoverName(), itemstack.getCount()).withStyle(ChatFormatting.ITALIC));
+            }
+        }
+
+        if (j - i > 0)
+            list.add(Component.translatable("container.marioverse.checkpoint_flag.more", j - i));
+    }
+
+    @Override
     public boolean canSurvive(BlockState state, @NotNull LevelReader worldReader, BlockPos pos) {
         return worldReader instanceof Level world && this.canPlaceBlock(world, pos) && this.canPlaceBlock(world, pos.above())
                 && this.canPlaceBlock(world, pos.above(2));

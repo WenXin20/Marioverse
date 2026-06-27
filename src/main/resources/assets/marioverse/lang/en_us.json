@@ -539,6 +539,12 @@
   "block.marioverse.white_checkpoint_flag.tooltip": "§7Boo",
   "block.marioverse.yellow_checkpoint_flag.tooltip": "§eWiggler",
 
+  "block.marioverse.checkpoint_flag.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.checkpoint_flag.tooltip.line1": "§9Ability:",
+  "block.marioverse.checkpoint_flag.tooltip.line2": " §7• Respawns the player",
+  "block.marioverse.checkpoint_flag.tooltip.line3": " §7• After placing,",
+  "block.marioverse.checkpoint_flag.tooltip.line4": " §7equip an item or power up",
+
   "block.marioverse.black_goal_pole": "Black Goal Pole",
   "block.marioverse.blue_goal_pole": "Blue Goal Pole",
   "block.marioverse.brown_goal_pole": "Brown Goal Pole",
