@@ -45,7 +45,8 @@
 - Improved Piranha Plant spawning, spawns during the day in Jungles
 - Improved Questions Blocks to be more compatible with modded items
 - Improved Checkpoint Flags to be more compatible with modded items
-- Added more tooltips to checkpoint flag items
+- Improved Checkpoint Flag item tooltips
+- Improved Power Up item tooltips
 - Increased mini goomba spawn rate & group size
 - Goombas can rarely spawn as a goombella variant
 - Fixed teleporting using Clear Pipes with Sable

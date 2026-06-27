@@ -59,35 +59,35 @@ public class BasePowerUpItem extends DeferredSpawnEggItem {
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++) {
                 MutableComponent abilityText = Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt);
 
-                if (stack.is(ItemRegistry.FIRE_FLOWER) && lineAmt == 2)
+                if (stack.is(ItemRegistry.FIRE_FLOWER) && lineAmt == 5)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".keybind",
                             KeybindRegistry.ACTIVATE_POWER_UP.getKey().getDisplayName()).withStyle(ChatFormatting.GREEN));
 
-                if (stack.is(ItemRegistry.ICE_FLOWER) && lineAmt == 2)
+                if (stack.is(ItemRegistry.ICE_FLOWER) && lineAmt == 5)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".keybind",
                             KeybindRegistry.ACTIVATE_POWER_UP.getKey().getDisplayName()).withStyle(ChatFormatting.GREEN));
 
-                if (stack.is(ItemRegistry.MEGA_MUSHROOM) && lineAmt == 3)
+                if (stack.is(ItemRegistry.MEGA_MUSHROOM) && lineAmt == 6)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.MEGA_MUSHROOM_HEALTH.get() / 2).withStyle(ChatFormatting.RED));
 
-                if (stack.is(ItemRegistry.MINI_MUSHROOM) && lineAmt == 3)
+                if (stack.is(ItemRegistry.MINI_MUSHROOM) && lineAmt == 6)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.MINI_MUSHROOM_HEALTH.get() / 2).withStyle(ChatFormatting.RED));
 
-                if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && lineAmt == 4)
+                if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && lineAmt == 5)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue() / 2).withStyle(ChatFormatting.GREEN));
 
-                if (stack.is(ItemRegistry.SUPER_MUSHROOM) && lineAmt == 2)
+                if (stack.is(ItemRegistry.SUPER_MUSHROOM) && lineAmt == 5)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue() / 2).withStyle(ChatFormatting.RED));
 
-                if (stack.is(ItemRegistry.SUPER_STAR) && lineAmt == 2)
+                if (stack.is(ItemRegistry.SUPER_STAR) && lineAmt == 5)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".instakill",
                             Math.round(ConfigRegistry.SUPER_STAR_DURATION.get() / 20.0F * 10.0F) / 10.0F).withStyle(ChatFormatting.GRAY));
 
-                if (stack.is(ItemRegistry.SUPER_STAR) && lineAmt == 3)
+                if (stack.is(ItemRegistry.SUPER_STAR) && lineAmt == 6)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".speed",
                             Math.round(ConfigRegistry.SUPER_STAR_SPEED_DURATION.get() / 20.0F * 10.0F) / 10.0F)).withStyle(ChatFormatting.GRAY);
                 list.add(abilityText);

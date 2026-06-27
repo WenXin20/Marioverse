@@ -230,10 +230,10 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (Screen.hasShiftDown() && this.tooltipLineAmt > 0) {
             list.add(Component.literal(""));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
-                list.add(Component.translatable("block.marioverse.tooltip.line" + lineAmt));
+                list.add(Component.translatable("block.marioverse.checkpoint_flag.tooltip.line" + lineAmt));
             list.add(Component.literal(""));
         } else if (this.tooltipLineAmt > 0)
-            list.add(Component.translatable("block.marioverse.tooltip"));
+            list.add(Component.translatable("block.marioverse.checkpoint_flag.tooltip"));
 
         if (stack.has(DataComponents.CONTAINER_LOOT))
             list.add(UNKNOWN_CONTENTS);
