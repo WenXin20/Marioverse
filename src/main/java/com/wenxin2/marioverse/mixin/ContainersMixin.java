@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,21 +27,21 @@ public class ContainersMixin {
 
                 mv$stackCount = decoratedPotBE.getTheItem().getCount();
                 for (int j = 0; j < mv$stackCount; j++) {
-                    QuestionBlock.spawnFromContainer(world, decoratedPotBE.getBlockPos(), container.getItem(i),
-                            ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
+                    QuestionBlock.spawnFromContainer(world, decoratedPotBE.getBlockPos().below(), decoratedPotBE.getBlockPos().below(), container.getItem(i),
+                            null, ConfigRegistry.DECORATED_POT_SPAWNS_MOBS.get(), ConfigRegistry.DECORATED_POT_SPAWNS_POWER_UPS.get(),
                             ConfigRegistry.DECORATED_POT_BUCKET_TWEAKS.get(), TagRegistry.DECORATED_POT_CANNOT_SPAWN);
                 }
                 decoratedPotBE.removeTheItem();
             }
         } else if (container instanceof QuestionBlockEntity questionBE) {
             for (int i = 0; i < container.getContainerSize(); i++) {
-
+                Entity breakingEntity = questionBE.getBreakingEntity();
                 MarioverseSoundTypes.playSounds(world, questionBE.getBlockPos(), container.getItem(i), questionBE);
 
                 mv$stackCount = questionBE.getTheItem().getCount();
                 for (int j = 0; j < mv$stackCount; j++) {
-                    QuestionBlock.spawnFromContainer(world, questionBE.getBlockPos(), container.getItem(i),
-                            ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
+                    QuestionBlock.spawnFromContainer(world, questionBE.getBlockPos().below(), questionBE.getBlockPos().below(), container.getItem(i),
+                            breakingEntity, ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
                             ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
                 }
 

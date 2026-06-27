@@ -7,10 +7,10 @@ import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
-import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -26,6 +26,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.RandomizableContainer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -53,6 +54,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
     @Nullable private ResourceKey<LootTable> refillLootTable;
     @Nullable protected ResourceKey<LootTable> lootTable;
     @Nullable public Component name;
+    @Nullable private UUID breakingEntityUUID;
     private ItemStack item = ItemStack.EMPTY;
     private ItemStack refillTemplate = ItemStack.EMPTY;
     private boolean lastPowered;
@@ -333,6 +335,18 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
             }
         }
         super.setChanged();
+    }
+
+    public void setBreakingEntityUUID(UUID uuid) {
+        this.breakingEntityUUID = uuid;
+    }
+
+    @Nullable
+    public Entity getBreakingEntity() {
+        if (!(this.level instanceof ServerLevel serverLevel) || this.breakingEntityUUID == null)
+            return null;
+
+        return serverLevel.getEntity(this.breakingEntityUUID);
     }
 
     public boolean isLastPowered() {

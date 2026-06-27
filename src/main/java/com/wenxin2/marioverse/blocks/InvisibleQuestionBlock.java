@@ -133,30 +133,33 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos neighborPos, boolean notify) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighborPos, boolean notify) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof QuestionBlockEntity questionBE && ConfigRegistry.REDSTONE_OPENS_QUESTION.get()) {
-            boolean isPowered = world.hasNeighborSignal(pos);
+            boolean isPowered = level.hasNeighborSignal(pos);
             if (isPowered && !state.getValue(EMPTY) && !questionBE.isLastPowered()) {
                 ItemStack storedItem = questionBE.getTheItem();
 
                 if (!storedItem.isEmpty()) {
-                    if (!world.isClientSide)
-                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
+                    BlockPos getBlockPos = QuestionBlock.getBlockPos(level, pos, storedItem);
+
+                    MarioverseSoundTypes.playSounds(level, getBlockPos, storedItem, questionBE);
+                    QuestionBlock.spawnFromContainer(level, getBlockPos, pos, storedItem, null,
+                            ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
+                            ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
                     if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
-                        world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
+                        level.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
 
-                    MarioverseSoundTypes.playSounds(world, pos, storedItem, questionBE);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
 
                 if (storedItem.isEmpty())
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
                 if (questionBE.getLootTable() != null)
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE).setValue(INVISIBLE, Boolean.TRUE), 3);
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE).setValue(INVISIBLE, Boolean.TRUE), 3);
             }
             questionBE.setLastPowered(isPowered);
         }
@@ -175,7 +178,8 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         ItemStack heldItem = player.getItemInHand(hand);
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)) {
+        if (blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)
+                && (questionBE.getRefillCountdown() == -1 || player.isCreative())) {
             ItemStack blockStack = questionBE.getTheItem();
 
             if (world.isClientSide) {
@@ -210,36 +214,39 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
 
     @NotNull
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
 
-        if (world.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE) {
+        if (level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE) {
             ItemStack blockStack = questionBE.getTheItem();
 
             if ((heldItem.isEmpty() || !ItemStack.isSameItemSameComponents(heldItem, blockStack))
                     && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
                     && !state.getValue(EMPTY)) {
-                world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
                 ItemStack storedItem = questionBE.getTheItem();
 
                 if (!storedItem.isEmpty()) {
-                    if (!world.isClientSide)
-                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
+                    BlockPos getBlockPos = QuestionBlock.getBlockPos(level, pos, storedItem);
+
+                    MarioverseSoundTypes.playSounds(level, getBlockPos, storedItem, questionBE);
+                    QuestionBlock.spawnFromContainer(level, getBlockPos, pos, storedItem, player,
+                            ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
+                            ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
                     if (state.is(BlockTags.GUARDED_BY_PIGLINS))
                         PiglinAi.angerNearbyPiglins(player, false);
 
                     if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
-                        world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
+                        level.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
 
-                    MarioverseSoundTypes.playSounds(world, pos, storedItem, questionBE);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
 
                 if (storedItem.isEmpty())
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE).setValue(INVISIBLE, Boolean.FALSE), 3);
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE).setValue(INVISIBLE, Boolean.FALSE), 3);
 
                 return InteractionResult.SUCCESS;
             } else return InteractionResult.PASS;

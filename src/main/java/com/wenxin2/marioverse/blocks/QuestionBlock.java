@@ -1,15 +1,10 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
-import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
-import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
-import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
-import com.wenxin2.marioverse.items.LargeSnowballItem;
-import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -21,13 +16,10 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
-import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
-import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -43,54 +35,37 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
-import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.SmallFireball;
-import net.minecraft.world.entity.projectile.ThrownEgg;
-import net.minecraft.world.entity.projectile.ThrownExperienceBottle;
-import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.entity.projectile.windcharge.WindCharge;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
-import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.EggItem;
 import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.EnderpearlItem;
 import net.minecraft.world.item.Equipable;
-import net.minecraft.world.item.ExperienceBottleItem;
-import net.minecraft.world.item.FireChargeItem;
-import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.WindChargeItem;
-import net.minecraft.world.item.component.ItemContainerContents;
-import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Explosion;
@@ -106,16 +81,15 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -166,12 +140,20 @@ public class QuestionBlock extends BaseEntityBlock {
         if (!(newState.getBlock() instanceof WeatheringCopperQuestionBlock)
                 && !(newState.getBlock() instanceof QuestionBlock)) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof QuestionBlockEntity questionBlock)
-                Containers.dropContents(world, pos, questionBlock);
+            if (blockEntity instanceof QuestionBlockEntity questionBE)
+                Containers.dropContents(world, pos, questionBE);
         }
 
         if (!isOxidizing && !isScraping && !isUnwaxing || newState.canBeReplaced())
             super.onRemove(oldState, world, pos, newState, isMoving);
+    }
+
+    @NotNull
+    @Override
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE)
+            questionBE.setBreakingEntityUUID(player.getUUID());
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
@@ -180,27 +162,30 @@ public class QuestionBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block block, BlockPos neighborPos, boolean notify) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighborPos, boolean notify) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof QuestionBlockEntity questionBE && ConfigRegistry.REDSTONE_OPENS_QUESTION.get()) {
-            boolean isPowered = world.hasNeighborSignal(pos);
+            boolean isPowered = level.hasNeighborSignal(pos);
             if (isPowered && !state.getValue(EMPTY) && !questionBE.isLastPowered()) {
                 ItemStack storedItem = questionBE.getTheItem();
 
                 if (!storedItem.isEmpty()) {
-                    if (!world.isClientSide)
-                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
+                    BlockPos getBlockPos = QuestionBlock.getBlockPos(level, pos, storedItem);
 
-                    MarioverseSoundTypes.playSounds(world, pos, storedItem, questionBE);
+                    MarioverseSoundTypes.playSounds(level, getBlockPos, storedItem, questionBE);
+                    QuestionBlock.spawnFromContainer(level, getBlockPos, pos, storedItem, null,
+                            ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
+                            ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
+
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
 
                 if (storedItem.isEmpty())
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
                 if (questionBE.getLootTable() != null)
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
             }
             questionBE.setLastPowered(isPowered);
         }
@@ -226,13 +211,16 @@ public class QuestionBlock extends BaseEntityBlock {
                 ItemStack storedItem = questionBE.getTheItem();
 
                 if (!storedItem.isEmpty()) {
-                    if (!level.isClientSide)
-                        this.spawnFromQuestionBlock(level, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
+                    BlockPos getBlockPos = QuestionBlock.getBlockPos(level, pos, storedItem);
+
+                    MarioverseSoundTypes.playSounds(level, getBlockPos, storedItem, questionBE);
+                    QuestionBlock.spawnFromContainer(level, getBlockPos, pos, storedItem, explosion.getDirectSourceEntity(),
+                            ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
+                            ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
                     if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
                         level.setBlock(pos, state.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
 
-                    MarioverseSoundTypes.playSounds(level, pos, storedItem, questionBE);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
@@ -275,7 +263,7 @@ public class QuestionBlock extends BaseEntityBlock {
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
         if (blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)
-                && questionBE.getRefillCountdown() == -1) {
+                && (questionBE.getRefillCountdown() == -1 || player.isCreative())) {
             ItemStack blockStack = questionBE.getTheItem();
 
             if (world.isClientSide) {
@@ -310,33 +298,36 @@ public class QuestionBlock extends BaseEntityBlock {
 
     @NotNull
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
 
-        if (world.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE) {
+        if (level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBE) {
             ItemStack blockStack = questionBE.getTheItem();
 
             if ((heldItem.isEmpty() || !ItemStack.isSameItemSameComponents(heldItem, blockStack))
                     && (ConfigRegistry.QUESTION_REMOVE_ITEMS.get() || player.isCreative())
                     && !state.getValue(EMPTY)) {
-                world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
                 ItemStack storedItem = questionBE.getTheItem();
 
                 if (!storedItem.isEmpty()) {
-                    if (!world.isClientSide)
-                        this.spawnFromQuestionBlock(world, pos, storedItem, null, Boolean.FALSE, Boolean.TRUE);
+                    BlockPos getBlockPos = QuestionBlock.getBlockPos(level, pos, storedItem);
+
+                    MarioverseSoundTypes.playSounds(level, getBlockPos, storedItem, questionBE);
+                    QuestionBlock.spawnFromContainer(level, getBlockPos, pos, storedItem, player,
+                            ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
+                            ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
                     if (state.is(BlockTags.GUARDED_BY_PIGLINS))
                         PiglinAi.angerNearbyPiglins(player, false);
 
-                    MarioverseSoundTypes.playSounds(world, pos, storedItem, questionBE);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
 
                 if (storedItem.isEmpty())
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
                 return InteractionResult.SUCCESS;
             } else return InteractionResult.PASS;
@@ -365,7 +356,7 @@ public class QuestionBlock extends BaseEntityBlock {
                 state = context.accessor.getServerBlockState(pos);
         }
 
-        if (state.getBlock() instanceof QuestionBlock questionBlock) {
+        if (state.getBlock() instanceof QuestionBlock) {
             ItemStack storedItem = questionBE.getTheItem();
 
             if (!state.getValue(QuestionBlock.EMPTY))
@@ -379,8 +370,12 @@ public class QuestionBlock extends BaseEntityBlock {
                 else if (stateAbove.getBlock() instanceof CoinBlock)
                     CoinBlock.collectCoin(level, stateAbove, pos.above(), entity, coinItem);
 
-                if (!level.isClientSide)
-                    questionBlock.spawnFromQuestionBlock(level, pos, storedItem, entity, Boolean.FALSE, Boolean.TRUE);
+                BlockPos getBlockPos = QuestionBlock.getBlockPos(level, pos, storedItem);
+
+                MarioverseSoundTypes.playSounds(level, getBlockPos, storedItem, questionBE);
+                QuestionBlock.spawnFromContainer(level, getBlockPos, pos, storedItem, entity,
+                        ConfigRegistry.QUESTION_SPAWNS_MOBS.get(), ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get(),
+                        ConfigRegistry.QUESTION_BUCKET_TWEAKS.get(), TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN);
 
                 if (state.is(BlockTags.GUARDED_BY_PIGLINS) && entity instanceof Player player)
                     PiglinAi.angerNearbyPiglins(player, false);
@@ -390,22 +385,19 @@ public class QuestionBlock extends BaseEntityBlock {
                             UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(level.getRandom()), 0.65D);
 
                 entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 2);
-                MarioverseSoundTypes.playSounds(level, pos, storedItem, questionBE);
                 questionBE.splitTheItem(1);
                 questionBE.setChanged();
             }
 
             if (storedItem.isEmpty() && !state.getValue(QuestionBlock.EMPTY)) {
-                BlockState currentState = state;
-                if (currentState.getBlock() instanceof QuestionBlock)
-                    level.setBlock(pos, currentState.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
+                if (state.getBlock() instanceof QuestionBlock)
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
                 level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
 
             if (state.getBlock() instanceof InvisibleQuestionBlock
                     && state.getValue(InvisibleQuestionBlock.INVISIBLE)) {
-                BlockState currentState = state;
-                level.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+                level.setBlock(pos, state.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
                 level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
         }
@@ -438,521 +430,6 @@ public class QuestionBlock extends BaseEntityBlock {
         }
     }
 
-    public void spawnFromQuestionBlock(Level world, BlockPos pos, ItemStack stack, Entity entityHitBlock, boolean dropItemsAtPos, boolean applyUpMotion) {
-        if (world instanceof ServerLevel serverWorld) {
-            if (stack.getItem() instanceof BasePowerUpItem powerUpItem && ConfigRegistry.QUESTION_SPAWNS_POWER_UPS.get()) {
-                EntityType<?> entityType = powerUpItem.getType(stack);
-
-                if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
-                        if (entity != null && applyUpMotion) {
-                            if (!entity.getType().is(TagRegistry.HAS_NO_DELTA_MOVEMENT))
-                                entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
-                            entity.move(MoverType.SELF, entity.getDeltaMovement());
-                        }
-                    } else {
-                        Entity entity = entityType.create(serverWorld);
-                        if (entity != null)
-                            entityType.spawn(serverWorld, stack, null,
-                                    BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ()),
-                                    MobSpawnType.SPAWN_EGG, true, false);
-                    }
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof PiranhaPlantPodItem pod && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()) {
-                EntityType<?> entityType = pod.getType(stack);
-
-                if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    Entity entity = entityType.spawn(serverWorld, stack, null, pos, MobSpawnType.SPAWN_EGG, true, false);
-
-                    if (entity instanceof PiranhaPlantEntity piranhaPlant) {
-                        piranhaPlant.setAge(-24000);
-                        piranhaPlant.setOwner(entityHitBlock);
-                    }
-
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof SpawnEggItem spawnEgg && ConfigRegistry.QUESTION_SPAWNS_MOBS.get()
-                    && !(stack.getItem() instanceof BasePowerUpItem)) {
-                EntityType<?> entityType = spawnEgg.getType(stack);
-
-                if (!entityType.is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        Entity entity = entityType.spawn((ServerLevel) world, stack, null, pos.above(1), MobSpawnType.SPAWN_EGG, true, false);
-                        if (entity != null && applyUpMotion) {
-                            if (!entity.getType().is(TagRegistry.HAS_NO_DELTA_MOVEMENT))
-                                entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.3, 0));
-                            entity.move(MoverType.SELF, entity.getDeltaMovement());
-                        }
-                    } else {
-                        Entity entity = entityType.create(serverWorld);
-                        if (entity != null)
-                            entityType.spawn(serverWorld, stack, null,
-                                    BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ()),
-                                    MobSpawnType.SPAWN_EGG, true, false);
-                    }
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof LargeSnowballItem) {
-                LargeSnowballProjectile snowball = new LargeSnowballProjectile(serverWorld, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-
-                if (!snowball.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        snowball.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else snowball.setPos(pos.getX() + 0.5D, pos.getY() - snowball.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(snowball);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof ArmorStandItem) {
-                Consumer<ArmorStand> consumer = EntityType.createDefaultStackConfig(serverWorld, stack, null);
-                ArmorStand armorStand = EntityType.ARMOR_STAND.create(serverWorld, consumer, pos, MobSpawnType.SPAWN_EGG, true, true);
-
-                if (armorStand != null && !armorStand.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        armorStand.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else armorStand.setPos(pos.getX() + 0.5D, pos.getY() - armorStand.getType().getHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(armorStand);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof MinecartItem cart) {
-                AbstractMinecart abstractMinecart =
-                        AbstractMinecart.createMinecart(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D, cart.type, stack, null);
-
-                if (!abstractMinecart.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else abstractMinecart.setPos(pos.getX() + 0.5D, pos.getY() - abstractMinecart.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(abstractMinecart);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof BoatItem boatItem) {
-                Boat boat = boatItem.hasChest ? new ChestBoat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D)
-                        : new Boat(serverWorld, pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-
-                if (!boat.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        boat.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else boat.setPos(pos.getX() + 0.5D, pos.getY() - boat.getBbHeight(), pos.getZ() + 0.5D);
-                    boat.setVariant(boatItem.type);
-                    world.addFreshEntity(boat);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TntBlock) {
-                PrimedTnt primedtnt = new PrimedTnt(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, null);
-
-                if (!primedtnt.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        primedtnt.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else primedtnt.setPos(pos.getX() + 0.5D, pos.getY() - primedtnt.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(primedtnt);
-                    stack.copyWithCount(1);
-                    serverWorld.gameEvent(null, GameEvent.PRIME_FUSE, pos);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
-                    && entityHitBlock instanceof Player player) {
-                boolean itemAdded = player.addItem(stack.copyWithCount(1));
-
-                if (blockItem.getBlock() instanceof StarCoinBlock)
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(4, 6));
-                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(2, 3));
-
-                if (!itemAdded)
-                    player.drop(stack.copyWithCount(1), false);
-
-            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock
-                    && entityHitBlock instanceof TraceableEntity traceableEntity
-                    && traceableEntity.getOwner() instanceof Player player) {
-                boolean itemAdded = player.addItem(stack.copyWithCount(1));
-
-                if (blockItem.getBlock() instanceof StarCoinBlock)
-                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(4, 6));
-                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(2, 3));
-
-                if (!itemAdded)
-                    player.drop(stack.copyWithCount(1), false);
-
-            } else if (stack.getItem() instanceof WindChargeItem) {
-                WindCharge windCharge = new WindCharge(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, -0.5, 0));
-
-                if (!windCharge.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        windCharge.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else windCharge.setPos(pos.getX() + 0.5D, pos.getY() - windCharge.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(windCharge);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof FireChargeItem) {
-                SmallFireball fireball = new SmallFireball(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5,
-                        new Vec3(0, -0.5, 0));
-
-                if (!fireball.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        fireball.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else fireball.setPos(pos.getX() + 0.5D, pos.getY() - fireball.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(fireball);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof ThrowablePotionItem) {
-                ThrownPotion potion = new ThrownPotion(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!potion.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        potion.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else potion.setPos(pos.getX() + 0.5D, pos.getY() - potion.getBbHeight(), pos.getZ() + 0.5D);
-                    potion.setItem(stack);
-                    world.addFreshEntity(potion);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof ExperienceBottleItem) {
-                ThrownExperienceBottle xpBottle = new ThrownExperienceBottle(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!xpBottle.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        xpBottle.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else xpBottle.setPos(pos.getX() + 0.5D, pos.getY() - xpBottle.getBbHeight(), pos.getZ() + 0.5D);
-                    xpBottle.setItem(stack);
-                    world.addFreshEntity(xpBottle);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof EndCrystalItem) {
-                EndCrystal endCrystal = new EndCrystal(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!endCrystal.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        endCrystal.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else {
-                        endCrystal.setPos(pos.getX() + 0.5D, pos.getY() - endCrystal.getBbHeight(), pos.getZ() + 0.5D);
-                        endCrystal.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
-                    endCrystal.setShowBottom(false);
-                    world.addFreshEntity(endCrystal);
-                    world.gameEvent(null, GameEvent.ENTITY_PLACE, pos);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof FireworkRocketItem) {
-                FireworkRocketEntity firework = new FireworkRocketEntity(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, stack);
-
-                if (!firework.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        firework.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else firework.setPos(pos.getX() + 0.5D, pos.getY() - firework.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(firework);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof EggItem) {
-                ThrownEgg egg = new ThrownEgg(serverWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-
-                if (!egg.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        egg.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else egg.setPos(pos.getX() + 0.5D, pos.getY() - egg.getBbHeight(), pos.getZ() + 0.5D);
-                    egg.setItem(stack);
-                    world.addFreshEntity(egg);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() instanceof BucketItem bucket && bucket.content != Fluids.EMPTY
-                    && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
-                if (world.getBlockState(pos.above()).canBeReplaced()) {
-                    if (bucket.emptyContents(null, world, pos.above(), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.above());
-                    QuestionBlock.spawnItem(world, pos.above(), new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else if (world.getBlockState(pos.below()).canBeReplaced()) {
-                    if (bucket.emptyContents(null, world, pos.below(), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.below());
-                    QuestionBlock.spawnItem(world, pos.below(), new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else if (!world.getBlockState(pos.below()).canBeReplaced())
-                    QuestionBlock.spawnItem(world, pos.below(), stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof SolidBucketItem bucket && ConfigRegistry.QUESTION_BUCKET_TWEAKS.get()) {
-                if (world.getBlockState(pos.above()).canBeReplaced()) {
-                    if (bucket.emptyContents(null, world, pos.above(), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.above());
-                    QuestionBlock.spawnItem(world, pos.above(), new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else if (world.getBlockState(pos.below()).canBeReplaced()) {
-                    if (bucket.emptyContents(null, world, pos.below(), null, stack))
-                        bucket.checkExtraContent(null, world, stack, pos.below());
-                    QuestionBlock.spawnItem(world, pos.below(), new ItemStack(Items.BUCKET), dropItemsAtPos);
-                } else QuestionBlock.spawnItem(world, pos.below(), stack, dropItemsAtPos);
-
-            } else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CheckpointFlagBlock block) {
-                int randomRotation = world.random.nextInt(15);
-
-                if (world.getBlockState(pos.above()).canBeReplaced()
-                        && world.getBlockState(pos.above(2)).canBeReplaced()
-                        && world.getBlockState(pos.above(3)).canBeReplaced()) {
-
-                    world.setBlock(pos.above(), block.defaultBlockState().setValue(CheckpointFlagBlock.ROTATION, randomRotation)
-                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.above()).is(FluidTags.WATER)), 3);
-                    world.setBlock(pos.above(2), block.defaultBlockState().setValue(CheckpointFlagBlock.PART, TripleBlockStates.MIDDLE)
-                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.above(2)).is(FluidTags.WATER)), 3);
-                    world.setBlock(pos.above(3), block.defaultBlockState().setValue(CheckpointFlagBlock.PART, TripleBlockStates.TOP)
-                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.above(3)).is(FluidTags.WATER)), 3);
-
-                    CheckpointFlagBlockEntity flagBE = (CheckpointFlagBlockEntity) world.getBlockEntity(pos.above());
-                    checkpointFlagNBT(world, pos.above(), stack, Direction.UP, flagBE, entityHitBlock);
-
-                } else if (world.getBlockState(pos.below()).canBeReplaced()
-                        && world.getBlockState(pos.below(2)).canBeReplaced()
-                        && world.getBlockState(pos.below(3)).canBeReplaced()) {
-
-                    world.setBlock(pos.below(3), block.defaultBlockState().setValue(CheckpointFlagBlock.ROTATION, randomRotation)
-                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.below(3)).is(FluidTags.WATER)), 3);
-                    world.setBlock(pos.below(2), block.defaultBlockState().setValue(CheckpointFlagBlock.PART, TripleBlockStates.MIDDLE)
-                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.below(2)).is(FluidTags.WATER)), 3);
-                    world.setBlock(pos.below(), block.defaultBlockState().setValue(CheckpointFlagBlock.PART, TripleBlockStates.TOP)
-                            .setValue(CheckpointFlagBlock.WATERLOGGED, world.getFluidState(pos.below()).is(FluidTags.WATER)), 3);
-
-                    CheckpointFlagBlockEntity flagBE = (CheckpointFlagBlockEntity) world.getBlockEntity(pos.below());
-                    checkpointFlagNBT(world, pos.below(), stack, Direction.DOWN, flagBE, entityHitBlock);
-
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-
-            } else if (stack.getItem() == CompatRegistry.HAT_STAND_ITEM.get()) {
-                Entity entity = CompatRegistry.HAT_STAND.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                    else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() == CompatRegistry.CANNONBALL_ITEM.get()) {
-                Entity entity = CompatRegistry.CANNONBALL.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.3),
-                                world.random.triangle(0.5, 0.3),
-                                world.random.triangle(0.0, 0.3)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() == CompatRegistry.BOMB_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() == CompatRegistry.BOMB_BLUE_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putInt("Type", 1);
-                    entity.load(nbt);
-
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() == CompatRegistry.BOMB_SPIKY_ITEM.get()) {
-                Entity entity = CompatRegistry.BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putInt("Type", 2);
-                    entity.load(nbt);
-
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    } else {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(0, -0.5, 0));
-                    }
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else if (stack.getItem() == CompatRegistry.CONFETTI_POPPER_ITEM.get()) {
-                Creeper entity = EntityType.CREEPER.create(serverWorld);
-
-                if (entity != null) {
-                    CompoundTag nbt = new CompoundTag();
-                    entity.save(nbt);
-                    nbt.putBoolean("Party", true);
-                    nbt.putInt("Fuse", 0);
-
-                    entity.setNoAi(true);
-                    entity.ignite();
-                    entity.setInvisible(true);
-                    entity.setSilent(true);
-                    entity.load(nbt);
-
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER)))
-                        entity.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
-                    else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(entity);
-                }
-                world.gameEvent(null, GameEvent.EXPLODE, pos);
-            } else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get()) {
-                Entity entity = CompatRegistry.ICE_BOMB.get().create(serverWorld);
-
-                if (entity != null && !entity.getType().is(TagRegistry.QUESTION_BLOCK_CANNOT_SPAWN)) {
-                    if (world.getBlockState(pos.above()).canBeReplaced() || world.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!world.getBlockState(pos.below()).canBeReplaced() && !world.getFluidState(pos.below()).is(FluidTags.WATER))) {
-                        entity.setPos(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
-                        entity.setDeltaMovement(new Vec3(
-                                world.random.triangle(0.0, 0.2),
-                                world.random.triangle(0.5, 0.2),
-                                world.random.triangle(0.0, 0.2)));
-                    }
-                    else entity.setPos(pos.getX() + 0.5D, pos.getY() - entity.getBbHeight(), pos.getZ() + 0.5D);
-                    world.addFreshEntity(entity);
-                    stack.copyWithCount(1);
-                } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-            } else QuestionBlock.spawnItem(world, pos, stack, dropItemsAtPos);
-        }
-    }
-
-    private static void checkpointFlagNBT(Level world, BlockPos pos, ItemStack stack, Direction direction, CheckpointFlagBlockEntity flagBE, Entity entityHitBlock) {
-        if (stack.has(DataComponents.CUSTOM_NAME)) {
-            flagBE.setCustomName(stack.getHoverName());
-            flagBE.markUpdated();
-
-            if (flagBE.isWonderFlag()) {
-                flagBE.setWonderFlag(Boolean.TRUE);
-                if (!world.isClientSide())
-                    PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos, flagBE.hasWonderFlag()));
-            } else if (flagBE.isAmericanFlag()) {
-                flagBE.setAmericanFlag(Boolean.TRUE);
-                if (!world.isClientSide())
-                    PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
-            }
-
-            BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
-            if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
-                if (middleFlagBE.getCustomName() == null) {
-                    middleFlagBE.setCustomName(stack.getHoverName());
-                    middleFlagBE.markUpdated();
-
-                    if (middleFlagBE.isWonderFlag()) {
-                        middleFlagBE.setWonderFlag(Boolean.TRUE);
-                        if (!world.isClientSide())
-                            PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos.relative(direction), middleFlagBE.hasWonderFlag()));
-                    } else if (middleFlagBE.isAmericanFlag()) {
-                        middleFlagBE.setAmericanFlag(Boolean.TRUE);
-                        if (!world.isClientSide())
-                            PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos.relative(direction), middleFlagBE.hasAmericanFlag()));
-                    }
-                }
-            }
-
-            BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
-            if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
-                if (topFlagBE.getCustomName() == null) {
-                    topFlagBE.setCustomName(stack.getHoverName());
-                    topFlagBE.markUpdated();
-
-                    if (topFlagBE.isWonderFlag()) {
-                        topFlagBE.setWonderFlag(Boolean.TRUE);
-                        if (!world.isClientSide())
-                            PacketDistributor.sendToAllPlayers(new WonderNamePayload(pos.relative(direction, 2), topFlagBE.hasWonderFlag()));
-                    } else if (topFlagBE.isAmericanFlag()) {
-                        topFlagBE.setAmericanFlag(Boolean.TRUE);
-                        if (!world.isClientSide())
-                            PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos.relative(direction, 2), topFlagBE.hasAmericanFlag()));
-                    }
-                }
-            }
-        }
-
-        if (stack.has(DataComponents.CONTAINER_LOOT)) {
-            SeededContainerLoot lootTableReference = stack.get(DataComponents.CONTAINER_LOOT);
-
-            if (lootTableReference != null) {
-                flagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
-                flagBE.markUpdated();
-
-                BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
-                if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
-                    middleFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
-                    middleFlagBE.markUpdated();
-                }
-
-                BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
-                if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
-                    topFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
-                    topFlagBE.markUpdated();
-                }
-            }
-        }
-
-        if (stack.has(DataComponents.CONTAINER)) {
-            ItemContainerContents containerContents = stack.get(DataComponents.CONTAINER);
-
-            if (containerContents != null) {
-                flagBE.setTheItem(containerContents.copyOne());
-                flagBE.markUpdated();
-
-                BlockEntity middleBlockEntity = world.getBlockEntity(pos.relative(direction));
-                if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
-                    middleFlagBE.setTheItem(containerContents.copyOne());
-                    middleFlagBE.markUpdated();
-                }
-
-                BlockEntity topBlockEntity = world.getBlockEntity(pos.relative(direction, 2));
-                if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
-                    topFlagBE.setTheItem(containerContents.copyOne());
-                    topFlagBE.markUpdated();
-                }
-            }
-        }
-    }
-
     public static void spawnItem(Level world, BlockPos pos, ItemStack stack, boolean dropItemsAtPos) {
         if (dropItemsAtPos) {
             ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, stack.copyWithCount(1));
@@ -970,20 +447,23 @@ public class QuestionBlock extends BaseEntityBlock {
         }
     }
 
-    private static boolean useItem(ServerLevel level, BlockPos pos, ItemStack stack) {
+    private static boolean useItem(ServerLevel level, BlockPos pos, ItemStack stack, @Nullable Entity entityHitBlock) {
+        ItemStack stackCopy = stack.copy();
         FakePlayer fakePlayer = FakePlayerFactory.getMinecraft(level);
-        UseAnim anim = stack.getUseAnimation();
-        BlockPos targetPos = pos.below();
-        BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(targetPos).relative(Direction.UP, 0.5),
-                Direction.UP, targetPos, false);
+        UseAnim anim = stackCopy.getUseAnimation();
+        BlockHitResult hit = new BlockHitResult(Vec3.atCenterOf(pos).relative(Direction.UP, 0.5),
+                Direction.UP, pos, false);
         fakePlayer.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 90.0F);
-        fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
+        fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stackCopy);
+        if (entityHitBlock != null)
+            fakePlayer.setData(DataAttachmentRegistry.OWNER_UUID, entityHitBlock.getUUID());
 
-        if (stack.getItem() instanceof Equipable || stack.getItem() instanceof EnderpearlItem
-                || stack.get(DataComponents.FOOD) != null)
+        if ((stackCopy.getItem() instanceof Equipable && !(stackCopy.getItem() instanceof PlasticBucketItem))
+                || stackCopy.getItem() instanceof EnderpearlItem
+                || stackCopy.get(DataComponents.FOOD) != null)
             return false;
 
-        if (stack.getItem() instanceof PotionItem && !(stack.getItem() instanceof ThrowablePotionItem))
+        if (stackCopy.getItem() instanceof PotionItem && !(stackCopy.getItem() instanceof ThrowablePotionItem))
             return false;
 
         if (anim == UseAnim.BOW || anim == UseAnim.CROSSBOW || anim == UseAnim.SPEAR
@@ -991,30 +471,46 @@ public class QuestionBlock extends BaseEntityBlock {
                 || anim == UseAnim.EAT)
             return false;
 
+        InteractionResultHolder<ItemStack> holder;
         InteractionResult result;
-        if (stack.getItem() instanceof BlockItem blockItem) {
-            Vec3 hitVec = Vec3.atCenterOf(targetPos).relative(Direction.UP, 0.5);
+        ItemStack resultStack;
+        if (stackCopy.getItem() instanceof BlockItem blockItem) {
+            Vec3 hitVec = Vec3.atCenterOf(pos).relative(Direction.UP, 0.5);
             UseOnContext useContext = new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND,
-                    new BlockHitResult(hitVec, Direction.UP, targetPos, false));
+                    new BlockHitResult(hitVec, Direction.UP, pos, false));
 
             BlockPlaceContext placeContext = new BlockPlaceContext(useContext);
             result = blockItem.place(placeContext);
-            BlockState stateOffset = level.getBlockState(targetPos);
+            BlockState state = level.getBlockState(pos);
+            int randomRotation = level.random.nextInt(15);
 
-            if (stateOffset.getBlock() instanceof CoinBlock)
-                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), level, targetPos, UniformInt.of(2, 5));
-            else level.levelEvent(2001, targetPos, Block.getId(stateOffset));
-        } else result = stack.use(level, fakePlayer, InteractionHand.MAIN_HAND).getResult();
+            if (state.hasProperty(BlockStateProperties.ROTATION_16))
+                level.setBlock(pos, state.setValue(BlockStateProperties.ROTATION_16, randomRotation), 3);
+
+            if (state.getBlock() instanceof CoinBlock)
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), level, pos, UniformInt.of(2, 5));
+            else level.levelEvent(2001, pos, Block.getId(state));
+        } else {
+            holder = stackCopy.use(level, fakePlayer, InteractionHand.MAIN_HAND);
+            result = holder.getResult();
+            resultStack = holder.getObject();
+
+            QuestionBlock.dropResult(level, pos, stackCopy, resultStack, fakePlayer);
+        }
 
         if (!result.consumesAction()) {
             fakePlayer.moveTo(pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D, 0.0F, 90.0F);
-            result = stack.useOn(new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND, hit));
+            result = stackCopy.useOn(new UseOnContext(fakePlayer, InteractionHand.MAIN_HAND, hit));
+            ItemStack heldStack = fakePlayer.getMainHandItem();
+
+            QuestionBlock.dropResult(level, pos, stackCopy, heldStack, fakePlayer);
         }
 
+        fakePlayer.removeData(DataAttachmentRegistry.OWNER_UUID);
         return result.consumesAction();
     }
 
-    public static void spawnFromContainer(Level level, BlockPos pos, ItemStack stack, boolean spawnMobs,
+    public static void spawnFromContainer(Level level, BlockPos pos, BlockPos particlePos, ItemStack stack, @Nullable Entity entityHitBlock, boolean spawnMobs,
                                           boolean spawnPowerUps, boolean canEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
         if (!(level instanceof ServerLevel serverLevel)) return;
 
@@ -1052,14 +548,79 @@ public class QuestionBlock extends BaseEntityBlock {
             return;
         QuestionBlock.spawnConfetti(level, pos, stack);
 
+        if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock) {
+            Player player = null;
+
+            if (entityHitBlock instanceof Player hitPlayer)
+                player = hitPlayer;
+            else if (entityHitBlock instanceof TraceableEntity traceableEntity
+                    && traceableEntity.getOwner() instanceof Player owner)
+                player = owner;
+
+            if (player != null) {
+                boolean itemAdded = player.addItem(stack);
+
+                if (blockItem.getBlock() instanceof StarCoinBlock)
+                    ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverLevel, particlePos,
+                            UniformInt.of(4, 6));
+                else ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverLevel, particlePos,
+                        UniformInt.of(2, 3));
+
+                if (!itemAdded)
+                    QuestionBlock.spawnItem(level, pos, stack, true);
+                return;
+            }
+        }
+
         if (stack.getItem() instanceof BlockItem blockItem
-                && !blockItem.getBlock().defaultBlockState().is(TagRegistry.QUESTION_BLOCKS_CAN_PLACE)) {
+                && !blockItem.getBlock().defaultBlockState().is(TagRegistry.QUESTION_BLOCKS_CAN_PLACE)
+                && !(stack.getItem() instanceof SolidBucketItem)) {
             QuestionBlock.spawnItem(level, pos, stack, true);
             return;
         }
 
-        if (!useItem(serverLevel, pos, stack))
+        if (!QuestionBlock.useItem(serverLevel, pos, stack, entityHitBlock))
             QuestionBlock.spawnItem(level, pos, stack, true);
+
+    }
+
+    private static void dropResult(ServerLevel level, BlockPos pos, ItemStack stackCopy, ItemStack resultStack, FakePlayer fakePlayer) {
+        if (!ItemStack.isSameItemSameComponents(stackCopy, resultStack)) {
+            QuestionBlock.spawnItem(level, pos, resultStack.copy(), true);
+
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                if (slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR
+                        || slot == EquipmentSlot.OFFHAND
+                        || slot == EquipmentSlot.MAINHAND) {
+                    ItemStack equipped = fakePlayer.getItemBySlot(slot);
+
+                    if (!equipped.isEmpty() && !ItemStack.isSameItemSameComponents(resultStack, equipped)) {
+                        QuestionBlock.spawnItem(level, pos, equipped.copy(), true);
+                        fakePlayer.setItemSlot(slot, ItemStack.EMPTY);
+                    }
+                }
+            }
+        }
+    }
+
+    public static BlockPos getBlockPos(Level level, BlockPos pos, ItemStack stack) {
+        Entity entity;
+
+        if (level instanceof ServerLevel serverLevel) {
+            if (stack.getItem() instanceof SpawnEggItem spawnEgg)
+                entity = spawnEgg.getType(stack).create(serverLevel);
+            else entity = new ItemEntity(serverLevel, pos.getX(), pos.getY(), pos.getZ(), stack);
+
+            if (entity != null) {
+                if (level.getBlockState(pos.above()).canBeReplaced()
+                        || level.getFluidState(pos.above()).is(FluidTags.WATER)
+                            || (!level.getBlockState(pos.below()).canBeReplaced()
+                                && !level.getFluidState(pos.below()).is(FluidTags.WATER))) {
+                    pos = pos.above();
+                } else pos = BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ());
+            }
+        }
+        return pos;
     }
 
     public static boolean spawnCannonball(Level level, BlockPos pos, ItemStack stack, TagKey<EntityType<?>> cannotSpawn) {

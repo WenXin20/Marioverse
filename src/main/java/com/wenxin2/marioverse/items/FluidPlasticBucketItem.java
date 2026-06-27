@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
 
 public class FluidPlasticBucketItem extends BucketItem implements DispensibleContainerItem {
     int tooltipLineAmt = 0;
@@ -48,6 +49,7 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
+    @NotNull
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
