@@ -34,10 +34,6 @@
   "menu.marioverse.storage_bricks": "Storage Bricks",
   "menu.marioverse.warp_pipe": "Warp Pipe",
 
-  "container.marioverse.checkpoint_flag.itemCount": "%s x%s",
-  "container.marioverse.checkpoint_flag.more": "and %s more...",
-  "container.marioverse.checkpoint_flag.unknownContents": "???????",
-
   "block_type.marioverse.brick_pedestal": "%s Brick Pedestal",
   "block_type.marioverse.invisible_question_bricks": "Invisible %s Question Bricks",
   "block_type.marioverse.log_bridge": "%s Log Bridge",
@@ -543,6 +539,11 @@
   "block.marioverse.checkpoint_flag.tooltip.line1": "§9Ability:",
   "block.marioverse.checkpoint_flag.tooltip.line2": " §7• Respawns the player",
   "block.marioverse.checkpoint_flag.tooltip.line3": " §7• After placing, equip an item or power up",
+
+  "container.marioverse.checkpoint_flag.contains": " §6Contains:",
+  "container.marioverse.checkpoint_flag.itemCount": " §7• %s x%s",
+  "container.marioverse.checkpoint_flag.more": " §7• and %s more...",
+  "container.marioverse.checkpoint_flag.unknownContents": " §7• ???????",
 
   "block.marioverse.black_goal_pole": "Black Goal Pole",
   "block.marioverse.blue_goal_pole": "Blue Goal Pole",

@@ -243,15 +243,18 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
         for (ItemStack itemstack : stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItems()) {
             j++;
+            if (i > 0)
+                list.add(Component.translatable("container.marioverse.checkpoint_flag.contains"));
             if (i <= 4) {
                 i++;
                 list.add(Component.translatable("container.marioverse.checkpoint_flag.itemCount",
-                        itemstack.getHoverName(), itemstack.getCount()).withStyle(ChatFormatting.ITALIC));
+                        itemstack.getHoverName(), itemstack.getCount()).withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
             }
         }
 
         if (j - i > 0)
-            list.add(Component.translatable("container.marioverse.checkpoint_flag.more", j - i));
+            list.add(Component.translatable("container.marioverse.checkpoint_flag.more", j - i)
+                    .withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
     }
 
     @Override
