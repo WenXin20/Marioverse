@@ -1,5 +1,7 @@
 {
   "values": [
-    "#marioverse:checkpoint_flags"
+    "#marioverse:checkpoint_flags",
+    "minecraft:cake",
+    "minecraft:chest"
   ]
 }

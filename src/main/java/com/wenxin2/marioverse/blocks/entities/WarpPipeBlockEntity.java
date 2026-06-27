@@ -331,7 +331,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 ItemStack stack = warpPipeBE.getTheItem().copyWithCount(1);
 
                 warpPipeBE.spawnFromWarpPipe(world, pos, stack);
-                MarioverseSoundTypes.playSounds(world, pos, stack);
+                MarioverseSoundTypes.playSounds(world, pos, stack, warpPipeBE);
                 warpPipeBE.spawnItemDelay = 180;
             }
         }

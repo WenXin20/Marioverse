@@ -865,7 +865,7 @@ public class MarioverseEventHandlers {
 
                     if (!storedItem.isEmpty()) {
                         CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, player, true);
-                        MarioverseSoundTypes.playSounds(world, respawnPos, storedItem);
+                        MarioverseSoundTypes.playSounds(world, respawnPos, storedItem, flagBE);
                         flagBE.splitTheItem(1);
                     }
                 }

@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoatItem;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
 import net.neoforged.neoforge.common.util.DeferredSoundType;
 
 public class MarioverseSoundTypes {
@@ -37,7 +39,7 @@ public class MarioverseSoundTypes {
     public static final SoundType WATER_SPOUT_TYPE = new DeferredSoundType(1.0F, 1.0F, () -> SoundEvents.BUCKET_FILL,
             () -> SoundEvents.BUCKET_FILL, () -> SoundEvents.BUCKET_EMPTY, () -> SoundEvents.BUCKET_FILL, () -> SoundEvents.BUCKET_FILL);
 
-    public static void playSounds(Level world, BlockPos pos, ItemStack stack) {
+    public static void playSounds(Level world, BlockPos pos, ItemStack stack, Container container) {
         if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof StarCoinBlock)
             world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof CoinBlock)
@@ -80,6 +82,7 @@ public class MarioverseSoundTypes {
             world.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
         else if (stack.getItem() == CompatRegistry.ICE_BOMB_ITEM.get())
             world.playSound(null, pos, CompatRegistry.ICE_BOMB_SOUND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        else world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        else if (!stack.isEmpty() && !(container instanceof DecoratedPotBlockEntity))
+            world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }

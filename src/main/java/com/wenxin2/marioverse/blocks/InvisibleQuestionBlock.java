@@ -147,7 +147,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                     if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
                         world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
 
-                    MarioverseSoundTypes.playSounds(world, pos, storedItem);
+                    MarioverseSoundTypes.playSounds(world, pos, storedItem, questionBE);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }
@@ -233,7 +233,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
                     if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
                         world.setBlock(pos, state.setValue(INVISIBLE, Boolean.FALSE), 3);
 
-                    MarioverseSoundTypes.playSounds(world, pos, storedItem);
+                    MarioverseSoundTypes.playSounds(world, pos, storedItem, questionBE);
                     questionBE.splitTheItem(1);
                     questionBE.setChanged();
                 }

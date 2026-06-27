@@ -42,7 +42,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
@@ -249,6 +248,9 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         }
 
         if (blockEntity instanceof CheckpointFlagBlockEntity flagBE) {
+            BlockEntity middleBlockEntity = world.getBlockEntity(pos.above());
+            BlockEntity topBlockEntity = world.getBlockEntity(pos.above(2));
+
             if (stack.has(DataComponents.CUSTOM_NAME)) {
                 flagBE.setCustomName(stack.getHoverName());
                 flagBE.markUpdated();
@@ -263,7 +265,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         PacketDistributor.sendToAllPlayers(new AmericaNamePayload(pos, flagBE.hasAmericanFlag()));
                 }
 
-                BlockEntity middleBlockEntity = world.getBlockEntity(pos.above());
                 if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
                     if (middleFlagBE.getCustomName() == null) {
                         middleFlagBE.setCustomName(stack.getHoverName());
@@ -281,7 +282,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     }
                 }
 
-                BlockEntity topBlockEntity = world.getBlockEntity(pos.above(2));
                 if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
                     if (topFlagBE.getCustomName() == null) {
                         topFlagBE.setCustomName(stack.getHoverName());
@@ -298,42 +298,42 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         }
                     }
                 }
+            }
 
-                if (stack.has(DataComponents.CONTAINER_LOOT)) {
-                    SeededContainerLoot lootTableReference = stack.get(DataComponents.CONTAINER_LOOT);
+            if (stack.has(DataComponents.CONTAINER_LOOT)) {
+                SeededContainerLoot lootTableReference = stack.get(DataComponents.CONTAINER_LOOT);
 
-                    if (lootTableReference != null) {
-                        flagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
-                        flagBE.markUpdated();
+                if (lootTableReference != null) {
+                    flagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                    flagBE.markUpdated();
 
-                        if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
-                            middleFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
-                            middleFlagBE.markUpdated();
-                        }
+                    if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                        middleFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                        middleFlagBE.markUpdated();
+                    }
 
-                        if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
-                            topFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
-                            topFlagBE.markUpdated();
-                        }
+                    if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                        topFlagBE.setLootTable(lootTableReference.lootTable(), lootTableReference.seed());
+                        topFlagBE.markUpdated();
                     }
                 }
+            }
 
-                if (stack.has(DataComponents.CONTAINER)) {
-                    ItemContainerContents containerContents = stack.get(DataComponents.CONTAINER);
+            if (stack.has(DataComponents.CONTAINER)) {
+                ItemContainerContents containerContents = stack.get(DataComponents.CONTAINER);
 
-                    if (containerContents != null) {
-                        flagBE.setTheItem(containerContents.copyOne());
-                        flagBE.markUpdated();
+                if (containerContents != null) {
+                    flagBE.setTheItem(containerContents.copyOne());
+                    flagBE.markUpdated();
 
-                        if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
-                            middleFlagBE.setTheItem(containerContents.copyOne());
-                            middleFlagBE.markUpdated();
-                        }
+                    if (middleBlockEntity instanceof CheckpointFlagBlockEntity middleFlagBE) {
+                        middleFlagBE.setTheItem(containerContents.copyOne());
+                        middleFlagBE.markUpdated();
+                    }
 
-                        if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
-                            topFlagBE.setTheItem(containerContents.copyOne());
-                            topFlagBE.markUpdated();
-                        }
+                    if (topBlockEntity instanceof CheckpointFlagBlockEntity topFlagBE) {
+                        topFlagBE.setTheItem(containerContents.copyOne());
+                        topFlagBE.markUpdated();
                     }
                 }
             }
@@ -664,7 +664,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
                 if (!storedItem.isEmpty() && entity instanceof LivingEntity livingEntity) {
                     CheckpointFlagBlock.spawnFromCheckpointFlag(world, respawnPos, storedItem, livingEntity, true);
-                    MarioverseSoundTypes.playSounds(world, respawnPos, storedItem);
+                    MarioverseSoundTypes.playSounds(world, respawnPos, storedItem, flagBE);
                     flagBE.splitTheItem(1);
                 }
             }
