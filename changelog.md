@@ -56,6 +56,8 @@
 - Fixed piranha plant pod flashing a full-grown piranha for a tick
 - Fixed tamed piranha plants spawned from pods despawning
 - Fixed ice cubes freezing owners & teammates
+- Fixed pipes not connecting properly in structures during world gen
+- Fixed super mushrooms not generating in bonus chests
 
 ## Update 1.9.3
 - Added Sable block tags for Create Aeronautics compat 
