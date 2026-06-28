@@ -348,52 +348,62 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     }
 
     @Override
-    public void destroy(LevelAccessor worldAccessor, BlockPos pos, BlockState state) {
-        if (!worldAccessor.isClientSide()) {
+    public void destroy(LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
+        if (!levelAccessor.isClientSide()) {
             if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
-                worldAccessor.destroyBlock(pos.above(), true);
-                worldAccessor.destroyBlock(pos.above(2), true);
-                worldAccessor.levelEvent(2001, pos.above(), Block.getId(worldAccessor.getBlockState(pos.above())));
-                worldAccessor.levelEvent(2001, pos.above(2), Block.getId(worldAccessor.getBlockState(pos.above(2))));
+                levelAccessor.destroyBlock(pos.above(), true);
+                levelAccessor.destroyBlock(pos.above(2), true);
+                levelAccessor.levelEvent(2001, pos.above(), Block.getId(levelAccessor.getBlockState(pos.above())));
+                levelAccessor.levelEvent(2001, pos.above(2), Block.getId(levelAccessor.getBlockState(pos.above(2))));
             } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                worldAccessor.destroyBlock(pos.below(), true);
-                worldAccessor.destroyBlock(pos.above(), true);
-                worldAccessor.levelEvent(2001, pos.below(), Block.getId(worldAccessor.getBlockState(pos.below())));
-                worldAccessor.levelEvent(2001, pos.above(), Block.getId(worldAccessor.getBlockState(pos.above())));
+                levelAccessor.destroyBlock(pos.below(), true);
+                levelAccessor.destroyBlock(pos.above(), true);
+                levelAccessor.levelEvent(2001, pos.below(), Block.getId(levelAccessor.getBlockState(pos.below())));
+                levelAccessor.levelEvent(2001, pos.above(), Block.getId(levelAccessor.getBlockState(pos.above())));
             } else if (state.getValue(PART) == TripleBlockStates.TOP) {
-                worldAccessor.destroyBlock(pos.below(), true);
-                worldAccessor.destroyBlock(pos.below(2), true);
-                worldAccessor.levelEvent(2001, pos.below(), Block.getId(worldAccessor.getBlockState(pos.below())));
-                worldAccessor.levelEvent(2001, pos.below(2), Block.getId(worldAccessor.getBlockState(pos.below(2))));
+                levelAccessor.destroyBlock(pos.below(), true);
+                levelAccessor.destroyBlock(pos.below(2), true);
+                levelAccessor.levelEvent(2001, pos.below(), Block.getId(levelAccessor.getBlockState(pos.below())));
+                levelAccessor.levelEvent(2001, pos.below(2), Block.getId(levelAccessor.getBlockState(pos.below(2))));
             }
         }
-        super.destroy(worldAccessor, pos, state);
+        super.destroy(levelAccessor, pos, state);
     }
 
     @NotNull
     @Override
-    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
-        if (!world.isClientSide) {
-            if (player.isCreative() || !player.hasCorrectToolForDrops(state, world, pos)) {
-                if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
-                    world.destroyBlock(pos.above(), false);
-                    world.destroyBlock(pos.above(2), false);
-                    this.spawnDestroyParticles(world, player, pos.above(), world.getBlockState(pos.above()));
-                    this.spawnDestroyParticles(world, player, pos.above(2), world.getBlockState(pos.above(2)));
-                } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                    world.destroyBlock(pos.below(), false);
-                    world.destroyBlock(pos.above(), false);
-                    this.spawnDestroyParticles(world, player, pos.below(), world.getBlockState(pos.below()));
-                    this.spawnDestroyParticles(world, player, pos.above(), world.getBlockState(pos.above()));
-                } else if (state.getValue(PART) == TripleBlockStates.TOP) {
-                    world.destroyBlock(pos.below(), false);
-                    world.destroyBlock(pos.below(2), false);
-                    this.spawnDestroyParticles(world, player, pos.below(), world.getBlockState(pos.below()));
-                    this.spawnDestroyParticles(world, player, pos.below(2), world.getBlockState(pos.below(2)));
-                }
-            }
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos))
+            CheckpointFlagBlock.removeParts(level, pos, state);
+        return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
+        BlockState state = level.getBlockState(pos);
+
+        CheckpointFlagBlock.removeParts(level, pos, state);
+        super.wasExploded(level, pos, explosion);
+    }
+
+    @Override
+    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
+        Entity entity = explosion.getDirectSourceEntity();
+        BlockPos respawnPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
+        BlockPos statePos = switch (state.getValue(PART)) {
+            case TOP -> pos.below(2);
+            case MIDDLE -> pos.below();
+            default -> pos;
+        };
+        BlockState statePart = level.getBlockState(statePos);
+
+        if (explosion.canTriggerBlocks()) {
+            if (entity != null && entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
+                    && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0)
+                this.claimCheckpoint(state, level, pos, entity, statePart, statePos, respawnPos);
         }
-        return super.playerWillDestroy(world, pos, state, player);
+
+        super.onExplosionHit(state, level, pos, explosion, consumer);
     }
 
     @Override
@@ -557,26 +567,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     }
 
     @Override
-    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
-        Entity entity = explosion.getDirectSourceEntity();
-        BlockPos respawnPos = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
-        BlockPos statePos = switch (state.getValue(PART)) {
-            case TOP -> pos.below(2);
-            case MIDDLE -> pos.below();
-            default -> pos;
-        };
-        BlockState statePart = level.getBlockState(statePos);
-
-        if (explosion.canTriggerBlocks()) {
-            if (entity != null && entity.getType().is(TagRegistry.CAN_CLAIM_CHECKPOINT_FLAGS)
-                    && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0)
-                this.claimCheckpoint(state, level, pos, entity, statePart, statePos, respawnPos);
-        }
-
-        super.onExplosionHit(state, level, pos, explosion, consumer);
-    }
-
-    @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
@@ -593,6 +583,27 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
     public static ItemStack getColoredItemStack(@Nullable DyeColor color) {
         return new ItemStack(BlockRegistry.CHECKPOINT_FLAGS.get(color));
+    }
+
+    private static void removeParts(Level level, BlockPos pos, BlockState state) {
+        if (!level.isClientSide()) {
+            if (state.getValue(PART) == TripleBlockStates.BOTTOM) {
+                level.destroyBlock(pos.above(), true);
+                level.destroyBlock(pos.above(2), true);
+                level.levelEvent(2001, pos.above(), Block.getId(level.getBlockState(pos.above())));
+                level.levelEvent(2001, pos.above(2), Block.getId(level.getBlockState(pos.above(2))));
+            } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
+                level.destroyBlock(pos.below(), true);
+                level.destroyBlock(pos.above(), true);
+                level.levelEvent(2001, pos.below(), Block.getId(level.getBlockState(pos.below())));
+                level.levelEvent(2001, pos.above(), Block.getId(level.getBlockState(pos.above())));
+            } else if (state.getValue(PART) == TripleBlockStates.TOP) {
+                level.destroyBlock(pos.below(), true);
+                level.destroyBlock(pos.below(2), true);
+                level.levelEvent(2001, pos.below(), Block.getId(level.getBlockState(pos.below())));
+                level.levelEvent(2001, pos.below(2), Block.getId(level.getBlockState(pos.below(2))));
+            }
+        }
     }
 
     private boolean canPlaceBlock(Level world, BlockPos pos) {

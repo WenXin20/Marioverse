@@ -49,6 +49,7 @@
 - Improved Power Up item tooltips
 - Increased mini goomba spawn rate & group size
 - Goombas can rarely spawn as a goombella variant
+- Fixed explosions not breaking checkpoint flags correctly
 - Fixed teleporting using Clear Pipes with Sable
 - Fixed piranha plant pod flashing a full-grown piranha for a tick
 - Fixed tamed piranha plants spawned from pods despawning
