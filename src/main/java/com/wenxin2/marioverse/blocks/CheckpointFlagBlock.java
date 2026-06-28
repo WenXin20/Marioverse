@@ -379,11 +379,9 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
     }
 
     @Override
-    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
-        BlockState state = level.getBlockState(pos);
-
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
         CheckpointFlagBlock.removeParts(level, pos, state);
-        super.wasExploded(level, pos, explosion);
+        super.onBlockExploded(state, level, pos, explosion);
     }
 
     @Override
@@ -402,7 +400,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     && entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) <= 0)
                 this.claimCheckpoint(state, level, pos, entity, statePart, statePos, respawnPos);
         }
-
         super.onExplosionHit(state, level, pos, explosion, consumer);
     }
 
