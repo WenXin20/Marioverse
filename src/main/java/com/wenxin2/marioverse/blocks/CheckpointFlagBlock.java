@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
-import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
@@ -12,8 +11,6 @@ import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
-import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
-import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -22,7 +19,6 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
@@ -32,14 +28,12 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -54,57 +48,27 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.TraceableEntity;
-import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
-import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.SmallFireball;
-import net.minecraft.world.entity.projectile.ThrownEgg;
-import net.minecraft.world.entity.projectile.ThrownExperienceBottle;
-import net.minecraft.world.entity.projectile.ThrownPotion;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
-import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.EggItem;
-import net.minecraft.world.item.EndCrystalItem;
-import net.minecraft.world.item.EnderpearlItem;
-import net.minecraft.world.item.Equipable;
-import net.minecraft.world.item.ExperienceBottleItem;
-import net.minecraft.world.item.FireChargeItem;
-import net.minecraft.world.item.FireworkRocketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.MinecartItem;
-import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.SeededContainerLoot;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -116,7 +80,6 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -131,12 +94,9 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.util.FakePlayer;
-import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -243,10 +203,9 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
         for (ItemStack itemstack : stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItems()) {
             j++;
-            if (i > 0)
-                list.add(Component.translatable("container.marioverse.checkpoint_flag.contains"));
             if (i <= 4) {
                 i++;
+                list.add(Component.translatable("container.marioverse.checkpoint_flag.contains"));
                 list.add(Component.translatable("container.marioverse.checkpoint_flag.itemCount",
                         itemstack.getHoverName(), itemstack.getCount()).withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
             }
@@ -681,19 +640,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     level.setBlock(pos.below(2), level.getBlockState(pos.below(2)).setValue(CLAIMED, Boolean.TRUE), 3);
                 }
             }
-
-            if (level.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
-                    && ConfigRegistry.CHECKPOINT_FLAG_CLAIM_USES_ITEMS.get()) {
-                ItemStack storedItem = flagBE.getTheItem();
-
-                if (!storedItem.isEmpty() && entity instanceof LivingEntity livingEntity) {
-                    MarioverseSoundTypes.playSounds(level, respawnPos, storedItem, flagBE);
-                    CheckpointFlagBlock.spawnFromContainer(level, respawnPos, storedItem, livingEntity,
-                            ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get(), ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get(),
-                            ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get(), TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
-                    flagBE.splitTheItem(1);
-                }
-            }
         }
 
         if (entity instanceof ServerPlayer player && !pos.equals(player.getRespawnPosition())) {
@@ -703,6 +649,20 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 case MIDDLE -> respawnPos.below();
                 default -> respawnPos;
             };
+
+            if (level.getBlockEntity(respawnPos) instanceof CheckpointFlagBlockEntity flagBE
+                    && ConfigRegistry.CHECKPOINT_FLAG_CLAIM_USES_ITEMS.get()
+                    && !(newRespawnPos.equals(playerRespawnPos))) {
+                ItemStack storedItem = flagBE.getTheItem();
+
+                if (!storedItem.isEmpty()) {
+                    MarioverseSoundTypes.playSounds(level, respawnPos, storedItem, flagBE);
+                    CheckpointFlagBlock.spawnFromContainer(level, respawnPos, storedItem, player,
+                            ConfigRegistry.CHECKPOINT_FLAG_SPAWNS_MOBS.get(), ConfigRegistry.CHECKPOINT_FLAG_APPLIES_POWER_UPS.get(),
+                            ConfigRegistry.CHECKPOINT_FLAG_BUCKET_TWEAKS.get(), TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN);
+                    flagBE.splitTheItem(1);
+                }
+            }
 
             if (level.getBlockEntity(newRespawnPos) instanceof CheckpointFlagBlockEntity checkpointFlagBE
                     && !(newRespawnPos.equals(playerRespawnPos))) {

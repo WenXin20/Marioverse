@@ -540,7 +540,7 @@
   "block.marioverse.checkpoint_flag.tooltip.line2": " §7• Respawns the player",
   "block.marioverse.checkpoint_flag.tooltip.line3": " §7• After placing, equip an item or power up",
 
-  "container.marioverse.checkpoint_flag.contains": " §6Contains:",
+  "container.marioverse.checkpoint_flag.contains": "§6Contains:",
   "container.marioverse.checkpoint_flag.itemCount": " §7• %s x%s",
   "container.marioverse.checkpoint_flag.more": " §7• and %s more...",
   "container.marioverse.checkpoint_flag.unknownContents": " §7• ???????",
