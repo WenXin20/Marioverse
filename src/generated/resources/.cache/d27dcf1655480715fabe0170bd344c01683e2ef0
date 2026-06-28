@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-25T21:13:15.7325221	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-06-28T12:32:44.8668009	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -72,7 +72,7 @@ f62aa77ec565005717121de25d7a660229f0124a data/marioverse/tags/block/piranha_plan
 69c396cb051bbe9a130e6979b67065e5041b179d data/marioverse/tags/block/piranha_plants_spawnable_on.json
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/block/polished_calcite.json
 05196126a22460d63899d1005ccb115203d709be data/marioverse/tags/block/question_blocks.json
-655ff93373f89bf9ebff075482971232fe50b87d data/marioverse/tags/block/question_blocks_can_place.json
+393ea5b00751c106f645d15d1015cf85be2921c0 data/marioverse/tags/block/question_blocks_can_place.json
 a7237a913ebc494e95c33837eb152a6c6ebd10a6 data/marioverse/tags/block/question_panels.json
 b5198f3739de7f61b4b40d9e39658a2b36218478 data/marioverse/tags/block/sable/floaty.json
 562d6608011d5c95e2bdd0f99fdfc3157e691e98 data/marioverse/tags/block/smashable_blocks.json

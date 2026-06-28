@@ -35,7 +35,9 @@
   - Generates in coral reefs
   - Can be bone mealed
   - Can die above water
-  - Solid hitbox, similar to coral in Mario underwater levels
+  - Solid hitbox, similar to coral in Mario's underwater levels
+- Added the `question_blocks_can_place` block tag for blocks it can place
+  - Includes checkpoint flags & cake
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
 - Added Pipe junctions to pipe world gen
