@@ -23,14 +23,17 @@ public class CompatRegistry {
     public static final Supplier<Block> MV_FRAMED_GLASS_TRAPDOOR = make("marioverse:create_warp_framed_glass_trapdoor", BuiltInRegistries.BLOCK);
 
     public static final Supplier<Item> ANTIQUE_INK = make("supplementaries:antique_ink", BuiltInRegistries.ITEM);
-    public static final Supplier<Item> BOMB_ITEM = make("supplementaries:bomb", BuiltInRegistries.ITEM);
     public static final Supplier<Item> BOMB_BLUE_ITEM = make("supplementaries:bomb_blue", BuiltInRegistries.ITEM);
+    public static final Supplier<Item> BOMB_ITEM = make("supplementaries:bomb", BuiltInRegistries.ITEM);
     public static final Supplier<Item> BOMB_SPIKY_ITEM = make("supplementaries:bomb_spiky", BuiltInRegistries.ITEM);
     public static final Supplier<Item> BUBBLE_BLOWER = make("supplementaries:bubble_blower", BuiltInRegistries.ITEM);
     public static final Supplier<Item> CANNONBALL_ITEM = make("supplementaries:cannonball", BuiltInRegistries.ITEM);
+    public static final Supplier<Item> CHEST_MINECART_CONTRAPTION = make("create:chest_minecart_contraption", BuiltInRegistries.ITEM);
     public static final Supplier<Item> CONFETTI_POPPER_ITEM = make("supplementaries:confetti_popper", BuiltInRegistries.ITEM);
+    public static final Supplier<Item> FURNACE_MINECART_CONTRAPTION = make("create:furnace_minecart_contraption", BuiltInRegistries.ITEM);
     public static final Supplier<Item> HAT_STAND_ITEM = make("supplementaries:hat_stand", BuiltInRegistries.ITEM);
     public static final Supplier<Item> ICE_BOMB_ITEM = make("twilightforest:ice_bomb", BuiltInRegistries.ITEM);
+    public static final Supplier<Item> MINECART_CONTRAPTION = make("create:minecart_contraption", BuiltInRegistries.ITEM);
     public static final Supplier<Item> SOAP = make("supplementaries:soap", BuiltInRegistries.ITEM);
 
     public static final Supplier<EntityType<?>> AUTOMOBILE = make("automobility:automobile", BuiltInRegistries.ENTITY_TYPE);

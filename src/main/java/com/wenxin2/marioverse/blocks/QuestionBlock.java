@@ -612,9 +612,10 @@ public class QuestionBlock extends BaseEntityBlock {
             else entity = new ItemEntity(serverLevel, pos.getX(), pos.getY(), pos.getZ(), stack);
 
             if (entity != null) {
-                if (level.getBlockState(pos.above()).canBeReplaced()
+                if (level.getBlockState(pos.above()).getCollisionShape(level, pos.above()).isEmpty()
+                        || !level.getBlockState(pos.above()).isCollisionShapeFullBlock(level, pos.above())
                         || level.getFluidState(pos.above()).is(FluidTags.WATER)
-                            || (!level.getBlockState(pos.below()).canBeReplaced()
+                            || (level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos.below())
                                 && !level.getFluidState(pos.below()).is(FluidTags.WATER))) {
                     pos = pos.above();
                 } else pos = BlockPos.containing(pos.getX(), pos.getY() - entity.getBbHeight(), pos.getZ());
