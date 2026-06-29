@@ -54,6 +54,7 @@
 - Fixed explosions not breaking checkpoint flags correctly
 - Fixed teleporting using Clear Pipes with Sable
 - Fixed piranha plant pod flashing a full-grown piranha for a tick
+- Fixed baby piranha plants suffocating after growing up
 - Fixed tamed piranha plants spawned from pods despawning
 - Fixed ice cubes freezing owners & teammates
 - Fixed pipes not connecting properly in structures during world gen

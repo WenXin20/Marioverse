@@ -76,6 +76,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
@@ -99,6 +101,8 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("piranha_plant.idle");
     public static final RawAnimation SQUASH = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    public static final EntityDimensions BABY_DIMENSIONS = EntityRegistry.PIRANHA_PLANT.get().getDimensions()
+            .scale(0.75F).withEyeHeight(0.9F);
 
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BOOLEAN);
     public static final int BABY_START_AGE = -24000;
@@ -436,16 +440,13 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     protected EntityDimensions getDefaultDimensions(Pose pose) {
         Direction attachedSide = this.getAttachedSide();
 
-        if (this.isBaby() && attachedSide == Direction.UP)
-            return EntityRegistry.PIRANHA_PLANT.get().getDimensions().scale(0.75F).withEyeHeight(0.9F);
-
         if (attachedSide == Direction.NORTH || attachedSide == Direction.SOUTH
                 || attachedSide == Direction.EAST || attachedSide == Direction.WEST) {
-            return EntityDimensions.scalable(1.0F, 1.0F);
+            return EntityDimensions.scalable(1.0F, 1.0F).withEyeHeight(0.9F);
         } else if (attachedSide == Direction.DOWN)
             return EntityDimensions.scalable(1.0F, 1.0F).withEyeHeight(-0.9F);
 
-        return super.getDefaultDimensions(pose);
+        return this.isBaby() && attachedSide == Direction.UP ? BABY_DIMENSIONS : super.getDefaultDimensions(pose);
     }
 
     @NotNull
@@ -530,9 +531,23 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
 
     @Override
     public boolean isInWall() {
-        if (isHiding())
+        if (this.noPhysics || this.isHiding())
             return false;
-        else return super.isInWall();
+
+        float width = this.dimensions.width() * 0.8F;
+        AABB eyeBox = AABB.ofSize(this.getEyePosition(), width, 1.0E-6D, width);
+
+        return BlockPos.betweenClosedStream(eyeBox).anyMatch(pos -> {
+            if (pos.equals(this.attachedBlockPos))
+                return false;
+
+            BlockState state = this.level().getBlockState(pos);
+
+            return !state.isAir() && state.isSuffocating(this.level(), pos)
+                    && Shapes.joinIsNotEmpty(state.getCollisionShape(this.level(), pos)
+                            .move(pos.getX(), pos.getY(), pos.getZ()),
+                    Shapes.create(eyeBox), BooleanOp.AND);
+        });
     }
 
     @Override
@@ -657,6 +672,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         this.age = age;
         if (i < 0 && age >= 0 || i >= 0 && age < 0) {
             this.entityData.set(DATA_BABY_ID, age < 0);
+            this.refreshDimensions();
             this.ageBoundaryReached();
         }
     }
