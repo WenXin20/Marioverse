@@ -2,19 +2,16 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
-import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -45,7 +42,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.Pose;
@@ -62,9 +58,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -73,7 +66,6 @@ import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -96,7 +88,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlay("piranha_plant.emerge");
-    public static final RawAnimation HIDE = RawAnimation.begin().thenPlay("piranha_plant.hide");
+    public static final RawAnimation HIDE = RawAnimation.begin().thenPlayAndHold("piranha_plant.hide");
     public static final RawAnimation HURT = RawAnimation.begin().thenPlay("piranha_plant.hurt");
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("piranha_plant.idle");
     public static final RawAnimation SQUASH = RawAnimation.begin().thenPlayAndHold("piranha_plant.squash");
@@ -115,8 +107,10 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     public PiranhaPlantPart head;
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
+    private boolean isEmerging;
+    private boolean isHiding;
+    private boolean isHidingAnim;
     private boolean leftOwner;
-    public boolean isHiding;
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
     public int emergeAnimationTicks = 0;
@@ -167,23 +161,34 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Death", 0, this::deathAnimation));
-        controllers.add(new AnimationController<>(this, "Idle", 10, this::biteAnimation));
+        controllers.add(new AnimationController<>(this, "Idle", 20, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
         controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 20));
         controllers.add(new AnimationController<>(this, "eat_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("eat", DefaultAnimations.ATTACK_BITE));
-        controllers.add(new AnimationController<>(this, "emerge_controller", 20, state -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("emerge", EMERGE));
-        controllers.add(new AnimationController<>(this, "hide_controller", 20, state -> PlayState.STOP)
+        controllers.add(new AnimationController<>(this, "hide_controller", 5, state -> PlayState.CONTINUE)
                 .triggerableAnim("hide", HIDE));
         controllers.add(new AnimationController<>(this, "hurt_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("hurt", HURT));
     }
 
     protected <E extends GeoAnimatable> PlayState biteAnimation(final AnimationState<E> event) {
-        if (this.hideAnimationTicks > 0)
-            return PlayState.STOP;
+        if (this.dead) return PlayState.STOP;
+
+        if (this.isEmerging) {
+            event.setAndContinue(EMERGE);
+            return PlayState.CONTINUE;
+        }
+
+        if (this.isHidingAnim) {
+            event.setAndContinue(HIDE);
+            return PlayState.CONTINUE;
+        }
+
+        if (this.isHiding()) return PlayState.STOP;
 
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(5.0D), entity -> !entity.isSpectator()
@@ -341,7 +346,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             this.emergeAnimationTicks--;
 
         if (this.emergeAnimationTicks == 0)
-            this.stopTriggeredAnim("emerge_controller", "emerge");
+            this.isEmerging = false;
 
         this.biteEntity();
         this.hideInBlock();
@@ -598,14 +603,12 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     @Nullable
     @Override
     public Entity getOwner() {
-        if (this.cachedOwner != null && !this.cachedOwner.isRemoved()) {
+        if (this.cachedOwner != null && !this.cachedOwner.isRemoved())
             return this.cachedOwner;
-        } else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverWorld) {
+        else if (this.ownerUUID != null && this.level() instanceof ServerLevel serverWorld) {
             this.cachedOwner = serverWorld.getEntity(this.ownerUUID);
             return this.cachedOwner;
-        } else {
-            return null;
-        }
+        } else return null;
     }
 
     public void setOwner(@Nullable Entity ownerEntity) {
@@ -837,9 +840,9 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                     if (direction != attachDir) continue;
 
                     if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L) {
-                        this.emergeAnimationTicks = 20;
-                        this.stopTriggeredAnim("hide_controller", "hide");
-                        this.triggerAnim("emerge_controller", "emerge");
+                        this.emergeAnimationTicks = 40;
+                        this.isEmerging = true;
+                        this.isHidingAnim = false;
                         this.hide(false);
                     }
                 }
@@ -855,10 +858,10 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                         && offsetState.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)) {
                     if (direction != attachDir) continue;
 
-                    this.emergeAnimationTicks = 20;
+                    this.hideAnimationTicks = 20;
                     this.hideTicks = this.getHideDuration();
-                    this.stopTriggeredAnim("emerge_controller", "emerge");
-                    this.triggerAnim("hide_controller", "hide");
+                    this.isHidingAnim = true;
+                    this.isEmerging = false;
                     this.hide(true);
                 }
             }
@@ -868,9 +871,9 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             if (world.getGameTime() % this.getHideDuration() == 0L && this.hideTicks == 0L
                     && stateBelow.is(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                     && !isPlayerNearby(1.0)) {
-                this.hideAnimationTicks = 20;
-                this.stopTriggeredAnim("hide_controller", "hide");
-                this.triggerAnim("emerge_controller", "emerge");
+                this.emergeAnimationTicks = 40;
+                this.isEmerging = true;
+                this.isHidingAnim = false;
                 this.hide(false);
             }
         } else if (world.getGameTime() % this.getHideDuration() == 0L
@@ -878,8 +881,8 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                 && !stateBelow.hasProperty(BlockStateProperties.FACING)) {
             this.hideAnimationTicks = 20;
             this.hideTicks = this.getHideDuration();
-            this.stopTriggeredAnim("emerge_controller", "emerge");
-            this.triggerAnim("hide_controller", "hide");
+            this.isHidingAnim = true;
+            this.isEmerging = false;
             this.hide(true);
         }
     }
