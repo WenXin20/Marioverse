@@ -26,7 +26,12 @@ public class DataMapGen extends DataMapProvider {
     @Override
     protected void gather(HolderLookup.Provider provider) {
         builder(NeoForgeDataMaps.COMPOSTABLES)
-                .add(BlockRegistry.DANGO_BLOSSOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false);
+                .add(ItemRegistry.PIRANHA_PLANT_POD, new Compostable(0.3F), false)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.DANGO_BLOSSOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false);
 
         builder(NeoForgeDataMaps.FURNACE_FUELS)
                 .add(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS, new FurnaceFuel(100), false)

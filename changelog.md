@@ -45,6 +45,7 @@
 - Added new baby piranha plant model for vanilla consistency
 - Added Piranha Plant spawn animation
 - Added new Piranha Plant emerge/hide animations in pipes
+- Added Piranha Plant Pod and Trampoline mushrooms to be compostable
 - Improved Piranha Plant spawning, spawns during the day in Jungles
 - Improved Questions Blocks to be more compatible with modded items
 - Improved Checkpoint Flags to be more compatible with modded items
