@@ -38,6 +38,7 @@
   - Solid hitbox, similar to coral in Mario's underwater levels
 - Added the `question_blocks_can_place` block tag for blocks it can place
   - Includes checkpoint flags & cake
+- Added ability for parrots to imitate Marioverse mobs and the Super Star
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
 - Added Pipe junctions to pipe world gen
@@ -51,6 +52,7 @@
 - Improved Power Up item tooltips
 - Increased mini goomba spawn rate & group size
 - Goombas can rarely spawn as a goombella variant
+- Changed pitch of hefty, mega, & mini goomba sounds
 - Fixed explosions not breaking checkpoint flags correctly
 - Fixed teleporting using Clear Pipes with Sable
 - Fixed piranha plant pod flashing a full-grown piranha for a tick

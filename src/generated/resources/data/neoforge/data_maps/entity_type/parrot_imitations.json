@@ -1,0 +1,43 @@
+{
+  "values": {
+    "#marioverse:cheep_cheeps": {
+      "sound": "marioverse:entity.parrot.imitate.cheep_cheep"
+    },
+    "#marioverse:koopa_shells": {
+      "sound": "marioverse:entity.parrot.imitate.koopa_shell"
+    },
+    "#marioverse:koopa_troopas": {
+      "sound": "marioverse:entity.parrot.imitate.koopa_troopa"
+    },
+    "marioverse:boo": {
+      "sound": "marioverse:entity.parrot.imitate.boo"
+    },
+    "marioverse:dry_bones": {
+      "sound": "marioverse:entity.parrot.imitate.dry_bones"
+    },
+    "marioverse:goomba": {
+      "sound": "marioverse:entity.parrot.imitate.goomba"
+    },
+    "marioverse:hefty_goomba": {
+      "sound": "marioverse:entity.parrot.imitate.hefty_goomba"
+    },
+    "marioverse:mega_goomba": {
+      "sound": "marioverse:entity.parrot.imitate.mega_goomba"
+    },
+    "marioverse:mini_goomba": {
+      "sound": "marioverse:entity.parrot.imitate.mini_goomba"
+    },
+    "marioverse:piranha_plant": {
+      "sound": "marioverse:entity.parrot.imitate.piranha_plant"
+    },
+    "marioverse:porcupuffer": {
+      "sound": "marioverse:entity.parrot.imitate.porcupuffer"
+    },
+    "marioverse:splunkin": {
+      "sound": "marioverse:entity.parrot.imitate.splunkin"
+    },
+    "marioverse:super_star": {
+      "sound": "marioverse:entity.parrot.imitate.super_star"
+    }
+  }
+}

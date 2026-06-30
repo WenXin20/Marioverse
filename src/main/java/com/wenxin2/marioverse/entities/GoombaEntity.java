@@ -166,6 +166,11 @@ public class GoombaEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public float getVoicePitch() {
+        return (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.2F;
+    }
+
+    @Override
     public int getAmbientSoundInterval() {
         return 360;
     }

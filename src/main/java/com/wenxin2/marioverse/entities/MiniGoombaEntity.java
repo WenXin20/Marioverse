@@ -88,6 +88,11 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     }
 
     @Override
+    public float getVoicePitch() {
+        return (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.8F;
+    }
+
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.4D));

@@ -100,13 +100,12 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     public static final int BABY_START_AGE = -24000;
     private static final int FORCED_AGE_PARTICLE_TICKS = 40;
 
-
+    @Nullable private UUID ownerUUID;
+    @Nullable private Entity cachedOwner;
     private BlockPos attachedBlockPos;
     private Direction attachedSide;
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
-    @Nullable private UUID ownerUUID;
-    @Nullable private Entity cachedOwner;
     private boolean isEmerging;
     private boolean isHiding;
     private boolean isHidingAnim;

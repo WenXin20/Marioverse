@@ -90,6 +90,19 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
     public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PAINTING_WARPS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_BOO;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_CHEEP_CHEEP;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_DRY_BONES;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_GOOMBA;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_HEFTY_GOOMBA;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_KOOPA_SHELL;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_KOOPA_TROOPA;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_MEGA_GOOMBA;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_MINI_GOOMBA;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_PIRANHA_PLANT;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_PORCUPUFFER;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_SPLUNKIN;
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_SUPER_STAR;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_CLOSES;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_OPENS;
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_WARPS;
@@ -405,6 +418,33 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.jump")));
         PLAYER_JUMP = Marioverse.SOUNDS.register("player.jump",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "player.jump")));
+
+        PARROT_IMITATES_BOO = Marioverse.SOUNDS.register("entity.parrot.imitate.boo",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.boo")));
+        PARROT_IMITATES_CHEEP_CHEEP = Marioverse.SOUNDS.register("entity.parrot.imitate.cheep_cheep",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.cheep_cheep")));
+        PARROT_IMITATES_DRY_BONES = Marioverse.SOUNDS.register("entity.parrot.imitate.dry_bones",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.dry_bones")));
+        PARROT_IMITATES_GOOMBA = Marioverse.SOUNDS.register("entity.parrot.imitate.goomba",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.goomba")));
+        PARROT_IMITATES_HEFTY_GOOMBA = Marioverse.SOUNDS.register("entity.parrot.imitate.hefty_goomba",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.hefty_goomba")));
+        PARROT_IMITATES_KOOPA_SHELL = Marioverse.SOUNDS.register("entity.parrot.imitate.koopa_shell",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.koopa_shell")));
+        PARROT_IMITATES_KOOPA_TROOPA = Marioverse.SOUNDS.register("entity.parrot.imitate.koopa_troopa",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.koopa_troopa")));
+        PARROT_IMITATES_MEGA_GOOMBA = Marioverse.SOUNDS.register("entity.parrot.imitate.mega_goomba",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.mega_goomba")));
+        PARROT_IMITATES_MINI_GOOMBA = Marioverse.SOUNDS.register("entity.parrot.imitate.mini_goomba",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.mini_goomba")));
+        PARROT_IMITATES_PIRANHA_PLANT = Marioverse.SOUNDS.register("entity.parrot.imitate.piranha_plant",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.piranha_plant")));
+        PARROT_IMITATES_PORCUPUFFER = Marioverse.SOUNDS.register("entity.parrot.imitate.porcupuffer",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.porcupuffer")));
+        PARROT_IMITATES_SPLUNKIN = Marioverse.SOUNDS.register("entity.parrot.imitate.splunkin",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.splunkin")));
+        PARROT_IMITATES_SUPER_STAR = Marioverse.SOUNDS.register("entity.parrot.imitate.super_star",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "entity.parrot.imitate.super_star")));
 
         ITEM_INSERTED = Marioverse.SOUNDS.register("item.item_inserted",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item.item_inserted")));

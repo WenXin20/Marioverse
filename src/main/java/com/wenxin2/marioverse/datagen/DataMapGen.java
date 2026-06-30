@@ -1,8 +1,10 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.GameEventRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
@@ -12,6 +14,7 @@ import net.neoforged.neoforge.registries.datamaps.builtin.Compostable;
 import net.neoforged.neoforge.registries.datamaps.builtin.FurnaceFuel;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 import net.neoforged.neoforge.registries.datamaps.builtin.Oxidizable;
+import net.neoforged.neoforge.registries.datamaps.builtin.ParrotImitation;
 import net.neoforged.neoforge.registries.datamaps.builtin.VibrationFrequency;
 import net.neoforged.neoforge.registries.datamaps.builtin.Waxable;
 
@@ -50,6 +53,21 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER.get()), false)
                 .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get()), false);
+
+        builder(NeoForgeDataMaps.PARROT_IMITATIONS)
+                .add(TagRegistry.CHEEP_CHEEPS, new ParrotImitation(SoundRegistry.PARROT_IMITATES_CHEEP_CHEEP.get()), false)
+                .add(TagRegistry.KOOPA_SHELL_ENTITIES, new ParrotImitation(SoundRegistry.PARROT_IMITATES_KOOPA_SHELL.get()), false)
+                .add(TagRegistry.KOOPA_TROOPA_ENTITIES, new ParrotImitation(SoundRegistry.PARROT_IMITATES_KOOPA_TROOPA.get()), false)
+                .add(EntityRegistry.BOO, new ParrotImitation(SoundRegistry.PARROT_IMITATES_BOO.get()), false)
+                .add(EntityRegistry.DRY_BONES, new ParrotImitation(SoundRegistry.PARROT_IMITATES_DRY_BONES.get()), false)
+                .add(EntityRegistry.GOOMBA, new ParrotImitation(SoundRegistry.PARROT_IMITATES_GOOMBA.get()), false)
+                .add(EntityRegistry.HEFTY_GOOMBA, new ParrotImitation(SoundRegistry.PARROT_IMITATES_HEFTY_GOOMBA.get()), false)
+                .add(EntityRegistry.MEGA_GOOMBA, new ParrotImitation(SoundRegistry.PARROT_IMITATES_MEGA_GOOMBA.get()), false)
+                .add(EntityRegistry.MINI_GOOMBA, new ParrotImitation(SoundRegistry.PARROT_IMITATES_MINI_GOOMBA.get()), false)
+                .add(EntityRegistry.PIRANHA_PLANT, new ParrotImitation(SoundRegistry.PARROT_IMITATES_PIRANHA_PLANT.get()), false)
+                .add(EntityRegistry.PORCUPUFFER, new ParrotImitation(SoundRegistry.PARROT_IMITATES_PORCUPUFFER.get()), false)
+                .add(EntityRegistry.SPLUNKIN, new ParrotImitation(SoundRegistry.PARROT_IMITATES_SPLUNKIN.get()), false)
+                .add(EntityRegistry.SUPER_STAR, new ParrotImitation(SoundRegistry.PARROT_IMITATES_SUPER_STAR.get()), false);
 
         builder(NeoForgeDataMaps.WAXABLES)
                 .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get()), false)
