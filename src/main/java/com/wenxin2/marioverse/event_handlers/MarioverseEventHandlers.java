@@ -802,7 +802,7 @@ public class MarioverseEventHandlers {
 
         if (stack.getItem() instanceof LinkerItem linker) {
             if (isPainting || stack.is(ItemRegistry.CREATIVE_WRENCH))
-                linker.linkEntity(stack, player, target, level, pos);
+                linker.linkEntity(level, pos, player, target, stack);
         }
 
         if (stack.getItem() instanceof WarpDisruptorItem disruptorItem)
@@ -994,7 +994,6 @@ public class MarioverseEventHandlers {
     public static void onEntityJump(LivingEvent.LivingJumpEvent event) {
         LivingEntity entity = event.getEntity();
         Level level = entity.level();
-        BlockPos pos = entity.blockPosition();
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!ConfigRegistry.DISABLE_JUMP_SOUND.get() && !entity.isShiftKeyDown() && entity instanceof AbilitiesHandler handler

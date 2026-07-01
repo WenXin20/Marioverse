@@ -378,8 +378,8 @@ public class LinkerItem extends TieredItem {
         }
     }
 
-    public void linkEntity(ItemStack stack, Player player, Entity target, Level world, BlockPos pos) {
-        float pitch = 0.9F + world.random.nextFloat() * 0.2F;
+    public void linkEntity(Level level, BlockPos pos, Player player, Entity target, ItemStack stack) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         float pitchLow = 0.1F + level.random.nextFloat() * 0.2F;
 
         boolean isImmersivePainting = target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
@@ -398,7 +398,7 @@ public class LinkerItem extends TieredItem {
                 if (player.isShiftKeyDown()) {
                     UUID uuid = target.getUUID();
 
-                    if (world instanceof ServerLevel serverWorld) {
+                    if (level instanceof ServerLevel serverWorld) {
                         if (target.getData(DataAttachmentRegistry.IS_WAXED.get()) && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                             player.displayClientMessage(Component.translatable(linker.getDescriptionId() + ".message.waxed",
                                     target.getName()).withStyle(ChatFormatting.GOLD), true);
@@ -463,7 +463,7 @@ public class LinkerItem extends TieredItem {
                             WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
 
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128);
-                            linker.playSound(world, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.PLAYERS, 1.0F, pitchLow);
+                            linker.playSound(level, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.PLAYERS, 1.0F, pitchLow);
                         } else {
                             BlockPos warpPos = getWarpPos(stack);
                             UUID warpUUID = getWarpUUID(stack);
@@ -523,7 +523,7 @@ public class LinkerItem extends TieredItem {
 //                            }
 
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128); // TODO: fix pos
-                            linker.playSound(world, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
+                            linker.playSound(level, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                             //  }
                             setBound(stack, false);
                         }
