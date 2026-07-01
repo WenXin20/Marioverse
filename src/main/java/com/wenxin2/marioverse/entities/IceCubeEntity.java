@@ -635,7 +635,10 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             this.displayEntity = this.getOrCreateDisplayEntity(this.level());
     }
 
-    public void shatterIceCube(@Nullable Entity attackingEntity, boolean applyFallDamage, boolean applyCollisionDamage, boolean useWaterParticles) {
+    public void shatterIceCube(@Nullable Entity attackingEntity, boolean applyFallDamage, boolean applyCollisionDamage,
+                               boolean useWaterParticles) {
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
+
         if (this.getFrozenEntityData() != null && this.level() instanceof ServerLevel serverWorld) {
             Entity entity = EntityType.loadEntityRecursive(this.getFrozenEntityData(), serverWorld, (e) -> {
                 e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
@@ -674,7 +677,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 if (entity.canFreeze() && entity != owner && (owner == null || !entity.isAlliedTo(owner)))
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
 
-                this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
+                this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK,
+                        SoundSource.AMBIENT, 1.0F, pitch);
                 if (useWaterParticles)
                     this.spawnShatterParticles(serverWorld, entity, ParticleTypes.SPLASH);
                 else this.spawnShatterParticles(serverWorld, entity, ParticleRegistry.ICE_CUBE_SHATTER.get());
@@ -687,7 +691,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
         if (this.previousFallDistance > 3 || attackingEntity != null || this.getEntityFrozenDuration() == 0) {
             this.discard();
-            this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK, SoundSource.AMBIENT, 1.0F, 1.0F);
+            this.level().playSound(this, this.blockPosition(), SoundEvents.GLASS_BREAK,
+                    SoundSource.AMBIENT, 1.0F, pitch);
 
             if (this.level() instanceof ServerLevel serverWorld) {
                 if (useWaterParticles)
@@ -697,27 +702,28 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         }
     }
 
-    private void collideWithFire(Level world) {
+    private void collideWithFire(Level level) {
         AABB box = this.getBoundingBox().inflate(0.05);
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         for (BlockPos hitPos : BlockPos.betweenClosed(Mth.floor(box.minX), Mth.floor(box.minY), Mth.floor(box.minZ),
                 Mth.floor(box.maxX), Mth.floor(box.maxY), Mth.floor(box.maxZ))) {
-            BlockState state = world.getBlockState(hitPos);
+            BlockState state = level.getBlockState(hitPos);
 
             if (state.is(TagRegistry.ICE_CUBE_EXTINGUISHES) || state.getFluidState().is(FluidTags.LAVA)) {
                 if (state.is(BlockTags.FIRE)) {
                     if (this.level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 10);
-                    world.setBlock(hitPos, Blocks.AIR.defaultBlockState(), 3);
-                    world.playSound(null, hitPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    level.setBlock(hitPos, Blocks.AIR.defaultBlockState(), 3);
+                    level.playSound(null, hitPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, pitch);
                 }
 
                 if (state.hasProperty(BlockStateProperties.LIT) && state.getValue(BlockStateProperties.LIT)) {
                     if (this.level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 10);
-                    world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, false), 3);
-                    world.playSound(null, hitPos, state.getBlock() instanceof CandleBlock || state.getBlock() instanceof CandleCakeBlock
-                            ? SoundEvents.CANDLE_EXTINGUISH : SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    level.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, false), 3);
+                    level.playSound(null, hitPos, state.getBlock() instanceof CandleBlock || state.getBlock() instanceof CandleCakeBlock
+                            ? SoundEvents.CANDLE_EXTINGUISH : SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, pitch);
                 }
             }
 
@@ -741,6 +747,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         AABB collisionBoxNoInflation = this.getBoundingBox();
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
         List<Entity> collidingEntitiesNoInflation = this.level().getEntities(this, collisionBoxNoInflation);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         for (Entity entity : collidingEntities) {
             if (this.getDeltaMovement().horizontalDistance() > 0) {
@@ -762,7 +769,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                         this.deflect(entity, livingEntity, true);
                         shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
                         this.level().playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
-                                SoundSource.NEUTRAL, 1.0F, 1.0F);
+                                SoundSource.NEUTRAL, 1.0F, pitch);
                         continue;
                     }
 

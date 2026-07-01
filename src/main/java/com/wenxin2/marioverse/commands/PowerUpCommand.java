@@ -154,11 +154,13 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity) {
+                float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
                 applyPowerUpType(entity, powerUpName, enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
+                            SoundSource.AMBIENT, 1.0F, pitch);
 
                 if (count == 1) {
                     switch (powerUpName) {
@@ -191,11 +193,13 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity) {
+                float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
                 entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, true);
                 DashMushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
                 count++;
 
-                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
+                        SoundSource.AMBIENT, 1.0F, pitch);
 
                 if (count == 1) {
                     if (entity.getVehicle() != null)
@@ -229,6 +233,7 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity) {
+                float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
                 AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
                 AttributeInstance stepAttribute = livingEntity.getAttribute(Attributes.STEP_HEIGHT);
                 entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, enablePowerUp);
@@ -246,7 +251,8 @@ public class PowerUpCommand {
                         !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM) || !enablePowerUp);
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MEGA_MUSHROOM.get(), SoundSource.AMBIENT);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MEGA_MUSHROOM.get(),
+                            SoundSource.AMBIENT, 1.0F, pitch);
 
                 if (durationTicks >= 0)
                     entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, durationTicks);
@@ -305,6 +311,7 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity) {
+                float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
                 AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
                 entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, enablePowerUp);
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, !enablePowerUp);
@@ -322,7 +329,8 @@ public class PowerUpCommand {
                         !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM) || !enablePowerUp);
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MINI_MUSHROOM.get(), SoundSource.AMBIENT);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MINI_MUSHROOM.get(),
+                            SoundSource.AMBIENT, 1.0F, pitch);
 
                 if (count == 1) {
                     if (maxHealth != 0.0D)
@@ -359,13 +367,16 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity) {
+                float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, enablePowerUp);
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE, manualOverride);
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-                else entity.level().playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
+                            SoundSource.AMBIENT, 1.0F, pitch);
+                else entity.level().playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                        SoundSource.AMBIENT, 1.0F, pitch);
 
                 if (count == 1)
                     source.sendSuccess(() ->
@@ -390,11 +401,13 @@ public class PowerUpCommand {
 
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity livingEntity) {
+                float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, enablePowerUp);
                 count++;
 
                 if (enablePowerUp)
-                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
+                    entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(),
+                            SoundSource.AMBIENT, 1.0F, pitch);
 
                 if (durationTicks >= 0) {
                     entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, durationTicks);

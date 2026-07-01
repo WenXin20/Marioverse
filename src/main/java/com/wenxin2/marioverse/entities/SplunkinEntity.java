@@ -294,10 +294,11 @@ public class SplunkinEntity extends Monster implements GeoEntity, NeutralMob, IS
     public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
         List<ItemStack> defaultDrops = IShearable.super.onSheared(player, stack, world, pos);
         List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         if (!this.getData(DataAttachmentRegistry.CRACKED)) {
             this.setData(DataAttachmentRegistry.CRACKED, true);
-            this.playSound(SoundRegistry.SPLUNKIN_CRACKS.get());
+            this.playSound(SoundRegistry.SPLUNKIN_CRACKS.get(), 1.0F, pitch);
             this.playDeathAnimation(this);
         }
 

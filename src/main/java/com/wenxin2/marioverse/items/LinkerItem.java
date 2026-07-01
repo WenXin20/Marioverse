@@ -94,13 +94,13 @@ public class LinkerItem extends TieredItem {
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
         Player player = useOnContext.getPlayer();
-        Level world = useOnContext.getLevel();
+        Level level = useOnContext.getLevel();
         BlockPos pos = useOnContext.getClickedPos();
-        BlockState state = world.getBlockState(pos);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockState state = level.getBlockState(pos);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         ItemStack stack = useOnContext.getItemInHand();
-        String dimension = world.dimension().location().toString();
-        float pitch = 0.9F + world.random.nextFloat() * 0.2F;
+        String dimension = level.dimension().location().toString();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (player != null && !player.isCreative() && ConfigRegistry.CREATIVE_WRENCH_LINKING.get()) {
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.requires_creative"), true);
@@ -116,7 +116,7 @@ public class LinkerItem extends TieredItem {
                     return InteractionResult.SUCCESS;
                 } else if (!getIsBound(stack) || !stack.has(DataComponentRegistry.WARP_POS)) {
 
-                    if (!world.isClientSide && uuid == null) {
+                    if (!level.isClientSide && uuid == null) {
                         uuid = UUID.randomUUID();
                         warpBE.setUUID(uuid);
                         warpBE.setChanged();
@@ -133,11 +133,11 @@ public class LinkerItem extends TieredItem {
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.bound",
                                     state.getBlock().getName()).withStyle(ChatFormatting.GREEN), true);
 
-                    this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
-                    this.playSound(world, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.BLOCKS, 1.0F, pitch);
+                    this.spawnParticles(level, pos, ParticleTypes.ENCHANT);
+                    this.playSound(level, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                 } else if (getIsBound(stack) && stack.has(DataComponentRegistry.WARP_POS)) {
 
-                    if (!world.isClientSide && uuid == null) {
+                    if (!level.isClientSide && uuid == null) {
                         uuid = UUID.randomUUID();
                         warpBE.setUUID(uuid);
                         warpBE.setChanged();
@@ -145,26 +145,26 @@ public class LinkerItem extends TieredItem {
 
                     // Second interaction: Link the blocks
                     BlockPos firstPos = getWarpPos(stack);
-                    BlockState firstState = world.getBlockState(firstPos);
+                    BlockState firstState = level.getBlockState(firstPos);
                     String firstDim = getWarpDimension(stack);
 
                   //  if (dimension.equals(getWarpDimension(stack))) {
-                        BlockEntity firstBE = world.getBlockEntity(firstPos);
+                        BlockEntity firstBE = level.getBlockEntity(firstPos);
                         if (firstBE instanceof BaseWarpBlockEntity firstWarpBE) {
 
                             // Perform the linking logic
                             this.link(stack, firstWarpBE, warpBE);
 
                             if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
-                                BlockEntity firstBEAbove = world.getBlockEntity(firstPos.above());
-                                BlockEntity BEAbove = world.getBlockEntity(pos.above());
+                                BlockEntity firstBEAbove = level.getBlockEntity(firstPos.above());
+                                BlockEntity BEAbove = level.getBlockEntity(pos.above());
                                 if (firstBEAbove instanceof WarpDoorBlockEntity firstWarpBEAbove && BEAbove instanceof BaseWarpBlockEntity warpBEAbove)
                                     this.link(stack, firstWarpBEAbove, warpBEAbove);
                             }
 
                             if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
-                                BlockEntity firstBEBelow = world.getBlockEntity(firstPos.below());
-                                BlockEntity BEBelow = world.getBlockEntity(pos.below());
+                                BlockEntity firstBEBelow = level.getBlockEntity(firstPos.below());
+                                BlockEntity BEBelow = level.getBlockEntity(pos.below());
                                 if (firstBEBelow instanceof WarpDoorBlockEntity firstWarpBEAbove && BEBelow instanceof BaseWarpBlockEntity warpBEBelow)
                                     this.link(stack, firstWarpBEAbove, warpBEBelow);
                             }
@@ -172,8 +172,8 @@ public class LinkerItem extends TieredItem {
                             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_warp_block",
                                             state.getBlock().getName(), firstState.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
 
-                            this.spawnParticles(world, pos, ParticleTypes.ENCHANT);
-                            this.playSound(world, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
+                            this.spawnParticles(level, pos, ParticleTypes.ENCHANT);
+                            this.playSound(level, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                         }
                   //  }
                     setBound(stack, false);  // Reset binding
@@ -380,6 +380,7 @@ public class LinkerItem extends TieredItem {
 
     public void linkEntity(ItemStack stack, Player player, Entity target, Level world, BlockPos pos) {
         float pitch = 0.9F + world.random.nextFloat() * 0.2F;
+        float pitchLow = 0.1F + level.random.nextFloat() * 0.2F;
 
         boolean isImmersivePainting = target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
                 || target.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
@@ -462,7 +463,7 @@ public class LinkerItem extends TieredItem {
                             WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
 
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128);
-                            linker.playSound(world, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.PLAYERS, 1.0F, 0.1F);
+                            linker.playSound(world, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.PLAYERS, 1.0F, pitchLow);
                         } else {
                             BlockPos warpPos = getWarpPos(stack);
                             UUID warpUUID = getWarpUUID(stack);

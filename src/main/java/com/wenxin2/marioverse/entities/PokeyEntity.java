@@ -458,14 +458,15 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
     @NotNull
     @Override
-    public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
-        List<ItemStack> defaultDrops = IShearable.super.onSheared(player, stack, world, pos);
+    public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level level, BlockPos pos) {
+        List<ItemStack> defaultDrops = IShearable.super.onSheared(player, stack, level, pos);
         List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
         LivingEntity headEntity = this.getHeadSegment();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_FLOWER.get())
+        if (!level.isClientSide() && this.getData(DataAttachmentRegistry.HAS_FLOWER.get())
                 && !(this instanceof PokeyBodyEntity)) {
-            world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+            level.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, SoundSource.PLAYERS, 1.0F, pitch);
             this.setData(DataAttachmentRegistry.HAS_FLOWER, false);
             finalDrops.add(new ItemStack(BlockRegistry.DANGO_BLOSSOM));
         }

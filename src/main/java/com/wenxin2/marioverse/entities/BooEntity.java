@@ -171,6 +171,7 @@ public class BooEntity extends Monster implements GeoEntity {
 
     @Override
     public void tick() {
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
         this.noPhysics = true;
         super.tick();
         this.noPhysics = false;
@@ -186,7 +187,7 @@ public class BooEntity extends Monster implements GeoEntity {
                     && this.level().isDay() && this.isAlive()) {
                 if (this.random.nextFloat() < 0.01F) {
                     this.playDeathAnimation(this);
-                    this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, 1.0F);
+                    this.playSound(SoundRegistry.BOO_POOF.get(), 1.0F, pitch);
                     this.discard();
                 }
             }

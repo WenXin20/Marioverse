@@ -116,27 +116,30 @@ public class QuestionPanelBlock extends PanelBlock implements SimpleWaterloggedB
         world.updateNeighborsAt(pos.below(), this);
     }
 
-    private void checkPressed(@Nullable Entity entity, Level world, BlockPos pos, BlockState state, int power) {
-        int signalStrength = this.getSignalStrength(world, pos);
+    private void checkPressed(@Nullable Entity entity, Level level, BlockPos pos, BlockState state, int power) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+        int signalStrength = this.getSignalStrength(level, pos);
         boolean isPowered = power > 0;
         boolean isSignaled = signalStrength > 0;
         if (power != signalStrength) {
             BlockState stateSignal = this.setSignalForState(state, signalStrength);
-            world.setBlock(pos, stateSignal, 2);
-            this.updateNeighbours(world, pos);
-            world.setBlocksDirty(pos, state, stateSignal);
+            level.setBlock(pos, stateSignal, 2);
+            this.updateNeighbours(level, pos);
+            level.setBlocksDirty(pos, state, stateSignal);
         }
 
         if (!isSignaled && isPowered) {
-            world.playSound(null, pos, SoundRegistry.QUESTION_PANEL_DEACTIVATED.get(), SoundSource.BLOCKS);
-            world.gameEvent(entity, GameEvent.BLOCK_DEACTIVATE, pos);
+            level.playSound(null, pos, SoundRegistry.QUESTION_PANEL_DEACTIVATED.get(),
+                    SoundSource.BLOCKS, 1.0F, pitch);
+            level.gameEvent(entity, GameEvent.BLOCK_DEACTIVATE, pos);
         } else if (isSignaled && !isPowered) {
-            world.playSound(null, pos, SoundRegistry.QUESTION_PANEL_ACTIVATED.get(), SoundSource.BLOCKS);
-            world.gameEvent(entity, GameEvent.BLOCK_ACTIVATE, pos);
+            level.playSound(null, pos, SoundRegistry.QUESTION_PANEL_ACTIVATED.get(),
+                    SoundSource.BLOCKS, 1.0F, pitch);
+            level.gameEvent(entity, GameEvent.BLOCK_ACTIVATE, pos);
         }
 
         if (isSignaled)
-            world.scheduleTick(new BlockPos(pos), this, this.getPressedTime());
+            level.scheduleTick(new BlockPos(pos), this, this.getPressedTime());
     }
 
     private static AABB getTouchAABB(BlockState state) {

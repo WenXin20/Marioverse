@@ -41,19 +41,20 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
     @Override
     public void tick() {
         super.tick();
-        Level world = this.level();
+        Level level = this.level();
         BlockPos pos = this.blockPosition();
-        FluidState fluidState = world.getFluidState(pos);
+        FluidState fluidState = level.getFluidState(pos);
         BlockState coinState = BlockRegistry.COIN.get().defaultBlockState();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        if (!world.isClientSide && this.level().getGameTime() % 4 == 0 && world.getBlockState(pos).canBeReplaced()
+        if (!level.isClientSide && this.level().getGameTime() % 4 == 0 && level.getBlockState(pos).canBeReplaced()
                 && coinCount <= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_TRAIL_COINS.get()
                 && this.getDeltaMovement().length() > 0.25 && this.isAlive()) {
-            world.setBlock(this.blockPosition(), coinState.setValue(BlockStateProperties.WATERLOGGED,
+            level.setBlock(this.blockPosition(), coinState.setValue(BlockStateProperties.WATERLOGGED,
                     fluidState.getType() == Fluids.WATER), 3);
-            world.playSound(null, pos, BlockRegistry.COIN.get().getSoundType(coinState, world, pos, null).getPlaceSound(),
-                    SoundSource.BLOCKS, 1.0F, 1.0F);
-            if (world instanceof ServerLevel serverWorld)
+            level.playSound(null, pos, BlockRegistry.COIN.get().getSoundType(coinState, level, pos, null).getPlaceSound(),
+                    SoundSource.BLOCKS, 1.0F, pitch);
+            if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
             coinCount++;
         }
@@ -115,9 +116,10 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
             this.level().addParticle(ParticleRegistry.COIN_GLINT.get(), x, this.getY() + 0.1, z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
     }
 
-    public void placeCoinCircle(Level world, BlockPos center) {
+    public void placeCoinCircle(Level level, BlockPos center) {
         int radius = ConfigRegistry.GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS.get();
         int coinCount = ConfigRegistry.MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS.get();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         for (int i = 0; i < coinCount; i++) {
             double angle = 2 * Math.PI * i / coinCount;
@@ -125,14 +127,14 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
             int z = center.getZ() + (int) Math.round(radius * Math.sin(angle));
             BlockPos basePos = new BlockPos(x, center.getY(), z);
 
-            BlockPos coinPos = this.findValidCoinPosition(world, basePos);
-            BlockState coinState = world.getBlockState(coinPos);
+            BlockPos coinPos = this.findValidCoinPosition(level, basePos);
+            BlockState coinState = level.getBlockState(coinPos);
             if (coinState.canBeReplaced() || coinState.getFluidState().is(FluidTags.WATER) || coinState.getBlock() == BlockRegistry.COIN.get()) {
-                world.setBlock(coinPos, BlockRegistry.COIN.get().defaultBlockState()
+                level.setBlock(coinPos, BlockRegistry.COIN.get().defaultBlockState()
                         .setValue(BlockStateProperties.WATERLOGGED, coinState.getFluidState().is(FluidTags.WATER)), 3);
-                world.playSound(null, coinPos, BlockRegistry.COIN.get().getSoundType(coinState, world, coinPos, null).getPlaceSound(),
-                        SoundSource.BLOCKS, 1.0F, 1.0F);
-                if (world instanceof ServerLevel serverWorld)
+                level.playSound(null, coinPos, BlockRegistry.COIN.get().getSoundType(coinState, level, coinPos, null).getPlaceSound(),
+                        SoundSource.BLOCKS, 1.0F, pitch);
+                if (level instanceof ServerLevel serverWorld)
                     ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, coinPos, UniformInt.of(1, 1));
             }
         }

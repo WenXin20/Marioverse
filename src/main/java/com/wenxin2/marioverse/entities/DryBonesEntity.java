@@ -170,8 +170,9 @@ public class DryBonesEntity extends Monster implements GeoEntity {
 
     @Override
     public void die(DamageSource source) {
-        Level world = this.level();
+        Level level = this.level();
         Entity attacker = source.getEntity();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (attacker instanceof LivingEntity entity) {
             ItemStack weapon = entity.getMainHandItem();
@@ -180,8 +181,8 @@ public class DryBonesEntity extends Monster implements GeoEntity {
                 for (var entry : enchantments.entrySet()) {
                     Holder<Enchantment> holder = entry.getKey();
                     if (holder.is(TagRegistry.BYPASSES_BOO_INVULNERABILITY_ENCHANTS)) {
-                        int level = entry.getIntValue();
-                        if (level > 0) {
+                        int enchantLevel = entry.getIntValue();
+                        if (enchantLevel > 0) {
                             super.die(source);
                             return;
                         }
@@ -192,25 +193,25 @@ public class DryBonesEntity extends Monster implements GeoEntity {
 
         if (!this.level().isClientSide && !this.isNoAi()
                 && !source.is(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION)) {
-            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_HEAD.get(), world),
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_HEAD.get(), level),
                     "head", true, true);
-            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_SHELL.get(), world),
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_SHELL.get(), level),
                     "shell", true, true);
-            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_ARM.get(), world),
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_ARM.get(), level),
                     "left_arm", true, true);
-            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_LEG.get(), world),
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_LEFT_LEG.get(), level),
                     "left_leg", true, true);
-            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), world),
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_ARM.get(), level),
                     "right_arm", true, true);
-            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), world),
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_RIGHT_LEG.get(), level),
                     "right_leg", true, true);
-            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_TAIL.get(), world),
+            this.spawnDryBonesPart(new DryBonesPartEntity(EntityRegistry.DRY_BONES_TAIL.get(), level),
                     "tail", true, true);
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticlesOnEntityRandomly(this.getShatterParticle(), serverWorld,
                         this, 0.0, 15);
             if (this.getDeathSound() != null)
-                this.playSound(this.getDeathSound());
+                this.playSound(this.getDeathSound(), 1.0F, pitch);
             this.discard();
         } else super.die(source);
     }

@@ -109,7 +109,7 @@ public interface EntityWarpEntityHandler {
                     entity.setYHeadRot(direction.toYRot());
                 } else {
                     BlockPos warpPos = warpEntity.blockPosition();
-                    WarpLinkableEntity.warp(entity, warpPos.getX(), warpPos.getY(), warpPos.getZ(), world);
+                    WarpLinkableEntity.warp(world, entity, warpPos.getX(), warpPos.getY(), warpPos.getZ());
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
                 }
@@ -151,7 +151,7 @@ public interface EntityWarpEntityHandler {
             case WEST  -> { centerZ += width / 2; centerX += 0.5; }
         }
 
-        WarpLinkableEntity.warp(entity, centerX, centerY, centerZ, world);
+        WarpLinkableEntity.warp(world, entity, centerX, centerY, centerZ);
     }
 
     private void displayCooldownMessage(Player player, Entity warpEntity) {

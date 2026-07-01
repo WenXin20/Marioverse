@@ -253,47 +253,49 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     }
 
     @Override
-    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity.getType().is(TagRegistry.CAN_LOWER_FLAGS)) {
-            int flagPoleHeight = this.calculateFlagPoleHeight(world, pos);
-            BlockPos posTop = this.findTopOfGoalPole(world, pos);
-            BlockPos posBottom = this.findBottomOfGoalPole(world, pos);
+            float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+            int flagPoleHeight = this.calculateFlagPoleHeight(level, pos);
+            BlockPos posTop = this.findTopOfGoalPole(level, pos);
+            BlockPos posBottom = this.findBottomOfGoalPole(level, pos);
             double relativeHeight = (entity.getY() + entity.getEyeHeight() - posBottom.getY()) / flagPoleHeight;
             relativeHeight = Mth.clamp(relativeHeight, 0.0, 1.0);
 
             if (!state.getValue(LOWERED)) {
-                world.addParticle(this.getParticleForHeight(relativeHeight),
+                level.addParticle(this.getParticleForHeight(relativeHeight),
                         entity.getX(), entity.getY() + entity.getBbHeight() + 1.0, entity.getZ(),
                         0, 0, 0);
 
-                if (!world.isClientSide())
-                    this.updateConnectedFlags(world, pos, true);
+                if (!level.isClientSide())
+                    this.updateConnectedFlags(level, pos, true);
 
-                if (world.getBlockEntity(posTop) != null && world.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
+                if (level.getBlockEntity(posTop) != null && level.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
                     goalPoleTopBE.markUpdated();
-                    if (world instanceof ServerLevel serverWorld)
+                    if (level instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 0.5D, 10);
 
                     if ((goalPoleTopBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
                         goalPoleTopBE.triggerAnim("disappear_controller", "disappear");
-                        goalPoleTopBE.updateConnectedDisappearFlags(world, posTop, false);
+                        goalPoleTopBE.updateConnectedDisappearFlags(level, posTop, false);
                     }
                     else goalPoleTopBE.triggerAnim("switch_controller", "switch");
                 }
 
-                if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
+                if (level.getBlockEntity(pos) != null && level.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
                     goalPoleBE.markUpdated();
 
                     if ((goalPoleBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
                         goalPoleBE.triggerAnim("disappear_controller", "disappear");
-                        goalPoleBE.updateConnectedDisappearFlags(world, pos, false);
+                        goalPoleBE.updateConnectedDisappearFlags(level, pos, false);
                     }
                     else goalPoleBE.triggerAnim("switch_controller", "switch");
                 }
 
-                world.scheduleTick(pos, this, 20);
-                world.setBlock(pos, state.setValue(LOWERED, true), 3);
-                world.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(), SoundSource.BLOCKS);
+                level.scheduleTick(pos, this, 20);
+                level.setBlock(pos, state.setValue(LOWERED, true), 3);
+                level.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(),
+                        SoundSource.BLOCKS, 1.0F, pitch);
             }
 
             if (!entity.onGround() && !(entity.getDeltaMovement().y > 0))

@@ -175,6 +175,7 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                 this.getBoundingBox().inflate(0.01D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
                         && !this.level().isClientSide());
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         if (!nearbyEntities.isEmpty() && !this.getParent().isHiding()) {
             for (Entity collidingEntity : nearbyEntities) {
@@ -213,7 +214,7 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 0.5, 5);
                 }
 
-                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
+                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, pitch);
                 this.getParent().attackCooldown = 20;
                 break;
             }

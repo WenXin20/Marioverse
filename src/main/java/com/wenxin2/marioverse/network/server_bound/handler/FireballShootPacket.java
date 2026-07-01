@@ -47,14 +47,15 @@ public class FireballShootPacket {
     }
 
     public static void shootFireball(Player player) {
-        Level world = player.level();
+        Level level = player.level();
         SoundSource soundSource = SoundSource.PLAYERS;
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
+        BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), level);
         fireball.setOwner(player);
         fireball.setPos(player.getX(), player.getEyeY() - 0.5, player.getZ());
         fireball.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, player.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), soundSource, 1.0F, 1.0F);
+        level.playSound(null, player.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), soundSource, 1.0F, pitch);
 
         Vec3 look = player.getLookAngle();
         fireball.setDeltaMovement(look.scale(0.5));
@@ -63,9 +64,9 @@ public class FireballShootPacket {
         fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90);
         fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
-        world.addFreshEntity(fireball);
-        world.gameEvent(player, GameEvent.PROJECTILE_SHOOT, player.position());
-        if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer)
+        level.addFreshEntity(fireball);
+        level.gameEvent(player, GameEvent.PROJECTILE_SHOOT, player.position());
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer)
             PacketDistributor.sendToPlayer(serverPlayer, new SwingHandPayload(Boolean.TRUE));
     }
 }

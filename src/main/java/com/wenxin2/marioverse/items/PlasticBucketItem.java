@@ -121,7 +121,7 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
 
             if (!stackPickup.isEmpty()) {
                 newStack.applyComponents(stack.getComponents());
-                bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
+                bucketPickup.getPickupSound(state).ifPresent(player::playSound);
 
                 if (!player.isCreative())
                     player.setItemInHand(hand, newStack);
@@ -139,7 +139,7 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
             ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
 
             if (!stackPickup.isEmpty()) {
-                bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
+                bucketPickup.getPickupSound(state).ifPresent(player::playSound);
 
                 if (!player.isCreative() && level.getBlockState(player.blockPosition()).canBeReplaced())
                     level.setBlock(player.blockPosition(), Blocks.LAVA.defaultBlockState(), 3);
@@ -187,7 +187,7 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
             else return InteractionResult.PASS;
             newStack.applyComponents(stack.getComponents());
 
-            bucketPickup.getPickupSound(state).ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
+            bucketPickup.getPickupSound(state).ifPresent(player::playSound);
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
 
             if (!player.isCreative())

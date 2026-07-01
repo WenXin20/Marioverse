@@ -222,6 +222,7 @@ public class TickEventHandlers {
 
     private static void collideWithBlocks(Level level, Entity entity) {
         Vec3 motion = entity.getDeltaMovement();
+        float pitch = 0.8F + level.random.nextFloat() * 0.2F;
         boolean canGrief = EventHooks.canEntityGrief(level, entity)
                 || (entity instanceof Player player && !player.getAbilities().flying);
         List<String> toRemove = new ArrayList<>();
@@ -344,9 +345,8 @@ public class TickEventHandlers {
 
                     if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
                             && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
-                        level.playSound(null, BlockPos.of(posKey),
-                                SoundRegistry.BLOCK_BONK.get(),
-                                SoundSource.BLOCKS, 1.0F, 1.0F);
+                        level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(),
+                                SoundSource.BLOCKS, 1.0F, pitch);
                         didHit = true;
                     }
 
@@ -388,9 +388,11 @@ public class TickEventHandlers {
                     if (!didHit && stateAbove.is(TagRegistry.BONKABLE_BLOCKS)
                             && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS)) {
                         if (stateAbove.hasProperty(QuestionBlock.EMPTY) && stateAbove.getValue(QuestionBlock.EMPTY))
-                            level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                            level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(),
+                                    SoundSource.BLOCKS, 1.0F, pitch);
                         else
-                            level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                            level.playSound(null, BlockPos.of(posKey), SoundRegistry.BLOCK_BONK.get(),
+                                    SoundSource.BLOCKS, 1.0F, pitch);
                         didHit = true;
                     }
 

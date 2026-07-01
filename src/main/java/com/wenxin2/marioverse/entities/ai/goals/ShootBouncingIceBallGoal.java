@@ -103,20 +103,22 @@ public class ShootBouncingIceBallGoal extends Goal {
     }
 
     public void shootIceBall() {
-        Level world = this.livingEntity.level();
-        BouncingIceBallProjectile iceBall = new BouncingIceBallProjectile(EntityRegistry.BOUNCING_ICE_BALL.get(), world);
+        Level level = this.livingEntity.level();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+        BouncingIceBallProjectile iceBall = new BouncingIceBallProjectile(EntityRegistry.BOUNCING_ICE_BALL.get(), level);
 
         iceBall.setOwner(this.livingEntity);
         iceBall.setPos(this.livingEntity.getX(), this.livingEntity.getEyeY() - 0.5, this.livingEntity.getZ());
         iceBall.shootFromRotation(this.livingEntity, this.livingEntity.getXRot(), this.livingEntity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, this.livingEntity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+        level.playSound(null, this.livingEntity.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(),
+                SoundSource.HOSTILE, 1.0F, pitch);
 
         Vec3 look = this.livingEntity.getLookAngle();
         iceBall.setDeltaMovement(look.scale(0.5));
         iceBall.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90);
         iceBall.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
-        world.addFreshEntity(iceBall);
+        level.addFreshEntity(iceBall);
         this.livingEntity.swing(InteractionHand.MAIN_HAND);
     }
 }

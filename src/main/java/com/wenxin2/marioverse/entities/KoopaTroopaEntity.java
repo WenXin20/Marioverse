@@ -226,6 +226,8 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
+
         if (source.is(TagRegistry.HIDES_KOOPA_TROOPA)) {
             this.hide(true);
             this.getNavigation().stop();
@@ -235,7 +237,8 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             this.hideTicks = this.getHideDuration();
             this.hideAnimationTicks = 15;
             this.triggerAnim("hide_controller", "hide");
-            this.level().playSound(null, this.blockPosition(), SoundRegistry.KOOPA_TROOPA_STOMP.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.KOOPA_TROOPA_STOMP.get(),
+                    SoundSource.HOSTILE, 1.0F, pitch);
         }
         return super.hurt(source, amount);
     }

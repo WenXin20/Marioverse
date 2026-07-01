@@ -43,7 +43,9 @@ public interface AbilitiesHandler extends CostumeHandler {
         entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
     }
 
-    default void applySuperMushroomPowerUp(Level world, LivingEntity entity, @Nullable SuperMushroomEntity powerUp, float healthHealed) {
+    default void applySuperMushroomPowerUp(Level level, LivingEntity entity, @Nullable SuperMushroomEntity powerUp, float healthHealed) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_MUSHROOMS) || ConfigRegistry.SUPER_MUSHROOM_POWERS_ALL_MOBS.get())) {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
@@ -52,25 +54,28 @@ public interface AbilitiesHandler extends CostumeHandler {
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
 
-            if (world instanceof ServerLevel serverWorld)
+            if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
             AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
                     false, !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
 
-            if (!world.isClientSide) {
+            if (!level.isClientSide) {
                 if (entity.getHealth() < entity.getMaxHealth() || entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                     entity.heal(healthHealed);
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS))
-                    world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
+                    level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
+                            SoundSource.AMBIENT, 1.0F, pitch);
             }
             if (powerUp != null)
                 powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyMegaMushroomPowerUp(Level world, LivingEntity entity, @Nullable MegaMushroomEntity powerUp) {
+    default void applyMegaMushroomPowerUp(Level level, LivingEntity entity, @Nullable MegaMushroomEntity powerUp) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_MEGA_MUSHROOMS) || ConfigRegistry.MEGA_MUSHROOM_POWERS_ALL_MOBS.get())) {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
@@ -81,7 +86,7 @@ public interface AbilitiesHandler extends CostumeHandler {
             entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, ConfigRegistry.MEGA_MUSHROOM_DURATION.get());
             entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
 
-            if (world instanceof ServerLevel serverWorld)
+            if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
             AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), true, false);
@@ -89,18 +94,21 @@ public interface AbilitiesHandler extends CostumeHandler {
                     !entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH), !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
             entity.heal(ConfigRegistry.MEGA_MUSHROOM_HEALTH.get().floatValue());
 
-            if (!world.isClientSide) {
+            if (!level.isClientSide) {
                 if (!entity.getType().is(TagRegistry.CANNOT_CHANGE_MAX_HEALTH))
                     entity.heal(ConfigRegistry.MEGA_MUSHROOM_HEALTH.get().floatValue());
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS))
-                    world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MEGA_MUSHROOM.get(), SoundSource.AMBIENT);
+                    level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MEGA_MUSHROOM.get(),
+                            SoundSource.AMBIENT, 1.0F, pitch);
             }
             if (powerUp != null)
                 powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyMiniMushroomPowerUp(Level world, LivingEntity entity, @Nullable MiniMushroomEntity powerUp) {
+    default void applyMiniMushroomPowerUp(Level level, LivingEntity entity, @Nullable MiniMushroomEntity powerUp) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_MINI_MUSHROOMS) || ConfigRegistry.MINI_MUSHROOM_POWERS_ALL_MOBS.get())) {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
@@ -122,19 +130,22 @@ public interface AbilitiesHandler extends CostumeHandler {
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, false);
             }
 
-            if (world instanceof ServerLevel serverWorld)
+            if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
 
-            if (!world.isClientSide) {
+            if (!level.isClientSide) {
                 if (!entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS))
-                    world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MINI_MUSHROOM.get(), SoundSource.AMBIENT);
+                    level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_MINI_MUSHROOM.get(),
+                            SoundSource.AMBIENT, 1.0F, pitch);
             }
             if (powerUp != null)
                 powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyOneUpMushroomPowerUp(Level world, ItemStack stack, LivingEntity entity, OneUpMushroomEntity powerUp) {
+    default void applyOneUpMushroomPowerUp(Level level, ItemStack stack, LivingEntity entity, OneUpMushroomEntity powerUp) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS) || ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get())) {
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
@@ -150,8 +161,9 @@ public interface AbilitiesHandler extends CostumeHandler {
                 } else offhandStack.grow(1);
             }
 
-            world.playSound(null, entity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), SoundSource.AMBIENT);
-            if (world instanceof ServerLevel serverWorld) {
+            level.playSound(null, entity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
+            if (level instanceof ServerLevel serverWorld) {
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
                 ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity, 1.0);
             }
@@ -159,27 +171,32 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void applySuperStarPowerUp(Level world, LivingEntity entity, SuperStarEntity powerUp) {
+    default void applySuperStarPowerUp(Level level, LivingEntity entity, SuperStarEntity powerUp) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_SUPER_STARS) || ConfigRegistry.SUPER_STAR_POWERS_ALL_MOBS.get())) {
             entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, true);
             entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, ConfigRegistry.SUPER_STAR_DURATION.get());
 
             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ConfigRegistry.SUPER_STAR_SPEED_DURATION.get(), 4, true, false));
-            if (world instanceof ServerLevel serverWorld)
+            if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.RAINBOW_GLINT.get(), serverWorld, entity, 10);
-            world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(), SoundSource.AMBIENT);
+            level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
 
             powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyFireFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
+    default void applyFireFlowerPowerUp(Level level, LivingEntity entity, AbstractPowerUpEntity powerUp) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
-            if (world instanceof ServerLevel serverWorld)
+            if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.FIRE_POWERED_UP.get(), serverWorld, entity, 10);
 
             if (entity.getHealth() < entity.getMaxHealth())
@@ -188,7 +205,8 @@ public interface AbilitiesHandler extends CostumeHandler {
             entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
-            world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
+            level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
 
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
                     false, !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
@@ -198,12 +216,14 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void applyIceFlowerPowerUp(Level world, LivingEntity entity, AbstractPowerUpEntity powerUp) {
+    default void applyIceFlowerPowerUp(Level level, LivingEntity entity, AbstractPowerUpEntity powerUp) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
-            if (world instanceof ServerLevel serverWorld)
+            if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, entity, 10);
 
             if (entity.getHealth() < entity.getMaxHealth())
@@ -212,7 +232,8 @@ public interface AbilitiesHandler extends CostumeHandler {
             entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
-            world.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(), SoundSource.AMBIENT);
+            level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
 
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
                     false, !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));

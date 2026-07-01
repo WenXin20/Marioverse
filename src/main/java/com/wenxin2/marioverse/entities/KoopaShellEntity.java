@@ -309,6 +309,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         SpawnEggItem spawnEggItem = SpawnEggItem.byId(this.getType());
+        float pitch = 0.9F + player.level().random.nextFloat() * 0.2F;
 
         if (this.getDeltaMovement().horizontalDistance() < 0.1 && spawnEggItem != null) {
             ItemStack stack = new ItemStack(spawnEggItem);
@@ -324,7 +325,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                     player.drop(stack.copyWithCount(1), false);
             }
 
-            player.level().playSound(player, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS);
+            player.level().playSound(player, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, pitch);
             this.discard();
             return InteractionResult.SUCCESS;
         } else return InteractionResult.PASS;
@@ -693,6 +694,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     public void bounceShell(Level level, BlockHitResult hitResult) {
+        float pitch = 0.8F + this.level().random.nextFloat() * 0.3F;
         Direction direction = hitResult.getDirection();
 
         if (direction.getAxis() == Direction.Axis.Y)
@@ -726,7 +728,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
 
         if (speed > 0.25 && this.getData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get()) == 0) {
-            level.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            level.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
+                    SoundSource.NEUTRAL, 1.0F, pitch);
             this.setData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get(), 2);
         }
     }
@@ -791,10 +794,11 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
     }
 
     public void damageEntity(LivingEntity entityHit, Set<UUID> newCollisions) {
-        Level world = this.level();
+        Level level = this.level();
         ItemStack shield = entityHit.getUseItem();
         Vec3 toShell = this.position().subtract(entityHit.position()).normalize();
         Vec3 look = entityHit.getLookAngle().normalize();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         double dot = toShell.dot(look);
 
         UUID id = entityHit.getUUID();
@@ -804,17 +808,17 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             if (entityHit.isBlocking() && dot > 0.25) {
                 this.deflect(entityHit, this.getOwner(), true);
                 shield.hurtAndBreak(1, entityHit, LivingEntity.getSlotForHand(entityHit.getUsedItemHand()));
-                world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
-                        SoundSource.NEUTRAL, 1.0F, 1.0F);
-                world.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
-                        SoundSource.NEUTRAL, 1.0F, 1.0F);
+                level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                        SoundSource.NEUTRAL, 1.0F, pitch);
+                level.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
+                        SoundSource.NEUTRAL, 1.0F, pitch);
                 return;
             }
 
             if (entityHit instanceof Breeze) {
                 this.deflect(entityHit, this.getOwner(), true);
-                world.playSound(null, entityHit.blockPosition(), SoundEvents.BREEZE_DEFLECT,
-                        entityHit.getSoundSource(), 1.0F, 1.0F);
+                level.playSound(null, entityHit.blockPosition(), SoundEvents.BREEZE_DEFLECT,
+                        entityHit.getSoundSource(), 1.0F, pitch);
                 return;
             }
 
@@ -832,7 +836,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             if (entityHit.getType().is(this.getInstaKillEntityTag()))
                 this.setKillCount(this.getKillCount() + 1);
 
-            if (world instanceof ServerLevel serverWorld)
+            if (level instanceof ServerLevel serverWorld)
                 serverWorld.sendParticles(ParticleTypes.CRIT, entityHit.getX(), entityHit.getY() + this.getBbHeight() / 2, entityHit.getZ(),
                         3, 0.1, 0.1, 0.1, 0.0);
 
@@ -920,6 +924,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         float scale = (float) this.getAttributeValue(Attributes.SCALE);
         float heightScale = (float) this.getAttributeValue(AttributesRegistry.HEIGHT_SCALE);
         float widthScale = (float) this.getAttributeValue(AttributesRegistry.WIDTH_SCALE);
+        float pitch = 0.9F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
 
         if (entity.level() instanceof ServerLevel serverWorld) {
             float height = this.getBbHeight() * scale * heightScale;
@@ -936,7 +941,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         }
 
         if (this.getDeathSound() != null)
-            this.playSound(this.getDeathSound(), this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+            this.playSound(this.getDeathSound(), this.getSoundVolume(), pitch);
     }
 
     protected void spawnTrailParticles() {

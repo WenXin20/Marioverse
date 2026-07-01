@@ -74,7 +74,8 @@ public class KoopaShellItem extends BetterSpawnEggItem {
         return super.interactLivingEntity(stack, player, livingEntity, hand);
     }
 
-    public void throwShell(Level world, LivingEntity entity, KoopaShellEntity shell, ItemStack stack) {
+    public void throwShell(Level level, LivingEntity entity, KoopaShellEntity shell, ItemStack stack) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         boolean isAutomobile = entity.getRootVehicle().getType() == CompatRegistry.AUTOMOBILE.get()
                 || entity.getRootVehicle().getType() == CompatRegistry.AUTOMOBILITY_HITBOX.get();
         double minSpeed = 1.25;
@@ -91,19 +92,21 @@ public class KoopaShellItem extends BetterSpawnEggItem {
                 .add(look.x * spawnDistance, entity.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
 
         shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
-        world.addFreshEntity(shell);
+        level.addFreshEntity(shell);
 
         if (look.y >= 0.9) {
             shell.setDeltaMovement(look.x, minSpeed, look.z);
-            world.playSound(entity, entity.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            level.playSound(entity, entity.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(),
+                    SoundSource.PLAYERS, 1.0F, pitch);
         } else {
             shell.setDeltaMovement(look.x * speed, look.y * Math.max(minSpeed, speed), look.z * speed);
-            world.playSound(entity, entity.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            level.playSound(entity, entity.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(),
+                    SoundSource.PLAYERS, 1.0F, pitch);
         }
 
         shell.hasImpulse = true;
         shell.setOwner(entity);
-        world.gameEvent(entity, GameEvent.ENTITY_PLACE, spawnPos);
+        level.gameEvent(entity, GameEvent.ENTITY_PLACE, spawnPos);
 
         if (!entity.getType().is(TagRegistry.HAS_INFINITE_SHELL_AMMO))
             stack.consume(1, entity);

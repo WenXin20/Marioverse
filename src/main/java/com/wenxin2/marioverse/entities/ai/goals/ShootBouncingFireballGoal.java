@@ -104,19 +104,22 @@ public class ShootBouncingFireballGoal extends Goal {
     }
 
     public void shootFireball() {
-        Level world = this.livingEntity.level();
-        BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), world);
+        Level level = this.livingEntity.level();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+        BouncingFireballProjectile fireball = new BouncingFireballProjectile(EntityRegistry.BOUNCING_FIREBALL.get(), level);
+
         fireball.setOwner(this.livingEntity);
         fireball.setPos(this.livingEntity.getX(), this.livingEntity.getEyeY() - 0.5, this.livingEntity.getZ());
         fireball.shootFromRotation(this.livingEntity, this.livingEntity.getXRot(), this.livingEntity.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, this.livingEntity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+        level.playSound(null, this.livingEntity.blockPosition(), SoundRegistry.FIREBALL_THROWN.get(),
+                SoundSource.HOSTILE, 1.0F, pitch);
 
         Vec3 look = this.livingEntity.getLookAngle();
         fireball.setDeltaMovement(look.scale(0.5));
         fireball.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90);
         fireball.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
-        world.addFreshEntity(fireball);
+        level.addFreshEntity(fireball);
         this.livingEntity.swing(InteractionHand.MAIN_HAND);
     }
 }

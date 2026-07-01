@@ -65,8 +65,9 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         SoundType soundtype = state.getSoundType(this.level(), pos, this);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
-        this.playSound(SoundRegistry.HEFTY_GOOMBA_STEP.get(), 1.0F, 1.0F);
+        this.playSound(SoundRegistry.HEFTY_GOOMBA_STEP.get(), 1.0F, pitch);
         this.playSound(soundtype.getStepSound(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
     }
 

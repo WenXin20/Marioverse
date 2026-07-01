@@ -77,8 +77,9 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         SoundType soundtype = state.getSoundType(this.level(), pos, this);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
-        this.playSound(SoundRegistry.MINI_GOOMBA_STEP.get(), 1.0F, 1.0F);
+        this.playSound(SoundRegistry.MINI_GOOMBA_STEP.get(), 1.0F, pitch);
         this.playSound(soundtype.getStepSound(), soundtype.getVolume() * 0.15F, soundtype.getPitch());
     }
 
@@ -188,6 +189,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     public void attachToEntity() {
         AABB boundingBox = this.getBoundingBox().inflate(0.1);
         List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         if (!entities.isEmpty()) {
             for (Entity entity : entities) {
@@ -197,7 +199,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
                         && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
                         || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get())) {
                     if (this.stuckTo == null && this.isAlive())
-                        this.playSound(SoundRegistry.MINI_GOOMBA_ATTACH.get());
+                        this.playSound(SoundRegistry.MINI_GOOMBA_ATTACH.get(), 1.0F, pitch);
                     this.stuckTo = livingEntity;
                     this.generateRandomOffsets(stuckTo);
                     this.addSpeedModifier(stuckTo);

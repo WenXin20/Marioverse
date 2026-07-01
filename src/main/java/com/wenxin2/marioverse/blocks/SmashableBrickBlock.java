@@ -29,6 +29,7 @@ public class SmashableBrickBlock extends Block {
 
     public static void smashBlock(Level level, BlockPos pos, BlockState state, Entity entity) {
         BlockState stateAbove = level.getBlockState(pos.above());
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
             SableProvider.SableContext context = SableProvider.getContext(level, entity);
@@ -59,17 +60,17 @@ public class SmashableBrickBlock extends Block {
             level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
 
             if (state.is(BlockTags.CRYSTAL_SOUND_BLOCKS))
-                level.playSound(null, pos, SoundType.AMETHYST.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, pos, SoundType.AMETHYST.getBreakSound(), SoundSource.BLOCKS, 1.0F, pitch);
             else if (state.getBlock() instanceof DecoratedPotBlock)
-                level.playSound(null, pos, SoundType.DECORATED_POT.getBreakSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else level.playSound(null, pos, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, pos, SoundType.DECORATED_POT.getBreakSound(), SoundSource.BLOCKS, 1.0F, pitch);
+            else level.playSound(null, pos, SoundRegistry.BLOCK_SMASH.get(), SoundSource.BLOCKS, 1.0F, pitch);
 
             if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
                 StarCoinBlock.collectCoin(starCoin, level, stateAbove, pos.above(), entity, coinItem);
             else if (stateAbove.getBlock() instanceof CoinBlock)
                 CoinBlock.collectCoin(level, stateAbove, pos.above(), entity, coinItem);
         } else {
-            level.playSound(null, pos, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundRegistry.BLOCK_SMASH_FAIL.get(), SoundSource.BLOCKS, 1.0F, pitch);
             if (!(state.getBlock() instanceof QuestionBlock)) {
                 if (stateAbove.getBlock() instanceof StarCoinBlock starCoin)
                     StarCoinBlock.collectCoin(starCoin, level, stateAbove, pos.above(), entity, coinItem);

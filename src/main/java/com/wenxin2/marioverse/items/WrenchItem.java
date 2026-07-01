@@ -47,37 +47,38 @@ public class WrenchItem extends LinkerItem {
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
         Player player = useOnContext.getPlayer();
-        Level world = useOnContext.getLevel();
+        Level level = useOnContext.getLevel();
         BlockPos pos = useOnContext.getClickedPos();
-        BlockState state = world.getBlockState(pos);
+        BlockState state = level.getBlockState(pos);
 
         if (state.getBlock() instanceof OnOffSwitchBlock) {
             if (state.getValue(OnOffSwitchBlock.RADIUS) < 16) {
                 if (player != null) {
                     if (player.isShiftKeyDown() && state.getValue(OnOffSwitchBlock.RADIUS) == 1) {
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.global"), true);
-                        world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) - 1), 3);
+                        level.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) - 1), 3);
                     } else if (player.isShiftKeyDown() && state.getValue(OnOffSwitchBlock.RADIUS) > 0) {
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.radius",
                                 state.getValue(OnOffSwitchBlock.RADIUS) - 1).withStyle(ChatFormatting.BLUE), true);
-                        world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) - 1), 3);
+                        level.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) - 1), 3);
                     } else if (player.isShiftKeyDown() && state.getValue(OnOffSwitchBlock.RADIUS) == 0) {
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.radius",
                                 state.getValue(OnOffSwitchBlock.RADIUS) + 16).withStyle(ChatFormatting.BLUE), true);
-                        world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, 16), 3);
+                        level.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, 16), 3);
                     } else {
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.radius_subtracted",
                                 state.getValue(OnOffSwitchBlock.RADIUS) + 1).withStyle(ChatFormatting.BLUE), true);
-                        world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) + 1), 3);
+                        level.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, state.getValue(OnOffSwitchBlock.RADIUS) + 1), 3);
                     }
                 }
             } else {
                 if (player != null)
                     player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.global"), true);
-                world.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, 0), 3);
+                level.setBlock(pos, state.setValue(OnOffSwitchBlock.RADIUS, 0), 3);
             }
             int soundPitch = state.getValue(OnOffSwitchBlock.RADIUS) / 16;
-            world.playSound(null, pos, SoundRegistry.SWITCH_RADIUS_TOGGLED.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
+            level.playSound(null, pos, SoundRegistry.SWITCH_RADIUS_TOGGLED.get(),
+                    SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
             return InteractionResult.sidedSuccess(true);
         }
         return super.useOn(useOnContext);

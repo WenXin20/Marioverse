@@ -47,14 +47,15 @@ public class IceBallShootPacket {
     }
 
     public static void shootIceBall(Player player) {
-        Level world = player.level();
+        Level level = player.level();
         SoundSource soundSource = SoundSource.PLAYERS;
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        BouncingIceBallProjectile iceBall = new BouncingIceBallProjectile(EntityRegistry.BOUNCING_ICE_BALL.get(), world);
+        BouncingIceBallProjectile iceBall = new BouncingIceBallProjectile(EntityRegistry.BOUNCING_ICE_BALL.get(), level);
         iceBall.setOwner(player);
         iceBall.setPos(player.getX(), player.getEyeY() - 0.5, player.getZ());
         iceBall.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.2F, 1.0F);
-        world.playSound(null, player.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), soundSource, 1.0F, 1.0F);
+        level.playSound(null, player.blockPosition(), SoundRegistry.ICE_BALL_THROWN.get(), soundSource, 1.0F, pitch);
 
         Vec3 look = player.getLookAngle();
         iceBall.setDeltaMovement(look.scale(0.5));
@@ -63,9 +64,9 @@ public class IceBallShootPacket {
         iceBall.setYRot((float) Math.toDegrees(Math.atan2(look.z, look.x)) + 90);
         iceBall.setXRot((float) Math.toDegrees(Math.atan2(look.y, Math.sqrt(look.x * look.x + look.z * look.z))));
 
-        world.addFreshEntity(iceBall);
-        world.gameEvent(player, GameEvent.PROJECTILE_SHOOT, player.position());
-        if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer)
+        level.addFreshEntity(iceBall);
+        level.gameEvent(player, GameEvent.PROJECTILE_SHOOT, player.position());
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer)
             PacketDistributor.sendToPlayer(serverPlayer, new SwingHandPayload(Boolean.TRUE));
     }
 }

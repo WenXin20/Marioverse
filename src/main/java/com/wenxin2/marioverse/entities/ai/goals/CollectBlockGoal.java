@@ -97,18 +97,20 @@ public class CollectBlockGoal extends Goal {
     }
 
     private void collectBlock() {
-        Level world = mob.level();
-        BlockState state = world.getBlockState(targetPos);
+        Level level = mob.level();
+        BlockState state = level.getBlockState(targetPos);
         ItemStack stack = new ItemStack(state.getBlock().asItem());
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (targetBlockState.test(state)) {
             if (state.getBlock() instanceof StarCoinBlock starCoinBlock)
-                StarCoinBlock.collectCoin(starCoinBlock, world, state, targetPos, mob, stack);
+                StarCoinBlock.collectCoin(starCoinBlock, level, state, targetPos, mob, stack);
             else if (state.getBlock() instanceof CoinBlock)
-                CoinBlock.collectCoin(world, state, targetPos, mob, stack);
+                CoinBlock.collectCoin(level, state, targetPos, mob, stack);
             else {
-                world.destroyBlock(targetPos, false);
-                world.playSound(mob, targetPos, state.getBlock().asItem().getBreakingSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.destroyBlock(targetPos, false);
+                level.playSound(mob, targetPos, state.getBlock().asItem().getBreakingSound(),
+                        SoundSource.BLOCKS, 1.0F, pitch);
 
                 if (mob.getMainHandItem().isEmpty()) {
                     mob.setItemInHand(InteractionHand.MAIN_HAND, stack);

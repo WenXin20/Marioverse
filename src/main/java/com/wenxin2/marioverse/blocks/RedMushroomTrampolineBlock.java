@@ -47,6 +47,7 @@ public class RedMushroomTrampolineBlock extends OnBlock implements ToggleableBlo
     }
 
     public static void bounceEntity(Level level, Entity entity, boolean holdingJump) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         Vec3 vec3 = entity.getDeltaMovement();
 
         if (entity instanceof Player player && player.getAbilities().flying)
@@ -77,7 +78,8 @@ public class RedMushroomTrampolineBlock extends OnBlock implements ToggleableBlo
                 ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.POOF, serverWorld, entity,
                         entity.getBbWidth() / 2, 0.0, 3);
             if (ConfigRegistry.PLAY_BOUNCE_SOUND.get())
-                level.playSound(null, entity.blockPosition(), SoundRegistry.BLOCK_BOUNCE.get(), SoundSource.BLOCKS);
+                level.playSound(null, entity.blockPosition(), SoundRegistry.BLOCK_BOUNCE.get(),
+                        SoundSource.BLOCKS, 1.0F, pitch);
 
             entity.resetFallDistance();
             entity.setDeltaMovement(vec3.x, newBounce, vec3.z);

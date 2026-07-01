@@ -105,16 +105,19 @@ public class SpikePanelBlock extends PanelBlock implements SimpleWaterloggedBloc
         return false;
     }
 
-    public void checkAndFlip(BlockState state, ServerLevel serverWorld, BlockPos pos) {
-        boolean hasNeighborSignal = serverWorld.hasNeighborSignal(pos);
+    public void checkAndFlip(BlockState state, ServerLevel serverLevel, BlockPos pos) {
+        boolean hasNeighborSignal = serverLevel.hasNeighborSignal(pos);
+        float pitch = 0.9F + serverLevel.random.nextFloat() * 0.2F;
         BlockState newState = state;
+
         if (hasNeighborSignal != state.getValue(POWERED)) {
             if (!state.getValue(POWERED)) {
                 newState = state.cycle(SPIKES);
-                serverWorld.playSound(null, pos, newState.getValue(SPIKES)
-                        ? SoundRegistry.SPIKES_EXTEND.get() : SoundRegistry.SPIKES_RETRACT.get(), SoundSource.BLOCKS);
+                serverLevel.playSound(null, pos, newState.getValue(SPIKES)
+                        ? SoundRegistry.SPIKES_EXTEND.get() : SoundRegistry.SPIKES_RETRACT.get(),
+                        SoundSource.BLOCKS, 1.0F, pitch);
             }
-            serverWorld.setBlock(pos, newState.setValue(POWERED, hasNeighborSignal), 3);
+            serverLevel.setBlock(pos, newState.setValue(POWERED, hasNeighborSignal), 3);
         }
     }
 }

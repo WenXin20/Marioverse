@@ -96,10 +96,11 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
     }
 
     @Override
-    protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        super.entityInside(state, world, pos, entity);
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        super.entityInside(state, level, pos, entity);
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        if (world.getBlockEntity(pos) instanceof PottedPiranhaPlantBlockEntity blockEntity
+        if (level.getBlockEntity(pos) instanceof PottedPiranhaPlantBlockEntity blockEntity
                 && entity instanceof LivingEntity) {
             if (blockEntity.attackCooldown > 0)
                 return;
@@ -123,7 +124,7 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
 
             if (blockEntity.getOwner() != null)
                 entity.hurt(DamageSourceRegistry.piranhaChomp(entity, blockEntity.getOwner()), attackDamage);
-            else entity.hurt(world.damageSources().source(DamageTypeRegistry.PIRANHA_CHOMP), attackDamage);
+            else entity.hurt(level.damageSources().source(DamageTypeRegistry.PIRANHA_CHOMP), attackDamage);
 
             if (entity instanceof NeutralMob neutralMob
                     && blockEntity.getOwner() instanceof LivingEntity ownerEntity) {
@@ -134,7 +135,8 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
 
             blockEntity.attackCooldown = 20;
             blockEntity.triggerAnim("bite_controller", "bite");
-            world.playSound(null, pos, SoundRegistry.PIRANHA_PLANT_CHOMP.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundRegistry.PIRANHA_PLANT_CHOMP.get(),
+                    SoundSource.BLOCKS, 1.0F, pitch);
         }
     }
 

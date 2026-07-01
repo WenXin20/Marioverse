@@ -175,14 +175,16 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         }
     }
 
-    public static void collectCoin(StarCoinBlock starCoinBlock, Level world, BlockState state, BlockPos pos, Entity entity, ItemStack coinItem) {
+    public static void collectCoin(StarCoinBlock starCoinBlock, Level level, BlockState state, BlockPos pos,
+                                   Entity entity, ItemStack coinItem) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         QuadrantBlockStates quadrant = state.getValue(QUADRANT);
         DoubleBlockHalf half = state.getValue(HALF);
         Direction facing = state.getValue(FACING);
         boolean itemAdded = false;
 
-        starCoinBlock.removeCoinParts(world, pos, half, quadrant, facing, true, false, false);
-        world.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS);
+        starCoinBlock.removeCoinParts(level, pos, half, quadrant, facing, true, false, false);
+        level.playSound(null, pos, SoundRegistry.STAR_COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, pitch);
 
         if (entity instanceof Player player) {
             itemAdded = player.addItem(coinItem);
@@ -240,13 +242,13 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     }
 
     @Override
-    public boolean canSurvive(BlockState state, @NotNull LevelReader world, BlockPos pos) {
+    public boolean canSurvive(BlockState state, @NotNull LevelReader levelReader, BlockPos pos) {
         QuadrantBlockStates quadrant = state.getValue(QUADRANT);
         DoubleBlockHalf half = state.getValue(HALF);
         Direction facing = state.getValue(FACING);
         BlockPos partPos = this.getPartPos(pos.above(), quadrant, half, facing);
 
-        return this.canCoinPartsPlace(world, partPos, facing) || this.areCoinPartsValid(world, partPos, facing);
+        return this.canCoinPartsPlace(levelReader, partPos, facing) || this.areCoinPartsValid(levelReader, partPos, facing);
     }
 
     @Override

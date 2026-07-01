@@ -40,31 +40,35 @@ public class SplunkinCarvedPumpkinBlock extends CarvedPumpkinBlock {
 
     @NotNull
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (player.getItemInHand(hand).is(Items.PUMPKIN_PIE) && state.getValue(CRACKED)) {
-            world.setBlock(pos, state.setValue(CRACKED, false), 3);
+            level.setBlock(pos, state.setValue(CRACKED, false), 3);
             player.getItemInHand(hand).consume(1, player);
-            world.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS);
+            level.playSound(null, pos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 1.0F, pitch);
             return ItemInteractionResult.SUCCESS;
         }
 
         if (player.isCreative() && !state.getValue(CRACKED)) {
-            world.setBlock(pos, state.setValue(CRACKED, true), 3);
-            world.levelEvent(player, 2001, pos, getId(state));
-            world.playSound(null, pos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS);
+            level.setBlock(pos, state.setValue(CRACKED, true), 3);
+            level.levelEvent(player, 2001, pos, getId(state));
+            level.playSound(null, pos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             return ItemInteractionResult.SUCCESS;
         }
-        return super.useItemOn(stack, state, world, pos, player, hand, hitResult);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     @Override
-    protected void attack(BlockState state, Level world, BlockPos pos, Player player) {
+    protected void attack(BlockState state, Level level, BlockPos pos, Player player) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (!state.getValue(CRACKED)) {
-            world.setBlock(pos, state.setValue(CRACKED, true), 3);
-            world.levelEvent(player, 2001, pos, getId(state));
-            world.playSound(null, pos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS);
+            level.setBlock(pos, state.setValue(CRACKED, true), 3);
+            level.levelEvent(player, 2001, pos, getId(state));
+            level.playSound(null, pos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS, 1.0F, pitch);
         }
-        super.attack(state, world, pos, player);
+        super.attack(state, level, pos, player);
     }
 }

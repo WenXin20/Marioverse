@@ -21,8 +21,9 @@ public class PipeBubblesSoundHandler implements AmbientSoundHandler {
     }
 
     public void tick() {
-        Level world = this.player.level();
-        BlockState stateLoaded = world.getBlockStatesIfLoaded(this.player.getBoundingBox()
+        Level level = this.player.level();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+        BlockState stateLoaded = level.getBlockStatesIfLoaded(this.player.getBoundingBox()
                 .inflate(0.0D, (double)-0.4F, 0.0D).deflate(1.0E-6D)).filter((state) -> {
             return state.is(BlockRegistry.PIPE_BUBBLES.get());
         }).findFirst().orElse(null);
@@ -31,9 +32,9 @@ public class PipeBubblesSoundHandler implements AmbientSoundHandler {
                     && (stateLoaded.is(BlockRegistry.PIPE_BUBBLES.get()) || stateLoaded.is(BlockRegistry.WATER_SPOUT.get()))) {
                 boolean flag = stateLoaded.getValue(PipeBubblesBlock.DRAG_DOWN);
                 if (flag) {
-                    this.player.playSound(SoundEvents.BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 1.0F, 1.0F);
+                    this.player.playSound(SoundEvents.BUBBLE_COLUMN_WHIRLPOOL_INSIDE, 1.0F, pitch);
                 } else {
-                    this.player.playSound(SoundEvents.BUBBLE_COLUMN_UPWARDS_INSIDE, 1.0F, 1.0F);
+                    this.player.playSound(SoundEvents.BUBBLE_COLUMN_UPWARDS_INSIDE, 1.0F, pitch);
                 }
             }
 

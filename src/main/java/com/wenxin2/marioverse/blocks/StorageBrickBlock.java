@@ -38,10 +38,15 @@ public class StorageBrickBlock extends QuestionBlock {
                 || state.getBlock() == BlockRegistry.STORAGE_PRISMARINE_BRICKS.get();
     }
 
-    public static void bonkBlockFromSide(Level world, BlockPos pos, BlockState state) {
-        if (state.is(TagRegistry.BONKABLE_BLOCKS))
+    public static void bonkBlockFromSide(Level level, BlockPos pos, BlockState state) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
+        if (state.is(TagRegistry.BONKABLE_BLOCKS)) {
             if (state.hasProperty(QuestionBlock.EMPTY) && state.getValue(QuestionBlock.EMPTY))
-                world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            else world.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(),
+                        SoundSource.BLOCKS, 1.0F, pitch);
+            else level.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(),
+                    SoundSource.BLOCKS, 1.0F, pitch);
+        }
     }
 }

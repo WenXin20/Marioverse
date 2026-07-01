@@ -245,8 +245,8 @@ public class QuestionBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
     @Override
@@ -257,16 +257,16 @@ public class QuestionBlock extends BaseEntityBlock {
 
     @NotNull
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
         ItemStack heldItem = player.getItemInHand(hand);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof QuestionBlockEntity questionBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS)
                 && (questionBE.getRefillCountdown() == -1 || player.isCreative())) {
             ItemStack blockStack = questionBE.getTheItem();
 
-            if (world.isClientSide) {
+            if (level.isClientSide) {
                 return ItemInteractionResult.CONSUME;
             } else {
                 if (!heldItem.isEmpty()
@@ -284,11 +284,12 @@ public class QuestionBlock extends BaseEntityBlock {
                         blockStack.grow(1);
                         soundPitch = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
                     }
-                    world.playSound(null, pos, SoundRegistry.ITEM_INSERTED.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
+                    level.playSound(null, pos, SoundRegistry.ITEM_INSERTED.get(),
+                            SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
 
-                    world.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
+                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
                     questionBE.setChanged();
-                    world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                    level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
                     return ItemInteractionResult.SUCCESS;
                 } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;

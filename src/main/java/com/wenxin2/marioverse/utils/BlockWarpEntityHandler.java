@@ -196,6 +196,8 @@ public interface BlockWarpEntityHandler {
     }
 
     default void warp(Entity entity, Level level, BlockPos pos, BlockState state, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
+        float pitch = 1.0F + level.random.nextFloat() * 0.2F;
+
         if (warpPos != null && !(level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
                 && entity instanceof Player player)
             BlockWarpEntityHandler.displayDestinationMissingMessage(player);
@@ -204,13 +206,13 @@ public interface BlockWarpEntityHandler {
             BlockState warpState = level.getBlockState(warpPos);
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
-                WarpDoorBlockEntity.warp(entity, warpPos, level, warpState, doorblock, warpBE);
+                WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, doorblock, warpBE);
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                WarpTrapDoorBlockEntity.warp(entity, warpPos, level, warpState, trapdoorBlock, warpBE);
+                WarpTrapDoorBlockEntity.warp(level, warpPos, warpState, entity, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
-                WarpPipeBlockEntity.warp(entity, warpPos, level, warpState);
+                WarpPipeBlockEntity.warp(level, warpPos, warpState, entity);
             if (state.getBlock() instanceof WarpPipeBlock)
-                level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
+                level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
         } else if (warpBE.getUUID() != null && warpBE.getWarpUuid() != null
                 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID()) != null) {
@@ -218,13 +220,13 @@ public interface BlockWarpEntityHandler {
             BlockState warpState = level.getBlockState(warpPos);
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
-                WarpDoorBlockEntity.warp(entity, warpPos, level, warpState, doorblock, warpBE);
+                WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, doorblock, warpBE);
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                WarpTrapDoorBlockEntity.warp(entity, warpPos, level, warpState, trapdoorBlock, warpBE);
+                WarpTrapDoorBlockEntity.warp(level, warpPos, warpState, entity, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
-                WarpPipeBlockEntity.warp(entity, warpPos, level, warpState);
+                WarpPipeBlockEntity.warp(level, warpPos, warpState, entity);
             if (state.getBlock() instanceof WarpPipeBlock)
-                level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS);
+                level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
 
             warpBE.setDestinationPos(warpPos);

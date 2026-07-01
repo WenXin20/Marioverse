@@ -135,14 +135,15 @@ public class CoinBlock extends Block implements EntityBlock, SimpleWaterloggedBl
         }
     }
 
-    public static void collectCoin(Level world, BlockState state, BlockPos pos, Entity entity, ItemStack coinItem) {
+    public static void collectCoin(Level level, BlockState state, BlockPos pos, Entity entity, ItemStack coinItem) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         boolean itemAdded = false;
 
-        if (world instanceof ServerLevel serverWorld)
+        if (level instanceof ServerLevel serverWorld)
             ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleRegistry.COIN_GLINT.get(), serverWorld, pos, UniformInt.of(1, 1));
 
-        world.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS);
-        world.removeBlock(pos, false);
+        level.playSound(null, pos, SoundRegistry.COIN_PICKUP.get(), SoundSource.BLOCKS, 1.0F, pitch);
+        level.removeBlock(pos, false);
 
         if (entity instanceof Player player) {
             itemAdded = player.addItem(coinItem);

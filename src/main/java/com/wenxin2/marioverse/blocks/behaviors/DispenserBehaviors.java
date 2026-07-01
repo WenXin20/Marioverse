@@ -158,13 +158,13 @@ public class DispenserBehaviors {
             @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
-                ServerLevel world = source.level();
-                BlockPos blockpos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+                ServerLevel level = source.level();
+                BlockPos pos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
                 CarvedPumpkinBlock carvedPumpkinBlock = (CarvedPumpkinBlock)BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get();
-                if (world.isEmptyBlock(blockpos)) {
-                    if (!world.isClientSide) {
-                        world.setBlock(blockpos, carvedPumpkinBlock.defaultBlockState(), 3);
-                        world.gameEvent(null, GameEvent.BLOCK_PLACE, blockpos);
+                if (level.isEmptyBlock(pos)) {
+                    if (!level.isClientSide) {
+                        level.setBlock(pos, carvedPumpkinBlock.defaultBlockState(), 3);
+                        level.gameEvent(null, GameEvent.BLOCK_PLACE, pos);
                     }
 
                     stack.shrink(1);
@@ -179,17 +179,18 @@ public class DispenserBehaviors {
             @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
-                ServerLevel world = source.level();
+                ServerLevel level = source.level();
                 Direction facing = source.state().getValue(DispenserBlock.FACING);
                 BlockPos targetPos = source.pos().relative(facing);
-                BlockState targetState = world.getBlockState(targetPos);
+                BlockState targetState = level.getBlockState(targetPos);
+                float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
                 if (targetState.hasProperty(SplunkinCarvedPumpkinBlock.CRACKED)) {
                     if (!targetState.getValue(SplunkinCarvedPumpkinBlock.CRACKED)) {
-                        world.setBlock(targetPos, targetState.setValue(SplunkinCarvedPumpkinBlock.CRACKED, true), 3);
-                        world.levelEvent(null, 2001, targetPos, Block.getId(targetState));
-                        world.playSound(null, targetPos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS);
-                        stack.hurtAndBreak(1, world, null, item -> {});
+                        level.setBlock(targetPos, targetState.setValue(SplunkinCarvedPumpkinBlock.CRACKED, true), 3);
+                        level.levelEvent(null, 2001, targetPos, Block.getId(targetState));
+                        level.playSound(null, targetPos, SoundRegistry.SPLUNKIN_CRACKS.get(), SoundSource.BLOCKS, 1.0F, pitch);
+                        stack.hurtAndBreak(1, level, null, item -> {});
                         return stack;
                     }
                 }
@@ -202,24 +203,25 @@ public class DispenserBehaviors {
             @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
-                ServerLevel world = source.level();
+                ServerLevel level = source.level();
                 Direction facing = source.state().getValue(DispenserBlock.FACING);
                 BlockPos targetPos = source.pos().relative(facing);
-                BlockState targetState = world.getBlockState(targetPos);
+                BlockState targetState = level.getBlockState(targetPos);
+                float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
                 if (targetState.hasProperty(SplunkinCarvedPumpkinBlock.CRACKED)) {
                     if (targetState.getValue(SplunkinCarvedPumpkinBlock.CRACKED)) {
-                        world.setBlock(targetPos, targetState.setValue(SplunkinCarvedPumpkinBlock.CRACKED, false), 3);
-                        world.playSound(null, targetPos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS);
+                        level.setBlock(targetPos, targetState.setValue(SplunkinCarvedPumpkinBlock.CRACKED, false), 3);
+                        level.playSound(null, targetPos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 1.0F, pitch);
                         stack.shrink(1);
                         return stack;
                     }
                 }
 
-                for (LivingEntity entity : world.getEntitiesOfClass(LivingEntity.class, new AABB(targetPos), EntitySelector.NO_SPECTATORS)) {
+                for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, new AABB(targetPos), EntitySelector.NO_SPECTATORS)) {
                     if (entity.getData(DataAttachmentRegistry.CRACKED)) {
                         entity.setData(DataAttachmentRegistry.CRACKED, false);
-                        world.playSound(null, targetPos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS);
+                        level.playSound(null, targetPos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 1.0F, pitch);
                         stack.shrink(1);
                         return stack;
                     }
@@ -233,11 +235,11 @@ public class DispenserBehaviors {
             @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
-                ServerLevel world = source.level();
+                ServerLevel level = source.level();
                 Direction facing = source.state().getValue(DispenserBlock.FACING);
                 BlockPos targetPos = source.pos().relative(facing);
 
-                for (LivingEntity entity : world.getEntitiesOfClass(LivingEntity.class, new AABB(targetPos), EntitySelector.NO_SPECTATORS)) {
+                for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, new AABB(targetPos), EntitySelector.NO_SPECTATORS)) {
                     if (!entity.getData(DataAttachmentRegistry.HAS_CARROT)
                             && !entity.getData(DataAttachmentRegistry.HAS_GOLDEN_CARROT)) {
                         entity.setData(DataAttachmentRegistry.HAS_CARROT, true);
@@ -254,11 +256,11 @@ public class DispenserBehaviors {
             @NotNull
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {
-                ServerLevel world = source.level();
+                ServerLevel level = source.level();
                 Direction facing = source.state().getValue(DispenserBlock.FACING);
                 BlockPos targetPos = source.pos().relative(facing);
 
-                for (LivingEntity entity : world.getEntitiesOfClass(LivingEntity.class, new AABB(targetPos), EntitySelector.NO_SPECTATORS)) {
+                for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, new AABB(targetPos), EntitySelector.NO_SPECTATORS)) {
                     if (!entity.getData(DataAttachmentRegistry.HAS_GOLDEN_CARROT)
                             && !entity.getData(DataAttachmentRegistry.HAS_CARROT)) {
                         entity.setData(DataAttachmentRegistry.HAS_GOLDEN_CARROT, true);

@@ -442,15 +442,15 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
     @NotNull
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos,
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
         ItemStack heldItem = player.getItemInHand(hand);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof CheckpointFlagBlockEntity flagBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS)) {
             ItemStack blockStack = flagBE.getTheItem();
 
-            if (world.isClientSide) {
+            if (level.isClientSide) {
                 return ItemInteractionResult.CONSUME;
             } else {
                 if (!heldItem.isEmpty()
@@ -466,28 +466,28 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                         flagBE.setTheItem(stackConsumed);
 
                         if (state.getValue(PART) == TripleBlockStates.TOP) {
-                            if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity topFlagBE)
+                            if (level.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity topFlagBE)
                                 topFlagBE.setTheItem(stackConsumed);
-                            if (world.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity topFlagBE)
+                            if (level.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity topFlagBE)
                                 topFlagBE.setTheItem(stackConsumed);
                         } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                            if (world.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity middleFlagBE)
+                            if (level.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity middleFlagBE)
                                 middleFlagBE.setTheItem(stackConsumed);
-                            if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity middleFlagBE)
+                            if (level.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity middleFlagBE)
                                 middleFlagBE.setTheItem(stackConsumed);
                         } else {
-                            if (world.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                            if (level.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
                                 bottomFlagBE.setTheItem(stackConsumed);
-                            if (world.getBlockEntity(pos.above(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                            if (level.getBlockEntity(pos.above(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
                                 bottomFlagBE.setTheItem(stackConsumed);
                         }
                     } else {
                         soundPitch = (float) blockStack.getCount() / (float) blockStack.getMaxStackSize();
                         blockStack.grow(1);
                     }
-                    world.playSound(null, pos, SoundRegistry.ITEM_INSERTED.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
+                    level.playSound(null, pos, SoundRegistry.ITEM_INSERTED.get(), SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
                     flagBE.setChanged();
-                    world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                    level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
                     return ItemInteractionResult.SUCCESS;
                 } else return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -497,15 +497,15 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
     @NotNull
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
 
-        if (world.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity flagBE) {
+        if (level.getBlockEntity(pos) instanceof CheckpointFlagBlockEntity flagBE) {
             ItemStack blockStack = flagBE.getTheItem();
 
             if ((heldItem.isEmpty() || !ItemStack.isSameItemSameComponents(heldItem, blockStack))
                     && (ConfigRegistry.CHECKPOINT_FLAG_REMOVE_ITEMS.get() || player.isCreative())) {
-                world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
                 ItemStack storedItem = flagBE.getTheItem();
 
@@ -517,24 +517,24 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                     if (!itemAdded)
                         player.drop(storedItem.copyWithCount(1), false);
 
-                    world.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                    level.playSound(null, pos, SoundRegistry.ITEM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                     flagBE.splitTheItem(1);
                     flagBE.setChanged();
 
                     if (state.getValue(PART) == TripleBlockStates.TOP) {
-                        if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity topFlagBE)
+                        if (level.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity topFlagBE)
                             topFlagBE.splitTheItem(1);
-                        if (world.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity topFlagBE)
+                        if (level.getBlockEntity(pos.below(2)) instanceof CheckpointFlagBlockEntity topFlagBE)
                             topFlagBE.splitTheItem(1);
                     } else if (state.getValue(PART) == TripleBlockStates.MIDDLE) {
-                        if (world.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity middleFlagBE)
+                        if (level.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity middleFlagBE)
                             middleFlagBE.splitTheItem(1);
-                        if (world.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity middleFlagBE)
+                        if (level.getBlockEntity(pos.below()) instanceof CheckpointFlagBlockEntity middleFlagBE)
                             middleFlagBE.splitTheItem(1);
                     } else {
-                        if (world.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                        if (level.getBlockEntity(pos.above()) instanceof CheckpointFlagBlockEntity bottomFlagBE)
                             bottomFlagBE.splitTheItem(1);
-                        if (world.getBlockEntity(pos.above(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
+                        if (level.getBlockEntity(pos.above(2)) instanceof CheckpointFlagBlockEntity bottomFlagBE)
                             bottomFlagBE.splitTheItem(1);
                     }
                     return InteractionResult.SUCCESS;
@@ -608,14 +608,17 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         return (state.isAir() || state.canBeReplaced() || state.is(this));
     }
 
-    private void claimCheckpoint(BlockState state, Level level, BlockPos pos, Entity entity, BlockState statePart, BlockPos statePos, BlockPos respawnPos) {
+    private void claimCheckpoint(BlockState state, Level level, BlockPos pos, Entity entity, BlockState statePart,
+                                 BlockPos statePos, BlockPos respawnPos) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (statePart.hasProperty(CLAIMED) && !statePart.getValue(CLAIMED)) {
             if (level.getBlockEntity(statePos) instanceof CheckpointFlagBlockEntity checkpointFlagBE) {
                 checkpointFlagBE.markUpdated();
 
                 if (!(entity instanceof Player)) {
                     entity.level().broadcastEntityEvent(entity, (byte) 112);
-                    level.playSound(null, pos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS);
+                    level.playSound(null, pos, SoundRegistry.CHECKPOINT_FLAG_CLAIMED.get(), SoundSource.BLOCKS, 1.0F, pitch);
                 } else ParticleUtils.spawnParticlesOnBlockFaces(level, statePos, ParticleRegistry.GLOWING_STAR.get(), UniformInt.of(1, 1));
 
                 if (!checkpointFlagBE.isAmericanFlag() && statePart.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())

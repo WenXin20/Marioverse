@@ -57,6 +57,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -376,7 +377,9 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     @NotNull
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
         ItemStack stack = player.getItemInHand(hand);
+        FoodProperties food = stack.getComponents().get(DataComponents.FOOD);
 
         if (this.isFood(stack)) {
             int age = this.getAge();
@@ -384,11 +387,11 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             if (this.isBaby() && !this.isHiding()) {
                 stack.consume(1, player);
                 this.swing(InteractionHand.MAIN_HAND);
-                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
+                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, pitch);
                 this.triggerAnim("eat_controller", "eat");
-                
-                if (stack.getComponents().has(DataComponents.FOOD) && stack.getComponents().get(DataComponents.FOOD) != null)
-                    this.ageUp(getSpeedUpSecondsWhenFeeding(-age), stack.getComponents().get(DataComponents.FOOD).nutrition() * 10, true);
+
+                if (stack.getComponents().has(DataComponents.FOOD) && food != null)
+                    this.ageUp(getSpeedUpSecondsWhenFeeding(-age), food.nutrition() * 10, true);
                 else this.ageUp(getSpeedUpSecondsWhenFeeding(-age), 20, true);
 
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
@@ -890,6 +893,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         if (this.attackCooldown > 0)
             return;
 
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.01, 0.0, 0.01), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
@@ -934,7 +938,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 0.5, 5);
                 }
 
-                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, 1.0F);
+                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, pitch);
                 this.attackCooldown = 20;
                 break;
             }

@@ -400,6 +400,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @ModifyReturnValue(method = "checkTotemDeathProtection", at = @At("RETURN"))
     private boolean checkTotemDeathProtection(boolean original, DamageSource source) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
+        float pitch = 0.9F + livingEntity.level().random.nextFloat() * 0.2F;
         SoundSource soundSource = livingEntity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL;
 
         if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
@@ -420,13 +421,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 if (containerCharm != null) {
                     ItemStack stackCharm = containerCharm.getAccessories().getItem(0);
                     if (stackCharm.getItem() instanceof OneUpMushroomItem) {
-                        this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), soundSource, 1.0F, 1.0F);
+                        livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                                soundSource, 1.0F, pitch);
                         livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                         stackCharm.shrink(1);
 
-                        if (livingEntity.level() instanceof ServerLevel serverWorld) {
-                            ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, livingEntity, 25);
-                            ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, livingEntity, 1.0);
+                        if (livingEntity.level() instanceof ServerLevel serverLevel) {
+                            ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverLevel, livingEntity, 25);
+                            ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
                             if (livingEntity instanceof ServerPlayer player)
                                 PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
                         }
@@ -442,13 +444,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             }
 
             if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
-                this.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), soundSource, 1.0F, 1.0F);
+                livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                        soundSource, 1.0F, pitch);
                 livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
                 stack.shrink(1);
 
-                if (livingEntity.level() instanceof ServerLevel serverWorld) {
-                    ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, livingEntity, 25);
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, livingEntity, 1.0);
+                if (livingEntity.level() instanceof ServerLevel serverLevel) {
+                    ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverLevel, livingEntity, 25);
+                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
                     if (livingEntity instanceof ServerPlayer player)
                         PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
                 }

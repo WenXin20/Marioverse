@@ -275,7 +275,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @NotNull
     @Override
-    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         double entityX = player.getX();
         double entityY = player.getY();
         double entityZ = player.getZ();
@@ -316,14 +316,14 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
                 player.setSwimming(true);
                 return ItemInteractionResult.SUCCESS;
-            } else return super.useItemOn(stack, state, world, pos, player, hand, hit);
+            } else return super.useItemOn(stack, state, level, pos, player, hand, hit);
         }
-        return super.useItemOn(stack, state, world, pos, player, hand, hit);
+        return super.useItemOn(stack, state, level, pos, player, hand, hit);
     }
 
     @NotNull
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
         Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
         Vec3 look = player.getViewVector(1.0F);
@@ -339,7 +339,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
         Object object = null;
         if (ModList.get().isLoaded("sable"))
-            object = SableProvider.getContext(world, player);
+            object = SableProvider.getContext(level, player);
 
         if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
             Quaterniondc rotation = context.subLevel.logicalPose().orientation();
@@ -383,7 +383,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
             if (insideFaceBounds && canEnterPipe) {
                 if (player instanceof ServerPlayer serverPlayer)
-                    serverPlayer.teleportTo((ServerLevel) world, pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5,
+                    serverPlayer.teleportTo((ServerLevel) level, pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5,
                             flags, serverPlayer.getYRot(), serverPlayer.getXRot());
                 else player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
 
@@ -393,7 +393,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.useWithoutItem(state, world, pos, player, hitResult);
+        return super.useWithoutItem(state, level, pos, player, hitResult);
     }
 
     @Override

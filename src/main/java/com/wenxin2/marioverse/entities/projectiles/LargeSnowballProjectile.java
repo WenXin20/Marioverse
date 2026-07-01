@@ -250,38 +250,40 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
         }
     }
 
-    public void discardEffects(Level world) {
+    public void discardEffects(Level level) {
         BlockPos pos = this.blockPosition();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (this.level() instanceof ServerLevel serverWorld)
             ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-        world.playSound(null, pos, SoundEvents.SNOW_BREAK, SoundSource.AMBIENT);
-        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, pos);
+        level.playSound(null, pos, SoundEvents.SNOW_BREAK, SoundSource.AMBIENT, 1.0F, pitch);
+        level.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, pos);
         this.remove(RemovalReason.DISCARDED);
     }
 
-    public void discardEffectsOnSideHit(Level world, BlockPos hitPos, @Nullable Direction direction) {
+    public void discardEffectsOnSideHit(Level level, BlockPos hitPos, @Nullable Direction direction) {
         BlockPos posRelative = hitPos;
         if (direction != null)
             posRelative = hitPos.relative(direction);
-        BlockState state = world.getBlockState(posRelative);
-        BlockState stateAbove = world.getBlockState(posRelative.above());
-        BlockState stateBelow = world.getBlockState(posRelative.below());
+        BlockState state = level.getBlockState(posRelative);
+        BlockState stateAbove = level.getBlockState(posRelative.above());
+        BlockState stateBelow = level.getBlockState(posRelative.below());
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        if (world instanceof ServerLevel serverWorld)
-            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 15);
-        world.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK, SoundSource.AMBIENT);
-        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
+        if (level instanceof ServerLevel serverLevel)
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SNOWFLAKE, serverLevel, this, this.getBbWidth() / 2, 0.0, 15);
+        level.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK, SoundSource.AMBIENT, 1.0F, pitch);
+        level.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
 
         if (state.getBlock() instanceof SnowLayerBlock && state.getValue(SnowLayerBlock.LAYERS) != 8) {
             int i = state.getValue(SnowLayerBlock.LAYERS);
-            world.setBlock(posRelative, state.setValue(SnowLayerBlock.LAYERS, Math.min(8, i + 1)), 3);
+            level.setBlock(posRelative, state.setValue(SnowLayerBlock.LAYERS, Math.min(8, i + 1)), 3);
         } else if (state.getBlock() instanceof SnowLayerBlock && stateAbove.getBlock() instanceof SnowLayerBlock
                 && state.getValue(SnowLayerBlock.LAYERS) == 8) {
             int i = state.getValue(SnowLayerBlock.LAYERS);
-            world.setBlock(posRelative.above(), state.setValue(SnowLayerBlock.LAYERS, Math.min(8, i + 1)), 3);
+            level.setBlock(posRelative.above(), state.setValue(SnowLayerBlock.LAYERS, Math.min(8, i + 1)), 3);
         } else if (state.canBeReplaced() && stateBelow.isSolid())
-            world.setBlock(posRelative, Blocks.SNOW.defaultBlockState(), 3);
+            level.setBlock(posRelative, Blocks.SNOW.defaultBlockState(), 3);
 
         this.remove(RemovalReason.DISCARDED); // Despawn on side hit
     }
@@ -295,12 +297,13 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
 
     @Override
     public void onHitBlock(BlockHitResult hit) {
-        Level world = this.level();
+        Level level = this.level();
         BlockPos hitPos = hit.getBlockPos();
-        BlockState state = world.getBlockState(hitPos);
-        BlockState stateAbove = world.getBlockState(hitPos.above());
+        BlockState state = level.getBlockState(hitPos);
+        BlockState stateAbove = level.getBlockState(hitPos.above());
         Vec3 horizontal = this.getDeltaMovement().multiply(1.0, 0.0, 1.0);
-        VoxelShape shape = state.getCollisionShape(world, hitPos);
+        VoxelShape shape = state.getCollisionShape(level, hitPos);
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         double entityBottomY = this.getBoundingBox().minY;
         double posTop = hitPos.getY() + shape.max(Direction.Axis.Y);
@@ -310,10 +313,10 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             this.setPos(this.getX(), posTop + 0.2F, this.getZ());
             super.onHitBlock(hit);
         } else if (hit.getDirection().getAxis().isHorizontal() && state.isSolid()) {
-            this.discardEffectsOnSideHit(world, hitPos, hit.getDirection());
+            this.discardEffectsOnSideHit(level, hitPos, hit.getDirection());
             super.onHitBlock(hit);
         } else if (hit.getDirection() == Direction.DOWN)
-            this.discardEffects(world);
+            this.discardEffects(level);
         else if (hit.getDirection() == Direction.UP) {
             Vec3 correction = hit.getLocation().subtract(this.getX(), this.getY(), this.getZ());
 
@@ -331,32 +334,34 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 && state.getValue(BlockStateProperties.LIT)) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 15);
-            world.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
-            world.playSound(null, hitPos, state.getBlock() instanceof CandleBlock || state.getBlock() instanceof CandleCakeBlock
-                    ? SoundEvents.CANDLE_EXTINGUISH : SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.discardEffects(world);
+            level.setBlock(hitPos, state.setValue(BlockStateProperties.LIT, Boolean.FALSE), 3);
+            level.playSound(null, hitPos, state.getBlock() instanceof CandleBlock || state.getBlock() instanceof CandleCakeBlock
+                    ? SoundEvents.CANDLE_EXTINGUISH : SoundEvents.GENERIC_EXTINGUISH_FIRE,
+                    SoundSource.BLOCKS, 1.0F, pitch);
+            this.discardEffects(level);
         } else if (state.is(TagRegistry.SNOWBALL_EXTINGUISHES) && state.getBlock() instanceof FireBlock) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos, 0.25D, 15);
-            world.removeBlock(hitPos, true);
-            world.playSound(null, hitPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.discardEffects(world);
+            level.removeBlock(hitPos, true);
+            level.playSound(null, hitPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, pitch);
+            this.discardEffects(level);
         } else if (stateAbove.is(TagRegistry.SNOWBALL_EXTINGUISHES) && stateAbove.getBlock() instanceof FireBlock) {
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.SMOKE, serverWorld, hitPos.above(), 0.25D, 15);
-            world.removeBlock(hitPos.above(), true);
-            world.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.discardEffects(world);
+            level.removeBlock(hitPos.above(), true);
+            level.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, pitch);
+            this.discardEffects(level);
         } else if (state.is(TagRegistry.MELTS_SNOWBALL) && !state.hasProperty(BlockStateProperties.LIT)) {
-            world.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
-            this.discardEffects(world);
+            level.playSound(null, hitPos.above(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, pitch);
+            this.discardEffects(level);
         }
     }
 
     @Override
     protected void onHitEntity(EntityHitResult hit) {
-        Level world = this.level();
+        Level level = this.level();
         Entity entity = hit.getEntity();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (entity instanceof LivingEntity livingEntity
                 && this.canHitEntity(livingEntity) && !livingEntity.getType().is(TagRegistry.SNOWBALL_IMMUNE)
@@ -369,7 +374,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 return;
 
             if (this.getOwner() != null && livingEntity.isDamageSourceBlocked(DamageSourceRegistry.largeSnowball(entity, this.getOwner())))
-                this.deflectProjectile(livingEntity, shield, entity, world);
+                this.deflectProjectile(level, livingEntity, entity, shield);
             else if (this.getOwner() != null) {
                 if (livingEntity.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL))
                     livingEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), livingEntity.getHealth() * 1.25F);
@@ -379,8 +384,8 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 entity.setIsInPowderSnow(true);
                 livingEntity.extinguishFire();
             }
-            world.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK, SoundSource.AMBIENT);
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            level.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK, SoundSource.AMBIENT, 1.0F, pitch);
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof PiranhaPlantPart partEntity
                 && this.canHitEntity(partEntity) && !partEntity.getType().is(TagRegistry.SNOWBALL_IMMUNE)
@@ -388,7 +393,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
             ItemStack shield = partEntity.getParent().getUseItem();
 
             if (this.getOwner() != null && partEntity.getParent().isDamageSourceBlocked(DamageSourceRegistry.largeSnowball(entity, this.getOwner())))
-                this.deflectProjectile(partEntity.getParent(), shield, entity, world);
+                this.deflectProjectile(level, partEntity.getParent(), entity, shield);
             else if (this.getOwner() != null) {
                 if (partEntity.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL))
                     partEntity.hurt(DamageSourceRegistry.largeSnowball(entity, this.getOwner()), partEntity.getParent().getHealth() * 1.25F);
@@ -398,24 +403,21 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                 entity.setIsInPowderSnow(true);
                 partEntity.extinguishFire();
             }
-            world.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK,
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            level.playSound(null, this.blockPosition(), SoundEvents.SNOW_BREAK, SoundSource.AMBIENT, 1.0F, pitch);
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof BouncingFireballProjectile fireball) {
             fireball.kill();
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-            world.playSound(null, this.blockPosition(), SoundEvents.SNOW_HIT,
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            level.playSound(null, this.blockPosition(), SoundEvents.SNOW_HIT, SoundSource.AMBIENT, 1.0F, pitch);
             this.remove(RemovalReason.DISCARDED);
         } else if (!(entity instanceof LargeSnowballProjectile)) {
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
-            world.playSound(null, this.blockPosition(), SoundEvents.SNOW_HIT,
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, entity.position());
+            level.playSound(null, this.blockPosition(), SoundEvents.SNOW_HIT, SoundSource.AMBIENT, 1.0F, pitch);
             this.remove(RemovalReason.DISCARDED);
         }
 
-        if (world instanceof ServerLevel serverWorld) {
+        if (level instanceof ServerLevel serverWorld) {
             if (entity instanceof Player player && !player.isSpectator() && player.canFreeze() && this.canHitEntity(player)
                     && !player.getType().is(TagRegistry.SNOWBALL_CAN_INSTAKILL)
                     && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
@@ -433,6 +435,7 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (this.getDeltaMovement().horizontalDistance() < 0.1) {
             ItemStack stack = new ItemStack(ItemRegistry.LARGE_SNOWBALL.get());
+            float pitch = 0.9F + player.level().random.nextFloat() * 0.2F;
 
             if (player.getItemInHand(hand).isEmpty())
                 player.setItemInHand(hand, stack);
@@ -445,28 +448,30 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
                     player.drop(stack.copyWithCount(1), false);
             }
 
-            player.level().playSound(player, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS);
+            player.level().playSound(player, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, pitch);
             this.discard();
             return InteractionResult.SUCCESS;
         } else return super.interact(player, hand);
     }
 
-    private void deflectProjectile(LivingEntity livingEntity, ItemStack shield, Entity entity, Level world) {
+    private void deflectProjectile(Level level, LivingEntity livingEntity, Entity entity, ItemStack shield) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
         if (shield.getItem() instanceof ShieldItem) {
             this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
             this.setDeltaMovement(this.getDeltaMovement().reverse());
             shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
-            world.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
-                    SoundSource.NEUTRAL, 1.0F, 1.0F);
+            level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK,
+                    SoundSource.NEUTRAL, 1.0F, pitch);
         }
     }
 
     @Override
     public boolean deflect(@NotNull ProjectileDeflection deflection, @Nullable Entity entity, @Nullable Entity owner, boolean shouldDeflect) {
-        Level world = this.level();
+        Level level = this.level();
 
         if (entity instanceof LivingEntity) {
-            if (!world.isClientSide) {
+            if (!level.isClientSide) {
                 deflection.deflect(this, entity, this.random);
                 this.setOwner(entity);
                 this.onDeflection(entity, shouldDeflect);
@@ -479,12 +484,13 @@ public class LargeSnowballProjectile extends ThrowableProjectile implements GeoE
     public void collideWithEntity() {
         AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         for (Entity entity : collidingEntities) {
             if (entity instanceof Breeze) {
                 this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                 this.level().playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
-                        entity.getSoundSource(), 1.0F, 1.0F);
+                        entity.getSoundSource(), 1.0F, pitch);
                 return;
             }
         }

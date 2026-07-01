@@ -90,7 +90,9 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
     }
 
     public static void bounceReward(LivingEntity entity) {
+        float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
         ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
+
         if (!entity.isSpectator()
                 && (ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get() || entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS))) {
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
@@ -102,7 +104,8 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
                 entity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
             else if (offhandStack.getCount() >= 1 && entity instanceof Player player)
                 player.addItem(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
-            entity.level().playSound(null, entity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            entity.level().playSound(null, entity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                    SoundSource.PLAYERS, 1.0F, pitch);
         }
     }
 

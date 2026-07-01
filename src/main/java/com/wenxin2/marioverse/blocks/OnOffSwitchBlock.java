@@ -106,6 +106,7 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
     }
 
     public static void hitSwitchBlock(Level level, BlockPos pos, @Nullable Entity entity) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         BlockState state = level.getBlockState(pos);
 
         if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
@@ -124,8 +125,8 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
                         UniformInt.of(3, 4), () -> ServerParticleUtils.getRandomSpeedRanges(level.getRandom()), 0.65D);
 
             if (state.getValue(ACTIVE))
-                level.playSound(null, pos, SoundRegistry.SWITCH_OFF.get(), SoundSource.BLOCKS);
-            else level.playSound(null, pos, SoundRegistry.SWITCH_ON.get(), SoundSource.BLOCKS);
+                level.playSound(null, pos, SoundRegistry.SWITCH_OFF.get(), SoundSource.BLOCKS, 1.0F, pitch);
+            else level.playSound(null, pos, SoundRegistry.SWITCH_ON.get(), SoundSource.BLOCKS, 1.0F, pitch);
 
             if (entity != null)
                 entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 2);

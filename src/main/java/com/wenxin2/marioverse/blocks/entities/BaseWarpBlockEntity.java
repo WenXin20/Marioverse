@@ -182,20 +182,18 @@ public class BaseWarpBlockEntity extends BlockEntity {
         return tag;
     }
 
-    public void playSound(Level world, BlockPos pos, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
-        world.playSound(null, pos, soundEvent, source, volume, pitch);
+    public void playSound(Level level, BlockPos pos, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
+        level.playSound(null, pos, soundEvent, source, volume, pitch);
     }
 
-    public void playDoorSounds(@Nullable Entity entity, Level world, BlockPos pos, boolean isOpen, BlockSetType type) {
-        world.playSound(entity, pos, isOpen ? type.doorOpen() : type.doorClose(), SoundSource.BLOCKS, 1.0F,
-                world.getRandom().nextFloat() * 0.1F + 0.9F
-        );
+    public void playDoorSounds(@Nullable Entity entity, Level level, BlockPos pos, boolean isOpen, BlockSetType type) {
+        level.playSound(entity, pos, isOpen ? type.doorOpen() : type.doorClose(), SoundSource.BLOCKS, 1.0F,
+                level.getRandom().nextFloat() * 0.1F + 0.9F);
     }
 
-    public void playTrapdoorSounds(@Nullable Entity entity, Level world, BlockPos pos, boolean isOpen, BlockSetType type) {
-        world.playSound(entity, pos, isOpen ? type.doorOpen() : type.doorClose(), SoundSource.BLOCKS, 1.0F,
-                world.getRandom().nextFloat() * 0.1F + 0.9F
-        );
+    public void playTrapdoorSounds(@Nullable Entity entity, Level level, BlockPos pos, boolean isOpen, BlockSetType type) {
+        level.playSound(entity, pos, isOpen ? type.doorOpen() : type.doorClose(), SoundSource.BLOCKS, 1.0F,
+                level.getRandom().nextFloat() * 0.1F + 0.9F);
     }
 
     // Method to mark an entity as teleported

@@ -67,6 +67,7 @@ public class PickupItemGoal extends Goal {
         this.mob.getNavigation().moveTo(this.targetItem, this.speedModifier);
 
         if (this.mob.distanceToSqr(this.targetItem) < 2.25D) {
+            float pitch = 0.9F + this.mob.level().random.nextFloat() * 0.2F;
             ItemStack stack = this.targetItem.getItem();
             boolean shouldOpenMouth = this.eatIfEdible
                     && !this.mob.getData(DataAttachmentRegistry.IS_EATING);
@@ -81,7 +82,7 @@ public class PickupItemGoal extends Goal {
                 FoodProperties foodProperties = stack.getFoodProperties(this.mob);
                 float nutrition = foodProperties != null ? (float) foodProperties.nutrition() : 1.0F;
 
-                this.mob.playSound(this.mob.getEatingSound(stack), 1.0F, 1.0F);
+                this.mob.playSound(this.mob.getEatingSound(stack), 1.0F, pitch);
                 this.mob.heal(ConfigRegistry.PORCUPUFFER_HEALTH_HEALED.get().floatValue() * nutrition);
                 this.mob.level().broadcastEntityEvent(this.mob, (byte)45);
                 this.mob.gameEvent(GameEvent.EAT);

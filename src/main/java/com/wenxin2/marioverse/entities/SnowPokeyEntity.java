@@ -271,18 +271,18 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     @NotNull
     @Override
-    public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level world, BlockPos pos) {
-        List<ItemStack> defaultDrops = super.onSheared(player, stack, world, pos);
+    public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level level, BlockPos pos) {
+        List<ItemStack> defaultDrops = super.onSheared(player, stack, level, pos);
         List<ItemStack> finalDrops = new ArrayList<>(defaultDrops);
 
-        if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_CARROT)) {
-            world.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+        if (!level.isClientSide() && this.getData(DataAttachmentRegistry.HAS_CARROT)) {
+            level.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.setData(DataAttachmentRegistry.HAS_CARROT, false);
             finalDrops.add(new ItemStack(Items.CARROT));
         }
 
-        if (!world.isClientSide() && this.getData(DataAttachmentRegistry.HAS_GOLDEN_CARROT)) {
-            world.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+        if (!level.isClientSide() && this.getData(DataAttachmentRegistry.HAS_GOLDEN_CARROT)) {
+            level.playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
             this.setData(DataAttachmentRegistry.HAS_GOLDEN_CARROT, false);
             finalDrops.add(new ItemStack(Items.GOLDEN_CARROT));
         }

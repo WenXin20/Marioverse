@@ -63,7 +63,7 @@ public class WarpTrapDoorBlockEntity extends BaseWarpBlockEntity {
         }
     }
 
-    public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state, TrapDoorBlock trapdoorBlock, BaseWarpBlockEntity warpBE) {
+    public static void warp(Level world, BlockPos warpPos, BlockState state, Entity entity, TrapDoorBlock trapdoorBlock, BaseWarpBlockEntity warpBE) {
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
         double x = warpPos.getX() + 0.5;

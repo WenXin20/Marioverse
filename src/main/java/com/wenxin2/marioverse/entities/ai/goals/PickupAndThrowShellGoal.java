@@ -42,10 +42,10 @@ public class PickupAndThrowShellGoal extends Goal {
             return false;
         }
 
-        if (mob.getMainHandItem().getItem() instanceof KoopaShellItem
-                || mob.getOffhandItem().getItem() instanceof KoopaShellItem
+        if (this.mob.getMainHandItem().getItem() instanceof KoopaShellItem
+                || this.mob.getOffhandItem().getItem() instanceof KoopaShellItem
                 || !heldShell.isEmpty()) {
-            this.target = mob.getTarget();
+            this.target = this.mob.getTarget();
             return true;
         } else return this.findNearbyShell() != null;
     }
@@ -57,15 +57,15 @@ public class PickupAndThrowShellGoal extends Goal {
             return;
         }
 
-        boolean hasShellInMainHand = mob.getMainHandItem().getItem() instanceof KoopaShellItem;
-        boolean hasShellInOffHand = mob.getOffhandItem().getItem() instanceof KoopaShellItem;
+        boolean hasShellInMainHand = this.mob.getMainHandItem().getItem() instanceof KoopaShellItem;
+        boolean hasShellInOffHand = this.mob.getOffhandItem().getItem() instanceof KoopaShellItem;
         boolean hasShellInMemory = !heldShell.isEmpty();
 
         if ((hasShellInMainHand || hasShellInOffHand || hasShellInMemory)) {
             if (target != null)
-                mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
-            mob.yRotO = mob.getYHeadRot();
-            mob.setYRot(Mth.wrapDegrees(mob.getYHeadRot()));
+                this.mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
+            this.mob.yRotO = this.mob.getYHeadRot();
+            this.mob.setYRot(Mth.wrapDegrees(this.mob.getYHeadRot()));
 
             if (aimingTicks < 10) {
                 aimingTicks++;
@@ -73,14 +73,14 @@ public class PickupAndThrowShellGoal extends Goal {
             }
 
             if (!(mob instanceof Monster) && !(mob instanceof AbstractGolem)) {
-                this.throwShellAt(hasShellInMainHand ? mob.getMainHandItem() : heldShell);
-                this.throwShellAt(hasShellInOffHand ? mob.getOffhandItem() : heldShell);
+                this.throwShellAt(hasShellInMainHand ? this.mob.getMainHandItem() : heldShell);
+                this.throwShellAt(hasShellInOffHand ? this.mob.getOffhandItem() : heldShell);
                 cooldown = 100;
-            } else if (target != null && mob.distanceToSqr(target) < 16 * 16
-                    && mob.getSensing().hasLineOfSight(target)
-                    && mob.getLookControl().isLookingAtTarget()) {
-                this.throwShellAt(hasShellInMainHand ? mob.getMainHandItem() : heldShell);
-                this.throwShellAt(hasShellInOffHand ? mob.getOffhandItem() : heldShell);
+            } else if (target != null && this.mob.distanceToSqr(target) < 16 * 16
+                    && this.mob.getSensing().hasLineOfSight(target)
+                    && this.mob.getLookControl().isLookingAtTarget()) {
+                this.throwShellAt(hasShellInMainHand ? this.mob.getMainHandItem() : heldShell);
+                this.throwShellAt(hasShellInOffHand ? this.mob.getOffhandItem() : heldShell);
                 cooldown = 100;
                 aimingTicks = 0;
             }
@@ -88,16 +88,16 @@ public class PickupAndThrowShellGoal extends Goal {
             aimingTicks = 0;
             Entity shell = this.findNearbyShell();
             if (shell != null) {
-                mob.getNavigation().moveTo(shell, 1.0);
-                if (mob.distanceToSqr(shell) < mob.getBbWidth() + 2.5)
+                this.mob.getNavigation().moveTo(shell, 1.0);
+                if (this.mob.distanceToSqr(shell) < this.mob.getBbWidth() + 2.5)
                     this.pickUpShell(shell);
             }
         }
     }
 
     private Entity findNearbyShell() {
-        Level level = mob.level();
-        AABB searchBox = mob.getBoundingBox().inflate(8.0);
+        Level level = this.mob.level();
+        AABB searchBox = this.mob.getBoundingBox().inflate(8.0);
 
         Optional<KoopaShellEntity> entityShell = level.getEntitiesOfClass(KoopaShellEntity.class, searchBox)
                 .stream().filter(e -> e.getDeltaMovement().lengthSqr() < 0.1 && e.isAlive())
@@ -113,27 +113,31 @@ public class PickupAndThrowShellGoal extends Goal {
     }
 
     private void pickUpShell(Entity entity) {
+        float pitch = 0.9F + this.mob.level().random.nextFloat() * 0.2F;
+
         if (entity instanceof ItemEntity itemEntity) {
-            if (this.hasMainHandSlot(mob) && mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
-                mob.setItemInHand(InteractionHand.MAIN_HAND, itemEntity.getItem());
-            else if (this.hasOffHandSlot(mob) && mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())
-                mob.setItemInHand(InteractionHand.OFF_HAND, itemEntity.getItem());
+            if (this.hasMainHandSlot(mob) && this.mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
+                this.mob.setItemInHand(InteractionHand.MAIN_HAND, itemEntity.getItem());
+            else if (this.hasOffHandSlot(mob) && this.mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())
+                this.mob.setItemInHand(InteractionHand.OFF_HAND, itemEntity.getItem());
 
             heldShell = itemEntity.getItem().copy();
-            mob.swing(mob.getUsedItemHand());
-            mob.level().playSound(mob, mob.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.NEUTRAL, 1.0F, 1.0F);
+            this.mob.swing(this.mob.getUsedItemHand());
+            this.mob.level().playSound(mob, this.mob.blockPosition(), SoundEvents.ITEM_PICKUP,
+                    SoundSource.NEUTRAL, 1.0F, pitch);
             itemEntity.discard();
         } else if (entity instanceof KoopaShellEntity shell && shell.getPickResult() != null) {
             ItemStack shellItem = new ItemStack(shell.getPickResult().getItem());
 
-            if (this.hasMainHandSlot(mob) && mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
-                mob.setItemInHand(InteractionHand.MAIN_HAND, shellItem);
-            else if (this.hasOffHandSlot(mob) && mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())
-                mob.setItemInHand(InteractionHand.OFF_HAND, shellItem);
+            if (this.hasMainHandSlot(mob) && this.mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
+                this.mob.setItemInHand(InteractionHand.MAIN_HAND, shellItem);
+            else if (this.hasOffHandSlot(mob) && this.mob.getItemInHand(InteractionHand.OFF_HAND).isEmpty())
+                this.mob.setItemInHand(InteractionHand.OFF_HAND, shellItem);
 
             heldShell = shellItem;
-            mob.swing(mob.getUsedItemHand());
-            mob.level().playSound(mob, mob.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.NEUTRAL, 1.0F, 1.0F);
+            this.mob.swing(this.mob.getUsedItemHand());
+            this.mob.level().playSound(mob, this.mob.blockPosition(), SoundEvents.ITEM_PICKUP,
+                    SoundSource.NEUTRAL, 1.0F, pitch);
             shell.discard();
         }
     }
@@ -142,16 +146,16 @@ public class PickupAndThrowShellGoal extends Goal {
         if (!(stack.getItem() instanceof KoopaShellItem shellItem)) return;
 
         EntityType<?> type = heldShell.isEmpty() ? shellItem.getType(stack) : shellItem.getType(heldShell);
-        Entity entity = type.create(mob.level());
+        Entity entity = type.create(this.mob.level());
 
         if (entity instanceof KoopaShellEntity shell) {
-            shellItem.throwShell(mob.level(), mob, shell, stack);
+            shellItem.throwShell(this.mob.level(), mob, shell, stack);
 
-            mob.yRotO = mob.getYRot();
-            mob.setYRot(Mth.wrapDegrees(mob.getYRot()));
-            mob.swing(mob.getUsedItemHand());
+            this.mob.yRotO = this.mob.getYRot();
+            this.mob.setYRot(Mth.wrapDegrees(this.mob.getYRot()));
+            this.mob.swing(this.mob.getUsedItemHand());
 
-            if (!mob.getType().is(TagRegistry.HAS_INFINITE_SHELL_AMMO))
+            if (!this.mob.getType().is(TagRegistry.HAS_INFINITE_SHELL_AMMO))
                 heldShell = ItemStack.EMPTY;
             cooldown = 100;
         }

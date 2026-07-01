@@ -351,14 +351,15 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onEntityDamaged(LivingIncomingDamageEvent event) {
         LivingEntity entity = event.getEntity();
-        Level world = entity.level();
+        Level level = entity.level();
         DamageSource source = event.getSource();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (entity instanceof Player player && !player.isDamageSourceBlocked(event.getSource())) {
             float healthAfterDamage = player.getHealth() - event.getAmount();
             SoundSource soundSource = SoundSource.PLAYERS;
 
-            if (world instanceof ServerLevel serverWorld) {
+            if (level instanceof ServerLevel serverWorld) {
                 if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
                         || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER))
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
@@ -366,14 +367,14 @@ public class MarioverseEventHandlers {
 
             if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
-                world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        soundSource, 1.0F, 1.0F);
+                level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                        soundSource, 1.0F, pitch);
             }
 
             if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
                 entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
-                world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        soundSource, 1.0F, 1.0F);
+                level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                        soundSource, 1.0F, pitch);
             }
 
             if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
@@ -384,8 +385,8 @@ public class MarioverseEventHandlers {
             if (healthAfterDamage <= ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()) {
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, false);
                 if (entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM))
-                    world.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                            soundSource, 1.0F, 1.0F);
+                    level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                            soundSource, 1.0F, pitch);
             }
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
@@ -406,7 +407,7 @@ public class MarioverseEventHandlers {
             float healthAfterDamage = entity.getHealth() - event.getAmount();
             float threshold = maxHealth * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get().floatValue();
 
-            if (world instanceof ServerLevel serverWorld) {
+            if (level instanceof ServerLevel serverWorld) {
                 if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
                         || entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER))
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, entity, 10);
@@ -415,15 +416,15 @@ public class MarioverseEventHandlers {
             if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
-                world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        SoundSource.HOSTILE, 1.0F, 1.0F);
+                level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                        SoundSource.HOSTILE, 1.0F, pitch);
             }
 
             if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
-                world.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                        SoundSource.HOSTILE, 1.0F, 1.0F);
+                level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                        SoundSource.HOSTILE, 1.0F, pitch);
             }
 
             if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
@@ -638,10 +639,10 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        Level world = event.getLevel();
+        Level level = event.getLevel();
         BlockPos pos = event.getPos();
-        BlockState state = world.getBlockState(pos);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockState state = level.getBlockState(pos);
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
@@ -655,14 +656,14 @@ public class MarioverseEventHandlers {
                 && flowerPot.getPotted() == Blocks.AIR
                 && !player.isShiftKeyDown()) {
 
-            world.setBlock(pos, newState, 3);
+            level.setBlock(pos, newState, 3);
 
             if (blockEntity instanceof PottedPiranhaPlantBlockEntity piranhaPlantBE) {
                 piranhaPlantBE.setOwner(player);
                 piranhaPlantBE.setChanged();
             }
 
-            world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+            level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             player.awardStat(Stats.POT_FLOWER);
             player.swing(InteractionHand.MAIN_HAND);
             heldItem.consume(1, player);
@@ -679,14 +680,14 @@ public class MarioverseEventHandlers {
 
                 for (Direction direction : Direction.values()) {
                     BlockPos neighborPos = pos.relative(direction);
-                    BlockState neighborState = world.getBlockState(neighborPos);
+                    BlockState neighborState = level.getBlockState(neighborPos);
 
-                    if (world.getBlockEntity(neighborPos) instanceof DisguisedBlockEntity neighborBE) {
+                    if (level.getBlockEntity(neighborPos) instanceof DisguisedBlockEntity neighborBE) {
                         BlockState neighborDisguise = neighborBE.getDisguiseState();
                         if (neighborDisguise != null && !neighborDisguise.isAir())
                             neighborState = neighborDisguise;
                     }
-                    currentState = currentState.updateShape(direction, neighborState, world, pos, neighborPos);
+                    currentState = currentState.updateShape(direction, neighborState, level, pos, neighborPos);
                 }
                 placementState = currentState;
 
@@ -694,9 +695,9 @@ public class MarioverseEventHandlers {
                 disguiseBE.setItem(0, stackCopy);
                 heldItem.consume(1, player);
                 disguiseBE.requestModelDataUpdate();
-                world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos), Block.UPDATE_ALL);
-                world.playSound(null, pos, blockItem.getBlock().defaultBlockState()
-                        .getSoundType(world, pos, player).getPlaceSound(), SoundSource.BLOCKS);
+                level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), Block.UPDATE_ALL);
+                level.playSound(null, pos, blockItem.getBlock().defaultBlockState()
+                        .getSoundType(level, pos, player).getPlaceSound(), SoundSource.BLOCKS);
             }
             event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
@@ -706,7 +707,7 @@ public class MarioverseEventHandlers {
             if (blockEntity instanceof QuestionBlockEntity questionBE) {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
                         new QuestionBlockMenu(id, playerInventory, questionBE,
-                                questionBE.getDataAccess(), ContainerLevelAccess.create(world, pos)),
+                                questionBE.getDataAccess(), ContainerLevelAccess.create(level, pos)),
                         ((QuestionBlockEntity) blockEntity).getDisplayName()));
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, heldItem);
@@ -717,14 +718,14 @@ public class MarioverseEventHandlers {
         }
 
         if (heldItem.getItem() instanceof SpawnEggItem && state.getBlock() instanceof WarpPipeBlock
-                && world.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE) {
+                && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE) {
             if (warpBE.isWaxed() || !ConfigRegistry.WARP_PIPE_SPAWNS_MOBS.get() || !player.isCreative()) {
                 event.setCancellationResult(InteractionResult.FAIL);
                 event.setCanceled(true);
             }
         }
 
-        if (heldItem.getItem() instanceof HoneycombItem && world.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
+        if (heldItem.getItem() instanceof HoneycombItem && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
                 && (ConfigRegistry.WAX_DISABLES_BUBBLES.get() || ConfigRegistry.WAX_DISABLES_CLOSING.get()
                 || ConfigRegistry.WAX_DISABLES_RENAMING.get() || ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get()
                 || ConfigRegistry.WAX_DISABLES_WARP_LINKING.get())) {
@@ -734,21 +735,21 @@ public class MarioverseEventHandlers {
                 heldItem.consume(1, player);
 
                 if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.above(), ParticleTypes.WAX_ON, UniformInt.of(3, 5));
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos.above(), ParticleTypes.WAX_ON, UniformInt.of(3, 5));
                 if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(), ParticleTypes.WAX_ON, UniformInt.of(3, 5));
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos.below(), ParticleTypes.WAX_ON, UniformInt.of(3, 5));
 
-                ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
-                world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
-                world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
+                level.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
 
                 event.setCancellationResult(InteractionResult.SUCCESS);
                 event.setCanceled(true);
             }
         }
 
-        if (heldItem.getItem() instanceof AxeItem && world.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
+        if (heldItem.getItem() instanceof AxeItem && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
                 && ConfigRegistry.ALLOW_WARP_UNWAXING.get()) {
             if (warpBE.isWaxed()) {
                 warpBE.setWaxed(false);
@@ -756,21 +757,21 @@ public class MarioverseEventHandlers {
                 heldItem.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
 
                 if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.above(), ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos.above(), ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
                 if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
-                    ParticleUtils.spawnParticlesOnBlockFaces(world, pos.below(), ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
+                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos.below(), ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
 
-                ParticleUtils.spawnParticlesOnBlockFaces(world, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
-                world.playSound(null, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F);
-                world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
+                level.playSound(null, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
 
                 event.setCancellationResult(InteractionResult.SUCCESS);
                 event.setCanceled(true);
             }
         }
 
-        if (world.isClientSide()) {
+        if (level.isClientSide()) {
             if (blockEntity instanceof WarpPipeBlockEntity) {
                 // Update the last clicked position
                 WarpPipeScreen.lastClickedPos = pos;
@@ -780,11 +781,12 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
-        Level world = event.getLevel();
+        Level level = event.getLevel();
         Entity target = event.getTarget();
         Player player = event.getEntity();
         BlockPos pos = target.blockPosition();
         ItemStack stack = event.getItemStack();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         boolean isPainting = target instanceof Painting
                 || target.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
@@ -800,21 +802,21 @@ public class MarioverseEventHandlers {
 
         if (stack.getItem() instanceof LinkerItem linker) {
             if (isPainting || stack.is(ItemRegistry.CREATIVE_WRENCH))
-                linker.linkEntity(stack, player, target, world, pos);
+                linker.linkEntity(stack, player, target, level, pos);
         }
 
         if (stack.getItem() instanceof WarpDisruptorItem disruptorItem)
-            WarpDisruptorItem.disruptEntity(disruptorItem, target, world, player, stack);
+            WarpDisruptorItem.disruptEntity(disruptorItem, target, level, player, stack);
 
         if ((!ConfigRegistry.DISABLE_WARP_PAINTINGS.get() || player.isCreative())
                 && isPainting && stack.is(TagRegistry.CRAFTS_WARP_PAINTING)
                 && target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt()) {
             target.setData(DataAttachmentRegistry.WARP_FUEL_COUNT.get(), target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) + 1);
             if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) < ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS);
+                level.playSound(null, pos, SoundRegistry.WARP_FUEL_FILLS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             else if (target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()) == ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt())
-                world.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS);
-            if (world instanceof ServerLevel serverWorld)
+                level.playSound(null, pos, SoundRegistry.WARP_COMPLETED.get(), SoundSource.BLOCKS, 1.0F, pitch);
+            if (level instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnOneLayerBlockParticles(ParticleTypes.PORTAL, serverWorld, target, pos, 16);
             player.swing(player.getUsedItemHand());
             stack.consume(1, player);
@@ -823,8 +825,8 @@ public class MarioverseEventHandlers {
         } else if (stack.getItem() instanceof HoneycombItem) {
             if (!ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                 if (!target.getData(DataAttachmentRegistry.IS_WAXED.get())) {
-                    if (world instanceof ServerLevel serverWorld) {
-                        world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    if (level instanceof ServerLevel serverWorld) {
+                        level.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.WAX_ON, serverWorld, target, 0.5, 64);
                         stack.consume(1, player);
                     }
@@ -991,15 +993,16 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onEntityJump(LivingEvent.LivingJumpEvent event) {
         LivingEntity entity = event.getEntity();
-        Level world = entity.level();
+        Level level = entity.level();
         BlockPos pos = entity.blockPosition();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!ConfigRegistry.DISABLE_JUMP_SOUND.get() && !entity.isShiftKeyDown() && entity instanceof AbilitiesHandler handler
                 && (handler.mv$hasMarioCostume(entity) || handler.mv$hasLuigiCostume(entity)
                     || handler.mv$hasPeachCostume(entity))) {
             entity.level().playSound(null, entity.blockPosition(),
                     entity instanceof Player ? SoundRegistry.PLAYER_JUMP.get() : SoundRegistry.MOB_JUMP.get(),
-                    entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL);
+                    entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL, 1.0F, pitch);
         }
     }
 

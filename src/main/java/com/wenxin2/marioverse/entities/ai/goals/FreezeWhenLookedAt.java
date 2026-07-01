@@ -51,6 +51,8 @@ public class FreezeWhenLookedAt extends Goal {
 
     @Override
     public void start() {
+        float pitch = 0.9F + this.mob.level().random.nextFloat() * 0.2F;
+
         this.mob.getNavigation().stop();
         this.mob.setDeltaMovement(Vec3.ZERO);
         this.mob.setSpeed(0);
@@ -59,7 +61,7 @@ public class FreezeWhenLookedAt extends Goal {
         this.mob.yBodyRot = this.mob.getYRot();
         if (this.mob instanceof BooEntity) {
             this.mob.setData(DataAttachmentRegistry.IS_HIDING.get(), true);
-            this.mob.playSound(SoundRegistry.BOO_HIDE.get(), 1.0F, 1.0F);
+            this.mob.playSound(SoundRegistry.BOO_HIDE.get(), 1.0F, pitch);
         }
     }
 

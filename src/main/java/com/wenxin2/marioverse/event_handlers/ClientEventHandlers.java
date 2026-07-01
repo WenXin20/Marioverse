@@ -408,6 +408,7 @@ public class ClientEventHandlers {
         Level level = entity.level();
         BlockPos pos = entity.blockPosition();
         BlockState state = level.getBlockState(pos);
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
         boolean isEntrance = state.hasProperty(ClearWarpPipeBlock.ENTRANCE) && state.getValue(ClearWarpPipeBlock.ENTRANCE);
 
@@ -434,14 +435,14 @@ public class ClientEventHandlers {
 
         if (entity.getData(DataAttachmentRegistry.PLAYED_EXIT_PIPE_SOUND)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_ENTER_PIPE_SOUND) && inClearPipe && isEntrance) {
-            entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, 1.0F);
+            entity.playSound(SoundRegistry.CLEAR_PIPE_ENTER.get(), 1.0F, pitch);
             entity.setData(DataAttachmentRegistry.PLAYED_ENTER_PIPE_SOUND, true);
             entity.setData(DataAttachmentRegistry.PLAYED_EXIT_PIPE_SOUND, false);
         }
 
         if (entity.getData(DataAttachmentRegistry.PLAYED_ENTER_PIPE_SOUND)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_EXIT_PIPE_SOUND) && !inClearPipe) {
-            entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, 1.0F);
+            entity.playSound(SoundRegistry.CLEAR_PIPE_EXIT.get(), 1.0F, pitch);
             entity.setData(DataAttachmentRegistry.PLAYED_EXIT_PIPE_SOUND, true);
             entity.setData(DataAttachmentRegistry.PLAYED_ENTER_PIPE_SOUND, false);
         }

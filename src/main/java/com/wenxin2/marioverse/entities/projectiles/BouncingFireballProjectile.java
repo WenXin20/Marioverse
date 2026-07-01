@@ -166,8 +166,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
     @Override
     protected void onHitEntity(EntityHitResult hit) {
         Entity entity = hit.getEntity();
-        Level world = this.level();
+        Level level = this.level();
         BlockPos pos = this.blockPosition();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (entity instanceof Player player && !player.isSpectator() && !player.fireImmune() && this.canHitEntity(player)
                 && !player.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
@@ -182,8 +183,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                    world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                    level.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
+                            SoundSource.PLAYERS, 1.0F, pitch);
                 }
             } else if (this.getOwner() != null) {
                 if (player.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
@@ -192,9 +193,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     player.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                 player.igniteForSeconds(2.0F);
             }
-            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            level.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof LivingEntity livingEntity && !livingEntity.fireImmune() && this.canHitEntity(livingEntity)
                 && !livingEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
@@ -211,8 +212,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, livingEntity, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
-                    world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
-                            SoundSource.NEUTRAL, 1.0F, 1.0F);
+                    level.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
+                            SoundSource.NEUTRAL, 1.0F, pitch);
                 }
             } else if (this.getOwner() != null) {
                 if (livingEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
@@ -221,9 +222,9 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     livingEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                 livingEntity.igniteForSeconds(2.0F);
             }
-            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            level.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof PiranhaPlantPart partEntity && !partEntity.fireImmune() && this.canHitEntity(partEntity)
                 && !partEntity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
@@ -235,8 +236,8 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                     this.setDeltaMovement(this.getDeltaMovement().reverse());
                     shield.hurtAndBreak(1, partEntity.getParent(), LivingEntity.getSlotForHand(partEntity.getParent().getUsedItemHand()));
-                    world.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
-                            SoundSource.NEUTRAL, 1.0F, 1.0F);
+                    level.playSound(null, pos, SoundEvents.SHIELD_BLOCK,
+                            SoundSource.NEUTRAL, 1.0F, pitch);
                 }
             } else if (this.getOwner() != null) {
                 if (partEntity.getType().is(TagRegistry.FIREBALL_CAN_INSTAKILL))
@@ -245,26 +246,26 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
                     partEntity.hurt(DamageSourceRegistry.fireball(entity, this.getOwner()), ConfigRegistry.FIREBALL_DAMAGE.get().floatValue());
                 partEntity.igniteForSeconds(2.0F);
             }
-            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            level.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity instanceof MinecartTNT tnt)
             tnt.activateMinecart(0, 0, 0, Boolean.TRUE);
         else if (entity instanceof IceCubeEntity iceCube) {
             iceCube.shatterIceCube(this, false, false, false);
-            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
         } else if (entity.fireImmune() || entity.getType().is(TagRegistry.FIREBALL_IMMUNE)) {
-            world.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                    SoundSource.AMBIENT, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                    SoundSource.AMBIENT, 1.0F, pitch);
             if (this.level() instanceof ServerLevel serverWorld)
                 ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            world.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
+            level.gameEvent(entity, GameEvent.PROJECTILE_LAND, this.position());
             this.remove(RemovalReason.DISCARDED);
         }
 
@@ -296,44 +297,52 @@ public class BouncingFireballProjectile extends ThrowableProjectile implements G
         return false;
     }
 
-    public void bounceEffects(Level world, BlockPos pos) {
-        if (this.level() instanceof ServerLevel serverWorld)
-            ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-        world.playSound(null, pos, SoundRegistry.FIREBALL_SIZZLES.get(),
-                SoundSource.AMBIENT, 1.0F, 1.0F);
-        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, pos);
+    public void bounceEffects(Level level, BlockPos pos) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
+        if (this.level() instanceof ServerLevel serverLevel)
+            ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.SMOKE, serverLevel, this, this.getBbWidth() / 2, 0.0, 10);
+        level.playSound(null, pos, SoundRegistry.FIREBALL_SIZZLES.get(),
+                SoundSource.AMBIENT, 1.0F, pitch);
+        level.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, pos);
     }
 
     public void discardEffects() {
-        if (this.level() instanceof ServerLevel serverWorld)
-            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
+
+        if (this.level() instanceof ServerLevel serverLevel)
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverLevel, this, this.getBbWidth() / 2, 0.0, 10);
         this.level().playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
-                SoundSource.AMBIENT, 1.0F, 1.0F);
+                SoundSource.AMBIENT, 1.0F, pitch);
         this.level().gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, this.position());
         this.remove(RemovalReason.DISCARDED); // Despawn
     }
 
-    public void discardEffectsOnSideHit(Level world, BlockPos hitPos) {
-        if (this.level() instanceof ServerLevel serverWorld) {
-            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverWorld, this, this.getBbWidth() / 2, 0.0, 10);
-            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
+    public void discardEffectsOnSideHit(Level level, BlockPos hitPos) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+
+        if (this.level() instanceof ServerLevel serverLevel) {
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.SMOKE, serverLevel, this, this.getBbWidth() / 2, 0.0, 10);
+            ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.FLAME, serverLevel, this, this.getBbWidth() / 2, 0.1, 10);
             if (this.level().getFluidState(this.blockPosition()).is(FluidTags.WATER))
-                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.BUBBLE, serverWorld, this, this.getBbWidth() / 2, 0.1, 10);
+                ServerParticleUtils.spawnParticleRingOnEntity(ParticleTypes.BUBBLE, serverLevel, this, this.getBbWidth() / 2, 0.1, 10);
         }
-        world.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-        world.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
+        level.playSound(null, this.blockPosition(), SoundRegistry.FIREBALL_EXTINGUISHED.get(),
+                SoundSource.AMBIENT, 1.0F, pitch);
+        level.gameEvent(this.getOwner(), GameEvent.PROJECTILE_LAND, hitPos);
         this.remove(RemovalReason.DISCARDED); // Despawn on side hit
     }
 
     public void collideWithEntity() {
         AABB collisionBox = this.getBoundingBox().inflate(0.01, 0, 0.01);
         List<Entity> collidingEntities = this.level().getEntities(this, collisionBox);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         for (Entity entity : collidingEntities) {
             if (entity instanceof Breeze) {
                 this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), true);
                 this.level().playSound(null, entity.blockPosition(), SoundEvents.BREEZE_DEFLECT,
-                        entity.getSoundSource(), 1.0F, 1.0F);
+                        entity.getSoundSource(), 1.0F, pitch);
                 return;
             }
         }

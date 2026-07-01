@@ -61,7 +61,8 @@ public interface WarpLinkableEntity {
             WARPED_ENTITIES.put(entity.getId(), true);
     }
 
-    static void warp(Entity entity, double x, double y, double z, Level world) {
+    static void warp(Level level, Entity entity, double x, double y, double z) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
 
@@ -71,7 +72,7 @@ public interface WarpLinkableEntity {
                 entity.unRide();
 
                 if (entity instanceof ServerPlayer serverPlayer)
-                    serverPlayer.teleportTo((ServerLevel) world, x, y, z, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    serverPlayer.teleportTo((ServerLevel) level, x, y, z, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
                 else entity.teleportTo(x, y, z);
 
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
@@ -103,7 +104,8 @@ public interface WarpLinkableEntity {
         }
 
         markEntityTeleported(entity);
-        world.gameEvent(GameEvent.TELEPORT, BlockPos.containing(x, y, z), GameEvent.Context.of(entity));
-        world.playSound(null, BlockPos.containing(x, y, z), SoundRegistry.PAINTING_WARPS.get(), SoundSource.BLOCKS);
+        level.gameEvent(GameEvent.TELEPORT, BlockPos.containing(x, y, z), GameEvent.Context.of(entity));
+        level.playSound(null, BlockPos.containing(x, y, z), SoundRegistry.PAINTING_WARPS.get(),
+                SoundSource.BLOCKS, 1.0F, pitch);
     }
 }

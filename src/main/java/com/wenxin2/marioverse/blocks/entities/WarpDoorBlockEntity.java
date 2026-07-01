@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.Vec3;
 
 public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
     public static final String BREAK_DOOR = "BreakDoor";
@@ -64,7 +63,7 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
         }
     }
 
-    public static void warp(Entity entity, BlockPos warpPos, Level world, BlockState state, DoorBlock doorBlock, BaseWarpBlockEntity warpBE) {
+    public static void warp(Level world, BlockPos warpPos, BlockState state, Entity entity, DoorBlock doorBlock, BaseWarpBlockEntity warpBE) {
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
         double x = warpPos.getX() + 0.5;

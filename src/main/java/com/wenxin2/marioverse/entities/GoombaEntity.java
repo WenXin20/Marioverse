@@ -134,13 +134,15 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     public void die(DamageSource source) {
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
+
         if (source.is(DamageTypeRegistry.STOMP)
                 || source.is(DamageTypeRegistry.PLAYER_STOMP))
-            this.playSound(getStompSound());
+            this.playSound(getStompSound(), 1.0F, pitch);
         else if (source.is(DamageTypeRegistry.MINI_GOOMBA_DEFEATED)
                 || source.is(DamageTypeRegistry.PLAYER_MINI_GOOMBA_DEFEATED))
-            this.playSound(SoundRegistry.MINI_GOOMBA_DEFEATED.get());
-        else this.playSound(SoundRegistry.GOOMBA_DEATH.get());
+            this.playSound(SoundRegistry.MINI_GOOMBA_DEFEATED.get(), 1.0F, pitch);
+        else this.playSound(SoundRegistry.GOOMBA_DEATH.get(), 1.0F, pitch);
         super.die(source);
     }
 
@@ -151,7 +153,9 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, 1.0F);
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
+
+        this.playSound(SoundRegistry.GOOMBA_STEP.get(), 1.0F, pitch);
         super.playStepSound(pos, state);
     }
 
@@ -635,6 +639,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
         List<Entity> nearbyEntities = this.level().getEntities(this,
                 this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator()
                         && entity instanceof LivingEntity && !(entity instanceof GoombaEntity));
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         if (!nearbyEntities.isEmpty()) {
             for (Entity collidingEntity : nearbyEntities) {
@@ -660,7 +665,7 @@ public class GoombaEntity extends Monster implements GeoEntity {
                         knockbackDirection.z * knockbackStrength);
                 collidingEntity.hurtMarked = true;
 
-                this.playSound(this.getBumpSound());
+                this.playSound(this.getBumpSound(), 1.0F, pitch);
                 this.tryToScare();
                 break;
             }

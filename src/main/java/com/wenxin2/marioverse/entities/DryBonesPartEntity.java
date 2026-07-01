@@ -266,6 +266,8 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
     }
 
     public void reassembleParts(int reassembleDuration) {
+        float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
+
         if (reassembleDuration < ConfigRegistry.DRY_BONES_REASSEMBLE_DURATION.get())
             this.setData(DataAttachmentRegistry.REASSEMBLE_DURATION, reassembleDuration + 1);
         if (reassembleDuration >= ConfigRegistry.DRY_BONES_REASSEMBLE_DURATION.get()) {
@@ -317,7 +319,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
                     if (this.level() instanceof ServerLevel serverWorld)
                         ServerParticleUtils.spawnParticlesOnEntityRandomly(this.getShatterParticle(), serverWorld,
                                 this, 0.0, 15);
-                    this.playSound(SoundRegistry.DRY_BONES_REASSEMBLE.get());
+                    this.playSound(SoundRegistry.DRY_BONES_REASSEMBLE.get(), 1.0F, pitch);
                     for (DryBonesPartEntity part : parts)
                         part.discard();
                 }
