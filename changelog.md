@@ -51,6 +51,7 @@
 - Improved Checkpoint Flags to be more compatible with modded items
 - Improved Checkpoint Flag item tooltips
 - Improved Power Up item tooltips
+- Improved stomping on mobs, should stomp them more consistently now
 - Increased mini goomba spawn rate & group size
 - Goombas can rarely spawn as a goombella variant
 - Changed pitch of hefty, mega, & mini goomba sounds

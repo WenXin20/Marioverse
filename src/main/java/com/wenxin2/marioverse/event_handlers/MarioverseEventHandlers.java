@@ -883,8 +883,9 @@ public class MarioverseEventHandlers {
         Player player = Minecraft.getInstance().player;
 
         if (player != null) {
-            Vec3 motion = player.getDeltaMovement();
             Level level = player.level();
+            Vec3 motion = player.getDeltaMovement();
+            double minY = player.getBoundingBox().minY;
 
             if (!player.isSpectator()) {
                 AABB belowBox = player.getBoundingBox()
@@ -944,13 +945,15 @@ public class MarioverseEventHandlers {
                 }
             }
 
-            if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                    && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+            if (!player.isSpectator()) {
+                if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                        && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                         || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
-                    && (player.fallDistance > 0 || player.isInWaterOrBubble())) {
-                if (Minecraft.getInstance().options.keyJump.isDown())
-                    PacketDistributor.sendToServer(new SquashEntityPayload(true));
-                else PacketDistributor.sendToServer(new SquashEntityPayload(false));
+                        && (player.fallDistance > 0 || player.isInWaterOrBubble())) {
+                    if (Minecraft.getInstance().options.keyJump.isDown())
+                        PacketDistributor.sendToServer(new SquashEntityPayload(true, motion.y, minY));
+                    else PacketDistributor.sendToServer(new SquashEntityPayload(false, motion.y, minY));
+                }
             }
         }
     }

@@ -40,14 +40,14 @@ public class SquashEntityPacket {
                         && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                             || player.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
                         && (motion.y < 0 || player.isInWaterOrBubble()))
-                    this.squashEntity(player, payload.isHoldingJump());
+                    this.squashEntity(player, payload.isHoldingJump(), payload.motionY(), payload.boundingBoxMinY());
             });
         }
     }
 
-    public void squashEntity(Player stompingEntity, boolean isHoldingJump) {
+    public void squashEntity(Player stompingEntity, boolean isHoldingJump, double clientMotionY, double clientMinY) {
         Vec3 motion = stompingEntity.getDeltaMovement();
-        AABB inflatedBox = stompingEntity.getBoundingBox().expandTowards(0, motion.y, 0)
+        AABB inflatedBox = stompingEntity.getBoundingBox().expandTowards(0, clientMotionY, 0)
                 .inflate(0.5, 0.0, 0.5);
 
         List<Entity> nearbyEntities = stompingEntity.level().getEntities(stompingEntity, inflatedBox);
@@ -75,12 +75,14 @@ public class SquashEntityPacket {
                             || damagedEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
                         return;
 
-                    double startY = stompingEntity.getBoundingBox().minY;
-                    double endY = startY + motion.y;
+                    double startY = clientMinY;
+                    double endY = startY + clientMotionY;
                     double targetTop = damagedEntity.getBoundingBox().maxY;
+                    double epsilon = 0.1;
+                    boolean crossedDownward = Math.max(startY, endY) >= targetTop - epsilon
+                            && Math.min(startY, endY) <= targetTop + epsilon;
 
-                    if (startY >= targetTop && endY <= targetTop
-                            && (motion.y < 0 || stompingEntity.isInWaterOrBubble())) {
+                    if (crossedDownward && (clientMotionY < 0 || stompingEntity.isInWaterOrBubble())) {
                         double bounceBlockHeight = ConfigRegistry.STOMP_BOUNCE_HEIGHT.getAsDouble();
 
                         if (isHoldingJump)
@@ -89,7 +91,8 @@ public class SquashEntityPacket {
                         double bounceVelocity = Math.sqrt(2 * gravity * bounceBlockHeight);
 
                         if (damagedEntity.isAlive()) {
-                            stompingEntity.setDeltaMovement(stompingEntity.getDeltaMovement().x, bounceVelocity, stompingEntity.getDeltaMovement().z);
+                            Vec3 currentMotion = stompingEntity.getDeltaMovement();
+                            stompingEntity.setDeltaMovement(currentMotion.x, bounceVelocity, currentMotion.z);
                             stompingEntity.hasImpulse = true;
                             if (stompingEntity instanceof ServerPlayer serverPlayer)
                                 serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(stompingEntity));

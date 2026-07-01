@@ -8,7 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public record SquashEntityPayload(boolean isHoldingJump) implements CustomPacketPayload {
+public record SquashEntityPayload(boolean isHoldingJump, double motionY, double boundingBoxMinY) implements CustomPacketPayload {
     public static final Type<SquashEntityPayload> PAYLOAD =
             new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "squash_entity_payload"));
 
@@ -20,6 +20,8 @@ public record SquashEntityPayload(boolean isHoldingJump) implements CustomPacket
 
     public static final StreamCodec<FriendlyByteBuf, SquashEntityPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL, SquashEntityPayload::isHoldingJump,
+            ByteBufCodecs.DOUBLE, SquashEntityPayload::motionY,
+            ByteBufCodecs.DOUBLE, SquashEntityPayload::boundingBoxMinY,
             SquashEntityPayload::new
     );
 }
