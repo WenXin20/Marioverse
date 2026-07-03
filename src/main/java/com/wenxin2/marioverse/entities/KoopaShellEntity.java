@@ -249,8 +249,8 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
 
         if (this.isAlive() && !this.isNoAi()) {
             this.collideWithWall(this.level());
-            if (!this.level().isClientSide)
-                this.collideWithEntity();
+//            if (!this.level().isClientSide)
+//                this.collideWithEntity();
         }
 
         if (this.isSliding() && this.isAlive() && !this.isNoAi()) {
@@ -263,14 +263,14 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             if (this.getLastDamageSource() != null
                     && this.getDeltaMovement().horizontalDistance() > 0
                     && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                        || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
+                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
                 this.setDeltaMovement(Vec3.ZERO);
                 this.slidingMovement = Vec3.ZERO;
             } else if (this.getLastDamageSource() != null
                     && this.getLastDamageSource().getEntity() != null
                     && this.getDeltaMovement().horizontalDistance() == 0
                     && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                        || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
+                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
                 Vec3 lookDir = this.getLastDamageSource().getEntity().getLookAngle().normalize();
                 Vec3 horizontalDir = new Vec3(lookDir.x, 0, lookDir.z).normalize();
                 Vec3 newSlideMotion = horizontalDir.scale(1.2);
@@ -357,6 +357,9 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
             this.setOwner(entity);
             this.leftOwner = false;
         }
+
+        if (!entity.level().isClientSide && this.isAlive() && !this.isNoAi())
+            this.collideWithEntity(entity);
         super.doPush(entity);
     }
 
@@ -787,6 +790,60 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
                         && !part.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
                     this.damageEntity(part.parentMob, newCollisions);
             }
+        }
+
+        entityCollided.retainAll(newCollisions);
+        entityCollided.addAll(newCollisions);
+    }
+
+    public void collideWithEntity(Entity entity) {
+        double shellSpeed = this.getDeltaMovement().horizontalDistance();
+        Set<UUID> newCollisions = new HashSet<>();
+        double entityHitSpeed = entity.getDeltaMovement().horizontalDistance();
+
+        if (shellSpeed >= 0.1 && !this.hasPassenger(entity)) {
+            if (entity instanceof VehicleEntity vehicle) {
+                vehicle.getPersistentData().putInt("marioverse:spinning_ticks", 30);
+
+                for (Entity rider : vehicle.getPassengers()) {
+                    if (rider instanceof LivingEntity livingEntity && !livingEntity.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE)) {
+                        float shellDamage = livingEntity.getType().is(this.getInstaKillEntityTag())
+                                ? livingEntity.getHealth() * 1.25F : this.getShellDamage();
+
+                        if (this.getOwner() != null && this.leftOwner)
+                            entity.hurt(DamageSourceRegistry.spinningShell(entity, this.getOwner()), shellDamage);
+                        else if (this.getOwner() == null) entity.hurt(DamageSourceRegistry.spinningShell(entity, this), shellDamage);
+
+                        if (rider.getType().is(this.getInstaKillEntityTag()))
+                            this.setKillCount(this.getKillCount() + 1);
+
+                        if (!entity.isAlive()) {
+                            this.playDeathAnimation(this);
+                            this.discard();
+                        }
+                    }
+                }
+            }
+
+            if (entity instanceof KoopaShellEntity koopaShell && entityHitSpeed >= 0.1 && koopaShell.isAlive()) {
+                this.playDeathAnimation(this);
+                this.discard();
+                koopaShell.playDeathAnimation(koopaShell);
+                koopaShell.discard();
+                return;
+            }
+
+            if (entity instanceof LivingEntity livingEntity && livingEntity.isAlive()
+                    && !livingEntity.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
+                this.damageEntity(livingEntity, newCollisions);
+
+            if (entity instanceof EnderDragonPart part && part.isAlive()
+                    && !part.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
+                this.damageEntity(part.parentMob, newCollisions);
+
+            if (entity instanceof PiranhaPlantPart part && part.isAlive()
+                    && !part.getType().is(TagRegistry.KOOPA_SHELL_CANNOT_DAMAGE))
+                this.damageEntity(part.parentMob, newCollisions);
         }
 
         entityCollided.retainAll(newCollisions);

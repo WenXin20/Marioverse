@@ -35,6 +35,7 @@ public class BaseMushroomEntity extends BasePowerUpEntity {
             double d0 = this.getGravity();
             boolean flag = this.getDeltaMovement().y <= 0.0;
             FluidState fluidstate = this.level().getFluidState(this.blockPosition());
+
             if (flag && this.hasEffect(MobEffects.SLOW_FALLING))
                 d0 = Math.min(d0, 0.01);
 

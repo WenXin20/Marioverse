@@ -117,7 +117,6 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        this.attachToEntity();
 
         if (stuckTo != null && stuckTo.getDeltaMovement().y > 0) {
             this.removeSpeedModifier(stuckTo);
@@ -138,6 +137,12 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
 
         if (currentCooldown > 0)
             currentCooldown--;
+    }
+
+    @Override
+    protected void doPush(Entity entity) {
+        this.attachToEntity(entity);
+        super.doPush(entity);
     }
 
     @Override
@@ -186,26 +191,19 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         return false;
     }
 
-    public void attachToEntity() {
-        AABB boundingBox = this.getBoundingBox().inflate(0.1);
-        List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
+    public void attachToEntity(Entity entity) {
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
-        if (!entities.isEmpty()) {
-            for (Entity entity : entities) {
-                if (entity instanceof LivingEntity livingEntity && !this.isNoAi()
-                        && !livingEntity.isSpectator()
-                        && (!this.isPassenger() && !(this.getVehicle() instanceof MiniGoombaEntity))
-                        && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
-                        || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get())) {
-                    if (this.stuckTo == null && this.isAlive())
-                        this.playSound(SoundRegistry.MINI_GOOMBA_ATTACH.get(), 1.0F, pitch);
-                    this.stuckTo = livingEntity;
-                    this.generateRandomOffsets(stuckTo);
-                    this.addSpeedModifier(stuckTo);
-                }
-                break;
-            }
+        if (entity instanceof LivingEntity livingEntity && !this.isNoAi()
+                && !livingEntity.isSpectator()
+                && (!this.isPassenger() && !(this.getVehicle() instanceof MiniGoombaEntity))
+                && (livingEntity.getType().is(TagRegistry.MINI_GOOMBA_CAN_ATTACH)
+                || ConfigRegistry.MINI_GOOMBAS_ATTACH_ALL_MOBS.get())) {
+            if (this.stuckTo == null && this.isAlive())
+                this.playSound(SoundRegistry.MINI_GOOMBA_ATTACH.get(), 1.0F, pitch);
+            this.stuckTo = livingEntity;
+            this.generateRandomOffsets(stuckTo);
+            this.addSpeedModifier(stuckTo);
         }
     }
 

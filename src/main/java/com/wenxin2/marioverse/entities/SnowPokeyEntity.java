@@ -219,7 +219,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType,
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficulty, MobSpawnType spawnType,
                                         @Nullable SpawnGroupData groupData) {
         float roll = this.getRandom().nextFloat();
 
@@ -255,7 +255,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
                     this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.25F;
             }
         }
-        return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
+        return super.finalizeSpawn(levelAccessor, difficulty, spawnType, groupData);
     }
 
     @Override

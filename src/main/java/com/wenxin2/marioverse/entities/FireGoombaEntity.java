@@ -76,8 +76,6 @@ public class FireGoombaEntity extends GoombaEntity implements GeoEntity {
             this.moveRelative(this.getSpeed(), travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.4));
-        } else {
-            super.travel(travelVector);
-        }
+        } else super.travel(travelVector);
     }
 }

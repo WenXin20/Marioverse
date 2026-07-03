@@ -366,8 +366,8 @@ public class GoombaEntity extends Monster implements GeoEntity {
             scareTime++;
         }
 
-        if (this.isSleeping() || this.isSitting())
-            this.checkForCollisionsAndWakeUp();
+//        if (this.isSleeping() || this.isSitting())
+//            this.checkForCollisionsAndWakeUp();
 
         if (this.isInWaterOrBubble())
             this.ejectPassengers();
@@ -635,41 +635,42 @@ public class GoombaEntity extends Monster implements GeoEntity {
         return true;
     }
 
-    public void checkForCollisionsAndWakeUp() {
-        List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.25D, 0, 0.25D), entity -> !entity.isSpectator()
-                        && entity instanceof LivingEntity && !(entity instanceof GoombaEntity));
+    @Override
+    protected void doPush(Entity entity) {
+        this.checkForCollisionsAndWakeUp(entity);
+        super.doPush(entity);
+    }
+
+    public void checkForCollisionsAndWakeUp(Entity entity) {
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
-        if (!nearbyEntities.isEmpty()) {
-            for (Entity collidingEntity : nearbyEntities) {
-                if ((!this.isSleeping() && !this.isSitting())
-                        || collidingEntity.getY() >= this.getY() + this.getEyeHeight()
-                        || !(collidingEntity.getDeltaMovement().horizontalDistance() > 0.1))
-                    return;
+        if (entity.isSpectator() || !(entity instanceof LivingEntity) || entity instanceof GoombaEntity)
+            return;
 
-                if (collidingEntity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
-                    return;
+        if ((!this.isSleeping() && !this.isSitting())
+                || entity.getY() >= this.getY() + this.getEyeHeight()
+                || !(entity.getDeltaMovement().horizontalDistance() > 0.1))
+            return;
 
-                // Apply knockback to both the Goomba and the bumping collidingEntity
-                Vec3 knockbackDirection = new Vec3(collidingEntity.getX() - this.getX(), 0.4D,
-                        collidingEntity.getZ() - this.getZ()).normalize();
-                double knockbackStrength = 1.0D;
+        if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR))
+            return;
 
-                // Knock back the Goomba
-                this.setDeltaMovement(-knockbackDirection.x * knockbackStrength, 0.4D,
-                        -knockbackDirection.z * knockbackStrength);
-                this.hurtMarked = true; // Mark as hurt to apply knockback
-                // Knock back the other collidingEntity
-                collidingEntity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
-                        knockbackDirection.z * knockbackStrength);
-                collidingEntity.hurtMarked = true;
+        // Apply knockback to both the Goomba and the bumping entity
+        Vec3 knockbackDirection = new Vec3(entity.getX() - this.getX(), 0.4D,
+                entity.getZ() - this.getZ()).normalize();
+        double knockbackStrength = 1.0D;
 
-                this.playSound(this.getBumpSound(), 1.0F, pitch);
-                this.tryToScare();
-                break;
-            }
-        }
+        // Knock back the Goomba
+        this.setDeltaMovement(-knockbackDirection.x * knockbackStrength, 0.4D,
+                -knockbackDirection.z * knockbackStrength);
+        this.hurtMarked = true; // Mark as hurt to apply knockback
+        // Knock back the other entity
+        entity.setDeltaMovement(knockbackDirection.x * knockbackStrength, 0.4D,
+                knockbackDirection.z * knockbackStrength);
+        entity.hurtMarked = true;
+
+        this.playSound(this.getBumpSound(), 1.0F, pitch);
+        this.tryToScare();
     }
 
     public void sit(boolean isSitting) {

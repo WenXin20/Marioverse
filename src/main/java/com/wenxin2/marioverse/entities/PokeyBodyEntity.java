@@ -133,10 +133,10 @@ public class PokeyBodyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
-        this.spawnPokeyStack(serverWorld.getLevel(), difficulty, spawnType);
-        return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
+        this.spawnPokeyStack(levelAccessor.getLevel(), difficulty, spawnType);
+        return super.finalizeSpawn(levelAccessor, difficulty, spawnType, groupData);
     }
 
     private void spawnPokeyStack(ServerLevel serverWorld, DifficultyInstance difficulty, MobSpawnType spawnType) {

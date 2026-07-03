@@ -363,17 +363,17 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
-        RandomSource random = serverWorld.getRandom();
+        RandomSource random = levelAccessor.getRandom();
         this.populateDefaultEquipmentSlots(random, difficulty);
-        this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
+        this.populateDefaultEquipmentEnchantments(levelAccessor, random, difficulty);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localDate = LocalDate.now();
             int day = localDate.getDayOfMonth();
             int month = localDate.getMonth().getValue();
-            List<ServerPlayer> players = serverWorld.getLevel().players();
+            List<ServerPlayer> players = levelAccessor.getLevel().players();
 
             boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_MOB_MASKS.get());
             boolean forceMasks = ConfigRegistry.FORCE_MOB_MASKS.get();
@@ -393,7 +393,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
                 if (random.nextFloat() < 0.15F) {
                     List<ItemStack> skulls = new ArrayList<>();
-                    serverWorld.registryAccess().registryOrThrow(Registries.ITEM)
+                    levelAccessor.registryAccess().registryOrThrow(Registries.ITEM)
                             .getTagOrEmpty(ItemTags.SKULLS)
                             .forEach(holder -> {
                                 Item item = holder.value();
@@ -431,7 +431,7 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
 
                 if (random.nextFloat() < 0.05F) {
                     List<ItemStack> skulls = new ArrayList<>();
-                    serverWorld.registryAccess().registryOrThrow(Registries.BLOCK)
+                    levelAccessor.registryAccess().registryOrThrow(Registries.BLOCK)
                             .getTagOrEmpty(CompatRegistry.TF_TROPHIES)
                             .forEach(holder -> skulls.add(new ItemStack(holder.value())));
 
@@ -446,14 +446,14 @@ public class PokeyEntity extends Monster implements GeoEntity, NeutralMob, IShea
                     this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
             }
         }
-        return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
+        return super.finalizeSpawn(levelAccessor, difficulty, spawnType, groupData);
     }
 
-    public static boolean checkPokeySpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,
+    public static boolean checkPokeySpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor levelAccessor,
                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return serverWorld.getDifficulty() != Difficulty.PEACEFUL
-                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(serverWorld, pos, random))
-                && checkMobSpawnRules(entityType, serverWorld, spawnType, pos, random);
+        return levelAccessor.getDifficulty() != Difficulty.PEACEFUL
+                && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(levelAccessor, pos, random))
+                && checkMobSpawnRules(entityType, levelAccessor, spawnType, pos, random);
     }
 
     @NotNull

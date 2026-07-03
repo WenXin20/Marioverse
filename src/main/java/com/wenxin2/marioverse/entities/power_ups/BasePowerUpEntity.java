@@ -1,8 +1,5 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
-import java.util.List;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -11,7 +8,6 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -22,11 +18,10 @@ public class BasePowerUpEntity extends PathfinderMob {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-
-        if (!this.isInvulnerable())
-            this.checkForCollision();
+    protected void doPush(Entity entity) {
+        if (!entity.level().isClientSide && !this.isInvulnerable())
+            this.collideWithEntity(entity);
+        super.doPush(entity);
     }
 
     @Override
@@ -40,9 +35,9 @@ public class BasePowerUpEntity extends PathfinderMob {
     }
 
     private void jumpInLiquidInternal(Runnable onSuper) {
-        if (this.getNavigation().canFloat()) {
+        if (this.getNavigation().canFloat())
             onSuper.run();
-        } else this.setDeltaMovement(this.getDeltaMovement()
+        else this.setDeltaMovement(this.getDeltaMovement()
                 .add(0.0, 0.0, 0.0));
     }
 
@@ -96,19 +91,6 @@ public class BasePowerUpEntity extends PathfinderMob {
 
     public boolean isMoving() {
         return this.getDeltaMovement().lengthSqr() > 0.01;
-    }
-
-    public void checkForCollision() {
-        AABB boundingBox = this.getBoundingBox().inflate(0.15);
-        List<Entity> entities = this.level().getEntities(this, boundingBox, entity -> entity != this);
-
-        if (!entities.isEmpty()) {
-            for (Entity entity : entities) {
-                if (!entity.level().isClientSide)
-                    this.collideWithEntity(entity);
-                break;
-            }
-        }
     }
 
     public void collideWithEntity(Entity entity) {

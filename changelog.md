@@ -56,6 +56,7 @@
 - Improved Power Up item tooltips
 - Improved stomping on mobs, should stomp them more consistently now
 - Increased mini goomba spawn rate & group size
+- Improved collision checks of mobs & power ups
 - Goombas can rarely spawn as a goombella variant
 - Changed pitch of hefty, mega, & mini goomba sounds
 - Fixed explosions not breaking checkpoint flags correctly

@@ -44,7 +44,8 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
 
         if (ticksToDie > 1)
             this.getPersistentData().putInt("marioverse:ticks_to_die", ticksToDie - 1);
-        else if (ticksToDie == 1) this.kill();
+        else if (ticksToDie == 1)
+            this.kill();
     }
 
     @NotNull

@@ -348,7 +348,6 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         if (this.emergeAnimationTicks == 0)
             this.isEmerging = false;
 
-        this.biteEntity();
         this.hideInBlock();
 
         Direction attachedSide = this.getAttachedSide();
@@ -372,6 +371,11 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             else if (age > 0)
                 this.setAge(--age);
         }
+    }
+
+    @Override
+    protected void doPush(Entity entity) {
+        this.biteEntity(entity);
     }
 
     @NotNull
@@ -528,7 +532,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
 
     @Override
     public boolean isPushable() {
-        return false;
+        return true;
     }
 
     @Override
@@ -889,59 +893,53 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         }
     }
 
-    public void biteEntity() {
+    public void biteEntity(Entity entity) {
         if (this.attackCooldown > 0)
             return;
 
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
-        List<Entity> nearbyEntities = this.level().getEntities(this,
-                this.getBoundingBox().inflate(0.01, 0.0, 0.01), entity -> !entity.isSpectator()
-                        && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)
-                        && !this.level().isClientSide());
 
-        if (!nearbyEntities.isEmpty() && !this.isHiding()) {
-            for (Entity collidingEntity : nearbyEntities) {
-                if (collidingEntity instanceof PiranhaPlantEntity
-                        || (this.getOwner() != null && this.getOwner().getUUID().equals(collidingEntity.getUUID())))
-                    continue;
+        if (!this.level().isClientSide() && !this.isHiding() && !entity.isSpectator()
+                && entity instanceof LivingEntity && !(entity instanceof PiranhaPlantEntity)) {
 
-                if ((this.getOwner() != null && !((collidingEntity instanceof Monster)
-                            || collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK) || (this.isBaby() && collidingEntity instanceof Animal)))
-                        || (this.getOwner() == null && !collidingEntity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
-                    continue;
+            if (this.getOwner() != null && this.getOwner().getUUID().equals(entity.getUUID()))
+                return;
 
-                if (this.getOwner() != null && collidingEntity.getTeam() != null && this.getOwner().getTeam() != null
-                        && collidingEntity.getTeam() == this.getOwner().getTeam())
-                    continue;
+            if ((this.getOwner() != null && !((entity instanceof Monster)
+                    || entity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK) || (this.isBaby() && entity instanceof Animal)))
+                    || (this.getOwner() == null && !entity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK)))
+                return;
 
-                this.swing(InteractionHand.MAIN_HAND);
+            if (this.getOwner() != null && this.getOwner().isAlliedTo(entity)
+                    && !entity.getType().is(TagRegistry.PIRANHA_PLANT_CAN_ATTACK))
+                return;
 
-                float attackDamage = this.isBaby() ? (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2
-                        : (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+            this.swing(InteractionHand.MAIN_HAND);
 
-                if (this.getOwner() != null)
-                    collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(collidingEntity, this.getOwner()), attackDamage);
-                else if (collidingEntity instanceof Creeper)
-                    collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, collidingEntity), attackDamage);
-                else collidingEntity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage);
+            float attackDamage = this.isBaby() ? (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2
+                    : (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
-                if (collidingEntity instanceof NeutralMob neutralMob) {
-                    neutralMob.isAngryAt(this);
-                    neutralMob.setTarget(this);
-                    neutralMob.setPersistentAngerTarget(this.getUUID());
-                }
+            if (this.getOwner() != null)
+                entity.hurt(DamageSourceRegistry.piranhaChomp(entity, this.getOwner()), attackDamage);
+            else if (entity instanceof Creeper)
+                entity.hurt(DamageSourceRegistry.piranhaChomp(null, entity), attackDamage);
+            else entity.hurt(DamageSourceRegistry.piranhaChomp(null, this), attackDamage);
 
-                int age = this.getAge();
-                if (this.isBaby()) {
-                    this.ageUp(getSpeedUpSecondsWhenFeeding(-age), 20, true);
-                    if (this.level() instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 0.5, 5);
-                }
-
-                this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, pitch);
-                this.attackCooldown = 20;
-                break;
+            if (entity instanceof NeutralMob neutralMob) {
+                neutralMob.isAngryAt(this);
+                neutralMob.setTarget(this);
+                neutralMob.setPersistentAngerTarget(this.getUUID());
             }
+
+            int age = this.getAge();
+            if (this.isBaby()) {
+                this.ageUp(getSpeedUpSecondsWhenFeeding(-age), 20, true);
+                if (this.level() instanceof ServerLevel serverWorld)
+                    ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.HAPPY_VILLAGER, serverWorld, this, 0.5, 5);
+            }
+
+            this.playSound(SoundRegistry.PIRANHA_PLANT_CHOMP.get(), 1.0F, pitch);
+            this.attackCooldown = 20;
         }
     }
 
