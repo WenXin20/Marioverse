@@ -253,6 +253,13 @@ public class BooEntity extends Monster implements GeoEntity {
     }
 
     @Override
+    public boolean canBeHitByProjectile() {
+        if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) < ConfigRegistry.BOO_LIGHT_SENSITIVITY.get())
+            return false;
+        return super.canBeHitByProjectile();
+    }
+
+    @Override
     public boolean canTakeItem(ItemStack stack) {
         EquipmentSlot equipmentslot = this.getEquipmentSlotForItem(stack);
         return this.getItemBySlot(equipmentslot).isEmpty();

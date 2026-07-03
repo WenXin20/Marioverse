@@ -417,9 +417,9 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
 
     @Override
     public boolean canBeHitByProjectile() {
-        if (!this.isHiding())
-            return super.canBeHitByProjectile();
-        else return false;
+        if (this.isHiding())
+            return false;
+        else return super.canBeHitByProjectile();
     }
 
     @Override

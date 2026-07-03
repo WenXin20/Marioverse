@@ -12,6 +12,7 @@
     "LivingEntityMixin",
     "PlayerMixin",
     "PowderSnowBlockMixin",
+    "ProjectileMixin",
     "ServerPlayerMixin",
     "iris.IdMapMixin"
   ],

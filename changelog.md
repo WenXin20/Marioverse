@@ -64,6 +64,7 @@
 - Fixed pipes not connecting properly in structures during world gen
 - Fixed super mushrooms not generating in bonus chests
 - Fixed reward particles not rendering with minimal particles enabled
+- Fixed projectiles bouncing off of boos & hiding piranha plants instead of passing through it
 
 ## Update 1.9.3
 - Added Sable block tags for Create Aeronautics compat 
