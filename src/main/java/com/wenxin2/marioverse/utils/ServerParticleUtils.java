@@ -5,7 +5,9 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -133,8 +135,11 @@ public class ServerParticleUtils {
     }
 
     public static void spawnRewardParticle(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, double yHeight) {
-        serverWorld.sendParticles(particleOptions, entity.getX(), entity.getY() + entity.getBbHeight() + yHeight, entity.getZ(),
-                1, 0.0, 1.0, 0.0, 0.5);
+        ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(particleOptions, true,
+                entity.getX(), entity.getY() + entity.getBbHeight() + yHeight, entity.getZ(),
+                0.0f, 1.0F, 0.0F, 0.5F, 1);
+        for (ServerPlayer player : serverWorld.players())
+            player.connection.send(packet);
     }
 
     public static void spawnAnimParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity) {

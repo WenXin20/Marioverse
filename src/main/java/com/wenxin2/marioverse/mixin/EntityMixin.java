@@ -493,7 +493,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                             }
                         }
 
-                        if (!stompingEntity.level().isClientSide() && !damagedEntity.isDeadOrDying()) {
+                        if (!damagedEntity.isDeadOrDying()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor
                                     && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), damagedEntity.getHealth());

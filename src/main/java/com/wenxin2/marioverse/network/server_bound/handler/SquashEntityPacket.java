@@ -46,7 +46,6 @@ public class SquashEntityPacket {
     }
 
     public void squashEntity(Player stompingEntity, boolean isHoldingJump, double clientMotionY, double clientMinY) {
-        Vec3 motion = stompingEntity.getDeltaMovement();
         AABB inflatedBox = stompingEntity.getBoundingBox().expandTowards(0, clientMotionY, 0)
                 .inflate(0.5, 0.0, 0.5);
 
@@ -118,7 +117,7 @@ public class SquashEntityPacket {
                             }
                         }
 
-                        if (!stompingEntity.level().isClientSide() && damagedEntity.isAlive()) {
+                        if (damagedEntity.isAlive()) {
                             if (damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED) && hasNoArmor
                                     && damagedEntity instanceof LivingEntity livingEntity
                                     && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
@@ -131,9 +130,12 @@ public class SquashEntityPacket {
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
                                 else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
                             }
-                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+
+                            if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get()
+                                    && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                                     && damagedEntity instanceof LivingEntity livingEntity)
-                                OneUpMushroomEntity.consecutiveReward(stompingEntity, livingEntity, stompingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));
+                                OneUpMushroomEntity.consecutiveReward(stompingEntity, livingEntity,
+                                        stompingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));
                             break;
                         }
                     }

@@ -18,8 +18,8 @@ public record SquashEntityPayload(boolean isHoldingJump, double motionY, double 
         return PAYLOAD;
     }
 
-    public static final StreamCodec<FriendlyByteBuf, SquashEntityPayload> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL, SquashEntityPayload::isHoldingJump,
+    public static final StreamCodec<FriendlyByteBuf, SquashEntityPayload> STREAM_CODEC =
+            StreamCodec.composite(ByteBufCodecs.BOOL, SquashEntityPayload::isHoldingJump,
             ByteBufCodecs.DOUBLE, SquashEntityPayload::motionY,
             ByteBufCodecs.DOUBLE, SquashEntityPayload::boundingBoxMinY,
             SquashEntityPayload::new
