@@ -10,6 +10,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -91,10 +92,8 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                     && (this.getOwner() == null || !this.getOwner().getUUID().equals(player.getUUID()))) {
                 double dist = this.distanceToSqr(player);
 
-                if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
-                        && player.getTeam() == this.getOwner().getTeam())
+                if (this.getOwner() != null && this.getOwner().isAlliedTo(player))
                     continue;
-
                 if (this.getOwner() != null && !(this.getOwner() instanceof Monster) && !(this.getOwner() instanceof Player))
                     continue;
 
@@ -113,8 +112,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                         && !entity.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
                     double dist = this.distanceToSqr(entity);
 
-                    if (this.getOwner() != null && entity.getTeam() != null && this.getOwner().getTeam() != null
-                            && entity.getTeam() == this.getOwner().getTeam())
+                    if (this.getOwner() != null && this.getOwner().isAlliedTo(entity))
                         continue;
 
                     if (dist < closestDistance) {
@@ -133,8 +131,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                         && !mob.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
                     double dist = this.distanceToSqr(mob);
 
-                    if (this.getOwner() != null && mob.getTeam() != null && this.getOwner().getTeam() != null
-                            && mob.getTeam() == this.getOwner().getTeam())
+                    if (this.getOwner() != null && this.getOwner().isAlliedTo(mob))
                         continue;
                     if (mob instanceof Monster)
                         continue;
@@ -155,16 +152,38 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
                         && !monster.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
                     double dist = this.distanceToSqr(monster);
 
-                    if (this.getOwner() != null && monster.getTeam() != null && this.getOwner().getTeam() != null
-                            && monster.getTeam() == this.getOwner().getTeam())
+                    if (this.getOwner() != null && this.getOwner().isAlliedTo(monster))
                         continue;
-
                     if (monsters instanceof PiranhaPlantEntity piranhaPlant && piranhaPlant.isHiding())
                         continue;
 
                     if (dist < closestDistance) {
                         closestDistance = dist;
                         target = monster;
+                    }
+                }
+            }
+        }
+
+        if (target == null) {
+            List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox()
+                    .inflate(this.getMobDetectionRadius(), 3, this.getMobDetectionRadius()));
+            for (LivingEntity entity : entities) {
+                if (entity.isAlive() && !entity.is(this) && !entity.isInvisible()
+                        && entity.getType().is(TagRegistry.RED_KOOPA_SHELL_ALWAYS_ATTACKS)
+                        && !entity.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)) {
+                    double dist = this.distanceToSqr(entity);
+
+                    if (this.getOwner() != null && this.getOwner().isAlliedTo(entity))
+                        continue;
+                    if (entities instanceof PiranhaPlantEntity piranhaPlant && piranhaPlant.isHiding())
+                        continue;
+                    if (entities instanceof Mob mob && mob.isNoAi())
+                        continue;
+
+                    if (dist < closestDistance) {
+                        closestDistance = dist;
+                        target = entity;
                     }
                 }
             }

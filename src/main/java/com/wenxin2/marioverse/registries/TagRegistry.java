@@ -313,6 +313,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> POWERS_UP_RIDER = entityTypeTags("powers_up_rider");
     public static final TagKey<EntityType<?>> POWER_UP_ENTITIES = entityTypeTags("power_ups");
     public static final TagKey<EntityType<?>> QUESTION_BLOCK_CANNOT_SPAWN = entityTypeTags("question_block_cannot_spawn");
+    public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_ALWAYS_ATTACKS = entityTypeTags("red_koopa_shell_always_attacks");
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CANNOT_ATTACK = entityTypeTags("red_koopa_shell_cannot_attack");
     public static final TagKey<EntityType<?>> RED_KOOPA_SHELL_CAN_INSTAKILL = entityTypeTags("red_koopa_shell_can_instakill");
     public static final TagKey<EntityType<?>> RED_KOOPA_TROOPA_CAN_ATTACK = entityTypeTags("red_koopa_troopa_can_attack");

@@ -769,6 +769,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
 
+        tag(TagRegistry.RED_KOOPA_SHELL_ALWAYS_ATTACKS)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
+                .add(EntityRegistry.PORCUPUFFER.get());
+
         tag(TagRegistry.RED_KOOPA_SHELL_CAN_INSTAKILL)
                 .addTag(TagRegistry.CHEEP_CHEEPS)
                 .addTag(TagRegistry.GOOMBA_ENTITIES)

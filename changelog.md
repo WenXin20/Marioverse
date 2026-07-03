@@ -38,6 +38,9 @@
   - Solid hitbox, similar to coral in Mario's underwater levels
 - Added the `question_blocks_can_place` block tag for blocks it can place
   - Includes checkpoint flags & cake
+- Added the entity tag `red_koopa_shell_always_attacks`
+  - Includes cheep cheeps & porcupuffers
+  - Used for additional entities for the shell to target besides monster mobs
 - Added ability for parrots to imitate Marioverse mobs and the Super Star
 - Added ability for Koopa Troopas to open doors
 - Added special named flags to the Creative Tabs
