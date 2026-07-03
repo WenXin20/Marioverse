@@ -18,7 +18,7 @@ public class BlueMushroomTrampolineBlock extends RedMushroomTrampolineBlock impl
 
         if (!entity.isSuppressingBounce() && !(entity instanceof Player)
                 && state.hasProperty(ACTIVE) && !state.getValue(ACTIVE))
-            RedMushroomTrampolineBlock.bounceEntity(entity.level(), entity, false);
+            RedMushroomTrampolineBlock.bounceEntity(entity.level(), pos, entity, false, entity.getDeltaMovement().y);
         else super.updateEntityAfterFallOn(blockGetter, entity);
     }
 }

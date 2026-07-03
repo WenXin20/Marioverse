@@ -932,8 +932,10 @@ public class MarioverseEventHandlers {
                                 && !player.isSuppressingBounce() && !player.isNoGravity()
                                 && !player.getAbilities().flying);
 
-                    if (canBounce)
-                        PacketDistributor.sendToServer(new BouncePayload(Minecraft.getInstance().options.keyJump.isDown()));
+                    if (canBounce) {
+                        PacketDistributor.sendToServer(new BouncePayload(posBelow, Minecraft.getInstance().options.keyJump.isDown(), motion.y));
+                        break;
+                    }
                 }
             }
 

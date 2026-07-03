@@ -67,6 +67,7 @@
 - Fixed ice cubes freezing owners & teammates
 - Fixed pipes not connecting properly in structures during world gen
 - Fixed super mushrooms not generating in bonus chests
+- Fixed bouncing on mushroom blocks
 - Fixed reward particles not rendering with minimal particles enabled
 - Fixed projectiles bouncing off of boos & hiding piranha plants instead of passing through it
 

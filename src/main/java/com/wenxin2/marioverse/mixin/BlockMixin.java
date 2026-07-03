@@ -26,11 +26,13 @@ public class BlockMixin {
 
     @Inject(method = "updateEntityAfterFallOn", at = @At("HEAD"), cancellable = true)
     private void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity, CallbackInfo ci) {
+        BlockPos pos = entity.getOnPos();
+
         if (blockGetter.getBlockState(entity.blockPosition().below()).is(TagRegistry.BOUNCY_BLOCKS)
                 && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
                 && !entity.isSuppressingBounce() && !entity.isNoGravity()
                 && !(entity instanceof Player)) {
-            RedMushroomTrampolineBlock.bounceEntity(entity.level(), entity, true);
+            RedMushroomTrampolineBlock.bounceEntity(entity.level(), pos, entity, true, entity.getDeltaMovement().y);
             ci.cancel();
         }
     }
