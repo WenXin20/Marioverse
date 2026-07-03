@@ -60,6 +60,7 @@
 - Fixed piranha plant pod flashing a full-grown piranha for a tick
 - Fixed baby piranha plants suffocating after growing up
 - Fixed tamed piranha plants spawned from pods despawning
+- Fixed red koopa shells targeting hiding piranha plants
 - Fixed ice cubes freezing owners & teammates
 - Fixed pipes not connecting properly in structures during world gen
 - Fixed super mushrooms not generating in bonus chests

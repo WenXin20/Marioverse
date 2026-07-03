@@ -88,8 +88,7 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
         for (Player player : players) {
             if (!player.isSpectator() && player.isAlive() && !player.isInvisible()
                     && !player.getType().is(TagRegistry.RED_KOOPA_SHELL_CANNOT_ATTACK)
-                    && (this.getOwner() == null
-                        || !this.getOwner().getUUID().equals(player.getUUID()))) {
+                    && (this.getOwner() == null || !this.getOwner().getUUID().equals(player.getUUID()))) {
                 double dist = this.distanceToSqr(player);
 
                 if (this.getOwner() != null && player.getTeam() != null && this.getOwner().getTeam() != null
@@ -158,6 +157,9 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
 
                     if (this.getOwner() != null && monster.getTeam() != null && this.getOwner().getTeam() != null
                             && monster.getTeam() == this.getOwner().getTeam())
+                        continue;
+
+                    if (monsters instanceof PiranhaPlantEntity piranhaPlant && piranhaPlant.isHiding())
                         continue;
 
                     if (dist < closestDistance) {
