@@ -61,7 +61,7 @@ public class GoombaSleepGoal extends Goal {
 
         if (!this.goomba.isSleeping())
             this.goomba.tryToSleep();
-        else this.goomba.checkForCollisionsAndWakeUp();
+        else this.goomba.checkForCollisionsAndWakeUp(this.goomba);
 
         if (this.sleepingTime >= this.ticksSleeping)
             this.stop();

@@ -16,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.Packet;
@@ -522,13 +523,14 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             float heightScale = 1.0F;
             float widthScale = 1.0F;
             this.frozenEntityData = new CompoundTag();
-            entity.save(frozenEntityData);
+            entity.saveWithoutId(this.frozenEntityData);
+            this.frozenEntityData.putUUID("UUID", entity.getUUID());
 
-            if (entity instanceof LivingEntity living) {
-                AttributeInstance scaleAttribute = living.getAttribute(Attributes.SCALE);
-                AttributeInstance eyeHeightScaleAttribute = living.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
-                AttributeInstance heightScaleAttribute = living.getAttribute(AttributesRegistry.HEIGHT_SCALE);
-                AttributeInstance widthScaleAttribute = living.getAttribute(AttributesRegistry.WIDTH_SCALE);
+            if (entity instanceof LivingEntity livingEntity) {
+                AttributeInstance scaleAttribute = livingEntity.getAttribute(Attributes.SCALE);
+                AttributeInstance eyeHeightScaleAttribute = livingEntity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
+                AttributeInstance heightScaleAttribute = livingEntity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
+                AttributeInstance widthScaleAttribute = livingEntity.getAttribute(AttributesRegistry.WIDTH_SCALE);
                 if (scaleAttribute != null)
                     scale = (float) scaleAttribute.getValue();
                 if (eyeHeightScaleAttribute != null)
@@ -538,8 +540,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 if (widthScaleAttribute != null)
                     widthScale = (float) widthScaleAttribute.getValue();
 
-                this.copyAttributeWithModifiers(living, Attributes.SAFE_FALL_DISTANCE);
-                this.getFrozenEntityData().putFloat("YBodyRot", living.yBodyRot);
+                this.copyAllAttributes(livingEntity);
+                this.getFrozenEntityData().putFloat("YBodyRot", livingEntity.yBodyRot);
             }
 
             if (entity instanceof Mob mob)
@@ -591,10 +593,10 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Nullable
     public Entity getOrCreateDisplayEntity(Level world) {
-        CompoundTag tag = this.entityData.get(FROZEN_DATA);
-        if (tag.isEmpty())
+        CompoundTag tag = this.getFrozenEntityData();
+        if (tag != null && tag.isEmpty())
             return null;
-        if (this.displayEntity == null) {
+        if (tag != null && this.displayEntity == null) {
             if (!tag.contains("id", 8))
                 return null;
 
@@ -957,6 +959,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     public void setYBodyRot(float yBodyRot) {
         this.setData(DataAttachmentRegistry.Y_BODY_ROT, yBodyRot);
+    }
+
+    private void copyAllAttributes(LivingEntity entity) {
+        for (Holder<Attribute> attribute : BuiltInRegistries.ATTRIBUTE.holders().toList())
+            this.copyAttributeWithModifiers(entity, attribute);
     }
 
     private void copyAttributeWithModifiers(LivingEntity entity, Holder<Attribute> attribute) {
