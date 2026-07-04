@@ -81,10 +81,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             SynchedEntityData.defineId(IceCubeEntity.class, EntityDataSerializers.COMPOUND_TAG);
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     public Vec3 slidingMovement = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
+    @Nullable private Entity cachedOwner;
+    @Nullable private UUID ownerUUID;
     private CompoundTag frozenEntityData;
     private Entity displayEntity;
-    @Nullable private UUID ownerUUID;
-    @Nullable private Entity cachedOwner;
+    private boolean dimensionsInitialized = false;
     private boolean leftOwner;
     private float previousFallDistance = 0;
 
@@ -178,7 +179,6 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     public void tick() {
         super.tick();
         Level world = this.level();
-        BlockPos pos = this.blockPosition();
 
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
@@ -197,10 +197,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (this.getDeltaMovement().horizontalDistance() > 0.1)
             this.spawnSnowParticles();
 
-        if (this.getFrozenEntityData() != null) {
+        if (this.getFrozenEntityData() != null && !this.dimensionsInitialized) {
             float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
             float width = this.getFrozenEntityData().getFloat("Width") * 1.55F;
             this.setSize(width, height);
+            this.dimensionsInitialized = true;
         }
 
         if (!this.isOnSolidGround() && this.fallDistance > this.previousFallDistance)
@@ -541,6 +542,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                     widthScale = (float) widthScaleAttribute.getValue();
 
                 this.copyAllAttributes(livingEntity);
+                this.setYBodyRot(livingEntity.yBodyRot);
                 this.getFrozenEntityData().putFloat("YBodyRot", livingEntity.yBodyRot);
             }
 
@@ -548,6 +550,9 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 this.setNoAi(mob.isNoAi());
 
             if (!level().isClientSide) {
+                this.setBodyRotation(entity.getYRot());
+                this.setHeadRotation(entity.getYHeadRot());
+                this.setPitch(entity.getXRot());
                 this.getFrozenEntityData().putString("id", EntityType.getKey(entity.getType()).toString());
                 this.getFrozenEntityData().putFloat("BodyRotation", entity.getYRot());
                 this.getFrozenEntityData().putFloat("HeadRotation", entity.getYHeadRot());
@@ -852,6 +857,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     public void setFrozenEntityData(CompoundTag tag) {
         this.frozenEntityData = tag.getCompound("FrozenEntityData");
+        this.dimensionsInitialized = false;
     }
 
     public Vec2 getSize() {
