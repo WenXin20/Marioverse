@@ -310,7 +310,9 @@ public class ClientEventHandlers {
                         || name.getString().equalsIgnoreCase("usa flag")
                         || name.getString().equalsIgnoreCase("united states of america")
                         || name.getString().equalsIgnoreCase("united states")
-                        || name.getString().equalsIgnoreCase("united states flag"))
+                        || name.getString().equalsIgnoreCase("united states flag")
+                        || name.getString().equalsIgnoreCase("250th")
+                        || name.getString().equalsIgnoreCase("250th Birthday"))
                     return 1.0F;
                 if (name.getString().equalsIgnoreCase("wonder")
                         || name.getString().equalsIgnoreCase("wonder flag"))

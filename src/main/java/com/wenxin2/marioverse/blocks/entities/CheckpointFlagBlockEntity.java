@@ -268,7 +268,9 @@ public class CheckpointFlagBlockEntity extends BlockEntity implements GeoBlockEn
                 || this.getName().getString().toLowerCase(Locale.ROOT).equals("usa flag")
                 || this.getName().getString().toLowerCase(Locale.ROOT).equals("united states of america")
                 || this.getName().getString().toLowerCase(Locale.ROOT).equals("united states")
-                || this.getName().getString().toLowerCase(Locale.ROOT).equals("united states flag");
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("united states flag")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("250th")
+                || this.getName().getString().toLowerCase(Locale.ROOT).equals("250th birthday");
     }
 
     public boolean isWonderFlag() {

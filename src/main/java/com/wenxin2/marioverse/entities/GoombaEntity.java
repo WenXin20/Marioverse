@@ -386,7 +386,10 @@ public class GoombaEntity extends Monster implements GeoEntity {
 
     @Override
     public void travel(Vec3 travelVector) {
-        if (this.isControlledByLocalInstance() && this.isInWater()) {
+        if (this.isSleeping() || this.isSitting()) {
+            if (this.onGround() || this.getDeltaMovement().y == 0)
+                this.setDeltaMovement(Vec3.ZERO);
+        } else if (this.isControlledByLocalInstance() && this.isInWater()) {
             this.moveRelative(this.getSpeed(), travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
