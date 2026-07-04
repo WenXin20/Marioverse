@@ -72,15 +72,15 @@ dependencies {
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7963363"
-    implementation "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge"  // Requires Create, Sable, Incompatible w/ Embeddium
-    implementation "maven.modrinth:porkchop-express:0.1.1-neoforge"  // Requires Sable
+    compileOnly "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge"  // Requires Create, Sable, Incompatible w/ Embeddium
+    compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge"  // Requires Sable
     implementation "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:guard-villagers-360203:6066966"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
-    implementation "curse.maven:irisshaders-455508:6661598" // Requires Sodium
+    compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
@@ -101,9 +101,9 @@ dependencies {
     implementation "curse.maven:framework-549225:7530361"
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    implementation "curse.maven:sable-1312371:8007005" // Requires Create
+    compileOnly "curse.maven:sable-1312371:8007005" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
-    implementation "curse.maven:sodium-394468:6382651" // Incompatible w/ Embeddium
+    implementation "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"
 
     jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:1.6.0"))

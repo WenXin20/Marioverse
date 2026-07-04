@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import net.mehvahdjukaar.every_compat.EveryCompat;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
 import net.mehvahdjukaar.every_compat.api.SimpleModule;
+import net.mehvahdjukaar.every_compat.modules.EveryCompatModule;
 import net.mehvahdjukaar.moonlight.api.set.wood.VanillaWoodTypes;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
@@ -17,16 +18,17 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
-public class WoodModule extends SimpleModule {
+public class WoodModule extends EveryCompatModule {
     public final SimpleEntrySet<WoodType, Block> bridge;
     public final SimpleEntrySet<WoodType, Block> strippedBridge;
     public final SimpleEntrySet<WoodType, Block> bridgeStairs;
     public final SimpleEntrySet<WoodType, Block> strippedBridgeStairs;
 
     public WoodModule(String modId) {
-        super(modId, "mv", EveryCompat.MOD_ID);
-        ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB.getKey();
+        super(modId, "mv");
+        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_BLOCKS_TAB;
 
         bridge = SimpleEntrySet.builder(WoodType.class, "log_bridge",
                         BlockRegistry.OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,
@@ -37,7 +39,7 @@ public class WoodModule extends SimpleModule {
                 .addTag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.WOODEN_BRIDGE_ITEMS, Registries.ITEM)
                 .defaultRecipe()
-                .setTabKey(tab)
+                .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(bridge);
 
@@ -51,7 +53,7 @@ public class WoodModule extends SimpleModule {
                 .addTag(TagRegistry.WOODEN_BRIDGE_ITEMS, Registries.ITEM)
                 .requiresChildren("stripped_log")
                 .defaultRecipe()
-                .setTabKey(tab)
+                .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(strippedBridge);
 
@@ -66,7 +68,7 @@ public class WoodModule extends SimpleModule {
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS, Registries.ITEM)
                 .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
                 .defaultRecipe()
-                .setTabKey(tab)
+                .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(bridgeStairs);
 
@@ -82,7 +84,7 @@ public class WoodModule extends SimpleModule {
                 .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
                 .requiresChildren("stripped_log")
                 .defaultRecipe()
-                .setTabKey(tab)
+                .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(strippedBridgeStairs);
     }

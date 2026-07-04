@@ -25,6 +25,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StoneModule extends StoneZoneModule {
     public final SimpleEntrySet<StoneType, Block> brickPedestal;
@@ -63,7 +64,8 @@ public class StoneModule extends StoneZoneModule {
 
     public StoneModule(String modId, String shortId) {
         super(modId, shortId);
-        ResourceKey<CreativeModeTab> tab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB.getKey();
+        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_BLOCKS_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB;
 
         brickPedestal = StoneZoneEntrySet.of(StoneType.class, "brick_pedestal",
                         BlockRegistry.STONE_BRICK_PEDESTAL, () -> VanillaStoneTypes.STONE,
@@ -75,7 +77,7 @@ public class StoneModule extends StoneZoneModule {
                 .addRecipe(modRes("stone_brick_pedestal_stonecutting"))
                 .requiresChildren("bricks")
                 .defaultRecipe()
-                .setTabKey(tab)
+                .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(brickPedestal);
 
@@ -94,7 +96,7 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.INVISIBLE_QUESTION_BLOCK_ENTITY)
                 .requiresChildren("bricks")
-                .setTabKey(tab)
+                .setTab(functionalBlocksTab)
                 .build();
         this.addEntry(invisibleQuestionBlock);
 
@@ -115,7 +117,7 @@ public class StoneModule extends StoneZoneModule {
                 .addTile(BlockEntityRegistry.QUESTION_BLOCK_ENTITY)
                 .requiresChildren("bricks")
                 .defaultRecipe()
-                .setTabKey(tab)
+                .setTab(functionalBlocksTab)
                 .build();
         this.addEntry(questionBlock);
 
@@ -129,7 +131,7 @@ public class StoneModule extends StoneZoneModule {
                 .addRecipe(modRes("smashable_tuff_bricks_from_tuff_stonecutting"))
                 .addRecipe(modRes("smashable_tuff_bricks_stonecutting"))
                 .requiresChildren("bricks")
-                .setTabKey(tab)
+                .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(smashableBricks);
 
@@ -149,7 +151,7 @@ public class StoneModule extends StoneZoneModule {
                 .addTile(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY)
                 .requiresChildren("bricks")
                 .defaultRecipe()
-                .setTabKey(tab)
+                .setTab(functionalBlocksTab)
                 .build();
         this.addEntry(storageBricks);
     }
