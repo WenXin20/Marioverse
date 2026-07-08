@@ -1,3 +1,6 @@
+## Update 1.10.1
+- Added male costume, with trim & dye support!
+
 ## Update 1.10.0
 - Added the Porcupuffer
   - Jumps out of water
