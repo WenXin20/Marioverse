@@ -2,6 +2,7 @@
   "values": [
     "#marioverse:pants/luigi",
     "#marioverse:pants/mario",
-    "#marioverse:pants/peach"
+    "#marioverse:pants/peach",
+    "marioverse:pants"
   ]
 }

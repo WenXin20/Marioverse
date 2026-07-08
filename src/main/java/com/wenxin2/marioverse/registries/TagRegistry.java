@@ -182,6 +182,7 @@ public class TagRegistry {
     public static final TagKey<Item> LUIGI_POWER_UP_COSTUMES = itemTags("power_up_costumes/luigi");
     public static final TagKey<Item> LUIGI_SHIRTS = itemTags("shirts/luigi");
     public static final TagKey<Item> LUIGI_SHOES = itemTags("shoes/luigi");
+    public static final TagKey<Item> MALE_COSTUMES = itemTags("costumes/male");;
     public static final TagKey<Item> MARIO_COSTUMES = itemTags("costumes/mario");
     public static final TagKey<Item> MARIO_FIRE_COSTUMES = itemTags("costumes/fire/mario");
     public static final TagKey<Item> MARIO_HATS = itemTags("hats/mario");

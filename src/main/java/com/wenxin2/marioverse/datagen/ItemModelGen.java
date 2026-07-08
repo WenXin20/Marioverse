@@ -137,6 +137,11 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
+        this.basicTwoLayerItem(ItemRegistry.HAT.get());
+        this.basicTwoLayerItem(ItemRegistry.PANTS.get());
+        this.basicTwoLayerItem(ItemRegistry.SHIRT.get());
+        this.basicTwoLayerItem(ItemRegistry.SHOES.get());
+
         this.coralTowerItem(BlockRegistry.BRAIN_CORAL_TOWER.asItem());
         this.coralTowerItem(BlockRegistry.BUBBLE_CORAL_TOWER.asItem());
         this.coralTowerItem(BlockRegistry.DEAD_BRAIN_CORAL_TOWER.asItem());
@@ -229,6 +234,14 @@ public class ItemModelGen extends ItemModelProvider {
         this.getBuilder(location.toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "block/" + location.getPath() + "_top"));
+    }
+
+    public void basicTwoLayerItem(Item item) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
+                .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + "_overlay"));
     }
 
     public void largeItem(Item item) {

@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.items.FluidPlasticBucketItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
+import com.wenxin2.marioverse.items.DyeableCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
@@ -81,6 +82,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> GREEN_KOOPA_SHELL;
     public static final DeferredItem<Item> GREEN_KOOPA_SHOES;
     public static final DeferredItem<Item> GREEN_KOOPA_TROOPA_SPAWN_EGG;
+    public static final DeferredItem<Item> HAT;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
@@ -116,6 +118,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
+    public static final DeferredItem<Item> PANTS;
     public static final DeferredItem<Item> PEACH_BODICE;
     public static final DeferredItem<Item> PEACH_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> PEACH_CROWN;
@@ -144,6 +147,8 @@ public class ItemRegistry {
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> RED_QUICKSAND_BUCKET;
+    public static final DeferredItem<Item> SHIRT;
+    public static final DeferredItem<Item> SHOES;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_BUCKET;
@@ -296,6 +301,23 @@ public class ItemRegistry {
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
         WHITE_KOOPA_SHOES = registerItem("white_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+
+        HAT = registerItem("hat",
+                () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
+                        "male_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
+        SHIRT = registerItem("shirt",
+                () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
+                        "male_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
+        PANTS = registerItem("pants",
+                () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
+                        "male_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
+        SHOES = registerItem("shoes",
+                () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         MARIO_HAT = registerItem("mario_hat",

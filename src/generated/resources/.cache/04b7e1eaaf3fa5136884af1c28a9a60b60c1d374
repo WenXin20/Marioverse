@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-21T01:14:02.8196555	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-07-08T01:11:01.4759304	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -52,7 +52,7 @@ c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/item/checkpoint_fl
 554581cdf22cd376f4c62aa4a2a1a0f66ffe1d01 data/marioverse/tags/item/cheep_cheeps.json
 8216809e2ce95f71085cc90bd77b7c41f0dae896 data/marioverse/tags/item/chiseled_calcite_bricks.json
 199eca6dc47a69842481034a1fccd44118fda48b data/marioverse/tags/item/coral_towers.json
-88aca8ae7878dd2160595e5f9e1b2effe22b2ed1 data/marioverse/tags/item/costumes.json
+429b3e413e94db12a9be3612adbe156756a9537f data/marioverse/tags/item/costumes.json
 0d21a12a15b9b9d21dc05010d535797b5c86d661 data/marioverse/tags/item/costumes/fire.json
 0310db59abb73d64c9485fd6ea5df4059ccda460 data/marioverse/tags/item/costumes/fire/luigi.json
 d290bb8751ad6db627f3bf8bb7ab31745013a156 data/marioverse/tags/item/costumes/fire/mario.json
@@ -62,6 +62,7 @@ eb167d3ec645699b964cb2bc2ba1793b907c9a88 data/marioverse/tags/item/costumes/ice/
 4af72cd420d48cf0c8bb4151c0c4a19b3d6ddeda data/marioverse/tags/item/costumes/ice/mario.json
 1e2f7ae686cf4a6d69c41d58235083db290e8935 data/marioverse/tags/item/costumes/ice/peach.json
 deeb1374076733fcb222398d369a8c00eb964ba8 data/marioverse/tags/item/costumes/luigi.json
+13dd4e0a880623245a60afe7a093d166ccf06fa8 data/marioverse/tags/item/costumes/male.json
 829669a8b6d998db4d42f5b56fc1f82d712adeb8 data/marioverse/tags/item/costumes/mario.json
 83e0f59fb6adf80b616aa4216260e4b5390d8303 data/marioverse/tags/item/costumes/peach.json
 cc7691b6e87d0dc491b9e9b7106a5c012dd99e6d data/marioverse/tags/item/cracked_calcite_bricks.json
@@ -79,7 +80,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/item/flammable_wooden_bridge_stairs.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 8e8620f9d08b6691c8d8ebd6d2024858f829f602 data/marioverse/tags/item/halloween_masks.json
-63eb5775f8c6f2efe09827063483144db62d6b56 data/marioverse/tags/item/hats.json
+a82a6fba4cf3e4ea3e529534044cb60e63458dfd data/marioverse/tags/item/hats.json
 5c353cb3a21e801dc03368da81093986e2299024 data/marioverse/tags/item/hats/luigi.json
 696b597d91f6761a77afd6fdbf6d71a401d9598e data/marioverse/tags/item/hats/mario.json
 5f317cfa93abea37163b270cfb665d9d85ab4b4e data/marioverse/tags/item/hats/peach.json
@@ -87,7 +88,7 @@ eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/item/flammable_woo
 bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.json
 2bf71b8c33ad54da47f6204801153f8758427f38 data/marioverse/tags/item/koopa_shoes.json
 ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/item/mushroom_trampoline_blocks.json
-2abab234b9fe82a01874f77c9b38ca91e743e391 data/marioverse/tags/item/pants.json
+53627d4a43a6f467f10a98b6030b48c39f59dbd6 data/marioverse/tags/item/pants.json
 f7715c017ddffc880a389a06d288a8a315b075a8 data/marioverse/tags/item/pants/luigi.json
 7a67f9caf0d70b8144192e8b3d3ef8bb33952c5e data/marioverse/tags/item/pants/mario.json
 7ae1dcab82f4705b715e9c0111ff0f0191a5ba16 data/marioverse/tags/item/pants/peach.json
@@ -102,11 +103,11 @@ b4d3d7dcd0b80ff27194ee3e0684e9bf48113a65 data/marioverse/tags/item/power_up_cost
 efb2ebff6ac2ff84294ecec7c524e94d784f2cec data/marioverse/tags/item/power_up_costumes/peach.json
 05196126a22460d63899d1005ccb115203d709be data/marioverse/tags/item/question_blocks.json
 a7237a913ebc494e95c33837eb152a6c6ebd10a6 data/marioverse/tags/item/question_panels.json
-e5b31b8a26f745500e72dfe9d9b64bd0174ecb2d data/marioverse/tags/item/shirts.json
+bc8917d8843ac9eb64cb0c4ae8c6287c30528a1d data/marioverse/tags/item/shirts.json
 c33b72b8f76cd856cb92c99c1457e78c952b1a1c data/marioverse/tags/item/shirts/luigi.json
 352f108de1578b00b641b4360a062926b293516e data/marioverse/tags/item/shirts/mario.json
 c28ef4e40bbb1dde0245e1c892ece536538c1e1c data/marioverse/tags/item/shirts/peach.json
-a05cc29212ae2e2227f13eba12872340d48b1052 data/marioverse/tags/item/shoes.json
+99986249f2dadbf3324a93103ddf3b59c023ac0c data/marioverse/tags/item/shoes.json
 7b599ee038c3fd3bbd1e971d1d1ea49366880e63 data/marioverse/tags/item/shoes/luigi.json
 698bfbe8e60344466fe2ed94b09b5997c325e4c1 data/marioverse/tags/item/shoes/mario.json
 6847a635b87905a9021d4641ea58248ed8367a69 data/marioverse/tags/item/shoes/peach.json
@@ -122,11 +123,12 @@ c244f100071156df3560fa1b7792613d9c04a72c data/marioverse/tags/item/warp_pipe_can
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/cat_food.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
-4e4fd6f76a7b6263e1466677635cb6cd356190bf data/minecraft/tags/item/enchantable/armor.json
-cf53e417f5f73265ca2e631ef96aa9ee670ba798 data/minecraft/tags/item/enchantable/durability.json
-5f6098308dd2681e812b9ca9cd741c532fce418d data/minecraft/tags/item/enchantable/equippable.json
+13dd4e0a880623245a60afe7a093d166ccf06fa8 data/minecraft/tags/item/dyeable.json
+c74eb18d8eb49cf4a975e0ff6821e7d5ffb5d8e5 data/minecraft/tags/item/enchantable/armor.json
+6e338ffe7fa74644f4ead0df6a8fc9d730c58143 data/minecraft/tags/item/enchantable/durability.json
+80637d55826eb65c7fc8b52e06dc95cc3fe7ad6c data/minecraft/tags/item/enchantable/equippable.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/fire_aspect.json
-5f6098308dd2681e812b9ca9cd741c532fce418d data/minecraft/tags/item/enchantable/vanishing.json
+80637d55826eb65c7fc8b52e06dc95cc3fe7ad6c data/minecraft/tags/item/enchantable/vanishing.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/weapon.json
 b28d2334ac91b76d29f622d51412d34b0f4f498a data/minecraft/tags/item/fishes.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/item/flowers.json
@@ -142,6 +144,6 @@ eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/ocelot_food.js
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/item/stone_buttons.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/item/stone_crafting_materials.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/item/stone_tool_materials.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/item/trimmable_armor.json
+13dd4e0a880623245a60afe7a093d166ccf06fa8 data/minecraft/tags/item/trimmable_armor.json
 7b23db159d567133835a9e7c72691460e675fd78 data/minecraft/tags/item/walls.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/item/wooden_stairs.json

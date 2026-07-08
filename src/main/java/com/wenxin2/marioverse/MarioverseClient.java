@@ -80,6 +80,7 @@ import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -107,6 +108,11 @@ public class MarioverseClient {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.WHITE_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHOES.get(), ArmorRenderingExtension::costumeRenderer);
 
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_HAT.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
@@ -161,6 +167,31 @@ public class MarioverseClient {
                         return 0xFF3F76E4;
                     return -1;
                 }, ItemRegistry.PLASTIC_WATER_BUCKET.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xFFF6343A);
+                    return -1;
+                },
+                ItemRegistry.HAT.get(),
+                ItemRegistry.SHIRT.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xFF325EFF);
+                    return -1;
+                },
+                ItemRegistry.PANTS.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xFFA94535);
+                    return -1;
+                },
+                ItemRegistry.SHOES.get()
         );
     }
 

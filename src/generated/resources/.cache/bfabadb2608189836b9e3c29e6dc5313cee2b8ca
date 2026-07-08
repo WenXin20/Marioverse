@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-21T03:11:47.6562998	Item Models: marioverse
+// 1.21.1	2026-07-08T01:11:01.4603487	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -59,6 +59,7 @@ af89083561edc3b5740fd470750f17945ed4abd4 assets/marioverse/models/item/goombella
 8e210f006329a88615c7806d5bfd7b26fac8a975 assets/marioverse/models/item/green_koopa_shell.json
 db7eddc9d3eedb33abec0b85ea36926e77d1b849 assets/marioverse/models/item/green_koopa_shoes.json
 9fc422aaca5261358880e7468a3e7404b0947d0c assets/marioverse/models/item/green_koopa_troopa_spawn_egg.json
+7037d91706772ef5df0f5064a49b1ede71d93fc7 assets/marioverse/models/item/hat.json
 2f7dede7ee4a7fb7d18854426898237c9adf418d assets/marioverse/models/item/hefty_goomba_spawn_egg.json
 dd60eb6bf7385bb995d7fc0486d6cc9edfd48be0 assets/marioverse/models/item/horn_coral_tower.json
 4058ce9f8d426f15c29e952c14fc0e1bce9b2831 assets/marioverse/models/item/ice_costume_smithing_template.json
@@ -136,6 +137,7 @@ f16534875539ddc16f40c06e79c8e7938899b5aa assets/marioverse/models/item/mega_goom
 de0c3b51b45be55cd8615c33465ddeed4ad4fb6b assets/marioverse/models/item/one_up_mushroom.json
 d71e2369371eda26924578fbbc22e15b1f7c69ff assets/marioverse/models/item/orange_checkpoint_flag.json
 1ba34bbdf64a09d00da46fdb911a8b9b7f79324f assets/marioverse/models/item/orange_goal_pole.json
+98ead7f587670710725d3bd873c94ac7ae6fd10d assets/marioverse/models/item/pants.json
 147c69ae61f0cc39958a2c267e31abcbcc1c1491 assets/marioverse/models/item/peach_bodice.json
 04a15e10e18b34f532e191218ed29b8bae0356ac assets/marioverse/models/item/peach_costume_smithing_template.json
 3d31c0e09e89af2be7e726a74a7f754b1a1d2b4f assets/marioverse/models/item/peach_crown.json
@@ -172,6 +174,8 @@ fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa
 2b32499357745ee1294ba49c0e0cfd9f01d4344c assets/marioverse/models/item/red_koopa_troopa_spawn_egg.json
 4a0a4e848187f29bee695a7f0281543b3c169b63 assets/marioverse/models/item/red_quicksand_bucket.json
 387c93ea223f8fb42fde90cf4a4cd6b19c440c5a assets/marioverse/models/item/red_trampoline_cap.json
+b38d3c32aca108b3873bf8d187ba7bec9fd7089a assets/marioverse/models/item/shirt.json
+ed075128072dd103715da7854bb9264fbd70c2fe assets/marioverse/models/item/shoes.json
 9531b08e9ecae755def0a6d9a27bc747800f58fc assets/marioverse/models/item/snow_pokey_spawn_egg.json
 69da874887dd83827e13d267f33145b1d99a6d78 assets/marioverse/models/item/spike_panel.json
 8e47f8d9a031f6dece0675c602f828c3d8e2905e assets/marioverse/models/item/spiny_cheep_cheep.json
