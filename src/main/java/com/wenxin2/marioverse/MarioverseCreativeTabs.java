@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -105,6 +107,16 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
 
             add(event, ItemRegistry.CHRISTMAS_HAT);
+
+            add(event, ItemRegistry.HAT);
+            add(event, ItemRegistry.SHIRT);
+            add(event, ItemRegistry.PANTS);
+            add(event, ItemRegistry.SHOES);
+
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFF9C6042, true));
 
             add(event, ItemRegistry.MARIO_HAT);
             add(event, ItemRegistry.MARIO_SHIRT);
@@ -636,7 +648,19 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHELL, ItemRegistry.RED_KOOPA_SHELL);
                 addAfter(event, ItemRegistry.RED_KOOPA_SHELL, ItemRegistry.GOLD_KOOPA_SHELL);
 
-                addAfter(event, Items.TURTLE_HELMET, ItemRegistry.MARIO_HAT);
+                addAfter(event, Items.TURTLE_HELMET, ItemRegistry.HAT);
+                addAfter(event, ItemRegistry.HAT, ItemRegistry.SHIRT);
+                addAfter(event, ItemRegistry.SHIRT, ItemRegistry.PANTS);
+                addAfter(event, ItemRegistry.PANTS, ItemRegistry.SHOES);
+                ItemStack luigiHat = addAfter(event, ItemRegistry.SHOES, ItemRegistry.HAT.get(),
+                        DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
+                ItemStack luigiShirt = addAfter(event, luigiHat.getItem(), ItemRegistry.SHIRT.get(),
+                        DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
+                ItemStack luigiPants = addAfter(event, luigiShirt.getItem(), ItemRegistry.PANTS.get(),
+                        DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
+                ItemStack luigiShoes = addAfter(event, luigiPants.getItem(), ItemRegistry.SHOES.get(),
+                        DataComponents.DYED_COLOR, new DyedItemColor(0xFF9C6042, true));
+                addAfter(event, luigiShoes, ItemRegistry.MARIO_HAT);
                 addAfter(event, ItemRegistry.MARIO_HAT, ItemRegistry.MARIO_SHIRT);
                 addAfter(event, ItemRegistry.MARIO_SHIRT, ItemRegistry.MARIO_PANTS);
                 addAfter(event, ItemRegistry.MARIO_PANTS, ItemRegistry.MARIO_SHOES);
@@ -1195,10 +1219,24 @@ public class MarioverseCreativeTabs {
         add(event, stack);
     }
 
+    public static ItemStack addStack(BuildCreativeModeTabContentsEvent event, ItemLike item) {
+        ItemStack stack = new ItemStack(item);
+        add(event, stack);
+        return stack;
+    }
+
     public static void add(BuildCreativeModeTabContentsEvent event, ItemLike item, Component name) {
         ItemStack stack = new ItemStack(item);
         stack.set(DataComponents.CUSTOM_NAME, name);
         add(event, stack);
+    }
+
+    public static <T> ItemStack add(BuildCreativeModeTabContentsEvent event, ItemLike item,
+                                     DataComponentType<T> componentType, T value) {
+        ItemStack stack = new ItemStack(item);
+        stack.set(componentType, value);
+        add(event, stack);
+        return stack;
     }
 
     public static void addBucket(BuildCreativeModeTabContentsEvent event, ItemLike item, Consumer<CompoundTag> tagConsumer) {
@@ -1231,6 +1269,14 @@ public class MarioverseCreativeTabs {
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemStack stack) {
         event.insertAfter(afterStack, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+    }
+
+    public static <T> ItemStack addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item,
+                                         DataComponentType<T> componentType, T value) {
+        ItemStack stack = new ItemStack(item);
+        stack.set(componentType, value);
+        addAfter(event, afterItem, stack);
+        return stack;
     }
 
     public static void addBefore(BuildCreativeModeTabContentsEvent event, ItemLike beforeItem, ItemLike item) {
