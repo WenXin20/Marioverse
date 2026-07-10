@@ -40,6 +40,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
@@ -306,19 +307,23 @@ public class ItemRegistry {
         HAT = registerItem("hat",
                 () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
         SHIRT = registerItem("shirt",
                 () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
         PANTS = registerItem("pants",
                 () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFF325EFF, true))));
         SHOES = registerItem("shoes",
                 () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94535, true))));
 
         MARIO_HAT = registerItem("mario_hat",
                 () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,

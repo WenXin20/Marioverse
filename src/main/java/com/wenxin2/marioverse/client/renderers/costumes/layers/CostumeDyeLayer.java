@@ -5,11 +5,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.renderers.costumes.DyeableCostumeRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.DyedItemColor;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
@@ -32,12 +30,6 @@ public class CostumeDyeLayer<T extends Item & GeoAnimatable> extends GeoRenderLa
         ResourceLocation baseTexture = this.renderer.getTextureLocation(animatable);
         ResourceLocation overlayTexture = this.deriveOverlayPath(baseTexture);
 
-        DyedItemColor dye = stack.get(DataComponents.DYED_COLOR);
-        int dyeRgb = dye != null ? dye.rgb() : 0xFFFFFFFF;
-        int dyeColour = 0xFF000000 | (dyeRgb & 0x00FFFFFF);
-
-        this.renderLayer(poseStack, animatable, bakedModel, bufferSource,
-                partialTick, packedLight, packedOverlay, baseTexture, dyeColour);
         this.renderLayer(poseStack, animatable, bakedModel, bufferSource,
                 partialTick, packedLight, packedOverlay, overlayTexture, 0xFFFFFFFF);
     }

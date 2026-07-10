@@ -92,8 +92,10 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
 
     @Override
     public void renderChildBones(PoseStack poseStack, DyeableCostumeItem animatable, GeoBone bone, RenderType renderType,
-                                 MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
-        if ((bone.getName().equals("armorWaist") || bone.getName().equals("armorDress")) && currentSlot != EquipmentSlot.LEGS)
+                                 MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick,
+                                 int packedLight, int packedOverlay, int colour) {
+        if ((bone.getName().equals("armorWaist") || bone.getName().equals("armorDress"))
+                && currentSlot != EquipmentSlot.LEGS)
             return;
         super.renderChildBones(poseStack, animatable, bone, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
@@ -175,7 +177,7 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
             if (armorItem.getEquipmentSlot() == EquipmentSlot.FEET)
                 return 0xFFA94535;
         }
-        return 0xFFFFFFFF;
+        return 0xFFF6343A;
     }
 
     @Override
@@ -186,6 +188,6 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
     @NotNull
     @Override
     protected Color getColorForBone(GeoBone geoBone) {
-        return Color.RED;
+        return Color.ofOpaque(this.getDefaultDyeColor());
     }
 }
