@@ -652,13 +652,13 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.HAT, ItemRegistry.SHIRT);
                 addAfter(event, ItemRegistry.SHIRT, ItemRegistry.PANTS);
                 addAfter(event, ItemRegistry.PANTS, ItemRegistry.SHOES);
-                ItemStack luigiHat = addAfter(event, ItemRegistry.SHOES, ItemRegistry.HAT.get(),
+                ItemStack luigiHat = addAfter(event, ItemRegistry.SHOES.toStack(), ItemRegistry.HAT.get(),
                         DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-                ItemStack luigiShirt = addAfter(event, luigiHat.getItem(), ItemRegistry.SHIRT.get(),
+                ItemStack luigiShirt = addAfter(event, luigiHat, ItemRegistry.SHIRT.get(),
                         DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-                ItemStack luigiPants = addAfter(event, luigiShirt.getItem(), ItemRegistry.PANTS.get(),
+                ItemStack luigiPants = addAfter(event, luigiShirt, ItemRegistry.PANTS.get(),
                         DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-                ItemStack luigiShoes = addAfter(event, luigiPants.getItem(), ItemRegistry.SHOES.get(),
+                ItemStack luigiShoes = addAfter(event, luigiPants, ItemRegistry.SHOES.get(),
                         DataComponents.DYED_COLOR, new DyedItemColor(0xFF9C6042, true));
                 addAfter(event, luigiShoes, ItemRegistry.MARIO_HAT);
                 addAfter(event, ItemRegistry.MARIO_HAT, ItemRegistry.MARIO_SHIRT);
@@ -1271,11 +1271,11 @@ public class MarioverseCreativeTabs {
         event.insertAfter(afterStack, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
-    public static <T> ItemStack addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item,
+    public static <T> ItemStack addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemLike item,
                                          DataComponentType<T> componentType, T value) {
         ItemStack stack = new ItemStack(item);
         stack.set(componentType, value);
-        addAfter(event, afterItem, stack);
+        addAfter(event, afterStack, stack);
         return stack;
     }
 
