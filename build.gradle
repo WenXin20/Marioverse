@@ -82,9 +82,10 @@ dependencies {
     implementation "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
+    implementation "curse.maven:jei-${jei_version}"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
-    implementation "curse.maven:roughly-enough-items-${rei_version}"
+    compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:7797302"
 //    implementation "curse.maven:tree-physics-1522010:8126510"
@@ -107,6 +108,7 @@ dependencies {
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"
 
     jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:1.6.0"))
+    implementation "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_spef_version}"
 
     // implementation "curse.maven:simple-clouds-${simple_clouds_version}"
 
@@ -114,8 +116,6 @@ dependencies {
     // implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
     // implementation "curse.maven:itemzoom-261725:5536959"
-    compileOnly "curse.maven:jei-${jei_version}"
-    implementation "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_spef_version}"
     // implementation "curse.maven:pehkui-${pehkui_version}"
     // implementation "curse.maven:structure-gel-api-${structure_gel_version}"
 }

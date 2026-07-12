@@ -1,0 +1,14 @@
+{
+  "type": "marioverse:color_swappable_shaped",
+  "group": "pants",
+  "pattern": [
+    "WWW",
+    "C C",
+    "W W"
+  ],
+  "key": {
+    "C": { "color_tag": "minecraft:wool" },
+    "W": { "item": "minecraft:blue_wool" }
+  },
+  "result": "marioverse:pants"
+}
