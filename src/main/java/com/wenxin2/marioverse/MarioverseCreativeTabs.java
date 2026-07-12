@@ -118,6 +118,16 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
             add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFF9C6042, true));
 
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFCD00, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFCD00, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFCD00, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94536, true));
+
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94537, true));
+
             add(event, ItemRegistry.MARIO_HAT);
             add(event, ItemRegistry.MARIO_SHIRT);
             add(event, ItemRegistry.MARIO_PANTS);
