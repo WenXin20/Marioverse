@@ -21,16 +21,19 @@ import java.util.*;
 import org.jetbrains.annotations.NotNull;
 
 public class ColorSwappableShapedRecipe implements CraftingRecipe {
+    private static final Codec<Either<TagColorIngredient, ItemColorIngredient>> COLOR_INGREDIENT_CODEC =
+            Codec.either(TagColorIngredient.CODEC, ItemColorIngredient.CODEC);
     private final String group;
     private final List<String> pattern;
-    private final Map<String, Either<TagColorIngredient, Ingredient>> key;
+    private final Map<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> key;
     private final Item result;
     private final int width;
     private final int height;
-    private final List<Either<TagColorIngredient, Ingredient>> slots;
+    private final List<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> slots;
 
     public ColorSwappableShapedRecipe(String group, List<String> pattern,
-                                      Map<String, Either<TagColorIngredient, Ingredient>> key, Item result) {
+                                      Map<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> key,
+                                      Item result) {
         this.group = group;
         this.pattern = pattern;
         this.key = key;
@@ -46,7 +49,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                 if (c == ' ') {
                     this.slots.add(Either.right(Ingredient.EMPTY));
                 } else {
-                    Either<TagColorIngredient, Ingredient> entry = key.get(String.valueOf(c));
+                    Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient> entry = key.get(String.valueOf(c));
                     if (entry == null)
                         throw new IllegalArgumentException("Pattern references undefined key '" + c + "'");
                     this.slots.add(entry);
@@ -60,24 +63,35 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
         if (input.width() != this.width || input.height() != this.height)
             return false;
 
-        Map<TagColorIngredient, Integer> resolvedColors = new IdentityHashMap<>();
+        Map<Object, Integer> resolvedColors = new IdentityHashMap<>();
 
         for (int y = 0; y < this.height; y++) {
             for (int x = 0; x < this.width; x++) {
                 ItemStack stack = input.getItem(x, y);
-                Either<TagColorIngredient, Ingredient> slot = this.slots.get(y * this.width + x);
+                Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient> slot = this.slots.get(y * this.width + x);
 
-                boolean ok = slot.map(colorIngredient -> {
-                            if (!colorIngredient.test(stack))
-                                return false;
-                            Integer color = colorIngredient.colorOf(stack);
-                            if (color == null)
-                                return false;
+                boolean ok = slot.map(colorIngredient -> colorIngredient.map(tag -> {
+                                    if (!tag.test(stack))
+                                        return false;
 
-                            Integer existing = resolvedColors.putIfAbsent(colorIngredient, color);
-                            return existing == null || existing.equals(color);
-                        },
-                        ingredient -> ingredient.test(stack)
+                                    Integer color = tag.colorOf(stack);
+                                    if (color == null)
+                                        return false;
+
+                                    Integer existing = resolvedColors.putIfAbsent(tag, color);
+                                    return existing == null || existing.equals(color);
+                                },
+                                item -> {
+                                    if (!item.test(stack))
+                                        return false;
+
+                                    Integer color = item.colorOf(stack);
+                                    if (color == null)
+                                        return false;
+
+                                    Integer existing = resolvedColors.putIfAbsent(item, color);
+                                    return existing == null || existing.equals(color);
+                                }), ingredient -> ingredient.test(stack)
                 );
                 if (!ok)
                     return false;
@@ -94,9 +108,16 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
         outer:
         for (int y = 0; y < this.height; y++) {
             for (int x = 0; x < this.width; x++) {
-                Either<TagColorIngredient, Ingredient> slot = this.slots.get(y * this.width + x);
+                Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient> slot = this.slots.get(y * this.width + x);
                 if (slot.left().isPresent()) {
-                    Integer color = slot.left().get().colorOf(input.getItem(x, y));
+                    int finalTagX = x;
+                    int finalTagY = y;
+                    int finalX = x;
+                    int finalY = y;
+                    Integer color = slot.left().get()
+                            .map(tag -> tag.colorOf(input.getItem(finalTagX, finalTagY)),
+                                    item -> item.colorOf(input.getItem(finalX, finalY)));
+
                     if (color != null) {
                         found = color;
                         break outer;
@@ -127,8 +148,10 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> flattened = NonNullList.withSize(this.slots.size(), Ingredient.EMPTY);
         for (int i = 0; i < this.slots.size(); i++) {
-            Either<TagColorIngredient, Ingredient> slot = this.slots.get(i);
-            flattened.set(i, slot.map(TagColorIngredient::toIngredient, ingredient -> ingredient));
+            Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient> slot = this.slots.get(i);
+            flattened.set(i, slot
+                    .map(color -> color.map(TagColorIngredient::toIngredient, item -> Ingredient.of(item.item())),
+                            ingredient -> ingredient));
         }
         return flattened;
     }
@@ -157,8 +180,9 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
     }
 
     public static class Serializer implements RecipeSerializer<ColorSwappableShapedRecipe> {
-        private static final Codec<Either<TagColorIngredient, Ingredient>> SLOT_CODEC =
-                Codec.either(TagColorIngredient.CODEC, Ingredient.CODEC);
+        private static final Codec<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> SLOT_CODEC =
+                Codec.either(Codec.either(TagColorIngredient.CODEC, ItemColorIngredient.CODEC),
+                        Ingredient.CODEC);
 
         private static final MapCodec<ColorSwappableShapedRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
@@ -169,20 +193,34 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                 ).apply(instance, ColorSwappableShapedRecipe::new)
         );
 
-        private static final StreamCodec<RegistryFriendlyByteBuf, Either<TagColorIngredient, Ingredient>> SLOT_STREAM_CODEC =
+        private static final StreamCodec<RegistryFriendlyByteBuf, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> SLOT_STREAM_CODEC =
                 StreamCodec.of(
-                        (buf, either) -> {
-                            boolean isColor = either.left().isPresent();
-                            buf.writeBoolean(isColor);
-                            if (isColor) {
-                                TagColorIngredient.STREAM_CODEC.encode(buf, either.left().get());
+                        (buf, slot) -> {
+                            if (slot.left().isPresent()) {
+                                buf.writeBoolean(true);
+
+                                Either<TagColorIngredient, ItemColorIngredient> color = slot.left().get();
+
+                                if (color.left().isPresent()) {
+                                    buf.writeBoolean(true);
+                                    TagColorIngredient.STREAM_CODEC.encode(buf, color.left().get());
+                                } else {
+                                    buf.writeBoolean(false);
+                                    ItemColorIngredient.STREAM_CODEC.encode(buf, color.right().get());
+                                }
                             } else {
-                                Ingredient.CONTENTS_STREAM_CODEC.encode(buf, either.right().get());
+                                buf.writeBoolean(false);
+                                Ingredient.CONTENTS_STREAM_CODEC.encode(buf, slot.right().get());
                             }
                         },
-                        buf -> buf.readBoolean()
-                                ? Either.left(TagColorIngredient.STREAM_CODEC.decode(buf))
-                                : Either.right(Ingredient.CONTENTS_STREAM_CODEC.decode(buf))
+                        buf -> {
+                            if (buf.readBoolean()) {
+                                if (buf.readBoolean())
+                                    return Either.left(Either.left(TagColorIngredient.STREAM_CODEC.decode(buf)));
+                                else return Either.left(Either.right(ItemColorIngredient.STREAM_CODEC.decode(buf)));
+                            }
+                            return Either.right(Ingredient.CONTENTS_STREAM_CODEC.decode(buf));
+                        }
                 );
 
         private static final StreamCodec<RegistryFriendlyByteBuf, ColorSwappableShapedRecipe> STREAM_CODEC = StreamCodec.of(
@@ -192,7 +230,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                     for (String row : recipe.pattern) buf.writeUtf(row);
 
                     buf.writeVarInt(recipe.key.size());
-                    for (Map.Entry<String, Either<TagColorIngredient, Ingredient>> e : recipe.key.entrySet()) {
+                    for (Map.Entry<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> e : recipe.key.entrySet()) {
                         buf.writeUtf(e.getKey());
                         SLOT_STREAM_CODEC.encode(buf, e.getValue());
                     }
@@ -207,7 +245,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                     for (int i = 0; i < rowCount; i++) pattern.add(buf.readUtf());
 
                     int keyCount = buf.readVarInt();
-                    Map<String, Either<TagColorIngredient, Ingredient>> key = new HashMap<>();
+                    Map<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> key = new HashMap<>();
                     for (int i = 0; i < keyCount; i++) {
                         String k = buf.readUtf();
                         key.put(k, SLOT_STREAM_CODEC.decode(buf));
@@ -239,7 +277,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
         return this.height;
     }
 
-    public List<Either<TagColorIngredient, Ingredient>> getSlots() {
+    public List<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> getSlots() {
         return this.slots;
     }
 }

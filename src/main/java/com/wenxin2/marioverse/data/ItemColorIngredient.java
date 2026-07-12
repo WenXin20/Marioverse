@@ -23,25 +23,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public record TagColorIngredient(TagKey<Item> tag) {
-    public static final Codec<TagColorIngredient> CODEC = RecordCodecBuilder.create(instance -> instance
-            .group(TagKey.codec(Registries.ITEM).fieldOf("color_tag").forGetter(TagColorIngredient::tag))
-            .apply(instance, TagColorIngredient::new));
+public record ItemColorIngredient(Item item) {
+    public static final Codec<ItemColorIngredient> CODEC = RecordCodecBuilder
+            .create(instance -> instance.group(BuiltInRegistries.ITEM.byNameCodec().fieldOf("color_item").forGetter(ItemColorIngredient::item))
+                    .apply(instance, ItemColorIngredient::new)
+    );
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, TagColorIngredient> STREAM_CODEC = StreamCodec
-            .of((buf, ci) -> buf.writeResourceLocation(ci.tag().location()),
-            buf -> new TagColorIngredient(TagKey.create(net.minecraft.core.registries.Registries.ITEM, buf.readResourceLocation())));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ItemColorIngredient> STREAM_CODEC = StreamCodec
+            .of((buf, ingredient) -> buf.writeResourceLocation(BuiltInRegistries.ITEM.getKey(ingredient.item())),
+                    buf -> new ItemColorIngredient(BuiltInRegistries.ITEM.get(buf.readResourceLocation())));
 
     private static final Map<Item, Integer> TEXTURE_COLOR_CACHE = new IdentityHashMap<>();
-    private static final Map<DyeColor, Integer> COLOR_OVERRIDES = new EnumMap<>(DyeColor.class);
-
-    static {
-        COLOR_OVERRIDES.put(DyeColor.RED, 0xFFF6343A);
-        COLOR_OVERRIDES.put(DyeColor.BLUE, 0xFF325EFF);
-    }
 
     public boolean test(ItemStack stack) {
-        return stack.is(this.tag);
+        return true;
     }
 
     public Integer colorOf(ItemStack stack) {
@@ -52,35 +47,7 @@ public record TagColorIngredient(TagKey<Item> tag) {
         if (dyed != null)
             return dyed;
 
-        if (this.tag.equals(ItemTags.WOOL)) {
-            DyeColor named = this.colorFromName(stack);
-            if (named != null) {
-                Integer override = COLOR_OVERRIDES.get(named);
-                return override != null ? override : named.getTextureDiffuseColor();
-            }
-            return null;
-        }
-        return TagColorIngredient.averageColorFromTexture(stack.getItem());
-    }
-
-    private DyeColor colorFromName(ItemStack stack) {
-        ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        String[] pathSegments = id.getPath().split("_");
-
-        DyeColor best = null;
-        int bestSegmentCount = 0;
-
-        for (DyeColor color : DyeColor.values()) {
-            String[] colorSegments = color.getName().split("_");
-            if (colorSegments.length <= bestSegmentCount) continue;
-
-            if (TagColorIngredient.containsSubsequence(pathSegments, colorSegments)) {
-                best = color;
-                bestSegmentCount = colorSegments.length;
-            }
-        }
-
-        return best;
+        return ItemColorIngredient.averageColorFromTexture(stack.getItem());
     }
 
     private Integer colorFromDyedComponent(ItemStack stack) {
@@ -89,7 +56,7 @@ public record TagColorIngredient(TagKey<Item> tag) {
     }
 
     private static Integer averageColorFromTexture(Item item) {
-        return TEXTURE_COLOR_CACHE.computeIfAbsent(item, TagColorIngredient::computeAverageColorFromTexture);
+        return TEXTURE_COLOR_CACHE.computeIfAbsent(item, ItemColorIngredient::computeAverageColorFromTexture);
     }
 
     private static Integer computeAverageColorFromTexture(Item item) {
@@ -105,12 +72,10 @@ public record TagColorIngredient(TagKey<Item> tag) {
     }
 
     private static Integer sampleTexture(String path) {
-        try (InputStream stream = TagColorIngredient.class.getClassLoader().getResourceAsStream(path)) {
-            if (stream == null)
-                return null;
+        try (InputStream stream = ItemColorIngredient.class.getClassLoader().getResourceAsStream(path)) {
+            if (stream == null) return null;
             BufferedImage image = ImageIO.read(stream);
-            if (image == null)
-                return null;
+            if (image == null) return null;
 
             long r = 0, g = 0, b = 0;
             int count = 0;
@@ -128,26 +93,14 @@ public record TagColorIngredient(TagKey<Item> tag) {
                 }
             }
 
-            if (count == 0)
-                return null;
+            if (count == 0) return null;
             return ((int) (r / count) << 16) | ((int) (g / count) << 8) | (int) (b / count);
         } catch (IOException e) {
             return null;
         }
     }
 
-    private static boolean containsSubsequence(String[] haystack, String[] needle) {
-        outer:
-        for (int i = 0; i <= haystack.length - needle.length; i++) {
-            for (int j = 0; j < needle.length; j++) {
-                if (!haystack[i + j].equals(needle[j])) continue outer;
-            }
-            return true;
-        }
-        return false;
-    }
-
     public Ingredient toIngredient() {
-        return Ingredient.of(this.tag);
+        return Ingredient.of(this.item);
     }
 }
