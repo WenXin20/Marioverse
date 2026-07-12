@@ -1,6 +1,11 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.client.renderers.costumes.DyeableCostumeRenderer;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
+import io.wispforest.accessories.api.AccessoriesCapability;
+import io.wispforest.accessories.api.AccessoriesContainer;
+import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.client.model.HumanoidModel;
@@ -75,6 +80,36 @@ public class DyeableCostumeItem extends BaseCostumeItem implements GeoItem {
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
                 list.add(Component.translatable("item.marioverse." + this.tooltipName + ".tooltip.line" + lineAmt));
             list.add(Component.literal(""));
+        }
+    }
+
+    public static void resetCostumes(LivingEntity entity) {
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            if (!slot.isArmor())
+                continue;
+            ItemStack stack = entity.getItemBySlot(slot);
+            DyeableCostumeItem.clearPowerUps(stack);
+        }
+
+        AccessoriesCapability capability = AccessoriesCapability.get(entity);
+        if (capability != null) {
+            for (String slotName : new String[]{"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"}) {
+                AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotName));
+                if (container == null)
+                    continue;
+
+                ItemStack stack = container.getAccessories().getItem(0);
+                DyeableCostumeItem.clearPowerUps(stack);
+            }
+        }
+    }
+
+    private static void clearPowerUps(ItemStack stack) {
+        if (!stack.isEmpty() && stack.is(TagRegistry.COSTUMES)) {
+            if (stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false))
+                stack.set(DataComponentRegistry.HAS_FIRE_FLOWER, false);
+            if (stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
+                stack.set(DataComponentRegistry.HAS_ICE_FLOWER, false);
         }
     }
 }

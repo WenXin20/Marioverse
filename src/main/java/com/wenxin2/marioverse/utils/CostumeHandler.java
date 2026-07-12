@@ -1,15 +1,21 @@
 package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
+import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
+import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Map;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public interface CostumeHandler {
@@ -102,145 +108,111 @@ public interface CostumeHandler {
         }
     }
 
-    default void updateCostume(LivingEntity entity, AbstractPowerUpEntity powerUp, AccessoriesCapability capability) {
-        AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
-        AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
-        AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
-        AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
+    List<TagKey<Item>> CHARACTER_COSTUME_TAGS =
+            List.of(TagRegistry.MARIO_COSTUMES, TagRegistry.LUIGI_COSTUMES, TagRegistry.PEACH_COSTUMES);
 
+    default void updateCostume(LivingEntity entity, AbstractPowerUpEntity powerUp, AccessoriesCapability capability) {
         int randomIndex = (int) (Math.random() * powerUp.getPowerUpHatItems().size());
 
-        if (entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)) {
+        if (entity.getType().is(TagRegistry.CAN_WEAR_COSTUMES)) {
+            Map<EquipmentSlot, List<ItemStack>> costumeItemsBySlot = Map.of(
+                    EquipmentSlot.HEAD, powerUp.getPowerUpHatItems(),
+                    EquipmentSlot.CHEST, powerUp.getPowerUpShirtItems(),
+                    EquipmentSlot.LEGS, powerUp.getPowerUpPantsItems(),
+                    EquipmentSlot.FEET, powerUp.getPowerUpShoesItems()
+            );
+
             for (EquipmentSlot slot : EquipmentSlot.values()) {
-                if (!slot.isArmor()) continue;
-                ItemStack currentStack = entity.getItemBySlot(slot);
+                if (!slot.isArmor())
+                    continue;
+                List<ItemStack> costumeItems = costumeItemsBySlot.get(slot);
+                if (costumeItems == null)
+                    continue;
+                ItemStack stackArmor = entity.getItemBySlot(slot);
+                ItemStack newStack = costumeItems.get(randomIndex);
 
-                switch (slot) {
-                    case HEAD -> {
-                        ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.HEAD);
-                        ItemStack newStack = powerUp.getPowerUpHatItems().get(randomIndex);
-                        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPowerUpHatItems(), newStack, currentStack);
-                    }
-                    case CHEST -> {
-                        ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.CHEST);
-                        ItemStack newStack = powerUp.getPowerUpShirtItems().get(randomIndex);
-                        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPowerUpShirtItems(), newStack, currentStack);
-                    }
-                    case LEGS -> {
-                        ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.LEGS);
-                        ItemStack newStack = powerUp.getPowerUpPantsItems().get(randomIndex);
-                        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPowerUpPantsItems(), newStack, currentStack);
-                    }
-                    case FEET -> {
-                        ItemStack stackArmor = entity.getItemBySlot(EquipmentSlot.FEET);
-                        ItemStack newStack = powerUp.getPowerUpShoesItems().get(randomIndex);
-                        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES))
-                            this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, powerUp.getPowerUpShoesItems(), newStack, currentStack);
-                    }
-                }
+                if ((stackArmor.isEmpty() && entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS))
+                        || stackArmor.is(TagRegistry.COSTUMES))
+                    this.equipCostumesInArmorSlots(entity, powerUp, slot, stackArmor, costumeItems, newStack, stackArmor);
             }
         }
 
-        if (containerHat != null && !containerHat.getAccessories().getItem(0).is(powerUp.getPowerUpCostumeTag())) {
-            ItemStack stack = containerHat.getAccessories().getItem(0);
-            ItemStack stackArmor = !(entity instanceof Player)
-                    ? entity.getItemBySlot(EquipmentSlot.HEAD) : stack;
-            ItemStack newStack = !(entity instanceof Player)
-                    ? powerUp.getPowerUpHatItems().get(randomIndex) : stack;
+        this.handleAccessoryCostumeSlot(entity, powerUp,
+                capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat")),
+                EquipmentSlot.HEAD, powerUp.getPowerUpHatItems(), randomIndex);
 
-            for (ItemStack item : powerUp.getPowerUpHatItems())
-                newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
+        this.handleAccessoryCostumeSlot(entity, powerUp,
+                capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt")),
+                EquipmentSlot.CHEST, powerUp.getPowerUpShirtItems(), randomIndex);
 
-            newStack.applyComponents(stack.getComponents());
-            containerHat.getAccessories().setItem(0, newStack);
-        }
+        this.handleAccessoryCostumeSlot(entity, powerUp,
+                capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants")),
+                EquipmentSlot.LEGS, powerUp.getPowerUpPantsItems(), randomIndex);
 
-        if (containerShirt != null && !containerShirt.getAccessories().getItem(0).is(powerUp.getPowerUpCostumeTag())) {
-            ItemStack stack = containerShirt.getAccessories().getItem(0);
-            ItemStack stackArmor = !(entity instanceof Player)
-                    ? entity.getItemBySlot(EquipmentSlot.BODY) : stack;
-            ItemStack newStack = !(entity instanceof Player)
-                    ? powerUp.getPowerUpShirtItems().get(randomIndex) : stack;
-
-            for (ItemStack item : powerUp.getPowerUpShirtItems())
-                newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
-
-            newStack.applyComponents(stack.getComponents());
-            containerShirt.getAccessories().setItem(0, newStack);
-        }
-
-        if (containerPants != null && !containerPants.getAccessories().getItem(0).is(powerUp.getPowerUpCostumeTag())) {
-            ItemStack stack = containerPants.getAccessories().getItem(0);
-            ItemStack stackArmor = !(entity instanceof Player)
-                    ? entity.getItemBySlot(EquipmentSlot.LEGS) : stack;
-            ItemStack newStack = !(entity instanceof Player)
-                    ? powerUp.getPowerUpPantsItems().get(randomIndex) : stack;
-
-            for (ItemStack item : powerUp.getPowerUpPantsItems())
-                newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
-
-            newStack.applyComponents(stack.getComponents());
-            containerPants.getAccessories().setItem(0, newStack);
-        }
-
-        if (containerShoes != null && !containerShoes.getAccessories().getItem(0).is(powerUp.getPowerUpCostumeTag())) {
-            ItemStack stack = containerShoes.getAccessories().getItem(0);
-            ItemStack stackArmor = !(entity instanceof Player)
-                    ? entity.getItemBySlot(EquipmentSlot.FEET) : stack;
-            ItemStack newStack = !(entity instanceof Player)
-                    ? powerUp.getPowerUpShoesItems().get(randomIndex) : stack;
-
-            for (ItemStack item : powerUp.getPowerUpShoesItems())
-                newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
-
-            newStack.applyComponents(stack.getComponents());
-            containerShoes.getAccessories().setItem(0, newStack);
-        }
+        this.handleAccessoryCostumeSlot(entity, powerUp,
+                capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes")),
+                EquipmentSlot.FEET, powerUp.getPowerUpShoesItems(), randomIndex);
     }
 
-    default ItemStack equipCostumesInAccessorySlots(AbstractPowerUpEntity powerUp, ItemStack item, ItemStack stackArmor, ItemStack newStack, ItemStack stack) {
-        if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-            if (item.is(powerUp.getPowerUpCostumeTag()))
-                newStack = item.copy();
-        } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-            if (item.is(powerUp.getPowerUpCostumeTag()))
-                newStack = item.copy();
-        } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-            if (item.is(powerUp.getPowerUpCostumeTag()))
-                newStack = item.copy();
-        } else if (stack.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-            if (item.is(powerUp.getPowerUpCostumeTag()))
-                newStack = item.copy();
-        } else if (stack.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-            if (item.is(powerUp.getPowerUpCostumeTag()))
-                newStack = item.copy();
-        } else if (stack.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-            if (item.is(powerUp.getPowerUpCostumeTag()))
-                newStack = item.copy();
-        }
-        return newStack;
+    default void handleAccessoryCostumeSlot(LivingEntity entity, AbstractPowerUpEntity powerUp,
+                                             AccessoriesContainer container, EquipmentSlot correspondingArmorSlot,
+                                             List<ItemStack> costumeItems, int randomIndex) {
+        if (container == null)
+            return;
+
+        ItemStack stack = container.getAccessories().getItem(0);
+        if (stack.is(powerUp.getPowerUpCostumeTag()))
+            return;
+
+        ItemStack stackArmor = !(entity instanceof Player) ? entity.getItemBySlot(correspondingArmorSlot) : stack;
+        ItemStack newStack = !(entity instanceof Player) ? costumeItems.get(randomIndex) : stack;
+
+        for (ItemStack item : costumeItems)
+            newStack = this.equipCostumesInAccessorySlots(powerUp, item, stackArmor, newStack, stack);
+
+        newStack.applyComponents(stack.getComponents());
+        container.getAccessories().setItem(0, newStack);
     }
 
-    default void equipCostumesInArmorSlots(LivingEntity entity, AbstractPowerUpEntity powerUp, EquipmentSlot slot, ItemStack stackArmor, List<ItemStack> costumeList, ItemStack newStack, ItemStack currentStack) {
-        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.COSTUMES)) {
+    default ItemStack matchCostumeItem(ItemStack item, AbstractPowerUpEntity powerUp,
+                                       ItemStack currentBest, ItemStack... references) {
+        if (!item.is(powerUp.getPowerUpCostumeTag()))
+            return currentBest;
+
+        for (TagKey<Item> tag : CHARACTER_COSTUME_TAGS) {
+            if (!item.is(tag)) continue;
+            for (ItemStack reference : references) {
+                if (reference.is(tag))
+                    return item.copy();
+            }
+        }
+        return currentBest;
+    }
+
+    default ItemStack equipCostumesInAccessorySlots(AbstractPowerUpEntity powerUp, ItemStack item,
+                                                    ItemStack stackArmor, ItemStack newStack, ItemStack stack) {
+        ItemStack matched = this.matchCostumeItem(item, powerUp, newStack, stackArmor, stack);
+        if (matched == newStack) {
+            stackArmor.set(DataComponentRegistry.HAS_FIRE_FLOWER, powerUp instanceof FireFlowerEntity);
+            stackArmor.set(DataComponentRegistry.HAS_ICE_FLOWER, powerUp instanceof IceFlowerEntity);
+        }
+        return matched;
+    }
+
+    default void equipCostumesInArmorSlots(LivingEntity entity, AbstractPowerUpEntity powerUp, EquipmentSlot slot,
+                                           ItemStack stackArmor, List<ItemStack> costumeList,
+                                           ItemStack newStack, ItemStack currentStack) {
+        if (stackArmor.isEmpty() || stackArmor.is(TagRegistry.MARIO_COSTUMES)) {
             for (ItemStack item : costumeList) {
-                if (stackArmor.is(TagRegistry.MARIO_COSTUMES) && item.is(TagRegistry.MARIO_COSTUMES)) {
-                    if (item.is(powerUp.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stackArmor.is(TagRegistry.LUIGI_COSTUMES) && item.is(TagRegistry.LUIGI_COSTUMES)) {
-                    if (item.is(powerUp.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                } else if (stackArmor.is(TagRegistry.PEACH_COSTUMES) && item.is(TagRegistry.PEACH_COSTUMES)) {
-                    if (item.is(powerUp.getPowerUpCostumeTag()))
-                        newStack = item.copy();
-                }
+                ItemStack matched = this.matchCostumeItem(item, powerUp, newStack, stackArmor);
+                if (matched != newStack)
+                    newStack = matched;
             }
-
             newStack.applyComponents(currentStack.getComponents());
             entity.setItemSlot(slot, newStack);
+        } else {
+            stackArmor.set(DataComponentRegistry.HAS_FIRE_FLOWER, powerUp instanceof FireFlowerEntity);
+            stackArmor.set(DataComponentRegistry.HAS_ICE_FLOWER, powerUp instanceof IceFlowerEntity);
         }
     }
 }

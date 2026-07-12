@@ -318,7 +318,7 @@ public class ItemRegistry {
                 () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFF325EFF, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
         SHOES = registerItem("shoes",
                 () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
