@@ -137,10 +137,10 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
-        this.basicTwoLayerItem(ItemRegistry.HAT.get());
-        this.basicTwoLayerItem(ItemRegistry.PANTS.get());
-        this.basicTwoLayerItem(ItemRegistry.SHIRT.get());
-        this.basicTwoLayerItem(ItemRegistry.SHOES.get());
+//        this.basicTwoLayerItem(ItemRegistry.HAT.get());
+//        this.basicTwoLayerItem(ItemRegistry.PANTS.get());
+//        this.basicTwoLayerItem(ItemRegistry.SHIRT.get());
+//        this.basicTwoLayerItem(ItemRegistry.SHOES.get());
 
         this.coralTowerItem(BlockRegistry.BRAIN_CORAL_TOWER.asItem());
         this.coralTowerItem(BlockRegistry.BUBBLE_CORAL_TOWER.asItem());
@@ -227,6 +227,63 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/mrs_puff_spawn_egg"));
         this.getBuilder("qwilfish_spawn_egg").parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/qwilfish_spawn_egg"));
+
+
+        this.basicTwoLayerItem(ItemRegistry.HAT.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_hat")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_hat")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_hat")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_hat"))
+                .texture("layer1", modLoc("item/fire_hat_overlay"));
+        this.getBuilder("ice_hat")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_hat"))
+                .texture("layer1", modLoc("item/ice_hat_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.SHIRT.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_shirt")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_shirt")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_shirt")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_shirt"))
+                .texture("layer1", modLoc("item/fire_shirt_overlay"));
+        this.getBuilder("ice_shirt")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_shirt"))
+                .texture("layer1", modLoc("item/ice_shirt_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.PANTS.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_pants")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_pants")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_pants")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_pants"))
+                .texture("layer1", modLoc("item/fire_pants_overlay"));
+        this.getBuilder("ice_pants")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_pants"))
+                .texture("layer1", modLoc("item/ice_pants_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.SHOES.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_shoes")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_shoes")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_shoes")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_shoes"))
+                .texture("layer1", modLoc("item/fire_shoes_overlay"));
+        this.getBuilder("ice_shoes")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_shoes"))
+                .texture("layer1", modLoc("item/ice_shoes_overlay"));
     }
 
     public void coralTowerItem(Item item) {
@@ -236,9 +293,9 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "block/" + location.getPath() + "_top"));
     }
 
-    public void basicTwoLayerItem(Item item) {
+    public ItemModelBuilder basicTwoLayerItem(Item item) {
         ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
-        this.getBuilder(location.toString())
+        return this.getBuilder(location.toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
                 .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + "_overlay"));

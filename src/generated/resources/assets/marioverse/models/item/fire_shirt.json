@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/fire_shirt",
+    "layer1": "marioverse:item/fire_shirt_overlay"
+  }
+}

@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
@@ -229,6 +230,22 @@ public class ClientEventHandlers {
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> porcupufferCustomName(stack));
 
+            ItemProperties.register(ItemRegistry.HAT.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
+                    (stack, level, entity, seed) -> powerUpType(stack));
+
+            ItemProperties.register(ItemRegistry.SHIRT.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
+                    (stack, level, entity, seed) -> powerUpType(stack));
+
+            ItemProperties.register(ItemRegistry.PANTS.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
+                    (stack, level, entity, seed) -> powerUpType(stack));
+
+            ItemProperties.register(ItemRegistry.SHOES.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
+                    (stack, level, entity, seed) -> powerUpType(stack));
+
             ItemProperties.register(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> wonderAmericaName(stack));
@@ -267,6 +284,18 @@ public class ClientEventHandlers {
         if (variant.equals("cold"))
             return 1.0F;
         if (variant.equals("warm"))
+            return 2.0F;
+
+        return 0.0F;
+    }
+
+    private static float powerUpType(ItemStack stack) {
+        boolean hasFireFlower = stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false);
+        boolean hasIceFlower = stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false);
+
+        if (hasFireFlower)
+            return 1.0F;
+        if (hasIceFlower)
             return 2.0F;
 
         return 0.0F;

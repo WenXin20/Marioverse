@@ -1,5 +1,19 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "marioverse:item/fire_pants",
+      "predicate": {
+        "marioverse:power_up_type": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/ice_pants",
+      "predicate": {
+        "marioverse:power_up_type": 2.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "marioverse:item/pants",
     "layer1": "marioverse:item/pants_overlay"
