@@ -36,7 +36,7 @@ public record ItemColorIngredient(Item item) {
     private static final Map<Item, Integer> TEXTURE_COLOR_CACHE = new IdentityHashMap<>();
 
     public boolean test(ItemStack stack) {
-        return true;
+        return stack.is(this.item);
     }
 
     public Integer colorOf(ItemStack stack) {

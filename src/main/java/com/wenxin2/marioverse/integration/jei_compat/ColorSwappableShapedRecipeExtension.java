@@ -7,17 +7,12 @@ import com.wenxin2.marioverse.data.TagColorIngredient;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.Optional;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.gui.ingredient.IRecipeSlotDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotView;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup;
@@ -73,7 +68,7 @@ public class ColorSwappableShapedRecipeExtension implements ICraftingCategoryExt
 
         for (Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient> slot : slots) {
             List<ItemStack> stacksForSlot;
-            
+
             if (slot.left().isPresent()) {
                 Either<TagColorIngredient, ItemColorIngredient> color = slot.left().orElseThrow();
 
