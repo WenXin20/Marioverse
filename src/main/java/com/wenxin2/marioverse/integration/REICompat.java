@@ -2,11 +2,14 @@ package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.data.ColorSwappableShapedRecipe;
 import com.wenxin2.marioverse.integration.rei_compat.ColorSwappableCraftingDisplay;
+import com.wenxin2.marioverse.integration.rei_compat.ColorSwappableTransferHandler;
 import com.wenxin2.marioverse.integration.rei_compat.WarpDoorCraftingDisplay;
 import com.wenxin2.marioverse.integration.rei_compat.WarpTrapDoorCraftingDisplay;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
+import me.shedaniel.rei.api.client.registry.transfer.TransferHandlerRegistry;
 import me.shedaniel.rei.forge.REIPluginClient;
+import me.shedaniel.rei.plugin.common.BuiltinPlugin;
 import net.minecraft.world.item.crafting.RecipeType;
 
 @REIPluginClient
@@ -17,5 +20,10 @@ public class REICompat implements REIClientPlugin {
                 RecipeType.CRAFTING, ColorSwappableCraftingDisplay::new);
         registry.add(new WarpDoorCraftingDisplay());
         registry.add(new WarpTrapDoorCraftingDisplay());
+    }
+
+    @Override
+    public void registerTransferHandlers(TransferHandlerRegistry registry) {
+        registry.register(new ColorSwappableTransferHandler(BuiltinPlugin.CRAFTING));
     }
 }
