@@ -3,10 +3,12 @@ package com.wenxin2.marioverse.data;
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
+import java.util.stream.Stream;
 import mezz.jei.library.plugins.vanilla.brewing.BrewingRecipeUtil;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.core.Holder;
@@ -22,9 +24,12 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -33,6 +38,10 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 
 public class RecipeUtils extends RecipeProvider {
+    public RecipeUtils(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
+        super(output, provider);
+    }
+
     public static final Map<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>> SHAPE_BUILDERS =
             ImmutableMap.<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>>builder()
                     .put(BlockFamilyExtended.Variant.BUTTON, (outputItem, inputItem) -> buttonBuilder(outputItem, Ingredient.of(inputItem)))
@@ -76,8 +85,11 @@ public class RecipeUtils extends RecipeProvider {
             BlockFamilyExtended.Variant.WALL, 1
     );
 
-    public RecipeUtils(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
-        super(output, provider);
+    public static Stream<VanillaRecipeProvider.TrimTemplate> smithingTrims() {
+        return Stream.of(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get(),
+                        ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get())
+                .map(item -> new VanillaRecipeProvider.TrimTemplate(item,
+                        ResourceLocation.withDefaultNamespace(getItemName(item) + "_smithing_trim")));
     }
 
     public static RecipeBuilder twoByTwoBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, Ingredient inputItem) {

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.datagen;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.data.RecipeUtils;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
@@ -13,13 +14,16 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.SmithingTrimRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
@@ -99,6 +103,11 @@ public class RecipeGen extends RecipeUtils {
         costumeSmithing(ItemRegistry.PEACH_ICE_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHIRTS, ItemRegistry.ICE_FLOWER.get(), output);
         costumeSmithing(ItemRegistry.PEACH_ICE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
         costumeSmithing(ItemRegistry.PEACH_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
+
+        smithingTrims().forEach(item -> trimSmithing(output, item.template(), item.id()));
+
+        copySmithingTemplate(output, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.LIME_WOOL, Items.GREEN_WOOL));
+        copySmithingTemplate(output, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.RED_WOOL));
 
         checkeredRecipe(4, "spike_panels", BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), false, output);
         christmasHatRecipe(1, "christmas_hats", ItemRegistry.CHRISTMAS_HAT, Blocks.RED_WOOL, Blocks.WHITE_WOOL, false, output);

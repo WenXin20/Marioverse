@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
@@ -37,6 +38,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.component.CustomData;
@@ -88,6 +90,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> LARGE_SNOWBALL;
+    public static final DeferredItem<Item> LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> LUIGI_FIRE_HAT;
     public static final DeferredItem<Item> LUIGI_FIRE_PANTS;
@@ -101,6 +104,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> LUIGI_PANTS;
     public static final DeferredItem<Item> LUIGI_SHIRT;
     public static final DeferredItem<Item> LUIGI_SHOES;
+    public static final DeferredItem<Item> MARIO_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MARIO_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MARIO_FIRE_HAT;
     public static final DeferredItem<Item> MARIO_FIRE_PANTS;
@@ -277,6 +281,10 @@ public class ItemRegistry {
         PIRANHA_PLANT_POD = registerItem("piranha_plant_pod",
                 () -> new PiranhaPlantPodItem(6, EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
+        MARIO_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("mario_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.MARIO));
+        LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("luigi_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
         MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
                 CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
         LUIGI_COSTUME_SMITHING_TEMPLATE = registerItem("luigi_costume_smithing_template",

@@ -100,6 +100,8 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
 
+            add(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
+            add(event, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
             add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
@@ -782,6 +784,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
                 addAfter(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
                 addAfter(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
+
+                addAfter(event, Items.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
+                addAfter(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
             }
 
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {

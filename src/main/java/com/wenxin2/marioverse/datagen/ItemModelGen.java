@@ -71,6 +71,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.ICE_FLOWER.get());
         this.basicItem(ItemRegistry.LARGE_SNOWBALL.get());
+        this.basicItem(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.LUIGI_FIRE_HAT.get());
         this.basicItem(ItemRegistry.LUIGI_FIRE_PANTS.get());
@@ -84,6 +85,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.LUIGI_PANTS.get());
         this.basicItem(ItemRegistry.LUIGI_SHIRT.get());
         this.basicItem(ItemRegistry.LUIGI_SHOES.get());
+        this.basicItem(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.MARIO_FIRE_HAT.get());
         this.basicItem(ItemRegistry.MARIO_FIRE_PANTS.get());
@@ -136,11 +138,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.WARM_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
-
-//        this.basicTwoLayerItem(ItemRegistry.HAT.get());
-//        this.basicTwoLayerItem(ItemRegistry.PANTS.get());
-//        this.basicTwoLayerItem(ItemRegistry.SHIRT.get());
-//        this.basicTwoLayerItem(ItemRegistry.SHOES.get());
 
         this.coralTowerItem(BlockRegistry.BRAIN_CORAL_TOWER.asItem());
         this.coralTowerItem(BlockRegistry.BUBBLE_CORAL_TOWER.asItem());

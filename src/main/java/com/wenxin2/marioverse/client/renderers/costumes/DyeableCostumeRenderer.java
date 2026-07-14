@@ -72,10 +72,7 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
     @Override
     public GeoModel<DyeableCostumeItem> getGeoModel() {
         ItemStack stack = this.currentStack;
-
-//        if (stack.is(TagRegistry.MARIO_COSTUMES))
         return MALE_MODEL;
-//        else return super.getGeoModel();
     }
 
     @Override

@@ -236,6 +236,10 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
                 .add(BlockRegistry.FUNGAL_STONE.asItem());
 
+        tag(ItemTags.TRIM_TEMPLATES)
+                .add(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get())
+                .add(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());
+
         tag(ItemTags.TRIMMABLE_ARMOR)
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.PANTS.get())
