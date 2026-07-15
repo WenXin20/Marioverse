@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.client.renderers.costumes.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.wenxin2.marioverse.client.renderers.costumes.DyeableCostumeRenderer;
+import com.wenxin2.marioverse.client.renderers.costumes.CostumeRendererAccess;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -30,11 +30,9 @@ public class CostumeTrimLayer<T extends Item & GeoAnimatable>
     }
 
     @Override
-    public void render(PoseStack poseStack, T animatable, BakedGeoModel bakedModel,
-                       RenderType renderType, MultiBufferSource bufferSource,
-                       VertexConsumer buffer, float partialTick,
-                       int packedLight, int packedOverlay) {
-        DyeableCostumeRenderer renderer = (DyeableCostumeRenderer) this.getRenderer();
+    public void render(PoseStack poseStack, T animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource,
+                       VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
+        CostumeRendererAccess renderer = (CostumeRendererAccess) this.getRenderer();
         ItemStack stack = renderer.getCurrentStack();
         if (stack == null || stack.isEmpty()) return;
 
@@ -46,8 +44,7 @@ public class CostumeTrimLayer<T extends Item & GeoAnimatable>
                 .getModelManager()
                 .getAtlas(Sheets.ARMOR_TRIMS_SHEET)
                 .getSprite(renderer.getCurrentSlot() == EquipmentSlot.LEGS
-                        ? trim.innerTexture(material)
-                        : trim.outerTexture(material));
+                        ? trim.innerTexture(material) : trim.outerTexture(material));
         RenderType type = Sheets.armorTrimsSheet(trim.pattern().value().decal());
 
         VertexConsumer consumer = sprite.wrap(bufferSource.getBuffer(type));

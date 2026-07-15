@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.client.renderers.costumes.CostumeRenderer;
+import com.wenxin2.marioverse.client.renderers.costumes.OldCostumeRenderer;
 import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.client.model.HumanoidModel;
@@ -49,7 +49,7 @@ public class CostumeItem extends BaseCostumeItem implements GeoItem {
             public <T extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@Nullable T livingEntity,
                 ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable HumanoidModel<T> original) {
                 if(this.renderer == null)
-                    this.renderer = new CostumeRenderer();
+                    this.renderer = new OldCostumeRenderer();
                 return this.renderer;
             }
         });

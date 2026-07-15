@@ -17,14 +17,14 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.RenderUtil;
 
-public class CostumeRenderer extends GeoArmorRenderer<CostumeItem> {
+public class OldCostumeRenderer extends GeoArmorRenderer<CostumeItem> {
     protected GeoBone dress = null;
     protected GeoBone waist = null;
 
     private static final DefaultedItemGeoModel<CostumeItem> PEACH_MODEL =
             new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/peach_costume"));
 
-    public CostumeRenderer() {
+    public OldCostumeRenderer() {
         super(new DefaultedItemGeoModel<>(ResourceLocation
                 .fromNamespaceAndPath(Marioverse.MOD_ID, "costume/mario_costume")));
     }

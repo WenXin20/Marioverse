@@ -27,7 +27,7 @@ import software.bernie.geckolib.renderer.specialty.DyeableGeoArmorRenderer;
 import software.bernie.geckolib.util.Color;
 import software.bernie.geckolib.util.RenderUtil;
 
-public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostumeItem> {
+public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostumeItem> implements CostumeRendererAccess {
     protected GeoBone dress = null;
     protected GeoBone waist = null;
 
@@ -42,7 +42,7 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
     }
 
     @Override
-    public void setupAnim(Entity p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
+    public void setupAnim(Entity entity, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
 
     }
 
@@ -155,10 +155,12 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
         }
     }
 
+    @Override
     public ItemStack getCurrentStack() {
         return this.currentStack;
     }
 
+    @Override
     public EquipmentSlot getCurrentSlot() {
         return this.currentSlot;
     }
