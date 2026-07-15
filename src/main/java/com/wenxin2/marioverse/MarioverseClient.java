@@ -145,6 +145,14 @@ public class MarioverseClient {
         event.register(
                 (stack, tintIndex) -> {
                     if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xFFED0011);
+                    return -1;
+                },
+                ItemRegistry.CHRISTMAS_HAT.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
                         return DyedItemColor.getOrDefault(stack, 0xFFF6343A);
                     return -1;
                 },

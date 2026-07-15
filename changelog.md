@@ -1,5 +1,6 @@
 ## Update 1.10.1
-- Added male costume, with trim & dye support!
+- Added the male costume, with trim & dye support!
+- Christmas Hat is now dyeable & trimmable
 
 ## Update 1.10.0
 - Added the Porcupuffer

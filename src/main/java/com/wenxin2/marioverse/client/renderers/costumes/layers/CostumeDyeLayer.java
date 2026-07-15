@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.client.renderers.costumes.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.wenxin2.marioverse.client.renderers.costumes.CostumeRendererAccess;
 import com.wenxin2.marioverse.client.renderers.costumes.DyeableCostumeRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -23,7 +24,7 @@ public class CostumeDyeLayer<T extends Item & GeoAnimatable> extends GeoRenderLa
                        RenderType renderType, MultiBufferSource bufferSource,
                        VertexConsumer buffer, float partialTick,
                        int packedLight, int packedOverlay) {
-        DyeableCostumeRenderer renderer = (DyeableCostumeRenderer) this.getRenderer();
+        CostumeRendererAccess renderer = (CostumeRendererAccess) this.getRenderer();
         ItemStack stack = renderer.getCurrentStack();
         if (stack == null || stack.isEmpty())
             return;

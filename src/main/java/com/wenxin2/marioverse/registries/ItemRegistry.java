@@ -268,7 +268,8 @@ public class ItemRegistry {
 
         CHRISTMAS_HAT = registerItem("christmas_hat",
                 () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(8))));
+                        .durability(ArmorItem.Type.HELMET.getDurability(8))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFED0011, true))));
         GOLDEN_KOOPA_SHOES = registerItem("golden_koopa_shoes",
                 () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(12))));
