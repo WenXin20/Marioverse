@@ -102,8 +102,6 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
             add(event, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
@@ -129,32 +127,6 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
             add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
             add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94537, true));
-
-            add(event, ItemRegistry.MARIO_HAT);
-            add(event, ItemRegistry.MARIO_SHIRT);
-            add(event, ItemRegistry.MARIO_PANTS);
-            add(event, ItemRegistry.MARIO_SHOES);
-            add(event, ItemRegistry.MARIO_FIRE_HAT);
-            add(event, ItemRegistry.MARIO_FIRE_SHIRT);
-            add(event, ItemRegistry.MARIO_FIRE_PANTS);
-            add(event, ItemRegistry.MARIO_FIRE_SHOES);
-            add(event, ItemRegistry.MARIO_ICE_HAT);
-            add(event, ItemRegistry.MARIO_ICE_SHIRT);
-            add(event, ItemRegistry.MARIO_ICE_PANTS);
-            add(event, ItemRegistry.MARIO_ICE_SHOES);
-
-            add(event, ItemRegistry.LUIGI_HAT);
-            add(event, ItemRegistry.LUIGI_SHIRT);
-            add(event, ItemRegistry.LUIGI_PANTS);
-            add(event, ItemRegistry.LUIGI_SHOES);
-            add(event, ItemRegistry.LUIGI_FIRE_HAT);
-            add(event, ItemRegistry.LUIGI_FIRE_SHIRT);
-            add(event, ItemRegistry.LUIGI_FIRE_PANTS);
-            add(event, ItemRegistry.LUIGI_FIRE_SHOES);
-            add(event, ItemRegistry.LUIGI_ICE_HAT);
-            add(event, ItemRegistry.LUIGI_ICE_SHIRT);
-            add(event, ItemRegistry.LUIGI_ICE_PANTS);
-            add(event, ItemRegistry.LUIGI_ICE_SHOES);
 
             add(event, ItemRegistry.PEACH_CROWN);
             add(event, ItemRegistry.PEACH_BODICE);
@@ -672,33 +644,8 @@ public class MarioverseCreativeTabs {
                         DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
                 ItemStack luigiShoes = addAfter(event, luigiPants, ItemRegistry.SHOES.get(),
                         DataComponents.DYED_COLOR, new DyedItemColor(0xFF9C6042, true));
-                addAfter(event, luigiShoes, ItemRegistry.MARIO_HAT);
-                addAfter(event, ItemRegistry.MARIO_HAT, ItemRegistry.MARIO_SHIRT);
-                addAfter(event, ItemRegistry.MARIO_SHIRT, ItemRegistry.MARIO_PANTS);
-                addAfter(event, ItemRegistry.MARIO_PANTS, ItemRegistry.MARIO_SHOES);
-                addAfter(event, ItemRegistry.MARIO_SHOES, ItemRegistry.MARIO_FIRE_HAT);
-                addAfter(event, ItemRegistry.MARIO_FIRE_HAT, ItemRegistry.MARIO_FIRE_SHIRT);
-                addAfter(event, ItemRegistry.MARIO_FIRE_SHIRT, ItemRegistry.MARIO_FIRE_PANTS);
-                addAfter(event, ItemRegistry.MARIO_FIRE_PANTS, ItemRegistry.MARIO_FIRE_SHOES);
-                addAfter(event, ItemRegistry.MARIO_FIRE_SHOES, ItemRegistry.MARIO_ICE_HAT);
-                addAfter(event, ItemRegistry.MARIO_ICE_HAT, ItemRegistry.MARIO_ICE_SHIRT);
-                addAfter(event, ItemRegistry.MARIO_ICE_SHIRT, ItemRegistry.MARIO_ICE_PANTS);
-                addAfter(event, ItemRegistry.MARIO_ICE_PANTS, ItemRegistry.MARIO_ICE_SHOES);
 
-                addAfter(event, ItemRegistry.MARIO_ICE_SHOES, ItemRegistry.LUIGI_HAT);
-                addAfter(event, ItemRegistry.LUIGI_HAT, ItemRegistry.LUIGI_SHIRT);
-                addAfter(event, ItemRegistry.LUIGI_SHIRT, ItemRegistry.LUIGI_PANTS);
-                addAfter(event, ItemRegistry.LUIGI_PANTS, ItemRegistry.LUIGI_SHOES);
-                addAfter(event, ItemRegistry.LUIGI_SHOES, ItemRegistry.LUIGI_FIRE_HAT);
-                addAfter(event, ItemRegistry.LUIGI_FIRE_HAT, ItemRegistry.LUIGI_FIRE_SHIRT);
-                addAfter(event, ItemRegistry.LUIGI_FIRE_SHIRT, ItemRegistry.LUIGI_FIRE_PANTS);
-                addAfter(event, ItemRegistry.LUIGI_FIRE_PANTS, ItemRegistry.LUIGI_FIRE_SHOES);
-                addAfter(event, ItemRegistry.LUIGI_FIRE_SHOES, ItemRegistry.LUIGI_ICE_HAT);
-                addAfter(event, ItemRegistry.LUIGI_ICE_HAT, ItemRegistry.LUIGI_ICE_SHIRT);
-                addAfter(event, ItemRegistry.LUIGI_ICE_SHIRT, ItemRegistry.LUIGI_ICE_PANTS);
-                addAfter(event, ItemRegistry.LUIGI_ICE_PANTS, ItemRegistry.LUIGI_ICE_SHOES);
-
-                addAfter(event, ItemRegistry.LUIGI_ICE_SHOES, ItemRegistry.PEACH_CROWN);
+                addAfter(event, luigiShoes, ItemRegistry.PEACH_CROWN);
                 addAfter(event, ItemRegistry.PEACH_CROWN, ItemRegistry.PEACH_BODICE);
                 addAfter(event, ItemRegistry.PEACH_BODICE, ItemRegistry.PEACH_DRESS);
                 addAfter(event, ItemRegistry.PEACH_DRESS, ItemRegistry.PEACH_SHOES);
@@ -779,9 +726,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.SNORT_POTTERY_SHERD, ItemRegistry.BOWSER_POTTERY_SHERD);
                 addAfter(event, ItemRegistry.BOWSER_POTTERY_SHERD, ItemRegistry.PLUMBER_POTTERY_SHERD);
 
-                addAfter(event, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE);
-                addAfter(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE);
-                addAfter(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
+                addAfter(event, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
                 addAfter(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
                 addAfter(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
 

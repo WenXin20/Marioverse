@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -59,6 +60,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -267,19 +269,29 @@ public class DryBonesEntity extends Monster implements GeoEntity {
         if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
             int randomPowerUpInt = random.nextInt(6);
             int randomCharacterInt = random.nextInt(1);
+            ItemStack stack = new ItemStack(ItemRegistry.HAT.get());
+
             if (randomPowerUpInt == 0) {
-                if (randomCharacterInt == 0)
-                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_FIRE_HAT.get()));
-                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_FIRE_HAT.get()));
+                stack.set(DataComponentRegistry.HAS_FIRE_FLOWER, true);
                 this.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
-            } else if (randomPowerUpInt == 1) {
+
                 if (randomCharacterInt == 0)
-                    this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.MARIO_ICE_HAT.get()));
-                else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.LUIGI_ICE_HAT.get()));
+                    this.setItemSlot(EquipmentSlot.HEAD, stack);
+                else {
+                    stack.set(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFCD00, true));
+                    this.setItemSlot(EquipmentSlot.HEAD, stack);
+                }
+            } else if (randomPowerUpInt == 1) {
+                stack.set(DataComponentRegistry.HAS_ICE_FLOWER, true);
                 this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
-            } else {
-                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
-            }
+
+                if (randomCharacterInt == 0)
+                    this.setItemSlot(EquipmentSlot.HEAD, stack);
+                else {
+                    stack.set(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFCD00, true));
+                    this.setItemSlot(EquipmentSlot.HEAD, stack);
+                }
+            } else this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
         }
     }
 

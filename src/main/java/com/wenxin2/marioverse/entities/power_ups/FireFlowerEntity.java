@@ -67,34 +67,30 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
 
     @Override
     public TagKey<Item> getPowerUpCostumeTag() {
-        return TagRegistry.FIRE_COSTUMES;
+        return TagRegistry.COSTUMES;
     }
 
     @Override
     public List<ItemStack> getPowerUpHatItems() {
-        return List.of(ItemRegistry.MARIO_FIRE_HAT.toStack(),
-                ItemRegistry.LUIGI_FIRE_HAT.toStack(),
+        return List.of(ItemRegistry.HAT.toStack(),
                 ItemRegistry.PEACH_CROWN.toStack());
     }
 
     @Override
     public List<ItemStack> getPowerUpShirtItems() {
-        return List.of(ItemRegistry.MARIO_FIRE_SHIRT.toStack(),
-                ItemRegistry.LUIGI_FIRE_SHIRT.toStack(),
+        return List.of(ItemRegistry.SHIRT.toStack(),
                 ItemRegistry.PEACH_FIRE_BODICE.toStack());
     }
 
     @Override
     public List<ItemStack> getPowerUpPantsItems() {
-        return List.of(ItemRegistry.MARIO_FIRE_PANTS.toStack(),
-                ItemRegistry.LUIGI_FIRE_PANTS.toStack(),
+        return List.of(ItemRegistry.PANTS.toStack(),
                 ItemRegistry.PEACH_FIRE_DRESS.toStack());
     }
 
     @Override
     public List<ItemStack> getPowerUpShoesItems() {
-        return List.of(ItemRegistry.MARIO_FIRE_SHOES.toStack(),
-                ItemRegistry.LUIGI_FIRE_SHOES.toStack(),
+        return List.of(ItemRegistry.SHOES.toStack(),
                 ItemRegistry.PEACH_FIRE_SHOES.toStack());
     }
 }

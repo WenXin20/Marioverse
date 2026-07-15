@@ -44,6 +44,7 @@ import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -460,14 +461,18 @@ public class MarioverseEventHandlers {
             }
         }
 
-        if (entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)) {
-            if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUMES))
+        if (entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)) {
+            if (entity.getItemBySlot(EquipmentSlot.HEAD).getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false)
+                    || entity.getItemBySlot(EquipmentSlot.HEAD).getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
                 entity.getItemBySlot(EquipmentSlot.HEAD).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.POWER_UP_COSTUMES))
+            if (entity.getItemBySlot(EquipmentSlot.CHEST).getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false)
+                    || entity.getItemBySlot(EquipmentSlot.CHEST).getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
                 entity.getItemBySlot(EquipmentSlot.CHEST).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.POWER_UP_COSTUMES))
+            if (entity.getItemBySlot(EquipmentSlot.LEGS).getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false)
+                    || entity.getItemBySlot(EquipmentSlot.LEGS).getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
                 entity.getItemBySlot(EquipmentSlot.LEGS).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.POWER_UP_COSTUMES))
+            if (entity.getItemBySlot(EquipmentSlot.FEET).getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false)
+                    || entity.getItemBySlot(EquipmentSlot.FEET).getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
                 entity.getItemBySlot(EquipmentSlot.FEET).shrink(1);
         }
     }
@@ -517,16 +522,7 @@ public class MarioverseEventHandlers {
 
         if (containerHat != null) {
             ItemStack stack = containerHat.getAccessories().getItem(0);
-            ItemStack hatItem = new ItemStack(ItemRegistry.MARIO_HAT.get());
-
-            if (stack.is(TagRegistry.MARIO_COSTUMES))
-                containerHat.getAccessories().setItem(0, hatItem);
-
-            hatItem = new ItemStack(ItemRegistry.LUIGI_HAT.get());
-            if (stack.is(TagRegistry.LUIGI_COSTUMES))
-                containerHat.getAccessories().setItem(0, hatItem);
-
-            hatItem = new ItemStack(ItemRegistry.PEACH_CROWN.get());
+            ItemStack hatItem = new ItemStack(ItemRegistry.PEACH_CROWN.get());
             if (stack.is(TagRegistry.PEACH_COSTUMES))
                 containerHat.getAccessories().setItem(0, hatItem);
 
@@ -534,16 +530,7 @@ public class MarioverseEventHandlers {
         }
         if (containerShirt != null) {
             ItemStack stack = containerShirt.getAccessories().getItem(0);
-            ItemStack shirtItem = new ItemStack(ItemRegistry.MARIO_SHIRT.get());
-
-            if (stack.is(TagRegistry.MARIO_COSTUMES))
-                containerShirt.getAccessories().setItem(0, shirtItem);
-
-            shirtItem = new ItemStack(ItemRegistry.LUIGI_SHIRT.get());
-            if (stack.is(TagRegistry.LUIGI_COSTUMES))
-                containerShirt.getAccessories().setItem(0, shirtItem);
-
-            shirtItem = new ItemStack(ItemRegistry.PEACH_BODICE.get());
+            ItemStack  shirtItem = new ItemStack(ItemRegistry.PEACH_BODICE.get());
             if (stack.is(TagRegistry.PEACH_COSTUMES))
                 containerShirt.getAccessories().setItem(0, shirtItem);
 
@@ -551,16 +538,7 @@ public class MarioverseEventHandlers {
         }
         if (containerPants != null) {
             ItemStack stack = containerPants.getAccessories().getItem(0);
-            ItemStack pantsItem = new ItemStack(ItemRegistry.MARIO_PANTS.get());
-
-            if (stack.is(TagRegistry.MARIO_COSTUMES))
-                containerPants.getAccessories().setItem(0, pantsItem);
-
-            pantsItem = new ItemStack(ItemRegistry.LUIGI_PANTS.get());
-            if (stack.is(TagRegistry.LUIGI_COSTUMES))
-                containerPants.getAccessories().setItem(0, pantsItem);
-
-            pantsItem = new ItemStack(ItemRegistry.PEACH_DRESS.get());
+            ItemStack pantsItem = new ItemStack(ItemRegistry.PEACH_DRESS.get());
             if (stack.is(TagRegistry.PEACH_COSTUMES))
                 containerPants.getAccessories().setItem(0, pantsItem);
 
@@ -568,16 +546,7 @@ public class MarioverseEventHandlers {
         }
         if (containerShoes != null) {
             ItemStack stack = containerShoes.getAccessories().getItem(0);
-            ItemStack shoesItem = new ItemStack(ItemRegistry.MARIO_SHOES.get());
-
-            if (stack.is(TagRegistry.MARIO_COSTUMES))
-                containerShoes.getAccessories().setItem(0, shoesItem);
-
-            shoesItem = new ItemStack(ItemRegistry.LUIGI_SHOES.get());
-            if (stack.is(TagRegistry.LUIGI_COSTUMES))
-                containerShoes.getAccessories().setItem(0, shoesItem);
-
-            shoesItem = new ItemStack(ItemRegistry.PEACH_SHOES.get());
+            ItemStack shoesItem = new ItemStack(ItemRegistry.PEACH_SHOES.get());
             if (stack.is(TagRegistry.PEACH_COSTUMES))
                 containerShoes.getAccessories().setItem(0, shoesItem);
 
@@ -1007,8 +976,7 @@ public class MarioverseEventHandlers {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!ConfigRegistry.DISABLE_JUMP_SOUND.get() && !entity.isShiftKeyDown() && entity instanceof AbilitiesHandler handler
-                && (handler.mv$hasMarioCostume(entity) || handler.mv$hasLuigiCostume(entity)
-                    || handler.mv$hasPeachCostume(entity))) {
+                && (handler.mv$hasCostume(entity))) {
             entity.level().playSound(null, entity.blockPosition(),
                     entity instanceof Player ? SoundRegistry.PLAYER_JUMP.get() : SoundRegistry.MOB_JUMP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL, 1.0F, pitch);

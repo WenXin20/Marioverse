@@ -55,42 +55,6 @@ public class RecipeGen extends RecipeUtils {
         smokingRecipe(100, 0.35F, ItemRegistry.COOKED_PORCUPUFFER, RecipeCategory.FOOD, ItemRegistry.PORCUPUFFER, output);
         waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
-        smithingTemplateRecipe(2, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), Blocks.RED_WOOL, Tags.Items.LEATHERS, output);
-        smithingTemplateRecipe(2, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get(), Blocks.LIME_WOOL, Tags.Items.LEATHERS, output);
-        smithingTemplateRecipe(2, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Blocks.PINK_WOOL, Tags.Items.LEATHERS, output);
-        smithingTemplateRecipe(2, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), Blocks.MAGMA_BLOCK, Tags.Items.LEATHERS, output);
-        smithingTemplateRecipe(2, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), Blocks.ICE, Tags.Items.LEATHERS, output);
-
-        costumeSmithing(ItemRegistry.MARIO_HAT.get(), RecipeCategory.COMBAT, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_HELMET, Blocks.RED_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.MARIO_SHIRT.get(), RecipeCategory.COMBAT, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_CHESTPLATE, Blocks.RED_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.MARIO_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_LEGGINGS, Blocks.BLUE_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.MARIO_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_BOOTS, Blocks.BROWN_WOOL.asItem(), output);
-
-        costumeSmithing(ItemRegistry.MARIO_FIRE_HAT.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.MARIO_HATS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.MARIO_FIRE_SHIRT.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.MARIO_SHIRTS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.MARIO_FIRE_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.MARIO_PANTS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.MARIO_FIRE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.MARIO_SHOES, ItemRegistry.FIRE_FLOWER.get(), output);
-
-        costumeSmithing(ItemRegistry.MARIO_ICE_HAT.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.MARIO_HATS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.MARIO_ICE_SHIRT.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.MARIO_SHIRTS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.MARIO_ICE_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.MARIO_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.MARIO_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.MARIO_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
-
-        costumeSmithing(ItemRegistry.LUIGI_HAT.get(), RecipeCategory.COMBAT, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_HELMET, Blocks.LIME_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.LUIGI_SHIRT.get(), RecipeCategory.COMBAT, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_CHESTPLATE, Blocks.LIME_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.LUIGI_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_LEGGINGS, Blocks.BLUE_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.LUIGI_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_BOOTS, Blocks.BROWN_WOOL.asItem(), output);
-
-        costumeSmithing(ItemRegistry.LUIGI_FIRE_HAT.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_HATS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.LUIGI_FIRE_SHIRT.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHIRTS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.LUIGI_FIRE_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_PANTS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.LUIGI_FIRE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHOES, ItemRegistry.FIRE_FLOWER.get(), output);
-
-        costumeSmithing(ItemRegistry.LUIGI_ICE_HAT.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_HATS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.LUIGI_ICE_SHIRT.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHIRTS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.LUIGI_ICE_PANTS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.LUIGI_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.LUIGI_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
-
         costumeSmithing(ItemRegistry.PEACH_CROWN.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.GOLDEN_HELMET, Tags.Items.GEMS, output);
         costumeSmithing(ItemRegistry.PEACH_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_CHESTPLATE, Blocks.PINK_WOOL.asItem(), output);
         costumeSmithing(ItemRegistry.PEACH_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_LEGGINGS, Blocks.PINK_WOOL.asItem(), output);

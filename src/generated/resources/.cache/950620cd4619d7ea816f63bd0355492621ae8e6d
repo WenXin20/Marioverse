@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-02T22:58:51.4205924	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-07-14T22:35:01.9475631	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -45,6 +45,7 @@ cb5ec3613f4da6bbd6c7700eda601e92b706c660 data/marioverse/tags/entity_type/can_we
 f32abf517bf97e61dee70e9d6a198e3f0811ed6a data/marioverse/tags/entity_type/cheep_cheep_avoids.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/cheep_cheep_can_attack.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/damage_cannot_shrink.json
+e1324170c464566263ecaf6ba0e1d755c9b84f81 data/marioverse/tags/entity_type/damage_removes_costume.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/dash_mushroom_cannot_boost.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/death_blocks_immune.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/decorated_pot_cannot_spawn.json
@@ -89,6 +90,7 @@ ba513cd32ed6d8e4b2a69cf0e0ee68fa64dee5b9 data/marioverse/tags/entity_type/piranh
 6307adfd504bc11be3cf7e7552a23651f4e03918 data/marioverse/tags/entity_type/porcupuffer_can_attack.json
 e6c52a4e1b6410d7fc9af7270013744060dca861 data/marioverse/tags/entity_type/powers_up_rider.json
 518cef0adc9df26d69ffb74b5da8c22b4434f2c5 data/marioverse/tags/entity_type/power_ups.json
+e1324170c464566263ecaf6ba0e1d755c9b84f81 data/marioverse/tags/entity_type/power_up_applies_costume.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/question_block_cannot_spawn.json
 7d56141f4e1162911bcde38a17d422ce144a05e2 data/marioverse/tags/entity_type/red_koopa_shell_always_attacks.json
 2eb29c378f829c66c7bb2f5d17150202594eca3e data/marioverse/tags/entity_type/red_koopa_shell_cannot_attack.json

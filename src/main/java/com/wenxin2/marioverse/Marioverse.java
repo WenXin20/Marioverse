@@ -78,6 +78,7 @@ public class Marioverse {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Marioverse.MOD_ID);
 
     public Marioverse(IEventBus bus, Dist dist, ModContainer container) {
+        ItemRegistry.registerAliases();
         ATTACHMENT_TYPES.register(bus);
         COMPONENTS.register(bus);
         GAME_EVENTS.register(bus);
