@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-14T22:35:01.9672772	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-07-15T01:39:10.9578205	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -105,7 +105,7 @@ c244f100071156df3560fa1b7792613d9c04a72c data/marioverse/tags/item/warp_pipe_can
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/cat_food.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
-13dd4e0a880623245a60afe7a093d166ccf06fa8 data/minecraft/tags/item/dyeable.json
+c723e90f9fd38a72e17827f6d403644e0451541b data/minecraft/tags/item/dyeable.json
 c74eb18d8eb49cf4a975e0ff6821e7d5ffb5d8e5 data/minecraft/tags/item/enchantable/armor.json
 6e338ffe7fa74644f4ead0df6a8fc9d730c58143 data/minecraft/tags/item/enchantable/durability.json
 80637d55826eb65c7fc8b52e06dc95cc3fe7ad6c data/minecraft/tags/item/enchantable/equippable.json
@@ -126,7 +126,7 @@ eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/ocelot_food.js
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/item/stone_buttons.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/item/stone_crafting_materials.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/item/stone_tool_materials.json
-13dd4e0a880623245a60afe7a093d166ccf06fa8 data/minecraft/tags/item/trimmable_armor.json
+c723e90f9fd38a72e17827f6d403644e0451541b data/minecraft/tags/item/trimmable_armor.json
 a36c61bbf18266d260eed5ba8a893c6bb44d90e1 data/minecraft/tags/item/trim_templates.json
 7b23db159d567133835a9e7c72691460e675fd78 data/minecraft/tags/item/walls.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/item/wooden_stairs.json

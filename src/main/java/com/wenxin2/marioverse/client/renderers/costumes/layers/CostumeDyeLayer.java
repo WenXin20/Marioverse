@@ -20,10 +20,8 @@ public class CostumeDyeLayer<T extends Item & GeoAnimatable> extends GeoRenderLa
     }
 
     @Override
-    public void render(PoseStack poseStack, T animatable, BakedGeoModel bakedModel,
-                       RenderType renderType, MultiBufferSource bufferSource,
-                       VertexConsumer buffer, float partialTick,
-                       int packedLight, int packedOverlay) {
+    public void render(PoseStack poseStack, T animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource,
+                       VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         CostumeRendererAccess renderer = (CostumeRendererAccess) this.getRenderer();
         ItemStack stack = renderer.getCurrentStack();
         if (stack == null || stack.isEmpty())

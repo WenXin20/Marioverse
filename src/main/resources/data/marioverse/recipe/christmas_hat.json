@@ -1,0 +1,14 @@
+{
+  "type": "marioverse:color_swappable_shaped",
+  "group": "christmas_hats",
+  "pattern": [
+    "  W",
+    "CC ",
+    "WW "
+  ],
+  "key": {
+    "C": { "color_tag": "minecraft:wool" },
+    "W": { "item": "minecraft:white_wool" }
+  },
+  "result": "marioverse:christmas_hat"
+}

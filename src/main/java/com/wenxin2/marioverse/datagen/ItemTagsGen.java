@@ -96,6 +96,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
 
         tag(ItemTags.DYEABLE)
+                .add(ItemRegistry.CHRISTMAS_HAT.get())
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.SHIRT.get())
@@ -241,6 +242,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());
 
         tag(ItemTags.TRIMMABLE_ARMOR)
+                .add(ItemRegistry.CHRISTMAS_HAT.get())
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.SHIRT.get())
