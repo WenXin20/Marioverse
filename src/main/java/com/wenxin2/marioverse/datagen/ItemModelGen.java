@@ -40,12 +40,13 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
+        this.basicTwoLayerItem(ItemRegistry.CHRISTMAS_HAT.get());
+
         this.basicItem(ItemRegistry.BOO_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.CHRISTMAS_HAT.get());
         this.basicItem(ItemRegistry.COLD_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.COOKED_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.COOKED_PORCUPUFFER.get());

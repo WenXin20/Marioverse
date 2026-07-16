@@ -1,6 +1,7 @@
 ## Update 1.10.1
-- Added the male costume, with trim & dye support!
-- Christmas Hat is now dyeable & trimmable
+- Replaced the Mario & Luigi costumes with a generic "male costume"
+  - Dye & trim support
+- Christmas Hat now has dye & trim support
 
 ## Update 1.10.0
 - Added the Porcupuffer

@@ -41,11 +41,6 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
         this.addRenderLayer(new CostumeTrimLayer<>(this));
     }
 
-    @Override
-    public void setupAnim(Entity entity, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
-
-    }
-
     public @Nullable GeoBone getWaistBone(GeoModel<DyeableCostumeItem> model) {
         return model.getBone("armorWaist").orElse(null);
     }
@@ -153,6 +148,10 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
             if (baseModel.crouching)
                 dressBone.get().updatePosition(bodyPart.x, -bodyPart.y + 4.0F, bodyPart.z + 5.5F);
         }
+    }
+
+    @Override
+    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     }
 
     @Override

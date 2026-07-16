@@ -31,8 +31,7 @@ public class ChristmasHatRenderer extends DyeableGeoArmorRenderer<ChristmasHatIt
     }
 
     @Override
-    public void setupAnim(Entity p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
-
+    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     }
 
     @Override
@@ -53,6 +52,6 @@ public class ChristmasHatRenderer extends DyeableGeoArmorRenderer<ChristmasHatIt
     @NotNull
     @Override
     protected Color getColorForBone(GeoBone geoBone) {
-        return Color.ofOpaque(0xFFED0011);
+        return Color.ofOpaque(0xFFFFFFFF);
     }
 }
