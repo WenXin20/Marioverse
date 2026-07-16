@@ -374,7 +374,6 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
             if (random.nextFloat() < 0.15F)
                 KoopaShoesItem.applyRandomTrim(levelAccessor, random, koopaShoes);
-
             this.setItemSlot(EquipmentSlot.FEET, koopaShoes);
         }
 

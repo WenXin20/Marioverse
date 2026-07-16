@@ -219,6 +219,7 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
 
                 if (random.nextFloat() < 0.2F && this.level() instanceof ServerLevelAccessor levelAccessor)
                     PlasticBucketItem.applyRandomTrim(levelAccessor, random, stack);
+                this.setItemSlot(EquipmentSlot.HEAD, stack);
             }
         }
     }

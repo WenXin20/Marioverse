@@ -1,11 +1,13 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.renderers.costumes.PlasticBucketRenderer;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
@@ -232,10 +234,16 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
         Registry<TrimMaterial> materials = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL);
         Registry<TrimPattern> patterns = registryAccess.registryOrThrow(Registries.TRIM_PATTERN);
 
-        Optional<Holder.Reference<TrimMaterial>> material = materials.getRandom(random);
-        Optional<Holder.Reference<TrimPattern>> pattern = patterns.getRandom(random);
+        List<Holder.Reference<TrimPattern>> allowedPatterns = patterns.holders()
+                .filter(holder -> Marioverse.MOD_ID.equals(holder.key().location().getNamespace())
+                        || "minecraft".equals(holder.key().location().getNamespace()))
+                .toList();
 
-        if (material.isPresent() && pattern.isPresent())
-            stack.set(DataComponents.TRIM, new ArmorTrim(material.get(), pattern.get()));
+        Optional<Holder.Reference<TrimMaterial>> material = materials.getRandom(random);
+
+        if (material.isPresent() && !allowedPatterns.isEmpty()) {
+            Holder.Reference<TrimPattern> pattern = Util.getRandom(allowedPatterns, random);
+            stack.set(DataComponents.TRIM, new ArmorTrim(material.get(), pattern));
+        }
     }
 }
