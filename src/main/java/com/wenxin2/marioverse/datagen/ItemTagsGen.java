@@ -243,10 +243,14 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.TRIMMABLE_ARMOR)
                 .add(ItemRegistry.CHRISTMAS_HAT.get())
+                .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
+                .add(ItemRegistry.GREEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.PANTS.get())
+                .add(ItemRegistry.RED_KOOPA_SHOES.get())
                 .add(ItemRegistry.SHIRT.get())
-                .add(ItemRegistry.SHOES.get());
+                .add(ItemRegistry.SHOES.get())
+                .add(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
         tag(TagRegistry.CHARMS).add(ItemRegistry.ONE_UP_MUSHROOM.get());
 

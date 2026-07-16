@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.entities.ai.goals.NearestAttackableTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -263,8 +264,14 @@ public class DryBonesEntity extends Monster implements GeoEntity {
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TURTLE_HELMET));
         if (random.nextFloat() < 0.15F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
             this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
-        else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
-            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(this.getKoopaShoes()));
+        else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty()) {
+            ItemStack koopaShoes = new ItemStack(this.getKoopaShoes());
+
+            if (random.nextFloat() < 0.1F && this.level() instanceof ServerLevelAccessor levelAccessor)
+                KoopaShoesItem.applyRandomTrim(levelAccessor, random, koopaShoes);
+
+            this.setItemSlot(EquipmentSlot.FEET, koopaShoes);
+        }
 
         if (random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.05F : 0.01F)) {
             int randomPowerUpInt = random.nextInt(6);

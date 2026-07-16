@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities;
 import com.mojang.authlib.GameProfile;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -326,16 +327,16 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficulty,
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData groupData) {
-        RandomSource random = serverWorld.getRandom();
+        RandomSource random = levelAccessor.getRandom();
         this.populateDefaultEquipmentSlots(random, difficulty);
-        this.populateDefaultEquipmentEnchantments(serverWorld, random, difficulty);
+        this.populateDefaultEquipmentEnchantments(levelAccessor, random, difficulty);
 
         if (groupData instanceof KoopaGroupData koopaGroupData) {
             if (koopaGroupData.canSpawnJockey) {
                 if (random.nextDouble() < 0.05) {
-                    List<Mob> nearbyEntities = serverWorld.getEntitiesOfClass(
+                    List<Mob> nearbyEntities = levelAccessor.getEntitiesOfClass(
                             Mob.class, this.getBoundingBox().inflate(5.0, 3.0, 5.0),
                             entity -> entity.getType().is(TagRegistry.KOOPA_CAN_RIDE) && !entity.isVehicle()
                     );
@@ -345,7 +346,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
                         this.startRiding(mob);
                     }
                 } else if (random.nextDouble() < 0.05) {
-                    Optional<? extends Holder<EntityType<?>>> randomEntityHolder = serverWorld.registryAccess()
+                    Optional<? extends Holder<EntityType<?>>> randomEntityHolder = levelAccessor.registryAccess()
                             .registryOrThrow(Registries.ENTITY_TYPE)
                             .getTag(TagRegistry.KOOPA_CAN_RIDE)
                             .flatMap(tag -> tag.getRandomElement(random));
@@ -355,9 +356,9 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
                         Mob mob = (Mob) entityType.create(this.level());
                         if (mob != null) {
                             mob.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                            mob.finalizeSpawn(serverWorld, difficulty, MobSpawnType.JOCKEY, null);
+                            mob.finalizeSpawn(levelAccessor, difficulty, MobSpawnType.JOCKEY, null);
                             this.startRiding(mob);
-                            serverWorld.addFreshEntity(mob);
+                            levelAccessor.addFreshEntity(mob);
                         }
                     }
                 }
@@ -368,8 +369,14 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.TURTLE_HELMET));
         if (random.nextFloat() < 0.25F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
             this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
-        else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty())
-            this.setItemSlot(EquipmentSlot.FEET, new ItemStack(this.getKoopaShoes()));
+        else if (random.nextFloat() < 0.85F && this.getItemBySlot(EquipmentSlot.FEET).isEmpty()) {
+            ItemStack koopaShoes = new ItemStack(this.getKoopaShoes());
+
+            if (random.nextFloat() < 0.15F)
+                KoopaShoesItem.applyRandomTrim(levelAccessor, random, koopaShoes);
+
+            this.setItemSlot(EquipmentSlot.FEET, koopaShoes);
+        }
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
             LocalDate localDate = LocalDate.now();
@@ -397,7 +404,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             LocalDate localDate = LocalDate.now();
             int day = localDate.getDayOfMonth();
             int month = localDate.getMonth().getValue();
-            List<ServerPlayer> players = serverWorld.getLevel().players();
+            List<ServerPlayer> players = levelAccessor.getLevel().players();
 
             boolean isHalloween = (month == 10 && day >= 30 && !ConfigRegistry.DISABLE_MOB_MASKS.get());
             boolean forceMasks = ConfigRegistry.FORCE_MOB_MASKS.get();
@@ -417,7 +424,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
                 if (random.nextFloat() < 0.15F) {
                     List<ItemStack> skulls = new ArrayList<>();
-                    serverWorld.registryAccess().registryOrThrow(Registries.ITEM)
+                    levelAccessor.registryAccess().registryOrThrow(Registries.ITEM)
                             .getTagOrEmpty(ItemTags.SKULLS)
                             .forEach(holder -> {
                                 Item item = holder.value();
@@ -455,7 +462,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
                 if (random.nextFloat() < 0.05F) {
                     List<ItemStack> skulls = new ArrayList<>();
-                    serverWorld.registryAccess().registryOrThrow(Registries.BLOCK)
+                    levelAccessor.registryAccess().registryOrThrow(Registries.BLOCK)
                             .getTagOrEmpty(CompatRegistry.TF_TROPHIES)
                             .forEach(holder -> skulls.add(new ItemStack(holder.value())));
 
@@ -470,7 +477,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
                     this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
             }
         }
-        return super.finalizeSpawn(serverWorld, difficulty, spawnType, groupData);
+        return super.finalizeSpawn(levelAccessor, difficulty, spawnType, groupData);
     }
 
     public static boolean checkKoopaSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor serverWorld,

@@ -84,6 +84,7 @@ dependencies {
     implementation "curse.maven:jade-324717:6853386"
     implementation "curse.maven:jei-${jei_version}"
     compileOnly "curse.maven:neoculus-1200907:6787071"
+    implementation "curse.maven:packs-editor-1606070:8432925"
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"

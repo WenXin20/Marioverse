@@ -27,7 +27,7 @@ public class ChristmasHatRenderer extends DyeableGeoArmorRenderer<ChristmasHatIt
 
     @Override
     public ResourceLocation getTextureLocation(ChristmasHatItem animatable) {
-        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/christmas_hat_layer_1.png");
+        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/christmas_hat.png");
     }
 
     @Override
