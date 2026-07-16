@@ -4,15 +4,21 @@ import com.wenxin2.marioverse.client.renderers.costumes.PlasticBucketRenderer;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -24,10 +30,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.armortrim.ArmorTrim;
+import net.minecraft.world.item.armortrim.TrimMaterial;
+import net.minecraft.world.item.armortrim.TrimPattern;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
@@ -215,5 +225,17 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
             return new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
 
         return new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
+    }
+
+    public static void applyRandomTrim(ServerLevelAccessor levelAccessor, RandomSource random, ItemStack stack) {
+        RegistryAccess registryAccess = levelAccessor.registryAccess();
+        Registry<TrimMaterial> materials = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL);
+        Registry<TrimPattern> patterns = registryAccess.registryOrThrow(Registries.TRIM_PATTERN);
+
+        Optional<Holder.Reference<TrimMaterial>> material = materials.getRandom(random);
+        Optional<Holder.Reference<TrimPattern>> pattern = patterns.getRandom(random);
+
+        if (material.isPresent() && pattern.isPresent())
+            stack.set(DataComponents.TRIM, new ArmorTrim(material.get(), pattern.get()));
     }
 }

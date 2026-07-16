@@ -2,7 +2,8 @@
 - Replaced the Mario & Luigi costumes with a generic "male costume"
   - Dye & trim support
 - Christmas Hat now has dye & trim support
-- Koopa Shoes now has trim support
+- Koopa Shoes now have trim support
+- Plastic Buckets now have trim support
 
 ## Update 1.10.0
 - Added the Porcupuffer

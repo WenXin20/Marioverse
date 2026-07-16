@@ -65,12 +65,14 @@ public interface CostumeHandler {
                     EquipmentSlot.LEGS, powerUp.getPowerUpPantsItems(),
                     EquipmentSlot.FEET, powerUp.getPowerUpShoesItems());
 
-            for (EquipmentSlot slot : EquipmentSlot.values()) {
-                if (!slot.isArmor())
+            for (Map.Entry<EquipmentSlot, List<ItemStack>> entry : costumeItemsBySlot.entrySet()) {
+                EquipmentSlot slot = entry.getKey();
+                List<ItemStack> costumeItems = entry.getValue();
+
+                if (costumeItems.isEmpty())
                     continue;
 
                 ItemStack stackArmor = entity.getItemBySlot(slot);
-                List<ItemStack> costumeItems = costumeItemsBySlot.get(slot);
 
                 if (stackArmor.isEmpty() && entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)
                         && entity.getType().is(TagRegistry.POWER_UP_APPLIES_COSTUME)) {
