@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeDyeLayer;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeTrimLayer;
-import com.wenxin2.marioverse.items.DyeableCostumeItem;
+import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import java.util.Optional;
 import net.minecraft.client.model.HumanoidModel;
@@ -27,30 +27,30 @@ import software.bernie.geckolib.renderer.specialty.DyeableGeoArmorRenderer;
 import software.bernie.geckolib.util.Color;
 import software.bernie.geckolib.util.RenderUtil;
 
-public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostumeItem> implements CostumeRendererAccess {
+public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem> implements CostumeRendererAccess {
     protected GeoBone dress = null;
     protected GeoBone waist = null;
 
-    private static final DefaultedItemGeoModel<DyeableCostumeItem> MALE_MODEL =
+    private static final DefaultedItemGeoModel<MaleCostumeItem> MALE_MODEL =
             new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/male_costume"));
 
-    public DyeableCostumeRenderer() {
+    public MaleCostumeRenderer() {
         super(new DefaultedItemGeoModel<>(ResourceLocation
                 .fromNamespaceAndPath(Marioverse.MOD_ID, "costume/male_costume")));
         this.addRenderLayer(new CostumeDyeLayer<>(this));
         this.addRenderLayer(new CostumeTrimLayer<>(this));
     }
 
-    public @Nullable GeoBone getWaistBone(GeoModel<DyeableCostumeItem> model) {
+    public @Nullable GeoBone getWaistBone(GeoModel<MaleCostumeItem> model) {
         return model.getBone("armorWaist").orElse(null);
     }
 
-    public @Nullable GeoBone getDressBone(GeoModel<DyeableCostumeItem> model) {
+    public @Nullable GeoBone getDressBone(GeoModel<MaleCostumeItem> model) {
         return model.getBone("armorDress").orElse(null);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(DyeableCostumeItem animatable) {
+    public ResourceLocation getTextureLocation(MaleCostumeItem animatable) {
         ItemStack stack = this.currentStack;
         String layer = this.currentSlot == EquipmentSlot.LEGS ? "layer_2" : "layer_1";
 
@@ -65,7 +65,7 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
     }
 
     @Override
-    public GeoModel<DyeableCostumeItem> getGeoModel() {
+    public GeoModel<MaleCostumeItem> getGeoModel() {
         ItemStack stack = this.currentStack;
         return MALE_MODEL;
     }
@@ -75,7 +75,7 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
         super.grabRelevantBones(bakedModel);
 
         if (this.lastModel != bakedModel) {
-            GeoModel<DyeableCostumeItem> model = this.getGeoModel();
+            GeoModel<MaleCostumeItem> model = this.getGeoModel();
             this.lastModel = bakedModel;
             this.dress = this.getDressBone(model);
             this.waist = this.getWaistBone(model);
@@ -83,7 +83,7 @@ public class DyeableCostumeRenderer extends DyeableGeoArmorRenderer<DyeableCostu
     }
 
     @Override
-    public void renderChildBones(PoseStack poseStack, DyeableCostumeItem animatable, GeoBone bone, RenderType renderType,
+    public void renderChildBones(PoseStack poseStack, MaleCostumeItem animatable, GeoBone bone, RenderType renderType,
                                  MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick,
                                  int packedLight, int packedOverlay, int colour) {
         if ((bone.getName().equals("armorWaist") || bone.getName().equals("armorDress"))

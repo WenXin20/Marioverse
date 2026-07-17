@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
-import com.wenxin2.marioverse.items.DyeableCostumeItem;
+import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -552,13 +552,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 || stackLegs.is(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 || stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
 
-        boolean armorCostumeHasIceFlower = (stackHead.getItem() instanceof DyeableCostumeItem
+        boolean armorCostumeHasIceFlower = (stackHead.getItem() instanceof MaleCostumeItem
                 && Boolean.TRUE.equals(stackHead.get(DataComponentRegistry.HAS_ICE_FLOWER)))
-                    || (stackChest.getItem() instanceof DyeableCostumeItem
+                    || (stackChest.getItem() instanceof MaleCostumeItem
                         && Boolean.TRUE.equals(stackChest.get(DataComponentRegistry.HAS_ICE_FLOWER)))
-                    || (stackLegs.getItem() instanceof DyeableCostumeItem
+                    || (stackLegs.getItem() instanceof MaleCostumeItem
                         && Boolean.TRUE.equals(stackLegs.get(DataComponentRegistry.HAS_ICE_FLOWER)))
-                    || (stackFeet.getItem() instanceof DyeableCostumeItem
+                    || (stackFeet.getItem() instanceof MaleCostumeItem
                         && Boolean.TRUE.equals(stackFeet.get(DataComponentRegistry.HAS_ICE_FLOWER)));
 
         if (capability != null) {
@@ -577,13 +577,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             boolean hasPants = stackPants.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
             boolean hasShoes = stackShoes.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
 
-            boolean accessoryCostumeHasIceFlower = (hasHat && stackHat.getItem() instanceof DyeableCostumeItem
+            boolean accessoryCostumeHasIceFlower = (hasHat && stackHat.getItem() instanceof MaleCostumeItem
                     && Boolean.TRUE.equals(stackHat.get(DataComponentRegistry.HAS_ICE_FLOWER)))
-                        || (hasShirt && stackShirt.getItem() instanceof DyeableCostumeItem
+                        || (hasShirt && stackShirt.getItem() instanceof MaleCostumeItem
                             && Boolean.TRUE.equals(stackShirt.get(DataComponentRegistry.HAS_ICE_FLOWER)))
-                        || (hasPants && stackPants.getItem() instanceof DyeableCostumeItem
+                        || (hasPants && stackPants.getItem() instanceof MaleCostumeItem
                             && Boolean.TRUE.equals(stackPants.get(DataComponentRegistry.HAS_ICE_FLOWER)))
-                        || (hasShoes && stackShoes.getItem() instanceof DyeableCostumeItem
+                        || (hasShoes && stackShoes.getItem() instanceof MaleCostumeItem
                             && Boolean.TRUE.equals(stackShoes.get(DataComponentRegistry.HAS_ICE_FLOWER)));
 
             hasFreezeImmunity = hasFreezeImmunity || hasHat || hasShirt || hasPants || hasShoes

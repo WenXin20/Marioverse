@@ -35,7 +35,7 @@ import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
-import com.wenxin2.marioverse.items.DyeableCostumeItem;
+import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
@@ -368,14 +368,14 @@ public class MarioverseEventHandlers {
             }
 
             if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
-                DyeableCostumeItem.resetCostumes(entity);
+                MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
                 level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         soundSource, 1.0F, pitch);
             }
 
             if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
-                DyeableCostumeItem.resetCostumes(entity);
+                MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
                 level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         soundSource, 1.0F, pitch);
@@ -419,7 +419,7 @@ public class MarioverseEventHandlers {
 
             if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                DyeableCostumeItem.resetCostumes(entity);
+                MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
                 level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, pitch);
@@ -427,7 +427,7 @@ public class MarioverseEventHandlers {
 
             if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                DyeableCostumeItem.resetCostumes(entity);
+                MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
                 level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, pitch);

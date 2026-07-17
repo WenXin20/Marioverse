@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.client.renderers.costumes.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.renderers.costumes.CostumeRendererAccess;
-import com.wenxin2.marioverse.client.renderers.costumes.DyeableCostumeRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -33,9 +32,8 @@ public class CostumeDyeLayer<T extends Item & GeoAnimatable> extends GeoRenderLa
                 partialTick, packedLight, packedOverlay, overlayTexture, 0xFFFFFFFF);
     }
 
-    private void renderLayer(PoseStack poseStack, T animatable, BakedGeoModel model,
-                             MultiBufferSource bufferSource, float partialTick,
-                             int light, int overlay, ResourceLocation texture, int colour) {
+    private void renderLayer(PoseStack poseStack, T animatable, BakedGeoModel model, MultiBufferSource bufferSource,
+                             float partialTick, int light, int overlay, ResourceLocation texture, int colour) {
         RenderType type = RenderType.entityTranslucent(texture);
 
         this.getRenderer().reRender(model, poseStack, bufferSource, animatable, type,

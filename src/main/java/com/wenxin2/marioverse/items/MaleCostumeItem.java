@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.client.renderers.costumes.DyeableCostumeRenderer;
+import com.wenxin2.marioverse.client.renderers.costumes.MaleCostumeRenderer;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
@@ -29,17 +29,17 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class DyeableCostumeItem extends BaseCostumeItem implements GeoItem {
+public class MaleCostumeItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     int tooltipLineAmt = 0;
     String tooltipName;
 
-    public DyeableCostumeItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
+    public MaleCostumeItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
         super(repairIngredient, armorMaterial, armorType, properties);
     }
 
-    public DyeableCostumeItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType,
-                              String tooltipName, int tooltipLineAmt, Properties properties) {
+    public MaleCostumeItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType,
+                           String tooltipName, int tooltipLineAmt, Properties properties) {
         super(repairIngredient, armorMaterial, armorType, properties);
         this.tooltipLineAmt = tooltipLineAmt;
         this.tooltipName = tooltipName;
@@ -54,7 +54,7 @@ public class DyeableCostumeItem extends BaseCostumeItem implements GeoItem {
             public <T extends LivingEntity> HumanoidModel<?> getGeoArmorRenderer(@Nullable T livingEntity,
                 ItemStack itemStack, @Nullable EquipmentSlot equipmentSlot, @Nullable HumanoidModel<T> original) {
                 if(this.renderer == null)
-                    this.renderer = new DyeableCostumeRenderer();
+                    this.renderer = new MaleCostumeRenderer();
                 return this.renderer;
             }
         });
@@ -88,7 +88,7 @@ public class DyeableCostumeItem extends BaseCostumeItem implements GeoItem {
             if (!slot.isArmor())
                 continue;
             ItemStack stack = entity.getItemBySlot(slot);
-            DyeableCostumeItem.clearPowerUps(stack);
+            MaleCostumeItem.clearPowerUps(stack);
         }
 
         AccessoriesCapability capability = AccessoriesCapability.get(entity);
@@ -99,7 +99,7 @@ public class DyeableCostumeItem extends BaseCostumeItem implements GeoItem {
                     continue;
 
                 ItemStack stack = container.getAccessories().getItem(0);
-                DyeableCostumeItem.clearPowerUps(stack);
+                MaleCostumeItem.clearPowerUps(stack);
             }
         }
     }

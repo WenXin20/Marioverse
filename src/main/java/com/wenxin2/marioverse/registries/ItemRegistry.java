@@ -13,7 +13,7 @@ import com.wenxin2.marioverse.items.FluidPlasticBucketItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
-import com.wenxin2.marioverse.items.DyeableCostumeItem;
+import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
@@ -284,22 +284,22 @@ public class ItemRegistry {
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         HAT = registerItem("hat",
-                () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
+                () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))
                         .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
         SHIRT = registerItem("shirt",
-                () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
+                () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))
                         .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
         PANTS = registerItem("pants",
-                () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
+                () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))
                         .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
         SHOES = registerItem("shoes",
-                () -> new DyeableCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))
                         .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94535, true))));
