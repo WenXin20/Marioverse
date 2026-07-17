@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "marioverse:item/fire_bodice",
+      "predicate": {
+        "marioverse:power_up_type": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/ice_bodice",
+      "predicate": {
+        "marioverse:power_up_type": 2.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "marioverse:item/bodice",
+    "layer1": "marioverse:item/bodice_overlay"
+  }
+}

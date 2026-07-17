@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.items.ChristmasHatItem;
 import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.CreativeWrenchItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
+import com.wenxin2.marioverse.items.FemaleCostumeItem;
 import com.wenxin2.marioverse.items.FluidPlasticBucketItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
@@ -54,6 +55,7 @@ public class ItemRegistry {
     public static final EnumMap<DyeColor, DeferredItem<Item>> CHECKPOINT_FLAGS =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredItem<Item> BODICE;
     public static final DeferredItem<Item> BOO_SPAWN_EGG;
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
@@ -67,10 +69,12 @@ public class ItemRegistry {
     public static final DeferredItem<Item> COOKED_PORCUPUFFER;
     public static final DeferredItem<Item> COOKED_SPINY_CHEEP_CHEEP;
     public static final DeferredItem<Item> CREATIVE_WRENCH;
+    public static final DeferredItem<Item> CROWN;
     public static final DeferredItem<Item> DASH_MUSHROOM;
     public static final DeferredItem<Item> DEEP_CHEEP;
     public static final DeferredItem<Item> DEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> DEEP_CHEEP_SPAWN_EGG;
+    public static final DeferredItem<Item> DRESS;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
     public static final DeferredItem<Item> EEP_CHEEP;
     public static final DeferredItem<Item> EEP_CHEEP_BUCKET;
@@ -86,6 +90,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> GREEN_KOOPA_SHOES;
     public static final DeferredItem<Item> GREEN_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> HAT;
+    public static final DeferredItem<Item> HEELS;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
@@ -303,6 +308,27 @@ public class ItemRegistry {
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))
                         .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94535, true))));
+
+        CROWN = registerItem("crown",
+                () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.GOLD, ArmorItem.Type.HELMET,
+                        "female_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(12))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF647D, true))));
+        BODICE = registerItem("bodice",
+                () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
+                        "female_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFC1D7, true))));
+        DRESS = registerItem("dress",
+                () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
+                        "female_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFC1D7, true))));
+        HEELS = registerItem("heels",
+                () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        "female_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFC1D7, true))));
 
         PEACH_CROWN = registerItem("peach_crown",
                 () -> new CostumeItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.HELMET,

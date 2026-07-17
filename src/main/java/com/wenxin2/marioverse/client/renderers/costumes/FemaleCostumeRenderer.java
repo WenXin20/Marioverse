@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeDyeLayer;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeTrimLayer;
-import com.wenxin2.marioverse.items.MaleCostumeItem;
+import com.wenxin2.marioverse.items.FemaleCostumeItem;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import java.util.Optional;
 import net.minecraft.client.model.HumanoidModel;
@@ -27,45 +27,45 @@ import software.bernie.geckolib.renderer.specialty.DyeableGeoArmorRenderer;
 import software.bernie.geckolib.util.Color;
 import software.bernie.geckolib.util.RenderUtil;
 
-public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem> implements CostumeRendererAccess {
+public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<FemaleCostumeItem> implements CostumeRendererAccess {
     protected GeoBone dress = null;
     protected GeoBone waist = null;
 
-    private static final DefaultedItemGeoModel<MaleCostumeItem> MALE_MODEL =
-            new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/male_costume"));
+    private static final DefaultedItemGeoModel<FemaleCostumeItem> MALE_MODEL =
+            new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/female_costume"));
 
     public FemaleCostumeRenderer() {
         super(new DefaultedItemGeoModel<>(ResourceLocation
-                .fromNamespaceAndPath(Marioverse.MOD_ID, "costume/male_costume")));
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "costume/female_costume")));
         this.addRenderLayer(new CostumeDyeLayer<>(this));
         this.addRenderLayer(new CostumeTrimLayer<>(this));
     }
 
-    public @Nullable GeoBone getWaistBone(GeoModel<MaleCostumeItem> model) {
+    public @Nullable GeoBone getWaistBone(GeoModel<FemaleCostumeItem> model) {
         return model.getBone("armorWaist").orElse(null);
     }
 
-    public @Nullable GeoBone getDressBone(GeoModel<MaleCostumeItem> model) {
+    public @Nullable GeoBone getDressBone(GeoModel<FemaleCostumeItem> model) {
         return model.getBone("armorDress").orElse(null);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MaleCostumeItem animatable) {
+    public ResourceLocation getTextureLocation(FemaleCostumeItem animatable) {
         ItemStack stack = this.currentStack;
         String layer = this.currentSlot == EquipmentSlot.LEGS ? "layer_2" : "layer_1";
 
         if (stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                    "textures/item/costume/male_fire_costume_" + layer + ".png");
+                    "textures/item/costume/female_fire_costume_" + layer + ".png");
         if (stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                    "textures/item/costume/male_ice_costume_" + layer + ".png");
+                    "textures/item/costume/female_ice_costume_" + layer + ".png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                "textures/item/costume/male_costume_" + layer + ".png");
+                "textures/item/costume/female_costume_" + layer + ".png");
     }
 
     @Override
-    public GeoModel<MaleCostumeItem> getGeoModel() {
+    public GeoModel<FemaleCostumeItem> getGeoModel() {
         ItemStack stack = this.currentStack;
         return MALE_MODEL;
     }
@@ -75,7 +75,7 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeIt
         super.grabRelevantBones(bakedModel);
 
         if (this.lastModel != bakedModel) {
-            GeoModel<MaleCostumeItem> model = this.getGeoModel();
+            GeoModel<FemaleCostumeItem> model = this.getGeoModel();
             this.lastModel = bakedModel;
             this.dress = this.getDressBone(model);
             this.waist = this.getWaistBone(model);
@@ -83,7 +83,7 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeIt
     }
 
     @Override
-    public void renderChildBones(PoseStack poseStack, MaleCostumeItem animatable, GeoBone bone, RenderType renderType,
+    public void renderChildBones(PoseStack poseStack, FemaleCostumeItem animatable, GeoBone bone, RenderType renderType,
                                  MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick,
                                  int packedLight, int packedOverlay, int colour) {
         if ((bone.getName().equals("armorWaist") || bone.getName().equals("armorDress"))
@@ -167,13 +167,13 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeIt
     public int getDefaultDyeColor() {
         if (this.getCurrentStack().getItem() instanceof ArmorItem armorItem) {
             if (armorItem.getEquipmentSlot() == EquipmentSlot.HEAD)
-                return 0xFFF6343A;
+                return 0xFFFF647D;
             if (armorItem.getEquipmentSlot() == EquipmentSlot.CHEST)
-                return 0xFFF6343A;
+                return 0xFFFFC1D7;
             if (armorItem.getEquipmentSlot() == EquipmentSlot.LEGS)
-                return 0xFF325EFF;
+                return 0xFFFFC1D7;
             if (armorItem.getEquipmentSlot() == EquipmentSlot.FEET)
-                return 0xFFA94535;
+                return 0xFFFFC1D7;
         }
         return 0xFFF6343A;
     }

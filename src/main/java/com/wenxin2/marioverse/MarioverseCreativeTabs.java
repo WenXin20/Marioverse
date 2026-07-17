@@ -128,6 +128,21 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
             add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94537, true));
 
+            add(event, ItemRegistry.CROWN);
+            add(event, ItemRegistry.BODICE);
+            add(event, ItemRegistry.DRESS);
+            add(event, ItemRegistry.HEELS);
+
+            add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA4FDF0, true));
+            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0XFFFF992B, true));
+            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0XFFFF992B, true));
+            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0XFFFF992B, true));
+
+            add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF647E, true));
+            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0XFF89F4EB, true));
+            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0XFF89F4EB, true));
+            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0XFF89F4EB, true));
+
             add(event, ItemRegistry.PEACH_CROWN);
             add(event, ItemRegistry.PEACH_BODICE);
             add(event, ItemRegistry.PEACH_DRESS);
@@ -636,16 +651,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.HAT, ItemRegistry.SHIRT);
                 addAfter(event, ItemRegistry.SHIRT, ItemRegistry.PANTS);
                 addAfter(event, ItemRegistry.PANTS, ItemRegistry.SHOES);
-                ItemStack luigiHat = addAfter(event, ItemRegistry.SHOES.toStack(), ItemRegistry.HAT.get(),
-                        DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-                ItemStack luigiShirt = addAfter(event, luigiHat, ItemRegistry.SHIRT.get(),
-                        DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-                ItemStack luigiPants = addAfter(event, luigiShirt, ItemRegistry.PANTS.get(),
-                        DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-                ItemStack luigiShoes = addAfter(event, luigiPants, ItemRegistry.SHOES.get(),
-                        DataComponents.DYED_COLOR, new DyedItemColor(0xFF9C6042, true));
+                addAfter(event, ItemRegistry.SHOES, ItemRegistry.CROWN);
+                addAfter(event, ItemRegistry.CROWN, ItemRegistry.BODICE);
+                addAfter(event, ItemRegistry.BODICE, ItemRegistry.DRESS);
+                addAfter(event, ItemRegistry.DRESS, ItemRegistry.HEELS);
 
-                addAfter(event, luigiShoes, ItemRegistry.PEACH_CROWN);
+                addAfter(event, ItemRegistry.HEELS, ItemRegistry.PEACH_CROWN);
                 addAfter(event, ItemRegistry.PEACH_CROWN, ItemRegistry.PEACH_BODICE);
                 addAfter(event, ItemRegistry.PEACH_BODICE, ItemRegistry.PEACH_DRESS);
                 addAfter(event, ItemRegistry.PEACH_DRESS, ItemRegistry.PEACH_SHOES);

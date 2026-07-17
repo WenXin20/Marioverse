@@ -1,0 +1,11 @@
+{
+  "type": "marioverse:color_swappable_shaped",
+  "group": "shoes",
+  "pattern": [
+    "C C"
+  ],
+  "key": {
+    "C": { "color_tag": "minecraft:wool" }
+  },
+  "result": "marioverse:heels"
+}

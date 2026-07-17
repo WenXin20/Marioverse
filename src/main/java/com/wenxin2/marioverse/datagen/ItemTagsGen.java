@@ -82,7 +82,11 @@ public class ItemTagsGen extends ItemTagsProvider {
             copy(TagRegistry.blockTags("c", "dyed/" + color), TagRegistry.itemTags("c", "dyed/" + color));
 
         tag(ItemTags.ARMOR_ENCHANTABLE)
+                .add(ItemRegistry.BODICE.get())
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.DRESS.get())
                 .add(ItemRegistry.HAT.get())
+                .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
@@ -96,15 +100,23 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
 
         tag(ItemTags.DYEABLE)
+                .add(ItemRegistry.BODICE.get())
                 .add(ItemRegistry.CHRISTMAS_HAT.get())
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.DRESS.get())
                 .add(ItemRegistry.HAT.get())
+                .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.SHIRT.get())
                 .add(ItemRegistry.SHOES.get());
 
         tag(ItemTags.DURABILITY_ENCHANTABLE)
+                .add(ItemRegistry.BODICE.get())
                 .add(ItemRegistry.CREATIVE_WRENCH.get())
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.DRESS.get())
                 .add(ItemRegistry.HAT.get())
+                .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
@@ -116,7 +128,11 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.WARP_DISRUPTOR.get());
 
         tag(ItemTags.EQUIPPABLE_ENCHANTABLE)
+                .add(ItemRegistry.BODICE.get())
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.DRESS.get())
                 .add(ItemRegistry.HAT.get())
+                .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
@@ -131,7 +147,11 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.WRENCH.get());
 
         tag(ItemTags.VANISHING_ENCHANTABLE)
+                .add(ItemRegistry.BODICE.get())
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.DRESS.get())
                 .add(ItemRegistry.HAT.get())
+                .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
@@ -219,6 +239,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())
+                .add(ItemRegistry.CROWN.get())
                 .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.asItem())
                 .add(BlockRegistry.FUNGAL_QUESTION_PANEL.asItem())
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
@@ -242,10 +263,14 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());
 
         tag(ItemTags.TRIMMABLE_ARMOR)
+                .add(ItemRegistry.BODICE.get())
                 .add(ItemRegistry.CHRISTMAS_HAT.get())
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.DRESS.get())
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.GREEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.HAT.get())
+                .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.PLASTIC_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
@@ -373,9 +398,11 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
         tag(TagRegistry.COSTUMES)
+                .addTag(TagRegistry.FEMALE_COSTUMES)
                 .addTag(TagRegistry.MALE_COSTUMES);
 
         tag(TagRegistry.POWER_UP_COSTUMES)
+                .addTag(TagRegistry.FEMALE_COSTUMES)
                 .addTag(TagRegistry.MALE_COSTUMES)
                 .addTag(TagRegistry.PEACH_POWER_UP_COSTUMES);
 
@@ -392,21 +419,31 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.HATS)
                 .addTag(TagRegistry.PEACH_HATS)
                 .add(ItemRegistry.CHRISTMAS_HAT.get())
+                .add(ItemRegistry.CROWN.get())
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.PLASTIC_BUCKET.get());
 
         tag(TagRegistry.PANTS)
                 .addTag(TagRegistry.PEACH_PANTS)
+                .add(ItemRegistry.DRESS.get())
                 .add(ItemRegistry.PANTS.get());
 
         tag(TagRegistry.SHIRTS)
                 .addTag(TagRegistry.PEACH_SHIRTS)
+                .add(ItemRegistry.BODICE.get())
                 .add(ItemRegistry.SHIRT.get());
 
         tag(TagRegistry.SHOES)
                 .addTag(TagRegistry.KOOPA_SHOES)
                 .addTag(TagRegistry.PEACH_SHOES)
+                .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.SHOES.get());
+
+        tag(TagRegistry.FEMALE_COSTUMES)
+                .add(ItemRegistry.BODICE.get())
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.DRESS.get())
+                .add(ItemRegistry.HEELS.get());
 
         tag(TagRegistry.MALE_COSTUMES)
                 .add(ItemRegistry.HAT.get())

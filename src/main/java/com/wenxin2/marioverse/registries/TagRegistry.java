@@ -163,6 +163,7 @@ public class TagRegistry {
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
     public static final TagKey<Item> DYED_CALCITE_ITEMS = itemTags("dyed_calcite_blocks");
+    public static final TagKey<Item> FEMALE_COSTUMES = itemTags("costumes/female");;
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_ITEMS = itemTags("flammable_wooden_bridges");
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS = itemTags("flammable_wooden_bridge_stairs");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");

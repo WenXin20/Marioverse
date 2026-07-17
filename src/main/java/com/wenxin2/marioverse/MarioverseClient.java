@@ -114,6 +114,11 @@ public class MarioverseClient {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PANTS.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHOES.get(), ArmorRenderingExtension::costumeRenderer);
 
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CROWN.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.BODICE.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.DRESS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HEELS.get(), ArmorRenderingExtension::costumeRenderer);
+
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_CROWN.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
@@ -174,6 +179,24 @@ public class MarioverseClient {
                     return -1;
                 },
                 ItemRegistry.SHOES.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xFFFF647D);
+                    return -1;
+                },
+                ItemRegistry.CROWN.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xFFFFC1D7);
+                    return -1;
+                },
+                ItemRegistry.BODICE.get(),
+                ItemRegistry.DRESS.get(),
+                ItemRegistry.HEELS.get()
         );
     }
 

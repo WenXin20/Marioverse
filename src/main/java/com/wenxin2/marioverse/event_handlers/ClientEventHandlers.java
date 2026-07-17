@@ -246,6 +246,22 @@ public class ClientEventHandlers {
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
                     (stack, level, entity, seed) -> powerUpType(stack));
 
+            ItemProperties.register(ItemRegistry.CROWN.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
+                    (stack, level, entity, seed) -> powerUpType(stack));
+
+            ItemProperties.register(ItemRegistry.BODICE.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
+                    (stack, level, entity, seed) -> powerUpType(stack));
+
+            ItemProperties.register(ItemRegistry.DRESS.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
+                    (stack, level, entity, seed) -> powerUpType(stack));
+
+            ItemProperties.register(ItemRegistry.HEELS.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
+                    (stack, level, entity, seed) -> powerUpType(stack));
+
             ItemProperties.register(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> wonderAmericaName(stack));
@@ -297,7 +313,6 @@ public class ClientEventHandlers {
             return 1.0F;
         if (hasIceFlower)
             return 2.0F;
-
         return 0.0F;
     }
 

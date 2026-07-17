@@ -1,0 +1,14 @@
+{
+  "type": "marioverse:color_swappable_shaped",
+  "group": "shirts",
+  "pattern": [
+    "C C",
+    "CCC",
+    "WCW"
+  ],
+  "key": {
+    "C": { "color_tag": "minecraft:wool" },
+    "W": { "item": "minecraft:white_wool" }
+  },
+  "result": "marioverse:bodice"
+}
