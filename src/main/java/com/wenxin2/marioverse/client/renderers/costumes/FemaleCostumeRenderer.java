@@ -31,7 +31,7 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<FemaleCostume
     protected GeoBone dress = null;
     protected GeoBone waist = null;
 
-    private static final DefaultedItemGeoModel<FemaleCostumeItem> MALE_MODEL =
+    private static final DefaultedItemGeoModel<FemaleCostumeItem> FEMALE_MODEL =
             new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/female_costume"));
 
     public FemaleCostumeRenderer() {
@@ -66,8 +66,7 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<FemaleCostume
 
     @Override
     public GeoModel<FemaleCostumeItem> getGeoModel() {
-        ItemStack stack = this.currentStack;
-        return MALE_MODEL;
+        return FEMALE_MODEL;
     }
 
     @Override
