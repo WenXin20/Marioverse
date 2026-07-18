@@ -6,7 +6,7 @@
     "IWI"
   ],
   "key": {
-    "C": { "color_tag": "c:gems" },
+    "C": { "color_tag": "c:dusts/redstone" },
     "I": { "tag": "c:ingots/gold" },
     "W": { "item": "minecraft:white_wool" }
   },
