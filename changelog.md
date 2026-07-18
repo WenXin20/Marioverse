@@ -1,6 +1,8 @@
 ## Update 1.10.1
 - Replaced the Mario & Luigi costumes with a generic "male costume"
   - Dye & trim support
+- Replaced the Peach costumes with a generic "female costume"
+  - Dye & trim support
 - Christmas Hat now has dye & trim support
 - Koopa Shoes now have trim support
 - Plastic Buckets now have trim support

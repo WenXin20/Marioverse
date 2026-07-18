@@ -42,8 +42,7 @@ public class CostumeTrimLayer<T extends Item & GeoAnimatable> extends GeoRenderL
             return;
         Holder<ArmorMaterial> material = ((ArmorItem) stack.getItem()).getMaterial();
 
-        TextureAtlasSprite sprite = Minecraft.getInstance()
-                .getModelManager()
+        TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager()
                 .getAtlas(Sheets.ARMOR_TRIMS_SHEET)
                 .getSprite(renderer.getCurrentSlot() == EquipmentSlot.LEGS
                         ? trim.innerTexture(material) : trim.outerTexture(material));
