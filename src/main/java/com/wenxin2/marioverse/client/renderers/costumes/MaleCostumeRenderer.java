@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeDyeLayer;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeTrimLayer;
+import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeWaistLayer;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import java.util.Optional;
@@ -12,11 +13,13 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -27,7 +30,7 @@ import software.bernie.geckolib.renderer.specialty.DyeableGeoArmorRenderer;
 import software.bernie.geckolib.util.Color;
 import software.bernie.geckolib.util.RenderUtil;
 
-public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem> implements CostumeRendererAccess {
+public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem> implements CostumeTextureAccess {
     protected GeoBone dress = null;
     protected GeoBone waist = null;
 
@@ -39,6 +42,7 @@ public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem
                 .fromNamespaceAndPath(Marioverse.MOD_ID, "costume/male_costume")));
         this.addRenderLayer(new CostumeDyeLayer<>(this));
         this.addRenderLayer(new CostumeTrimLayer<>(this));
+        this.addRenderLayer(new CostumeWaistLayer<>(this));
     }
 
     public @Nullable GeoBone getWaistBone(GeoModel<MaleCostumeItem> model) {
@@ -65,8 +69,37 @@ public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem
     }
 
     @Override
-    public GeoModel<MaleCostumeItem> getGeoModel() {
+    public ResourceLocation getWaistTextureLocation() {
         ItemStack stack = this.currentStack;
+        String layer = "layer_2";
+
+        if (stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false))
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                    "textures/item/costume/male_fire_costume_" + layer + ".png");
+        if (stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
+            return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                    "textures/item/costume/male_ice_costume_" + layer + ".png");
+        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                "textures/item/costume/male_costume_" + layer + ".png");
+    }
+
+    @Override
+    public ResourceLocation getDressTextureLocation() {
+        return this.getTextureLocation(null);
+    }
+
+    @Override
+    public ResourceLocation getDressOverlayTextureLocation() {
+        return this.getTextureLocation(null);
+    }
+
+    @Override
+    public ResourceLocation getDressBackTextureLocation() {
+        return this.getTextureLocation(null);
+    }
+
+    @Override
+    public GeoModel<MaleCostumeItem> getGeoModel() {
         return MALE_MODEL;
     }
 
@@ -112,8 +145,6 @@ public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem
                 this.setBoneVisible(this.leftArm, model.leftArm.visible);
                 break;
             case LEGS:
-                dressBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, model.body.visible));
-                waistBone.ifPresent(geoBone -> this.setBoneVisible(geoBone, model.body.visible));
                 this.setBoneVisible(this.rightLeg, model.rightLeg.visible);
                 this.setBoneVisible(this.leftLeg, model.leftLeg.visible);
                 break;
@@ -187,5 +218,14 @@ public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem
     @Override
     protected Color getColorForBone(GeoBone geoBone) {
         return Color.ofOpaque(this.getDefaultDyeColor());
+    }
+
+    @Override
+    public int getDyeColor() {
+        ItemStack stack = this.currentStack;
+        DyedItemColor dyedColor = stack.get(DataComponents.DYED_COLOR);
+        if (dyedColor != null)
+            return 0xFF000000 | dyedColor.rgb();
+        return this.getDefaultDyeColor();
     }
 }

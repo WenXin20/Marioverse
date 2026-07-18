@@ -72,15 +72,17 @@ dependencies {
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7963363"
-    compileOnly "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge"  // Requires Create, Sable, Incompatible w/ Embeddium
-    compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge"  // Requires Sable
+    compileOnly "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
+    compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
     implementation "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
+    implementation "maven.modrinth:grassier-grass:1.4.5-neoforge"
     implementation "curse.maven:guard-villagers-360203:6066966"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
+    implementation "curse.maven:inventory-item-groups-1447374:8447055"
     implementation "curse.maven:jade-324717:6853386"
     implementation "curse.maven:jei-${jei_version}"
     compileOnly "curse.maven:neoculus-1200907:6787071"

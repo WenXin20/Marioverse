@@ -853,6 +853,11 @@
   "item.marioverse.shirt": "Shirt",
   "item.marioverse.shoes": "Shoes",
 
+  "item.marioverse.crown": "Crown",
+  "item.marioverse.bodice": "Bodice",
+  "item.marioverse.dress": "Dress",
+  "item.marioverse.heels": "Heels",
+
 
   "item.marioverse.button.ticksPressed": "§8Ticks Pressed: %1$s",
 
@@ -940,6 +945,11 @@
   "item.marioverse.male_costume.tooltip.line2": "§9+4 Jump Height §7[+4]",
   "item.marioverse.male_costume.tooltip.line3": "§9+5 Running Jump Height §7[+5]",
   "item.marioverse.male_costume.tooltip.line4": "§9+7 Safe Fall Distance §7[+7]",
+
+  "item.marioverse.female_costume.tooltip.line1": "§7Full Set Bonus:",
+  "item.marioverse.female_costume.tooltip.line2": "§9+4 Jump Height §7[+4]",
+  "item.marioverse.female_costume.tooltip.line3": "§9+5 Running Jump Height §7[+5]",
+  "item.marioverse.female_costume.tooltip.line4": "§9+7 Safe Fall Distance §7[+7]",
 
   "item.marioverse.mario_costume.tooltip.line1": "§7Full Set Bonus:",
   "item.marioverse.mario_costume.tooltip.line2": "§9+4 Jump Height §7[+4]",

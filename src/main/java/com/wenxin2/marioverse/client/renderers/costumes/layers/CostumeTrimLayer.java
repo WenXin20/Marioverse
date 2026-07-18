@@ -23,7 +23,6 @@ import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class CostumeTrimLayer<T extends Item & GeoAnimatable> extends GeoRenderLayer<T> {
-
     public CostumeTrimLayer(GeoRenderer<T> renderer) {
         super(renderer);
     }
