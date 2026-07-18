@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.client.renderers.costumes.layers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.renderers.costumes.CostumeRendererAccess;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
@@ -32,18 +34,22 @@ public class CostumeTrimLayer<T extends Item & GeoAnimatable> extends GeoRenderL
                        VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         CostumeRendererAccess renderer = (CostumeRendererAccess) this.getRenderer();
         ItemStack stack = renderer.getCurrentStack();
-        if (stack == null || stack.isEmpty()) return;
+        if (stack == null || stack.isEmpty())
+            return;
 
         ArmorTrim trim = stack.get(DataComponents.TRIM);
-        if (trim == null) return;
-        Holder<ArmorMaterial> material = ArmorMaterials.LEATHER;
+        if (trim == null)
+            return;
+        Holder<ArmorMaterial> material = ((ArmorItem) stack.getItem()).getMaterial();
 
         TextureAtlasSprite sprite = Minecraft.getInstance()
                 .getModelManager()
                 .getAtlas(Sheets.ARMOR_TRIMS_SHEET)
                 .getSprite(renderer.getCurrentSlot() == EquipmentSlot.LEGS
                         ? trim.innerTexture(material) : trim.outerTexture(material));
-        RenderType type = Sheets.armorTrimsSheet(trim.pattern().value().decal());
+        RenderType type = stack.is(ItemRegistry.CROWN)
+                ? RenderType.entityDecal(sprite.atlasLocation())
+                : Sheets.armorTrimsSheet(trim.pattern().value().decal());
 
         VertexConsumer consumer = sprite.wrap(bufferSource.getBuffer(type));
         this.getRenderer().reRender(bakedModel, poseStack, bufferSource, animatable, type,

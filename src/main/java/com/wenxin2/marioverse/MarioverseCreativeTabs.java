@@ -134,14 +134,14 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.HEELS);
 
             add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA4FDF0, true));
-            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0XFFFF992B, true));
-            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0XFFFF992B, true));
-            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0XFFFF992B, true));
+            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF992B, true));
+            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF992B, true));
+            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF992B, true));
 
             add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF647E, true));
-            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0XFF89F4EB, true));
-            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0XFF89F4EB, true));
-            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0XFF89F4EB, true));
+            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
+            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
+            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
 
             add(event, ItemRegistry.PEACH_CROWN);
             add(event, ItemRegistry.PEACH_BODICE);

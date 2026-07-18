@@ -38,6 +38,9 @@ public record TagColorIngredient(TagKey<Item> tag) {
     static {
         COLOR_OVERRIDES.put(DyeColor.RED, 0xFFF6343A);
         COLOR_OVERRIDES.put(DyeColor.BLUE, 0xFF325EFF);
+        COLOR_OVERRIDES.put(DyeColor.LIGHT_BLUE, 0xFF89F4EB);
+        COLOR_OVERRIDES.put(DyeColor.ORANGE, 0xFFFF992B);
+        COLOR_OVERRIDES.put(DyeColor.PINK, 0xFFF4A1BD);
     }
 
     public boolean test(ItemStack stack) {
