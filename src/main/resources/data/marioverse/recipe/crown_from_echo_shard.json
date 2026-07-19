@@ -3,12 +3,13 @@
   "category": "equipment",
   "group": "hats",
   "pattern": [
-    "CWC",
-    "C C"
+    "ICI",
+    "IWI"
   ],
   "key": {
-    "C": { "color_tag": "minecraft:wool" },
+    "C": { "color_item": "minecraft:echo_shard" },
+    "I": { "tag": "c:ingots/gold" },
     "W": { "item": "minecraft:white_wool" }
   },
-  "result": "marioverse:hat"
+  "result": "marioverse:crown"
 }

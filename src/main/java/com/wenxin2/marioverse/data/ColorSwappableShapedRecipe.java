@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public class ColorSwappableShapedRecipe implements CraftingRecipe {
     private static final Codec<Either<TagColorIngredient, ItemColorIngredient>> COLOR_INGREDIENT_CODEC =
             Codec.either(TagColorIngredient.CODEC, ItemColorIngredient.CODEC);
+    private final CraftingBookCategory category;
     private final String group;
     private final List<String> pattern;
     private final Map<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> key;
@@ -31,9 +32,10 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
     private final int height;
     private final List<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> slots;
 
-    public ColorSwappableShapedRecipe(String group, List<String> pattern,
+    public ColorSwappableShapedRecipe(String group, CraftingBookCategory category, List<String> pattern,
                                       Map<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> key,
                                       Item result) {
+        this.category = category;
         this.group = group;
         this.pattern = pattern;
         this.key = key;
@@ -170,7 +172,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
     @NotNull
     @Override
     public CraftingBookCategory category() {
-        return CraftingBookCategory.MISC;
+        return this.category;
     }
 
     @NotNull
@@ -185,12 +187,12 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                         Ingredient.CODEC);
 
         private static final MapCodec<ColorSwappableShapedRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
-                instance.group(
-                        Codec.STRING.optionalFieldOf("group", "").forGetter(r -> r.group),
-                        Codec.STRING.listOf().fieldOf("pattern").forGetter(r -> r.pattern),
-                        Codec.unboundedMap(Codec.STRING, SLOT_CODEC).fieldOf("key").forGetter(r -> r.key),
-                        BuiltInRegistries.ITEM.byNameCodec().fieldOf("result").forGetter(r -> r.result)
-                ).apply(instance, ColorSwappableShapedRecipe::new)
+                instance.group(Codec.STRING.optionalFieldOf("group", "").forGetter(r -> r.group),
+                                CraftingBookCategory.CODEC.optionalFieldOf("category", CraftingBookCategory.MISC).forGetter(r -> r.category),
+                                Codec.STRING.listOf().fieldOf("pattern").forGetter(r -> r.pattern),
+                                Codec.unboundedMap(Codec.STRING, SLOT_CODEC).fieldOf("key").forGetter(r -> r.key),
+                                BuiltInRegistries.ITEM.byNameCodec().fieldOf("result").forGetter(r -> r.result))
+                        .apply(instance, ColorSwappableShapedRecipe::new)
         );
 
         private static final StreamCodec<RegistryFriendlyByteBuf, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> SLOT_STREAM_CODEC =
@@ -226,6 +228,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
         private static final StreamCodec<RegistryFriendlyByteBuf, ColorSwappableShapedRecipe> STREAM_CODEC = StreamCodec.of(
                 (buf, recipe) -> {
                     buf.writeUtf(recipe.group);
+                    buf.writeEnum(recipe.category);
                     buf.writeVarInt(recipe.pattern.size());
                     for (String row : recipe.pattern) buf.writeUtf(row);
 
@@ -239,6 +242,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                 },
                 buf -> {
                     String group = buf.readUtf();
+                    CraftingBookCategory category = buf.readEnum(CraftingBookCategory.class);
 
                     int rowCount = buf.readVarInt();
                     List<String> pattern = new ArrayList<>(rowCount);
@@ -252,7 +256,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                     }
 
                     Item result = BuiltInRegistries.ITEM.byId(buf.readVarInt());
-                    return new ColorSwappableShapedRecipe(group, pattern, key, result);
+                    return new ColorSwappableShapedRecipe(group, category, pattern, key, result);
                 }
         );
 
