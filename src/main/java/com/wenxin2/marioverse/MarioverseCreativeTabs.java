@@ -103,9 +103,6 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
             add(event, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
             add(event, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
 
             add(event, ItemRegistry.CHRISTMAS_HAT);
 
@@ -143,17 +140,6 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
             add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
             add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
-
-            add(event, ItemRegistry.PEACH_CROWN);
-            add(event, ItemRegistry.PEACH_BODICE);
-            add(event, ItemRegistry.PEACH_DRESS);
-            add(event, ItemRegistry.PEACH_SHOES);
-            add(event, ItemRegistry.PEACH_FIRE_BODICE);
-            add(event, ItemRegistry.PEACH_FIRE_DRESS);
-            add(event, ItemRegistry.PEACH_FIRE_SHOES);
-            add(event, ItemRegistry.PEACH_ICE_BODICE);
-            add(event, ItemRegistry.PEACH_ICE_DRESS);
-            add(event, ItemRegistry.PEACH_ICE_SHOES);
 
             add(event, ItemRegistry.GREEN_KOOPA_SHOES);
             add(event, ItemRegistry.RED_KOOPA_SHOES);
@@ -657,18 +643,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.BODICE, ItemRegistry.DRESS);
                 addAfter(event, ItemRegistry.DRESS, ItemRegistry.HEELS);
 
-                addAfter(event, ItemRegistry.HEELS, ItemRegistry.PEACH_CROWN);
-                addAfter(event, ItemRegistry.PEACH_CROWN, ItemRegistry.PEACH_BODICE);
-                addAfter(event, ItemRegistry.PEACH_BODICE, ItemRegistry.PEACH_DRESS);
-                addAfter(event, ItemRegistry.PEACH_DRESS, ItemRegistry.PEACH_SHOES);
-                addAfter(event, ItemRegistry.PEACH_SHOES, ItemRegistry.PEACH_FIRE_BODICE);
-                addAfter(event, ItemRegistry.PEACH_FIRE_BODICE, ItemRegistry.PEACH_FIRE_DRESS);
-                addAfter(event, ItemRegistry.PEACH_FIRE_DRESS, ItemRegistry.PEACH_FIRE_SHOES);
-                addAfter(event, ItemRegistry.PEACH_FIRE_SHOES, ItemRegistry.PEACH_ICE_BODICE);
-                addAfter(event, ItemRegistry.PEACH_ICE_BODICE, ItemRegistry.PEACH_ICE_DRESS);
-                addAfter(event, ItemRegistry.PEACH_ICE_DRESS, ItemRegistry.PEACH_ICE_SHOES);
-
-                addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.PLASTIC_BUCKET);
+                addAfter(event, ItemRegistry.HEELS, ItemRegistry.PLASTIC_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.CHRISTMAS_HAT);
                 addAfter(event, ItemRegistry.CHRISTMAS_HAT, ItemRegistry.GREEN_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHOES, ItemRegistry.RED_KOOPA_SHOES);
@@ -737,10 +712,6 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.BOWSER_BANNER_PATTERN, ItemRegistry.PLUMBER_BANNER_PATTERN);
                 addAfter(event, Items.SNORT_POTTERY_SHERD, ItemRegistry.BOWSER_POTTERY_SHERD);
                 addAfter(event, ItemRegistry.BOWSER_POTTERY_SHERD, ItemRegistry.PLUMBER_POTTERY_SHERD);
-
-                addAfter(event, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
-                addAfter(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
-                addAfter(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
 
                 addAfter(event, Items.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
                 addAfter(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);

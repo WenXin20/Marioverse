@@ -3,10 +3,8 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.BasePowerUpItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
-import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
 import com.wenxin2.marioverse.items.ChristmasHatItem;
-import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.CreativeWrenchItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.items.FemaleCostumeItem;
@@ -79,7 +77,6 @@ public class ItemRegistry {
     public static final DeferredItem<Item> EEP_CHEEP;
     public static final DeferredItem<Item> EEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> EEP_CHEEP_SPAWN_EGG;
-    public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> FIRE_FLOWER;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> GOLDEN_KOOPA_SHOES;
@@ -92,7 +89,6 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HAT;
     public static final DeferredItem<Item> HEELS;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
-    public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> LARGE_SNOWBALL;
     public static final DeferredItem<Item> LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE;
@@ -103,17 +99,6 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MINI_MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> PANTS;
-    public static final DeferredItem<Item> PEACH_BODICE;
-    public static final DeferredItem<Item> PEACH_COSTUME_SMITHING_TEMPLATE;
-    public static final DeferredItem<Item> PEACH_CROWN;
-    public static final DeferredItem<Item> PEACH_DRESS;
-    public static final DeferredItem<Item> PEACH_FIRE_BODICE;
-    public static final DeferredItem<Item> PEACH_FIRE_DRESS;
-    public static final DeferredItem<Item> PEACH_FIRE_SHOES;
-    public static final DeferredItem<Item> PEACH_ICE_BODICE;
-    public static final DeferredItem<Item> PEACH_ICE_DRESS;
-    public static final DeferredItem<Item> PEACH_ICE_SHOES;
-    public static final DeferredItem<Item> PEACH_SHOES;
     public static final DeferredItem<Item> PIRANHA_PLANT_POD;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLASTIC_BUCKET;
@@ -267,12 +252,6 @@ public class ItemRegistry {
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
         PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("princess_armor_trim_smithing_template",
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
-        PEACH_COSTUME_SMITHING_TEMPLATE = registerItem("peach_costume_smithing_template",
-                CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
-        FIRE_COSTUME_SMITHING_TEMPLATE = registerItem("fire_costume_smithing_template",
-                CharacterSmithingTemplateItem::createFireUpgradeTemplate);
-        ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
-                CharacterSmithingTemplateItem::createIceUpgradeTemplate);
 
         CHRISTMAS_HAT = registerItem("christmas_hat",
                 () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
@@ -332,49 +311,6 @@ public class ItemRegistry {
                         "female_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))
                         .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFC1D7, true))));
-
-        PEACH_CROWN = registerItem("peach_crown",
-                () -> new CostumeItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.HELMET,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(12))));
-        PEACH_BODICE = registerItem("peach_bodice",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        PEACH_DRESS = registerItem("peach_dress",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        PEACH_SHOES = registerItem("peach_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-
-        PEACH_FIRE_BODICE = registerItem("peach_fire_bodice",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        PEACH_FIRE_DRESS = registerItem("peach_fire_dress",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        PEACH_FIRE_SHOES = registerItem("peach_fire_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-
-        PEACH_ICE_BODICE = registerItem("peach_ice_bodice",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        PEACH_ICE_DRESS = registerItem("peach_ice_dress",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        PEACH_ICE_SHOES = registerItem("peach_ice_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",
                 () -> new BannerPatternItem(TagRegistry.BOWSER_BANNER_PATTERN, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
@@ -437,6 +373,12 @@ public class ItemRegistry {
                 .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_costume_smithing_template"), MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_costume_smithing_template"), LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_costume_smithing_template"), PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "fire_costume_smithing_template"), MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "ice_costume_smithing_template"), LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
 
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_hat"), HAT.getId());
@@ -491,5 +433,28 @@ public class ItemRegistry {
                 .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_ice_pants"), PANTS.getId());
         Marioverse.ENTITIES.addAlias(ResourceLocation
                 .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_ice_shoes"), SHOES.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_crown"), CROWN.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_bodice"), BODICE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_dress"), DRESS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_shoes"), HEELS.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_fire_bodice"), BODICE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_fire_dress"), DRESS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_fire_shoes"), HEELS.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_ice_bodice"), BODICE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_ice_dress"), DRESS.getId());
+        Marioverse.ENTITIES.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_ice_shoes"), HEELS.getId());
     }
 }

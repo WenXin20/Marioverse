@@ -395,6 +395,7 @@ public class MarioverseEventHandlers {
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
+                    && entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)
                     && !player.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
                 for (String slotType : slotTypes) {
@@ -448,6 +449,7 @@ public class MarioverseEventHandlers {
 
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                    && entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
                 for (String slotType : slotTypes) {
@@ -522,35 +524,23 @@ public class MarioverseEventHandlers {
 
         if (containerHat != null) {
             ItemStack stack = containerHat.getAccessories().getItem(0);
-            ItemStack hatItem = new ItemStack(ItemRegistry.PEACH_CROWN.get());
-            if (stack.is(TagRegistry.PEACH_COSTUMES))
-                containerHat.getAccessories().setItem(0, hatItem);
-
-            hatItem.applyComponents(stack.getComponents());
+            if (stack.is(TagRegistry.COSTUMES))
+                containerHat.getAccessories().removeItem(0, 1);
         }
         if (containerShirt != null) {
             ItemStack stack = containerShirt.getAccessories().getItem(0);
-            ItemStack  shirtItem = new ItemStack(ItemRegistry.PEACH_BODICE.get());
-            if (stack.is(TagRegistry.PEACH_COSTUMES))
-                containerShirt.getAccessories().setItem(0, shirtItem);
-
-            shirtItem.applyComponents(stack.getComponents());
+            if (stack.is(TagRegistry.COSTUMES))
+                containerShirt.getAccessories().removeItem(0, 1);
         }
         if (containerPants != null) {
             ItemStack stack = containerPants.getAccessories().getItem(0);
-            ItemStack pantsItem = new ItemStack(ItemRegistry.PEACH_DRESS.get());
-            if (stack.is(TagRegistry.PEACH_COSTUMES))
-                containerPants.getAccessories().setItem(0, pantsItem);
-
-            pantsItem.applyComponents(stack.getComponents());
+            if (stack.is(TagRegistry.COSTUMES))
+                containerPants.getAccessories().removeItem(0, 1);
         }
         if (containerShoes != null) {
             ItemStack stack = containerShoes.getAccessories().getItem(0);
-            ItemStack shoesItem = new ItemStack(ItemRegistry.PEACH_SHOES.get());
-            if (stack.is(TagRegistry.PEACH_COSTUMES))
-                containerShoes.getAccessories().setItem(0, shoesItem);
-
-            shoesItem.applyComponents(stack.getComponents());
+            if (stack.is(TagRegistry.COSTUMES))
+                containerShoes.getAccessories().removeItem(0, 1);
         }
     }
 

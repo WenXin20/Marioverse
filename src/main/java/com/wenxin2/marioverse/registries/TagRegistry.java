@@ -176,14 +176,6 @@ public class TagRegistry {
     public static final TagKey<Item> MALE_COSTUMES = itemTags("costumes/male");;
     public static final TagKey<Item> MUSHROOM_TRAMPOLINE_BLOCK_ITEMS = itemTags("mushroom_trampoline_blocks");
     public static final TagKey<Item> PANTS = itemTags("pants");
-    public static final TagKey<Item> PEACH_COSTUMES = itemTags("costumes/peach");;
-    public static final TagKey<Item> PEACH_FIRE_COSTUMES = itemTags("costumes/fire/peach");
-    public static final TagKey<Item> PEACH_HATS = itemTags("hats/peach");
-    public static final TagKey<Item> PEACH_ICE_COSTUMES = itemTags("costumes/ice/peach");
-    public static final TagKey<Item> PEACH_PANTS = itemTags("pants/peach");
-    public static final TagKey<Item> PEACH_POWER_UP_COSTUMES = itemTags("power_up_costumes/peach");
-    public static final TagKey<Item> PEACH_SHIRTS = itemTags("shirts/peach");
-    public static final TagKey<Item> PEACH_SHOES = itemTags("shoes/peach");
     public static final TagKey<Item> PIPE_JUNCTION_BLOCK_ITEMS = itemTags("pipe_junction_blocks");
     public static final TagKey<Item> PIRANHA_PLANT_FOOD = itemTags("piranha_plant_food");
     public static final TagKey<Item> POLISHED_CALCITE_ITEMS = itemTags("polished_calcite");

@@ -81,19 +81,6 @@ public class RecipeGen extends RecipeUtils {
         shirtRecipe(1, "shirts", ItemRegistry.SHIRT, RecipeCategory.COMBAT, ItemTags.WOOL, Tags.Items.INGOTS_GOLD, Items.BLUE_WOOL, false, output);
         shoesRecipe(1, "shoes", ItemRegistry.SHOES, RecipeCategory.COMBAT, ItemTags.WOOL, Tags.Items.LEATHERS, false, output);
 
-        costumeSmithing(ItemRegistry.PEACH_CROWN.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.GOLDEN_HELMET, Tags.Items.GEMS, output);
-        costumeSmithing(ItemRegistry.PEACH_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_CHESTPLATE, Blocks.PINK_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.PEACH_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_LEGGINGS, Blocks.PINK_WOOL.asItem(), output);
-        costumeSmithing(ItemRegistry.PEACH_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_BOOTS, Blocks.PINK_WOOL .asItem(), output);
-
-        costumeSmithing(ItemRegistry.PEACH_FIRE_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHIRTS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.PEACH_FIRE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_PANTS, ItemRegistry.FIRE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.PEACH_FIRE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHOES, ItemRegistry.FIRE_FLOWER.get(), output);
-
-        costumeSmithing(ItemRegistry.PEACH_ICE_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHIRTS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.PEACH_ICE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
-        costumeSmithing(ItemRegistry.PEACH_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
-
         copySmithingTemplate(output, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.LIME_WOOL, Items.GREEN_WOOL));
         copySmithingTemplate(output, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.RED_WOOL));
         copySmithingTemplate(output, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.PINK_WOOL));

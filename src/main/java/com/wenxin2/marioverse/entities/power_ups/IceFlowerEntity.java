@@ -73,28 +73,24 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity 
     @Override
     public List<ItemStack> getPowerUpHatItems() {
         return List.of(ItemRegistry.HAT.toStack(),
-                ItemRegistry.CROWN.toStack(),
-                ItemRegistry.PEACH_CROWN.toStack());
+                ItemRegistry.CROWN.toStack());
     }
 
     @Override
     public List<ItemStack> getPowerUpShirtItems() {
         return List.of(ItemRegistry.SHIRT.toStack(),
-                ItemRegistry.BODICE.toStack(),
-                ItemRegistry.PEACH_ICE_BODICE.toStack());
+                ItemRegistry.BODICE.toStack());
     }
 
     @Override
     public List<ItemStack> getPowerUpPantsItems() {
         return List.of(ItemRegistry.PANTS.toStack(),
-                ItemRegistry.DRESS.toStack(),
-                ItemRegistry.PEACH_ICE_DRESS.toStack());
+                ItemRegistry.DRESS.toStack());
     }
 
     @Override
     public List<ItemStack> getPowerUpShoesItems() {
         return List.of(ItemRegistry.SHOES.toStack(),
-                ItemRegistry.HEELS.toStack(),
-                ItemRegistry.PEACH_ICE_SHOES.toStack());
+                ItemRegistry.HEELS.toStack());
     }
 }

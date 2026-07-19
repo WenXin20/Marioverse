@@ -59,7 +59,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.EEP_CHEEP.get());
         this.basicItem(ItemRegistry.EEP_CHEEP_BUCKET.get());
         this.basicItem(ItemRegistry.EEP_CHEEP_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.FIRE_FLOWER.get());
         this.basicItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GOLDEN_KOOPA_SHOES.get());
@@ -69,7 +68,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.ICE_FLOWER.get());
         this.basicItem(ItemRegistry.LARGE_SNOWBALL.get());
         this.basicItem(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get());
@@ -78,17 +76,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
-        this.basicItem(ItemRegistry.PEACH_BODICE.get());
-        this.basicItem(ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get());
-        this.basicItem(ItemRegistry.PEACH_CROWN.get());
-        this.basicItem(ItemRegistry.PEACH_DRESS.get());
-        this.basicItem(ItemRegistry.PEACH_FIRE_BODICE.get());
-        this.basicItem(ItemRegistry.PEACH_FIRE_DRESS.get());
-        this.basicItem(ItemRegistry.PEACH_FIRE_SHOES.get());
-        this.basicItem(ItemRegistry.PEACH_ICE_BODICE.get());
-        this.basicItem(ItemRegistry.PEACH_ICE_DRESS.get());
-        this.basicItem(ItemRegistry.PEACH_ICE_SHOES.get());
-        this.basicItem(ItemRegistry.PEACH_SHOES.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());

@@ -118,17 +118,6 @@ public class MarioverseClient {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.BODICE.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.DRESS.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HEELS.get(), ArmorRenderingExtension::costumeRenderer);
-
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_CROWN.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
     }
 
     @SubscribeEvent

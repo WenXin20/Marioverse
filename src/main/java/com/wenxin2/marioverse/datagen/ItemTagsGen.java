@@ -245,7 +245,6 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
                 .add(ItemRegistry.GOLD_KOOPA_SHELL.get())
                 .add(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get())
-                .add(ItemRegistry.PEACH_CROWN.get())
                 .add(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.asItem())
                 .add(BlockRegistry.STAR_COIN.asItem())
                 .add(ItemRegistry.SUPER_STAR.get());
@@ -404,8 +403,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.POWER_UP_COSTUMES)
                 .addTag(TagRegistry.FEMALE_COSTUMES)
-                .addTag(TagRegistry.MALE_COSTUMES)
-                .addTag(TagRegistry.PEACH_POWER_UP_COSTUMES);
+                .addTag(TagRegistry.MALE_COSTUMES);
 
         tag(TagRegistry.POWER_UP_ITEMS)
                 .add(ItemRegistry.DASH_MUSHROOM.get())
@@ -418,25 +416,21 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SUPER_STAR.get());
 
         tag(TagRegistry.HATS)
-                .addTag(TagRegistry.PEACH_HATS)
                 .add(ItemRegistry.CHRISTMAS_HAT.get())
                 .add(ItemRegistry.CROWN.get())
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.PLASTIC_BUCKET.get());
 
         tag(TagRegistry.PANTS)
-                .addTag(TagRegistry.PEACH_PANTS)
                 .add(ItemRegistry.DRESS.get())
                 .add(ItemRegistry.PANTS.get());
 
         tag(TagRegistry.SHIRTS)
-                .addTag(TagRegistry.PEACH_SHIRTS)
                 .add(ItemRegistry.BODICE.get())
                 .add(ItemRegistry.SHIRT.get());
 
         tag(TagRegistry.SHOES)
                 .addTag(TagRegistry.KOOPA_SHOES)
-                .addTag(TagRegistry.PEACH_SHOES)
                 .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.SHOES.get());
 
@@ -451,51 +445,5 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.SHIRT.get())
                 .add(ItemRegistry.SHOES.get());
-
-        tag(TagRegistry.PEACH_COSTUMES)
-                .addTag(TagRegistry.PEACH_FIRE_COSTUMES)
-                .addTag(TagRegistry.PEACH_ICE_COSTUMES)
-                .add(ItemRegistry.PEACH_BODICE.get())
-                .add(ItemRegistry.PEACH_CROWN.get())
-                .add(ItemRegistry.PEACH_DRESS.get())
-                .add(ItemRegistry.PEACH_SHOES.get());
-
-        tag(TagRegistry.PEACH_FIRE_COSTUMES)
-                .add(ItemRegistry.PEACH_CROWN.get())
-                .add(ItemRegistry.PEACH_FIRE_BODICE.get())
-                .add(ItemRegistry.PEACH_FIRE_DRESS.get())
-                .add(ItemRegistry.PEACH_FIRE_SHOES.get());
-
-        tag(TagRegistry.PEACH_ICE_COSTUMES)
-                .add(ItemRegistry.PEACH_CROWN.get())
-                .add(ItemRegistry.PEACH_ICE_BODICE.get())
-                .add(ItemRegistry.PEACH_ICE_DRESS.get())
-                .add(ItemRegistry.PEACH_ICE_SHOES.get());
-
-        tag(TagRegistry.PEACH_POWER_UP_COSTUMES)
-                .add(ItemRegistry.PEACH_CROWN.get())
-                .add(ItemRegistry.PEACH_FIRE_BODICE.get())
-                .add(ItemRegistry.PEACH_FIRE_DRESS.get())
-                .add(ItemRegistry.PEACH_FIRE_SHOES.get())
-                .add(ItemRegistry.PEACH_ICE_BODICE.get())
-                .add(ItemRegistry.PEACH_ICE_DRESS.get())
-                .add(ItemRegistry.PEACH_ICE_SHOES.get());
-
-        tag(TagRegistry.PEACH_HATS).add(ItemRegistry.PEACH_CROWN.get());
-
-        tag(TagRegistry.PEACH_PANTS)
-                .add(ItemRegistry.PEACH_DRESS.get())
-                .add(ItemRegistry.PEACH_FIRE_DRESS.get())
-                .add(ItemRegistry.PEACH_ICE_DRESS.get());
-
-        tag(TagRegistry.PEACH_SHIRTS)
-                .add(ItemRegistry.PEACH_BODICE.get())
-                .add(ItemRegistry.PEACH_FIRE_BODICE.get())
-                .add(ItemRegistry.PEACH_ICE_BODICE.get());
-
-        tag(TagRegistry.PEACH_SHOES)
-                .add(ItemRegistry.PEACH_FIRE_SHOES.get())
-                .add(ItemRegistry.PEACH_ICE_SHOES.get())
-                .add(ItemRegistry.PEACH_SHOES.get());
     }
 }
