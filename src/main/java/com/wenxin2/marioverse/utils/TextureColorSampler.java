@@ -9,12 +9,19 @@ import java.util.Map;
 import java.util.Optional;
 import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.texture.SpriteContents;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.extensions.IBakedModelExtension;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 public final class TextureColorSampler {
     private static final Map<Item, Integer> CACHE = new IdentityHashMap<>();
@@ -40,6 +47,12 @@ public final class TextureColorSampler {
     }
 
     private static Integer compute(Item item) {
+        if (FMLEnvironment.dist.isClient()) {
+            Integer resolved = computeFromResolvedModel(item);
+            if (resolved != null)
+                return resolved;
+        }
+
         ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
 
         ResourceLocation itemTexture = ResourceLocation
@@ -53,6 +66,22 @@ public final class TextureColorSampler {
         return TextureColorSampler.sample(blockTexture);
     }
 
+    private static Integer computeFromResolvedModel(Item item) {
+        try {
+            ItemStack stack = new ItemStack(item);
+            BakedModel model = Minecraft.getInstance().getItemRenderer()
+                    .getModel(stack, null, null, 0);
+            TextureAtlasSprite sprite = model.getParticleIcon(ModelData.EMPTY);
+
+            try (SpriteContents contents = sprite.contents()) {
+                return averagePixels(contents.width(), contents.height(),
+                        (x, y) -> sprite.getPixelRGBA(0, x, y));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private static Integer sample(ResourceLocation texture) {
         try (InputStream stream = TextureColorSampler.openStream(texture)) {
             if (stream == null)
@@ -60,7 +89,7 @@ public final class TextureColorSampler {
             BufferedImage image = ImageIO.read(stream);
             if (image == null)
                 return null;
-            return TextureColorSampler.averagePixels(image);
+            return averagePixels(image.getWidth(), image.getHeight(), image::getRGB);
         } catch (IOException e) {
             return null;
         }
@@ -77,13 +106,18 @@ public final class TextureColorSampler {
         return TextureColorSampler.class.getClassLoader().getResourceAsStream(jarPath);
     }
 
-    private static Integer averagePixels(BufferedImage image) {
+    @FunctionalInterface
+    private interface PixelSource {
+        int getArgb(int x, int y);
+    }
+
+    private static Integer averagePixels(int width, int height, PixelSource pixels) {
         double weightedR = 0, weightedG = 0, weightedB = 0;
         double totalWeight = 0;
 
-        for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
-                int argb = image.getRGB(x, y);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int argb = pixels.getArgb(x, y);
                 int alpha = (argb >>> 24) & 0xFF;
                 if (alpha < 32) continue;
 
