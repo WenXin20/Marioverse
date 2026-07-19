@@ -68,7 +68,7 @@ public record ItemColorIngredient(Item item) {
             return color;
 
         String blockPath = "assets/" + id.getNamespace() + "/textures/block/" + id.getPath() + ".png";
-        return sampleTexture(blockPath);
+        return ItemColorIngredient.sampleTexture(blockPath);
     }
 
     private static Integer sampleTexture(String path) {

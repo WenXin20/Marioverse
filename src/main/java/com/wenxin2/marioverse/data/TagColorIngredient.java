@@ -104,7 +104,7 @@ public record TagColorIngredient(TagKey<Item> tag) {
             return color;
 
         String blockPath = "assets/" + id.getNamespace() + "/textures/block/" + id.getPath() + ".png";
-        return sampleTexture(blockPath);
+        return TagColorIngredient.sampleTexture(blockPath);
     }
 
     private static Integer sampleTexture(String path) {

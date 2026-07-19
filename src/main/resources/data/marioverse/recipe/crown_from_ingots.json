@@ -1,0 +1,14 @@
+{
+  "type": "marioverse:color_swappable_shaped",
+  "group": "hats",
+  "pattern": [
+    "ICI",
+    "IWI"
+  ],
+  "key": {
+    "C": { "color_tag": "c:ingots" },
+    "I": { "tag": "c:ingots/gold" },
+    "W": { "item": "minecraft:white_wool" }
+  },
+  "result": "marioverse:crown"
+}
