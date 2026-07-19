@@ -164,7 +164,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
 
     @Override
     public boolean isSpecial() {
-        return true;
+        return false;
     }
 
     @NotNull

@@ -1,5 +1,6 @@
 {
   "type": "marioverse:color_swappable_shaped",
+  "category": "combat",
   "group": "shoes",
   "pattern": [
     "C C",
