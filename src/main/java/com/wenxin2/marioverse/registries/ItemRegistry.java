@@ -126,6 +126,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> PORCUPUFFER;
     public static final DeferredItem<Item> PORCUPUFFER_SPAWN_EGG;
+    public static final DeferredItem<Item> PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> QUICKSAND_BUCKET;
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
@@ -263,6 +264,8 @@ public class ItemRegistry {
         MARIO_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("mario_armor_trim_smithing_template",
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.MARIO));
         LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("luigi_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
+        PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("princess_armor_trim_smithing_template",
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
         PEACH_COSTUME_SMITHING_TEMPLATE = registerItem("peach_costume_smithing_template",
                 CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);

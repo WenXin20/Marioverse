@@ -3,10 +3,12 @@
     {
       "type": "paletted_permutations",
       "textures": [
+        "marioverse:trims/models/armor/luigi",
+        "marioverse:trims/models/armor/luigi_leggings",
         "marioverse:trims/models/armor/mario",
         "marioverse:trims/models/armor/mario_leggings",
-        "marioverse:trims/models/armor/luigi",
-        "marioverse:trims/models/armor/luigi_leggings"
+        "marioverse:trims/models/armor/princess",
+        "marioverse:trims/models/armor/princess_leggings"
       ],
       "palette_key": "trims/color_palettes/trim_palette",
       "permutations": {

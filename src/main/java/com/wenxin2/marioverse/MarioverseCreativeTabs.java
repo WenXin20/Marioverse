@@ -102,6 +102,7 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
             add(event, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
+            add(event, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE);
             add(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
             add(event, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
@@ -743,6 +744,7 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Items.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
                 addAfter(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
+                addAfter(event, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE);
             }
 
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {

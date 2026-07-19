@@ -830,6 +830,7 @@
   "item.marioverse.plumber_banner_pattern.desc": "§cPlumber",
   "item.marioverse.plumber_pottery_sherd": "Plumber Pottery Sherd",
   "item.marioverse.porcupuffer": "Porcupuffer",
+  "item.marioverse.princess_armor_trim_smithing_template": "Princess Armor Trim Smithing Template",
   "item.marioverse.quicksand_bucket": "Quicksand Bucket",
   "item.marioverse.red_koopa_shell": "Red Koopa Shell",
   "item.marioverse.red_quicksand_bucket": "Red Quicksand Bucket",
@@ -1126,6 +1127,7 @@
 
   "trim_pattern.marioverse.luigi": "Luigi Armor Trim",
   "trim_pattern.marioverse.mario": "Mario Armor Trim",
+  "trim_pattern.marioverse.princess": "Princess Armor Trim",
 
   "commands.marioverse.boolean.true": "§atrue",
   "commands.marioverse.boolean.false": "§cfalse",

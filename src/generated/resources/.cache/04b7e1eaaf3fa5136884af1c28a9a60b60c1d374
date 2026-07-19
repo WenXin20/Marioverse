@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-17T00:01:08.9712587	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-07-19T17:39:21.6582226	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -128,6 +128,6 @@ a464aa2ef4442a161e72088d64d3df8842cbf8ec data/minecraft/tags/item/piglin_loved.j
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/item/stone_crafting_materials.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/minecraft/tags/item/stone_tool_materials.json
 2773255bbc15ac09478a13c0dbb75621136e2331 data/minecraft/tags/item/trimmable_armor.json
-a36c61bbf18266d260eed5ba8a893c6bb44d90e1 data/minecraft/tags/item/trim_templates.json
+6bc3b02406205d46d946ca4ab2d1a27b6f506fe6 data/minecraft/tags/item/trim_templates.json
 7b23db159d567133835a9e7c72691460e675fd78 data/minecraft/tags/item/walls.json
 b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/item/wooden_stairs.json

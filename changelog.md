@@ -6,6 +6,7 @@
 - Christmas Hat now has dye & trim support
 - Koopa Shoes now have trim support
 - Plastic Buckets now have trim support
+- Added Mario, Luigi, & Princess themed trims
 
 ## Update 1.10.0
 - Added the Porcupuffer
