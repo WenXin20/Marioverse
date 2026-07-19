@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 
-public class ColorSwappableShapedRecipe implements CraftingRecipe {
+public class HexColorShapedRecipe implements CraftingRecipe {
     private final Map<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> key;
     private final List<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> slots;
     private final CraftingBookCategory category;
@@ -31,9 +31,9 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
     private final int height;
     private final int count;
 
-    public ColorSwappableShapedRecipe(String group, CraftingBookCategory category, List<String> pattern,
-                                      Map<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> key,
-                                      Item result, int count) {
+    public HexColorShapedRecipe(String group, CraftingBookCategory category, List<String> pattern,
+                                Map<String, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> key,
+                                Item result, int count) {
         this.category = category;
         this.group = group;
         this.pattern = pattern;
@@ -178,15 +178,15 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
     @NotNull
     @Override
     public RecipeSerializer<? extends CraftingRecipe> getSerializer() {
-        return RecipeSerializerRegistry.COLOR_SWAPPABLE_SHAPED.get();
+        return RecipeSerializerRegistry.HEX_COLOR_SHAPED.get();
     }
 
-    public static class Serializer implements RecipeSerializer<ColorSwappableShapedRecipe> {
+    public static class Serializer implements RecipeSerializer<HexColorShapedRecipe> {
         private static final Codec<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> SLOT_CODEC =
                 Codec.either(Codec.either(TagColorIngredient.CODEC, ItemColorIngredient.CODEC),
                         Ingredient.CODEC);
 
-        private static final MapCodec<ColorSwappableShapedRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+        private static final MapCodec<HexColorShapedRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
                         Codec.STRING.optionalFieldOf("group", "").forGetter(r -> r.group),
                         CraftingBookCategory.CODEC.optionalFieldOf("category", CraftingBookCategory.MISC).forGetter(r -> r.category),
@@ -194,7 +194,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                         Codec.unboundedMap(Codec.STRING, SLOT_CODEC).fieldOf("key").forGetter(r -> r.key),
                         BuiltInRegistries.ITEM.byNameCodec().fieldOf("result").forGetter(r -> r.result),
                         Codec.INT.optionalFieldOf("count", 1).forGetter(r -> r.count)
-                ).apply(instance, ColorSwappableShapedRecipe::new)
+                ).apply(instance, HexColorShapedRecipe::new)
         );
 
         private static final StreamCodec<RegistryFriendlyByteBuf, Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> SLOT_STREAM_CODEC =
@@ -227,7 +227,7 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
                         }
                 );
 
-        private static final StreamCodec<RegistryFriendlyByteBuf, ColorSwappableShapedRecipe> STREAM_CODEC = StreamCodec.of(
+        private static final StreamCodec<RegistryFriendlyByteBuf, HexColorShapedRecipe> STREAM_CODEC = StreamCodec.of(
                 (buf, recipe) -> {
                     buf.writeUtf(recipe.group);
                     buf.writeEnum(recipe.category);
@@ -260,19 +260,19 @@ public class ColorSwappableShapedRecipe implements CraftingRecipe {
 
                     Item result = BuiltInRegistries.ITEM.byId(buf.readVarInt());
                     int count = buf.readVarInt();
-                    return new ColorSwappableShapedRecipe(group, category, pattern, key, result, count);
+                    return new HexColorShapedRecipe(group, category, pattern, key, result, count);
                 }
         );
 
         @NotNull
         @Override
-        public MapCodec<ColorSwappableShapedRecipe> codec() {
+        public MapCodec<HexColorShapedRecipe> codec() {
             return CODEC;
         }
 
         @NotNull
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, ColorSwappableShapedRecipe> streamCodec() {
+        public StreamCodec<RegistryFriendlyByteBuf, HexColorShapedRecipe> streamCodec() {
             return STREAM_CODEC;
         }
     }

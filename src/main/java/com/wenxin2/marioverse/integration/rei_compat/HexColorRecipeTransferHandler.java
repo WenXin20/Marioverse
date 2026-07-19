@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.integration.rei_compat;
 
 import com.google.common.collect.Iterables;
 import com.mojang.datafixers.util.Either;
-import com.wenxin2.marioverse.data.ColorSwappableShapedRecipe;
+import com.wenxin2.marioverse.data.HexColorShapedRecipe;
 import com.wenxin2.marioverse.data.ItemColorIngredient;
 import com.wenxin2.marioverse.data.TagColorIngredient;
 import java.util.ArrayList;
@@ -29,10 +29,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-public class ColorSwappableTransferHandler implements SimpleTransferHandler {
+public class HexColorRecipeTransferHandler implements SimpleTransferHandler {
     private final CategoryIdentifier<DefaultCraftingDisplay<?>> categoryIdentifier;
 
-    public ColorSwappableTransferHandler(CategoryIdentifier<DefaultCraftingDisplay<?>> categoryIdentifier) {
+    public HexColorRecipeTransferHandler(CategoryIdentifier<DefaultCraftingDisplay<?>> categoryIdentifier) {
         this.categoryIdentifier = categoryIdentifier;
     }
 
@@ -41,8 +41,7 @@ public class ColorSwappableTransferHandler implements SimpleTransferHandler {
         boolean applicable = context.getMenu() instanceof CraftingMenu
                 && this.categoryIdentifier.equals(context.getDisplay().getCategoryIdentifier())
                 && context.getContainerScreen() != null;
-        return applicable
-                ? TransferHandler.ApplicabilityResult.createApplicable()
+        return applicable ? TransferHandler.ApplicabilityResult.createApplicable()
                 : TransferHandler.ApplicabilityResult.createNotApplicable();
     }
 
@@ -51,10 +50,7 @@ public class ColorSwappableTransferHandler implements SimpleTransferHandler {
         AbstractContainerMenu menu = context.getMenu();
         if (menu == null)
             return Collections.emptyList();
-
-        return IntStream.range(1, 10)
-                .mapToObj(id -> SlotAccessor.fromSlot(menu.getSlot(id)))
-                .toList();
+        return IntStream.range(1, 10).mapToObj(id -> SlotAccessor.fromSlot(menu.getSlot(id))).toList();
     }
 
     @Override
@@ -75,18 +71,16 @@ public class ColorSwappableTransferHandler implements SimpleTransferHandler {
 
     @Override
     public List<InputIngredient<ItemStack>> getInputsIndexed(TransferHandler.Context context) {
-        if (!(context.getDisplay() instanceof ColorSwappableCraftingDisplay display))
+        if (!(context.getDisplay() instanceof HexColorCraftingDisplay display))
             return SimpleTransferHandler.super.getInputsIndexed(context);
 
-        RecipeHolder<ColorSwappableShapedRecipe> recipeHolder = display.getOptionalRecipe().orElse(null);
+        RecipeHolder<HexColorShapedRecipe> recipeHolder = display.getOptionalRecipe().orElse(null);
         if (recipeHolder == null)
             return SimpleTransferHandler.super.getInputsIndexed(context);
 
-        ColorSwappableShapedRecipe recipe = recipeHolder.value();
+        HexColorShapedRecipe recipe = recipeHolder.value();
         List<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> slots = recipe.getSlots();
 
-        // --- unchanged from before: figure out needed counts and choose one
-        // concrete item per linked color group ---
         Map<Object, Integer> neededCountByGroup = new IdentityHashMap<>();
         for (Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient> slot : slots) {
             slot.ifLeft(color -> {
@@ -121,9 +115,6 @@ public class ColorSwappableTransferHandler implements SimpleTransferHandler {
             chosenPerGroup.put(key, chosen != null ? chosen : (candidates.length > 0 ? candidates[0] : ItemStack.EMPTY));
         }
 
-        // --- new: start from REI's own default EntryStack-typed ingredients so
-        // indices/structure line up exactly, then swap in our resolved item only
-        // for the linked color slots ---
         List<InputIngredient<EntryStack<?>>> defaults =
                 display.getInputIngredients(context.getMenu(), context.getMinecraft().player);
 

@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.datagen.ColorSwappableRecipeBuilder;
+import com.wenxin2.marioverse.datagen.HexColorRecipeBuilder;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -10,9 +10,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
-import mezz.jei.library.plugins.vanilla.brewing.BrewingRecipeUtil;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -30,9 +28,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -241,7 +236,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void bodiceRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("C C")
                 .pattern("CCC")
@@ -319,7 +314,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void christmasHatRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                              Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("  W")
                 .pattern("CC ")
@@ -389,7 +384,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void crownRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, Object ingot, Object wool, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("ICI")
                 .pattern("IWI")
@@ -411,7 +406,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void dressRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("CCC")
                 .pattern("CCC")
@@ -471,7 +466,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void hatRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                                 Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("CWC")
                 .pattern("C C")
@@ -491,7 +486,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void heelsRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                               Object colorItem, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("C C")
                 .group(Marioverse.MOD_ID + ":" + groupName);
@@ -590,7 +585,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void pantsRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                           Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("WWW")
                 .pattern("C C")
@@ -621,7 +616,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void shirtRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, Object ingot, Object wool, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("C C")
                 .pattern("IWI")
@@ -644,7 +639,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void shoesRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, Object leather, boolean uniqueFileName, RecipeOutput output) {
-        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("C C")
                 .pattern("L L")
@@ -1075,7 +1070,7 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     @SuppressWarnings("unchecked")
-    private void defineColorIngredient(ColorSwappableRecipeBuilder builder, char symbol, Object ingredient) {
+    private void defineColorIngredient(HexColorRecipeBuilder builder, char symbol, Object ingredient) {
         if (ingredient instanceof Item item)
             builder.defineColorItem(symbol, item);
         else if (ingredient instanceof TagKey<?> tag && tag.registry() == Registries.ITEM)
@@ -1084,7 +1079,7 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     @SuppressWarnings("unchecked")
-    private void defineIngredient(ColorSwappableRecipeBuilder builder, char symbol, Object ingredient) {
+    private void defineIngredient(HexColorRecipeBuilder builder, char symbol, Object ingredient) {
         if (ingredient instanceof ItemLike item)
             builder.define(symbol, item);
         else if (ingredient instanceof TagKey<?> tag && tag.registry() == Registries.ITEM)

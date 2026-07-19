@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.integration.jei_compat;
 
 import com.mojang.datafixers.util.Either;
-import com.wenxin2.marioverse.data.ColorSwappableShapedRecipe;
+import com.wenxin2.marioverse.data.HexColorShapedRecipe;
 import com.wenxin2.marioverse.data.ItemColorIngredient;
 import com.wenxin2.marioverse.data.TagColorIngredient;
 import java.util.Collections;
@@ -25,27 +25,27 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorSwappableShapedRecipeExtension implements ICraftingCategoryExtension<ColorSwappableShapedRecipe> {
+public class HexColorShapedRecipeExtension implements ICraftingCategoryExtension<HexColorShapedRecipe> {
     private final ICraftingGridHelper craftingGridHelper;
 
-    public ColorSwappableShapedRecipeExtension(IGuiHelper guiHelper) {
+    public HexColorShapedRecipeExtension(IGuiHelper guiHelper) {
         this.craftingGridHelper = guiHelper.createCraftingGridHelper();
     }
 
     @Override
-    public int getWidth(RecipeHolder<ColorSwappableShapedRecipe> recipeHolder) {
+    public int getWidth(RecipeHolder<HexColorShapedRecipe> recipeHolder) {
         return recipeHolder.value().getWidth();
     }
 
     @Override
-    public int getHeight(RecipeHolder<ColorSwappableShapedRecipe> recipeHolder) {
+    public int getHeight(RecipeHolder<HexColorShapedRecipe> recipeHolder) {
         return recipeHolder.value().getHeight();
     }
 
     @Override
-    public void setRecipe(RecipeHolder<ColorSwappableShapedRecipe> recipeHolder, IRecipeLayoutBuilder builder,
+    public void setRecipe(RecipeHolder<HexColorShapedRecipe> recipeHolder, IRecipeLayoutBuilder builder,
                           ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
-        ColorSwappableShapedRecipe recipe = recipeHolder.value();
+        HexColorShapedRecipe recipe = recipeHolder.value();
         List<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> slots = recipe.getSlots();
         int width = recipe.getWidth();
         int height = recipe.getHeight();
@@ -87,9 +87,9 @@ public class ColorSwappableShapedRecipeExtension implements ICraftingCategoryExt
     }
 
     @Override
-    public void onDisplayedIngredientsUpdate(RecipeHolder<ColorSwappableShapedRecipe> recipeHolder,
+    public void onDisplayedIngredientsUpdate(RecipeHolder<HexColorShapedRecipe> recipeHolder,
                                              List<IRecipeSlotDrawable> recipeSlots, IFocusGroup focuses) {
-        ColorSwappableShapedRecipe recipe = recipeHolder.value();
+        HexColorShapedRecipe recipe = recipeHolder.value();
         List<Either<Either<TagColorIngredient, ItemColorIngredient>, Ingredient>> slots = recipe.getSlots();
         List<ItemStack> liveInputs = new ArrayList<>(Collections.nCopies(slots.size(), ItemStack.EMPTY));
         int viewIndex = 0;
@@ -117,7 +117,7 @@ public class ColorSwappableShapedRecipeExtension implements ICraftingCategoryExt
         outputSlot.createDisplayOverrides().addItemStack(output);
     }
 
-    private ItemStack simulateOutput(ColorSwappableShapedRecipe recipe, List<ItemStack> flatInputs) {
+    private ItemStack simulateOutput(HexColorShapedRecipe recipe, List<ItemStack> flatInputs) {
         var player = Minecraft.getInstance().player;
         HolderLookup.Provider registries = player != null ? player.registryAccess() : RegistryAccess.EMPTY;
 

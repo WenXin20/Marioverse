@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.integration.rei_compat;
 
 import com.mojang.datafixers.util.Either;
-import com.wenxin2.marioverse.data.ColorSwappableShapedRecipe;
+import com.wenxin2.marioverse.data.HexColorShapedRecipe;
 import com.wenxin2.marioverse.data.ItemColorIngredient;
 import com.wenxin2.marioverse.data.TagColorIngredient;
 import java.util.ArrayList;
@@ -19,12 +19,12 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-public class ColorSwappableCraftingDisplay extends DefaultCraftingDisplay<ColorSwappableShapedRecipe> {
-    public ColorSwappableCraftingDisplay(RecipeHolder<ColorSwappableShapedRecipe> recipeHolder) {
+public class HexColorCraftingDisplay extends DefaultCraftingDisplay<HexColorShapedRecipe> {
+    public HexColorCraftingDisplay(RecipeHolder<HexColorShapedRecipe> recipeHolder) {
         super(createInputs(recipeHolder.value()), createOutputs(recipeHolder.value()), Optional.of(recipeHolder));
     }
 
-    private static List<EntryIngredient> createInputs(ColorSwappableShapedRecipe recipe) {
+    private static List<EntryIngredient> createInputs(HexColorShapedRecipe recipe) {
         List<EntryIngredient> inputs = new ArrayList<>();
         Map<Object, EntryIngredient> colorEntryCache = new IdentityHashMap<>();
 
@@ -50,7 +50,7 @@ public class ColorSwappableCraftingDisplay extends DefaultCraftingDisplay<ColorS
         return inputs;
     }
 
-    private static List<EntryIngredient> createOutputs(ColorSwappableShapedRecipe recipe) {
+    private static List<EntryIngredient> createOutputs(HexColorShapedRecipe recipe) {
         HolderLookup.Provider registries = RegistryAccess.EMPTY;
         List<ItemStack> baseline = new ArrayList<>(recipe.getSlots().size());
         List<Integer> tagSlots = new ArrayList<>();
