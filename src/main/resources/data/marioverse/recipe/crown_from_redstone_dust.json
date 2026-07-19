@@ -1,5 +1,5 @@
 {
-  "type": "marioverse:color_swappable_shaped",
+  "type": "marioverse:hex_color_shaped",
   "category": "combat",
   "group": "hats",
   "pattern": [

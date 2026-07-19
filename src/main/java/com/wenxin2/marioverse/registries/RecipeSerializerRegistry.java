@@ -19,9 +19,9 @@ public class RecipeSerializerRegistry {
 
     static {
         COLOR_SWAPPABLE_SHAPED = Marioverse.RECIPE_SERIALIZERS
-                .register("color_swappable_shaped", ColorSwappableShapedRecipe.Serializer::new);
-        COLOR_SWAPPABLE_SHAPED_TYPE = Marioverse.RECIPE_TYPES.register("color_swappable_shaped",
-                () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "color_swappable_shaped")));
+                .register("hex_color_shaped", ColorSwappableShapedRecipe.Serializer::new);
+        COLOR_SWAPPABLE_SHAPED_TYPE = Marioverse.RECIPE_TYPES.register("hex_color_shaped",
+                () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "hex_color_shaped")));
         WARP_DOOR = Marioverse.RECIPE_SERIALIZERS.register("warp_door",
                 () -> new SimpleCraftingRecipeSerializer<>(WarpDoorRecipe::new));
         WARP_TRAPDOOR = Marioverse.RECIPE_SERIALIZERS.register("warp_trapdoor",
