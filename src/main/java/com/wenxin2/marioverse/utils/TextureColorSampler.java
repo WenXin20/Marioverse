@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -20,7 +19,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.client.extensions.IBakedModelExtension;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
 public final class TextureColorSampler {
@@ -71,15 +69,32 @@ public final class TextureColorSampler {
             ItemStack stack = new ItemStack(item);
             BakedModel model = Minecraft.getInstance().getItemRenderer()
                     .getModel(stack, null, null, 0);
+
             TextureAtlasSprite sprite = model.getParticleIcon(ModelData.EMPTY);
 
-            try (SpriteContents contents = sprite.contents()) {
-                return averagePixels(contents.width(), contents.height(),
-                        (x, y) -> sprite.getPixelRGBA(0, x, y));
+            int tint = -1;
+            try {
+                tint = Minecraft.getInstance().getItemColors().getColor(stack, 0);
+            } catch (Exception ignored) {
             }
+            int finalTint = tint;
+
+            SpriteContents contents = sprite.contents();
+            return TextureColorSampler.averagePixels(contents.width(), contents.height(), (x, y) -> {
+                int argb = TextureColorSampler.toStandardArgb(sprite.getPixelRGBA(0, x, y));
+                return finalTint == -1 ? argb : TextureColorSampler.applyTint(argb, finalTint);
+            });
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private static int toStandardArgb(int nativeImagePixel) {
+        int a = (nativeImagePixel >>> 24) & 0xFF;
+        int b = (nativeImagePixel >> 16) & 0xFF;
+        int g = (nativeImagePixel >> 8) & 0xFF;
+        int r = nativeImagePixel & 0xFF;
+        return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
     private static Integer sample(ResourceLocation texture) {
@@ -143,5 +158,22 @@ public final class TextureColorSampler {
         int avgB = (int) Math.round(weightedB / totalWeight);
 
         return (avgR << 16) | (avgG << 8) | avgB;
+    }
+
+    private static int applyTint(int argb, int tint) {
+        int a = (argb >>> 24) & 0xFF;
+        int r = (argb >> 16) & 0xFF;
+        int g = (argb >> 8) & 0xFF;
+        int b = argb & 0xFF;
+
+        int tr = (tint >> 16) & 0xFF;
+        int tg = (tint >> 8) & 0xFF;
+        int tb = tint & 0xFF;
+
+        int nr = (r * tr) / 255;
+        int ng = (g * tg) / 255;
+        int nb = (b * tb) / 255;
+
+        return (a << 24) | (nr << 16) | (ng << 8) | nb;
     }
 }
