@@ -42,18 +42,44 @@ public class RecipeGen extends RecipeUtils {
     @Override
     protected void buildRecipes(RecipeOutput output) {
         this.generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD, TagRegistry.CHEEP_CHEEP_ITEMS, output);
-        campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD, ItemRegistry.SPINY_CHEEP_CHEEP, output);
-        campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_PORCUPUFFER, RecipeCategory.FOOD, ItemRegistry.PORCUPUFFER, output);
-        smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_STONE, output);
-        smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_STONE, output);
-        smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD, TagRegistry.CHEEP_CHEEP_ITEMS, output);
-        smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD, ItemRegistry.SPINY_CHEEP_CHEEP, output);
-        smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_PORCUPUFFER, RecipeCategory.FOOD, ItemRegistry.PORCUPUFFER, output);
-        smokingRecipe(100, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD, TagRegistry.CHEEP_CHEEP_ITEMS, output);
-        smokingRecipe(100, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD, ItemRegistry.SPINY_CHEEP_CHEEP, output);
-        smokingRecipe(100, 0.35F, ItemRegistry.COOKED_PORCUPUFFER, RecipeCategory.FOOD, ItemRegistry.PORCUPUFFER, output);
         waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        smithingTrims().forEach(item -> trimSmithing(output, item.template(), item.id()));
+
+        campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD,
+                TagRegistry.CHEEP_CHEEP_ITEMS, output);
+        campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD,
+                ItemRegistry.SPINY_CHEEP_CHEEP, output);
+        campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_PORCUPUFFER, RecipeCategory.FOOD,
+                ItemRegistry.PORCUPUFFER, output);
+        smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
+                BlockRegistry.DEEP_FUNGAL_STONE, output);
+        smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
+                BlockRegistry.FUNGAL_STONE, output);
+        smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD,
+                TagRegistry.CHEEP_CHEEP_ITEMS, output);
+        smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD,
+                ItemRegistry.SPINY_CHEEP_CHEEP, output);
+        smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_PORCUPUFFER, RecipeCategory.FOOD,
+                ItemRegistry.PORCUPUFFER, output);
+        smokingRecipe(100, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD,
+                TagRegistry.CHEEP_CHEEP_ITEMS, output);
+        smokingRecipe(100, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD,
+                ItemRegistry.SPINY_CHEEP_CHEEP, output);
+        smokingRecipe(100, 0.35F, ItemRegistry.COOKED_PORCUPUFFER, RecipeCategory.FOOD,
+                ItemRegistry.PORCUPUFFER, output);
+
+        bodiceRecipe(1, "shirts", ItemRegistry.BODICE, RecipeCategory.COMBAT, ItemTags.WOOL, Items.WHITE_WOOL, false, output);
+        christmasHatRecipe(1, "hats", ItemRegistry.CHRISTMAS_HAT, RecipeCategory.COMBAT, ItemTags.WOOL, Items.WHITE_WOOL, false, output);
+        crownRecipe(1, "hats", ItemRegistry.CROWN, RecipeCategory.COMBAT, Tags.Items.GEMS, Tags.Items.INGOTS_GOLD, Items.WHITE_WOOL, false, output);
+        crownRecipe(1, "hats", ItemRegistry.CROWN, RecipeCategory.COMBAT, Tags.Items.INGOTS, Tags.Items.INGOTS_GOLD, Items.WHITE_WOOL, true, output);
+        crownRecipe(1, "hats", ItemRegistry.CROWN, RecipeCategory.COMBAT, Items.ECHO_SHARD, Tags.Items.INGOTS_GOLD, Items.WHITE_WOOL, true, output);
+        crownRecipe(1, "hats", ItemRegistry.CROWN, RecipeCategory.COMBAT, Tags.Items.DUSTS_REDSTONE, Tags.Items.INGOTS_GOLD, Items.WHITE_WOOL, true, output);
+        dressRecipe(1, "pants", ItemRegistry.DRESS, RecipeCategory.COMBAT, ItemTags.WOOL, false, output);
+        hatRecipe(1, "hats", ItemRegistry.HAT, RecipeCategory.COMBAT, ItemTags.WOOL, Items.WHITE_WOOL, false, output);
+        heelsRecipe(1, "shoes", ItemRegistry.HEELS, RecipeCategory.COMBAT, ItemTags.WOOL, false, output);
+        pantsRecipe(1, "pants", ItemRegistry.PANTS, RecipeCategory.COMBAT, ItemTags.WOOL, Items.BLUE_WOOL, false, output);
+        shirtRecipe(1, "shirts", ItemRegistry.SHIRT, RecipeCategory.COMBAT, ItemTags.WOOL, Tags.Items.INGOTS_GOLD, Items.BLUE_WOOL, false, output);
+        shoesRecipe(1, "shoes", ItemRegistry.SHOES, RecipeCategory.COMBAT, ItemTags.WOOL, Tags.Items.LEATHERS, false, output);
 
         costumeSmithing(ItemRegistry.PEACH_CROWN.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.GOLDEN_HELMET, Tags.Items.GEMS, output);
         costumeSmithing(ItemRegistry.PEACH_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get(), Items.LEATHER_CHESTPLATE, Blocks.PINK_WOOL.asItem(), output);
@@ -67,8 +93,6 @@ public class RecipeGen extends RecipeUtils {
         costumeSmithing(ItemRegistry.PEACH_ICE_BODICE.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHIRTS, ItemRegistry.ICE_FLOWER.get(), output);
         costumeSmithing(ItemRegistry.PEACH_ICE_DRESS.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_PANTS, ItemRegistry.ICE_FLOWER.get(), output);
         costumeSmithing(ItemRegistry.PEACH_ICE_SHOES.get(), RecipeCategory.COMBAT, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get(), TagRegistry.PEACH_SHOES, ItemRegistry.ICE_FLOWER.get(), output);
-
-        smithingTrims().forEach(item -> trimSmithing(output, item.template(), item.id()));
 
         copySmithingTemplate(output, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.LIME_WOOL, Items.GREEN_WOOL));
         copySmithingTemplate(output, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.RED_WOOL));

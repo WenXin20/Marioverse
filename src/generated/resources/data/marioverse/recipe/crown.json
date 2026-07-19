@@ -1,0 +1,21 @@
+{
+  "type": "marioverse:hex_color_shaped",
+  "category": "equipment",
+  "group": "marioverse:hats",
+  "key": {
+    "C": {
+      "color_tag": "c:gems"
+    },
+    "I": {
+      "tag": "c:ingots/gold"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "IWI"
+  ],
+  "result": "marioverse:crown"
+}

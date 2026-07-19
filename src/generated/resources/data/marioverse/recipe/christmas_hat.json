@@ -1,15 +1,19 @@
 {
   "type": "marioverse:hex_color_shaped",
   "category": "equipment",
-  "group": "christmas_hats",
+  "group": "marioverse:hats",
+  "key": {
+    "C": {
+      "color_tag": "minecraft:wool"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
   "pattern": [
     "  W",
     "CC ",
     "WW "
   ],
-  "key": {
-    "C": { "color_tag": "minecraft:wool" },
-    "W": { "item": "minecraft:white_wool" }
-  },
   "result": "marioverse:christmas_hat"
 }

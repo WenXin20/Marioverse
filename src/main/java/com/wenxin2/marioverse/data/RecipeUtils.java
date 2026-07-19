@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.datagen.ColorSwappableRecipeBuilder;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -36,6 +37,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
 
 public class RecipeUtils extends RecipeProvider {
     public RecipeUtils(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
@@ -182,7 +184,8 @@ public class RecipeUtils extends RecipeProvider {
 
     public void twoByOneRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                                Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
                 .pattern("A")
                 .pattern("B")
                 .group(Marioverse.MOD_ID + ":" + groupName);
@@ -236,6 +239,27 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void bodiceRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                            Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("C C")
+                .pattern("CCC")
+                .pattern("WCW")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineColorIngredient(builder, 'C', colorItem);
+        defineIngredient(builder, 'W', wool);
+
+        builder.unlockedBy(getUnlockName(wool), unlockCriterion(wool));
+
+        if (uniqueFileName && wool instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && colorItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
     public void bootsRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
                 .define('#', inputItem)
@@ -265,8 +289,8 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     public void checkeredRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
-                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .pattern("XY")
                 .pattern("YX")
                 .group(Marioverse.MOD_ID + ":" + groupName);
@@ -293,22 +317,24 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
-    public void christmasHatRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
-                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+    public void christmasHatRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                             Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
                 .pattern("  W")
-                .pattern("RR ")
+                .pattern("CC ")
                 .pattern("WW ")
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
-        defineIngredient(builder, 'R', input1);
-        defineIngredient(builder, 'W', input2);
+        defineColorIngredient(builder, 'C', colorItem);
+        defineIngredient(builder, 'W', wool);
 
-        builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
-        builder.unlockedBy(getUnlockName(input2), unlockCriterion(input2));
+        builder.unlockedBy(getUnlockName(wool), unlockCriterion(wool));
 
-        if (uniqueFileName && input1 instanceof ItemLike itemLike)
-            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        if (uniqueFileName && wool instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && colorItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
         else builder.save(output);
     }
 
@@ -361,6 +387,48 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void crownRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                            Object colorItem, Object ingot, Object wool, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("ICI")
+                .pattern("IWI")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineColorIngredient(builder, 'C', colorItem);
+        defineIngredient(builder, 'I', ingot);
+        defineIngredient(builder, 'W', wool);
+
+        builder.unlockedBy(getUnlockName(ingot), unlockCriterion(ingot));
+        builder.unlockedBy(getUnlockName(wool), unlockCriterion(wool));
+
+        if (uniqueFileName && colorItem instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && colorItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
+    public void dressRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                            Object colorItem, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("CCC")
+                .pattern("CCC")
+                .pattern("C C")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineColorIngredient(builder, 'C', colorItem);
+
+        builder.unlockedBy(getUnlockName(colorItem), unlockCriterion(colorItem));
+
+        if (uniqueFileName && colorItem instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && colorItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
     public void fireShirtRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, ItemLike inputItem2, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
                 .define('W', inputItem)
@@ -401,6 +469,44 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void hatRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("CWC")
+                .pattern("C C")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineColorIngredient(builder, 'C', colorItem);
+        defineIngredient(builder, 'W', wool);
+
+        builder.unlockedBy(getUnlockName(wool), unlockCriterion(wool));
+
+        if (uniqueFileName && wool instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && colorItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
+    public void heelsRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                              Object colorItem, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("C C")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineColorIngredient(builder, 'C', colorItem);
+
+        builder.unlockedBy(getUnlockName(colorItem), unlockCriterion(colorItem));
+
+        if (uniqueFileName && colorItem instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && colorItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
     public void helmetRecipe(int outputAmt, String groupName, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, outputItem, outputAmt)
                 .define('#', inputItem)
@@ -422,27 +528,10 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
-    public void onOffBlockRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                                 Object concrete, Object redstone, boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
-                .pattern("CCC")
-                .pattern("CRC")
-                .pattern("CCC")
-                .group(Marioverse.MOD_ID + ":" + groupName);
-
-        defineIngredient(builder, 'C', concrete);
-        defineIngredient(builder, 'R', redstone);
-
-        builder.unlockedBy(getUnlockName(concrete), unlockCriterion(concrete));
-
-        if (uniqueFileName && concrete instanceof ItemLike itemLike)
-            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
-        else builder.save(output);
-    }
-
     public void mushroomTrampolineRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                                          Object mushroom, Object dottedLineBlock, boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
                 .pattern("MMM")
                 .pattern("MDM")
                 .pattern("MMM")
@@ -458,10 +547,30 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void onOffBlockRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                 Object concrete, Object redstone, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("CCC")
+                .pattern("CRC")
+                .pattern("CCC")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'C', concrete);
+        defineIngredient(builder, 'R', redstone);
+
+        builder.unlockedBy(getUnlockName(concrete), unlockCriterion(concrete));
+
+        if (uniqueFileName && concrete instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
+    }
+
     public void onOffSwitchRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                                   Object redBlock, Object blueBlock, Object quartz, Object torch,
                                   boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
                 .pattern("RRR")
                 .pattern("ITI")
                 .pattern("BBB")
@@ -479,6 +588,27 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void pantsRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                          Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("WWW")
+                .pattern("C C")
+                .pattern("W W")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineColorIngredient(builder, 'C', colorItem);
+        defineIngredient(builder, 'W', wool);
+
+        builder.unlockedBy(getUnlockName(wool), unlockCriterion(wool));
+
+        if (uniqueFileName && wool instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && colorItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
     public void pedestalRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('B', inputItem)
@@ -489,9 +619,52 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void shirtRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                            Object colorItem, Object ingot, Object wool, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("C C")
+                .pattern("IWI")
+                .pattern("WWW")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineColorIngredient(builder, 'C', colorItem);
+        defineIngredient(builder, 'I', ingot);
+        defineIngredient(builder, 'W', wool);
+
+        builder.unlockedBy(getUnlockName(ingot), unlockCriterion(ingot));
+        builder.unlockedBy(getUnlockName(wool), unlockCriterion(wool));
+
+        if (uniqueFileName && wool instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName)
+            builder.save(output, getConversionRecipeTagName(outputItem, (TagKey<?>) colorItem));
+        else builder.save(output);
+    }
+
+    public void shoesRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                            Object colorItem, Object leather, boolean uniqueFileName, RecipeOutput output) {
+        ColorSwappableRecipeBuilder builder = ColorSwappableRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("C C")
+                .pattern("L L")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineColorIngredient(builder, 'C', colorItem);
+        defineIngredient(builder, 'L', leather);
+
+        builder.unlockedBy(getUnlockName(leather), unlockCriterion(leather));
+
+        if (uniqueFileName && leather instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && colorItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
     public void spikePanelRecipe(int outputAmt, String groupName, ItemLike outputItem, Object input1, Object input2, Object input3, boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(
-                        RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .pattern(" N ")
                 .pattern("NIN")
                 .pattern("PPP")
@@ -610,7 +783,8 @@ public class RecipeUtils extends RecipeProvider {
 
     public void dyeItemRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                               Object input1, Object input2, boolean uniqueFileName, RecipeOutput output) {
-        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
+        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder
+                .shapeless(category, outputItem, outputAmt)
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
         builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
@@ -637,7 +811,8 @@ public class RecipeUtils extends RecipeProvider {
 
     public void oneToOneRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                                Object input1, RecipeOutput output) {
-        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(category, outputItem, outputAmt)
+        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder
+                .shapeless(category, outputItem, outputAmt)
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
         builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
@@ -900,6 +1075,24 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     @SuppressWarnings("unchecked")
+    private void defineColorIngredient(ColorSwappableRecipeBuilder builder, char symbol, Object ingredient) {
+        if (ingredient instanceof Item item)
+            builder.defineColorItem(symbol, item);
+        else if (ingredient instanceof TagKey<?> tag && tag.registry() == Registries.ITEM)
+            builder.defineColorTag(symbol, (TagKey<Item>) tag);
+        else throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void defineIngredient(ColorSwappableRecipeBuilder builder, char symbol, Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            builder.define(symbol, item);
+        else if (ingredient instanceof TagKey<?> tag && tag.registry() == Registries.ITEM)
+            builder.define(symbol, (TagKey<Item>) tag);
+        else throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
+    }
+
+    @SuppressWarnings("unchecked")
     private void defineIngredient(ShapedRecipeBuilder builder, char symbol, Object ingredient) {
         if (ingredient instanceof ItemLike item)
             builder.define(symbol, item);
@@ -933,5 +1126,10 @@ public class RecipeUtils extends RecipeProvider {
             return RecipeProvider.has(tag);
         }
         throw new IllegalArgumentException("Unsupported ingredient: " + ingredient);
+    }
+
+    @NotNull
+    protected String getConversionRecipeTagName(ItemLike outputItem, TagKey<?> tag) {
+        return getItemName(outputItem) + "_from_" + this.getRecipeItemName(tag);
     }
 }
