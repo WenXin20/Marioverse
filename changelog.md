@@ -1,3 +1,6 @@
+## Update 1.10.1
+- Fixed crash when the Warp Disruptor was used on a player attempting to teleport
+
 ## Update 1.10.0
 - Added the Porcupuffer
   - Jumps out of water
