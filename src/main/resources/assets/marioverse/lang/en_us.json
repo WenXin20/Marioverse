@@ -1008,7 +1008,7 @@
   "item.marioverse.warp_disruptor.tooltip.right_click.player": "§7, player",
   "item.marioverse.warp_disruptor.tooltip.right_click.selected": " §7• Prevents selected ",
   "item.marioverse.warp_disruptor.tooltip.right_click.warping": "§7 from warping",
-  "item.marioverse.warp_disruptor.tooltip.shift_right_click": "§6Shift-right-click:",
+  "item.marioverse.warp_disruptor.tooltip.shift_right_click": "§6Shift-right-click Block:",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.door": "§7, door",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.painting": "§7, painting",
   "item.marioverse.warp_disruptor.tooltip.shift_right_click.pipe": "§7 pipe",
