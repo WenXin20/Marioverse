@@ -251,7 +251,7 @@ public class ItemRegistry {
         LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("luigi_armor_trim_smithing_template",
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
         PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("princess_armor_trim_smithing_template",
-                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.PRINCESS));
 
         CHRISTMAS_HAT = registerItem("christmas_hat",
                 () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
