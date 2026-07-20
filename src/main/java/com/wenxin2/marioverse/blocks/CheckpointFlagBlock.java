@@ -19,7 +19,7 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.items.BasePowerUpItem;
+import com.wenxin2.marioverse.items.PowerUpSpawnEggItem;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
@@ -706,7 +706,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             return;
         }
 
-        if (applyPowerUps && stack.getItem() instanceof BasePowerUpItem powerUpItem) {
+        if (applyPowerUps && stack.getItem() instanceof PowerUpSpawnEggItem powerUpItem) {
             CheckpointFlagBlock.applyPowerUps(level, pos, stack, livingEntity, powerUpItem);
             return;
         }
@@ -763,7 +763,7 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
 
     }
 
-    public static void applyPowerUps(Level level, BlockPos pos, ItemStack stack, LivingEntity entity, BasePowerUpItem powerUpItem) {
+    public static void applyPowerUps(Level level, BlockPos pos, ItemStack stack, LivingEntity entity, PowerUpSpawnEggItem powerUpItem) {
         EntityType<?> entityType = powerUpItem.getType(stack);
 
         if (level instanceof ServerLevel serverLevel) {

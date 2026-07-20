@@ -6,7 +6,7 @@ import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
-import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -155,7 +155,7 @@ public interface AbilitiesHandler extends CostumeHandler {
                 capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
             } else if (offhandStack.isEmpty())
                 entity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(stack.getItem()));
-            else if (offhandStack.getItem() instanceof OneUpMushroomItem) {
+            else if (offhandStack.getItem() instanceof OneUpMushroomSpawnEggItem) {
                 if (offhandStack.getCount() >= offhandStack.getMaxStackSize() && entity instanceof Player player) {
                     player.drop(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), Boolean.FALSE);
                 } else offhandStack.grow(1);

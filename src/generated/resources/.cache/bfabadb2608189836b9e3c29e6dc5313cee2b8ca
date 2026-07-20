@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-19T19:02:17.5601169	Item Models: marioverse
+// 1.21.1	2026-07-20T01:13:56.5717358	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -214,6 +214,7 @@ bb84e2c1bcb5902979e9f92247c79d1ae407d7fb assets/marioverse/models/item/storage_w
 aadebea237963517b9aed338c780078359859180 assets/marioverse/models/item/storage_white_calcite_bricks.json
 1292f31a432abf1967bec63cc09a49d7afbae636 assets/marioverse/models/item/storage_yellow_calcite_bricks.json
 8e2e835410df8a2582b64055430cf29d75cd5283 assets/marioverse/models/item/super_mushroom.json
+0533d53921e812aa441cba354fe2c34d853d5636 assets/marioverse/models/item/super_mushroom_spawn_egg.json
 d149a63f68a8b5c5c0de44c13ab0483da101bb14 assets/marioverse/models/item/super_star.json
 cddb5b5e6d0093c4099c571e8dcf7faa8816941e assets/marioverse/models/item/tube_coral_tower.json
 e53d3c9e1fdb517dcf1af6ab5154f2c3bbfc7192 assets/marioverse/models/item/warm_cheep_cheep.json

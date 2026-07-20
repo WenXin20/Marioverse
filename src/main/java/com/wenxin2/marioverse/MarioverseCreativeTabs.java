@@ -151,6 +151,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.BOWSER_POTTERY_SHERD);
             add(event, ItemRegistry.PLUMBER_POTTERY_SHERD);
 
+            add(event, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG);
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG, Component.literal("Goombella"));

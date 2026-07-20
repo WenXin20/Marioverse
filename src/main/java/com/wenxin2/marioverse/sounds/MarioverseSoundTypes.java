@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.sounds;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.integration.CompatRegistry;
-import com.wenxin2.marioverse.items.BasePowerUpItem;
+import com.wenxin2.marioverse.items.PowerUpSpawnEggItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -52,7 +52,7 @@ public class MarioverseSoundTypes {
             level.playSound(null, pos, SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 1.0F, pitch);
         else if (stack.is(ItemRegistry.MEGA_MUSHROOM))
             level.playSound(null, pos, SoundRegistry.MEGA_MUSHROOM_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, pitch);
-        else if (stack.getItem() instanceof BasePowerUpItem || stack.getItem() instanceof DashMushroomItem)
+        else if (stack.getItem() instanceof PowerUpSpawnEggItem || stack.getItem() instanceof DashMushroomItem)
             level.playSound(null, pos, SoundRegistry.POWER_UP_SPAWNS.get(), SoundSource.BLOCKS, 1.0F, pitch);
         else if (stack.getItem() instanceof BoatItem)
             level.playSound(null, pos, SoundEvents.BOAT_PADDLE_WATER, SoundSource.BLOCKS, 1.0F, pitch);

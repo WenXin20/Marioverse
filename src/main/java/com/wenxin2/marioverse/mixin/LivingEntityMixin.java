@@ -14,7 +14,7 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -408,7 +408,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             for (InteractionHand hand : InteractionHand.values()) {
                 ItemStack stackInHand = livingEntity.getItemInHand(hand);
-                if (stackInHand.getItem() instanceof OneUpMushroomItem) {
+                if (stackInHand.getItem() instanceof OneUpMushroomSpawnEggItem) {
                     stack = stackInHand.copy();
                     stackInHand.shrink(1);
                     break;
@@ -420,7 +420,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 AccessoriesContainer containerCharm = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "charm"));
                 if (containerCharm != null) {
                     ItemStack stackCharm = containerCharm.getAccessories().getItem(0);
-                    if (stackCharm.getItem() instanceof OneUpMushroomItem) {
+                    if (stackCharm.getItem() instanceof OneUpMushroomSpawnEggItem) {
                         livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                                 soundSource, 1.0F, pitch);
                         livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
@@ -443,7 +443,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 }
             }
 
-            if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
+            if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomSpawnEggItem) {
                 livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         soundSource, 1.0F, pitch);
                 livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());

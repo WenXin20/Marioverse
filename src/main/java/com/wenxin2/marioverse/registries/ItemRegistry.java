@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.items.BasePowerUpItem;
+import com.wenxin2.marioverse.items.PowerUpSpawnEggItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
 import com.wenxin2.marioverse.items.ChristmasHatItem;
@@ -13,13 +13,14 @@ import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
-import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.items.PokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
+import com.wenxin2.marioverse.items.SuperMushroomItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.Arrays;
@@ -126,6 +127,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
     public static final DeferredItem<Item> SUPER_MUSHROOM;
+    public static final DeferredItem<Item> SUPER_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> SUPER_STAR;
     public static final DeferredItem<Item> WARM_CHEEP_CHEEP;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
@@ -215,21 +217,24 @@ public class ItemRegistry {
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
 
         SUPER_MUSHROOM = registerItem("super_mushroom",
-                () -> new BasePowerUpItem(5, EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new SuperMushroomItem(5, new Item.Properties()));
+
+        SUPER_MUSHROOM_SPAWN_EGG = registerItem("super_mushroom_spawn_egg",
+                () -> new PowerUpSpawnEggItem(5, EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MEGA_MUSHROOM = registerItem("mega_mushroom",
-                () -> new BasePowerUpItem(8, EntityRegistry.MEGA_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PowerUpSpawnEggItem(8, EntityRegistry.MEGA_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MINI_MUSHROOM = registerItem("mini_mushroom",
-                () -> new BasePowerUpItem(8, EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PowerUpSpawnEggItem(8, EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         DASH_MUSHROOM = registerItem("dash_mushroom",
                 () -> new DashMushroomItem(5, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
-                () -> new OneUpMushroomItem(5, EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
+                () -> new OneUpMushroomSpawnEggItem(5, EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
         SUPER_STAR = registerItem("super_star",
-                () -> new BasePowerUpItem(6, EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PowerUpSpawnEggItem(6, EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_FLOWER = registerItem("fire_flower",
-                () -> new BasePowerUpItem(5, EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PowerUpSpawnEggItem(5, EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         ICE_FLOWER = registerItem("ice_flower",
-                () -> new BasePowerUpItem(5, EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PowerUpSpawnEggItem(5, EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         LARGE_SNOWBALL = registerItem("large_snowball",
                 () -> new LargeSnowballItem(new Item.Properties().stacksTo(16)));
