@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-19T17:39:21.6582226	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-07-19T19:02:17.5750921	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -54,10 +54,7 @@ c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/item/checkpoint_fl
 199eca6dc47a69842481034a1fccd44118fda48b data/marioverse/tags/item/coral_towers.json
 19c46fc65a1886ed4abdfd71030d80e7517adf2a data/marioverse/tags/item/costumes.json
 e8950fccee101ef9ea8c7f1f07b998c4c738c17e data/marioverse/tags/item/costumes/female.json
-ad84e4ff218a585b6f33e8dece913631de1922e6 data/marioverse/tags/item/costumes/fire/peach.json
-1e2f7ae686cf4a6d69c41d58235083db290e8935 data/marioverse/tags/item/costumes/ice/peach.json
 13dd4e0a880623245a60afe7a093d166ccf06fa8 data/marioverse/tags/item/costumes/male.json
-83e0f59fb6adf80b616aa4216260e4b5390d8303 data/marioverse/tags/item/costumes/peach.json
 cc7691b6e87d0dc491b9e9b7106a5c012dd99e6d data/marioverse/tags/item/cracked_calcite_bricks.json
 79c86b7629e2a26714ed5d5558bac597397dfcb6 data/marioverse/tags/item/crafts_warp_door.json
 79c86b7629e2a26714ed5d5558bac597397dfcb6 data/marioverse/tags/item/crafts_warp_painting.json
@@ -73,27 +70,22 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/item/flammable_wooden_bridge_stairs.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 8e8620f9d08b6691c8d8ebd6d2024858f829f602 data/marioverse/tags/item/halloween_masks.json
-c795269892e4055e5aeeb1044f13dd0486f1094d data/marioverse/tags/item/hats.json
-5f317cfa93abea37163b270cfb665d9d85ab4b4e data/marioverse/tags/item/hats/peach.json
+b29f48e1b5b5cb6a44d885a5c04664a130f6b0c3 data/marioverse/tags/item/hats.json
 63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/item/invisible_question_blocks.json
 bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.json
 2bf71b8c33ad54da47f6204801153f8758427f38 data/marioverse/tags/item/koopa_shoes.json
 ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/item/mushroom_trampoline_blocks.json
-f18f5926c4747c859a5a9ac0c3e9ee2148d0096c data/marioverse/tags/item/pants.json
-7ae1dcab82f4705b715e9c0111ff0f0191a5ba16 data/marioverse/tags/item/pants/peach.json
+5caef3bf5fe1f82caaeaac7f566d0787b4b83f19 data/marioverse/tags/item/pants.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/item/pipe_junction_blocks.json
 51c64a5ea272d8b17a8acacd965c546d474f5efe data/marioverse/tags/item/piranha_plant_food.json
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/item/polished_calcite.json
 46917e7306850aedf22c53f9664894363b91fed9 data/marioverse/tags/item/porcupuffer_food.json
 0f368a478ac982f8aa4086d64560ef7916a62791 data/marioverse/tags/item/power_ups.json
-6a6be75395dd354c0fc7f6266686f41375896a93 data/marioverse/tags/item/power_up_costumes.json
-efb2ebff6ac2ff84294ecec7c524e94d784f2cec data/marioverse/tags/item/power_up_costumes/peach.json
+19c46fc65a1886ed4abdfd71030d80e7517adf2a data/marioverse/tags/item/power_up_costumes.json
 05196126a22460d63899d1005ccb115203d709be data/marioverse/tags/item/question_blocks.json
 a7237a913ebc494e95c33837eb152a6c6ebd10a6 data/marioverse/tags/item/question_panels.json
-1e28be0e306eb21185f00683ab9aa7e88f27f809 data/marioverse/tags/item/shirts.json
-c28ef4e40bbb1dde0245e1c892ece536538c1e1c data/marioverse/tags/item/shirts/peach.json
-f33e3db3834b345b0fb6ecd3329a596287008d5e data/marioverse/tags/item/shoes.json
-6847a635b87905a9021d4641ea58248ed8367a69 data/marioverse/tags/item/shoes/peach.json
+6896401429df0ba5460386cfc6d313071cfa8c17 data/marioverse/tags/item/shirts.json
+d2a3f2e8f80d46681c2ffc01e50c68cd17786e53 data/marioverse/tags/item/shoes.json
 562d6608011d5c95e2bdd0f99fdfc3157e691e98 data/marioverse/tags/item/smashable_blocks.json
 3740d7f8ad0113b0b4e688892ce53e39b109636e data/marioverse/tags/item/spawn_eggs/koopa_troopa.json
 129bdbfd56e1b77fb5044c8cd355398967f9819b data/marioverse/tags/item/storage_bricks.json
@@ -121,7 +113,7 @@ b28d2334ac91b76d29f622d51412d34b0f4f498a data/minecraft/tags/item/fishes.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/minecraft/tags/item/leg_armor.json
 d81ff390eb607f163e038b57b32e094bd314f763 data/minecraft/tags/item/non_flammable_wood.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/ocelot_food.json
-a464aa2ef4442a161e72088d64d3df8842cbf8ec data/minecraft/tags/item/piglin_loved.json
+7b9190bfb3261640e32de940195e2ca117efce8d data/minecraft/tags/item/piglin_loved.json
 8f2a21fd51e60bd26df382e3cd61d959ee3c226d data/minecraft/tags/item/slabs.json
 3223c0ac80c228b7211696c27c13272e7e3288a8 data/minecraft/tags/item/stairs.json
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/item/stone_buttons.json

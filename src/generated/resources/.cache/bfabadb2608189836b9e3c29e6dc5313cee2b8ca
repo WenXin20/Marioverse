@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-19T17:39:21.6510441	Item Models: marioverse
+// 1.21.1	2026-07-19T19:02:17.5601169	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -48,7 +48,6 @@ ee376cd5ff494d5458fa9e37b4141c7caade1007 assets/marioverse/models/item/dry_bones
 79027647ffa6ff07996301383f5559267b9c8e21 assets/marioverse/models/item/eep_cheep_spawn_egg.json
 842795da3d83992d1f0e903cbce275ef4268042d assets/marioverse/models/item/fire_bodice.json
 6630052072c5c0258d45444f93ffd4cad129da4d assets/marioverse/models/item/fire_coral_tower.json
-9706025e48900bd63f97e5beeb8f5d089fa44a66 assets/marioverse/models/item/fire_costume_smithing_template.json
 4023801a40166717594b6089fe19033809a74732 assets/marioverse/models/item/fire_crown.json
 1f8557acd3f1dcdece56c78a5e1c64ee51e5c50e assets/marioverse/models/item/fire_dress.json
 0a071eda79e87a6dc996e8323c07ed7899626107 assets/marioverse/models/item/fire_flower.json
@@ -75,7 +74,6 @@ cb771a116715daeedf4bec7a7e1e525cabcb9f66 assets/marioverse/models/item/heels.jso
 2f7dede7ee4a7fb7d18854426898237c9adf418d assets/marioverse/models/item/hefty_goomba_spawn_egg.json
 dd60eb6bf7385bb995d7fc0486d6cc9edfd48be0 assets/marioverse/models/item/horn_coral_tower.json
 0d686bc1c9ccba8eea6c6b00e1555d0e3b3aad16 assets/marioverse/models/item/ice_bodice.json
-4058ce9f8d426f15c29e952c14fc0e1bce9b2831 assets/marioverse/models/item/ice_costume_smithing_template.json
 95133599f72ca494f21c9aa93e6c83b8fa79a14e assets/marioverse/models/item/ice_crown.json
 00dd69a1e19ca64b31049c3fab26d070bc4a969c assets/marioverse/models/item/ice_dress.json
 cd8c2425ae41b1aa1d98d750f39a791bc9926a46 assets/marioverse/models/item/ice_flower.json
@@ -134,17 +132,6 @@ de0c3b51b45be55cd8615c33465ddeed4ad4fb6b assets/marioverse/models/item/one_up_mu
 d71e2369371eda26924578fbbc22e15b1f7c69ff assets/marioverse/models/item/orange_checkpoint_flag.json
 1ba34bbdf64a09d00da46fdb911a8b9b7f79324f assets/marioverse/models/item/orange_goal_pole.json
 6e79c99c77b189071e1be6858142996de9b5178a assets/marioverse/models/item/pants.json
-147c69ae61f0cc39958a2c267e31abcbcc1c1491 assets/marioverse/models/item/peach_bodice.json
-04a15e10e18b34f532e191218ed29b8bae0356ac assets/marioverse/models/item/peach_costume_smithing_template.json
-3d31c0e09e89af2be7e726a74a7f754b1a1d2b4f assets/marioverse/models/item/peach_crown.json
-d895cc0d70796f5f161e4278573074f489955374 assets/marioverse/models/item/peach_dress.json
-d1e0b900dea56c9f0155492a44d2eb4194f91615 assets/marioverse/models/item/peach_fire_bodice.json
-aa77a959059769b00934a6ba5d25f5a0489c4139 assets/marioverse/models/item/peach_fire_dress.json
-1e74874dbed49e3f923030caaab0d2410afa55bd assets/marioverse/models/item/peach_fire_shoes.json
-2d617cc4821de7d12214a8b3afddb3bc263f4091 assets/marioverse/models/item/peach_ice_bodice.json
-b8042a4e1458946ec4caef8b9f98f62ee8b6c136 assets/marioverse/models/item/peach_ice_dress.json
-91825802cd131d58999e71ef7599d542d922d5b3 assets/marioverse/models/item/peach_ice_shoes.json
-a91af4078eb56eded6b61d7f2edb9cb4fabdb38b assets/marioverse/models/item/peach_shoes.json
 e9aaedaf97e12fc16f42f324e01b8f10526b2525 assets/marioverse/models/item/pink_checkpoint_flag.json
 a7417a0c33a973cad7262a4d5af9185c04c4e80d assets/marioverse/models/item/pink_goal_pole.json
 a3411b47aefffde8184f581383b9e6ebb7905d8a assets/marioverse/models/item/piranha_plant_pod.json
