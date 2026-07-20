@@ -1,5 +1,5 @@
 ## Update 1.10.1
-- Fixed a crash when the Warp Disruptor used on a player, and then player stepped on a pipe
+- Fixed a crash when the Warp Disruptor used on a player, and then the player stepped on a pipe
 
 ## Update 1.10.0
 - Added the Porcupuffer
