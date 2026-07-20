@@ -34,7 +34,7 @@ import org.joml.Vector3d;
 public interface BlockWarpEntityHandler {
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
 
-    private static boolean getShiftKeyForEntity(Entity entity) {
+    static boolean getShiftKeyForEntity(Entity entity) {
         return (!entity.isShiftKeyDown() && !(entity instanceof Player))
                 || (entity.isShiftKeyDown() && entity instanceof Player);
     }
@@ -179,8 +179,8 @@ public interface BlockWarpEntityHandler {
             }
 
             if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
-                if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP) && stateAbove.hasProperty(WarpPipeBlock.FACING)) {
-                    if (stateAbove.getValue(WarpPipeBlock.FACING) == Direction.DOWN) {
+                if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
+                    if (stateAbove.hasProperty(WarpPipeBlock.FACING) && stateAbove.getValue(WarpPipeBlock.FACING) == Direction.DOWN) {
                         if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
                             this.warp(entity, level, pos, stateAbove, warpPos, warpBE);
                         else if (entity instanceof Player player) {

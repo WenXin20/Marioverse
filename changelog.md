@@ -1,4 +1,4 @@
-## Update 1.10.1
+## Update 1.10.2
 - Replaced the Mario & Luigi costumes with a generic "male costume"
   - Dye & trim support
 - Replaced the Peach costumes with a generic "female costume"
@@ -7,6 +7,9 @@
 - Koopa Shoes now have trim support
 - Plastic Buckets now have trim support
 - Added Mario, Luigi, & Princess themed trims
+
+## Update 1.10.1
+- Fixed crash when the Warp Disruptor was used on a player attempting to teleport
 
 ## Update 1.10.0
 - Added the Porcupuffer
