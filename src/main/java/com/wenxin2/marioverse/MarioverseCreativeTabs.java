@@ -738,7 +738,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.MINI_MUSHROOM_SPAWN_EGG, ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG);
                 addAfter(event, ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG, ItemRegistry.FIRE_FLOWER_SPAWN_EGG);
                 addAfter(event, ItemRegistry.FIRE_FLOWER_SPAWN_EGG, ItemRegistry.ICE_FLOWER_SPAWN_EGG);
-                addAfter(event, ItemRegistry.ICE_FLOWER_SPAWN_EGG, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
+                addAfter(event, ItemRegistry.ICE_FLOWER_SPAWN_EGG, ItemRegistry.SUPER_STAR_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SUPER_STAR_SPAWN_EGG, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG, goomba);
                 addAfter(event, goomba, goombella);
                 addAfter(event, goombella, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
