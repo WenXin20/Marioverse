@@ -252,7 +252,7 @@ public class ItemRegistry {
         MINI_MUSHROOM_SPAWN_EGG = registerItem("mini_mushroom_spawn_egg",
                 () -> new PowerUpSpawnEggItem(EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         ONE_UP_MUSHROOM_SPAWN_EGG = registerItem("one_up_mushroom_spawn_egg",
-                () -> new OneUpMushroomSpawnEggItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
+                () -> new OneUpMushroomSpawnEggItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SUPER_STAR_SPAWN_EGG = registerItem("super_star_spawn_egg",
                 () -> new PowerUpSpawnEggItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         FIRE_FLOWER_SPAWN_EGG = registerItem("fire_flower_spawn_egg",
