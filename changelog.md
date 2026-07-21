@@ -1,7 +1,7 @@
 ## Update 1.10.2
 - Added power up spawn eggs 
   - Used for spawning the power up entity from ? Blocks
-- Regular power up items apply the power ups on right-click
+- Changed regular power up items apply the power ups on right-click
   - Used for chest loot 
 - Replaced the Mario & Luigi costumes with a generic "male costume"
   - Dye & trim support

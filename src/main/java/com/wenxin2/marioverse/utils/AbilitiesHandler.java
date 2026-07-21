@@ -143,7 +143,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void applyOneUpMushroomPowerUp(Level level, ItemStack stack, LivingEntity entity, OneUpMushroomEntity powerUp) {
+    default void applyOneUpMushroomPowerUp(Level level, ItemStack stack, LivingEntity entity, @Nullable OneUpMushroomEntity powerUp) {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -167,11 +167,12 @@ public interface AbilitiesHandler extends CostumeHandler {
                 ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverWorld, entity, 10);
                 ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverWorld, entity, 1.0);
             }
-            powerUp.remove(Entity.RemovalReason.DISCARDED);
+            if (powerUp != null)
+                powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applySuperStarPowerUp(Level level, LivingEntity entity, SuperStarEntity powerUp) {
+    default void applySuperStarPowerUp(Level level, LivingEntity entity, @Nullable SuperStarEntity powerUp) {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -185,11 +186,12 @@ public interface AbilitiesHandler extends CostumeHandler {
             level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP_SUPER_STAR.get(),
                     SoundSource.AMBIENT, 1.0F, pitch);
 
-            powerUp.remove(Entity.RemovalReason.DISCARDED);
+            if (powerUp != null)
+                powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyFireFlowerPowerUp(Level level, LivingEntity entity, AbstractPowerUpEntity powerUp) {
+    default void applyFireFlowerPowerUp(Level level, LivingEntity entity, @Nullable AbstractPowerUpEntity powerUp) {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -212,11 +214,13 @@ public interface AbilitiesHandler extends CostumeHandler {
                     false, !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
 
             this.applyCostumeChange(entity, powerUp);
-            powerUp.remove(Entity.RemovalReason.DISCARDED);
+
+            if (powerUp != null)
+                powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 
-    default void applyIceFlowerPowerUp(Level level, LivingEntity entity, AbstractPowerUpEntity powerUp) {
+    default void applyIceFlowerPowerUp(Level level, LivingEntity entity, @Nullable AbstractPowerUpEntity powerUp) {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -239,7 +243,9 @@ public interface AbilitiesHandler extends CostumeHandler {
                     false, !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
 
             this.applyCostumeChange(entity, powerUp);
-            powerUp.remove(Entity.RemovalReason.DISCARDED);
+
+            if (powerUp != null)
+                powerUp.remove(Entity.RemovalReason.DISCARDED);
         }
     }
 }
