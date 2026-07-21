@@ -9,10 +9,4 @@ public class OneUpMushroomSpawnEggItem extends PowerUpSpawnEggItem {
                                      int primaryColor, int secondaryColor, Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);
     }
-
-    public OneUpMushroomSpawnEggItem(int tooltipLineAmt, Supplier<? extends EntityType<? extends Mob>> entityType,
-                                     int primaryColor, int secondaryColor, Properties properties) {
-        super(entityType, primaryColor, secondaryColor, properties);
-        this.tooltipLineAmt = tooltipLineAmt;
-    }
 }

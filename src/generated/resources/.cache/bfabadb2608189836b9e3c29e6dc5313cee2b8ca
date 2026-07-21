@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-20T01:13:56.5717358	Item Models: marioverse
+// 1.21.1	2026-07-20T21:32:23.0444838	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -51,6 +51,7 @@ ee376cd5ff494d5458fa9e37b4141c7caade1007 assets/marioverse/models/item/dry_bones
 4023801a40166717594b6089fe19033809a74732 assets/marioverse/models/item/fire_crown.json
 1f8557acd3f1dcdece56c78a5e1c64ee51e5c50e assets/marioverse/models/item/fire_dress.json
 0a071eda79e87a6dc996e8323c07ed7899626107 assets/marioverse/models/item/fire_flower.json
+38e718a50c788a3eaa8a1cd15b7492875121d697 assets/marioverse/models/item/fire_flower_spawn_egg.json
 88a5f9b9b81dbcb4811c848b3e9ddb1abf2b7d05 assets/marioverse/models/item/fire_goomba_spawn_egg.json
 e8284111f4912f15e7a584d9be76398e7fad3a41 assets/marioverse/models/item/fire_hat.json
 42258e3a26678d7bae831d698b34ff7868a1e9bf assets/marioverse/models/item/fire_heels.json
@@ -77,6 +78,7 @@ dd60eb6bf7385bb995d7fc0486d6cc9edfd48be0 assets/marioverse/models/item/horn_cora
 95133599f72ca494f21c9aa93e6c83b8fa79a14e assets/marioverse/models/item/ice_crown.json
 00dd69a1e19ca64b31049c3fab26d070bc4a969c assets/marioverse/models/item/ice_dress.json
 cd8c2425ae41b1aa1d98d750f39a791bc9926a46 assets/marioverse/models/item/ice_flower.json
+0f6e4967a5cc1e8b88b8a1dbb49b4793b2fceed1 assets/marioverse/models/item/ice_flower_spawn_egg.json
 63267a4de04293467c385a239cb58d1bc0455acb assets/marioverse/models/item/ice_hat.json
 1983c5676fc46847d74de7a6ade8d645c6849844 assets/marioverse/models/item/ice_heels.json
 cd4efcf6a4e649328bcc0aa4954ff23f6fb0887b assets/marioverse/models/item/ice_pants.json
@@ -125,10 +127,13 @@ b00b02c1ff943f5ef3827c8bde7a91bc56852c89 assets/marioverse/models/item/light_blu
 7bc86d57c1254fb3c43f8524b775c06c12a395ad assets/marioverse/models/item/mario_armor_trim_smithing_template.json
 f16534875539ddc16f40c06e79c8e7938899b5aa assets/marioverse/models/item/mega_goomba_spawn_egg.json
 1b5993673a3ceec6b062a2b6ff1cb726b248c4f5 assets/marioverse/models/item/mega_mushroom.json
+21654db7c5145dcba3c1ce984885b462847b406d assets/marioverse/models/item/mega_mushroom_spawn_egg.json
 15c0c9864410ac76dde40bb484d2ea40f2b10d16 assets/marioverse/models/item/mini_goomba_spawn_egg.json
 59e91ed31386dbdb37cb6e67d9727efbed5dba9b assets/marioverse/models/item/mini_mushroom.json
+b8aec86620e9b6ec6fbf0cccb851c4c78e7fd92d assets/marioverse/models/item/mini_mushroom_spawn_egg.json
 5e4f22b9514f8ff7c62f46451c1bee66b86cefed assets/marioverse/models/item/mrs_puff_spawn_egg.json
 de0c3b51b45be55cd8615c33465ddeed4ad4fb6b assets/marioverse/models/item/one_up_mushroom.json
+07d89f7ff55215660e899f99f506f8b1ee861c6c assets/marioverse/models/item/one_up_mushroom_spawn_egg.json
 d71e2369371eda26924578fbbc22e15b1f7c69ff assets/marioverse/models/item/orange_checkpoint_flag.json
 1ba34bbdf64a09d00da46fdb911a8b9b7f79324f assets/marioverse/models/item/orange_goal_pole.json
 6e79c99c77b189071e1be6858142996de9b5178a assets/marioverse/models/item/pants.json
@@ -216,6 +221,7 @@ aadebea237963517b9aed338c780078359859180 assets/marioverse/models/item/storage_w
 8e2e835410df8a2582b64055430cf29d75cd5283 assets/marioverse/models/item/super_mushroom.json
 0533d53921e812aa441cba354fe2c34d853d5636 assets/marioverse/models/item/super_mushroom_spawn_egg.json
 d149a63f68a8b5c5c0de44c13ab0483da101bb14 assets/marioverse/models/item/super_star.json
+0a2f7a3668f340208e18c3dba6e3f7520206a16e assets/marioverse/models/item/super_star_spawn_egg.json
 cddb5b5e6d0093c4099c571e8dcf7faa8816941e assets/marioverse/models/item/tube_coral_tower.json
 e53d3c9e1fdb517dcf1af6ab5154f2c3bbfc7192 assets/marioverse/models/item/warm_cheep_cheep.json
 9a8268f4ae83c4768cc7f91a7d68953f95b12940 assets/marioverse/models/item/warm_cheep_cheep_bucket.json

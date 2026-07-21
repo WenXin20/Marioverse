@@ -587,16 +587,28 @@ public class MarioverseEventHandlers {
                     continue;
                 BlockState state = level.getBlockState(target);
 
-                if(!player.isCreative() && state.requiresCorrectToolForDrops() && !stack.isCorrectToolForDrops(state))
+                if (!player.isCreative() && state.requiresCorrectToolForDrops() && !stack.isCorrectToolForDrops(state))
                     continue;
                 if (state.isAir())
                     continue;
                 if (!player.mayBuild())
                     continue;
 
-                if (player.isCreative())
+                if (player.isCreative()) {
                     level.removeBlock(target, true);
-                else level.destroyBlock(target, true, player);
+                    continue;
+                }
+
+                BlockEntity blockEntity = state.hasBlockEntity() ? level.getBlockEntity(target) : null;
+                state.getBlock().playerWillDestroy(level, target, state, player);
+                boolean removed = level.removeBlock(target, false);
+
+                if (removed) {
+                    stack.mineBlock(level, state, target, player);
+                    state.getBlock().destroy(level, target, state);
+                    state.getBlock().playerDestroy(level, player, target, state, blockEntity, stack);
+                }
+                level.gameEvent(GameEvent.BLOCK_DESTROY, target, GameEvent.Context.of(player, state));
             }
         }
     }

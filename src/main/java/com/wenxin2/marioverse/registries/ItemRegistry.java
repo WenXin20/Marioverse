@@ -1,6 +1,11 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.items.FireFlowerItem;
+import com.wenxin2.marioverse.items.IceFlowerItem;
+import com.wenxin2.marioverse.items.MegaMushroomItem;
+import com.wenxin2.marioverse.items.MiniMushroomItem;
+import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.items.PowerUpSpawnEggItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
 import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
@@ -21,6 +26,7 @@ import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.SuperMushroomItem;
+import com.wenxin2.marioverse.items.SuperStarItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.Arrays;
@@ -79,6 +85,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> EEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> EEP_CHEEP_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_FLOWER;
+    public static final DeferredItem<Item> FIRE_FLOWER_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> GOLDEN_KOOPA_SHOES;
     public static final DeferredItem<Item> GOLD_KOOPA_SHELL;
@@ -91,14 +98,18 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEELS;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_FLOWER;
+    public static final DeferredItem<Item> ICE_FLOWER_SPAWN_EGG;
     public static final DeferredItem<Item> LARGE_SNOWBALL;
     public static final DeferredItem<Item> LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MARIO_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MEGA_MUSHROOM;
+    public static final DeferredItem<Item> MEGA_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_MUSHROOM;
+    public static final DeferredItem<Item> MINI_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
+    public static final DeferredItem<Item> ONE_UP_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> PANTS;
     public static final DeferredItem<Item> PIRANHA_PLANT_POD;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
@@ -129,6 +140,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> SUPER_MUSHROOM;
     public static final DeferredItem<Item> SUPER_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> SUPER_STAR;
+    public static final DeferredItem<Item> SUPER_STAR_SPAWN_EGG;
     public static final DeferredItem<Item> WARM_CHEEP_CHEEP;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
     public static final DeferredItem<Item> WHITE_KOOPA_SHOES;
@@ -217,24 +229,36 @@ public class ItemRegistry {
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
 
         SUPER_MUSHROOM = registerItem("super_mushroom",
-                () -> new SuperMushroomItem(5, new Item.Properties()));
+                () -> new SuperMushroomItem(4, new Item.Properties()));
+        MEGA_MUSHROOM = registerItem("mega_mushroom",
+                () -> new MegaMushroomItem(7, new Item.Properties()));
+        MINI_MUSHROOM = registerItem("mini_mushroom",
+                () -> new MiniMushroomItem(7, new Item.Properties()));
+        DASH_MUSHROOM = registerItem("dash_mushroom",
+                () -> new DashMushroomItem(4, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
+        ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
+                () -> new OneUpMushroomItem(4, new Item.Properties().stacksTo(1)));
+        SUPER_STAR = registerItem("super_star",
+                () -> new SuperStarItem(5, new Item.Properties()));
+        FIRE_FLOWER = registerItem("fire_flower",
+                () -> new FireFlowerItem(4, new Item.Properties()));
+        ICE_FLOWER = registerItem("ice_flower",
+                () -> new IceFlowerItem(4, new Item.Properties()));
 
         SUPER_MUSHROOM_SPAWN_EGG = registerItem("super_mushroom_spawn_egg",
-                () -> new PowerUpSpawnEggItem(5, EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-        MEGA_MUSHROOM = registerItem("mega_mushroom",
-                () -> new PowerUpSpawnEggItem(8, EntityRegistry.MEGA_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-        MINI_MUSHROOM = registerItem("mini_mushroom",
-                () -> new PowerUpSpawnEggItem(8, EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-        DASH_MUSHROOM = registerItem("dash_mushroom",
-                () -> new DashMushroomItem(5, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
-        ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
-                () -> new OneUpMushroomSpawnEggItem(5, EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
-        SUPER_STAR = registerItem("super_star",
-                () -> new PowerUpSpawnEggItem(6, EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-        FIRE_FLOWER = registerItem("fire_flower",
-                () -> new PowerUpSpawnEggItem(5, EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
-        ICE_FLOWER = registerItem("ice_flower",
-                () -> new PowerUpSpawnEggItem(5, EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PowerUpSpawnEggItem(EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        MEGA_MUSHROOM_SPAWN_EGG = registerItem("mega_mushroom_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.MEGA_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        MINI_MUSHROOM_SPAWN_EGG = registerItem("mini_mushroom_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        ONE_UP_MUSHROOM_SPAWN_EGG = registerItem("one_up_mushroom_spawn_egg",
+                () -> new OneUpMushroomSpawnEggItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
+        SUPER_STAR_SPAWN_EGG = registerItem("super_star_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        FIRE_FLOWER_SPAWN_EGG = registerItem("fire_flower_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        ICE_FLOWER_SPAWN_EGG = registerItem("ice_flower_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         LARGE_SNOWBALL = registerItem("large_snowball",
                 () -> new LargeSnowballItem(new Item.Properties().stacksTo(16)));

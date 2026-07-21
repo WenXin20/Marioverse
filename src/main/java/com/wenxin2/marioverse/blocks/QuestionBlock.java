@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
+import com.wenxin2.marioverse.items.PowerUpItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -514,6 +515,11 @@ public class QuestionBlock extends BaseEntityBlock {
     public static void spawnFromContainer(Level level, BlockPos pos, BlockPos particlePos, ItemStack stack, @Nullable Entity entityHitBlock, boolean spawnMobs,
                                           boolean spawnPowerUps, boolean canEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
         if (!(level instanceof ServerLevel serverLevel)) return;
+
+        if (stack.getItem() instanceof PowerUpItem) {
+            QuestionBlock.spawnItem(level, pos, stack, true);
+            return;
+        }
 
         if (!spawnPowerUps && stack.getItem() instanceof PowerUpSpawnEggItem powerUpItem) {
             EntityType<?> entityType = powerUpItem.getType(stack);

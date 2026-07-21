@@ -152,6 +152,12 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PLUMBER_POTTERY_SHERD);
 
             add(event, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.MINI_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.FIRE_FLOWER_SPAWN_EGG);
+            add(event, ItemRegistry.ICE_FLOWER_SPAWN_EGG);
+            add(event, ItemRegistry.SUPER_STAR_SPAWN_EGG);
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG, Component.literal("Goombella"));
@@ -726,7 +732,13 @@ public class MarioverseCreativeTabs {
                 ItemStack mrsPuff = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Mrs. Puff"));
                 ItemStack qwilfish = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Qwilfish"));
 
-                addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
+                addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG, ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG, ItemRegistry.MINI_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.MINI_MUSHROOM_SPAWN_EGG, ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG, ItemRegistry.FIRE_FLOWER_SPAWN_EGG);
+                addAfter(event, ItemRegistry.FIRE_FLOWER_SPAWN_EGG, ItemRegistry.ICE_FLOWER_SPAWN_EGG);
+                addAfter(event, ItemRegistry.ICE_FLOWER_SPAWN_EGG, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG, goomba);
                 addAfter(event, goomba, goombella);
                 addAfter(event, goombella, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);

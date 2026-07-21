@@ -415,6 +415,15 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.ONE_UP_MUSHROOM.get())
                 .add(ItemRegistry.SUPER_STAR.get());
 
+        tag(TagRegistry.POWER_UP_ITEMS)
+                .add(ItemRegistry.FIRE_FLOWER_SPAWN_EGG.get())
+                .add(ItemRegistry.ICE_FLOWER_SPAWN_EGG.get())
+                .add(ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG.get())
+                .add(ItemRegistry.MINI_MUSHROOM_SPAWN_EGG.get())
+                .add(ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG.get())
+                .add(ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG.get())
+                .add(ItemRegistry.SUPER_STAR_SPAWN_EGG.get());
+
         tag(TagRegistry.HATS)
                 .add(ItemRegistry.CHRISTMAS_HAT.get())
                 .add(ItemRegistry.CROWN.get())

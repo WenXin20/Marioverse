@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -9,13 +8,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public class SuperMushroomItem extends PowerUpItem {
+public class MegaMushroomItem extends PowerUpItem {
 
-    public SuperMushroomItem(Properties properties) {
+    public MegaMushroomItem(Properties properties) {
         super(properties);
     }
 
-    public SuperMushroomItem(int tooltipLineAmt, Properties properties) {
+    public MegaMushroomItem(int tooltipLineAmt, Properties properties) {
         super(tooltipLineAmt, properties);
     }
 
@@ -25,8 +24,7 @@ public class SuperMushroomItem extends PowerUpItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (player instanceof AbilitiesHandler handler) {
-            handler.applySuperMushroomPowerUp(level, player, null,
-                    ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+            handler.applyMegaMushroomPowerUp(level, player, null);
             stack.consume(1, player);
             return InteractionResultHolder.success(stack);
         }

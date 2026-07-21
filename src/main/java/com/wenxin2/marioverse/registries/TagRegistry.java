@@ -182,6 +182,7 @@ public class TagRegistry {
     public static final TagKey<Item> PORCUPUFFER_FOOD = itemTags("porcupuffer_food");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
+    public static final TagKey<Item> POWER_UP_SPAWN_EGGS = itemTags("power_up_spawn_eggs");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
     public static final TagKey<Item> QUESTION_PANELS_ITEMS = itemTags("question_panels");
     public static final TagKey<Item> SHIRTS = itemTags("shirts");

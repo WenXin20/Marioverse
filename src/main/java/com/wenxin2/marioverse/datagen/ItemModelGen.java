@@ -60,6 +60,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.EEP_CHEEP_BUCKET.get());
         this.basicItem(ItemRegistry.EEP_CHEEP_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.FIRE_FLOWER.get());
+        this.basicItem(ItemRegistry.FIRE_FLOWER_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GOLDEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GOLD_KOOPA_SHELL.get());
@@ -69,13 +70,16 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.ICE_FLOWER.get());
+        this.basicItem(ItemRegistry.ICE_FLOWER_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.LARGE_SNOWBALL.get());
         this.basicItem(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM.get());
+        this.basicItem(ItemRegistry.MINI_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
+        this.basicItem(ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
@@ -99,6 +103,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.SUPER_MUSHROOM.get());
         this.basicItem(ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());
+        this.basicItem(ItemRegistry.SUPER_STAR_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.WARM_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
@@ -119,6 +124,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
 
         this.largeItem(ItemRegistry.MEGA_MUSHROOM.get());
+        this.largeItem(ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG.get());
 
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_BUCKET.get(), Fluids.EMPTY, false, false);
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
