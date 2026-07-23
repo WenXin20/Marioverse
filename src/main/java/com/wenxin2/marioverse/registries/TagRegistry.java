@@ -181,7 +181,11 @@ public class TagRegistry {
     public static final TagKey<Item> POLISHED_CALCITE_ITEMS = itemTags("polished_calcite");
     public static final TagKey<Item> PORCUPUFFER_FOOD = itemTags("porcupuffer_food");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
+    public static final TagKey<Item> POWER_UP_HAT_COSTUMES = itemTags("power_up_costumes/hat");
     public static final TagKey<Item> POWER_UP_ITEMS = itemTags("power_ups");
+    public static final TagKey<Item> POWER_UP_PANTS_COSTUMES = itemTags("power_up_costumes/pants");
+    public static final TagKey<Item> POWER_UP_SHIRT_COSTUMES = itemTags("power_up_costumes/shirt");
+    public static final TagKey<Item> POWER_UP_SHOES_COSTUMES = itemTags("power_up_costumes/shoes");
     public static final TagKey<Item> POWER_UP_SPAWN_EGGS = itemTags("power_up_spawn_eggs");
     public static final TagKey<Item> QUESTION_BLOCK_ITEMS = itemTags("question_blocks");
     public static final TagKey<Item> QUESTION_PANELS_ITEMS = itemTags("question_panels");

@@ -3,16 +3,15 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.entities.ai.controls.JumpInPlaceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
-import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
-import java.util.List;
-import net.minecraft.tags.TagKey;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -24,7 +23,7 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity {
+public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity, PowerUpSource {
     protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.fire_flower.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
@@ -66,31 +65,7 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
     }
 
     @Override
-    public TagKey<Item> getPowerUpCostumeTag() {
-        return TagRegistry.COSTUMES;
-    }
-
-    @Override
-    public List<ItemStack> getPowerUpHatItems() {
-        return List.of(ItemRegistry.HAT.toStack(),
-                ItemRegistry.CROWN.toStack());
-    }
-
-    @Override
-    public List<ItemStack> getPowerUpShirtItems() {
-        return List.of(ItemRegistry.SHIRT.toStack(),
-                ItemRegistry.BODICE.toStack());
-    }
-
-    @Override
-    public List<ItemStack> getPowerUpPantsItems() {
-        return List.of(ItemRegistry.PANTS.toStack(),
-                ItemRegistry.DRESS.toStack());
-    }
-
-    @Override
-    public List<ItemStack> getPowerUpShoesItems() {
-        return List.of(ItemRegistry.SHOES.toStack(),
-                ItemRegistry.HEELS.toStack());
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.FIRE_FLOWER;
     }
 }

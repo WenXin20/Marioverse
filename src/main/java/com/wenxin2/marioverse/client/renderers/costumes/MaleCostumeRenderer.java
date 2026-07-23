@@ -7,12 +7,15 @@ import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeDyeLayer;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeTrimLayer;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeWaistLayer;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import java.util.Optional;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -57,11 +60,12 @@ public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem
     public ResourceLocation getTextureLocation(MaleCostumeItem animatable) {
         ItemStack stack = this.currentStack;
         String layer = this.currentSlot == EquipmentSlot.LEGS ? "layer_2" : "layer_1";
+        Holder<PowerUpType> type = stack.get(DataComponentRegistry.POWER_UP_TYPE.get());
 
-        if (stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false))
+        if (type != null && type.value() == PowerUpTypeRegistry.FIRE_FLOWER.value())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                     "textures/item/costume/male_fire_costume_" + layer + ".png");
-        if (stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
+        if (type != null && type.value() == PowerUpTypeRegistry.ICE_FLOWER.value())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                     "textures/item/costume/male_ice_costume_" + layer + ".png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
@@ -72,11 +76,12 @@ public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem
     public ResourceLocation getWaistTextureLocation() {
         ItemStack stack = this.currentStack;
         String layer = "layer_2";
+        Holder<PowerUpType> type = stack.get(DataComponentRegistry.POWER_UP_TYPE.get());
 
-        if (stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false))
+        if (type != null && type.value() == PowerUpTypeRegistry.FIRE_FLOWER.value())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                     "textures/item/costume/male_fire_costume_" + layer + ".png");
-        if (stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
+        if (type != null && type.value() == PowerUpTypeRegistry.ICE_FLOWER.value())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                     "textures/item/costume/male_ice_costume_" + layer + ".png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,

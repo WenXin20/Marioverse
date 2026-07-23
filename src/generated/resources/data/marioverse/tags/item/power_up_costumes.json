@@ -1,6 +1,10 @@
 {
   "values": [
     "#marioverse:costumes/female",
-    "#marioverse:costumes/male"
+    "#marioverse:costumes/male",
+    "#marioverse:power_up_costumes/hat",
+    "#marioverse:power_up_costumes/pants",
+    "#marioverse:power_up_costumes/shirt",
+    "#marioverse:power_up_costumes/shoes"
   ]
 }

@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.utils;
 import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -10,10 +12,13 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
-import java.util.Map;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public interface CostumeHandler {
@@ -44,30 +49,36 @@ public interface CostumeHandler {
         return false;
     }
 
-    default void applyCostumeChange(LivingEntity entity, AbstractPowerUpEntity powerUp) {
+    default void applyCostumeChange(LivingEntity entity, PowerUpSource source) {
         AccessoriesCapability capability = AccessoriesCapability.get(entity);
 
         if (capability != null) {
             if (entity instanceof Player && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get())
-                this.updateCostume(entity, powerUp, capability);
+                this.updateCostume(entity, source, capability);
             else if (!(entity instanceof Player) && ConfigRegistry.EQUIP_COSTUMES_MOBS.get())
-                this.updateCostume(entity, powerUp, capability);
+                this.updateCostume(entity, source, capability);
         }
     }
 
-    default void updateCostume(LivingEntity entity, AbstractPowerUpEntity powerUp, AccessoriesCapability capability) {
-        int randomIndex = (int) (Math.random() * powerUp.getPowerUpHatItems().size());
-
+    default void updateCostume(LivingEntity entity, PowerUpSource source, AccessoriesCapability capability) {
         if (entity.getType().is(TagRegistry.CAN_WEAR_COSTUMES)) {
-            Map<EquipmentSlot, List<ItemStack>> costumeItemsBySlot = Map.of(
-                    EquipmentSlot.HEAD, powerUp.getPowerUpHatItems(),
-                    EquipmentSlot.CHEST, powerUp.getPowerUpShirtItems(),
-                    EquipmentSlot.LEGS, powerUp.getPowerUpPantsItems(),
-                    EquipmentSlot.FEET, powerUp.getPowerUpShoesItems());
+            List<ItemStack> hatCostumeItems = BuiltInRegistries.ITEM.getOrCreateTag(TagRegistry.POWER_UP_HAT_COSTUMES).stream()
+                    .map(holder -> new ItemStack(holder.value())).toList();
+            int randomIndex = hatCostumeItems.isEmpty() ? 0 : (int) (Math.random() * hatCostumeItems.size());
 
-            for (Map.Entry<EquipmentSlot, List<ItemStack>> entry : costumeItemsBySlot.entrySet()) {
-                EquipmentSlot slot = entry.getKey();
-                List<ItemStack> costumeItems = entry.getValue();
+            for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+                TagKey<Item> costumeTag;
+
+                if (slot == EquipmentSlot.HEAD)
+                    costumeTag = TagRegistry.POWER_UP_HAT_COSTUMES;
+                else if (slot == EquipmentSlot.CHEST)
+                    costumeTag = TagRegistry.POWER_UP_SHIRT_COSTUMES;
+                else if (slot == EquipmentSlot.LEGS)
+                    costumeTag = TagRegistry.POWER_UP_PANTS_COSTUMES;
+                else costumeTag = TagRegistry.POWER_UP_SHOES_COSTUMES;
+
+                List<ItemStack> costumeItems = BuiltInRegistries.ITEM.getOrCreateTag(costumeTag).stream()
+                        .map(holder -> new ItemStack(holder.value())).toList();
 
                 if (costumeItems.isEmpty())
                     continue;
@@ -77,34 +88,36 @@ public interface CostumeHandler {
                 if (stackArmor.isEmpty() && entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)
                         && entity.getType().is(TagRegistry.POWER_UP_APPLIES_COSTUME)) {
                     ItemStack newStack = costumeItems.get(randomIndex).copy();
-                    this.applyPowerUpComponents(newStack, powerUp);
+                    this.applyPowerUpComponents(newStack, source);
                     entity.setItemSlot(slot, newStack);
-                } else if (stackArmor.is(TagRegistry.COSTUMES))
-                    this.applyPowerUpComponents(stackArmor, powerUp);
+                } else if (stackArmor.is(TagRegistry.COSTUMES)) {
+                    ItemStack newStack = stackArmor.copy();
+                    this.applyPowerUpComponents(newStack, source);
+                    entity.setItemSlot(slot, newStack);
+                }
             }
         }
 
         this.applyAccessoryCostumeComponents(capability.getContainer(SlotTypeLoader
-                .getSlotType(entity, "costume_hat")), powerUp);
+                .getSlotType(entity, "costume_hat")), source);
         this.applyAccessoryCostumeComponents(capability.getContainer(SlotTypeLoader
-                .getSlotType(entity, "costume_shirt")), powerUp);
+                .getSlotType(entity, "costume_shirt")), source);
         this.applyAccessoryCostumeComponents(capability.getContainer(SlotTypeLoader
-                .getSlotType(entity, "costume_pants")), powerUp);
+                .getSlotType(entity, "costume_pants")), source);
         this.applyAccessoryCostumeComponents(capability.getContainer(SlotTypeLoader
-                .getSlotType(entity, "costume_shoes")), powerUp);
+                .getSlotType(entity, "costume_shoes")), source);
     }
 
-    default void applyAccessoryCostumeComponents(AccessoriesContainer container, AbstractPowerUpEntity powerUp) {
+    default void applyAccessoryCostumeComponents(AccessoriesContainer container, PowerUpSource source) {
         if (container == null)
             return;
 
         ItemStack stack = container.getAccessories().getItem(0);
         if (stack.is(TagRegistry.COSTUMES))
-            this.applyPowerUpComponents(stack, powerUp);
+            this.applyPowerUpComponents(stack, source);
     }
 
-    default void applyPowerUpComponents(ItemStack stack, AbstractPowerUpEntity powerUp) {
-        stack.set(DataComponentRegistry.HAS_FIRE_FLOWER, powerUp instanceof FireFlowerEntity);
-        stack.set(DataComponentRegistry.HAS_ICE_FLOWER, powerUp instanceof IceFlowerEntity);
+    default void applyPowerUpComponents(ItemStack stack, PowerUpSource source) {
+        stack.set(DataComponentRegistry.POWER_UP_TYPE.get(), source.getPowerUpType());
     }
 }

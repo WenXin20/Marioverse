@@ -7,12 +7,15 @@ import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeDyeLayer;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeTrimLayer;
 import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeWaistLayer;
 import com.wenxin2.marioverse.items.FemaleCostumeItem;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import java.util.Optional;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -67,11 +70,12 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<FemaleCostume
     public ResourceLocation getTextureLocation(FemaleCostumeItem animatable) {
         ItemStack stack = this.currentStack;
         String layer = this.currentSlot == EquipmentSlot.LEGS ? "layer_2" : "layer_1";
+        Holder<PowerUpType> type = stack.get(DataComponentRegistry.POWER_UP_TYPE.get());
 
-        if (stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false))
+        if (type != null && type.value() == PowerUpTypeRegistry.FIRE_FLOWER.value())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                     "textures/item/costume/female_fire_costume_" + layer + ".png");
-        if (stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
+        if (type != null && type.value() == PowerUpTypeRegistry.ICE_FLOWER.value())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                     "textures/item/costume/female_ice_costume_" + layer + ".png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
@@ -100,11 +104,12 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<FemaleCostume
 
     private ResourceLocation getCostumeTextureLayer(String layer) {
         ItemStack stack = this.currentStack;
+        Holder<PowerUpType> type = stack.get(DataComponentRegistry.POWER_UP_TYPE.get());
 
-        if (stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false))
+        if (type != null && type.value() == PowerUpTypeRegistry.FIRE_FLOWER.value())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                     "textures/item/costume/female_fire_costume_" + layer + ".png");
-        if (stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
+        if (type != null && type.value() == PowerUpTypeRegistry.ICE_FLOWER.value())
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                     "textures/item/costume/female_ice_costume_" + layer + ".png");
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,

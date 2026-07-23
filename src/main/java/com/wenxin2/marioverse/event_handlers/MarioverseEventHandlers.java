@@ -48,6 +48,7 @@ import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
@@ -464,18 +465,23 @@ public class MarioverseEventHandlers {
         }
 
         if (entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)) {
-            if (entity.getItemBySlot(EquipmentSlot.HEAD).getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false)
-                    || entity.getItemBySlot(EquipmentSlot.HEAD).getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
-                entity.getItemBySlot(EquipmentSlot.HEAD).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.CHEST).getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false)
-                    || entity.getItemBySlot(EquipmentSlot.CHEST).getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
-                entity.getItemBySlot(EquipmentSlot.CHEST).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.LEGS).getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false)
-                    || entity.getItemBySlot(EquipmentSlot.LEGS).getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
-                entity.getItemBySlot(EquipmentSlot.LEGS).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.FEET).getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false)
-                    || entity.getItemBySlot(EquipmentSlot.FEET).getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
-                entity.getItemBySlot(EquipmentSlot.FEET).shrink(1);
+            ItemStack slotHead = entity.getItemBySlot(EquipmentSlot.HEAD);
+            ItemStack slotChest = entity.getItemBySlot(EquipmentSlot.CHEST);
+            ItemStack slotLegs = entity.getItemBySlot(EquipmentSlot.LEGS);
+            ItemStack slotFeet = entity.getItemBySlot(EquipmentSlot.FEET);
+
+            if (slotHead.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.FIRE_FLOWER
+                    || slotHead.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER)
+                slotHead.shrink(1);
+            if (slotChest.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.FIRE_FLOWER
+                    || slotChest.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER)
+                slotChest.shrink(1);
+            if (slotLegs.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.FIRE_FLOWER
+                    || slotLegs.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER)
+                slotLegs.shrink(1);
+            if (slotFeet.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.FIRE_FLOWER
+                    || slotFeet.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER)
+                slotFeet.shrink(1);
         }
     }
 

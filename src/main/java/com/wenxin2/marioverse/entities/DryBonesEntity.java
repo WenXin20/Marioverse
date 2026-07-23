@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -279,7 +280,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
             ItemStack stack = new ItemStack(ItemRegistry.HAT.get());
 
             if (randomPowerUpInt == 0) {
-                stack.set(DataComponentRegistry.HAS_FIRE_FLOWER, true);
+                stack.set(DataComponentRegistry.POWER_UP_TYPE, PowerUpTypeRegistry.FIRE_FLOWER);
                 this.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, true);
 
                 if (randomCharacterInt == 0)
@@ -289,7 +290,7 @@ public class DryBonesEntity extends Monster implements GeoEntity {
                     this.setItemSlot(EquipmentSlot.HEAD, stack);
                 }
             } else if (randomPowerUpInt == 1) {
-                stack.set(DataComponentRegistry.HAS_ICE_FLOWER, true);
+                stack.set(DataComponentRegistry.POWER_UP_TYPE, PowerUpTypeRegistry.ICE_FLOWER);
                 this.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
 
                 if (randomCharacterInt == 0)

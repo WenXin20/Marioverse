@@ -1,12 +1,12 @@
 package com.wenxin2.marioverse.utils;
 
-import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
 import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -191,7 +191,7 @@ public interface AbilitiesHandler extends CostumeHandler {
         }
     }
 
-    default void applyFireFlowerPowerUp(Level level, LivingEntity entity, @Nullable AbstractPowerUpEntity powerUp) {
+    default void applyFireFlowerPowerUp(Level level, LivingEntity entity, PowerUpSource source) {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -213,14 +213,12 @@ public interface AbilitiesHandler extends CostumeHandler {
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
                     false, !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
 
-            this.applyCostumeChange(entity, powerUp);
-
-            if (powerUp != null)
-                powerUp.remove(Entity.RemovalReason.DISCARDED);
+            this.applyCostumeChange(entity, source);
+            source.removePowerUpEntity();
         }
     }
 
-    default void applyIceFlowerPowerUp(Level level, LivingEntity entity, @Nullable AbstractPowerUpEntity powerUp) {
+    default void applyIceFlowerPowerUp(Level level, LivingEntity entity, PowerUpSource source) {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!entity.isSpectator() && !entity.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)
@@ -242,10 +240,8 @@ public interface AbilitiesHandler extends CostumeHandler {
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
                     false, !entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM));
 
-            this.applyCostumeChange(entity, powerUp);
-
-            if (powerUp != null)
-                powerUp.remove(Entity.RemovalReason.DISCARDED);
+            this.applyCostumeChange(entity, source);
+            source.removePowerUpEntity();
         }
     }
 }

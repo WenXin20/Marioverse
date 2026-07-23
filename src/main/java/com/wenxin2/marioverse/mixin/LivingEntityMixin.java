@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
@@ -553,13 +554,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 || stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
 
         boolean armorCostumeHasIceFlower = (stackHead.getItem() instanceof MaleCostumeItem
-                && Boolean.TRUE.equals(stackHead.get(DataComponentRegistry.HAS_ICE_FLOWER)))
+                && Boolean.TRUE.equals(stackHead.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
                     || (stackChest.getItem() instanceof MaleCostumeItem
-                        && Boolean.TRUE.equals(stackChest.get(DataComponentRegistry.HAS_ICE_FLOWER)))
+                        && Boolean.TRUE.equals(stackChest.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
                     || (stackLegs.getItem() instanceof MaleCostumeItem
-                        && Boolean.TRUE.equals(stackLegs.get(DataComponentRegistry.HAS_ICE_FLOWER)))
+                        && Boolean.TRUE.equals(stackLegs.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
                     || (stackFeet.getItem() instanceof MaleCostumeItem
-                        && Boolean.TRUE.equals(stackFeet.get(DataComponentRegistry.HAS_ICE_FLOWER)));
+                        && Boolean.TRUE.equals(stackFeet.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER));
 
         if (capability != null) {
             AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
@@ -578,13 +579,13 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             boolean hasShoes = stackShoes.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
 
             boolean accessoryCostumeHasIceFlower = (hasHat && stackHat.getItem() instanceof MaleCostumeItem
-                    && Boolean.TRUE.equals(stackHat.get(DataComponentRegistry.HAS_ICE_FLOWER)))
+                    && Boolean.TRUE.equals(stackHat.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
                         || (hasShirt && stackShirt.getItem() instanceof MaleCostumeItem
-                            && Boolean.TRUE.equals(stackShirt.get(DataComponentRegistry.HAS_ICE_FLOWER)))
+                            && Boolean.TRUE.equals(stackShirt.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
                         || (hasPants && stackPants.getItem() instanceof MaleCostumeItem
-                            && Boolean.TRUE.equals(stackPants.get(DataComponentRegistry.HAS_ICE_FLOWER)))
+                            && Boolean.TRUE.equals(stackPants.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
                         || (hasShoes && stackShoes.getItem() instanceof MaleCostumeItem
-                            && Boolean.TRUE.equals(stackShoes.get(DataComponentRegistry.HAS_ICE_FLOWER)));
+                            && Boolean.TRUE.equals(stackShoes.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER));
 
             hasFreezeImmunity = hasFreezeImmunity || hasHat || hasShirt || hasPants || hasShoes
                     || armorCostumeHasIceFlower || accessoryCostumeHasIceFlower;

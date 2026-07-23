@@ -403,7 +403,27 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.POWER_UP_COSTUMES)
                 .addTag(TagRegistry.FEMALE_COSTUMES)
-                .addTag(TagRegistry.MALE_COSTUMES);
+                .addTag(TagRegistry.MALE_COSTUMES)
+                .addTag(TagRegistry.POWER_UP_HAT_COSTUMES)
+                .addTag(TagRegistry.POWER_UP_PANTS_COSTUMES)
+                .addTag(TagRegistry.POWER_UP_SHIRT_COSTUMES)
+                .addTag(TagRegistry.POWER_UP_SHOES_COSTUMES);
+
+        tag(TagRegistry.POWER_UP_HAT_COSTUMES)
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.HAT.get());
+
+        tag(TagRegistry.POWER_UP_PANTS_COSTUMES)
+                .add(ItemRegistry.DRESS.get())
+                .add(ItemRegistry.PANTS.get());
+
+        tag(TagRegistry.POWER_UP_SHIRT_COSTUMES)
+                .add(ItemRegistry.BODICE.get())
+                .add(ItemRegistry.SHIRT.get());
+
+        tag(TagRegistry.POWER_UP_SHOES_COSTUMES)
+                .add(ItemRegistry.HEELS.get())
+                .add(ItemRegistry.SHOES.get());
 
         tag(TagRegistry.POWER_UP_ITEMS)
                 .add(ItemRegistry.DASH_MUSHROOM.get())
@@ -415,7 +435,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.ONE_UP_MUSHROOM.get())
                 .add(ItemRegistry.SUPER_STAR.get());
 
-        tag(TagRegistry.POWER_UP_ITEMS)
+        tag(TagRegistry.POWER_UP_SPAWN_EGGS)
                 .add(ItemRegistry.FIRE_FLOWER_SPAWN_EGG.get())
                 .add(ItemRegistry.ICE_FLOWER_SPAWN_EGG.get())
                 .add(ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG.get())

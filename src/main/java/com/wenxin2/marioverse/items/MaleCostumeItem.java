@@ -105,11 +105,7 @@ public class MaleCostumeItem extends BaseCostumeItem implements GeoItem {
     }
 
     private static void clearPowerUps(ItemStack stack) {
-        if (!stack.isEmpty() && stack.is(TagRegistry.COSTUMES)) {
-            if (stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false))
-                stack.set(DataComponentRegistry.HAS_FIRE_FLOWER, false);
-            if (stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false))
-                stack.set(DataComponentRegistry.HAS_ICE_FLOWER, false);
-        }
+        if (!stack.isEmpty() && stack.is(TagRegistry.COSTUMES))
+            stack.remove(DataComponentRegistry.POWER_UP_TYPE.get());
     }
 }

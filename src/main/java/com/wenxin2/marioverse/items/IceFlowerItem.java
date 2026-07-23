@@ -1,6 +1,10 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -8,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public class IceFlowerItem extends PowerUpItem {
+public class IceFlowerItem extends PowerUpItem implements PowerUpSource {
 
     public IceFlowerItem(Properties properties) {
         super(properties);
@@ -24,10 +28,15 @@ public class IceFlowerItem extends PowerUpItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (player instanceof AbilitiesHandler handler) {
-            handler.applyIceFlowerPowerUp(level, player, null);
+            handler.applyIceFlowerPowerUp(level, player, this);
             stack.consume(1, player);
             return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.pass(stack);
+    }
+
+    @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.ICE_FLOWER;
     }
 }

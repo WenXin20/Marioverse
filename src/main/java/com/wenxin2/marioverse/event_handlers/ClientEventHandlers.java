@@ -12,10 +12,12 @@ import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
@@ -38,6 +40,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -306,8 +309,9 @@ public class ClientEventHandlers {
     }
 
     private static float powerUpType(ItemStack stack) {
-        boolean hasFireFlower = stack.getOrDefault(DataComponentRegistry.HAS_FIRE_FLOWER, false);
-        boolean hasIceFlower = stack.getOrDefault(DataComponentRegistry.HAS_ICE_FLOWER, false);
+        Holder<PowerUpType> type = stack.get(DataComponentRegistry.POWER_UP_TYPE.get());
+        boolean hasFireFlower = type != null && type.value() == PowerUpTypeRegistry.FIRE_FLOWER.value();
+        boolean hasIceFlower = type != null && type.value() == PowerUpTypeRegistry.ICE_FLOWER.value();
 
         if (hasFireFlower)
             return 1.0F;
