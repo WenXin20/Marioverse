@@ -2,8 +2,12 @@ package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,13 +22,18 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MegaMushroomEntity extends MushroomEntity implements GeoEntity {
+public class MegaMushroomEntity extends MushroomEntity implements GeoEntity, PowerUpSource {
     protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.mega_mushroom.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public MegaMushroomEntity(EntityType<? extends MegaMushroomEntity> entityType, Level world) {
         super(entityType, world);
         this.moveControl = new BounceMoveControl(this, 1, null, 1.0F, 1.0F);
+    }
+
+    @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.MEGA_MUSHROOM;
     }
 
     @Override

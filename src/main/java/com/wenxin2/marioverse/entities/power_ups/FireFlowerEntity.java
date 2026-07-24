@@ -33,6 +33,11 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
     }
 
     @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.FIRE_FLOWER;
+    }
+
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new ContinuousJumpGoal(this));
         this.goalSelector.addGoal(1, new LookAtEntityTagGoal(this, TagRegistry.CAN_CONSUME_FIRE_FLOWERS, 8.0F, 1.0F));
@@ -62,10 +67,5 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
             handler.applyFireFlowerPowerUp(this.level(), rider, this);
         else if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
             handler.applyFireFlowerPowerUp(this.level(), livingEntity, this);
-    }
-
-    @Override
-    public Holder<PowerUpType> getPowerUpType() {
-        return PowerUpTypeRegistry.FIRE_FLOWER;
     }
 }

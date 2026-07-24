@@ -1,12 +1,16 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.Objects;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -21,7 +25,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DashMushroomItem extends PowerUpItem {
+public class DashMushroomItem extends PowerUpItem implements PowerUpSource {
 
     public DashMushroomItem(Properties properties) {
         super(properties);
@@ -29,6 +33,11 @@ public class DashMushroomItem extends PowerUpItem {
 
     public DashMushroomItem(int tooltipLineAmt, Properties properties) {
         super(tooltipLineAmt, properties);
+    }
+
+    @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.DASH_MUSHROOM;
     }
 
     @NotNull

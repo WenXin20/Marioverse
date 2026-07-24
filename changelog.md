@@ -2,7 +2,8 @@
 - Added power up spawn eggs 
   - Used for spawning the power up entity from ? Blocks
 - Changed regular power up items apply the power ups on right-click
-  - Used for chest loot 
+  - Used for chest loot
+- Added a power up type registry
 - Replaced the Mario & Luigi costumes with a generic "male costume"
   - Dye & trim support
 - Replaced the Peach costumes with a generic "female costume"
@@ -11,6 +12,7 @@
 - Koopa Shoes now have trim support
 - Plastic Buckets now have trim support
 - Added Mario, Luigi, & Princess themed trims
+- Fixed waist & dress rendering on koopas & goombas in the wrong position
 
 ## Update 1.10.1
 - Fixed crash when the Warp Disruptor was used on a player attempting to teleport

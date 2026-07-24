@@ -1,6 +1,10 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -8,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public class MegaMushroomItem extends PowerUpItem {
+public class MegaMushroomItem extends PowerUpItem implements PowerUpSource {
 
     public MegaMushroomItem(Properties properties) {
         super(properties);
@@ -16,6 +20,11 @@ public class MegaMushroomItem extends PowerUpItem {
 
     public MegaMushroomItem(int tooltipLineAmt, Properties properties) {
         super(tooltipLineAmt, properties);
+    }
+
+    @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.MEGA_MUSHROOM;
     }
 
     @NotNull

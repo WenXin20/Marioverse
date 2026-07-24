@@ -1,15 +1,19 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -23,11 +27,16 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoEntity;
 
-public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity {
+public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity, PowerUpSource {
     private long lastCollisionTime = 0;
 
     public OneUpMushroomEntity(EntityType<? extends OneUpMushroomEntity> entityType, Level world) {
         super(entityType, world);
+    }
+
+    @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.ONE_UP_MUSHROOM;
     }
 
     public static void consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity, int consecutiveBounces) {

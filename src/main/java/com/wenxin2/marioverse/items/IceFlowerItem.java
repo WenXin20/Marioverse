@@ -22,6 +22,11 @@ public class IceFlowerItem extends PowerUpItem implements PowerUpSource {
         super(tooltipLineAmt, properties);
     }
 
+    @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.ICE_FLOWER;
+    }
+
     @NotNull
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -33,10 +38,5 @@ public class IceFlowerItem extends PowerUpItem implements PowerUpSource {
             return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.pass(stack);
-    }
-
-    @Override
-    public Holder<PowerUpType> getPowerUpType() {
-        return PowerUpTypeRegistry.ICE_FLOWER;
     }
 }

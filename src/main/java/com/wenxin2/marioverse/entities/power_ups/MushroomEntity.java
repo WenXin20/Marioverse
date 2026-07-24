@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousStrollGoal;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.player.Player;
