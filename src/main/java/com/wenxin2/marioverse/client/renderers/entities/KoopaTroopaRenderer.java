@@ -53,7 +53,7 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
                     case CHEST, LEFT_ARM, RIGHT_ARM -> this.chestplateStack;
                     case LEFT_LEG, RIGHT_LEG -> this.leggingsStack;
                     case LEFT_BOOT, RIGHT_BOOT -> this.bootsStack;
-                    default -> super.getArmorItemForBone(bone, animatable);
+                    default -> ItemStack.EMPTY;
                 };
             }
 
@@ -76,7 +76,6 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
             protected ModelPart getModelPartForBone(GeoBone bone, EquipmentSlot slot, ItemStack stack, KoopaTroopaEntity animatable, HumanoidModel<?> baseModel) {
                 return switch (bone.getName()) {
                     case HELMET -> baseModel.head;
-                    case CHEST -> baseModel.body;
                     case LEFT_ARM -> baseModel.leftArm;
                     case RIGHT_ARM -> baseModel.rightArm;
                     case LEFT_LEG, LEFT_BOOT -> baseModel.leftLeg;

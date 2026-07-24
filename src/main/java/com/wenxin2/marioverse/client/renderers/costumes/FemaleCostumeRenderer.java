@@ -20,6 +20,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
@@ -38,6 +39,7 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<FemaleCostume
     protected GeoBone dressBack = null;
     protected GeoBone dressOverlay = null;
     protected GeoBone waist = null;
+    protected LivingEntity currentWearer = null;
 
     private static final DefaultedItemGeoModel<FemaleCostumeItem> FEMALE_MODEL =
             new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/female_costume"));
@@ -269,5 +271,17 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<FemaleCostume
         if (dyedColor != null)
             return 0xFF000000 | dyedColor.rgb();
         return this.getDefaultDyeColor();
+    }
+
+    @Override
+    public void prepForRender(Entity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> baseModel, MultiBufferSource bufferSource, float partialTick, float limbSwing, float limbSwingAmount, float netHeadYaw, float headPitch) {
+        super.prepForRender(entity, stack, slot, baseModel, bufferSource, partialTick, limbSwing, limbSwingAmount, netHeadYaw, headPitch);
+        if (entity instanceof LivingEntity livingEntity)
+            this.currentWearer = livingEntity;
+    }
+
+    @Override
+    public @Nullable LivingEntity getCurrentWearer() {
+        return this.currentWearer;
     }
 }

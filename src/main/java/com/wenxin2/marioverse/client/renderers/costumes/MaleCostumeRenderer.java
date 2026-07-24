@@ -20,6 +20,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
@@ -34,8 +35,8 @@ import software.bernie.geckolib.util.Color;
 import software.bernie.geckolib.util.RenderUtil;
 
 public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem> implements CostumeTextureAccess {
-    protected GeoBone dress = null;
     protected GeoBone waist = null;
+    protected LivingEntity currentWearer = null;
 
     private static final DefaultedItemGeoModel<MaleCostumeItem> MALE_MODEL =
             new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/male_costume"));
@@ -115,7 +116,6 @@ public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem
         if (this.lastModel != bakedModel) {
             GeoModel<MaleCostumeItem> model = this.getGeoModel();
             this.lastModel = bakedModel;
-            this.dress = this.getDressBone(model);
             this.waist = this.getWaistBone(model);
         }
     }
@@ -232,5 +232,17 @@ public class MaleCostumeRenderer extends DyeableGeoArmorRenderer<MaleCostumeItem
         if (dyedColor != null)
             return 0xFF000000 | dyedColor.rgb();
         return this.getDefaultDyeColor();
+    }
+
+    @Override
+    public void prepForRender(Entity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> baseModel, MultiBufferSource bufferSource, float partialTick, float limbSwing, float limbSwingAmount, float netHeadYaw, float headPitch) {
+        super.prepForRender(entity, stack, slot, baseModel, bufferSource, partialTick, limbSwing, limbSwingAmount, netHeadYaw, headPitch);
+        if (entity instanceof LivingEntity livingEntity)
+            this.currentWearer = livingEntity;
+    }
+
+    @Override
+    public @Nullable LivingEntity getCurrentWearer() {
+        return this.currentWearer;
     }
 }

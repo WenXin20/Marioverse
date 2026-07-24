@@ -8,12 +8,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
@@ -21,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.armortrim.ArmorTrim;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
@@ -35,7 +38,13 @@ public class CostumeWaistLayer<T extends Item & GeoAnimatable> extends GeoRender
                        int packedLight, int packedOverlay) {
         CostumeTextureAccess renderer = (CostumeTextureAccess) this.getRenderer();
         ItemStack stack = renderer.getCurrentStack();
+        LivingEntity wearer = renderer.getCurrentWearer();
+
+        if (wearer == null || !CostumeWaistLayer.wearerHasWaistBone(wearer))
+            return;
         if (stack == null || stack.isEmpty() || renderer.getCurrentSlot() != EquipmentSlot.LEGS)
+            return;
+        if (bakedModel.getBone("armorWaist").isEmpty())
             return;
 
         int dyeColour = renderer.getDyeColor();
@@ -54,7 +63,6 @@ public class CostumeWaistLayer<T extends Item & GeoAnimatable> extends GeoRender
     private void renderBone(PoseStack poseStack, T animatable, BakedGeoModel bakedModel,
                             MultiBufferSource bufferSource, float partialTick, int packedLight, int packedOverlay,
                             String boneName, ResourceLocation texture, int colour) {
-        CostumeTextureAccess renderer = (CostumeTextureAccess) this.getRenderer();
         RenderType type = RenderType.entityCutoutNoCull(texture);
         VertexConsumer consumer = bufferSource.getBuffer(type);
 
@@ -113,5 +121,24 @@ public class CostumeWaistLayer<T extends Item & GeoAnimatable> extends GeoRender
 
             bone.setHidden(wasHidden);
         });
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static boolean wearerHasWaistBone(LivingEntity wearer) {
+        EntityRenderer<?> entityRenderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(wearer);
+
+        if (!(wearer instanceof GeoAnimatable animatable))
+            return true;
+        if (!(entityRenderer instanceof GeoRenderer geoRenderer))
+            return true;
+
+        try {
+            GeoModel model = geoRenderer.getGeoModel();
+            ResourceLocation modelLocation = model.getModelResource(animatable, geoRenderer);
+            BakedGeoModel wearerBakedModel = model.getBakedModel(modelLocation);
+            return wearerBakedModel.getBone("armorWaist").isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
