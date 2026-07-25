@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "bottom": "marioverse:block/steve_ability_block_top",
+    "bottom": "marioverse:block/steve_ability_block_bottom",
     "side": "marioverse:block/steve_ability_block",
     "top": "marioverse:block/steve_ability_block_top"
   }

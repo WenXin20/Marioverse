@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "bottom": "marioverse:block/luigi_ability_block_top",
+    "bottom": "marioverse:block/luigi_ability_block_bottom",
     "side": "marioverse:block/luigi_ability_block",
     "top": "marioverse:block/luigi_ability_block_top"
   }

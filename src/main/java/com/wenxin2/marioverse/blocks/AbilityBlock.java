@@ -56,40 +56,38 @@ public class AbilityBlock extends Block {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
         super.appendHoverText(stack, tooltipContext, list, options);
-        list.add(Component.translatable(this.getDescriptionId() + ".tooltip.character"));
+        list.add(Component.translatable("block.marioverse.ability_block.tooltip.character"));
 
         if (Screen.hasShiftDown()) {
             list.add(Component.literal(""));
 
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.instructions"));
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip.instructions.jump"));
+            list.add(Component.translatable("block.marioverse.ability_block.tooltip.instructions"));
+            list.add(Component.translatable("block.marioverse.ability_block.tooltip.instructions.jump"));
 
-            if (this.getNormalJumpBoost() != 0.0 || this.getRunningJumpBoost() != 0.0
-                    || this.getSafeFallDistance() != 0.0 || this.getRunningJumpBoost() != 1.0)
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.ability"));
+            list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability"));
 
             if (this.getNormalJumpBoost() != 0.0)
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.ability.jump_height",
+                list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.jump_height",
                         this.getNormalJumpBoost() * 10).withStyle(ChatFormatting.GRAY));
 
             if (this.getRunningJumpBoost() != 0.0)
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.ability.running_jump_height",
+                list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.running_jump_height",
                         this.getRunningJumpBoost() * 10).withStyle(ChatFormatting.GRAY));
 
             if (this.getSafeFallDistance() != 0.0)
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.ability.safe_fall_distance",
+                list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.safe_fall_distance",
                         this.getSafeFallDistance()).withStyle(ChatFormatting.GRAY));
 
-            if (this.getVerticalMotionMultiplier() != 0.0)
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.ability.slow_fall",
+            if (this.getVerticalMotionMultiplier() != 1.0)
+                list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.slow_fall",
                         this.getVerticalMotionMultiplier() * 100).withStyle(ChatFormatting.GRAY));
 
             if (this.getNormalJumpBoost() == 0.0 && this.getRunningJumpBoost() == 0.0
-                    && this.getSafeFallDistance() == 0.0 && this.getRunningJumpBoost() == 1.0)
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.ability.resets"));
+                    && this.getSafeFallDistance() == 0.0 && this.getVerticalMotionMultiplier() == 1.0)
+                list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.resets"));
 
             list.add(Component.literal(""));
-        } else list.add(Component.translatable("block.marioverse.checkpoint_flag.tooltip"));
+        } else list.add(Component.translatable("block.marioverse.ability_block.tooltip"));
     }
 
     @Override
@@ -157,6 +155,7 @@ public class AbilityBlock extends Block {
             block = BlockRegistry.LUIGI_ABILITY_BLOCK.get();
         else if (entity.getData(DataAttachmentRegistry.HAS_PEACH_ABILITY))
             block = BlockRegistry.PEACH_ABILITY_BLOCK.get();
+        else block = BlockRegistry.STEVE_ABILITY_BLOCK.get();
 
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
