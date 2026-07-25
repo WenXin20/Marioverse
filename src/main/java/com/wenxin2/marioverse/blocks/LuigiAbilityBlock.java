@@ -19,4 +19,9 @@ public class LuigiAbilityBlock extends AbilityBlock {
     public double getSafeFallDistance() {
         return 7.0;
     }
+
+    @Override
+    public double getVerticalMotionMultiplier() {
+        return 0.9;
+    }
 }

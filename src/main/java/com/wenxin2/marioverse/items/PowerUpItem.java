@@ -32,7 +32,7 @@ public class PowerUpItem extends Item {
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++) {
                 MutableComponent abilityText = Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt);
 
-                if (stack.is(ItemRegistry.DASH_MUSHROOM) && lineAmt == 4)
+                if (stack.is(ItemRegistry.DASH_MUSHROOM) && lineAmt == 5)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.DASH_MUSHROOM_HEALTH_HEALED.get().floatValue()).withStyle(ChatFormatting.RED));
 
@@ -52,7 +52,7 @@ public class PowerUpItem extends Item {
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.MINI_MUSHROOM_HEALTH.get() / 2).withStyle(ChatFormatting.RED));
 
-                if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && lineAmt == 4)
+                if (stack.is(ItemRegistry.ONE_UP_MUSHROOM) && lineAmt == 5)
                     abilityText = abilityText.append(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt + ".hearts",
                             ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue() / 2).withStyle(ChatFormatting.GREEN));
 

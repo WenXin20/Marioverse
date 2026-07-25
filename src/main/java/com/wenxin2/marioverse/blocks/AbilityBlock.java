@@ -56,14 +56,13 @@ public class AbilityBlock extends Block {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
         super.appendHoverText(stack, tooltipContext, list, options);
-        list.add(Component.translatable("block.marioverse.ability_block.tooltip.character"));
+        list.add(Component.translatable(this.getDescriptionId() + ".tooltip.character"));
 
         if (Screen.hasShiftDown()) {
             list.add(Component.literal(""));
 
             list.add(Component.translatable("block.marioverse.ability_block.tooltip.instructions"));
             list.add(Component.translatable("block.marioverse.ability_block.tooltip.instructions.jump"));
-
             list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability"));
 
             if (this.getNormalJumpBoost() != 0.0)
@@ -81,6 +80,7 @@ public class AbilityBlock extends Block {
             if (this.getVerticalMotionMultiplier() != 1.0)
                 list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.slow_fall",
                         this.getVerticalMotionMultiplier() * 100).withStyle(ChatFormatting.GRAY));
+                list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.gravity",
 
             if (this.getNormalJumpBoost() == 0.0 && this.getRunningJumpBoost() == 0.0
                     && this.getSafeFallDistance() == 0.0 && this.getVerticalMotionMultiplier() == 1.0)
@@ -103,13 +103,13 @@ public class AbilityBlock extends Block {
 
     @Override
     protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> consumer) {
-        Entity entity = explosion.getDirectSourceEntity();
+        LivingEntity entity = explosion.getIndirectSourceEntity();
 
-        if (explosion.canTriggerBlocks() && entity instanceof LivingEntity livingEntity) {
+        if (explosion.canTriggerBlocks() && entity != null) {
             if (entity.getType().is(TagRegistry.CAN_HIT_ABILITY_BLOCKS)
                     && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0)
-                AbilityBlock.hitAbilityBlock(level, pos, state, livingEntity);
-            else AbilityBlock.hitAbilityBlock(level, pos, state, livingEntity);
+                AbilityBlock.hitAbilityBlock(level, pos, state, entity);
+            else AbilityBlock.hitAbilityBlock(level, pos, state, entity);
         }
 
         super.onExplosionHit(state, level, pos, explosion, consumer);
