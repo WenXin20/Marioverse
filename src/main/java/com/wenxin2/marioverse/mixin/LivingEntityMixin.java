@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
+import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -15,7 +16,6 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -29,7 +29,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -132,8 +131,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         Level level = entity.level();
         RandomSource rand = RandomSource.create();
 
-//        this.mv$characterAbilities(entity);
-
         if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);
             if (!entity.isInvisible()) {
@@ -204,144 +201,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         } else entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, false);
     }
 
-    @Unique
-    private void mv$characterAbilities(LivingEntity entity) {
-        AttributeInstance blockReachAttribute = entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
-        AttributeInstance entityReachAttribute = entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
-        AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
-        AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
-        boolean isMega = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
-        boolean isMini = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
-        Vec3 motion = entity.getDeltaMovement();
-        boolean hasCostume = this.mv$hasCostume(entity);
-
-        if (jumpAttribute != null) {
-            boolean isRunning = entity.isSprinting();
-            double normalJumpBoost = 0.0;
-            double runningJumpBoost = 0.0;
-
-            if (hasCostume) {
-//                if (this.mv$hasPeachCostume(entity)) {
-//                    normalJumpBoost = 0.3;
-//                    runningJumpBoost = 0.4;
-//                } else if (this.mv$hasLuigiCostume(entity)) {
-//                    normalJumpBoost = 0.6;
-//                    runningJumpBoost = 0.7;
-//                } else {
-                    normalJumpBoost = 0.5;
-                    runningJumpBoost = 0.6;
-            }
-
-            if (isMega) {
-                if (hasCostume) {
-                    normalJumpBoost *= 0.8;
-                    runningJumpBoost *= 1.0;
-                } else {
-                    normalJumpBoost = 0.3;
-                    runningJumpBoost = 0.4;
-                }
-            }
-
-            if (isMini) {
-                if (hasCostume) {
-                    normalJumpBoost *= 1.2;
-                    runningJumpBoost *= 1.4;
-                } else {
-                    normalJumpBoost = 0.5;
-                    runningJumpBoost = 0.6;
-                }
-            }
-
-            if (!entity.isShiftKeyDown() && (hasCostume || isMini || isMega)) {
-                if (isRunning) {
-                    mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST, runningJumpBoost);
-                    mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_JUMP_BOOST, 0);
-                } else {
-                    mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_JUMP_BOOST, normalJumpBoost);
-                    mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST, 0);
-                }
-            } else {
-                mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_JUMP_BOOST, 0);
-                mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST, 0);
-            }
-        }
-
-        if (safeFallAttribute != null) {
-            double safeFallDistance = 0;
-
-            if (isMega) {
-                if (hasCostume)
-                    safeFallDistance= 7;
-                else safeFallDistance = 4;
-            } else if (isMini) {
-                if (hasCostume)
-                    safeFallDistance= 16;
-                else safeFallDistance = 14;
-            } else if (hasCostume)
-                safeFallDistance= 7;
-
-            if (hasCostume || isMega || isMini)
-                mv$setModifier(safeFallAttribute, AttributesRegistry.CHARACTER_SAFE_FALL_DISTANCE, safeFallDistance);
-            else mv$setModifier(safeFallAttribute, AttributesRegistry.CHARACTER_SAFE_FALL_DISTANCE, 0);
-        }
-
-        if (blockReachAttribute != null) {
-            double reachDistance = 0;
-
-            if (isMega)
-                reachDistance = ConfigRegistry.MEGA_MUSHROOM_REACH_DISTANCE.get();
-            else if (isMini)
-                reachDistance = ConfigRegistry.MINI_MUSHROOM_REACH_DISTANCE.get();
-
-            if (isMega || isMini)
-                mv$setModifier(blockReachAttribute, AttributesRegistry.BLOCK_REACH_DISTANCE, reachDistance);
-            else mv$setModifier(blockReachAttribute, AttributesRegistry.BLOCK_REACH_DISTANCE, 0);
-        }
-
-        if (entityReachAttribute != null) {
-            double reachDistance = 0;
-
-            if (isMega)
-                reachDistance = ConfigRegistry.MEGA_MUSHROOM_REACH_DISTANCE.get();
-            else if (isMini)
-                reachDistance = ConfigRegistry.MINI_MUSHROOM_REACH_DISTANCE.get();
-
-            if (isMega || isMini)
-                mv$setModifier(entityReachAttribute, AttributesRegistry.ENTITY_REACH_DISTANCE, reachDistance);
-            else mv$setModifier(entityReachAttribute, AttributesRegistry.ENTITY_REACH_DISTANCE, 0);
-        }
-
-//        if (this.mv$hasPeachCostume(entity)) {
-//            if (motion.y < 0)
-//                entity.setDeltaMovement(motion.x, motion.y * 0.7, motion.z);
-//        }
-
-        if (isMini) {
-            if (motion.y < 0)
-                entity.setDeltaMovement(motion.x, motion.y * 0.9, motion.z);
-        }
-    }
-
-    @Unique
-    private static void mv$setModifier(AttributeInstance attribute, ResourceLocation id, double amount) {
-        AttributeModifier modifier = attribute.getModifier(id);
-
-        if (amount == 0.0) {
-            if (modifier != null)
-                attribute.removeModifier(id);
-            return;
-        }
-
-        if (modifier != null) {
-            if (modifier.amount() == amount)
-                return;
-            attribute.removeModifier(id);
-        }
-
-        attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
-    }
-
-
     @ModifyReturnValue(method = "getArmorValue", at = @At("RETURN"))
     private int getArmorValue(int original) {
         LivingEntity entity = (LivingEntity) (Object) this;
@@ -409,7 +268,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             for (InteractionHand hand : InteractionHand.values()) {
                 ItemStack stackInHand = livingEntity.getItemInHand(hand);
-                if (stackInHand.getItem() instanceof OneUpMushroomSpawnEggItem) {
+                if (stackInHand.getItem() instanceof OneUpMushroomItem) {
                     stack = stackInHand.copy();
                     stackInHand.shrink(1);
                     break;
@@ -421,7 +280,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 AccessoriesContainer containerCharm = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "charm"));
                 if (containerCharm != null) {
                     ItemStack stackCharm = containerCharm.getAccessories().getItem(0);
-                    if (stackCharm.getItem() instanceof OneUpMushroomSpawnEggItem) {
+                    if (stackCharm.getItem() instanceof OneUpMushroomItem) {
                         livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                                 soundSource, 1.0F, pitch);
                         livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
@@ -444,7 +303,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 }
             }
 
-            if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomSpawnEggItem) {
+            if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
                 livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         soundSource, 1.0F, pitch);
                 livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
