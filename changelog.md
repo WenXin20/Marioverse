@@ -11,7 +11,7 @@
 - Christmas Hat now has dye & trim support
 - Koopa Shoes now have trim support
 - Plastic Buckets now have trim support
-- Added Mario, Luigi, & Princess themed trims
+- Added Mario, Luigi, Wario, Waluigi, & Princess themed trims
 - Added Ability Blocks
   - Ability blocks included for Mario, Luigi, Peach, & Steve
   - Mario, Luigi, & Peach blocks increases Jump Height & Running Jump Height
@@ -22,6 +22,8 @@
 - Improved Mini Goombas
   - The more goombas attached to the player, the slower you more
 - Fixed waist & dress rendering on koopas & goombas in the wrong position
+
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)m
 
 ## Update 1.10.1
 - Fixed crash when the Warp Disruptor was used on a player attempting to teleport
@@ -136,8 +138,6 @@
 - Fixed incorrect textures for black & gray pipe junctions
 - Fixed shearing pokeys not dropping items
 - Removed forgotten debug log
-
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.9
 - Added Block Spawner

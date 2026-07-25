@@ -260,7 +260,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.TRIM_TEMPLATES)
                 .add(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get())
                 .add(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get())
-                .add(ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE.get());
+                .add(ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE.get())
+                .add(ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get())
+                .add(ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());
 
         tag(ItemTags.TRIMMABLE_ARMOR)
                 .add(ItemRegistry.BODICE.get())

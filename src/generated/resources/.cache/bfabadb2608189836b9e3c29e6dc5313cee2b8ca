@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-20T21:32:23.0444838	Item Models: marioverse
+// 1.21.1	2026-07-25T17:46:13.5187003	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -223,6 +223,8 @@ aadebea237963517b9aed338c780078359859180 assets/marioverse/models/item/storage_w
 d149a63f68a8b5c5c0de44c13ab0483da101bb14 assets/marioverse/models/item/super_star.json
 0a2f7a3668f340208e18c3dba6e3f7520206a16e assets/marioverse/models/item/super_star_spawn_egg.json
 cddb5b5e6d0093c4099c571e8dcf7faa8816941e assets/marioverse/models/item/tube_coral_tower.json
+537ae879571e21ac482e7d996947137c305de261 assets/marioverse/models/item/waluigi_armor_trim_smithing_template.json
+8268fe03687ce1fa03644fe6431d4f4899a18120 assets/marioverse/models/item/wario_armor_trim_smithing_template.json
 e53d3c9e1fdb517dcf1af6ab5154f2c3bbfc7192 assets/marioverse/models/item/warm_cheep_cheep.json
 9a8268f4ae83c4768cc7f91a7d68953f95b12940 assets/marioverse/models/item/warm_cheep_cheep_bucket.json
 0f9434f680b6d9cd424b12b2028e1a82490a8e40 assets/marioverse/models/item/warp_disruptor.json

@@ -826,6 +826,8 @@
   "item.marioverse.spiny_cheep_cheep_bucket": "Bucket of Spiny Cheep Cheep",
   "item.marioverse.super_mushroom": "Super Mushroom",
   "item.marioverse.super_star": "Super Star",
+  "item.marioverse.waluigi_armor_trim_smithing_template": "Waluigi's Armor Trim Smithing Template",
+  "item.marioverse.wario_armor_trim_smithing_template": "Wario's Armor Trim Smithing Template",
   "item.marioverse.warm_cheep_cheep": "Warm Cheep Cheep",
   "item.marioverse.warp_disruptor": "Warp Disruptor",
   "item.marioverse.wrench": "Wrench",
@@ -1081,6 +1083,8 @@
   "trim_pattern.marioverse.luigi": "Luigi Armor Trim",
   "trim_pattern.marioverse.mario": "Mario Armor Trim",
   "trim_pattern.marioverse.princess": "Princess Armor Trim",
+  "trim_pattern.marioverse.waluigi": "Waluigi Armor Trim",
+  "trim_pattern.marioverse.wario": "Wario Armor Trim",
 
   "commands.marioverse.boolean.true": "§atrue",
   "commands.marioverse.boolean.false": "§cfalse",

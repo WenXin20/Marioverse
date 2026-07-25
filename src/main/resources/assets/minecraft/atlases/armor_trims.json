@@ -8,7 +8,11 @@
         "marioverse:trims/models/armor/mario",
         "marioverse:trims/models/armor/mario_leggings",
         "marioverse:trims/models/armor/princess",
-        "marioverse:trims/models/armor/princess_leggings"
+        "marioverse:trims/models/armor/princess_leggings",
+        "marioverse:trims/models/armor/waluigi",
+        "marioverse:trims/models/armor/waluigi_leggings",
+        "marioverse:trims/models/armor/wario",
+        "marioverse:trims/models/armor/wario_leggings"
       ],
       "palette_key": "trims/color_palettes/trim_palette",
       "permutations": {

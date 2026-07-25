@@ -1,0 +1,8 @@
+{
+  "asset_id": "marioverse:wario",
+  "decal": false,
+  "description": {
+    "translate": "trim_pattern.marioverse.wario"
+  },
+  "template_item": "marioverse:wario_armor_trim_smithing_template"
+}

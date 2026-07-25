@@ -146,7 +146,7 @@ public class AbilityBlock extends Block {
     }
 
     public static void characterAbility(LivingEntity entity) {
-        Block block = null;
+        Block block;
 
         if (entity.getData(DataAttachmentRegistry.HAS_MARIO_ABILITY))
             block = BlockRegistry.MARIO_ABILITY_BLOCK.get();
@@ -171,7 +171,7 @@ public class AbilityBlock extends Block {
             double verticalMultiplier = abilityBlock.getVerticalMotionMultiplier();
             Vec3 motion = entity.getDeltaMovement();
 
-            if (motion.y < 0 && verticalMultiplier != 1.0)
+            if (motion.y < 0 && verticalMultiplier != 1.0 && !entity.isShiftKeyDown())
                 entity.setDeltaMovement(motion.x, motion.y * verticalMultiplier, motion.z);
         }
     }

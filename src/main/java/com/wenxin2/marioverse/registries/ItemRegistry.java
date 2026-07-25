@@ -141,6 +141,8 @@ public class ItemRegistry {
     public static final DeferredItem<Item> SUPER_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> SUPER_STAR;
     public static final DeferredItem<Item> SUPER_STAR_SPAWN_EGG;
+    public static final DeferredItem<Item> WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE;
+    public static final DeferredItem<Item> WARIO_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> WARM_CHEEP_CHEEP;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
     public static final DeferredItem<Item> WHITE_KOOPA_SHOES;
@@ -281,6 +283,10 @@ public class ItemRegistry {
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
         PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("princess_armor_trim_smithing_template",
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.PRINCESS));
+        WARIO_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("wario_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.WARIO));
+        WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("waluigi_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.WALUIGI));
 
         CHRISTMAS_HAT = registerItem("christmas_hat",
                 () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
