@@ -44,6 +44,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_TRAMPOLINE_CAPS = biomeTags("has_trampoline_caps");
     public static final TagKey<Biome> HAS_WARM_CHEEP_CHEEP = biomeTags("has_warm_cheep_cheep");
 
+    public static final TagKey<Block> ABILITY_BLOCKS = blockTags("ability_blocks");
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
@@ -227,6 +228,8 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_MUSHROOMS = entityTypeTags("can_consume_super_mushrooms");
     public static final TagKey<EntityType<?>> CAN_CONSUME_SUPER_STARS = entityTypeTags("can_consume_super_stars");
     public static final TagKey<EntityType<?>> CAN_DO_DAMAGE_AS_MEGA = entityTypeTags("can_do_damage_as_mega");
+    public static final TagKey<EntityType<?>> CAN_HIT_ABILITY_BLOCKS = entityTypeTags("can_hit_ability_blocks");
+    public static final TagKey<EntityType<?>> CAN_HIT_ABILITY_BLOCKS_FROM_SIDE = entityTypeTags("can_hit_ability_blocks_from_side");
     public static final TagKey<EntityType<?>> CAN_HIT_ON_OFF_SWITCHES = entityTypeTags("can_hit_on_off_switches");
     public static final TagKey<EntityType<?>> CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE = entityTypeTags("can_hit_on_off_switches_from_side");
     public static final TagKey<EntityType<?>> CAN_HIT_QUESTION_BLOCKS = entityTypeTags("can_hit_question_blocks");

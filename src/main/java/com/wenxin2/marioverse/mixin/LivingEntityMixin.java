@@ -132,7 +132,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         Level level = entity.level();
         RandomSource rand = RandomSource.create();
 
-        this.mv$characterAbilities(entity);
+//        this.mv$characterAbilities(entity);
 
         if (entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
             this.mv$superStarKillEntity(entity);
@@ -254,15 +254,15 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             if (!entity.isShiftKeyDown() && (hasCostume || isMini || isMega)) {
                 if (isRunning) {
-                    mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, runningJumpBoost);
-                    mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, 0);
+                    mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST, runningJumpBoost);
+                    mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_JUMP_BOOST, 0);
                 } else {
-                    mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, normalJumpBoost);
-                    mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, 0);
+                    mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_JUMP_BOOST, normalJumpBoost);
+                    mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST, 0);
                 }
             } else {
-                mv$setModifier(jumpAttribute, AttributesRegistry.JUMP_BOOST, 0);
-                mv$setModifier(jumpAttribute, AttributesRegistry.RUNNING_JUMP_BOOST, 0);
+                mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_JUMP_BOOST, 0);
+                mv$setModifier(jumpAttribute, AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST, 0);
             }
         }
 
@@ -281,8 +281,8 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 safeFallDistance= 7;
 
             if (hasCostume || isMega || isMini)
-                mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, safeFallDistance);
-            else mv$setModifier(safeFallAttribute, AttributesRegistry.SAFE_FALL_DISTANCE, 0);
+                mv$setModifier(safeFallAttribute, AttributesRegistry.CHARACTER_SAFE_FALL_DISTANCE, safeFallDistance);
+            else mv$setModifier(safeFallAttribute, AttributesRegistry.CHARACTER_SAFE_FALL_DISTANCE, 0);
         }
 
         if (blockReachAttribute != null) {

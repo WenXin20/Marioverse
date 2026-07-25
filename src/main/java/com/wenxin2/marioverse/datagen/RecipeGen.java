@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.datagen;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.data.RecipeUtils;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
@@ -14,7 +13,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.SmithingTrimRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;

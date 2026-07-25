@@ -429,6 +429,10 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.GLOW_BLOCK);
             add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
             add(event, BlockRegistry.SPLUNKIN_O_LANTERN);
+            add(event, BlockRegistry.MARIO_ABILITY_BLOCK);
+            add(event, BlockRegistry.LUIGI_ABILITY_BLOCK);
+            add(event, BlockRegistry.PEACH_ABILITY_BLOCK);
+            add(event, BlockRegistry.STEVE_ABILITY_BLOCK);
             add(event, BlockRegistry.ON_OFF_SWITCH);
             add(event, BlockRegistry.RED_DOTTED_LINE_BLOCK);
             add(event, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
@@ -1007,7 +1011,11 @@ public class MarioverseCreativeTabs {
             if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
 
-                addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.FUNGAL_QUESTION_BLOCK);
+                addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.MARIO_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.MARIO_ABILITY_BLOCK, BlockRegistry.LUIGI_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.LUIGI_ABILITY_BLOCK, BlockRegistry.PEACH_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.PEACH_ABILITY_BLOCK, BlockRegistry.STEVE_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.STEVE_ABILITY_BLOCK, BlockRegistry.FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK, BlockRegistry.AMETHYST_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.AMETHYST_QUESTION_BLOCK, BlockRegistry.CALCITE_QUESTION_BLOCK);

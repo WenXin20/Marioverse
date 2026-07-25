@@ -163,6 +163,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
 
+        tag(TagRegistry.ABILITY_BLOCKS)
+                .add(BlockRegistry.LUIGI_ABILITY_BLOCK.get())
+                .add(BlockRegistry.MARIO_ABILITY_BLOCK.get())
+                .add(BlockRegistry.PEACH_ABILITY_BLOCK.get())
+                .add(BlockRegistry.STEVE_ABILITY_BLOCK.get());
+
         tag(TagRegistry.BOUNCY_BLOCKS)
                 .add(Blocks.BROWN_MUSHROOM_BLOCK)
                 .add(Blocks.RED_MUSHROOM_BLOCK)
@@ -735,6 +741,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
+        tag(BlockTags.NEEDS_IRON_TOOL)
+                .addTag(TagRegistry.ABILITY_BLOCKS);
+
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
@@ -849,6 +858,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.GLOW_BLOCK.get());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .addTag(TagRegistry.ABILITY_BLOCKS)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)

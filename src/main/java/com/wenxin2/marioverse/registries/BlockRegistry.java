@@ -1,14 +1,18 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.AbilityBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.CoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
+import com.wenxin2.marioverse.blocks.LuigiAbilityBlock;
+import com.wenxin2.marioverse.blocks.MarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
 import com.wenxin2.marioverse.blocks.PassiveDeathBlock;
+import com.wenxin2.marioverse.blocks.PeachAbilityBlock;
 import com.wenxin2.marioverse.blocks.PlayerDeathBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
@@ -238,8 +242,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> IRON_SPIKE;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> LUIGI_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> MARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MONSTER_DEATH_BLOCK;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
@@ -253,6 +259,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
+    public static final DeferredBlock<Block> PEACH_ABILITY_BLOCK;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> PLAYER_DEATH_BLOCK;
     public static final DeferredBlock<Block> POLISHED_AMETHYST;
@@ -339,6 +346,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STAR_COIN;
+    public static final DeferredBlock<Block> STEVE_ABILITY_BLOCK;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
@@ -427,6 +435,19 @@ public class BlockRegistry {
                 () -> new PassiveDeathBlock(BlockBehaviour.Properties.ofFullCopy(DEATH_BLOCK.get())));
         PLAYER_DEATH_BLOCK = registerBlock("player_death_block",
                 () -> new PlayerDeathBlock(BlockBehaviour.Properties.ofFullCopy(DEATH_BLOCK.get())));
+        LUIGI_ABILITY_BLOCK = registerBlock("luigi_ability_block",
+                () -> new LuigiAbilityBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                        .sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 6.0F)
+                        .requiresCorrectToolForDrops()));
+        MARIO_ABILITY_BLOCK = registerBlock("mario_ability_block",
+                () -> new MarioAbilityBlock(BlockBehaviour.Properties.ofFullCopy(LUIGI_ABILITY_BLOCK.get())
+                        .mapColor(MapColor.COLOR_RED)));
+        PEACH_ABILITY_BLOCK = registerBlock("peach_ability_block",
+                () -> new PeachAbilityBlock(BlockBehaviour.Properties.ofFullCopy(LUIGI_ABILITY_BLOCK.get())
+                        .mapColor(MapColor.COLOR_PINK)));
+        STEVE_ABILITY_BLOCK = registerBlock("steve_ability_block",
+                () -> new AbilityBlock(BlockBehaviour.Properties.ofFullCopy(LUIGI_ABILITY_BLOCK.get())
+                        .mapColor(MapColor.COLOR_BLUE)));
 
         STAR_COIN = registerNoItemBlock("star_coin",
                 () -> new StarCoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

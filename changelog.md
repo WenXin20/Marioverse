@@ -8,6 +8,12 @@
   - Dye & trim support
 - Replaced the Peach costumes with a generic "female costume"
   - Dye & trim support
+- Added Ability Blocks 
+  - Ability blocks included for Mario, Luigi, Peach, & Steve
+  - Mario, Luigi, & Peach blocks increases Jump Height & Running Jump Height
+  - Peach blocks include slow fall
+  - Steve blocks resets your abilities to the default
+  - Jump into the blocks to obtain abilities
 - Christmas Hat now has dye & trim support
 - Koopa Shoes now have trim support
 - Plastic Buckets now have trim support

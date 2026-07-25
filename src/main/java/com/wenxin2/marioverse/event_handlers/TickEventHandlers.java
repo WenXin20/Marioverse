@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.AbilityBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
@@ -8,6 +9,8 @@ import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.items.MegaMushroomItem;
+import com.wenxin2.marioverse.items.MiniMushroomItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -180,10 +183,16 @@ public class TickEventHandlers {
 
         TickEventHandlers.collideWithBlocks(level, entity);
 
-        if (!level.isClientSide && entity instanceof LivingEntity livingEntity) {
-            TickEventHandlers.megaMushroomScale(livingEntity);
-            TickEventHandlers.miniMushroomScale(livingEntity);
-            TickEventHandlers.superMushroomScale(livingEntity);
+        if (entity instanceof LivingEntity livingEntity) {
+            AbilityBlock.characterAbility(livingEntity);
+            MegaMushroomItem.megaMushroomAbility(livingEntity);
+            MiniMushroomItem.miniMushroomAbility(livingEntity);
+
+            if (!level.isClientSide) {
+                TickEventHandlers.megaMushroomScale(livingEntity);
+                TickEventHandlers.miniMushroomScale(livingEntity);
+                TickEventHandlers.superMushroomScale(livingEntity);
+            }
         }
 
         if (entity.isVehicle() && spinningTicks > 0) {
@@ -218,7 +227,7 @@ public class TickEventHandlers {
             entity.fallDistance = 0.0F;
         }
     }
-    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
+//    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
 
     private static void collideWithBlocks(Level level, Entity entity) {
         Vec3 motion = entity.getDeltaMovement();
@@ -305,7 +314,7 @@ public class TickEventHandlers {
                     BlockPos worldPos = BlockPos.containing(worldVec);
                     AABB blockBox = new AABB(worldPos);
 
-                    DEBUG_BOXES.add(blockBox);
+//                    DEBUG_BOXES.add(blockBox);
 
                     if (!transformedHitBox.intersects(blockBox))
                         continue;
@@ -382,6 +391,13 @@ public class TickEventHandlers {
                     if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
                             && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
                         SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), stateAbove, entity);
+                        didHit = true;
+                    }
+
+                    if (!didHit && entity instanceof LivingEntity livingEntity
+                            && stateAbove.is(TagRegistry.ABILITY_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_HIT_ABILITY_BLOCKS)) {
+                        AbilityBlock.hitAbilityBlock(level, BlockPos.of(posKey), stateAbove, livingEntity);
                         didHit = true;
                     }
 
@@ -485,6 +501,13 @@ public class TickEventHandlers {
                     if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                         shell.bounceShell(level, hitResult);
                     SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), targetState, entity);
+                    didHit = true;
+                }
+
+                if (!didHit && entity instanceof LivingEntity livingEntity
+                        && targetState.is(TagRegistry.ABILITY_BLOCKS)
+                        && entity.getType().is(TagRegistry.CAN_HIT_ABILITY_BLOCKS_FROM_SIDE)) {
+                    AbilityBlock.hitAbilityBlockFromSide(level, BlockPos.of(posKey), targetState, livingEntity);
                     didHit = true;
                 }
 

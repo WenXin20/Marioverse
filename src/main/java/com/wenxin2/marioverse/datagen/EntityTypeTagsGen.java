@@ -308,6 +308,18 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PLAYER)
                 .add(EntityType.SNOW_GOLEM);
 
+        tag(TagRegistry.CAN_HIT_ABILITY_BLOCKS)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.CAN_HIT_ABILITY_BLOCKS_FROM_SIDE)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES);
+
         tag(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
                 .addTag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityType.PLAYER);

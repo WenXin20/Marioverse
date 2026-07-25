@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-23T21:26:28.7529798	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-07-24T23:13:50.1363706	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -6,7 +6,6 @@ ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/cannot_drop_coins.json
 e36784c8f93ab81000e4963874f30485fc338360 data/marioverse/tags/entity_type/cannot_lose_power_up.json
 dbb70dd49de04356cbf59de35c41bb88d587c97e data/marioverse/tags/entity_type/cannot_quick_travel.json
-9a9b06bfdbd4eafa80536d954cfd275941a9fe2a data/marioverse/tags/entity_type/cannot_render_waist_armor.json
 6d1a66aa70d5a1805de9f33fe2bdcb966c4c3b3a data/marioverse/tags/entity_type/cannot_reward_one_ups.json
 1b59d2089d2a804e3dce11a8628b32e62e6a9938 data/marioverse/tags/entity_type/cannot_warp.json
 28275c398084ab1959c12370c26255db9f9768e9 data/marioverse/tags/entity_type/can_be_instakill_stomped.json
@@ -25,6 +24,8 @@ aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_co
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_consume_super_mushrooms.json
 c7fd1f8616fb56c8cae444c5d96893d90faad166 data/marioverse/tags/entity_type/can_consume_super_stars.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/can_do_damage_as_mega.json
+693a2494720d1494ef285de4430dab15caff2dee data/marioverse/tags/entity_type/can_hit_ability_blocks.json
+837b5a3de82aee31fd154b5c06e7b161cd2a3054 data/marioverse/tags/entity_type/can_hit_ability_blocks_from_side.json
 59f42f174ba933a3496a1caea3b66f9245b4a4f9 data/marioverse/tags/entity_type/can_hit_on_off_switches.json
 837b5a3de82aee31fd154b5c06e7b161cd2a3054 data/marioverse/tags/entity_type/can_hit_on_off_switches_from_side.json
 693a2494720d1494ef285de4430dab15caff2dee data/marioverse/tags/entity_type/can_hit_question_blocks.json
