@@ -78,9 +78,8 @@ public class AbilityBlock extends Block {
                         this.getSafeFallDistance()).withStyle(ChatFormatting.GRAY));
 
             if (this.getVerticalMotionMultiplier() != 1.0)
-                list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.slow_fall",
-                        this.getVerticalMotionMultiplier() * 100).withStyle(ChatFormatting.GRAY));
                 list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.gravity",
+                        this.getVerticalMotionMultiplier() * 100, "% ").withStyle(ChatFormatting.GRAY));
 
             if (this.getNormalJumpBoost() == 0.0 && this.getRunningJumpBoost() == 0.0
                     && this.getSafeFallDistance() == 0.0 && this.getVerticalMotionMultiplier() == 1.0)
