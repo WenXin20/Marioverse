@@ -45,9 +45,11 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
     private static final ResourceLocation SLOWDOWN_MODIFIER =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mini_goomba_slowdown");
 
-    private static final double SLOWDOWN_FACTOR = 0.65;
+    private static final double SLOWDOWN_FACTOR = 0.15;
+    private static final double MAX_SLOWDOWN_FACTOR = 0.9;
     private static final double MOVE_SPEED = 0.25;
     private static final double POSITION_THRESHOLD = 0.05;
+    private static final double ATTACH_SEARCH_RADIUS = 8.0;
     private int currentSide = -1;
     private int currentCooldown = 0;
     private int switchCooldown = 20;
@@ -129,7 +131,7 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
                 && this.isAlive() && !(stuckTo.getDeltaMovement().y > 0)) {
             double distanceToTarget = distanceToTarget();
             if (distanceToTarget < POSITION_THRESHOLD)
-                 this.generateRandomOffsets(stuckTo);
+                this.generateRandomOffsets(stuckTo);
             this.moveTowardsTarget();
             this.resetFallDistance();
             this.setPos(stuckTo.getX() + currentX, stuckTo.getY() + currentY, stuckTo.getZ() + currentZ);
@@ -207,21 +209,45 @@ public class MiniGoombaEntity extends GoombaEntity implements GeoEntity {
         }
     }
 
+    private int countAttachedGoombas(LivingEntity livingEntity) {
+        List<MiniGoombaEntity> attached = livingEntity.level().getEntitiesOfClass(MiniGoombaEntity.class,
+                livingEntity.getBoundingBox().inflate(ATTACH_SEARCH_RADIUS),
+                goomba -> goomba.stuckTo == livingEntity);
+        return attached.size();
+    }
+
     private void addSpeedModifier(LivingEntity livingEntity) {
         AttributeInstance speedAttribute = livingEntity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && !speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
-            AttributeModifier slowdownModifier = new AttributeModifier(
-                    SLOWDOWN_MODIFIER, -SLOWDOWN_FACTOR,
-                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-            );
-            speedAttribute.addTransientModifier(slowdownModifier);
-        }
+        if (speedAttribute == null)
+            return;
+
+        int attachedCount = this.countAttachedGoombas(livingEntity);
+        double totalSlowdown = Math.min(MAX_SLOWDOWN_FACTOR, SLOWDOWN_FACTOR * attachedCount);
+
+        if (speedAttribute.hasModifier(SLOWDOWN_MODIFIER))
+            speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
+
+        AttributeModifier slowdownModifier = new AttributeModifier(
+                SLOWDOWN_MODIFIER, -totalSlowdown,
+                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+        speedAttribute.addTransientModifier(slowdownModifier);
     }
 
     private void removeSpeedModifier(LivingEntity livingEntity) {
         AttributeInstance speedAttribute = livingEntity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute != null && speedAttribute.hasModifier(SLOWDOWN_MODIFIER)) {
+        if (speedAttribute == null)
+            return;
+
+        if (speedAttribute.hasModifier(SLOWDOWN_MODIFIER))
             speedAttribute.removeModifier(SLOWDOWN_MODIFIER);
+
+        int remainingCount = Math.max(0, this.countAttachedGoombas(livingEntity) - 1);
+        if (remainingCount > 0) {
+            double totalSlowdown = Math.min(MAX_SLOWDOWN_FACTOR, SLOWDOWN_FACTOR * remainingCount);
+            AttributeModifier slowdownModifier = new AttributeModifier(
+                    SLOWDOWN_MODIFIER, -totalSlowdown,
+                    AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+            speedAttribute.addTransientModifier(slowdownModifier);
         }
     }
 
