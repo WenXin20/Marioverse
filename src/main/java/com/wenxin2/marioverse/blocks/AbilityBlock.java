@@ -228,7 +228,8 @@ public class AbilityBlock extends Block {
             if (motion.y < 0 && verticalMultiplier != 1.0 && !entity.isShiftKeyDown())
                 entity.setDeltaMovement(motion.x, motion.y * verticalMultiplier, motion.z);
 
-            entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), abilityBlock.hasDoubleJump());
+            if (!entity.hasData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get()) && abilityBlock.hasDoubleJump())
+                entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), abilityBlock.hasDoubleJump());
         }
     }
 
@@ -306,9 +307,12 @@ public class AbilityBlock extends Block {
     }
 
     public static void setAirborneDuration(LivingEntity entity) {
-        if (entity.onGround())
+        if (entity.onGround()) {
             entity.setData(DataAttachmentRegistry.AIRBORNE_DURATION.get(), 0);
-        else {
+
+            if (entity.hasData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get()))
+                entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), true);
+        } else {
             int duration = entity.getData(DataAttachmentRegistry.AIRBORNE_DURATION);
             entity.setData(DataAttachmentRegistry.AIRBORNE_DURATION.get(), duration + 1);
         }
