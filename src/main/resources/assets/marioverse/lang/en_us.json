@@ -599,8 +599,8 @@
   "block.marioverse.ability_block.tooltip.ability.running_jump_height": " §7• +%1$s Block Running Jump Height",
   "block.marioverse.ability_block.tooltip.ability.safe_fall_distance": " §7• +%1$s Block Safe Fall Distance",
   "block.marioverse.ability_block.tooltip.ability.gravity": " §7• %1$s%2$s Gravity",
-  "block.marioverse.ability_block.tooltip.ability.height_scale": " §7• %1$s Height",
-  "block.marioverse.ability_block.tooltip.ability.width_scale": " §7• %1$s Width",
+  "block.marioverse.ability_block.tooltip.ability.height_scale": " §7• %1$sx Height",
+  "block.marioverse.ability_block.tooltip.ability.width_scale": " §7• %1$sx Width",
   "block.marioverse.ability_block.tooltip.ability.double_jump": " §7• Double Jump",
   "block.marioverse.ability_block.tooltip.ability.resets": " §7• Restores default abilities",
 
