@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.CoralTowerBlock;
+import com.wenxin2.marioverse.blocks.DaisyAbilityBlock;
 import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
 import com.wenxin2.marioverse.blocks.LuigiAbilityBlock;
@@ -28,6 +29,7 @@ import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
+import com.wenxin2.marioverse.blocks.RosalinaAbilityBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.TrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
@@ -41,6 +43,8 @@ import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
+import com.wenxin2.marioverse.blocks.WaluigiAbilityBlock;
+import com.wenxin2.marioverse.blocks.WarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
@@ -162,6 +166,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> DAISY_ABILITY_BLOCK;
     public static final DeferredBlock<Block> DANGO_BLOSSOM;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
@@ -311,6 +316,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_WALL;
     public static final DeferredBlock<Block> RED_SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> ROSALINA_ABILITY_BLOCK;
     public static final DeferredBlock<Block> SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_SLAB;
@@ -404,6 +410,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> WALUIGI_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> WARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> WATER_SPOUT;
@@ -435,19 +443,31 @@ public class BlockRegistry {
                 () -> new PassiveDeathBlock(BlockBehaviour.Properties.ofFullCopy(DEATH_BLOCK.get())));
         PLAYER_DEATH_BLOCK = registerBlock("player_death_block",
                 () -> new PlayerDeathBlock(BlockBehaviour.Properties.ofFullCopy(DEATH_BLOCK.get())));
-        LUIGI_ABILITY_BLOCK = registerBlock("luigi_ability_block",
-                () -> new LuigiAbilityBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+        DAISY_ABILITY_BLOCK = registerBlock("daisy_ability_block",
+                () -> new DaisyAbilityBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
                         .sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 6.0F)
                         .requiresCorrectToolForDrops()));
+        LUIGI_ABILITY_BLOCK = registerBlock("luigi_ability_block",
+                () -> new LuigiAbilityBlock(BlockBehaviour.Properties.ofFullCopy(DAISY_ABILITY_BLOCK.get())
+                        .mapColor(MapColor.COLOR_GREEN)));
         MARIO_ABILITY_BLOCK = registerBlock("mario_ability_block",
-                () -> new MarioAbilityBlock(BlockBehaviour.Properties.ofFullCopy(LUIGI_ABILITY_BLOCK.get())
+                () -> new MarioAbilityBlock(BlockBehaviour.Properties.ofFullCopy(DAISY_ABILITY_BLOCK.get())
                         .mapColor(MapColor.COLOR_RED)));
         PEACH_ABILITY_BLOCK = registerBlock("peach_ability_block",
-                () -> new PeachAbilityBlock(BlockBehaviour.Properties.ofFullCopy(LUIGI_ABILITY_BLOCK.get())
+                () -> new PeachAbilityBlock(BlockBehaviour.Properties.ofFullCopy(DAISY_ABILITY_BLOCK.get())
                         .mapColor(MapColor.COLOR_PINK)));
+        ROSALINA_ABILITY_BLOCK = registerBlock("rosalina_ability_block",
+                () -> new RosalinaAbilityBlock(BlockBehaviour.Properties.ofFullCopy(DAISY_ABILITY_BLOCK.get())
+                        .mapColor(MapColor.COLOR_LIGHT_BLUE)));
         STEVE_ABILITY_BLOCK = registerBlock("steve_ability_block",
-                () -> new AbilityBlock(BlockBehaviour.Properties.ofFullCopy(LUIGI_ABILITY_BLOCK.get())
+                () -> new AbilityBlock(BlockBehaviour.Properties.ofFullCopy(DAISY_ABILITY_BLOCK.get())
                         .mapColor(MapColor.COLOR_BLUE)));
+        WALUIGI_ABILITY_BLOCK = registerBlock("waluigi_ability_block",
+                () -> new WaluigiAbilityBlock(BlockBehaviour.Properties.ofFullCopy(DAISY_ABILITY_BLOCK.get())
+                        .mapColor(MapColor.COLOR_PURPLE)));
+        WARIO_ABILITY_BLOCK = registerBlock("wario_ability_block",
+                () -> new WarioAbilityBlock(BlockBehaviour.Properties.ofFullCopy(DAISY_ABILITY_BLOCK.get())
+                        .mapColor(MapColor.COLOR_YELLOW)));
 
         STAR_COIN = registerNoItemBlock("star_coin",
                 () -> new StarCoinBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

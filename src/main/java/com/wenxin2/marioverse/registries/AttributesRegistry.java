@@ -18,12 +18,20 @@ public class AttributesRegistry {
             .fromNamespaceAndPath(Marioverse.MOD_ID, "auto_step_height");
     public static final ResourceLocation BLOCK_REACH_DISTANCE = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "block_reach_distance");
+    public static final ResourceLocation CHARACTER_EYE_HEIGHT_SCALE = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "character_eye_height_scale");
+    public static final ResourceLocation CHARACTER_HEIGHT_SCALE = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "character_height_scale");
+    public static final ResourceLocation CHARACTER_WIDTH_SCALE = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "character_width_scale");
     public static final ResourceLocation CHARACTER_JUMP_BOOST = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "character_jump_boost");
     public static final ResourceLocation CHARACTER_RUNNING_JUMP_BOOST = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "character_running_jump_boost");
     public static final ResourceLocation CHARACTER_SAFE_FALL_DISTANCE = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "character_safe_fall_distance");
+    public static final ResourceLocation CHARACTER_SCALE = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "character_scale");
     public static final ResourceLocation COSTUME_ARMOR_KNOCKBACK_RESISTANCE = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "costume_armor_knockback_resistance");
     public static final ResourceLocation COSTUME_ARMOR_TOUGHNESS = ResourceLocation

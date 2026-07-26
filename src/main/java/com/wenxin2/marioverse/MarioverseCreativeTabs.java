@@ -433,7 +433,11 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.SPLUNKIN_O_LANTERN);
             add(event, BlockRegistry.MARIO_ABILITY_BLOCK);
             add(event, BlockRegistry.LUIGI_ABILITY_BLOCK);
+            add(event, BlockRegistry.WARIO_ABILITY_BLOCK);
+            add(event, BlockRegistry.WALUIGI_ABILITY_BLOCK);
             add(event, BlockRegistry.PEACH_ABILITY_BLOCK);
+            add(event, BlockRegistry.DAISY_ABILITY_BLOCK);
+            add(event, BlockRegistry.ROSALINA_ABILITY_BLOCK);
             add(event, BlockRegistry.STEVE_ABILITY_BLOCK);
             add(event, BlockRegistry.ON_OFF_SWITCH);
             add(event, BlockRegistry.RED_DOTTED_LINE_BLOCK);
@@ -1017,8 +1021,12 @@ public class MarioverseCreativeTabs {
 
                 addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.MARIO_ABILITY_BLOCK);
                 addAfter(event, BlockRegistry.MARIO_ABILITY_BLOCK, BlockRegistry.LUIGI_ABILITY_BLOCK);
-                addAfter(event, BlockRegistry.LUIGI_ABILITY_BLOCK, BlockRegistry.PEACH_ABILITY_BLOCK);
-                addAfter(event, BlockRegistry.PEACH_ABILITY_BLOCK, BlockRegistry.STEVE_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.LUIGI_ABILITY_BLOCK, BlockRegistry.WARIO_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.WARIO_ABILITY_BLOCK, BlockRegistry.WALUIGI_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.WALUIGI_ABILITY_BLOCK, BlockRegistry.PEACH_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.PEACH_ABILITY_BLOCK, BlockRegistry.DAISY_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.DAISY_ABILITY_BLOCK, BlockRegistry.ROSALINA_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.ROSALINA_ABILITY_BLOCK, BlockRegistry.STEVE_ABILITY_BLOCK);
                 addAfter(event, BlockRegistry.STEVE_ABILITY_BLOCK, BlockRegistry.FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK, BlockRegistry.AMETHYST_QUESTION_BLOCK);

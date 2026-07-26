@@ -1022,7 +1022,7 @@ public class ConfigRegistry {
                     MINI_MUSHROOM_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.mini_mushroom_height_scale")
                             .comment("The height scale Mini Mushrooms resize the user.§b")
                             .comment("§6[1.0 is normal height§b")
-                            .defineInRange("mega_mushroom_height_scale", 0.25, 0.3, 20.0);
+                            .defineInRange("mini_mushroom_height_scale", 0.25, 0.25, 20.0);
                     MINI_MUSHROOM_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.mini_mushroom_width_scale")
                             .comment("The width scale Mini Mushrooms resize the user.§b")
                             .comment("§6[1.0 is normal width§b")

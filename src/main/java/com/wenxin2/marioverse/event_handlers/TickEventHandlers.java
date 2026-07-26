@@ -187,6 +187,7 @@ public class TickEventHandlers {
             AbilityBlock.characterAbility(livingEntity);
             MegaMushroomItem.megaMushroomAbility(livingEntity);
             MiniMushroomItem.miniMushroomAbility(livingEntity);
+            AbilityBlock.setAirborneDuration(livingEntity);
 
             if (!level.isClientSide) {
                 TickEventHandlers.megaMushroomScale(livingEntity);
@@ -708,7 +709,7 @@ public class TickEventHandlers {
         boolean shouldScale = hasMegaMushroom;
         boolean shouldReset = !hasMegaMushroom && !hasMiniMushroom && hasSuperMushroom;
 
-        TickEventHandlers.updateScale(entity, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
+        TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
@@ -730,7 +731,7 @@ public class TickEventHandlers {
         boolean shouldScale = !hasSuperMushroom && hasMiniMushroom;
         boolean shouldReset = hasSuperMushroom && !hasMiniMushroom;
 
-        TickEventHandlers.updateScale(entity, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
+        TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
@@ -769,59 +770,67 @@ public class TickEventHandlers {
                 || (!isPlayer && (hasSuperMushroomOverride
                     || (healHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)))));
 
-        TickEventHandlers.updateScale(entity, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
+        TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
-    private static void updateScale(LivingEntity entity, boolean shouldScale, double targetHeightScale, double targetWidthScale,
-                                    AttributeInstance eyeHeightScale, double targetEyeHeightScale, float scalingSpeed,
-                                    AttributeInstance heightScale, AttributeInstance widthScale, boolean shouldReset) {
-        double currentHeight = heightScale != null ? heightScale.getValue() : 1.0D;
-        double currentWidth = widthScale != null ? widthScale.getValue() : 1.0D;
+    public static void updateScale(LivingEntity entity, ResourceLocation modifierID, boolean shouldScale, double targetHeightScale, double targetWidthScale,
+                                   AttributeInstance eyeHeightScale, double targetEyeHeightScale, float scalingSpeed,
+                                   AttributeInstance heightScale, AttributeInstance widthScale, boolean shouldReset) {
+        double currentHeight = TickEventHandlers.modifierScale(heightScale, modifierID);
+        double currentWidth = TickEventHandlers.modifierScale(widthScale, modifierID);
 
         if (shouldScale && (Math.abs(currentHeight - targetHeightScale) > 1e-4 || Math.abs(currentWidth - targetWidthScale) > 1e-4)) {
             if (entity.getLastDamageSource() != null && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
-            TickEventHandlers.scale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> {});
-            TickEventHandlers.scale(heightScale, targetHeightScale, scalingSpeed, v -> {});
-            TickEventHandlers.scale(widthScale, targetWidthScale, scalingSpeed, v -> {});
+            TickEventHandlers.scale(eyeHeightScale, modifierID, targetEyeHeightScale, scalingSpeed, v -> {});
+            TickEventHandlers.scale(heightScale, modifierID, targetHeightScale, scalingSpeed, v -> {});
+            TickEventHandlers.scale(widthScale, modifierID, targetWidthScale, scalingSpeed, v -> {});
         }
 
         if (shouldReset && (Math.abs(currentHeight - targetHeightScale) > 1e-4 || Math.abs(currentWidth - targetWidthScale) > 1e-4)) {
-            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                TickEventHandlers.scale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> {});
+            if (TickEventHandlers.modifierScale(eyeHeightScale, modifierID) != 1.0D)
+                TickEventHandlers.scale(eyeHeightScale, modifierID, targetEyeHeightScale, scalingSpeed, v -> {});
 
-            if (heightScale != null && heightScale.getValue() != 1.0D)
-                TickEventHandlers.scale(heightScale, targetHeightScale, scalingSpeed, v -> {});
+            if (TickEventHandlers.modifierScale(heightScale, modifierID) != 1.0D)
+                TickEventHandlers.scale(heightScale, modifierID, targetHeightScale, scalingSpeed, v -> {});
 
-            if (widthScale != null && widthScale.getValue() != 1.0D)
-                TickEventHandlers.scale(widthScale, targetWidthScale, scalingSpeed, v -> {});
+            if (TickEventHandlers.modifierScale(widthScale, modifierID) != 1.0D)
+                TickEventHandlers.scale(widthScale, modifierID, targetWidthScale, scalingSpeed, v -> {});
         }
     }
 
-    private static void scale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed, Consumer<Double> setter) {
-        ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
-
+    private static void scale(AttributeInstance scaleAttribute, ResourceLocation modifierID, double targetScale,
+                              float scalingSpeed, Consumer<Double> setter) {
         if (scaleAttribute != null) {
-            double actualScale = scaleAttribute.getValue();
-            double lerpedScale = Mth.lerp(scalingSpeed, actualScale, targetScale);
+            AttributeModifier existing = scaleAttribute.getModifier(modifierID);
+            double modifierScale = existing != null ? existing.amount() + 1.0D : 1.0D;
+            double lerpedScale = Mth.lerp(scalingSpeed, modifierScale, targetScale);
             double modifierAmount = lerpedScale - 1.0D;
 
-            if (Math.abs(actualScale - targetScale) < 0.0001)
+            if (Math.abs(modifierScale - targetScale) < 0.0001)
                 lerpedScale = targetScale;
 
-            if (scaleAttribute.hasModifier(modifier) && (Math.abs(modifierAmount) < 0.001 || targetScale == 1.0D))
-                scaleAttribute.removeModifier(modifier);
+            if (existing != null && (Math.abs(modifierAmount) < 0.001 || targetScale == 1.0D))
+                scaleAttribute.removeModifier(modifierID);
 
             if (lerpedScale != targetScale) {
-                scaleAttribute.removeModifier(modifier);
-                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, modifierAmount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                scaleAttribute.removeModifier(modifierID);
+                scaleAttribute.addPermanentModifier(new AttributeModifier(modifierID, modifierAmount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
-                if (Math.abs(actualScale - targetScale) < 0.01)
+                if (Math.abs(modifierScale - targetScale) < 0.01)
                     setter.accept(targetScale);
                 else setter.accept(lerpedScale);
             }
         }
+    }
+
+    private static double modifierScale(AttributeInstance attribute, ResourceLocation modifierId) {
+        if (attribute == null)
+            return 1.0D;
+
+        AttributeModifier modifier = attribute.getModifier(modifierId);
+        return modifier != null ? modifier.amount() + 1.0D : 1.0D;
     }
 
     @Nullable

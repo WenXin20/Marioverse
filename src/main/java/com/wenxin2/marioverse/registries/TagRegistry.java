@@ -131,6 +131,7 @@ public class TagRegistry {
     public static final TagKey<Fluid> FREEZES_INTO_FROSTED_ICE = fluidTags("freezes_into_frosted_ice");
     public static final TagKey<Fluid> FREEZES_INTO_OBSIDIAN = fluidTags("freezes_into_obsidian");
 
+    public static final TagKey<Item> ABILITY_BLOCK_ITEMS = itemTags("ability_blocks");
     public static final TagKey<Item> BLOCK_SPAWNER_CANNOT_DISPLAY = itemTags("block_spawner_cannot_display");
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");

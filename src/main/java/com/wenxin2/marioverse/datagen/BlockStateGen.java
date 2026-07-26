@@ -100,8 +100,9 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(), BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.FUNGAL_STONE.get(),
                 BlockRegistry.MONSTER_DEATH_BLOCK.get(), BlockRegistry.PASSIVE_DEATH_BLOCK.get(), BlockRegistry.PLAYER_DEATH_BLOCK.get());
-        this.cubeBottomTopBlocks(BlockRegistry.LUIGI_ABILITY_BLOCK.get(), BlockRegistry.MARIO_ABILITY_BLOCK.get(), BlockRegistry.PEACH_ABILITY_BLOCK.get(),
-                BlockRegistry.STEVE_ABILITY_BLOCK.get());
+        this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(), BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
+                BlockRegistry.MARIO_ABILITY_BLOCK.get(), BlockRegistry.PEACH_ABILITY_BLOCK.get(), BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
+                BlockRegistry.STEVE_ABILITY_BLOCK.get(), BlockRegistry.WALUIGI_ABILITY_BLOCK.get(), BlockRegistry.WARIO_ABILITY_BLOCK.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(), BlockRegistry.BUBBLE_CORAL_TOWER.get(), BlockRegistry.FIRE_CORAL_TOWER.get(),
                 BlockRegistry.HORN_CORAL_TOWER.get(), BlockRegistry.TUBE_CORAL_TOWER.get(), BlockRegistry.DEAD_BRAIN_CORAL_TOWER.get(),
                 BlockRegistry.DEAD_BUBBLE_CORAL_TOWER.get(), BlockRegistry.DEAD_FIRE_CORAL_TOWER.get(), BlockRegistry.DEAD_HORN_CORAL_TOWER.get(),

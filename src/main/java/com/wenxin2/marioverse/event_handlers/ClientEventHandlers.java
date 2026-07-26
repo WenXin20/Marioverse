@@ -3,8 +3,11 @@ package com.wenxin2.marioverse.event_handlers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
@@ -12,13 +15,22 @@ import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
+import com.wenxin2.marioverse.network.server_bound.data.DoubleJumpPayload;
+import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
+import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
+import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import java.io.IOException;
@@ -47,6 +59,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -57,8 +70,12 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -71,6 +88,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
@@ -372,8 +390,92 @@ public class ClientEventHandlers {
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
-        QuicksandOverlay.clientTick(Minecraft.getInstance());
-        RedQuicksandOverlay.clientTick(Minecraft.getInstance());
+        Minecraft minecraft = Minecraft.getInstance();
+        Player player = minecraft.player;
+
+        QuicksandOverlay.clientTick(minecraft);
+        RedQuicksandOverlay.clientTick(minecraft);
+
+        if (player != null) {
+            Level level = player.level();
+            Vec3 motion = player.getDeltaMovement();
+            double minY = player.getBoundingBox().minY;
+
+            if (!player.isSpectator()) {
+                AABB belowBox = player.getBoundingBox()
+                        .expandTowards(0, Math.max(motion.y, -0.2), 0);
+                BlockPos min = BlockPos.containing(belowBox.minX, belowBox.minY, belowBox.minZ);
+                BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
+
+                Object object = null;
+                if (ModList.get().isLoaded("sable"))
+                    object = SableProvider.getContext(level, player);
+
+                for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
+                    BlockState stateBelow = level.getBlockState(posBelow);
+
+                    if (object instanceof SableProvider.SableContext context) {
+                        BlockPos posEmbedded = context.posEmbedded.below()
+                                .offset(posBelow.getX() - min.getX(),
+                                        posBelow.getY() - min.getY(),
+                                        posBelow.getZ() - min.getZ());
+                        BlockPos posWorld = context.posWorld.below()
+                                .offset(posBelow.getX() - min.getX(),
+                                        posBelow.getY() - min.getY(),
+                                        posBelow.getZ() - min.getZ());
+                        stateBelow = context.accessor.getBlockState(posEmbedded);
+
+                        if (level instanceof ServerLevel)
+                            stateBelow = context.accessor.getServerBlockState(posWorld);
+                    }
+
+                    Block blockBelow = stateBelow.getBlock();
+                    boolean canBounce = (stateBelow.is(TagRegistry.BOUNCY_BLOCKS)
+                            && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
+                            && !player.isSuppressingBounce() && !player.isNoGravity()
+                            && !player.getAbilities().flying)
+
+                            || (blockBelow instanceof BlueMushroomTrampolineBlock
+                            && !stateBelow.getValue(OnBlock.ACTIVE)
+                            && !player.isSuppressingBounce() && !player.isNoGravity()
+                            && !player.getAbilities().flying)
+
+                            || (blockBelow instanceof RedMushroomTrampolineBlock
+                            && !(blockBelow instanceof BlueMushroomTrampolineBlock)
+                            && stateBelow.getValue(OnBlock.ACTIVE)
+                            && !player.isSuppressingBounce() && !player.isNoGravity()
+                            && !player.getAbilities().flying);
+
+                    if (canBounce) {
+                        PacketDistributor.sendToServer(new BouncePayload(posBelow, Minecraft.getInstance().options.keyJump.isDown(), motion.y));
+                        break;
+                    }
+                }
+            }
+
+            if (!player.onGround() && player.getData(DataAttachmentRegistry.HAS_DOUBLE_JUMP)
+                    && minecraft.options.keyJump.consumeClick())
+                PacketDistributor.sendToServer(new DoubleJumpPayload());
+
+            if (!player.isSpectator()) {
+                if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
+                        || (player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())) {
+                    PacketDistributor.sendToServer(new FireballShootPayload(player.blockPosition()));
+                    PacketDistributor.sendToServer(new IceBallShootPayload(player.blockPosition()));
+                }
+            }
+
+            if (!player.isSpectator()) {
+                if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                        && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
+                        || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
+                        && (player.fallDistance > 0 || player.isInWaterOrBubble())) {
+                    if (Minecraft.getInstance().options.keyJump.isDown())
+                        PacketDistributor.sendToServer(new SquashEntityPayload(true, motion.y, minY));
+                    else PacketDistributor.sendToServer(new SquashEntityPayload(false, motion.y, minY));
+                }
+            }
+        }
     }
 
     @SubscribeEvent

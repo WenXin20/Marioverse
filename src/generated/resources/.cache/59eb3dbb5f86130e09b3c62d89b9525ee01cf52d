@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-24T23:13:50.1262014	Loot Tables
+// 1.21.1	2026-07-25T23:32:49.239723	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -119,6 +119,7 @@ c790f7222ef90174d0c92aa3ed53d11899b32c22 data/marioverse/loot_table/blocks/cyan_
 2b467ec5f88690624b563af0494718704e426c83 data/marioverse/loot_table/blocks/cyan_goal_pole.json
 7a60a6bcb83e8e38d705988cde4f2c77f9bdf436 data/marioverse/loot_table/blocks/cyan_pipe_junction.json
 cf7ad7ca64e6da9b03bbf269c9783efa32b38e1f data/marioverse/loot_table/blocks/cyan_warp_pipe.json
+217e89d77d450afb4c24465def81ca28a738d025 data/marioverse/loot_table/blocks/daisy_ability_block.json
 9925a3aec73261c4decbb98f771717ed76eeb650 data/marioverse/loot_table/blocks/dango_blossom.json
 9ca49467cd851a1b500835f4ad0e05c880b836a1 data/marioverse/loot_table/blocks/dark_oak_log_bridge.json
 b33867af1e54d4c8a8ff4c44e92eeee7146d470a data/marioverse/loot_table/blocks/dark_oak_log_bridge_stairs.json
@@ -349,6 +350,7 @@ b7a50a785126a49f140163bf680f509b03bd5082 data/marioverse/loot_table/blocks/red_s
 0a0b4fda79f1dfd4e7a96a7ed8cff6b06ea5c097 data/marioverse/loot_table/blocks/red_sandstone_question_block.json
 a38cb2279302af0e92423f7e83a493ddd0f9d6a6 data/marioverse/loot_table/blocks/red_trampoline_cap.json
 82ac4d239939921317ccef1aed226b0a9d7b61a9 data/marioverse/loot_table/blocks/red_warp_pipe.json
+30b2d6145787890d17f90a0b63f8394b23976ae0 data/marioverse/loot_table/blocks/rosalina_ability_block.json
 88319d2616cd6e0eee5ed9ff780e5979076caa53 data/marioverse/loot_table/blocks/sandstone_bricks.json
 77ed702e26150ccce2950c9b92090bdcf680068f data/marioverse/loot_table/blocks/sandstone_brick_pedestal.json
 b4143283fea37379c50d78160dd4466a5613bf5b data/marioverse/loot_table/blocks/sandstone_brick_slab.json
@@ -458,6 +460,8 @@ cde245f75c546b0a35ac5644b8a9ec637545800a data/marioverse/loot_table/blocks/strip
 5dcc314d75380630edfafdb25b57ec507c9d88b1 data/marioverse/loot_table/blocks/tube_coral_tower.json
 3f0c9e24e319a0d42a0101307732b0c27f659718 data/marioverse/loot_table/blocks/tuff_brick_pedestal.json
 bcb7d03521af2f281f74d025c1c86328a8804aec data/marioverse/loot_table/blocks/tuff_question_bricks.json
+33d48f939c4e7cc2f291620d6a6cc50eb4464b2a data/marioverse/loot_table/blocks/waluigi_ability_block.json
+43bca4d3ea296930d623a17d1e01655188823dda data/marioverse/loot_table/blocks/wario_ability_block.json
 46bd030853443ea0fd665392e67adfccc3e028c5 data/marioverse/loot_table/blocks/warped_stem_bridge.json
 f207ef2b79be3d43fa6bed4a979a9e2b9746a080 data/marioverse/loot_table/blocks/warped_stem_bridge_stairs.json
 e637f8e9d90d4b51d21c12ecf684dfe03e732921 data/marioverse/loot_table/blocks/waxed_copper_question_block.json

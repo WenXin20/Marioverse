@@ -13,9 +13,11 @@
 - Plastic Buckets now have trim support
 - Added Mario, Luigi, Wario, Waluigi, & Princess themed trims
 - Added Ability Blocks
-  - Ability blocks included for Mario, Luigi, Peach, & Steve
-  - Mario, Luigi, & Peach blocks increases Jump Height & Running Jump Height
-  - Peach blocks include slow fall
+  - Ability blocks included for Mario, Luigi, Wario, Waluigi, Peach, Daisy, Rosalina, & Steve
+  - All blocks except Steve increases Jump Height, Running Jump Height, & Safe Fall Distance
+  - Peach & Rosalina blocks include slow fall
+  - Daisy & Wario blocks include a Double Jump
+  - Wario & Waluigi changes your height & width
   - Steve blocks resets your abilities to the default
   - Jump into the blocks to obtain abilities
   - Can be hit with a projectile to activate
@@ -23,7 +25,7 @@
   - The more goombas attached to the player, the slower you more
 - Fixed waist & dress rendering on koopas & goombas in the wrong position
 
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)m
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.10.1
 - Fixed crash when the Warp Disruptor was used on a player attempting to teleport

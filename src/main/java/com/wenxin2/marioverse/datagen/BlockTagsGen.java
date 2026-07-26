@@ -164,10 +164,14 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get());
 
         tag(TagRegistry.ABILITY_BLOCKS)
+                .add(BlockRegistry.DAISY_ABILITY_BLOCK.get())
                 .add(BlockRegistry.LUIGI_ABILITY_BLOCK.get())
                 .add(BlockRegistry.MARIO_ABILITY_BLOCK.get())
                 .add(BlockRegistry.PEACH_ABILITY_BLOCK.get())
-                .add(BlockRegistry.STEVE_ABILITY_BLOCK.get());
+                .add(BlockRegistry.ROSALINA_ABILITY_BLOCK.get())
+                .add(BlockRegistry.STEVE_ABILITY_BLOCK.get())
+                .add(BlockRegistry.WALUIGI_ABILITY_BLOCK.get())
+                .add(BlockRegistry.WARIO_ABILITY_BLOCK.get());
 
         tag(TagRegistry.BOUNCY_BLOCKS)
                 .add(Blocks.BROWN_MUSHROOM_BLOCK)

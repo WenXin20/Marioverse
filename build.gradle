@@ -77,7 +77,7 @@ dependencies {
     implementation "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
-    implementation "maven.modrinth:grassier-grass:1.4.5-neoforge"
+    compileOnly "maven.modrinth:grassier-grass:1.4.5-neoforge"
     implementation "curse.maven:guard-villagers-360203:6066966"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
