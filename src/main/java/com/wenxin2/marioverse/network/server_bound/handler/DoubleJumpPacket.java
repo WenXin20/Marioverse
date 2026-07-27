@@ -44,6 +44,7 @@ public class DoubleJumpPacket {
                 player.hasImpulse = true;
                 player.level().playSound(null, player.blockPosition(), SoundRegistry.PLAYER_JUMP.get(),
                         SoundSource.PLAYERS, 1.0F, 1.0F);
+
                 if (player.level() instanceof ServerLevel serverLevel)
                     ServerParticleUtils.spawnParticleRingBelowEntity(ParticleTypes.CLOUD, serverLevel, player,
                             player.getBbWidth() / 2, 0.05, 8);

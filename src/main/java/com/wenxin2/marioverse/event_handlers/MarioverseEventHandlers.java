@@ -1,9 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
-import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
@@ -33,26 +31,20 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
-import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
-import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
-import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
-import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -65,7 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -112,16 +103,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -134,7 +121,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
@@ -520,6 +506,9 @@ public class MarioverseEventHandlers {
         if (entity.hasData(DataAttachmentRegistry.SUPER_STAR_DURATION)
                 && entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, 0);
+
+        if (entity.hasData(DataAttachmentRegistry.HAS_DOUBLE_JUMP))
+            entity.removeData(DataAttachmentRegistry.HAS_DOUBLE_JUMP);
     }
 
     private static void removeCostume(LivingEntity entity, AccessoriesCapability capability) {
