@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:steve_ability_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_trim_templates": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:trim_templates"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_trim_templates"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:steve_ability_block"
+    ]
+  }
+}

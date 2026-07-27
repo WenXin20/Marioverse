@@ -85,6 +85,14 @@ public class RecipeGen extends RecipeUtils {
         copySmithingTemplate(output, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.PURPLE_WOOL));
         copySmithingTemplate(output, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Ingredient.of(Items.YELLOW_WOOL));
 
+        abilityBlockRecipe(1, "ability_blocks", BlockRegistry.DAISY_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.ORANGE), Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
+        abilityBlockRecipe(1, "ability_blocks", BlockRegistry.LUIGI_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
+        abilityBlockRecipe(1, "ability_blocks", BlockRegistry.MARIO_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
+        abilityBlockRecipe(1, "ability_blocks", BlockRegistry.PEACH_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.PINK), Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
+        abilityBlockRecipe(1, "ability_blocks", BlockRegistry.ROSALINA_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
+        abilityBlockRecipe(1, "ability_blocks", BlockRegistry.STEVE_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemTags.TRIM_TEMPLATES, Blocks.CYAN_WOOL, Tags.Items.GEMS_LAPIS, Blocks.CYAN_WOOL, false, output);
+        abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WALUIGI_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
+        abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WARIO_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         checkeredRecipe(4, "spike_panels", BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), false, output);
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.SUPER_MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);

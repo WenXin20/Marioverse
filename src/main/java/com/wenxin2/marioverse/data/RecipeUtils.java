@@ -234,6 +234,29 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void abilityBlockRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                   Object trim, Object abilityItem, Object diamond, Object wool, boolean uniqueFileName, RecipeOutput output) {
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("ADA")
+                .pattern("DTD")
+                .pattern("WDW")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'A', abilityItem);
+        defineIngredient(builder, 'D', diamond);
+        defineIngredient(builder, 'T', trim);
+        defineIngredient(builder, 'W', wool);
+
+        builder.unlockedBy(getUnlockName(trim), unlockCriterion(trim));
+
+        if (uniqueFileName && wool instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && abilityItem instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
     public void bodiceRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
         HexColorRecipeBuilder builder = HexColorRecipeBuilder
