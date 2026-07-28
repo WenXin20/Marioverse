@@ -55,8 +55,8 @@ public class MiniMushroomItem extends PowerUpItem implements PowerUpSource {
         AttributeInstance entityReachAttribute = entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
         double reachDistance = isActive ? ConfigRegistry.MINI_MUSHROOM_REACH_DISTANCE.get() : 0;
 
-        AbilityBlock.applyJumpBoost(jumpAttribute, AttributesRegistry.MINI_JUMP_BOOST, AttributesRegistry.MINI_RUNNING_JUMP_BOOST,
-                isActive, entity.isShiftKeyDown(), entity.isSprinting(), 0.5, 0.6);
+        AbilityBlock.applyJumpBoost(entity, jumpAttribute, AttributesRegistry.MINI_JUMP_BOOST,
+                AttributesRegistry.MINI_RUNNING_JUMP_BOOST, isActive, 0.5, 0.6);
 
         if (safeFallAttribute != null)
             AbilityBlock.setModifier(safeFallAttribute, AttributesRegistry.MINI_SAFE_FALL_DISTANCE, isActive ? 14 : 0);

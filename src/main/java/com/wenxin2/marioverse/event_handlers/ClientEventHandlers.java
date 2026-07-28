@@ -453,7 +453,7 @@ public class ClientEventHandlers {
                 }
             }
 
-            if (!player.onGround() && player.getData(DataAttachmentRegistry.HAS_DOUBLE_JUMP)
+            if (!player.onGround() && !player.getAbilities().flying && player.getData(DataAttachmentRegistry.HAS_DOUBLE_JUMP)
                     && minecraft.options.keyJump.consumeClick())
                 PacketDistributor.sendToServer(new DoubleJumpPayload());
 

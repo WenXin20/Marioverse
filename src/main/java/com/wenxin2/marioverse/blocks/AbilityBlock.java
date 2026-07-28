@@ -158,8 +158,8 @@ public class AbilityBlock extends Block {
         entity.setData(DataAttachmentRegistry.HAS_WALUIGI_ABILITY.get(), isWaluigiBlock && !isSteveBlock);
         entity.setData(DataAttachmentRegistry.HAS_WARIO_ABILITY.get(), isWarioBlock && !isSteveBlock);
 
-        if (state.getBlock() instanceof AbilityBlock block && block.hasDoubleJump())
-            entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), true);
+        boolean hasDoubleJump = state.getBlock() instanceof AbilityBlock block && block.hasDoubleJump() && !isSteveBlock;
+        entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), hasDoubleJump);
 
         level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
         level.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, pitch);
@@ -214,8 +214,8 @@ public class AbilityBlock extends Block {
         AbilityBlock.characterAbilityScale(entity);
 
         if (block instanceof AbilityBlock abilityBlock) {
-            AbilityBlock.applyJumpBoost(jumpAttribute, AttributesRegistry.CHARACTER_JUMP_BOOST, AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST,
-                    true, entity.isShiftKeyDown(), entity.isSprinting(),
+            AbilityBlock.applyJumpBoost(entity, jumpAttribute, AttributesRegistry.CHARACTER_JUMP_BOOST,
+                    AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST, true,
                     abilityBlock.getNormalJumpBoost(), abilityBlock.getRunningJumpBoost());
 
             if (safeFallAttribute != null)
@@ -228,9 +228,45 @@ public class AbilityBlock extends Block {
             if (motion.y < 0 && verticalMultiplier != 1.0 && !entity.isShiftKeyDown())
                 entity.setDeltaMovement(motion.x, motion.y * verticalMultiplier, motion.z);
 
-            if (!entity.hasData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get()) && abilityBlock.hasDoubleJump())
+            if (entity.onGround())
                 entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), abilityBlock.hasDoubleJump());
         }
+    }
+
+    public static void applyJumpBoost(LivingEntity entity, AttributeInstance jumpAttribute, ResourceLocation normalId,
+                                      ResourceLocation runningId, boolean isActive, double normalBoost, double runningBoost) {
+        if (jumpAttribute == null)
+            return;
+
+        if (isActive && !entity.isShiftKeyDown()) {
+            if (entity.isSprinting()) {
+                AbilityBlock.setModifier(jumpAttribute, runningId, runningBoost);
+                AbilityBlock.setModifier(jumpAttribute, normalId, 0);
+            } else {
+                AbilityBlock.setModifier(jumpAttribute, normalId, normalBoost);
+                AbilityBlock.setModifier(jumpAttribute, runningId, 0);
+            }
+        } else {
+            AbilityBlock.setModifier(jumpAttribute, normalId, 0);
+            AbilityBlock.setModifier(jumpAttribute, runningId, 0);
+        }
+    }
+
+    public static void setModifier(AttributeInstance attribute, ResourceLocation id, double amount) {
+        AttributeModifier modifier = attribute.getModifier(id);
+
+        if (amount == 0.0) {
+            if (modifier != null)
+                attribute.removeModifier(id);
+            return;
+        }
+
+        if (modifier != null) {
+            if (modifier.amount() == amount)
+                return;
+            attribute.removeModifier(id);
+        }
+        attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
     }
 
     public static void characterAbilityScale(LivingEntity entity) {
@@ -269,50 +305,10 @@ public class AbilityBlock extends Block {
         }
     }
 
-    public static void applyJumpBoost(AttributeInstance jumpAttribute, ResourceLocation normalId, ResourceLocation runningId,
-                                      boolean isActive, boolean isCrouching, boolean isRunning,
-                                      double normalBoost, double runningBoost) {
-        if (jumpAttribute == null)
-            return;
-
-        if (isActive && !isCrouching) {
-            if (isRunning) {
-                setModifier(jumpAttribute, runningId, runningBoost);
-                setModifier(jumpAttribute, normalId, 0);
-            } else {
-                setModifier(jumpAttribute, normalId, normalBoost);
-                setModifier(jumpAttribute, runningId, 0);
-            }
-        } else {
-            setModifier(jumpAttribute, normalId, 0);
-            setModifier(jumpAttribute, runningId, 0);
-        }
-    }
-
-    public static void setModifier(AttributeInstance attribute, ResourceLocation id, double amount) {
-        AttributeModifier modifier = attribute.getModifier(id);
-
-        if (amount == 0.0) {
-            if (modifier != null)
-                attribute.removeModifier(id);
-            return;
-        }
-
-        if (modifier != null) {
-            if (modifier.amount() == amount)
-                return;
-            attribute.removeModifier(id);
-        }
-        attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
-    }
-
     public static void setAirborneDuration(LivingEntity entity) {
-        if (entity.onGround()) {
+        if (entity.onGround())
             entity.setData(DataAttachmentRegistry.AIRBORNE_DURATION.get(), 0);
-
-            if (entity.hasData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get()))
-                entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), true);
-        } else {
+        else {
             int duration = entity.getData(DataAttachmentRegistry.AIRBORNE_DURATION);
             entity.setData(DataAttachmentRegistry.AIRBORNE_DURATION.get(), duration + 1);
         }

@@ -55,8 +55,8 @@ public class MegaMushroomItem extends PowerUpItem implements PowerUpSource {
         AttributeInstance entityReachAttribute = entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
         double reachDistance = isActive ? ConfigRegistry.MEGA_MUSHROOM_REACH_DISTANCE.get() : 0;
 
-        AbilityBlock.applyJumpBoost(jumpAttribute, AttributesRegistry.MEGA_JUMP_BOOST, AttributesRegistry.MEGA_RUNNING_JUMP_BOOST,
-                isActive, entity.isShiftKeyDown(), entity.isSprinting(), 0.3, 0.4);
+        AbilityBlock.applyJumpBoost(entity, jumpAttribute, AttributesRegistry.MEGA_JUMP_BOOST,
+                AttributesRegistry.MEGA_RUNNING_JUMP_BOOST, isActive, 0.3, 0.4);
 
         if (safeFallAttribute != null)
             AbilityBlock.setModifier(safeFallAttribute, AttributesRegistry.MEGA_SAFE_FALL_DISTANCE, isActive ? 4 : 0);
