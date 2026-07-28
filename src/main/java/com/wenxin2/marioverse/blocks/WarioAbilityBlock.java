@@ -31,7 +31,7 @@ public class WarioAbilityBlock extends AbilityBlock {
     }
 
     @Override
-    public double getVerticalMotionMultiplier() {
+    public double getGravityMultiplier() {
         return 1.25;
     }
 

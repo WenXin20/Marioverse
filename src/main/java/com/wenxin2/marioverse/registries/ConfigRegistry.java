@@ -22,13 +22,21 @@ public class ConfigRegistry {
     public static final String CATEGORY_POWER_UPS = "power_ups";
     public static final String CATEGORY_TELEPORTATION = "teleportation";
 
+    public static final String CATEGORY_ABILITY_BLOCKS = "ability_blocks";
     public static final String CATEGORY_CHECKPOINT_FLAGS = "checkpoint_flags";
     public static final String CATEGORY_COINS = "coins";
+    public static final String CATEGORY_DAISY_ABILITY_BLOCK = "daisy_ability_block";
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
     public static final String CATEGORY_IRON_SPIKES = "iron_spikes";
+    public static final String CATEGORY_LUIGI_ABILITY_BLOCK = "luigi_ability_block";
+    public static final String CATEGORY_MARIO_ABILITY_BLOCK = "mario_ability_block";
+    public static final String CATEGORY_PEACH_ABILITY_BLOCK = "peach_ability_block";
     public static final String CATEGORY_QUESTION_BLOCKS = "question_blocks";
+    public static final String CATEGORY_ROSALINA_ABILITY_BLOCK = "rosalina_ability_block";
     public static final String CATEGORY_SPIKE_PANELS = "spike_panels";
     public static final String CATEGORY_STAR_COINS = "star_coins";
+    public static final String CATEGORY_WALUIGI_ABILITY_BLOCK = "waluigi_ability_block";
+    public static final String CATEGORY_WARIO_ABILITY_BLOCK = "wario_ability_block";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
     public static final String CATEGORY_WARP_PAINTINGS = "warp_paintings";
     public static final String CATEGORY_WARP_PIPES = "warp_pipes";
@@ -95,6 +103,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue CREATIVE_CLOSE_PIPES;
     public static ModConfigSpec.BooleanValue CREATIVE_WATER_SPOUT;
     public static ModConfigSpec.BooleanValue CREATIVE_WRENCH_LINKING;
+    public static ModConfigSpec.BooleanValue DAISY_ABILITY_DOUBLE_JUMP;
     public static ModConfigSpec.BooleanValue DANGO_BLOSSOM_PARTICLES;
     public static ModConfigSpec.BooleanValue DEBUG_PIPE_BUBBLES_SELECTION_BOX;
     public static ModConfigSpec.BooleanValue DEBUG_SELECTION_BOX;
@@ -125,16 +134,18 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue FORCE_CHRISTMAS_HATS;
     public static ModConfigSpec.BooleanValue FORCE_MOB_MASKS;
     public static ModConfigSpec.BooleanValue ICE_FLOWER_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue LUIGI_ABILITY_DOUBLE_JUMP;
+    public static ModConfigSpec.BooleanValue MARIO_ABILITY_DOUBLE_JUMP;
     public static ModConfigSpec.BooleanValue MEGA_MOBS_BREAK_BLOCKS;
-    public static ModConfigSpec.BooleanValue MEGA_MOBS_DROP_ITEMS;
     public static ModConfigSpec.BooleanValue MEGA_MOBS_DO_DAMAGE;
-    public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue MEGA_MOBS_DROP_ITEMS;
     public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_BREAKS_BLOCKS;
+    public static ModConfigSpec.BooleanValue MEGA_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_ATTACH_ALL_MOBS;
     public static ModConfigSpec.BooleanValue MINI_GOOMBAS_PUSH;
     public static ModConfigSpec.BooleanValue MINI_MUSHROOM_POWERS_ALL_MOBS;
-    public static ModConfigSpec.BooleanValue SUPER_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue ONE_UP_HEALS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue PEACH_ABILITY_DOUBLE_JUMP;
     public static ModConfigSpec.BooleanValue PLAY_BOUNCE_SOUND;
     public static ModConfigSpec.BooleanValue QUESTION_ADD_ITEMS;
     public static ModConfigSpec.BooleanValue QUESTION_BUCKET_TWEAKS;
@@ -143,6 +154,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
+    public static ModConfigSpec.BooleanValue ROSALINA_ABILITY_DOUBLE_JUMP;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
     public static ModConfigSpec.BooleanValue SNOW_POKEY_DROPS_SNOWBALL;
@@ -150,14 +162,17 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_IN_CREATIVE;
     public static ModConfigSpec.BooleanValue STAR_COINS_COLLECTED_ON_COLLISION;
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue SUPER_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue SUPER_STAR_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
+    public static ModConfigSpec.BooleanValue WALUIGI_ABILITY_DOUBLE_JUMP;
+    public static ModConfigSpec.BooleanValue WARIO_ABILITY_DOUBLE_JUMP;
     public static ModConfigSpec.BooleanValue WARP_COOLDOWN_MESSAGE;
     public static ModConfigSpec.BooleanValue WARP_COOLDOWN_MESSAGE_TICKS;
-    public static ModConfigSpec.BooleanValue WATER_SPOUTS_BUCKETABLE;
     public static ModConfigSpec.BooleanValue WARP_PIPE_SPAWNS_MOBS;
+    public static ModConfigSpec.BooleanValue WATER_SPOUTS_BUCKETABLE;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_BUBBLES;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_CLOSING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_RENAMING;
@@ -166,6 +181,12 @@ public class ConfigRegistry {
 
     public static ModConfigSpec.DoubleValue CHECKPOINT_FLAG_RESPAWN_HEALTH;
     public static ModConfigSpec.DoubleValue CHEEP_CHEEP_LURE_RADIUS;
+    public static ModConfigSpec.DoubleValue DAISY_ABILITY_GRAVITY;
+    public static ModConfigSpec.DoubleValue DAISY_ABILITY_HEIGHT_SCALE;
+    public static ModConfigSpec.DoubleValue DAISY_ABILITY_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue DAISY_ABILITY_RUNNING_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue DAISY_ABILITY_SAFE_FALL_DISTANCE;
+    public static ModConfigSpec.DoubleValue DAISY_ABILITY_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_BOOST_STRENGTH;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue DEEP_CHEEP_LURE_RADIUS;
@@ -176,6 +197,19 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue ICE_BALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ICE_CUBE_DAMAGE;
     public static ModConfigSpec.DoubleValue IRON_SPIKE_DAMAGE;
+    public static ModConfigSpec.DoubleValue LARGE_SNOWBALL_DAMAGE;
+    public static ModConfigSpec.DoubleValue LUIGI_ABILITY_GRAVITY;
+    public static ModConfigSpec.DoubleValue LUIGI_ABILITY_HEIGHT_SCALE;
+    public static ModConfigSpec.DoubleValue LUIGI_ABILITY_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue LUIGI_ABILITY_RUNNING_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue LUIGI_ABILITY_SAFE_FALL_DISTANCE;
+    public static ModConfigSpec.DoubleValue LUIGI_ABILITY_WIDTH_SCALE;
+    public static ModConfigSpec.DoubleValue MARIO_ABILITY_GRAVITY;
+    public static ModConfigSpec.DoubleValue MARIO_ABILITY_HEIGHT_SCALE;
+    public static ModConfigSpec.DoubleValue MARIO_ABILITY_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue MARIO_ABILITY_RUNNING_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue MARIO_ABILITY_SAFE_FALL_DISTANCE;
+    public static ModConfigSpec.DoubleValue MARIO_ABILITY_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_AUTO_STEP;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_DAMAGE;
     public static ModConfigSpec.DoubleValue MEGA_MUSHROOM_HEALTH;
@@ -186,12 +220,23 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_HEIGHT_SCALE;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_REACH_DISTANCE;
     public static ModConfigSpec.DoubleValue MINI_MUSHROOM_WIDTH_SCALE;
-    public static ModConfigSpec.DoubleValue LARGE_SNOWBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue ONE_UP_HEALTH_HEALED;
+    public static ModConfigSpec.DoubleValue PEACH_ABILITY_GRAVITY;
+    public static ModConfigSpec.DoubleValue PEACH_ABILITY_HEIGHT_SCALE;
+    public static ModConfigSpec.DoubleValue PEACH_ABILITY_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue PEACH_ABILITY_RUNNING_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue PEACH_ABILITY_SAFE_FALL_DISTANCE;
+    public static ModConfigSpec.DoubleValue PEACH_ABILITY_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue PORCUPUFFER_DAMAGE_THRESHOLD;
     public static ModConfigSpec.DoubleValue PORCUPUFFER_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue PORCUPUFFER_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue RED_KOOPA_SHELL_DAMAGE;
+    public static ModConfigSpec.DoubleValue ROSALINA_ABILITY_GRAVITY;
+    public static ModConfigSpec.DoubleValue ROSALINA_ABILITY_HEIGHT_SCALE;
+    public static ModConfigSpec.DoubleValue ROSALINA_ABILITY_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue ROSALINA_ABILITY_RUNNING_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue ROSALINA_ABILITY_SAFE_FALL_DISTANCE;
+    public static ModConfigSpec.DoubleValue ROSALINA_ABILITY_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue SHRINK_HEIGHT_SCALE;
     public static ModConfigSpec.DoubleValue SHRINK_MOBS_AT_HEALTH;
     public static ModConfigSpec.DoubleValue SHRINK_PLAYERS_AT_HEALTH;
@@ -204,6 +249,18 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue SUPER_MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue SUPER_STAR_DAMAGE;
     public static ModConfigSpec.DoubleValue VEHICLE_MUSHROOM_BOOST_STRENGTH;
+    public static ModConfigSpec.DoubleValue WALUIGI_ABILITY_GRAVITY;
+    public static ModConfigSpec.DoubleValue WALUIGI_ABILITY_HEIGHT_SCALE;
+    public static ModConfigSpec.DoubleValue WALUIGI_ABILITY_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue WALUIGI_ABILITY_RUNNING_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue WALUIGI_ABILITY_SAFE_FALL_DISTANCE;
+    public static ModConfigSpec.DoubleValue WALUIGI_ABILITY_WIDTH_SCALE;
+    public static ModConfigSpec.DoubleValue WARIO_ABILITY_GRAVITY;
+    public static ModConfigSpec.DoubleValue WARIO_ABILITY_HEIGHT_SCALE;
+    public static ModConfigSpec.DoubleValue WARIO_ABILITY_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue WARIO_ABILITY_RUNNING_JUMP_BOOST;
+    public static ModConfigSpec.DoubleValue WARIO_ABILITY_SAFE_FALL_DISTANCE;
+    public static ModConfigSpec.DoubleValue WARIO_ABILITY_WIDTH_SCALE;
 
     public static ModConfigSpec.IntValue BOO_SUN_EXPOSURE_LIMIT;
     public static ModConfigSpec.IntValue BOO_LIGHT_SENSITIVITY;
@@ -302,6 +359,276 @@ public class ConfigRegistry {
         BUILDER.push(CATEGORY_COMMON);
 
             BUILDER.push(CATEGORY_BLOCKS);
+
+                BUILDER.push(CATEGORY_ABILITY_BLOCKS);
+
+                    BUILDER.push(CATEGORY_MARIO_ABILITY_BLOCK);
+                        MARIO_ABILITY_DOUBLE_JUMP = BUILDER.translation("configuration.marioverse.mario_ability_double_jump")
+                                .comment("Enables double jump when the player hits the block.")
+                                .comment("§9[Default: false]")
+                                .define("mario_ability_double_jump", false);
+                        MARIO_ABILITY_JUMP_BOOST = BUILDER.translation("configuration.marioverse.mario_ability_jump_boost")
+                                .comment("The multiplier applied to the player's jump height.")
+                                .comment("§6[0.5x = 5 block jump height]§b")
+                                .comment("§9[Default: 0.5F]§b")
+                                .defineInRange("mario_ability_jump_boost", 0.5F, 0.0F, 1.0F);
+                        MARIO_ABILITY_RUNNING_JUMP_BOOST = BUILDER.translation("configuration.marioverse.mario_ability_running_jump_boost")
+                                .comment("The multiplier applied to the player's jump height when running.")
+                                .comment("§6[0.6x = 6 block jump height]§b")
+                                .comment("§9[Default: 0.6F]§b")
+                                .defineInRange("mario_ability_running_jump_boost", 0.6F, 0.0F, 1.0F);
+                        MARIO_ABILITY_SAFE_FALL_DISTANCE = BUILDER.translation("configuration.marioverse.mario_ability_safe_fall_distance")
+                                .comment("Additional blocks the player can fall without taking damage.")
+                                .comment("This is added on top of the 3 block safe fall distance.")
+                                .comment("The total safe fall distance is 10 blocks, 3.0 + 7.0 = 10.0")
+                                .comment("§6[7.0 = 7 blocks safe fall distance]§b")
+                                .comment("§9[Default: 7.0F]§b")
+                                .defineInRange("mario_ability_safe_fall_distance", 7.0F, -3.0F, 20.0F);
+                        MARIO_ABILITY_GRAVITY = BUILDER.translation("configuration.marioverse.mario_ability_gravity")
+                                .comment("The multiplier applied to the player's gravity.")
+                                .comment("A value < 1.0 = slow falling")
+                                .comment("A value > 1.0 = faster falling")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("mario_ability_gravity", 1.0F, 0.0F, 5.0F);
+                        MARIO_ABILITY_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.mario_ability_height_scale")
+                                .comment("The multiplier to modify the height of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("mario_ability_height_scale", 1.0F, 0.15F, 5.0F);
+                        MARIO_ABILITY_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.mario_ability_width_scale")
+                                .comment("The multiplier to modify the width of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("mario_ability_width_scale", 1.0F, 0.15F, 5.0F);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_LUIGI_ABILITY_BLOCK);
+                        LUIGI_ABILITY_DOUBLE_JUMP = BUILDER.translation("configuration.marioverse.luigi_ability_double_jump")
+                                .comment("Enables double jump when the player hits the block.")
+                                .comment("§9[Default: false]")
+                                .define("luigi_ability_double_jump", false);
+                        LUIGI_ABILITY_JUMP_BOOST = BUILDER.translation("configuration.marioverse.luigi_ability_jump_boost")
+                                .comment("The multiplier applied to the player's jump height.")
+                                .comment("§6[0.5x = 5 block jump height]§b")
+                                .comment("§9[Default: 0.6F]§b")
+                                .defineInRange("luigi_ability_jump_boost", 0.6F, 0.0F, 1.0F);
+                        LUIGI_ABILITY_RUNNING_JUMP_BOOST = BUILDER.translation("configuration.marioverse.luigi_ability_running_jump_boost")
+                                .comment("The multiplier applied to the player's jump height when running.")
+                                .comment("§6[0.6x = 6 block jump height]§b")
+                                .comment("§9[Default: 0.7F]§b")
+                                .defineInRange("luigi_ability_running_jump_boost", 0.7F, 0.0F, 1.0F);
+                        LUIGI_ABILITY_SAFE_FALL_DISTANCE = BUILDER.translation("configuration.marioverse.luigi_ability_safe_fall_distance")
+                                .comment("Additional blocks the player can fall without taking damage.")
+                                .comment("This is added on top of the 3 block safe fall distance.")
+                                .comment("The total safe fall distance is 10 blocks, 3.0 + 7.0 = 10.0")
+                                .comment("§6[7.0 = 7 blocks safe fall distance]§b")
+                                .comment("§9[Default: 7.0F]§b")
+                                .defineInRange("luigi_ability_safe_fall_distance", 7.0F, -3.0F, 20.0F);
+                        LUIGI_ABILITY_GRAVITY = BUILDER.translation("configuration.marioverse.luigi_ability_gravity")
+                                .comment("The multiplier applied to the player's gravity.")
+                                .comment("A value < 1.0 = slow falling")
+                                .comment("A value > 1.0 = faster falling")
+                                .comment("§9[Default: 0.9F]§b")
+                                .defineInRange("luigi_ability_gravity", 0.9F, 0.0F, 5.0F);
+                        LUIGI_ABILITY_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.luigi_ability_height_scale")
+                                .comment("The multiplier to modify the height of the player.")
+                                .comment("§9[Default: 1.05F]§b")
+                                .defineInRange("luigi_ability_height_scale", 1.05F, 0.15F, 5.0F);
+                        LUIGI_ABILITY_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.luigi_ability_width_scale")
+                                .comment("The multiplier to modify the width of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("luigi_ability_width_scale", 1.0F, 0.15F, 5.0F);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_WARIO_ABILITY_BLOCK);
+                        WARIO_ABILITY_DOUBLE_JUMP = BUILDER.translation("configuration.marioverse.wario_ability_double_jump")
+                                .comment("Enables double jump when the player hits the block.")
+                                .comment("§9[Default: false]")
+                                .define("wario_ability_double_jump", true);
+                        WARIO_ABILITY_JUMP_BOOST = BUILDER.translation("configuration.marioverse.wario_ability_jump_boost")
+                                .comment("The multiplier applied to the player's jump height.")
+                                .comment("§6[0.5x = 5 block jump height]§b")
+                                .comment("§9[Default: 0.3F]§b")
+                                .defineInRange("wario_ability_jump_boost", 0.3F, 0.0F, 1.0F);
+                        WARIO_ABILITY_RUNNING_JUMP_BOOST = BUILDER.translation("configuration.marioverse.wario_ability_running_jump_boost")
+                                .comment("The multiplier applied to the player's jump height when running.")
+                                .comment("§6[0.6x = 6 block jump height]§b")
+                                .comment("§9[Default: 0.45F]§b")
+                                .defineInRange("wario_ability_running_jump_boost", 0.45F, 0.0F, 1.0F);
+                        WARIO_ABILITY_SAFE_FALL_DISTANCE = BUILDER.translation("configuration.marioverse.wario_ability_safe_fall_distance")
+                                .comment("Additional blocks the player can fall without taking damage.")
+                                .comment("This is added on top of the 3 block safe fall distance.")
+                                .comment("The total safe fall distance is 10 blocks, 3.0 + 7.0 = 10.0")
+                                .comment("§6[7.0 = 7 blocks safe fall distance]§b")
+                                .comment("§9[Default: 7.0F]§b")
+                                .defineInRange("wario_ability_safe_fall_distance", 7.0F, -3.0F, 20.0F);
+                        WARIO_ABILITY_GRAVITY = BUILDER.translation("configuration.marioverse.wario_ability_gravity")
+                                .comment("The multiplier applied to the player's gravity.")
+                                .comment("A value < 1.0 = slow falling")
+                                .comment("A value > 1.0 = faster falling")
+                                .comment("§9[Default: 1.25F]§b")
+                                .defineInRange("wario_ability_gravity", 1.25F, 0.0F, 5.0F);
+                        WARIO_ABILITY_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.wario_ability_height_scale")
+                                .comment("The multiplier to modify the height of the player.")
+                                .comment("§9[Default: 0.85F]§b")
+                                .defineInRange("wario_ability_height_scale", 0.85F, 0.15F, 5.0F);
+                        WARIO_ABILITY_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.wario_ability_width_scale")
+                                .comment("The multiplier to modify the width of the player.")
+                                .comment("§9[Default: 1.2F]§b")
+                                .defineInRange("wario_ability_width_scale", 1.2F, 0.15F, 5.0F);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_WALUIGI_ABILITY_BLOCK);
+                        WALUIGI_ABILITY_DOUBLE_JUMP = BUILDER.translation("configuration.marioverse.waluigi_ability_double_jump")
+                                .comment("Enables double jump when the player hits the block.")
+                                .comment("§9[Default: false]")
+                                .define("waluigi_ability_double_jump", false);
+                        WALUIGI_ABILITY_JUMP_BOOST = BUILDER.translation("configuration.marioverse.waluigi_ability_jump_boost")
+                                .comment("The multiplier applied to the player's jump height.")
+                                .comment("§6[0.5x = 5 block jump height]§b")
+                                .comment("§9[Default: 0.5F]§b")
+                                .defineInRange("waluigi_ability_jump_boost", 0.5F, 0.0F, 1.0F);
+                        WALUIGI_ABILITY_RUNNING_JUMP_BOOST = BUILDER.translation("configuration.marioverse.waluigi_ability_running_jump_boost")
+                                .comment("The multiplier applied to the player's jump height when running.")
+                                .comment("§6[0.6x = 6 block jump height]§b")
+                                .comment("§9[Default: 0.6F]§b")
+                                .defineInRange("waluigi_ability_running_jump_boost", 0.6F, 0.0F, 1.0F);
+                        WALUIGI_ABILITY_SAFE_FALL_DISTANCE = BUILDER.translation("configuration.marioverse.waluigi_ability_safe_fall_distance")
+                                .comment("Additional blocks the player can fall without taking damage.")
+                                .comment("This is added on top of the 3 block safe fall distance.")
+                                .comment("The total safe fall distance is 10 blocks, 3.0 + 7.0 = 10.0")
+                                .comment("§6[7.0 = 7 blocks safe fall distance]§b")
+                                .comment("§9[Default: 7.0F]§b")
+                                .defineInRange("waluigi_ability_safe_fall_distance", 7.0F, -3.0F, 20.0F);
+                        WALUIGI_ABILITY_GRAVITY = BUILDER.translation("configuration.marioverse.waluigi_ability_gravity")
+                                .comment("The multiplier applied to the player's gravity.")
+                                .comment("A value < 1.0 = slow falling")
+                                .comment("A value > 1.0 = faster falling")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("waluigi_ability_gravity", 1.0F, 0.0F, 5.0F);
+                        WALUIGI_ABILITY_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.waluigi_ability_height_scale")
+                                .comment("The multiplier to modify the height of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("waluigi_ability_height_scale", 1.0F, 0.15F, 5.0F);
+                        WALUIGI_ABILITY_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.waluigi_ability_width_scale")
+                                .comment("The multiplier to modify the width of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("waluigi_ability_width_scale", 1.0F, 0.15F, 5.0F);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_PEACH_ABILITY_BLOCK);
+                        PEACH_ABILITY_DOUBLE_JUMP = BUILDER.translation("configuration.marioverse.peach_ability_double_jump")
+                                .comment("Enables double jump when the player hits the block.")
+                                .comment("§9[Default: false]")
+                                .define("peach_ability_double_jump", false);
+                        PEACH_ABILITY_JUMP_BOOST = BUILDER.translation("configuration.marioverse.peach_ability_jump_boost")
+                                .comment("The multiplier applied to the player's jump height.")
+                                .comment("§6[0.5x = 5 block jump height]§b")
+                                .comment("§9[Default: 0.5F]§b")
+                                .defineInRange("peach_ability_jump_boost", 0.5F, 0.0F, 1.0F);
+                        PEACH_ABILITY_RUNNING_JUMP_BOOST = BUILDER.translation("configuration.marioverse.peach_ability_running_jump_boost")
+                                .comment("The multiplier applied to the player's jump height when running.")
+                                .comment("§6[0.6x = 6 block jump height]§b")
+                                .comment("§9[Default: 0.6F]§b")
+                                .defineInRange("peach_ability_running_jump_boost", 0.6F, 0.0F, 1.0F);
+                        PEACH_ABILITY_SAFE_FALL_DISTANCE = BUILDER.translation("configuration.marioverse.peach_ability_safe_fall_distance")
+                                .comment("Additional blocks the player can fall without taking damage.")
+                                .comment("This is added on top of the 3 block safe fall distance.")
+                                .comment("The total safe fall distance is 10 blocks, 3.0 + 7.0 = 10.0")
+                                .comment("§6[7.0 = 7 blocks safe fall distance]§b")
+                                .comment("§9[Default: 7.0F]§b")
+                                .defineInRange("peach_ability_safe_fall_distance", 7.0F, -3.0F, 20.0F);
+                        PEACH_ABILITY_GRAVITY = BUILDER.translation("configuration.marioverse.peach_ability_gravity")
+                                .comment("The multiplier applied to the player's gravity.")
+                                .comment("A value < 1.0 = slow falling")
+                                .comment("A value > 1.0 = faster falling")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("peach_ability_gravity", 1.0F, 0.0F, 5.0F);
+                        PEACH_ABILITY_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.peach_ability_height_scale")
+                                .comment("The multiplier to modify the height of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("peach_ability_height_scale", 1.0F, 0.15F, 5.0F);
+                        PEACH_ABILITY_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.peach_ability_width_scale")
+                                .comment("The multiplier to modify the width of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("peach_ability_width_scale", 1.0F, 0.15F, 5.0F);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_DAISY_ABILITY_BLOCK);
+                        DAISY_ABILITY_DOUBLE_JUMP = BUILDER.translation("configuration.marioverse.daisy_ability_double_jump")
+                                .comment("Enables double jump when the player hits the block.")
+                                .comment("§9[Default: false]")
+                                .define("daisy_ability_double_jump", false);
+                        DAISY_ABILITY_JUMP_BOOST = BUILDER.translation("configuration.marioverse.daisy_ability_jump_boost")
+                                .comment("The multiplier applied to the player's jump height.")
+                                .comment("§6[0.5x = 5 block jump height]§b")
+                                .comment("§9[Default: 0.5F]§b")
+                                .defineInRange("daisy_ability_jump_boost", 0.5F, 0.0F, 1.0F);
+                        DAISY_ABILITY_RUNNING_JUMP_BOOST = BUILDER.translation("configuration.marioverse.daisy_ability_running_jump_boost")
+                                .comment("The multiplier applied to the player's jump height when running.")
+                                .comment("§6[0.6x = 6 block jump height]§b")
+                                .comment("§9[Default: 0.6F]§b")
+                                .defineInRange("daisy_ability_running_jump_boost", 0.6F, 0.0F, 1.0F);
+                        DAISY_ABILITY_SAFE_FALL_DISTANCE = BUILDER.translation("configuration.marioverse.daisy_ability_safe_fall_distance")
+                                .comment("Additional blocks the player can fall without taking damage.")
+                                .comment("This is added on top of the 3 block safe fall distance.")
+                                .comment("The total safe fall distance is 10 blocks, 3.0 + 7.0 = 10.0")
+                                .comment("§6[7.0 = 7 blocks safe fall distance]§b")
+                                .comment("§9[Default: 7.0F]§b")
+                                .defineInRange("daisy_ability_safe_fall_distance", 7.0F, -3.0F, 20.0F);
+                        DAISY_ABILITY_GRAVITY = BUILDER.translation("configuration.marioverse.daisy_ability_gravity")
+                                .comment("The multiplier applied to the player's gravity.")
+                                .comment("A value < 1.0 = slow falling")
+                                .comment("A value > 1.0 = faster falling")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("daisy_ability_gravity", 1.0F, 0.0F, 5.0F);
+                        DAISY_ABILITY_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.daisy_ability_height_scale")
+                                .comment("The multiplier to modify the height of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("daisy_ability_height_scale", 1.0F, 0.15F, 5.0F);
+                        DAISY_ABILITY_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.daisy_ability_width_scale")
+                                .comment("The multiplier to modify the width of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("daisy_ability_width_scale", 1.0F, 0.15F, 5.0F);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_ROSALINA_ABILITY_BLOCK);
+                        ROSALINA_ABILITY_DOUBLE_JUMP = BUILDER.translation("configuration.marioverse.rosalina_ability_double_jump")
+                                .comment("Enables double jump when the player hits the block.")
+                                .comment("§9[Default: false]")
+                                .define("rosalina_ability_double_jump", false);
+                        ROSALINA_ABILITY_JUMP_BOOST = BUILDER.translation("configuration.marioverse.rosalina_ability_jump_boost")
+                                .comment("The multiplier applied to the player's jump height.")
+                                .comment("§6[0.5x = 5 block jump height]§b")
+                                .comment("§9[Default: 0.5F]§b")
+                                .defineInRange("rosalina_ability_jump_boost", 0.5F, 0.0F, 1.0F);
+                        ROSALINA_ABILITY_RUNNING_JUMP_BOOST = BUILDER.translation("configuration.marioverse.rosalina_ability_running_jump_boost")
+                                .comment("The multiplier applied to the player's jump height when running.")
+                                .comment("§6[0.6x = 6 block jump height]§b")
+                                .comment("§9[Default: 0.6F]§b")
+                                .defineInRange("rosalina_ability_running_jump_boost", 0.6F, 0.0F, 1.0F);
+                        ROSALINA_ABILITY_SAFE_FALL_DISTANCE = BUILDER.translation("configuration.marioverse.rosalina_ability_safe_fall_distance")
+                                .comment("Additional blocks the player can fall without taking damage.")
+                                .comment("This is added on top of the 3 block safe fall distance.")
+                                .comment("The total safe fall distance is 10 blocks, 3.0 + 7.0 = 10.0")
+                                .comment("§6[7.0 = 7 blocks safe fall distance]§b")
+                                .comment("§9[Default: 7.0F]§b")
+                                .defineInRange("rosalina_ability_safe_fall_distance", 7.0F, -3.0F, 20.0F);
+                        ROSALINA_ABILITY_GRAVITY = BUILDER.translation("configuration.marioverse.rosalina_ability_gravity")
+                                .comment("The multiplier applied to the player's gravity.")
+                                .comment("A value < 1.0 = slow falling")
+                                .comment("A value > 1.0 = faster falling")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("rosalina_ability_gravity", 1.0F, 0.0F, 5.0F);
+                        ROSALINA_ABILITY_HEIGHT_SCALE = BUILDER.translation("configuration.marioverse.rosalina_ability_height_scale")
+                                .comment("The multiplier to modify the height of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("rosalina_ability_height_scale", 1.0F, 0.15F, 5.0F);
+                        ROSALINA_ABILITY_WIDTH_SCALE = BUILDER.translation("configuration.marioverse.rosalina_ability_width_scale")
+                                .comment("The multiplier to modify the width of the player.")
+                                .comment("§9[Default: 1.0F]§b")
+                                .defineInRange("rosalina_ability_width_scale", 1.0F, 0.15F, 5.0F);
+                    BUILDER.pop();
+
+                BUILDER.pop();
 
                 BUILDER.push(CATEGORY_COINS);
                     COINS_COLLECTED_ON_COLLISION = BUILDER.translation("configuration.marioverse.coins_collected_on_collision")

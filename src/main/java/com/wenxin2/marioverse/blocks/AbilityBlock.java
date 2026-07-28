@@ -49,7 +49,7 @@ public class AbilityBlock extends Block {
         return 0.0;
     }
 
-    public double getVerticalMotionMultiplier() {
+    public double getGravityMultiplier() {
         return 1.0;
     }
 
@@ -89,9 +89,9 @@ public class AbilityBlock extends Block {
                 list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.safe_fall_distance",
                         this.getSafeFallDistance()).withStyle(ChatFormatting.GRAY));
 
-            if (this.getVerticalMotionMultiplier() != 1.0)
+            if (this.getGravityMultiplier() != 1.0)
                 list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.gravity",
-                        this.getVerticalMotionMultiplier() * 100, "%").withStyle(ChatFormatting.GRAY));
+                        this.getGravityMultiplier() * 100, "%").withStyle(ChatFormatting.GRAY));
 
             if (this.getHeightScale() != 1.0)
                 list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.height_scale",
@@ -106,7 +106,7 @@ public class AbilityBlock extends Block {
                         .withStyle(ChatFormatting.GRAY));
 
             if (this.getNormalJumpBoost() == 0.0 && this.getRunningJumpBoost() == 0.0
-                    && this.getSafeFallDistance() == 0.0 && this.getVerticalMotionMultiplier() == 1.0)
+                    && this.getSafeFallDistance() == 0.0 && this.getGravityMultiplier() == 1.0)
                 list.add(Component.translatable("block.marioverse.ability_block.tooltip.ability.resets"));
 
             list.add(Component.literal(""));
@@ -222,7 +222,7 @@ public class AbilityBlock extends Block {
                 AbilityBlock.setModifier(safeFallAttribute, AttributesRegistry.CHARACTER_SAFE_FALL_DISTANCE,
                         abilityBlock.getSafeFallDistance());
 
-            double verticalMultiplier = abilityBlock.getVerticalMotionMultiplier();
+            double verticalMultiplier = abilityBlock.getGravityMultiplier();
             Vec3 motion = entity.getDeltaMovement();
 
             if (motion.y < 0 && verticalMultiplier != 1.0 && !entity.isShiftKeyDown())

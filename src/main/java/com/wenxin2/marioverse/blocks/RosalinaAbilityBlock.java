@@ -21,7 +21,7 @@ public class RosalinaAbilityBlock extends AbilityBlock {
     }
 
     @Override
-    public double getVerticalMotionMultiplier() {
+    public double getGravityMultiplier() {
         return 0.4;
     }
 }
