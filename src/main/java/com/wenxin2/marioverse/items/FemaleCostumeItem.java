@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.client.renderers.costumes.FemaleCostumeRenderer;
 import java.util.List;
 import java.util.function.Consumer;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -26,18 +27,26 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class FemaleCostumeItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    int tooltipLineAmt = 0;
     String tooltipName;
-
-    public FemaleCostumeItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
-        super(repairIngredient, armorMaterial, armorType, properties);
-    }
 
     public FemaleCostumeItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType,
                              String tooltipName, int tooltipLineAmt, Properties properties) {
-        super(repairIngredient, armorMaterial, armorType, properties);
+        super(repairIngredient, armorMaterial, armorType, tooltipLineAmt, properties);
         this.tooltipLineAmt = tooltipLineAmt;
         this.tooltipName = tooltipName;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
+        if (Screen.hasShiftDown() && this.tooltipLineAmt > 0) {
+            list.add(Component.literal(""));
+
+            for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
+                list.add(Component.translatable("item.marioverse." + this.tooltipName + ".tooltip.line" + lineAmt));
+
+            list.add(Component.literal(""));
+        } else if (this.tooltipLineAmt > 0)
+            list.add(Component.translatable("item.marioverse." + this.tooltipName + ".tooltip"));
     }
 
     @Override
@@ -66,15 +75,5 @@ public class FemaleCostumeItem extends BaseCostumeItem implements GeoItem {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.cache;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-        if (this.tooltipLineAmt > 0) {
-            list.add(Component.literal(""));
-            for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
-                list.add(Component.translatable("item.marioverse." + this.tooltipName + ".tooltip.line" + lineAmt));
-            list.add(Component.literal(""));
-        }
     }
 }

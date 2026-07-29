@@ -24,8 +24,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class ChristmasHatItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public ChristmasHatItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
-        super(repairIngredient, armorMaterial, armorType, properties);
+    public ChristmasHatItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType,
+                            int tooltipLineAmt, Properties properties) {
+        super(repairIngredient, armorMaterial, armorType, tooltipLineAmt, properties);
     }
 
     @Override

@@ -113,35 +113,35 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PANTS);
             add(event, ItemRegistry.SHOES);
 
-            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF43B237, true));
-            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFF9C6042, true));
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0x43B237, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0x43B237, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0x43B237, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0x9C6042, true));
 
-            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFCD00, true));
-            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFCD00, true));
-            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFCD00, true));
-            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94536, true));
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0xFFCD00, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFFCD00, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFFCD00, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xA94536, true));
 
-            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
-            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
-            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF8800FD, true));
-            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94537, true));
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0x8800FD, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0x8800FD, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0x8800FD, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xA94537, true));
 
             add(event, ItemRegistry.CROWN);
             add(event, ItemRegistry.BODICE);
             add(event, ItemRegistry.DRESS);
             add(event, ItemRegistry.HEELS);
 
-            add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xFFA4FDF0, true));
-            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF992B, true));
-            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF992B, true));
-            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF992B, true));
+            add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xA4FDF0, true));
+            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0xFF992B, true));
+            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF992B, true));
+            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF992B, true));
 
-            add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF647E, true));
-            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
-            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
-            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF89F4EB, true));
+            add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xFF647E, true));
+            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0x89F4EB, true));
+            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0x89F4EB, true));
+            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0x89F4EB, true));
 
             add(event, ItemRegistry.GREEN_KOOPA_SHOES);
             add(event, ItemRegistry.RED_KOOPA_SHOES);

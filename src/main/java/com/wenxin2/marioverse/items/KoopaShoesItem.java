@@ -37,8 +37,9 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class KoopaShoesItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    public KoopaShoesItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
-        super(repairIngredient, armorMaterial, armorType, properties);
+    public KoopaShoesItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType,
+                          int tooltipLineAmt, Properties properties) {
+        super(repairIngredient, armorMaterial, armorType, tooltipLineAmt, properties);
     }
 
     @Override

@@ -25,7 +25,7 @@
   - Can be hit with a projectile to activate
   - Fully configurable
 - Improved Mini Goombas
-  - The more goombas attached to the player, the slower you more
+  - The more goombas attached to the player, the slower you move
 - Fixed waist & dress rendering on koopas & goombas in the wrong position
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)

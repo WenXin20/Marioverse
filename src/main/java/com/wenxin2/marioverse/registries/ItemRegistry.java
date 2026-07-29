@@ -211,8 +211,8 @@ public class ItemRegistry {
                 () -> new SolidBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
-                () -> new PlasticBucketItem(2, Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
-                        new Item.Properties().stacksTo(1)
+                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
+                        3, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         PLASTIC_WATER_BUCKET = registerItem("plastic_water_bucket",
                 () -> new FluidPlasticBucketItem(3, Fluids.WATER, new Item.Properties().stacksTo(1)
@@ -289,63 +289,68 @@ public class ItemRegistry {
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.WALUIGI));
 
         CHRISTMAS_HAT = registerItem("christmas_hat",
-                () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
+                () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
+                        3, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(8))
                         .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFED0011, true))));
         GOLDEN_KOOPA_SHOES = registerItem("golden_koopa_shoes",
-                () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS,
+                        2, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(12))));
         GREEN_KOOPA_SHOES = registerItem("green_koopa_shoes",
-                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        2, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
         RED_KOOPA_SHOES = registerItem("red_koopa_shoes",
-                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        2, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
         WHITE_KOOPA_SHOES = registerItem("white_koopa_shoes",
-                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        2, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
         HAT = registerItem("hat",
                 () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xF6343A, true))));
         SHIRT = registerItem("shirt",
                 () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xF6343A, true))));
         PANTS = registerItem("pants",
                 () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFF6343A, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xF6343A, true))));
         SHOES = registerItem("shoes",
                 () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
                         "male_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFA94535, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xA94535, true))));
 
         CROWN = registerItem("crown",
                 () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.GOLD, ArmorItem.Type.HELMET,
                         "female_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(12))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFF647D, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFF647D, true))));
         BODICE = registerItem("bodice",
                 () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
                         "female_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFC1D7, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFC1D7, true))));
         DRESS = registerItem("dress",
                 () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
                         "female_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.LEGGINGS.getDurability(10))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFC1D7, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFC1D7, true))));
         HEELS = registerItem("heels",
                 () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
                         "female_costume", 4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))
-                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFC1D7, true))));
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFC1D7, true))));
 
         BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",
                 () -> new BannerPatternItem(TagRegistry.BOWSER_BANNER_PATTERN, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));

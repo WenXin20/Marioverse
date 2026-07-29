@@ -66,14 +66,11 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    int tooltipLineAmt = 0;
+    int tooltipLineAmt;
 
-    public PlasticBucketItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
-        super(repairIngredient, armorMaterial, armorType, properties);
-    }
-
-    public PlasticBucketItem(int tooltipLineAmt, Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType, Properties properties) {
-        super(repairIngredient, armorMaterial, armorType, properties);
+    public PlasticBucketItem(Ingredient repairIngredient, Holder<ArmorMaterial> armorMaterial, Type armorType,
+                             int tooltipLineAmt, Properties properties) {
+        super(repairIngredient, armorMaterial, armorType, tooltipLineAmt, properties);
         this.tooltipLineAmt = tooltipLineAmt;
     }
 
@@ -103,17 +100,6 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.cache;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-        if (Screen.hasShiftDown() && this.tooltipLineAmt > 0) {
-            list.add(Component.literal(""));
-            for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
-                list.add(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt));
-            list.add(Component.literal(""));
-        } else if (this.tooltipLineAmt > 0)
-            list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
     @NotNull
