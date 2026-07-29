@@ -23,6 +23,7 @@
   - Steve blocks resets your abilities to the default
   - Jump into the blocks to obtain abilities
   - Can be hit with a projectile to activate
+  - Fully configurable
 - Improved Mini Goombas
   - The more goombas attached to the player, the slower you more
 - Fixed waist & dress rendering on koopas & goombas in the wrong position

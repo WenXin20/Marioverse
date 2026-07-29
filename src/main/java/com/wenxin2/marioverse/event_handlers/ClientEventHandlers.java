@@ -454,7 +454,7 @@ public class ClientEventHandlers {
             }
 
             if (!player.onGround() && !player.getAbilities().flying && player.getData(DataAttachmentRegistry.HAS_DOUBLE_JUMP)
-                    && minecraft.options.keyJump.consumeClick())
+                    && minecraft.options.keyJump.isDown())
                 PacketDistributor.sendToServer(new DoubleJumpPayload());
 
             if (!player.isSpectator()) {
