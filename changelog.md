@@ -7,9 +7,11 @@
 - Replaced the Mario & Luigi costumes with a generic "male costume"
   - Dye & trim support
   - Added to Shepherd trades
+  - Entirely cosmetic
 - Replaced the Peach costumes with a generic "female costume"
   - Dye & trim support
   - Added to Armorer & Shepherd trades
+  - Entirely cosmetic
 - Christmas Hat now has dye & trim support
 - Koopa Shoes now have trim support
 - Plastic Buckets now have trim support

@@ -74,5 +74,7 @@ public class PowerUpItem extends Item {
 
         } else if (this.tooltipLineAmt > 0)
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+
+        super.appendHoverText(stack, tooltipContext, list, tooltip);
     }
 }

@@ -38,6 +38,8 @@ public class BaseCostumeItem extends ArmorItem {
                 list.add(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt));
         } else if (this.tooltipLineAmt > 0)
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+
+        super.appendHoverText(stack, tooltipContext, list, tooltip);
     }
 
     @Override

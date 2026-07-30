@@ -632,6 +632,11 @@
   "container.marioverse.checkpoint_flag.more": " §7• and %s more...",
   "container.marioverse.checkpoint_flag.unknownContents": " §7• ???????",
 
+  "block.marioverse.clear_warp_pipe.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.clear_warp_pipe.tooltip.instructions": "§9Instructions:",
+  "block.marioverse.clear_warp_pipe.tooltip.instructions.wrench": " §7• Link or configure with a wrench",
+  "block.marioverse.clear_warp_pipe.tooltip.instructions.place": " §7• Place multiple together to travel inside",
+
   "block.marioverse.death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "block.marioverse.death_block.tooltip.ability": "§6Ability:",
   "block.marioverse.death_block.tooltip.description": " §7• Instakills all entities",
@@ -679,6 +684,10 @@
   "block.marioverse.warp_door.tooltip.guide": " §7• Link with a wrench",
   "block.marioverse.warp_door.tooltip.mod": "§eSource Mod:",
   "block.marioverse.warp_door.tooltip.source_mod": " §9• %1$s",
+
+  "block.marioverse.warp_pipe.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.warp_pipe.tooltip.instructions": "§9Instructions:",
+  "block.marioverse.warp_pipe.tooltip.instructions.wrench": " §7• Link or configure with a wrench",
 
   "block.marioverse.warp_trapdoor.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "block.marioverse.warp_trapdoor.tooltip.ability": "§6Ability:",

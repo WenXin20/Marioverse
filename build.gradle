@@ -91,7 +91,8 @@ dependencies {
     compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:7797302"
-//    implementation "curse.maven:tree-physics-1522010:8126510"
+    implementation "curse.maven:treechop-421377:6254465"
+    implementation "curse.maven:tree-physics-1522010:8448844"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
     implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:7598595"
@@ -105,7 +106,7 @@ dependencies {
     implementation "curse.maven:framework-549225:7530361"
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    compileOnly "curse.maven:sable-1312371:8007005" // Requires Create
+    implementation "curse.maven:sable-1312371:8263584" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     implementation "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"
