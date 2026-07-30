@@ -28,6 +28,7 @@
   - Fully configurable
 - Improved Mini Goombas
   - The more goombas attached to the player, the slower you move
+- Added tooltips to warp pipes
 - Fixed waist & dress rendering on koopas & goombas in the wrong position
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)

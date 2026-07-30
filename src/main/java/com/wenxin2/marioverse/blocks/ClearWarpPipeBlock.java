@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -280,8 +281,12 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
+        Player player = Minecraft.getInstance().player;
+
         if (Screen.hasShiftDown()) {
-            Spawner.appendHoverText(stack, list, "SpawnData");
+            if (player != null && player.isCreative())
+                Spawner.appendHoverText(stack, list, "SpawnData");
+
             list.add(Component.literal(""));
 
             list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip.instructions"));
@@ -290,8 +295,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
             list.add(Component.literal(""));
         } else list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip"));
-
-        super.appendHoverText(stack, context, list, options);
     }
 
     @NotNull
