@@ -169,7 +169,7 @@ public class KoopaTroopaRenderer extends GeoEntityRenderer<KoopaTroopaEntity> {
             this.model.getBone("shell_particles").ifPresent(bone -> {
                 Vector3d bonePos = bone.getWorldPosition();
 
-                if (animatable.tickCount % 80 == 0) {
+                if (animatable.tickCount % 10 == 0) {
                     double randomX = (Math.random() - 0.5) * bone.getScaleX();
                     double randomY = (Math.random() - 0.5) * bone.getScaleY();
                     double randomZ = (Math.random() - 0.5) * bone.getScaleZ();

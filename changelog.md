@@ -29,6 +29,9 @@
 - Improved Mini Goombas
   - The more goombas attached to the player, the slower you move
 - Added tooltips to warp pipes
+- Added flame particles to the Fire Flower
+- Remodeled the fire flower
+- Increased particles on golden koopa shells
 - Fixed waist & dress rendering on koopas & goombas in the wrong position
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
