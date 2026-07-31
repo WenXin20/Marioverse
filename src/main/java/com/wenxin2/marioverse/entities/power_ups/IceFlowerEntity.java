@@ -47,7 +47,7 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity,
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Idle", 0, this::idleAnimController));
-        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 20));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 40));
     }
 
     protected <E extends GeoAnimatable> PlayState idleAnimController(final AnimationState<E> event) {
