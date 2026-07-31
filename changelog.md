@@ -29,9 +29,11 @@
 - Improved Mini Goombas
   - The more goombas attached to the player, the slower you move
 - Added tooltips to warp pipes
+- Added spawn animations to power ups
 - Added flame particles to the Fire Flower
 - Added ice particles to the Ice Flower
 - Remodeled the fire & ice flower power ups
+- Improved models of mushroom power ups
 - Increased particles on golden koopa shells
 - Fixed waist & dress rendering on koopas & goombas in the wrong position
 

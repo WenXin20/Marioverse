@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +13,6 @@ public class SuperMushroomModel extends DefaultedEntityGeoModel<SuperMushroomEnt
 
     @Override
     public RenderType getRenderType(SuperMushroomEntity animatable, ResourceLocation texture) {
-        return RenderType.entitySolid(getTextureResource(animatable));
+        return RenderType.entityCutout(this.getTextureResource(animatable));
     }
 }
