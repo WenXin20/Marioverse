@@ -21,6 +21,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity, PowerUpSource {
@@ -46,6 +47,7 @@ public class IceFlowerEntity extends AbstractPowerUpEntity implements GeoEntity,
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Idle", 0, this::idleAnimController));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 20));
     }
 
     protected <E extends GeoAnimatable> PlayState idleAnimController(final AnimationState<E> event) {

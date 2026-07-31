@@ -71,10 +71,10 @@ public class EntityRegistry {
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER =
             Marioverse.ENTITIES.register("fire_flower", () -> EntityType.Builder.of(FireFlowerEntity::new, MobCategory.AMBIENT)
-                    .sized(0.6F, 0.6F).build("fire_flower"));
+                    .sized(0.6F, 0.875F).build("fire_flower"));
     public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER =
             Marioverse.ENTITIES.register("ice_flower", () -> EntityType.Builder.of(IceFlowerEntity::new, MobCategory.AMBIENT)
-                    .sized(0.6F, 0.6F).build("ice_flower"));
+                    .sized(0.6F, 0.875F).build("ice_flower"));
     public static final DeferredHolder<EntityType<?>, EntityType<MegaMushroomEntity>> MEGA_MUSHROOM =
             Marioverse.ENTITIES.register("mega_mushroom", () -> EntityType.Builder.of(MegaMushroomEntity::new, MobCategory.AMBIENT)
                     .sized(1.875F, 1.75F).build("mega_mushroom"));

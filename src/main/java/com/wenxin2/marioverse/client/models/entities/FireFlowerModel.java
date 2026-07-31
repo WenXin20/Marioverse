@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.client.models.entities;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.entities.CheepCheepEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +17,7 @@ public class FireFlowerModel extends DefaultedEntityGeoModel<FireFlowerEntity> {
 
     @Override
     public RenderType getRenderType(FireFlowerEntity animatable, ResourceLocation texture) {
-        return RenderType.entityCutout(getTextureResource(animatable));
+        return RenderType.entityCutout(this.getTextureResource(animatable));
     }
 
     @Override

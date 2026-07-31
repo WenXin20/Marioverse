@@ -30,7 +30,8 @@
   - The more goombas attached to the player, the slower you move
 - Added tooltips to warp pipes
 - Added flame particles to the Fire Flower
-- Remodeled the fire flower
+- Added ice particles to the Ice Flower
+- Remodeled the fire & ice flower power ups
 - Increased particles on golden koopa shells
 - Fixed waist & dress rendering on koopas & goombas in the wrong position
 
