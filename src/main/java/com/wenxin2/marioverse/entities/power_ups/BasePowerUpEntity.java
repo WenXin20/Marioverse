@@ -95,4 +95,12 @@ public class BasePowerUpEntity extends PathfinderMob {
 
     public void collideWithEntity(Entity entity) {
     }
+
+    protected int getSpawnDuration() {
+        return 10;
+    }
+
+    public boolean isSpawning() {
+        return this.tickCount < this.getSpawnDuration();
+    }
 }

@@ -12,12 +12,34 @@
 			},
 			"bones": [
 				{
-					"name": "body",
+					"name": "root",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "head",
+					"parent": "root",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "face",
+					"parent": "head",
 					"pivot": [0, 0, 0],
 					"cubes": [
-						{"origin": [-6, 0, -6], "size": [12, 8, 12], "uv": [0, 51]},
-						{"origin": [-15, 7, -15], "size": [30, 20, 30], "pivot": [0, 8, 0], "rotation": [-10, 0, 0], "uv": [0, 0]},
-						{"origin": [-15, 7, -15], "size": [30, 20, 30], "inflate": 0.35, "pivot": [0, 8, 0], "rotation": [-10, 0, 0], "uv": [0, 72]}
+						{"origin": [-6, 0, -6], "size": [12, 8, 12], "uv": [0, 51]}
+					]
+				},
+				{
+					"name": "cap_rotator",
+					"parent": "head",
+					"pivot": [0, 8, 0]
+				},
+				{
+					"name": "cap",
+					"parent": "cap_rotator",
+					"pivot": [0, 8, 0],
+					"cubes": [
+						{"origin": [-15, 7, -15], "size": [30, 20, 30], "inflate": 0.35, "pivot": [0, 8, 0], "rotation": [-10, 0, 0], "uv": [0, 72]},
+						{"origin": [-15, 7, -15], "size": [30, 20, 30], "pivot": [0, 8, 0], "rotation": [-10, 0, 0], "uv": [0, 0]}
 					]
 				}
 			]

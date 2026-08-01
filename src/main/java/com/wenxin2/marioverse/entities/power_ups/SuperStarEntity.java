@@ -29,6 +29,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, PowerUpSource {
@@ -54,6 +55,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, Pow
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimation));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, this.getSpawnDuration()));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
@@ -113,6 +115,11 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, Pow
             for (Entity passenger : entity.getPassengers())
                 this.applyToRiders(world, passenger);
         }
+    }
+
+    @Override
+    protected int getSpawnDuration() {
+        return 20;
     }
 
     private void applyToRiders(Level world, Entity firstEntity) {

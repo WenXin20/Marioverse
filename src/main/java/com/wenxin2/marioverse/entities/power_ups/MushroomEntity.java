@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousStrollGoal;
-import com.wenxin2.marioverse.power_up.PowerUpSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +13,7 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
@@ -33,6 +33,7 @@ public class MushroomEntity extends BaseMushroomEntity implements GeoEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "walk", 5, this::walkAnimation));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, this.getSpawnDuration()));
     }
 
     @Override

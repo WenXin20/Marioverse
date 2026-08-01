@@ -47,7 +47,7 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Idle", 0, this::idleAnimController));
-        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 40));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, this.getSpawnDuration()));
     }
 
     protected <E extends GeoAnimatable> PlayState idleAnimController(final AnimationState<E> event) {
@@ -69,5 +69,10 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
             handler.applyFireFlowerPowerUp(this.level(), rider, this);
         else if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
             handler.applyFireFlowerPowerUp(this.level(), livingEntity, this);
+    }
+
+    @Override
+    protected int getSpawnDuration() {
+        return 40;
     }
 }
