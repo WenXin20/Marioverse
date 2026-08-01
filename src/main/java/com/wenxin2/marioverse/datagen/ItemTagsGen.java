@@ -439,6 +439,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SUPER_STAR.get());
 
         tag(TagRegistry.POWER_UP_SPAWN_EGGS)
+                .add(ItemRegistry.DASH_MUSHROOM_SPAWN_EGG.get())
                 .add(ItemRegistry.FIRE_FLOWER_SPAWN_EGG.get())
                 .add(ItemRegistry.ICE_FLOWER_SPAWN_EGG.get())
                 .add(ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG.get())

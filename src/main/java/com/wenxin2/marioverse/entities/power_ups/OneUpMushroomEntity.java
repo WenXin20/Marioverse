@@ -41,9 +41,6 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity, Po
 
     public static void consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity, int consecutiveBounces) {
         Level level = damagedEntity.level();
-        double x = damagedEntity.getX();
-        double y = damagedEntity.getY() + damagedEntity.getBbHeight() + 1.0;
-        double z = damagedEntity.getZ();
         int oneUpsRewarded = attackingEntity.getData(DataAttachmentRegistry.ONE_UPS_REWARDED);
         attackingEntity.setData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES, consecutiveBounces + 1);
 

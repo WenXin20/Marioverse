@@ -1,9 +1,9 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
-import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
-import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
+import com.wenxin2.marioverse.items.DashMushroomItem;
 import com.wenxin2.marioverse.power_up.PowerUpSource;
 import com.wenxin2.marioverse.power_up.PowerUpType;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
@@ -11,6 +11,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -23,24 +24,17 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MegaMushroomEntity extends MushroomEntity implements GeoEntity, PowerUpSource {
+public class DashMushroomEntity extends MushroomEntity implements GeoEntity, PowerUpSource {
     protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public MegaMushroomEntity(EntityType<? extends MegaMushroomEntity> entityType, Level world) {
+    public DashMushroomEntity(EntityType<? extends DashMushroomEntity> entityType, Level world) {
         super(entityType, world);
-        this.moveControl = new BounceMoveControl(this, 1, null, 1.0F, 1.0F);
     }
 
     @Override
     public Holder<PowerUpType> getPowerUpType() {
-        return PowerUpTypeRegistry.MEGA_MUSHROOM;
-    }
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(0, new ContinuousJumpGoal(this));
-        super.registerGoals();
+        return PowerUpTypeRegistry.DASH_MUSHROOM;
     }
 
     @Override
@@ -64,17 +58,13 @@ public class MegaMushroomEntity extends MushroomEntity implements GeoEntity, Pow
 
     @Override
     public void collideWithEntity(Entity entity) {
-        LivingEntity rider = entity.getControllingPassenger();
+        Level level = entity.level();
 
-        if (entity.getType().is(TagRegistry.POWERS_UP_RIDER) && entity.hasControllingPassenger()
-                && rider instanceof AbilitiesHandler handler)
-            handler.applyMegaMushroomPowerUp(this.level(), rider, this);
-        else if (entity instanceof LivingEntity livingEntity && entity instanceof AbilitiesHandler handler)
-            handler.applyMegaMushroomPowerUp(this.level(), livingEntity, this);
-    }
-
-    @Override
-    protected int getSpawnDuration() {
-        return 25;
+        if (!entity.getType().is(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST)) {
+            if (entity.isVehicle())
+                DashMushroomItem.mushroomAbilities(null, level, entity, ConfigRegistry.VEHICLE_MUSHROOM_BOOST_STRENGTH.get(), true, false);
+            else DashMushroomItem.mushroomAbilities(null, level, entity, ConfigRegistry.DASH_MUSHROOM_BOOST_STRENGTH.get(), true, false);
+            this.discard();
+        }
     }
 }

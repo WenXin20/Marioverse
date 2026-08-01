@@ -1,6 +1,9 @@
 ## Update 1.10.2
 - Added power up spawn eggs 
   - Used for spawning the power up entity from ? Blocks
+  - Includes a dash mushroom spawn egg
+- Added the Dash Mushroom mob
+  - Boosts mobs on contact
 - Changed regular power up items to apply the power ups on right-click
   - Used for chest loot
 - Added a power up type registry

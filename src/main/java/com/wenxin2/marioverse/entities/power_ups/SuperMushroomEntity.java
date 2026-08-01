@@ -23,7 +23,7 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class SuperMushroomEntity extends MushroomEntity implements GeoEntity, PowerUpSource {
-    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.super_mushroom.walk");
+    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public SuperMushroomEntity(EntityType<? extends SuperMushroomEntity> entityType, Level world) {

@@ -42,6 +42,7 @@ import com.wenxin2.marioverse.client.renderers.entities.SpinyCheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SplunkinRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
+import com.wenxin2.marioverse.client.renderers.entities.power_ups.DashMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.IceFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.MegaMushroomRenderer;
@@ -124,7 +125,7 @@ public class MarioverseClient {
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         event.register((state, world, pos, tintIndex) -> {
             return world != null && pos != null
-                    ? BiomeColors.getAverageWaterColor(world, pos) | 0xFF0000cc : 0xFFFFFFFF;
+                    ? BiomeColors.getAverageWaterColor(world, pos) | 0x0000cc : 0xFFFFFFFF;
         }, BlockRegistry.WATER_SPOUT.get());
     }
 
@@ -132,14 +133,14 @@ public class MarioverseClient {
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> {
                     if (tintIndex == 1)
-                        return 0xFF3F76E4;
+                        return 0x3F76E4;
                     return -1;
                 }, ItemRegistry.PLASTIC_WATER_BUCKET.get()
         );
         event.register(
                 (stack, tintIndex) -> {
                     if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xFFED0011);
+                        return DyedItemColor.getOrDefault(stack, 0xED0011);
                     return -1;
                 },
                 ItemRegistry.CHRISTMAS_HAT.get()
@@ -147,7 +148,7 @@ public class MarioverseClient {
         event.register(
                 (stack, tintIndex) -> {
                     if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xFFF6343A);
+                        return DyedItemColor.getOrDefault(stack, 0xF6343A);
                     return -1;
                 },
                 ItemRegistry.HAT.get(),
@@ -156,7 +157,7 @@ public class MarioverseClient {
         event.register(
                 (stack, tintIndex) -> {
                     if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xFF325EFF);
+                        return DyedItemColor.getOrDefault(stack, 0x325EFF);
                     return -1;
                 },
                 ItemRegistry.PANTS.get()
@@ -164,7 +165,7 @@ public class MarioverseClient {
         event.register(
                 (stack, tintIndex) -> {
                     if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xFFA94535);
+                        return DyedItemColor.getOrDefault(stack, 0xA94535);
                     return -1;
                 },
                 ItemRegistry.SHOES.get()
@@ -172,7 +173,7 @@ public class MarioverseClient {
         event.register(
                 (stack, tintIndex) -> {
                     if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xFFFF647D);
+                        return DyedItemColor.getOrDefault(stack, 0xFF647D);
                     return -1;
                 },
                 ItemRegistry.CROWN.get()
@@ -180,7 +181,7 @@ public class MarioverseClient {
         event.register(
                 (stack, tintIndex) -> {
                     if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xFFFFC1D7);
+                        return DyedItemColor.getOrDefault(stack, 0xFFC1D7);
                     return -1;
                 },
                 ItemRegistry.BODICE.get(),
@@ -214,6 +215,7 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.LARGE_SNOWBALL.get(), LargeSnowballRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_CUBE.get(), IceCubeRenderer::new);
 
+        event.registerEntityRenderer(EntityRegistry.DASH_MUSHROOM.get(), DashMushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.FIRE_FLOWER.get(), FireFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_FLOWER.get(), IceFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MEGA_MUSHROOM.get(), MegaMushroomRenderer::new);

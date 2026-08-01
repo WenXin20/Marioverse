@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-24T23:13:50.1363706	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-08-01T15:55:36.254079	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -48,7 +48,7 @@ f32abf517bf97e61dee70e9d6a198e3f0811ed6a data/marioverse/tags/entity_type/cheep_
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/cheep_cheep_can_attack.json
 bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/damage_cannot_shrink.json
 e1324170c464566263ecaf6ba0e1d755c9b84f81 data/marioverse/tags/entity_type/damage_removes_costume.json
-bb21709348bd301d71d0b0b14dace26b18b14010 data/marioverse/tags/entity_type/dash_mushroom_cannot_boost.json
+3c2d6ab46ba3a1ee3b4eb8c3c1f9c1af68487d58 data/marioverse/tags/entity_type/dash_mushroom_cannot_boost.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/death_blocks_immune.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/decorated_pot_cannot_spawn.json
 f32abf517bf97e61dee70e9d6a198e3f0811ed6a data/marioverse/tags/entity_type/deep_cheep_avoids.json

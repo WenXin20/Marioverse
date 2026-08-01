@@ -1,27 +1,23 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.fire_flower.idle": {
-			"loop": true,
-			"animation_length": 2
-		},
 		"move.walk": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
-				"main": {
+				"head": {
 					"scale": {
 						"0.0": {
 							"vector": [1, 1, 1]
 						},
 						"0.5": {
-							"vector": [1, 0.9, 1]
+							"vector": [1, 0.8, 1]
 						},
 						"1.0": {
-							"vector": [1, 1.02, 1]
+							"vector": [1, 1.035, 1]
 						},
 						"1.5": {
-							"vector": [1, 0.9, 1]
+							"vector": [1, 0.8, 1]
 						},
 						"2.0": {
 							"vector": [1, 1, 1]
@@ -32,32 +28,30 @@
 		},
 		"misc.spawn": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 1,
+			"animation_length": 0.375,
 			"bones": {
-				"main": {
-					"rotation": {
-						"0.0": {
+				"head": {
+					"position": {
+						"0.125": {
 							"vector": [0, 0, 0]
 						},
-						"0.3333": {
-							"vector": [0, -360, 0]
+						"0.25": {
+							"vector": [0, 6, 0]
 						},
-						"1.0": {
-							"vector": [0, -720, 0],
-							"easing": "linear"
+						"0.375": {
+							"vector": [0, 0, 0]
 						}
 					},
 					"scale": {
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"1.0": {
+						"0.25": {
 							"vector": [1, 1, 1]
 						}
 					}
 				}
 			}
 		}
-	},
-	"geckolib_format_version": 2
+	}
 }

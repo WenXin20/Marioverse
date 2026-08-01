@@ -25,6 +25,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
+import net.minecraft.world.level.Level;
 
 public class PowerUpCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -192,13 +193,15 @@ public class PowerUpCommand {
         int count = 0;
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity livingEntity) {
-                float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
+            Level level = entity.level();
+
+            if (entity instanceof LivingEntity) {
+                float pitch = 0.9F + level.random.nextFloat() * 0.2F;
                 entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, true);
-                DashMushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
+                DashMushroomItem.mushroomAbilities(null, level, entity, boostStrength, false, true);
                 count++;
 
-                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
+                level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
                         SoundSource.AMBIENT, 1.0F, pitch);
 
                 if (count == 1) {

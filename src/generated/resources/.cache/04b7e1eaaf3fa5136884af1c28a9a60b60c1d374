@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-25T23:32:49.2528009	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-01T15:55:36.2671569	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -87,7 +87,7 @@ ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/item/mushroom_tram
 5caef3bf5fe1f82caaeaac7f566d0787b4b83f19 data/marioverse/tags/item/power_up_costumes/pants.json
 6896401429df0ba5460386cfc6d313071cfa8c17 data/marioverse/tags/item/power_up_costumes/shirt.json
 b6c4b70be4e5c46497bf51c680f90f578afeaef7 data/marioverse/tags/item/power_up_costumes/shoes.json
-125bf47c8ca0059423fb1566250896d3411466ae data/marioverse/tags/item/power_up_spawn_eggs.json
+7b5953151d20630b481e32900d7648bb0ee1ac82 data/marioverse/tags/item/power_up_spawn_eggs.json
 05196126a22460d63899d1005ccb115203d709be data/marioverse/tags/item/question_blocks.json
 a7237a913ebc494e95c33837eb152a6c6ebd10a6 data/marioverse/tags/item/question_panels.json
 6896401429df0ba5460386cfc6d313071cfa8c17 data/marioverse/tags/item/shirts.json

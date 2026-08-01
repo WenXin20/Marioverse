@@ -581,7 +581,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.DRY_BONES.get());
 
         tag(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST)
-                .addTag(TagRegistry.POWER_UP_ENTITIES);
+                .addTag(TagRegistry.POWER_UP_ENTITIES)
+                .add(EntityType.ARMOR_STAND)
+                .addOptional(TEST_DUMMY)
+                .addOptional(HAT_STAND);
 
         tag(TagRegistry.DEATH_BLOCKS_IMMUNE);
 

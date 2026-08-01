@@ -11,6 +11,8 @@ import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -58,7 +60,7 @@ public class DashMushroomItem extends PowerUpItem implements PowerUpSource {
         return super.finishUsingItem(stack, world, entity);
     }
 
-    public static InteractionResultHolder<ItemStack> mushroomAbilities(@Nullable ItemStack stack, Level world, LivingEntity entity, double boostStrength, boolean nerfBoost, boolean isCommand) {
+    public static InteractionResultHolder<ItemStack> mushroomAbilities(@Nullable ItemStack stack, Level world, Entity entity, double boostStrength, boolean nerfBoost, boolean isCommand) {
         ItemStack notNullStack = Objects.requireNonNullElseGet(stack, () -> new ItemStack(ItemRegistry.DASH_MUSHROOM.get()));
 
         if (boostStrength > 0) {
@@ -67,7 +69,8 @@ public class DashMushroomItem extends PowerUpItem implements PowerUpSource {
                 BlockState stateBelow = world.getBlockState(posBelow);
 
                 float friction = stateBelow.getBlock().getFriction();
-                if (entity.isInWaterOrBubble() || entity.isFallFlying() || stateBelow.isAir())
+                if (entity.isInWaterOrBubble() || stateBelow.isAir()
+                        || (entity instanceof LivingEntity livingEntity && livingEntity.isFallFlying()))
                     friction = 1.5F;
                 if (entity instanceof Player player && player.getAbilities().flying)
                     friction = 1.5F;
@@ -77,9 +80,11 @@ public class DashMushroomItem extends PowerUpItem implements PowerUpSource {
                 Vec3 direction = entity.getLookAngle().normalize();
 
                 Entity vehicle = entity.getVehicle();
-                if (stack != null)
-                    stack.consume(1, entity);
-                handler.applySuperMushroomPowerUp(world, entity, null, ConfigRegistry.DASH_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                if (stack != null && entity instanceof LivingEntity livingEntity)
+                    stack.consume(1, livingEntity);
+
+                if (entity instanceof LivingEntity livingEntity)
+                    handler.applySuperMushroomPowerUp(world, livingEntity, null, ConfigRegistry.DASH_MUSHROOM_HEALTH_HEALED.get().floatValue());
 
                 if (vehicle != null
                         && (!vehicle.getType().is(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST) || isCommand)) {
@@ -111,6 +116,8 @@ public class DashMushroomItem extends PowerUpItem implements PowerUpSource {
                 } else {
                     entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, true);
                     entity.setDeltaMovement(direction.x * boost, entity.getDeltaMovement().y, direction.z * boost);
+                    if (entity instanceof ServerPlayer player)
+                        player.connection.send(new ClientboundSetEntityMotionPacket(player));
                     if (entity instanceof Player player && stack != null)
                         player.getCooldowns().addCooldown(stack.getItem(), (int) (boost));
                     return InteractionResultHolder.sidedSuccess(notNullStack, world.isClientSide());

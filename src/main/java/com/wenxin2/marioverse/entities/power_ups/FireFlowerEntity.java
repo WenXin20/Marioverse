@@ -25,7 +25,7 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity, PowerUpSource {
-    protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.fire_flower.idle");
+    protected static final RawAnimation IDLE = RawAnimation.begin().thenLoop("move.idle");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public FireFlowerEntity(EntityType<? extends FireFlowerEntity> entityType, Level world) {
@@ -51,7 +51,7 @@ public class FireFlowerEntity extends AbstractPowerUpEntity implements GeoEntity
     }
 
     protected <E extends GeoAnimatable> PlayState idleAnimController(final AnimationState<E> event) {
-        event.setAndContinue(IDLE_ANIM);
+        event.setAndContinue(IDLE);
         return PlayState.CONTINUE;
     }
 

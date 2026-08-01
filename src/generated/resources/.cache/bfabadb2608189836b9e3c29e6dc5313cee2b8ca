@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-25T17:46:13.5187003	Item Models: marioverse
+// 1.21.1	2026-08-01T15:55:36.2600721	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -33,6 +33,7 @@ b72a6d74334f9bdf98860f2c650b62f93f083542 assets/marioverse/models/item/cyan_chec
 077a1d14e92a5e4037337c3da71807649ed1682f assets/marioverse/models/item/cyan_goal_pole.json
 af77997a00ce159863c0292f9482c1476862039f assets/marioverse/models/item/dango_blossom.json
 01e5e298e425b85e8373b06de32e23d6faea054c assets/marioverse/models/item/dash_mushroom.json
+01641b34a37150905386a0c9da8dc0a4e4ad9262 assets/marioverse/models/item/dash_mushroom_spawn_egg.json
 70c6791be55b89a8e9ee66db72a1b920d20ca166 assets/marioverse/models/item/dead_brain_coral_tower.json
 6c4a6003a5b3acc5f965b54e15c5240aeda8bc22 assets/marioverse/models/item/dead_bubble_coral_tower.json
 d75fa239811780195fb2cda4f0ec3246be575885 assets/marioverse/models/item/dead_fire_coral_tower.json

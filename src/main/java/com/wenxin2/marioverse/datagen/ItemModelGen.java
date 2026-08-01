@@ -52,6 +52,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.COOKED_PORCUPUFFER.get());
         this.basicItem(ItemRegistry.COOKED_SPINY_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.DASH_MUSHROOM.get());
+        this.basicItem(ItemRegistry.DASH_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.DEEP_CHEEP.get());
         this.basicItem(ItemRegistry.DEEP_CHEEP_BUCKET.get());
         this.basicItem(ItemRegistry.DEEP_CHEEP_SPAWN_EGG.get());

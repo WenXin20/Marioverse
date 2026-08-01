@@ -76,6 +76,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> CREATIVE_WRENCH;
     public static final DeferredItem<Item> CROWN;
     public static final DeferredItem<Item> DASH_MUSHROOM;
+    public static final DeferredItem<Item> DASH_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> DEEP_CHEEP;
     public static final DeferredItem<Item> DEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> DEEP_CHEEP_SPAWN_EGG;
@@ -247,6 +248,8 @@ public class ItemRegistry {
         ICE_FLOWER = registerItem("ice_flower",
                 () -> new IceFlowerItem(4, new Item.Properties()));
 
+        DASH_MUSHROOM_SPAWN_EGG = registerItem("dash_mushroom_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.DASH_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         SUPER_MUSHROOM_SPAWN_EGG = registerItem("super_mushroom_spawn_egg",
                 () -> new PowerUpSpawnEggItem(EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
         MEGA_MUSHROOM_SPAWN_EGG = registerItem("mega_mushroom_spawn_egg",

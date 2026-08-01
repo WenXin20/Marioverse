@@ -33,7 +33,7 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, PowerUpSource {
-    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.super_star.idle");
+    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public SuperStarEntity(EntityType<? extends SuperStarEntity> entityType, Level world) {
