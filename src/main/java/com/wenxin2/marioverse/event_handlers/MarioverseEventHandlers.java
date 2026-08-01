@@ -483,9 +483,17 @@ public class MarioverseEventHandlers {
             entity.setData(DataAttachmentRegistry.ONE_UPS_REWARDED, 0);
         }
 
+        if (entity.hasData(DataAttachmentRegistry.FIRE_FLOWER_DURATION)
+                && entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.FIRE_FLOWER_DURATION, 0);
+
         if (entity.hasData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM))
             entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
+
+        if (entity.hasData(DataAttachmentRegistry.ICE_FLOWER_DURATION)
+                && entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, 0);
 
         if (entity.hasData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME)
                 && entity.getData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME))

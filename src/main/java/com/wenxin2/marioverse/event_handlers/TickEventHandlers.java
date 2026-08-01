@@ -70,6 +70,8 @@ public class TickEventHandlers {
     public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
         Level level = entity.level();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.AMBIENT;
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.onGround() || entity.isInWaterOrBubble())
@@ -97,6 +99,10 @@ public class TickEventHandlers {
                 entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) - 1);
 
+        if (entity.hasData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) &&
+                entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.FIRE_FLOWER_DURATION, entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) - 1);
+
         if (entity.hasData(DataAttachmentRegistry.FIREBALL_COOLDOWN) &&
                 entity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, entity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) - 1);
@@ -120,6 +126,10 @@ public class TickEventHandlers {
         if (entity.hasData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) &&
                 entity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, entity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) - 1);
+
+        if (entity.hasData(DataAttachmentRegistry.ICE_FLOWER_DURATION) &&
+                entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) - 1);
 
         if (entity.hasData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) &&
                 entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) > 0)
@@ -152,6 +162,22 @@ public class TickEventHandlers {
                 entity.setData(DataAttachmentRegistry.PREVENT_WARP, false);
         }
 
+        if (entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) == 0
+                && entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+            entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
+            entity.removeData(DataAttachmentRegistry.FIRE_FLOWER_DURATION);
+            level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                    soundSource, 1.0F, pitch);
+        }
+
+        if (entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) == 0
+                && entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
+            entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
+            entity.removeData(DataAttachmentRegistry.ICE_FLOWER_DURATION);
+            level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                    soundSource, 1.0F, pitch);
+        }
+
         if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) == 0
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                 && entity instanceof LivingEntity livingEntity) {
@@ -160,6 +186,7 @@ public class TickEventHandlers {
 
             entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
             entity.setData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME, false);
+            entity.removeData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION);
 
             AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),

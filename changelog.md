@@ -32,6 +32,7 @@
 - Improved Mini Goombas
   - The more goombas attached to the player, the slower you move
 - Added tooltips to warp pipes
+- Added an optional `durationTicks` field to the power up command for fire & ice power ups
 - Added new spawn animations to power ups
 - Added flame particles to the Fire Flower
 - Added ice particles to the Ice Flower

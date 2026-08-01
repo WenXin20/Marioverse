@@ -175,6 +175,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> FACING_DIRECTION = Marioverse.ATTACHMENT_TYPES
             .register("facing_direction", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> FIRE_FLOWER_DURATION = Marioverse.ATTACHMENT_TYPES
+            .register("fire_flower_duration", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> FIREBALL_COUNT = Marioverse.ATTACHMENT_TYPES
             .register("fireball_count", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
@@ -198,6 +201,9 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> ICE_BALL_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("ice_ball_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> ICE_FLOWER_DURATION = Marioverse.ATTACHMENT_TYPES
+            .register("ice_flower_duration", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> MEGA_MUSHROOM_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("mega_mushroom_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
