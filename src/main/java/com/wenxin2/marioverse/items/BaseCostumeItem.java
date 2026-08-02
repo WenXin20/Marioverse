@@ -4,6 +4,7 @@ import java.util.List;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -36,6 +37,9 @@ public class BaseCostumeItem extends ArmorItem {
 
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt; lineAmt++)
                 list.add(Component.translatable(this.getDescriptionId() + ".tooltip.line" + lineAmt));
+
+            if (stack.has(DataComponents.DYED_COLOR))
+                list.add(Component.literal(""));
         } else if (this.tooltipLineAmt > 0)
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
 
