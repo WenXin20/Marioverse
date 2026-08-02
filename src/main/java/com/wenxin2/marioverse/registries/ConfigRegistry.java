@@ -1163,7 +1163,7 @@ public class ConfigRegistry {
                             .define("fire_flower_powers_all_mobs", false);
                     FIRE_FLOWER_DURATION = BUILDER.translation("configuration.marioverse.fire_flower_duration")
                             .comment("Duration until the Fire Flower runs out.")
-                            .comment("§6Default is set to -1 to never run out unless damaged.§b")
+                            .comment("§eSet to -1 to never run out unless damaged.§b")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("fire_flower_duration", -1, -1, 72000);
                     FIREBALL_COOLDOWN = BUILDER.translation("configuration.marioverse.fireball_cooldown")
@@ -1189,7 +1189,7 @@ public class ConfigRegistry {
                             .define("ice_flower_powers_all_mobs", false);
                     ICE_FLOWER_DURATION = BUILDER.translation("configuration.marioverse.ice_flower_duration")
                             .comment("Duration until the Fire Flower runs out.")
-                            .comment("§6Default is set to -1 to never run out unless damaged.§b")
+                            .comment("§eSet to -1 to never run out unless damaged.§b")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("ice_flower_duration", -1, -1, 72000);
                     ICE_BALL_COOLDOWN = BUILDER.translation("configuration.marioverse.ice_ball_cooldown")
