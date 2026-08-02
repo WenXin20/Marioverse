@@ -162,7 +162,7 @@ public class AbilityBlock extends Block {
         entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), hasDoubleJump);
 
         level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
-        level.playSound(null, pos, SoundRegistry.BLOCK_BONK.get(), SoundSource.BLOCKS, 1.0F, pitch);
+        level.playSound(null, pos, SoundRegistry.ABILITY_APPLIED.get(), SoundSource.BLOCKS, 1.0F, pitch);
 
         if (isSteveBlock) {
             if (entity.hasData(DataAttachmentRegistry.HAS_DAISY_ABILITY.get()))
