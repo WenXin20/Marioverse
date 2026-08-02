@@ -127,12 +127,14 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
         if (Screen.hasShiftDown()) {
-            Spawner.appendHoverText(stack, list, "SpawnData");
-
             list.add(Component.literal(""));
 
             list.add(Component.translatable("block.marioverse.warp_pipe.tooltip.instructions"));
             list.add(Component.translatable("block.marioverse.warp_pipe.tooltip.instructions.wrench"));
+
+            list.add(Component.literal(""));
+
+            Spawner.appendHoverText(stack, list, "SpawnData");
 
             list.add(Component.literal(""));
         } else list.add(Component.translatable("block.marioverse.warp_pipe.tooltip"));

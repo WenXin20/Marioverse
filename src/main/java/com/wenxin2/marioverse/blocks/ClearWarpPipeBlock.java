@@ -280,13 +280,15 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
         if (Screen.hasShiftDown()) {
-            Spawner.appendHoverText(stack, list, "SpawnData");
-
             list.add(Component.literal(""));
 
             list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip.instructions"));
             list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip.instructions.wrench"));
             list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip.instructions.place"));
+
+            list.add(Component.literal(""));
+
+            Spawner.appendHoverText(stack, list, "SpawnData");
 
             list.add(Component.literal(""));
         } else list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip"));

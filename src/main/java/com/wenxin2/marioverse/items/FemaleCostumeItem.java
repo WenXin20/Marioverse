@@ -47,8 +47,6 @@ public class FemaleCostumeItem extends BaseCostumeItem implements GeoItem {
             list.add(Component.literal(""));
         } else if (this.tooltipLineAmt > 0)
             list.add(Component.translatable("item.marioverse." + this.tooltipName + ".tooltip"));
-
-        super.appendHoverText(stack, tooltipContext, list, tooltip);
     }
 
     @Override
