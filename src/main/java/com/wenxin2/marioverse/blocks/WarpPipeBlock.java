@@ -16,7 +16,6 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -127,11 +126,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
-        Player player = Minecraft.getInstance().player;
-
         if (Screen.hasShiftDown()) {
-            if (player != null && player.isCreative())
-                Spawner.appendHoverText(stack, list, "SpawnData");
+            Spawner.appendHoverText(stack, list, "SpawnData");
 
             list.add(Component.literal(""));
 
