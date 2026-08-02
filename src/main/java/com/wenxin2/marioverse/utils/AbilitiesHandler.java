@@ -41,8 +41,8 @@ public interface AbilitiesHandler extends CostumeHandler {
     default void mv$clearAllPowerUps(Entity entity) {
         entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
         entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
-        entity.setData(DataAttachmentRegistry.FIRE_FLOWER_DURATION, -1);
-        entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, -1);
+        entity.removeData(DataAttachmentRegistry.FIRE_FLOWER_DURATION);
+        entity.removeData(DataAttachmentRegistry.ICE_FLOWER_DURATION);
     }
 
     default void applySuperMushroomPowerUp(Level level, LivingEntity entity, @Nullable SuperMushroomEntity powerUp, float healthHealed) {
@@ -234,7 +234,7 @@ public interface AbilitiesHandler extends CostumeHandler {
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
             this.mv$clearAllPowerUps(entity);
-            entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, ConfigRegistry.FIRE_FLOWER_DURATION.get());
+            entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, ConfigRegistry.ICE_FLOWER_DURATION.get());
             entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, true);
             entity.setData(DataAttachmentRegistry.HAS_MINI_MUSHROOM, false);
             entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);

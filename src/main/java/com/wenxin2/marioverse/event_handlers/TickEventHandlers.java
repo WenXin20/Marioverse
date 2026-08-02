@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.MegaMushroomItem;
 import com.wenxin2.marioverse.items.MiniMushroomItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -164,6 +165,8 @@ public class TickEventHandlers {
 
         if (entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) == 0
                 && entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+            if (entity instanceof LivingEntity livingEntity)
+                MaleCostumeItem.resetCostumes(livingEntity);
             entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
             entity.removeData(DataAttachmentRegistry.FIRE_FLOWER_DURATION);
             level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
@@ -172,6 +175,8 @@ public class TickEventHandlers {
 
         if (entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) == 0
                 && entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
+            if (entity instanceof LivingEntity livingEntity)
+                MaleCostumeItem.resetCostumes(livingEntity);
             entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
             entity.removeData(DataAttachmentRegistry.ICE_FLOWER_DURATION);
             level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
