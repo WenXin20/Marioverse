@@ -1619,10 +1619,16 @@
 
   "display.marioverse.warp_destination_missing": "§cWarp destination not found!",
 
+  "advancements.marioverse.abilities_galore.description": "Craft all 8 ability blocks",
+  "advancements.marioverse.abilities_galore.title": "Abilities Galore!",
+  "advancements.marioverse.ability_unlocked.description": "Craft an Ability Block",
+  "advancements.marioverse.ability_unlocked.title": "Ability Unlocked!",
   "advancements.marioverse.brush_a_pipe.description": "Brush a pipe to remove text",
   "advancements.marioverse.brush_a_pipe.title": "Text Erasure",
   "advancements.marioverse.configure_pipes.description": "Configure a pipe using a wrench",
   "advancements.marioverse.configure_pipes.title": "Pipe Personalization!",
+  "advancements.marioverse.costume_stitcher.description": "Craft a cosmetic costume",
+  "advancements.marioverse.costume_stitcher.title": "Costume Stitcher",
   "advancements.marioverse.dango_it.description": "Steal a Pokey's Flower",
   "advancements.marioverse.dango_it.title": "Dang-o It!",
   "advancements.marioverse.doubloon_nose.description": "Equip a Snow Pokey with a golden nose",
@@ -1643,6 +1649,8 @@
   "advancements.marioverse.root.title": "Marioverse",
   "advancements.marioverse.travel_in_clear_pipe.description": "Travel inside a clear warp pipe",
   "advancements.marioverse.travel_in_clear_pipe.title": "Travel in style",
+  "advancements.marioverse.trimmed_out.description": "Find a character trim",
+  "advancements.marioverse.trimmed_out.title": "Trimmed Out",
   "advancements.marioverse.wrench.description": "Obtain a wrench",
   "advancements.marioverse.wrench.title": "Put a wrench in it",
 

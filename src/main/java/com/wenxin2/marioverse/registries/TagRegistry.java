@@ -144,6 +144,7 @@ public class TagRegistry {
     public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
     public static final TagKey<Item> CAN_SELECT_CLEAR_WARP_PIPES = itemTags("can_select_clear_warp_pipes");
     public static final TagKey<Item> CAN_SELECT_WATER_SPOUTS = itemTags("can_select_water_spouts");
+    public static final TagKey<Item> CHARACTER_TRIMS = itemTags("character_trims");
     public static final TagKey<Item> CHARMS = itemTags("accessories", "charm");
     public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
     public static final TagKey<Item> CHEEP_CHEEP_ITEMS = itemTags("cheep_cheeps");

@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-01T15:55:36.2671569	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-01T19:13:39.2215394	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
@@ -49,6 +49,7 @@ cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/item/calcite.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_question_blocks.json
 537b73922a0abdcb0066b985d54eb32ac7faad4d data/marioverse/tags/item/can_select_clear_warp_pipes.json
 b2090841679d347ba3c0505963be72c130a2f24b data/marioverse/tags/item/can_select_water_spouts.json
+df17fbdce9a0384cbb7b56e5d419d6094b844928 data/marioverse/tags/item/character_trims.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/item/checkpoint_flags.json
 554581cdf22cd376f4c62aa4a2a1a0f66ffe1d01 data/marioverse/tags/item/cheep_cheeps.json
 8216809e2ce95f71085cc90bd77b7c41f0dae896 data/marioverse/tags/item/chiseled_calcite_bricks.json

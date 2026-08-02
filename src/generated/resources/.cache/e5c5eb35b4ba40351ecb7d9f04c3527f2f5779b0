@@ -1,6 +1,9 @@
-// 1.21.1	2026-04-11T14:55:28.3323673	Advancements
+// 1.21.1	2026-08-01T19:13:39.2350653	Advancements
+4e363d4177f85059199ba16d6a7773032d64cb15 data/marioverse/advancement/abilities_galore.json
+d1d4e3496b952342f4258b7855e86b40b4ae889a data/marioverse/advancement/ability_unlocked.json
 808f49fa2e650f5aeee7ab7898f431158e51ad81 data/marioverse/advancement/brush_a_pipe.json
 33d5ddcc30069f05f0853e57251e8606749e91b1 data/marioverse/advancement/configure_pipes.json
+80a415f95905c4e0564e9ebec4d206deed53c9ee data/marioverse/advancement/costume_stitcher.json
 c65fcd3ef99774124a792d05fdbd0ca1ce5432df data/marioverse/advancement/dango_it.json
 10731c9be50c51daf8fc8b871156db756a2b18ee data/marioverse/advancement/doubloon_nose.json
 eaf148f8d3cf4e5fa7c65b87bd5066b613e92182 data/marioverse/advancement/dye_a_pipe.json
@@ -12,3 +15,4 @@ d870977ffafc3cdec6c3166b2952ba56328fb717 data/marioverse/advancement/obtain_all_
 6ac4590e055cec69234b7f428e1cb4ee63e5b9ef data/marioverse/advancement/obtain_wrench.json
 baba354aa0a0175a673d8529c2e687176d94ecb9 data/marioverse/advancement/root.json
 b082ca9b3802a4abbcf5c896f6029d03494cb95e data/marioverse/advancement/travel_in_clear_pipe.json
+78da4d5321a93f1378a3a4bfefa1287dd87d2e93 data/marioverse/advancement/trimmed_out.json

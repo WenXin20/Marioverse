@@ -335,6 +335,13 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.CANNOT_PLACE_IN_QUESTION_BLOCKS);
 
+        tag(TagRegistry.CHARACTER_TRIMS)
+                .add(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get())
+                .add(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get())
+                .add(ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE.get())
+                .add(ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get())
+                .add(ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());
+
         tag(TagRegistry.CHEEP_CHEEP_ITEMS)
                 .add(ItemRegistry.CHEEP_CHEEP.get())
                 .add(ItemRegistry.COLD_CHEEP_CHEEP.get())
