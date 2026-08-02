@@ -265,9 +265,10 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue BOO_SUN_EXPOSURE_LIMIT;
     public static ModConfigSpec.IntValue BOO_LIGHT_SENSITIVITY;
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
-    public static ModConfigSpec.IntValue DRY_BONES_REASSEMBLE_DURATION;
     public static ModConfigSpec.IntValue DRY_BONES_DEATH_DURATION;
+    public static ModConfigSpec.IntValue DRY_BONES_REASSEMBLE_DURATION;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
+    public static ModConfigSpec.IntValue FIRE_FLOWER_DURATION;
     public static ModConfigSpec.IntValue GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS;
     public static ModConfigSpec.IntValue GOLD_KOOPA_TROOPA_HIDE_DURATION;
     public static ModConfigSpec.IntValue GOOMBA_SPLIT_COUNT;
@@ -278,6 +279,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue ICE_BALL_COOLDOWN;
     public static ModConfigSpec.IntValue ICE_CUBE_FREEZE_DURATION;
     public static ModConfigSpec.IntValue ICE_CUBE_LIFESPAN;
+    public static ModConfigSpec.IntValue ICE_FLOWER_DURATION;
     public static ModConfigSpec.IntValue KOOPA_SHELL_DAMAGE_FROM_KILLS;
     public static ModConfigSpec.IntValue LARGE_SNOWBALL_FREEZE_DURATION;
     public static ModConfigSpec.IntValue MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS;
@@ -1159,6 +1161,11 @@ public class ConfigRegistry {
                             .comment("Allow Fire Flowers to power all mobs.")
                             .comment("§9[Default: false]")
                             .define("fire_flower_powers_all_mobs", false);
+                    FIRE_FLOWER_DURATION = BUILDER.translation("configuration.marioverse.fire_flower_duration")
+                            .comment("Duration until the Fire Flower runs out.")
+                            .comment("§6Default is set to -1 to never run out unless damaged.§b")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("fire_flower_duration", -1, -1, 72000);
                     FIREBALL_COOLDOWN = BUILDER.translation("configuration.marioverse.fireball_cooldown")
                             .comment("Cooldown between max amount of fireballs shot.")
                             .comment("§6[20 ticks = 1 second]§b")
@@ -1180,6 +1187,11 @@ public class ConfigRegistry {
                             .comment("Allow Ice Flowers to power all mobs.")
                             .comment("§9[Default: false]")
                             .define("ice_flower_powers_all_mobs", false);
+                    ICE_FLOWER_DURATION = BUILDER.translation("configuration.marioverse.ice_flower_duration")
+                            .comment("Duration until the Fire Flower runs out.")
+                            .comment("§6Default is set to -1 to never run out unless damaged.§b")
+                            .comment("§6[20 ticks = 1 second]§b")
+                            .defineInRange("ice_flower_duration", -1, -1, 72000);
                     ICE_BALL_COOLDOWN = BUILDER.translation("configuration.marioverse.ice_ball_cooldown")
                             .comment("Cooldown between max amount of ice_balls shot.")
                             .comment("§6[20 ticks = 1 second]§b")
