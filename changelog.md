@@ -1,4 +1,4 @@
-## Update 1.10.2
+## Update 1.11.0
 - Added power up spawn eggs 
   - Used for spawning the power up entity from ? Blocks
   - Includes a dash mushroom spawn egg
