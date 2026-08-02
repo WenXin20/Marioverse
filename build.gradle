@@ -57,7 +57,6 @@ dependencies {
     // Imports
     // Marioverse Dependencies
     implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib, Required Dependency
-    implementation "curse.maven:accessories-compat-layer-1315611:7585673" // Requires Accessories, Curios, Owo Lib
     implementation "curse.maven:ctm-${ctm_version}" // Optional Dependency
     implementation "curse.maven:curios-309927:6529130"
     implementation "curse.maven:every-compat-${every_compat_version}" // Requires Moonlight, Optional Dependency
@@ -67,34 +66,34 @@ dependencies {
     implementation "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
 
-    implementation "curse.maven:aether-255308:6389857"
-    implementation "curse.maven:amendments-896746:7461027" // Requires Moonlight
+    compileOnly "curse.maven:aether-255308:6389857"
+    compileOnly "curse.maven:amendments-896746:7461027" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
-    implementation "curse.maven:copycats-968398:7251823" // Requires Create
-    implementation "curse.maven:create-328085:7963363"
+    compileOnly "curse.maven:copycats-968398:7251823" // Requires Create
+    compileOnly "curse.maven:create-328085:7963363"
     compileOnly "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
     compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
-    implementation "curse.maven:framedblocks-441647:7584453"
-    implementation "curse.maven:deep-aether-852465:6839619"
-    implementation "curse.maven:gardens-of-the-dead-683174:5640395"
+    compileOnly "curse.maven:framedblocks-441647:7584453"
+    compileOnly "curse.maven:deep-aether-852465:6839619"
+    compileOnly "curse.maven:gardens-of-the-dead-683174:5640395"
     compileOnly "maven.modrinth:grassier-grass:1.4.5-neoforge"
-    implementation "curse.maven:guard-villagers-360203:6066966"
+    compileOnly "curse.maven:guard-villagers-360203:6066966"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
-    implementation "curse.maven:inspectability-1312917:6805145"
+    compileOnly "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
-    implementation "curse.maven:inventory-item-groups-1447374:8447055"
+    compileOnly "curse.maven:inventory-item-groups-1447374:8447055"
     implementation "curse.maven:jade-324717:6853386"
     implementation "curse.maven:jei-${jei_version}"
     compileOnly "curse.maven:neoculus-1200907:6787071"
-    implementation "curse.maven:packs-editor-1606070:8432925"
-    implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
+    compileOnly "curse.maven:packs-editor-1606070:8432925"
+    compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    implementation "curse.maven:the-twilight-forest-227639:7797302"
-    implementation "curse.maven:treechop-421377:6254465"
-    implementation "curse.maven:tree-physics-1522010:8448844"
-    implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
-    implementation "curse.maven:worldedit-225608:5830452"
+    compileOnly "curse.maven:the-twilight-forest-227639:7797302"
+    compileOnly "curse.maven:treechop-421377:6254465"
+    compileOnly "curse.maven:tree-physics-1522010:8448844"
+    compileOnly "curse.maven:vista-${vista_version}" // Requires Moonlight
+    compileOnly "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:7598595"
     implementation "curse.maven:xaeros-world-map-317780:7598481"
 
@@ -106,7 +105,7 @@ dependencies {
     implementation "curse.maven:framework-549225:7530361"
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    implementation "curse.maven:sable-1312371:8263584" // Requires Create
+    compileOnly "curse.maven:sable-1312371:8263584" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     implementation "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"
