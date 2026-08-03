@@ -18,7 +18,6 @@ import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -229,6 +228,30 @@ public class ServerParticleUtils {
             serverWorld.sendParticles(particleOptions, x, y + offsetY - 0.2, z, 1, 0, 0, 0, 0.0);
             serverWorld.sendParticles(particleOptions, x, y + offsetY / 2, z, 1, 0, 0, 0, 0.0);
             serverWorld.sendParticles(particleOptions, x, y + 0.2, z, 1, 0, 0, 0, 0.0);
+        }
+    }
+
+    public static void spawnSprayUpwardsParticles(ParticleOptions particleOptions, ServerLevel serverLevel, Entity entity,
+                                                  int avgAmount, double heightMultiplier, double velocity) {
+        RandomSource rand = serverLevel.getRandom();
+        float scaleFactor = entity.getBbWidth() * entity.getBbHeight();
+        int numParticles = (int) (scaleFactor * Math.max(3, avgAmount));
+        double radius = entity.getBbWidth() / 2 * 1.1;
+        double height = entity.getBbHeight() * heightMultiplier;
+
+        for (int i = 0; i < numParticles; i++) {
+            double angle = rand.nextDouble() * 2 * Math.PI;
+            double distance = rand.nextDouble() * radius;
+            double offsetX = Math.cos(angle) * distance;
+            double offsetZ = Math.sin(angle) * distance;
+
+            double x = entity.getX() + offsetX;
+            double y = entity.getY();
+            double z = entity.getZ() + offsetZ;
+
+            double motionY = (height / 2.0) + rand.nextDouble() * (height / 2.0);
+
+            serverLevel.sendParticles(particleOptions, x, y, z, 0, 0.0, motionY, 0.0, velocity);
         }
     }
 

@@ -15,6 +15,7 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesCapability;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -200,8 +201,8 @@ public interface AbilitiesHandler extends CostumeHandler {
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
-            if (level instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.FIRE_POWERED_UP.get(), serverWorld, entity, 10);
+            if (level instanceof ServerLevel serverLevel)
+                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleTypes.FLAME, serverLevel, entity, 160, 1.0, 0.075);
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
@@ -228,8 +229,10 @@ public interface AbilitiesHandler extends CostumeHandler {
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_ICE_FLOWERS) || ConfigRegistry.ICE_FLOWER_POWERS_ALL_MOBS.get())) {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
-            if (level instanceof ServerLevel serverWorld)
-                ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.ICE_POWERED_UP.get(), serverWorld, entity, 10);
+            if (level instanceof ServerLevel serverLevel) {
+                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleRegistry.ICE_STAR.get(), serverLevel, entity, 80, 1.0, 1.5);
+                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleTypes.SNOWFLAKE, serverLevel, entity, 80, 0.75, 0.2);
+            }
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
