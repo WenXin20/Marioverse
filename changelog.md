@@ -5,7 +5,7 @@
 - Added the Dash Mushroom mob
   - Boosts mobs on contact
 - Changed regular power up items to apply the power ups on right-click
-  - Used for chest loot
+  - Used for chest lootssss
 - Added a power up type registry
 - Replaced the Mario & Luigi costumes with a generic "male costume"
   - Dye & trim support
