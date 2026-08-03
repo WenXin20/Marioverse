@@ -1,10 +1,18 @@
 {
   "values": [
+    "marioverse:bodice",
     "marioverse:creative_wrench",
+    "marioverse:crown",
+    "marioverse:dress",
+    "marioverse:hat",
+    "marioverse:heels",
+    "marioverse:pants",
     "marioverse:plastic_powder_snow_bucket",
     "marioverse:plastic_quicksand_bucket",
     "marioverse:plastic_red_quicksand_bucket",
     "marioverse:plastic_water_bucket",
+    "marioverse:shirt",
+    "marioverse:shoes",
     "marioverse:wrench",
     "marioverse:warp_disruptor"
   ]

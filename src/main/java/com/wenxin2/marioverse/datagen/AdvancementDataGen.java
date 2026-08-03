@@ -66,6 +66,16 @@ public class AdvancementDataGen extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(50))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "obtain_wrench"), existingFileHelper);
 
+            AdvancementHolder COSTUME_STITCHER = Advancement.Builder.advancement().parent(ROOT)
+                    .display(new ItemStack(ItemRegistry.HAT.get()),
+                            Component.translatable("advancements.marioverse.costume_stitcher.title"),
+                            Component.translatable("advancements.marioverse.costume_stitcher.description"),
+                            null, AdvancementType.TASK, true, true, false)
+                    .addCriterion("costume_stitcher", InventoryChangeTrigger
+                            .TriggerInstance.hasItems(ItemPredicate.Builder.item().of(TagRegistry.COSTUMES)))
+                    .rewards(AdvancementRewards.Builder.experience(50))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume_stitcher"), existingFileHelper);
+
             AdvancementHolder HELMET_BUCKET = Advancement.Builder.advancement().parent(ROOT)
                     .display(new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get()),
                             Component.translatable("advancements.marioverse.helmet_bucket.title"),
@@ -75,6 +85,42 @@ public class AdvancementDataGen extends AdvancementProvider {
                             .filledBucket(ItemPredicate.Builder.item().of(ItemRegistry.PLASTIC_WATER_BUCKET)))
                     .rewards(AdvancementRewards.Builder.experience(50))
                     .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "helmet_bucket"), existingFileHelper);
+
+            AdvancementHolder TRIMMED_OUT = Advancement.Builder.advancement().parent(COSTUME_STITCHER)
+                    .display(new ItemStack(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get()),
+                            Component.translatable("advancements.marioverse.trimmed_out.title"),
+                            Component.translatable("advancements.marioverse.trimmed_out.description"),
+                            null, AdvancementType.TASK, true, true, false)
+                    .addCriterion("trimmed_out", InventoryChangeTrigger
+                            .TriggerInstance.hasItems(ItemPredicate.Builder.item().of(TagRegistry.CHARACTER_TRIMS)))
+                    .rewards(AdvancementRewards.Builder.experience(120))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "trimmed_out"), existingFileHelper);
+
+            AdvancementHolder ABILITY_UNLOCKED = Advancement.Builder.advancement().parent(TRIMMED_OUT)
+                    .display(new ItemStack(BlockRegistry.MARIO_ABILITY_BLOCK.get()),
+                            Component.translatable("advancements.marioverse.ability_unlocked.title"),
+                            Component.translatable("advancements.marioverse.ability_unlocked.description"),
+                            null, AdvancementType.GOAL, true, true, false)
+                    .addCriterion("ability_unlocked", InventoryChangeTrigger
+                            .TriggerInstance.hasItems(ItemPredicate.Builder.item().of(TagRegistry.ABILITY_BLOCK_ITEMS)))
+                    .rewards(AdvancementRewards.Builder.experience(120))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "ability_unlocked"), existingFileHelper);
+
+            AdvancementHolder ABILITIES_GALORE = Advancement.Builder.advancement().parent(ABILITY_UNLOCKED)
+                    .display(new ItemStack(BlockRegistry.PEACH_ABILITY_BLOCK.get()),
+                            Component.translatable("advancements.marioverse.abilities_galore.title"),
+                            Component.translatable("advancements.marioverse.abilities_galore.description"),
+                            null, AdvancementType.CHALLENGE, true, true, false)
+                    .addCriterion("daisy_ability_block", InventoryChangeTrigger.TriggerInstance.hasItems(BlockRegistry.DAISY_ABILITY_BLOCK.get()))
+                    .addCriterion("luigi_ability_block", InventoryChangeTrigger.TriggerInstance.hasItems(BlockRegistry.LUIGI_ABILITY_BLOCK.get()))
+                    .addCriterion("mario_ability_block", InventoryChangeTrigger.TriggerInstance.hasItems(BlockRegistry.MARIO_ABILITY_BLOCK.get()))
+                    .addCriterion("peach_ability_block", InventoryChangeTrigger.TriggerInstance.hasItems(BlockRegistry.PEACH_ABILITY_BLOCK.get()))
+                    .addCriterion("rosalina_ability_block", InventoryChangeTrigger.TriggerInstance.hasItems(BlockRegistry.ROSALINA_ABILITY_BLOCK.get()))
+                    .addCriterion("steve_ability_block", InventoryChangeTrigger.TriggerInstance.hasItems(BlockRegistry.STEVE_ABILITY_BLOCK.get()))
+                    .addCriterion("waluigi_ability_block", InventoryChangeTrigger.TriggerInstance.hasItems(BlockRegistry.WALUIGI_ABILITY_BLOCK.get()))
+                    .addCriterion("wario_ability_block", InventoryChangeTrigger.TriggerInstance.hasItems(BlockRegistry.WARIO_ABILITY_BLOCK.get()))
+                    .rewards(AdvancementRewards.Builder.experience(150))
+                    .save(saver, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "abilities_galore"), existingFileHelper);
 
             AdvancementHolder LAVA_UNPROOF = Advancement.Builder.advancement().parent(HELMET_BUCKET)
                     .display(new ItemStack(ItemRegistry.PLASTIC_BUCKET.get()),

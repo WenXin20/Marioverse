@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-28T12:32:44.8668009	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-07-25T23:32:49.2497579	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -28,6 +28,7 @@ e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/block/dyed/white.json
 e31783925b31fdd1f8d79491031265d854c17543 data/c/tags/block/sands/red.json
 fe7b84212fb883b2abaaad4a900da0f2b425fa7c data/c/tags/block/stones.json
 c53401f50b0f59c35d02f14d9dc888d401ed89dd data/framedblocks/tags/block/blockentity_whitelisted.json
+3eec7e612d82d83d6e4ea342be2749d52e801fa1 data/marioverse/tags/block/ability_blocks.json
 6d434ad7cc6fbacf3681c920bf9e6bdae474edf9 data/marioverse/tags/block/bonkable_blocks.json
 7eaac583d66dabbfff1a436f536efd77ee40f87b data/marioverse/tags/block/bouncy_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/block/brick_pedestals.json
@@ -99,8 +100,9 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
 33888c331b3878eaceb10bc26f26e4b6c91b82a4 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-5e06f1907188bdf29aaeb29329461d47aa594b38 data/minecraft/tags/block/mineable/pickaxe.json
+d2aad2a6b1e1c44a668770e2258b338e9b8a2b05 data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
+11bf9914a37f97368e3320edbd090ecc24c07476 data/minecraft/tags/block/needs_iron_tool.json
 648abb645b702128eae0df287c7a5c1decf5fd06 data/minecraft/tags/block/needs_stone_tool.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json

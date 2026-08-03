@@ -1,0 +1,8 @@
+{
+  "asset_id": "marioverse:princess",
+  "decal": false,
+  "description": {
+    "translate": "trim_pattern.marioverse.princess"
+  },
+  "template_item": "marioverse:princess_armor_trim_smithing_template"
+}

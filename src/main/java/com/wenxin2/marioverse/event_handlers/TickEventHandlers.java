@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.AbilityBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
@@ -8,6 +9,9 @@ import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.items.MaleCostumeItem;
+import com.wenxin2.marioverse.items.MegaMushroomItem;
+import com.wenxin2.marioverse.items.MiniMushroomItem;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -67,6 +71,8 @@ public class TickEventHandlers {
     public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
         Level level = entity.level();
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.AMBIENT;
 
         if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
                 && (entity.onGround() || entity.isInWaterOrBubble())
@@ -94,6 +100,10 @@ public class TickEventHandlers {
                 entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) - 1);
 
+        if (entity.hasData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) &&
+                entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.FIRE_FLOWER_DURATION, entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) - 1);
+
         if (entity.hasData(DataAttachmentRegistry.FIREBALL_COOLDOWN) &&
                 entity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, entity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) - 1);
@@ -117,6 +127,10 @@ public class TickEventHandlers {
         if (entity.hasData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) &&
                 entity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) > 0)
             entity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, entity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) - 1);
+
+        if (entity.hasData(DataAttachmentRegistry.ICE_FLOWER_DURATION) &&
+                entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) - 1);
 
         if (entity.hasData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) &&
                 entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) > 0)
@@ -149,6 +163,26 @@ public class TickEventHandlers {
                 entity.setData(DataAttachmentRegistry.PREVENT_WARP, false);
         }
 
+        if (entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) == 0
+                && entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+            if (entity instanceof LivingEntity livingEntity)
+                MaleCostumeItem.resetCostumes(livingEntity);
+            entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
+            entity.removeData(DataAttachmentRegistry.FIRE_FLOWER_DURATION);
+            level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                    soundSource, 1.0F, pitch);
+        }
+
+        if (entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) == 0
+                && entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
+            if (entity instanceof LivingEntity livingEntity)
+                MaleCostumeItem.resetCostumes(livingEntity);
+            entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
+            entity.removeData(DataAttachmentRegistry.ICE_FLOWER_DURATION);
+            level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
+                    soundSource, 1.0F, pitch);
+        }
+
         if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) == 0
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                 && entity instanceof LivingEntity livingEntity) {
@@ -157,6 +191,7 @@ public class TickEventHandlers {
 
             entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
             entity.setData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME, false);
+            entity.removeData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION);
 
             AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
@@ -180,10 +215,17 @@ public class TickEventHandlers {
 
         TickEventHandlers.collideWithBlocks(level, entity);
 
-        if (!level.isClientSide && entity instanceof LivingEntity livingEntity) {
-            TickEventHandlers.megaMushroomScale(livingEntity);
-            TickEventHandlers.miniMushroomScale(livingEntity);
-            TickEventHandlers.superMushroomScale(livingEntity);
+        if (entity instanceof LivingEntity livingEntity) {
+            AbilityBlock.characterAbility(livingEntity);
+            MegaMushroomItem.megaMushroomAbility(livingEntity);
+            MiniMushroomItem.miniMushroomAbility(livingEntity);
+            AbilityBlock.setAirborneDuration(livingEntity);
+
+            if (!level.isClientSide) {
+                TickEventHandlers.megaMushroomScale(livingEntity);
+                TickEventHandlers.miniMushroomScale(livingEntity);
+                TickEventHandlers.superMushroomScale(livingEntity);
+            }
         }
 
         if (entity.isVehicle() && spinningTicks > 0) {
@@ -218,7 +260,7 @@ public class TickEventHandlers {
             entity.fallDistance = 0.0F;
         }
     }
-    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
+//    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
 
     private static void collideWithBlocks(Level level, Entity entity) {
         Vec3 motion = entity.getDeltaMovement();
@@ -305,7 +347,7 @@ public class TickEventHandlers {
                     BlockPos worldPos = BlockPos.containing(worldVec);
                     AABB blockBox = new AABB(worldPos);
 
-                    DEBUG_BOXES.add(blockBox);
+//                    DEBUG_BOXES.add(blockBox);
 
                     if (!transformedHitBox.intersects(blockBox))
                         continue;
@@ -382,6 +424,13 @@ public class TickEventHandlers {
                     if (!didHit && stateAbove.is(TagRegistry.SMASHABLE_BLOCKS)
                             && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS)) {
                         SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), stateAbove, entity);
+                        didHit = true;
+                    }
+
+                    if (!didHit && entity instanceof LivingEntity livingEntity
+                            && stateAbove.is(TagRegistry.ABILITY_BLOCKS)
+                            && entity.getType().is(TagRegistry.CAN_HIT_ABILITY_BLOCKS)) {
+                        AbilityBlock.hitAbilityBlock(level, BlockPos.of(posKey), stateAbove, livingEntity);
                         didHit = true;
                     }
 
@@ -485,6 +534,13 @@ public class TickEventHandlers {
                     if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                         shell.bounceShell(level, hitResult);
                     SmashableBrickBlock.smashBlock(level, BlockPos.of(posKey), targetState, entity);
+                    didHit = true;
+                }
+
+                if (!didHit && entity instanceof LivingEntity livingEntity
+                        && targetState.is(TagRegistry.ABILITY_BLOCKS)
+                        && entity.getType().is(TagRegistry.CAN_HIT_ABILITY_BLOCKS_FROM_SIDE)) {
+                    AbilityBlock.hitAbilityBlockFromSide(level, BlockPos.of(posKey), targetState, livingEntity);
                     didHit = true;
                 }
 
@@ -685,7 +741,7 @@ public class TickEventHandlers {
         boolean shouldScale = hasMegaMushroom;
         boolean shouldReset = !hasMegaMushroom && !hasMiniMushroom && hasSuperMushroom;
 
-        TickEventHandlers.updateScale(entity, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
+        TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
@@ -707,7 +763,7 @@ public class TickEventHandlers {
         boolean shouldScale = !hasSuperMushroom && hasMiniMushroom;
         boolean shouldReset = hasSuperMushroom && !hasMiniMushroom;
 
-        TickEventHandlers.updateScale(entity, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
+        TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
@@ -746,59 +802,67 @@ public class TickEventHandlers {
                 || (!isPlayer && (hasSuperMushroomOverride
                     || (healHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)))));
 
-        TickEventHandlers.updateScale(entity, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
+        TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
-    private static void updateScale(LivingEntity entity, boolean shouldScale, double targetHeightScale, double targetWidthScale,
-                                    AttributeInstance eyeHeightScale, double targetEyeHeightScale, float scalingSpeed,
-                                    AttributeInstance heightScale, AttributeInstance widthScale, boolean shouldReset) {
-        double currentHeight = heightScale != null ? heightScale.getValue() : 1.0D;
-        double currentWidth = widthScale != null ? widthScale.getValue() : 1.0D;
+    public static void updateScale(LivingEntity entity, ResourceLocation modifierID, boolean shouldScale, double targetHeightScale, double targetWidthScale,
+                                   AttributeInstance eyeHeightScale, double targetEyeHeightScale, float scalingSpeed,
+                                   AttributeInstance heightScale, AttributeInstance widthScale, boolean shouldReset) {
+        double currentHeight = TickEventHandlers.modifierScale(heightScale, modifierID);
+        double currentWidth = TickEventHandlers.modifierScale(widthScale, modifierID);
 
         if (shouldScale && (Math.abs(currentHeight - targetHeightScale) > 1e-4 || Math.abs(currentWidth - targetWidthScale) > 1e-4)) {
             if (entity.getLastDamageSource() != null && entity.isDamageSourceBlocked(entity.getLastDamageSource()))
                 return;
-            TickEventHandlers.scale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> {});
-            TickEventHandlers.scale(heightScale, targetHeightScale, scalingSpeed, v -> {});
-            TickEventHandlers.scale(widthScale, targetWidthScale, scalingSpeed, v -> {});
+            TickEventHandlers.scale(eyeHeightScale, modifierID, targetEyeHeightScale, scalingSpeed, v -> {});
+            TickEventHandlers.scale(heightScale, modifierID, targetHeightScale, scalingSpeed, v -> {});
+            TickEventHandlers.scale(widthScale, modifierID, targetWidthScale, scalingSpeed, v -> {});
         }
 
         if (shouldReset && (Math.abs(currentHeight - targetHeightScale) > 1e-4 || Math.abs(currentWidth - targetWidthScale) > 1e-4)) {
-            if (eyeHeightScale != null && eyeHeightScale.getValue() != 1.0D)
-                TickEventHandlers.scale(eyeHeightScale, targetEyeHeightScale, scalingSpeed, v -> {});
+            if (TickEventHandlers.modifierScale(eyeHeightScale, modifierID) != 1.0D)
+                TickEventHandlers.scale(eyeHeightScale, modifierID, targetEyeHeightScale, scalingSpeed, v -> {});
 
-            if (heightScale != null && heightScale.getValue() != 1.0D)
-                TickEventHandlers.scale(heightScale, targetHeightScale, scalingSpeed, v -> {});
+            if (TickEventHandlers.modifierScale(heightScale, modifierID) != 1.0D)
+                TickEventHandlers.scale(heightScale, modifierID, targetHeightScale, scalingSpeed, v -> {});
 
-            if (widthScale != null && widthScale.getValue() != 1.0D)
-                TickEventHandlers.scale(widthScale, targetWidthScale, scalingSpeed, v -> {});
+            if (TickEventHandlers.modifierScale(widthScale, modifierID) != 1.0D)
+                TickEventHandlers.scale(widthScale, modifierID, targetWidthScale, scalingSpeed, v -> {});
         }
     }
 
-    private static void scale(AttributeInstance scaleAttribute, double targetScale, float scalingSpeed, Consumer<Double> setter) {
-        ResourceLocation modifier = AttributesRegistry.DAMAGED_SCALE;
-
+    private static void scale(AttributeInstance scaleAttribute, ResourceLocation modifierID, double targetScale,
+                              float scalingSpeed, Consumer<Double> setter) {
         if (scaleAttribute != null) {
-            double actualScale = scaleAttribute.getValue();
-            double lerpedScale = Mth.lerp(scalingSpeed, actualScale, targetScale);
+            AttributeModifier existing = scaleAttribute.getModifier(modifierID);
+            double modifierScale = existing != null ? existing.amount() + 1.0D : 1.0D;
+            double lerpedScale = Mth.lerp(scalingSpeed, modifierScale, targetScale);
             double modifierAmount = lerpedScale - 1.0D;
 
-            if (Math.abs(actualScale - targetScale) < 0.0001)
+            if (Math.abs(modifierScale - targetScale) < 0.0001)
                 lerpedScale = targetScale;
 
-            if (scaleAttribute.hasModifier(modifier) && (Math.abs(modifierAmount) < 0.001 || targetScale == 1.0D))
-                scaleAttribute.removeModifier(modifier);
+            if (existing != null && (Math.abs(modifierAmount) < 0.001 || targetScale == 1.0D))
+                scaleAttribute.removeModifier(modifierID);
 
             if (lerpedScale != targetScale) {
-                scaleAttribute.removeModifier(modifier);
-                scaleAttribute.addPermanentModifier(new AttributeModifier(modifier, modifierAmount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                scaleAttribute.removeModifier(modifierID);
+                scaleAttribute.addPermanentModifier(new AttributeModifier(modifierID, modifierAmount, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
-                if (Math.abs(actualScale - targetScale) < 0.01)
+                if (Math.abs(modifierScale - targetScale) < 0.01)
                     setter.accept(targetScale);
                 else setter.accept(lerpedScale);
             }
         }
+    }
+
+    private static double modifierScale(AttributeInstance attribute, ResourceLocation modifierId) {
+        if (attribute == null)
+            return 1.0D;
+
+        AttributeModifier modifier = attribute.getModifier(modifierId);
+        return modifier != null ? modifier.amount() + 1.0D : 1.0D;
     }
 
     @Nullable

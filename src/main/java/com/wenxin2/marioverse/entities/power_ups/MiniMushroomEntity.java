@@ -1,7 +1,11 @@
 package com.wenxin2.marioverse.entities.power_ups;
 
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,10 +18,11 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MiniMushroomEntity extends MushroomEntity implements GeoEntity {
-    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.mini_mushroom.walk");
+public class MiniMushroomEntity extends MushroomEntity implements GeoEntity, PowerUpSource {
+    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public MiniMushroomEntity(EntityType<? extends MiniMushroomEntity> entityType, Level world) {
@@ -25,8 +30,14 @@ public class MiniMushroomEntity extends MushroomEntity implements GeoEntity {
     }
 
     @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.MINI_MUSHROOM;
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimation));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, this.getSpawnDuration()));
     }
 
     @Override

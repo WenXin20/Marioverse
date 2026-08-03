@@ -19,6 +19,12 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Boolean>> HAS_CARROT = Marioverse.ATTACHMENT_TYPES
             .register("has_carrot", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_DAISY_ABILITY = Marioverse.ATTACHMENT_TYPES
+            .register("has_daisy_ability", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_DOUBLE_JUMP = Marioverse.ATTACHMENT_TYPES
+            .register("has_double_jump", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> HAS_FLOWER = Marioverse.ATTACHMENT_TYPES
             .register("has_flower", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
@@ -27,6 +33,24 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> HAS_JUMPED = Marioverse.ATTACHMENT_TYPES
             .register("has_jumped", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_LUIGI_ABILITY = Marioverse.ATTACHMENT_TYPES
+            .register("has_luigi_ability", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_MARIO_ABILITY = Marioverse.ATTACHMENT_TYPES
+            .register("has_mario_ability", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_PEACH_ABILITY = Marioverse.ATTACHMENT_TYPES
+            .register("has_peach_ability", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_ROSALINA_ABILITY = Marioverse.ATTACHMENT_TYPES
+            .register("has_rosalina_ability", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_WALUIGI_ABILITY = Marioverse.ATTACHMENT_TYPES
+            .register("has_waluigi_ability", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
+    public static final Supplier<AttachmentType<Boolean>> HAS_WARIO_ABILITY = Marioverse.ATTACHMENT_TYPES
+            .register("has_wario_ability", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
     public static final Supplier<AttachmentType<Boolean>> HIDE_ITEM_RENDERED = Marioverse.ATTACHMENT_TYPES
             .register("hide_item_rendered", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL)
@@ -130,6 +154,9 @@ public class DataAttachmentRegistry {
             .register("played_inside_pipe_sound", () -> AttachmentType.builder(() -> true).serialize(Codec.BOOL)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
+    public static final Supplier<AttachmentType<Integer>> AIRBORNE_DURATION = Marioverse.ATTACHMENT_TYPES
+            .register("airborne_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> ATTACK_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("attack_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
@@ -147,6 +174,9 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> FACING_DIRECTION = Marioverse.ATTACHMENT_TYPES
             .register("facing_direction", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> FIRE_FLOWER_DURATION = Marioverse.ATTACHMENT_TYPES
+            .register("fire_flower_duration", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> FIREBALL_COUNT = Marioverse.ATTACHMENT_TYPES
             .register("fireball_count", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
@@ -171,6 +201,9 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> ICE_BALL_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("ice_ball_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Integer>> ICE_FLOWER_DURATION = Marioverse.ATTACHMENT_TYPES
+            .register("ice_flower_duration", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
     public static final Supplier<AttachmentType<Integer>> MEGA_MUSHROOM_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("mega_mushroom_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)

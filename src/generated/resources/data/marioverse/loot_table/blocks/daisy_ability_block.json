@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:daisy_ability_block"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "marioverse:blocks/daisy_ability_block"
+}

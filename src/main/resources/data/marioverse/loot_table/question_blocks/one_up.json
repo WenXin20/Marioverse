@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:one_up_mushroom",
+          "name": "marioverse:one_up_mushroom_spawn_egg",
           "weight": 1
         }
       ],

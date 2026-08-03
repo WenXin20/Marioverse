@@ -13,10 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.Util;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
@@ -27,18 +29,20 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Mirror;
@@ -271,6 +275,23 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     public boolean isPathfindable(BlockState state, PathComputationType pathType) {
         return false;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
+        if (Screen.hasShiftDown()) {
+            list.add(Component.literal(""));
+
+            list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip.instructions"));
+            list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip.instructions.wrench"));
+            list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip.instructions.place"));
+
+            list.add(Component.literal(""));
+
+            Spawner.appendHoverText(stack, list, "SpawnData");
+
+            list.add(Component.literal(""));
+        } else list.add(Component.translatable("block.marioverse.clear_warp_pipe.tooltip"));
     }
 
     @NotNull

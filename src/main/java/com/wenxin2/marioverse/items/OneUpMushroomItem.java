@@ -1,18 +1,21 @@
 package com.wenxin2.marioverse.items;
 
-import java.util.function.Supplier;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
+import net.minecraft.core.Holder;
 
-public class OneUpMushroomItem extends BasePowerUpItem {
-    public OneUpMushroomItem(Supplier<? extends EntityType<? extends Mob>> entityType,
-                             int primaryColor, int secondaryColor, Properties properties) {
-        super(entityType, primaryColor, secondaryColor, properties);
+public class OneUpMushroomItem extends PowerUpItem implements PowerUpSource {
+    public OneUpMushroomItem(Properties properties) {
+        super(properties);
     }
 
-    public OneUpMushroomItem(int tooltipLineAmt, Supplier<? extends EntityType<? extends Mob>> entityType,
-                             int primaryColor, int secondaryColor, Properties properties) {
-        super(entityType, primaryColor, secondaryColor, properties);
-        this.tooltipLineAmt = tooltipLineAmt;
+    public OneUpMushroomItem(int tooltipLineAmt, Properties properties) {
+        super(tooltipLineAmt, properties);
+    }
+
+    @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.ONE_UP_MUSHROOM;
     }
 }

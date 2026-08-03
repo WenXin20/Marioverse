@@ -3,9 +3,12 @@ package com.wenxin2.marioverse.registries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import java.util.UUID;
+import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -87,6 +90,12 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> POS_Z =
             Marioverse.COMPONENTS.register("pos_z", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+
+    public static final Supplier<DataComponentType<Holder<PowerUpType>>> POWER_UP_TYPE =
+            Marioverse.COMPONENTS.register("power_up_type", () -> DataComponentType.<Holder<PowerUpType>>builder()
+                    .persistent(Marioverse.POWER_UP_REGISTRY.holderByNameCodec())
+                    .networkSynchronized(ByteBufCodecs.holderRegistry(Marioverse.POWER_UP_REGISTRY_KEY))
+                    .build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_BLOCK =
             Marioverse.COMPONENTS.register("warp_block", () -> DataComponentType.<WarpTarget>builder()

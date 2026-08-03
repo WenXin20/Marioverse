@@ -1,9 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
-import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
@@ -33,23 +31,20 @@ import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
-import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
+import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.LinkerItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
-import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
-import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.registries.KeybindRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
-import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -62,7 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -109,16 +103,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -131,7 +121,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
@@ -366,12 +355,14 @@ public class MarioverseEventHandlers {
             }
 
             if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+                MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
                 level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         soundSource, 1.0F, pitch);
             }
 
             if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
+                MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
                 level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         soundSource, 1.0F, pitch);
@@ -391,6 +382,7 @@ public class MarioverseEventHandlers {
 
             AccessoriesCapability capability = AccessoriesCapability.get(player);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
+                    && entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)
                     && !player.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
                 for (String slotType : slotTypes) {
@@ -415,6 +407,7 @@ public class MarioverseEventHandlers {
 
             if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
                 level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, pitch);
@@ -422,6 +415,7 @@ public class MarioverseEventHandlers {
 
             if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
                 level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         SoundSource.HOSTILE, 1.0F, pitch);
@@ -442,6 +436,7 @@ public class MarioverseEventHandlers {
 
             AccessoriesCapability capability = AccessoriesCapability.get(entity);
             if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+                    && entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
                 String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
                 for (String slotType : slotTypes) {
@@ -455,15 +450,24 @@ public class MarioverseEventHandlers {
             }
         }
 
-        if (entity.getType().is(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)) {
-            if (entity.getItemBySlot(EquipmentSlot.HEAD).is(TagRegistry.POWER_UP_COSTUMES))
-                entity.getItemBySlot(EquipmentSlot.HEAD).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.CHEST).is(TagRegistry.POWER_UP_COSTUMES))
-                entity.getItemBySlot(EquipmentSlot.CHEST).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.LEGS).is(TagRegistry.POWER_UP_COSTUMES))
-                entity.getItemBySlot(EquipmentSlot.LEGS).shrink(1);
-            if (entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.POWER_UP_COSTUMES))
-                entity.getItemBySlot(EquipmentSlot.FEET).shrink(1);
+        if (entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)) {
+            ItemStack slotHead = entity.getItemBySlot(EquipmentSlot.HEAD);
+            ItemStack slotChest = entity.getItemBySlot(EquipmentSlot.CHEST);
+            ItemStack slotLegs = entity.getItemBySlot(EquipmentSlot.LEGS);
+            ItemStack slotFeet = entity.getItemBySlot(EquipmentSlot.FEET);
+
+            if (slotHead.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.FIRE_FLOWER
+                    || slotHead.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER)
+                slotHead.shrink(1);
+            if (slotChest.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.FIRE_FLOWER
+                    || slotChest.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER)
+                slotChest.shrink(1);
+            if (slotLegs.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.FIRE_FLOWER
+                    || slotLegs.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER)
+                slotLegs.shrink(1);
+            if (slotFeet.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.FIRE_FLOWER
+                    || slotFeet.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER)
+                slotFeet.shrink(1);
         }
     }
 
@@ -479,9 +483,17 @@ public class MarioverseEventHandlers {
             entity.setData(DataAttachmentRegistry.ONE_UPS_REWARDED, 0);
         }
 
+        if (entity.hasData(DataAttachmentRegistry.FIRE_FLOWER_DURATION)
+                && entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.FIRE_FLOWER_DURATION, 0);
+
         if (entity.hasData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                 && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM))
             entity.setData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM, false);
+
+        if (entity.hasData(DataAttachmentRegistry.ICE_FLOWER_DURATION)
+                && entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) > 0)
+            entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, 0);
 
         if (entity.hasData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME)
                 && entity.getData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME))
@@ -502,6 +514,9 @@ public class MarioverseEventHandlers {
         if (entity.hasData(DataAttachmentRegistry.SUPER_STAR_DURATION)
                 && entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
             entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, 0);
+
+        if (entity.hasData(DataAttachmentRegistry.HAS_DOUBLE_JUMP))
+            entity.removeData(DataAttachmentRegistry.HAS_DOUBLE_JUMP);
     }
 
     private static void removeCostume(LivingEntity entity, AccessoriesCapability capability) {
@@ -512,71 +527,23 @@ public class MarioverseEventHandlers {
 
         if (containerHat != null) {
             ItemStack stack = containerHat.getAccessories().getItem(0);
-            ItemStack hatItem = new ItemStack(ItemRegistry.MARIO_HAT.get());
-
-            if (stack.is(TagRegistry.MARIO_COSTUMES))
-                containerHat.getAccessories().setItem(0, hatItem);
-
-            hatItem = new ItemStack(ItemRegistry.LUIGI_HAT.get());
-            if (stack.is(TagRegistry.LUIGI_COSTUMES))
-                containerHat.getAccessories().setItem(0, hatItem);
-
-            hatItem = new ItemStack(ItemRegistry.PEACH_CROWN.get());
-            if (stack.is(TagRegistry.PEACH_COSTUMES))
-                containerHat.getAccessories().setItem(0, hatItem);
-
-            hatItem.applyComponents(stack.getComponents());
+            if (stack.is(TagRegistry.COSTUMES))
+                containerHat.getAccessories().removeItem(0, 1);
         }
         if (containerShirt != null) {
             ItemStack stack = containerShirt.getAccessories().getItem(0);
-            ItemStack shirtItem = new ItemStack(ItemRegistry.MARIO_SHIRT.get());
-
-            if (stack.is(TagRegistry.MARIO_COSTUMES))
-                containerShirt.getAccessories().setItem(0, shirtItem);
-
-            shirtItem = new ItemStack(ItemRegistry.LUIGI_SHIRT.get());
-            if (stack.is(TagRegistry.LUIGI_COSTUMES))
-                containerShirt.getAccessories().setItem(0, shirtItem);
-
-            shirtItem = new ItemStack(ItemRegistry.PEACH_BODICE.get());
-            if (stack.is(TagRegistry.PEACH_COSTUMES))
-                containerShirt.getAccessories().setItem(0, shirtItem);
-
-            shirtItem.applyComponents(stack.getComponents());
+            if (stack.is(TagRegistry.COSTUMES))
+                containerShirt.getAccessories().removeItem(0, 1);
         }
         if (containerPants != null) {
             ItemStack stack = containerPants.getAccessories().getItem(0);
-            ItemStack pantsItem = new ItemStack(ItemRegistry.MARIO_PANTS.get());
-
-            if (stack.is(TagRegistry.MARIO_COSTUMES))
-                containerPants.getAccessories().setItem(0, pantsItem);
-
-            pantsItem = new ItemStack(ItemRegistry.LUIGI_PANTS.get());
-            if (stack.is(TagRegistry.LUIGI_COSTUMES))
-                containerPants.getAccessories().setItem(0, pantsItem);
-
-            pantsItem = new ItemStack(ItemRegistry.PEACH_DRESS.get());
-            if (stack.is(TagRegistry.PEACH_COSTUMES))
-                containerPants.getAccessories().setItem(0, pantsItem);
-
-            pantsItem.applyComponents(stack.getComponents());
+            if (stack.is(TagRegistry.COSTUMES))
+                containerPants.getAccessories().removeItem(0, 1);
         }
         if (containerShoes != null) {
             ItemStack stack = containerShoes.getAccessories().getItem(0);
-            ItemStack shoesItem = new ItemStack(ItemRegistry.MARIO_SHOES.get());
-
-            if (stack.is(TagRegistry.MARIO_COSTUMES))
-                containerShoes.getAccessories().setItem(0, shoesItem);
-
-            shoesItem = new ItemStack(ItemRegistry.LUIGI_SHOES.get());
-            if (stack.is(TagRegistry.LUIGI_COSTUMES))
-                containerShoes.getAccessories().setItem(0, shoesItem);
-
-            shoesItem = new ItemStack(ItemRegistry.PEACH_SHOES.get());
-            if (stack.is(TagRegistry.PEACH_COSTUMES))
-                containerShoes.getAccessories().setItem(0, shoesItem);
-
-            shoesItem.applyComponents(stack.getComponents());
+            if (stack.is(TagRegistry.COSTUMES))
+                containerShoes.getAccessories().removeItem(0, 1);
         }
     }
 
@@ -623,16 +590,28 @@ public class MarioverseEventHandlers {
                     continue;
                 BlockState state = level.getBlockState(target);
 
-                if(!player.isCreative() && state.requiresCorrectToolForDrops() && !stack.isCorrectToolForDrops(state))
+                if (!player.isCreative() && state.requiresCorrectToolForDrops() && !stack.isCorrectToolForDrops(state))
                     continue;
                 if (state.isAir())
                     continue;
                 if (!player.mayBuild())
                     continue;
 
-                if (player.isCreative())
+                if (player.isCreative()) {
                     level.removeBlock(target, true);
-                else level.destroyBlock(target, true, player);
+                    continue;
+                }
+
+                BlockEntity blockEntity = state.hasBlockEntity() ? level.getBlockEntity(target) : null;
+                state.getBlock().playerWillDestroy(level, target, state, player);
+                boolean removed = level.removeBlock(target, false);
+
+                if (removed) {
+                    stack.mineBlock(level, state, target, player);
+                    state.getBlock().destroy(level, target, state);
+                    state.getBlock().playerDestroy(level, player, target, state, blockEntity, stack);
+                }
+                level.gameEvent(GameEvent.BLOCK_DESTROY, target, GameEvent.Context.of(player, state));
             }
         }
     }
@@ -877,89 +856,6 @@ public class MarioverseEventHandlers {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static void onClientTick(ClientTickEvent.Post event) {
-        Player player = Minecraft.getInstance().player;
-
-        if (player != null) {
-            Level level = player.level();
-            Vec3 motion = player.getDeltaMovement();
-            double minY = player.getBoundingBox().minY;
-
-            if (!player.isSpectator()) {
-                AABB belowBox = player.getBoundingBox()
-                        .expandTowards(0, Math.max(motion.y, -0.2), 0);
-                BlockPos min = BlockPos.containing(belowBox.minX, belowBox.minY, belowBox.minZ);
-                BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
-
-                Object object = null;
-                if (ModList.get().isLoaded("sable"))
-                    object = SableProvider.getContext(level, player);
-
-                for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
-                    BlockState stateBelow = level.getBlockState(posBelow);
-
-                    if (object instanceof SableProvider.SableContext context) {
-                        BlockPos posEmbedded = context.posEmbedded.below()
-                                .offset(posBelow.getX() - min.getX(),
-                                        posBelow.getY() - min.getY(),
-                                        posBelow.getZ() - min.getZ());
-                        BlockPos posWorld = context.posWorld.below()
-                                .offset(posBelow.getX() - min.getX(),
-                                        posBelow.getY() - min.getY(),
-                                        posBelow.getZ() - min.getZ());
-                        stateBelow = context.accessor.getBlockState(posEmbedded);
-
-                        if (level instanceof ServerLevel)
-                            stateBelow = context.accessor.getServerBlockState(posWorld);
-                    }
-
-                    Block blockBelow = stateBelow.getBlock();
-                    boolean canBounce = (stateBelow.is(TagRegistry.BOUNCY_BLOCKS)
-                            && !player.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
-                            && !player.isSuppressingBounce() && !player.isNoGravity()
-                            && !player.getAbilities().flying)
-
-                            || (blockBelow instanceof BlueMushroomTrampolineBlock
-                                && !stateBelow.getValue(OnBlock.ACTIVE)
-                                && !player.isSuppressingBounce() && !player.isNoGravity()
-                                && !player.getAbilities().flying)
-
-                            || (blockBelow instanceof RedMushroomTrampolineBlock
-                                && !(blockBelow instanceof BlueMushroomTrampolineBlock)
-                                && stateBelow.getValue(OnBlock.ACTIVE)
-                                && !player.isSuppressingBounce() && !player.isNoGravity()
-                                && !player.getAbilities().flying);
-
-                    if (canBounce) {
-                        PacketDistributor.sendToServer(new BouncePayload(posBelow, Minecraft.getInstance().options.keyJump.isDown(), motion.y));
-                        break;
-                    }
-                }
-            }
-
-            if (!player.isSpectator()) {
-                if (KeybindRegistry.ACTIVATE_POWER_UP.isDown()
-                        || (player.isSprinting() && ConfigRegistry.RUNNING_ACTIVATES_POWER_UPS.get())) {
-                    PacketDistributor.sendToServer(new FireballShootPayload(player.blockPosition()));
-                    PacketDistributor.sendToServer(new IceBallShootPayload(player.blockPosition()));
-                }
-            }
-
-            if (!player.isSpectator()) {
-                if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                        && (player.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
-                        || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
-                        && (player.fallDistance > 0 || player.isInWaterOrBubble())) {
-                    if (Minecraft.getInstance().options.keyJump.isDown())
-                        PacketDistributor.sendToServer(new SquashEntityPayload(true, motion.y, minY));
-                    else PacketDistributor.sendToServer(new SquashEntityPayload(false, motion.y, minY));
-                }
-            }
-        }
-    }
-
     @SubscribeEvent
     public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         Player player = event.getEntity();
@@ -1002,8 +898,7 @@ public class MarioverseEventHandlers {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
         if (!ConfigRegistry.DISABLE_JUMP_SOUND.get() && !entity.isShiftKeyDown() && entity instanceof AbilitiesHandler handler
-                && (handler.mv$hasMarioCostume(entity) || handler.mv$hasLuigiCostume(entity)
-                    || handler.mv$hasPeachCostume(entity))) {
+                && (handler.mv$hasCostume(entity))) {
             entity.level().playSound(null, entity.blockPosition(),
                     entity instanceof Player ? SoundRegistry.PLAYER_JUMP.get() : SoundRegistry.MOB_JUMP.get(),
                     entity instanceof Player ? SoundSource.PLAYERS : SoundSource.NEUTRAL, 1.0F, pitch);

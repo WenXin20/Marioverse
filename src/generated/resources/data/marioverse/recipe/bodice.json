@@ -1,0 +1,19 @@
+{
+  "type": "marioverse:hex_color_shaped",
+  "category": "equipment",
+  "group": "marioverse:shirts",
+  "key": {
+    "C": {
+      "color_tag": "minecraft:wool"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "pattern": [
+    "C C",
+    "CCC",
+    "WCW"
+  ],
+  "result": "marioverse:bodice"
+}

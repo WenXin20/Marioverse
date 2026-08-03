@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -98,50 +100,48 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
 
-            add(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
-            add(event, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
+            add(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
+            add(event, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
+            add(event, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
+            add(event, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
+            add(event, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE);
 
             add(event, ItemRegistry.CHRISTMAS_HAT);
 
-            add(event, ItemRegistry.MARIO_HAT);
-            add(event, ItemRegistry.MARIO_SHIRT);
-            add(event, ItemRegistry.MARIO_PANTS);
-            add(event, ItemRegistry.MARIO_SHOES);
-            add(event, ItemRegistry.MARIO_FIRE_HAT);
-            add(event, ItemRegistry.MARIO_FIRE_SHIRT);
-            add(event, ItemRegistry.MARIO_FIRE_PANTS);
-            add(event, ItemRegistry.MARIO_FIRE_SHOES);
-            add(event, ItemRegistry.MARIO_ICE_HAT);
-            add(event, ItemRegistry.MARIO_ICE_SHIRT);
-            add(event, ItemRegistry.MARIO_ICE_PANTS);
-            add(event, ItemRegistry.MARIO_ICE_SHOES);
+            add(event, ItemRegistry.HAT);
+            add(event, ItemRegistry.SHIRT);
+            add(event, ItemRegistry.PANTS);
+            add(event, ItemRegistry.SHOES);
 
-            add(event, ItemRegistry.LUIGI_HAT);
-            add(event, ItemRegistry.LUIGI_SHIRT);
-            add(event, ItemRegistry.LUIGI_PANTS);
-            add(event, ItemRegistry.LUIGI_SHOES);
-            add(event, ItemRegistry.LUIGI_FIRE_HAT);
-            add(event, ItemRegistry.LUIGI_FIRE_SHIRT);
-            add(event, ItemRegistry.LUIGI_FIRE_PANTS);
-            add(event, ItemRegistry.LUIGI_FIRE_SHOES);
-            add(event, ItemRegistry.LUIGI_ICE_HAT);
-            add(event, ItemRegistry.LUIGI_ICE_SHIRT);
-            add(event, ItemRegistry.LUIGI_ICE_PANTS);
-            add(event, ItemRegistry.LUIGI_ICE_SHOES);
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0x43B237, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0x43B237, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0x43B237, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0x9C6042, true));
 
-            add(event, ItemRegistry.PEACH_CROWN);
-            add(event, ItemRegistry.PEACH_BODICE);
-            add(event, ItemRegistry.PEACH_DRESS);
-            add(event, ItemRegistry.PEACH_SHOES);
-            add(event, ItemRegistry.PEACH_FIRE_BODICE);
-            add(event, ItemRegistry.PEACH_FIRE_DRESS);
-            add(event, ItemRegistry.PEACH_FIRE_SHOES);
-            add(event, ItemRegistry.PEACH_ICE_BODICE);
-            add(event, ItemRegistry.PEACH_ICE_DRESS);
-            add(event, ItemRegistry.PEACH_ICE_SHOES);
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0xFFCD00, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0xFFCD00, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0xFFCD00, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xA94536, true));
+
+            add(event, ItemRegistry.HAT, DataComponents.DYED_COLOR, new DyedItemColor(0x8800FD, true));
+            add(event, ItemRegistry.SHIRT, DataComponents.DYED_COLOR, new DyedItemColor(0x8800FD, true));
+            add(event, ItemRegistry.PANTS, DataComponents.DYED_COLOR, new DyedItemColor(0x8800FD, true));
+            add(event, ItemRegistry.SHOES, DataComponents.DYED_COLOR, new DyedItemColor(0xA94537, true));
+
+            add(event, ItemRegistry.CROWN);
+            add(event, ItemRegistry.BODICE);
+            add(event, ItemRegistry.DRESS);
+            add(event, ItemRegistry.HEELS);
+
+            add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xA4FDF0, true));
+            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0xFF992B, true));
+            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF992B, true));
+            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0xFF992B, true));
+
+            add(event, ItemRegistry.CROWN, DataComponents.DYED_COLOR, new DyedItemColor(0xFF647E, true));
+            add(event, ItemRegistry.BODICE, DataComponents.DYED_COLOR, new DyedItemColor(0x89F4EB, true));
+            add(event, ItemRegistry.DRESS, DataComponents.DYED_COLOR, new DyedItemColor(0x89F4EB, true));
+            add(event, ItemRegistry.HEELS, DataComponents.DYED_COLOR, new DyedItemColor(0x89F4EB, true));
 
             add(event, ItemRegistry.GREEN_KOOPA_SHOES);
             add(event, ItemRegistry.RED_KOOPA_SHOES);
@@ -153,6 +153,14 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.BOWSER_POTTERY_SHERD);
             add(event, ItemRegistry.PLUMBER_POTTERY_SHERD);
 
+            add(event, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.DASH_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.MINI_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG);
+            add(event, ItemRegistry.FIRE_FLOWER_SPAWN_EGG);
+            add(event, ItemRegistry.ICE_FLOWER_SPAWN_EGG);
+            add(event, ItemRegistry.SUPER_STAR_SPAWN_EGG);
             add(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG);
             add(event, ItemRegistry.GOOMBA_SPAWN_EGG, Component.literal("Goombella"));
@@ -424,6 +432,14 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.GLOW_BLOCK);
             add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
             add(event, BlockRegistry.SPLUNKIN_O_LANTERN);
+            add(event, BlockRegistry.MARIO_ABILITY_BLOCK);
+            add(event, BlockRegistry.LUIGI_ABILITY_BLOCK);
+            add(event, BlockRegistry.WARIO_ABILITY_BLOCK);
+            add(event, BlockRegistry.WALUIGI_ABILITY_BLOCK);
+            add(event, BlockRegistry.PEACH_ABILITY_BLOCK);
+            add(event, BlockRegistry.DAISY_ABILITY_BLOCK);
+            add(event, BlockRegistry.ROSALINA_ABILITY_BLOCK);
+            add(event, BlockRegistry.STEVE_ABILITY_BLOCK);
             add(event, BlockRegistry.ON_OFF_SWITCH);
             add(event, BlockRegistry.RED_DOTTED_LINE_BLOCK);
             add(event, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
@@ -636,44 +652,16 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHELL, ItemRegistry.RED_KOOPA_SHELL);
                 addAfter(event, ItemRegistry.RED_KOOPA_SHELL, ItemRegistry.GOLD_KOOPA_SHELL);
 
-                addAfter(event, Items.TURTLE_HELMET, ItemRegistry.MARIO_HAT);
-                addAfter(event, ItemRegistry.MARIO_HAT, ItemRegistry.MARIO_SHIRT);
-                addAfter(event, ItemRegistry.MARIO_SHIRT, ItemRegistry.MARIO_PANTS);
-                addAfter(event, ItemRegistry.MARIO_PANTS, ItemRegistry.MARIO_SHOES);
-                addAfter(event, ItemRegistry.MARIO_SHOES, ItemRegistry.MARIO_FIRE_HAT);
-                addAfter(event, ItemRegistry.MARIO_FIRE_HAT, ItemRegistry.MARIO_FIRE_SHIRT);
-                addAfter(event, ItemRegistry.MARIO_FIRE_SHIRT, ItemRegistry.MARIO_FIRE_PANTS);
-                addAfter(event, ItemRegistry.MARIO_FIRE_PANTS, ItemRegistry.MARIO_FIRE_SHOES);
-                addAfter(event, ItemRegistry.MARIO_FIRE_SHOES, ItemRegistry.MARIO_ICE_HAT);
-                addAfter(event, ItemRegistry.MARIO_ICE_HAT, ItemRegistry.MARIO_ICE_SHIRT);
-                addAfter(event, ItemRegistry.MARIO_ICE_SHIRT, ItemRegistry.MARIO_ICE_PANTS);
-                addAfter(event, ItemRegistry.MARIO_ICE_PANTS, ItemRegistry.MARIO_ICE_SHOES);
+                addAfter(event, Items.TURTLE_HELMET, ItemRegistry.HAT);
+                addAfter(event, ItemRegistry.HAT, ItemRegistry.SHIRT);
+                addAfter(event, ItemRegistry.SHIRT, ItemRegistry.PANTS);
+                addAfter(event, ItemRegistry.PANTS, ItemRegistry.SHOES);
+                addAfter(event, ItemRegistry.SHOES, ItemRegistry.CROWN);
+                addAfter(event, ItemRegistry.CROWN, ItemRegistry.BODICE);
+                addAfter(event, ItemRegistry.BODICE, ItemRegistry.DRESS);
+                addAfter(event, ItemRegistry.DRESS, ItemRegistry.HEELS);
 
-                addAfter(event, ItemRegistry.MARIO_ICE_SHOES, ItemRegistry.LUIGI_HAT);
-                addAfter(event, ItemRegistry.LUIGI_HAT, ItemRegistry.LUIGI_SHIRT);
-                addAfter(event, ItemRegistry.LUIGI_SHIRT, ItemRegistry.LUIGI_PANTS);
-                addAfter(event, ItemRegistry.LUIGI_PANTS, ItemRegistry.LUIGI_SHOES);
-                addAfter(event, ItemRegistry.LUIGI_SHOES, ItemRegistry.LUIGI_FIRE_HAT);
-                addAfter(event, ItemRegistry.LUIGI_FIRE_HAT, ItemRegistry.LUIGI_FIRE_SHIRT);
-                addAfter(event, ItemRegistry.LUIGI_FIRE_SHIRT, ItemRegistry.LUIGI_FIRE_PANTS);
-                addAfter(event, ItemRegistry.LUIGI_FIRE_PANTS, ItemRegistry.LUIGI_FIRE_SHOES);
-                addAfter(event, ItemRegistry.LUIGI_FIRE_SHOES, ItemRegistry.LUIGI_ICE_HAT);
-                addAfter(event, ItemRegistry.LUIGI_ICE_HAT, ItemRegistry.LUIGI_ICE_SHIRT);
-                addAfter(event, ItemRegistry.LUIGI_ICE_SHIRT, ItemRegistry.LUIGI_ICE_PANTS);
-                addAfter(event, ItemRegistry.LUIGI_ICE_PANTS, ItemRegistry.LUIGI_ICE_SHOES);
-
-                addAfter(event, ItemRegistry.LUIGI_ICE_SHOES, ItemRegistry.PEACH_CROWN);
-                addAfter(event, ItemRegistry.PEACH_CROWN, ItemRegistry.PEACH_BODICE);
-                addAfter(event, ItemRegistry.PEACH_BODICE, ItemRegistry.PEACH_DRESS);
-                addAfter(event, ItemRegistry.PEACH_DRESS, ItemRegistry.PEACH_SHOES);
-                addAfter(event, ItemRegistry.PEACH_SHOES, ItemRegistry.PEACH_FIRE_BODICE);
-                addAfter(event, ItemRegistry.PEACH_FIRE_BODICE, ItemRegistry.PEACH_FIRE_DRESS);
-                addAfter(event, ItemRegistry.PEACH_FIRE_DRESS, ItemRegistry.PEACH_FIRE_SHOES);
-                addAfter(event, ItemRegistry.PEACH_FIRE_SHOES, ItemRegistry.PEACH_ICE_BODICE);
-                addAfter(event, ItemRegistry.PEACH_ICE_BODICE, ItemRegistry.PEACH_ICE_DRESS);
-                addAfter(event, ItemRegistry.PEACH_ICE_DRESS, ItemRegistry.PEACH_ICE_SHOES);
-
-                addAfter(event, ItemRegistry.PEACH_ICE_SHOES, ItemRegistry.PLASTIC_BUCKET);
+                addAfter(event, ItemRegistry.HEELS, ItemRegistry.PLASTIC_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.CHRISTMAS_HAT);
                 addAfter(event, ItemRegistry.CHRISTMAS_HAT, ItemRegistry.GREEN_KOOPA_SHOES);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHOES, ItemRegistry.RED_KOOPA_SHOES);
@@ -743,11 +731,11 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.SNORT_POTTERY_SHERD, ItemRegistry.BOWSER_POTTERY_SHERD);
                 addAfter(event, ItemRegistry.BOWSER_POTTERY_SHERD, ItemRegistry.PLUMBER_POTTERY_SHERD);
 
-                addAfter(event, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE);
-                addAfter(event, ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE);
-                addAfter(event, ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE);
-                addAfter(event, ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE);
-                addAfter(event, ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE, ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE);
+                addAfter(event, Items.BOLT_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
+                addAfter(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
+                addAfter(event, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
+                addAfter(event, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
+                addAfter(event, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE);
             }
 
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
@@ -757,7 +745,15 @@ public class MarioverseCreativeTabs {
                 ItemStack mrsPuff = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Mrs. Puff"));
                 ItemStack qwilfish = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Qwilfish"));
 
-                addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
+                addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG, ItemRegistry.DASH_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.DASH_MUSHROOM_SPAWN_EGG, ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG, ItemRegistry.MINI_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.MINI_MUSHROOM_SPAWN_EGG, ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG);
+                addAfter(event, ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG, ItemRegistry.FIRE_FLOWER_SPAWN_EGG);
+                addAfter(event, ItemRegistry.FIRE_FLOWER_SPAWN_EGG, ItemRegistry.ICE_FLOWER_SPAWN_EGG);
+                addAfter(event, ItemRegistry.ICE_FLOWER_SPAWN_EGG, ItemRegistry.SUPER_STAR_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SUPER_STAR_SPAWN_EGG, ItemRegistry.MINI_GOOMBA_SPAWN_EGG);
                 addAfter(event, ItemRegistry.MINI_GOOMBA_SPAWN_EGG, goomba);
                 addAfter(event, goomba, goombella);
                 addAfter(event, goombella, ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG);
@@ -1025,7 +1021,15 @@ public class MarioverseCreativeTabs {
             if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
 
-                addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.FUNGAL_QUESTION_BLOCK);
+                addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.MARIO_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.MARIO_ABILITY_BLOCK, BlockRegistry.LUIGI_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.LUIGI_ABILITY_BLOCK, BlockRegistry.WARIO_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.WARIO_ABILITY_BLOCK, BlockRegistry.WALUIGI_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.WALUIGI_ABILITY_BLOCK, BlockRegistry.PEACH_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.PEACH_ABILITY_BLOCK, BlockRegistry.DAISY_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.DAISY_ABILITY_BLOCK, BlockRegistry.ROSALINA_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.ROSALINA_ABILITY_BLOCK, BlockRegistry.STEVE_ABILITY_BLOCK);
+                addAfter(event, BlockRegistry.STEVE_ABILITY_BLOCK, BlockRegistry.FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK, BlockRegistry.AMETHYST_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.AMETHYST_QUESTION_BLOCK, BlockRegistry.CALCITE_QUESTION_BLOCK);
@@ -1195,10 +1199,24 @@ public class MarioverseCreativeTabs {
         add(event, stack);
     }
 
+    public static ItemStack addStack(BuildCreativeModeTabContentsEvent event, ItemLike item) {
+        ItemStack stack = new ItemStack(item);
+        add(event, stack);
+        return stack;
+    }
+
     public static void add(BuildCreativeModeTabContentsEvent event, ItemLike item, Component name) {
         ItemStack stack = new ItemStack(item);
         stack.set(DataComponents.CUSTOM_NAME, name);
         add(event, stack);
+    }
+
+    public static <T> ItemStack add(BuildCreativeModeTabContentsEvent event, ItemLike item,
+                                     DataComponentType<T> componentType, T value) {
+        ItemStack stack = new ItemStack(item);
+        stack.set(componentType, value);
+        add(event, stack);
+        return stack;
     }
 
     public static void addBucket(BuildCreativeModeTabContentsEvent event, ItemLike item, Consumer<CompoundTag> tagConsumer) {
@@ -1231,6 +1249,14 @@ public class MarioverseCreativeTabs {
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemStack stack) {
         event.insertAfter(afterStack, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+    }
+
+    public static <T> ItemStack addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemLike item,
+                                         DataComponentType<T> componentType, T value) {
+        ItemStack stack = new ItemStack(item);
+        stack.set(componentType, value);
+        addAfter(event, afterStack, stack);
+        return stack;
     }
 
     public static void addBefore(BuildCreativeModeTabContentsEvent event, ItemLike beforeItem, ItemLike item) {

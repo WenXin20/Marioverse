@@ -1,0 +1,18 @@
+{
+  "type": "marioverse:hex_color_shaped",
+  "category": "equipment",
+  "group": "marioverse:shoes",
+  "key": {
+    "C": {
+      "color_tag": "minecraft:wool"
+    },
+    "L": {
+      "tag": "c:leathers"
+    }
+  },
+  "pattern": [
+    "C C",
+    "L L"
+  ],
+  "result": "marioverse:shoes"
+}

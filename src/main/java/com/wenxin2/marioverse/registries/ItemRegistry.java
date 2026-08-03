@@ -1,31 +1,39 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.items.BasePowerUpItem;
+import com.wenxin2.marioverse.items.FireFlowerItem;
+import com.wenxin2.marioverse.items.IceFlowerItem;
+import com.wenxin2.marioverse.items.MegaMushroomItem;
+import com.wenxin2.marioverse.items.MiniMushroomItem;
+import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.PowerUpSpawnEggItem;
 import com.wenxin2.marioverse.items.BetterSpawnEggItem;
-import com.wenxin2.marioverse.items.CharacterSmithingTemplateItem;
 import com.wenxin2.marioverse.items.CheckpointFlagBlockItem;
 import com.wenxin2.marioverse.items.ChristmasHatItem;
-import com.wenxin2.marioverse.items.CostumeItem;
 import com.wenxin2.marioverse.items.CreativeWrenchItem;
 import com.wenxin2.marioverse.items.DashMushroomItem;
+import com.wenxin2.marioverse.items.FemaleCostumeItem;
 import com.wenxin2.marioverse.items.FluidPlasticBucketItem;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.items.LargeSnowballItem;
-import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.MaleCostumeItem;
+import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.items.PokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
+import com.wenxin2.marioverse.items.SuperMushroomItem;
+import com.wenxin2.marioverse.items.SuperStarItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
@@ -36,9 +44,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
@@ -50,6 +60,7 @@ public class ItemRegistry {
     public static final EnumMap<DyeColor, DeferredItem<Item>> CHECKPOINT_FLAGS =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredItem<Item> BODICE;
     public static final DeferredItem<Item> BOO_SPAWN_EGG;
     public static final DeferredItem<Item> BOWSER_BANNER_PATTERN;
     public static final DeferredItem<Item> BOWSER_POTTERY_SHERD;
@@ -63,16 +74,19 @@ public class ItemRegistry {
     public static final DeferredItem<Item> COOKED_PORCUPUFFER;
     public static final DeferredItem<Item> COOKED_SPINY_CHEEP_CHEEP;
     public static final DeferredItem<Item> CREATIVE_WRENCH;
+    public static final DeferredItem<Item> CROWN;
     public static final DeferredItem<Item> DASH_MUSHROOM;
+    public static final DeferredItem<Item> DASH_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> DEEP_CHEEP;
     public static final DeferredItem<Item> DEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> DEEP_CHEEP_SPAWN_EGG;
+    public static final DeferredItem<Item> DRESS;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
     public static final DeferredItem<Item> EEP_CHEEP;
     public static final DeferredItem<Item> EEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> EEP_CHEEP_SPAWN_EGG;
-    public static final DeferredItem<Item> FIRE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> FIRE_FLOWER;
+    public static final DeferredItem<Item> FIRE_FLOWER_SPAWN_EGG;
     public static final DeferredItem<Item> FIRE_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> GOLDEN_KOOPA_SHOES;
     public static final DeferredItem<Item> GOLD_KOOPA_SHELL;
@@ -81,52 +95,23 @@ public class ItemRegistry {
     public static final DeferredItem<Item> GREEN_KOOPA_SHELL;
     public static final DeferredItem<Item> GREEN_KOOPA_SHOES;
     public static final DeferredItem<Item> GREEN_KOOPA_TROOPA_SPAWN_EGG;
+    public static final DeferredItem<Item> HAT;
+    public static final DeferredItem<Item> HEELS;
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
-    public static final DeferredItem<Item> ICE_COSTUME_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> ICE_FLOWER;
+    public static final DeferredItem<Item> ICE_FLOWER_SPAWN_EGG;
     public static final DeferredItem<Item> LARGE_SNOWBALL;
-    public static final DeferredItem<Item> LUIGI_COSTUME_SMITHING_TEMPLATE;
-    public static final DeferredItem<Item> LUIGI_FIRE_HAT;
-    public static final DeferredItem<Item> LUIGI_FIRE_PANTS;
-    public static final DeferredItem<Item> LUIGI_FIRE_SHIRT;
-    public static final DeferredItem<Item> LUIGI_FIRE_SHOES;
-    public static final DeferredItem<Item> LUIGI_HAT;
-    public static final DeferredItem<Item> LUIGI_ICE_HAT;
-    public static final DeferredItem<Item> LUIGI_ICE_PANTS;
-    public static final DeferredItem<Item> LUIGI_ICE_SHIRT;
-    public static final DeferredItem<Item> LUIGI_ICE_SHOES;
-    public static final DeferredItem<Item> LUIGI_PANTS;
-    public static final DeferredItem<Item> LUIGI_SHIRT;
-    public static final DeferredItem<Item> LUIGI_SHOES;
-    public static final DeferredItem<Item> MARIO_COSTUME_SMITHING_TEMPLATE;
-    public static final DeferredItem<Item> MARIO_FIRE_HAT;
-    public static final DeferredItem<Item> MARIO_FIRE_PANTS;
-    public static final DeferredItem<Item> MARIO_FIRE_SHIRT;
-    public static final DeferredItem<Item> MARIO_FIRE_SHOES;
-    public static final DeferredItem<Item> MARIO_HAT;
-    public static final DeferredItem<Item> MARIO_ICE_HAT;
-    public static final DeferredItem<Item> MARIO_ICE_PANTS;
-    public static final DeferredItem<Item> MARIO_ICE_SHIRT;
-    public static final DeferredItem<Item> MARIO_ICE_SHOES;
-    public static final DeferredItem<Item> MARIO_PANTS;
-    public static final DeferredItem<Item> MARIO_SHIRT;
-    public static final DeferredItem<Item> MARIO_SHOES;
+    public static final DeferredItem<Item> LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE;
+    public static final DeferredItem<Item> MARIO_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MEGA_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MEGA_MUSHROOM;
+    public static final DeferredItem<Item> MEGA_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_MUSHROOM;
+    public static final DeferredItem<Item> MINI_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
-    public static final DeferredItem<Item> PEACH_BODICE;
-    public static final DeferredItem<Item> PEACH_COSTUME_SMITHING_TEMPLATE;
-    public static final DeferredItem<Item> PEACH_CROWN;
-    public static final DeferredItem<Item> PEACH_DRESS;
-    public static final DeferredItem<Item> PEACH_FIRE_BODICE;
-    public static final DeferredItem<Item> PEACH_FIRE_DRESS;
-    public static final DeferredItem<Item> PEACH_FIRE_SHOES;
-    public static final DeferredItem<Item> PEACH_ICE_BODICE;
-    public static final DeferredItem<Item> PEACH_ICE_DRESS;
-    public static final DeferredItem<Item> PEACH_ICE_SHOES;
-    public static final DeferredItem<Item> PEACH_SHOES;
+    public static final DeferredItem<Item> ONE_UP_MUSHROOM_SPAWN_EGG;
+    public static final DeferredItem<Item> PANTS;
     public static final DeferredItem<Item> PIRANHA_PLANT_POD;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLASTIC_BUCKET;
@@ -139,11 +124,14 @@ public class ItemRegistry {
     public static final DeferredItem<Item> POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> PORCUPUFFER;
     public static final DeferredItem<Item> PORCUPUFFER_SPAWN_EGG;
+    public static final DeferredItem<Item> PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> QUICKSAND_BUCKET;
     public static final DeferredItem<Item> RED_KOOPA_SHELL;
     public static final DeferredItem<Item> RED_KOOPA_SHOES;
     public static final DeferredItem<Item> RED_KOOPA_TROOPA_SPAWN_EGG;
     public static final DeferredItem<Item> RED_QUICKSAND_BUCKET;
+    public static final DeferredItem<Item> SHIRT;
+    public static final DeferredItem<Item> SHOES;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_BUCKET;
@@ -151,7 +139,11 @@ public class ItemRegistry {
     public static final DeferredItem<Item> SPLUNKIN_SPAWN_EGG;
     public static final DeferredItem<Item> STAR_COIN;
     public static final DeferredItem<Item> SUPER_MUSHROOM;
+    public static final DeferredItem<Item> SUPER_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> SUPER_STAR;
+    public static final DeferredItem<Item> SUPER_STAR_SPAWN_EGG;
+    public static final DeferredItem<Item> WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE;
+    public static final DeferredItem<Item> WARIO_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> WARM_CHEEP_CHEEP;
     public static final DeferredItem<Item> WARP_DISRUPTOR;
     public static final DeferredItem<Item> WHITE_KOOPA_SHOES;
@@ -220,8 +212,8 @@ public class ItemRegistry {
                 () -> new SolidBucketItem(BlockRegistry.RED_QUICKSAND.get(), SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
-                () -> new PlasticBucketItem(2, Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
-                        new Item.Properties().stacksTo(1)
+                () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
+                        3, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         PLASTIC_WATER_BUCKET = registerItem("plastic_water_bucket",
                 () -> new FluidPlasticBucketItem(3, Fluids.WATER, new Item.Properties().stacksTo(1)
@@ -240,21 +232,38 @@ public class ItemRegistry {
                                 .craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
 
         SUPER_MUSHROOM = registerItem("super_mushroom",
-                () -> new BasePowerUpItem(5, EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new SuperMushroomItem(4, new Item.Properties()));
         MEGA_MUSHROOM = registerItem("mega_mushroom",
-                () -> new BasePowerUpItem(8, EntityRegistry.MEGA_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new MegaMushroomItem(7, new Item.Properties()));
         MINI_MUSHROOM = registerItem("mini_mushroom",
-                () -> new BasePowerUpItem(8, EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new MiniMushroomItem(7, new Item.Properties()));
         DASH_MUSHROOM = registerItem("dash_mushroom",
                 () -> new DashMushroomItem(5, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
-                () -> new OneUpMushroomItem(5, EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(1)));
+                () -> new OneUpMushroomItem(5, new Item.Properties().stacksTo(1)));
         SUPER_STAR = registerItem("super_star",
-                () -> new BasePowerUpItem(6, EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new SuperStarItem(5, new Item.Properties()));
         FIRE_FLOWER = registerItem("fire_flower",
-                () -> new BasePowerUpItem(5, EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new FireFlowerItem(4, new Item.Properties()));
         ICE_FLOWER = registerItem("ice_flower",
-                () -> new BasePowerUpItem(5, EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new IceFlowerItem(4, new Item.Properties()));
+
+        DASH_MUSHROOM_SPAWN_EGG = registerItem("dash_mushroom_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.DASH_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        SUPER_MUSHROOM_SPAWN_EGG = registerItem("super_mushroom_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.SUPER_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        MEGA_MUSHROOM_SPAWN_EGG = registerItem("mega_mushroom_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.MEGA_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        MINI_MUSHROOM_SPAWN_EGG = registerItem("mini_mushroom_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.MINI_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        ONE_UP_MUSHROOM_SPAWN_EGG = registerItem("one_up_mushroom_spawn_egg",
+                () -> new OneUpMushroomSpawnEggItem(EntityRegistry.ONE_UP_MUSHROOM, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        SUPER_STAR_SPAWN_EGG = registerItem("super_star_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.SUPER_STAR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        FIRE_FLOWER_SPAWN_EGG = registerItem("fire_flower_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.FIRE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+        ICE_FLOWER_SPAWN_EGG = registerItem("ice_flower_spawn_egg",
+                () -> new PowerUpSpawnEggItem(EntityRegistry.ICE_FLOWER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
         LARGE_SNOWBALL = registerItem("large_snowball",
                 () -> new LargeSnowballItem(new Item.Properties().stacksTo(16)));
@@ -271,173 +280,80 @@ public class ItemRegistry {
         PIRANHA_PLANT_POD = registerItem("piranha_plant_pod",
                 () -> new PiranhaPlantPodItem(6, EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
-        MARIO_COSTUME_SMITHING_TEMPLATE = registerItem("mario_costume_smithing_template",
-                CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
-        LUIGI_COSTUME_SMITHING_TEMPLATE = registerItem("luigi_costume_smithing_template",
-                CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
-        PEACH_COSTUME_SMITHING_TEMPLATE = registerItem("peach_costume_smithing_template",
-                CharacterSmithingTemplateItem::createCharacterUpgradeTemplate);
-        FIRE_COSTUME_SMITHING_TEMPLATE = registerItem("fire_costume_smithing_template",
-                CharacterSmithingTemplateItem::createFireUpgradeTemplate);
-        ICE_COSTUME_SMITHING_TEMPLATE = registerItem("ice_costume_smithing_template",
-                CharacterSmithingTemplateItem::createIceUpgradeTemplate);
+        MARIO_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("mario_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.MARIO));
+        LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("luigi_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.LUIGI));
+        PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("princess_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.PRINCESS));
+        WARIO_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("wario_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.WARIO));
+        WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("waluigi_armor_trim_smithing_template",
+                () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.WALUIGI));
 
         CHRISTMAS_HAT = registerItem("christmas_hat",
-                () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(8))));
+                () -> new ChristmasHatItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
+                        3, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(8))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFED0011, true))));
         GOLDEN_KOOPA_SHOES = registerItem("golden_koopa_shoes",
-                () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new KoopaShoesItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.BOOTS,
+                        2, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(12))));
         GREEN_KOOPA_SHOES = registerItem("green_koopa_shoes",
-                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        2, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
         RED_KOOPA_SHOES = registerItem("red_koopa_shoes",
-                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        2, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
         WHITE_KOOPA_SHOES = registerItem("white_koopa_shoes",
-                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)
+                () -> new KoopaShoesItem(Ingredient.of(Items.TURTLE_SCUTE), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        2, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.BOOTS.getDurability(10))));
 
-        MARIO_HAT = registerItem("mario_hat",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
-        MARIO_SHIRT = registerItem("mario_shirt",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        MARIO_PANTS = registerItem("mario_pants",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        MARIO_SHOES = registerItem("mario_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+        HAT = registerItem("hat",
+                () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
+                        "male_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xF6343A, true))));
+        SHIRT = registerItem("shirt",
+                () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
+                        "male_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xF6343A, true))));
+        PANTS = registerItem("pants",
+                () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
+                        "male_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xF6343A, true))));
+        SHOES = registerItem("shoes",
+                () -> new MaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        "male_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xA94535, true))));
 
-        LUIGI_HAT = registerItem("luigi_hat",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
-        LUIGI_SHIRT = registerItem("luigi_shirt",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        LUIGI_PANTS = registerItem("luigi_pants",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        LUIGI_SHOES = registerItem("luigi_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-
-        PEACH_CROWN = registerItem("peach_crown",
-                () -> new CostumeItem(Ingredient.of(Tags.Items.INGOTS_GOLD), ArmorMaterials.GOLD, ArmorItem.Type.HELMET,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(12))));
-        PEACH_BODICE = registerItem("peach_bodice",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        PEACH_DRESS = registerItem("peach_dress",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        PEACH_SHOES = registerItem("peach_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-
-        MARIO_FIRE_HAT = registerItem("mario_fire_hat",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
-        MARIO_FIRE_SHIRT = registerItem("mario_fire_shirt",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        MARIO_FIRE_PANTS = registerItem("mario_fire_pants",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        MARIO_FIRE_SHOES = registerItem("mario_fire_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-        LUIGI_FIRE_HAT = registerItem("luigi_fire_hat",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
-        LUIGI_FIRE_SHIRT = registerItem("luigi_fire_shirt",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        LUIGI_FIRE_PANTS = registerItem("luigi_fire_pants",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        LUIGI_FIRE_SHOES = registerItem("luigi_fire_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-        PEACH_FIRE_BODICE = registerItem("peach_fire_bodice",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        PEACH_FIRE_DRESS = registerItem("peach_fire_dress",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        PEACH_FIRE_SHOES = registerItem("peach_fire_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.FIRE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-
-        MARIO_ICE_HAT = registerItem("mario_ice_hat",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
-        MARIO_ICE_SHIRT = registerItem("mario_ice_shirt",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        MARIO_ICE_PANTS = registerItem("mario_ice_pants",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        MARIO_ICE_SHOES = registerItem("mario_ice_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "mario_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-        LUIGI_ICE_HAT = registerItem("luigi_ice_hat",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.HELMET.getDurability(10))));
-        LUIGI_ICE_SHIRT = registerItem("luigi_ice_shirt",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        LUIGI_ICE_PANTS = registerItem("luigi_ice_pants",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        LUIGI_ICE_SHOES = registerItem("luigi_ice_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "luigi_costume", 4, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
-        PEACH_ICE_BODICE = registerItem("peach_ice_bodice",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))));
-        PEACH_ICE_DRESS = registerItem("peach_ice_dress",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))));
-        PEACH_ICE_SHOES = registerItem("peach_ice_shoes",
-                () -> new CostumeItem(Ingredient.of(ItemRegistry.ICE_FLOWER), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
-                        "peach_costume", 5, new Item.Properties().stacksTo(1)
-                        .durability(ArmorItem.Type.BOOTS.getDurability(10))));
+        CROWN = registerItem("crown",
+                () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.GOLD, ArmorItem.Type.HELMET,
+                        "female_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.HELMET.getDurability(12))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFF647D, true))));
+        BODICE = registerItem("bodice",
+                () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.CHESTPLATE,
+                        "female_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.CHESTPLATE.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFC1D7, true))));
+        DRESS = registerItem("dress",
+                () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.LEGGINGS,
+                        "female_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.LEGGINGS.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFC1D7, true))));
+        HEELS = registerItem("heels",
+                () -> new FemaleCostumeItem(Ingredient.of(ItemTags.WOOL), ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS,
+                        "female_costume", 4, new Item.Properties().stacksTo(1)
+                        .durability(ArmorItem.Type.BOOTS.getDurability(10))
+                        .component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFC1D7, true))));
 
         BOWSER_BANNER_PATTERN = registerItem("bowser_banner_pattern",
                 () -> new BannerPatternItem(TagRegistry.BOWSER_BANNER_PATTERN, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
@@ -494,4 +410,94 @@ public class ItemRegistry {
     }
 
     public static void init() {}
+
+    public static void registerAliases() {
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_costume_smithing_template"), MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_costume_smithing_template"), LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_costume_smithing_template"), PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "fire_costume_smithing_template"), MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "ice_costume_smithing_template"), LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_hat"), HAT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_shirt"), SHIRT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_pants"), PANTS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_shoes"), SHOES.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_fire_hat"), HAT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_fire_shirt"), SHIRT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_fire_pants"), PANTS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_fire_shoes"), SHOES.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_ice_hat"), HAT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_ice_shirt"), SHIRT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_ice_pants"), PANTS.getId());
+        Marioverse.ENTITIES.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "mario_ice_shoes"), SHOES.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_hat"), HAT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_shirt"), SHIRT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_pants"), PANTS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_shoes"), SHOES.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_fire_hat"), HAT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_fire_shirt"), SHIRT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_fire_pants"), PANTS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_fire_shoes"), SHOES.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_ice_hat"), HAT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_ice_shirt"), SHIRT.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_ice_pants"), PANTS.getId());
+        Marioverse.ENTITIES.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "luigi_ice_shoes"), SHOES.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_crown"), CROWN.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_bodice"), BODICE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_dress"), DRESS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_shoes"), HEELS.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_fire_bodice"), BODICE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_fire_dress"), DRESS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_fire_shoes"), HEELS.getId());
+
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_ice_bodice"), BODICE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_ice_dress"), DRESS.getId());
+        Marioverse.ENTITIES.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "peach_ice_shoes"), HEELS.getId());
+    }
 }

@@ -5,7 +5,7 @@
 			"loop": true,
 			"animation_length": 2
 		},
-		"animation.super_star.idle": {
+		"move.walk": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
@@ -24,6 +24,34 @@
 							"vector": [1, 0.9, 1]
 						},
 						"2.0": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
+		},
+		"misc.spawn": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 1,
+			"bones": {
+				"main": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.3333": {
+							"vector": [0, -360, 0]
+						},
+						"1.0": {
+							"vector": [0, -720, 0],
+							"easing": "linear"
+						}
+					},
+					"scale": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
 							"vector": [1, 1, 1]
 						}
 					}

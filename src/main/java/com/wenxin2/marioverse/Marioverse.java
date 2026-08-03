@@ -7,8 +7,8 @@ import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.integration.SableCompat;
 import com.wenxin2.marioverse.integration.StoneZoneCompat;
 import com.wenxin2.marioverse.integration.WoodGoodCompat;
-import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.loot.AddItemsModifier;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -20,19 +20,23 @@ import com.wenxin2.marioverse.registries.GameEventRegistry;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.RecipeSerializerRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TreeRegistry;
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -50,6 +54,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.slf4j.Logger;
 
 @Mod(Marioverse.MOD_ID)
@@ -73,9 +78,17 @@ public class Marioverse {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Marioverse.MOD_ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(Registries.PARTICLE_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, Marioverse.MOD_ID);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, Marioverse.MOD_ID);
 
+    public static final ResourceKey<Registry<PowerUpType>> POWER_UP_REGISTRY_KEY =
+            ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"));
+
+    public static final Registry<PowerUpType> POWER_UP_REGISTRY = new RegistryBuilder<>(POWER_UP_REGISTRY_KEY).sync(true).create();
+    public static final DeferredRegister<PowerUpType> POWER_UP_TYPES = DeferredRegister.create(POWER_UP_REGISTRY_KEY, Marioverse.MOD_ID);
+
     public Marioverse(IEventBus bus, Dist dist, ModContainer container) {
+        ItemRegistry.registerAliases();
         ATTACHMENT_TYPES.register(bus);
         COMPONENTS.register(bus);
         GAME_EVENTS.register(bus);
@@ -90,8 +103,10 @@ public class Marioverse {
         PARTICLES.register(bus);
         MENUS.register(bus);
         RECIPE_SERIALIZERS.register(bus);
+        RECIPE_TYPES.register(bus);
         SOUNDS.register(bus);
         GLOBAL_LOOT_MODIFIERS.register(bus);
+        POWER_UP_TYPES.register(bus);
         MarioverseCreativeTabs.TABS.register(bus);
 
         AttributesRegistry.init();
@@ -127,6 +142,7 @@ public class Marioverse {
         bus.addListener(this::commonSetup);
         bus.addListener(RegistryEventHandlers::gatherData);
         bus.addListener(RegistryEventHandlers::addPackFinder);
+        bus.addListener(PowerUpTypeRegistry::registerRegistry);
 //        bus.addListener(TreesDataGen::gatherData);
     }
 

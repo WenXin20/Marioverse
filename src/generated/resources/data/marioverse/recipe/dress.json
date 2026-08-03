@@ -1,0 +1,16 @@
+{
+  "type": "marioverse:hex_color_shaped",
+  "category": "equipment",
+  "group": "marioverse:pants",
+  "key": {
+    "C": {
+      "color_tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "CCC",
+    "C C"
+  ],
+  "result": "marioverse:dress"
+}

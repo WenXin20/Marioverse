@@ -28,6 +28,7 @@ import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
 import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import io.wispforest.accessories.api.AccessoriesAPI;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -43,6 +44,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
@@ -64,6 +66,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
@@ -292,9 +295,22 @@ public class RegistryEventHandlers {
         }
     }
 
+    /** (ItemCost cost, ItemCost secondCost, ItemStack result, int maxUses, int xp, float priceMultiplier) **/
+
     @SubscribeEvent
     public static void addCustomTrades(VillagerTradesEvent event) {
         Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+
+        if (event.getType() == VillagerProfession.ARMORER) {
+            ItemStack crownStack = new ItemStack(ItemRegistry.CROWN.get());
+            int[] colorCrown = { 0xFFFF647D, 0xFFA4FDF0, 0xFFFF647E };
+
+            trades.get(3).add((entity, random) -> {
+                crownStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorCrown[random.nextInt(colorCrown.length)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), crownStack,
+                        5, 25, 0.2F);
+            });
+        }
 
         if (event.getType() == VillagerProfession.CARTOGRAPHER) {
             for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.GOAL_POLES.entrySet()) {
@@ -342,6 +358,62 @@ public class RegistryEventHandlers {
                     new ItemCost(Items.EMERALD, 25),
                     new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get(), 1),
                     1, 30, 0.1F));
+        }
+
+        if (event.getType() == VillagerProfession.SHEPHERD) {
+            int[] colors = { 0xFFF6343A, 0xFF43B237, 0xFFFFCD00, 0xFF8800FD };
+            int[] colorShoes = { 0xFFA94535, 0xFF9C6042, 0xFFA94536, 0xFFA94537 };
+            ItemStack hatStack = new ItemStack(ItemRegistry.HAT.get());
+            ItemStack shirtStack = new ItemStack(ItemRegistry.SHIRT.get());
+            ItemStack pantsStack = new ItemStack(ItemRegistry.PANTS.get());
+            ItemStack shoesStack = new ItemStack(ItemRegistry.SHOES.get());
+
+            int[] colorDress = { 0xFFFFC1D7, 0xFFFF992B, 0xFF89F4EB };
+            ItemStack bodiceStack = new ItemStack(ItemRegistry.BODICE.get());
+            ItemStack dressStack = new ItemStack(ItemRegistry.DRESS.get());
+            ItemStack heelsStack = new ItemStack(ItemRegistry.HEELS.get());
+
+            trades.get(3).add((entity, random) -> {
+                hatStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), hatStack,
+                        5, 25, 0.2F);
+            });
+
+            trades.get(3).add((entity, random) -> {
+                shirtStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), shirtStack,
+                        5, 25, 0.2F);
+            });
+
+            trades.get(3).add((entity, random) -> {
+                pantsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), pantsStack,
+                        5, 25, 0.2F);
+            });
+
+            trades.get(3).add((entity, random) -> {
+                shoesStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[random.nextInt(colorShoes.length)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), shoesStack,
+                        5, 4, 0.2F);
+            });
+
+            trades.get(3).add((entity, random) -> {
+                bodiceStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[random.nextInt(colorDress.length)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), bodiceStack,
+                        5, 25, 0.2F);
+            });
+
+            trades.get(3).add((entity, random) -> {
+                dressStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[random.nextInt(colorDress.length)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), dressStack,
+                        5, 25, 0.2F);
+            });
+
+            trades.get(3).add((entity, random) -> {
+                heelsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[random.nextInt(colorShoes.length)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), heelsStack,
+                        5, 4, 0.2F);
+            });
         }
 
         if (event.getType() == VillagerProfession.WEAPONSMITH) {

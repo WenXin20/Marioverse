@@ -1,3 +1,51 @@
+## Update 1.11.0
+- Added power up spawn eggs 
+  - Used for spawning the power up entity from ? Blocks
+  - Includes a dash mushroom spawn egg
+- Added the Dash Mushroom mob
+  - Boosts mobs on contact
+- Changed regular power up items to apply the power ups on right-click
+  - Used for chest loot
+- Added a power up type registry
+- Replaced the Mario & Luigi costumes with a generic "male costume"
+  - Dye & trim support
+  - Added to Shepherd trades
+  - Entirely cosmetic
+- Replaced the Peach costumes with a generic "female costume"
+  - Dye & trim support
+  - Added to Armorer & Shepherd trades
+  - Entirely cosmetic
+- Christmas Hat now has dye & trim support
+- Koopa Shoes now have trim support
+- Plastic Buckets now have trim support
+- Added Mario, Luigi, Wario, Waluigi, & Princess themed trims
+- Added Ability Blocks
+  - Ability blocks included for Mario, Luigi, Wario, Waluigi, Peach, Daisy, Rosalina, & Steve
+  - All blocks except Steve increases Jump Height, Running Jump Height, & Safe Fall Distance
+  - Peach & Rosalina blocks include slow fall
+  - Daisy & Wario blocks include a Double Jump
+  - Wario & Waluigi changes your height & width
+  - Steve blocks resets your abilities to the default
+  - Jump into the blocks to obtain abilities
+  - Can be hit with a projectile to activate
+  - Fully configurable
+- Improved Mini Goombas
+  - The more goombas attached to the player, the slower you move
+- Added tooltips to warp pipes
+- Added advancements
+- Added a config option to give fire & ice flower power ups a duration. (Disabled by default)
+- Added an optional `durationTicks` field to the power up command for fire & ice power ups
+- Added new spawn animations to power ups
+- Added flame particles to the Fire Flower
+- Added ice particles to the Ice Flower
+- Improved particles when powering up using fire or ice flowers
+- Remodeled the fire & ice flower power ups
+- Improved models of mushroom power ups
+- Increased particles on golden koopa shells
+- Fixed waist & dress rendering on koopas & goombas in the wrong position
+
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
+
 ## Update 1.10.1
 - Fixed a crash when the Warp Disruptor used on a player, and then the player stepped on a pipe
 
@@ -111,8 +159,6 @@
 - Fixed incorrect textures for black & gray pipe junctions
 - Fixed shearing pokeys not dropping items
 - Removed forgotten debug log
-
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.9
 - Added Block Spawner

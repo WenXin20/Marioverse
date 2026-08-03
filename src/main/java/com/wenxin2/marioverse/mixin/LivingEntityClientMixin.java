@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.items.OneUpMushroomItem;
+import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -37,7 +37,7 @@ public abstract class LivingEntityClientMixin extends Entity {
     private static ItemStack mv$find1Up(Player player) {
         for (InteractionHand interactionhand : InteractionHand.values()) {
             ItemStack stack = player.getItemInHand(interactionhand);
-            if (stack.getItem() instanceof OneUpMushroomItem)
+            if (stack.getItem() instanceof OneUpMushroomSpawnEggItem)
                 return stack;
         }
 

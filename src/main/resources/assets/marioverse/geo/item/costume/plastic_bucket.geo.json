@@ -1,11 +1,11 @@
 {
-	"format_version": "1.12.0",
+	"format_version": "1.21.0",
 	"minecraft:geometry": [
 		{
 			"description": {
 				"identifier": "geometry.plastic_bucket",
 				"texture_width": 64,
-				"texture_height": 64,
+				"texture_height": 32,
 				"visible_bounds_width": 3,
 				"visible_bounds_height": 4.5,
 				"visible_bounds_offset": [0, 1.75, 0]
@@ -25,8 +25,33 @@
 					"parent": "armorHead",
 					"pivot": [3, 31.5, 0],
 					"cubes": [
-						{"origin": [0, 32, -3], "size": [6, 1, 6], "inflate": 0.2, "pivot": [3, 31.5, 0], "rotation": [0, 0, 22.5], "uv": [25, 5]},
-						{"origin": [0, 32, -3], "size": [6, 6, 6], "pivot": [3, 31.5, 0], "rotation": [0, 0, 22.5], "uv": [0, 0]}
+						{
+							"origin": [0, 32, -3],
+							"size": [6, 6, 6],
+							"inflate": 0.2,
+							"pivot": [3, 31.5, 0],
+							"rotation": [0, 0, 22.5],
+							"uv": {
+								"north": {"uv": [41, 8], "uv_size": [6, 6]},
+								"east": {"uv": [33, 8], "uv_size": [6, 6]},
+								"south": {"uv": [57, 8], "uv_size": [6, 6]},
+								"west": {"uv": [49, 8], "uv_size": [6, 6]},
+								"up": {"uv": [41, 1], "uv_size": [6, 6]}
+							}
+						},
+						{
+							"origin": [0, 32, -3],
+							"size": [6, 6, 6],
+							"pivot": [3, 31.5, 0],
+							"rotation": [0, 0, 22.5],
+							"uv": {
+								"north": {"uv": [9, 8], "uv_size": [6, 6]},
+								"east": {"uv": [1, 8], "uv_size": [6, 6]},
+								"south": {"uv": [25, 8], "uv_size": [6, 6]},
+								"west": {"uv": [17, 8], "uv_size": [6, 6]},
+								"up": {"uv": [9, 1], "uv_size": [6, 6]}
+							}
+						}
 					]
 				},
 				{
@@ -40,9 +65,9 @@
 							"pivot": [3.5, 33, -3.3],
 							"rotation": [0, 0, -22.5],
 							"uv": {
-								"north": {"uv": [0, 13], "uv_size": [1, 5]},
-								"south": {"uv": [2, 13], "uv_size": [1, 5]},
-								"down": {"uv": [10.6, 13], "uv_size": [-6.6, 1], "uv_rotation": 90}
+								"north": {"uv": [26, 0], "uv_size": [1, 5]},
+								"south": {"uv": [28, 0], "uv_size": [1, 5]},
+								"down": {"uv": [37, 0], "uv_size": [-7, 1], "uv_rotation": 90}
 							}
 						}
 					]

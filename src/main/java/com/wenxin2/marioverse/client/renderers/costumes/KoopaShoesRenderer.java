@@ -1,19 +1,22 @@
 package com.wenxin2.marioverse.client.renderers.costumes;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.client.renderers.costumes.layers.CostumeTrimLayer;
 import com.wenxin2.marioverse.items.KoopaShoesItem;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import software.bernie.geckolib.model.DefaultedItemGeoModel;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
-public class KoopaShoesRenderer extends GeoArmorRenderer<KoopaShoesItem> {
+public class KoopaShoesRenderer extends GeoArmorRenderer<KoopaShoesItem> implements CostumeRendererAccess {
     private static final DefaultedItemGeoModel<KoopaShoesItem> KOOPA_SHOES =
             new DefaultedItemGeoModel<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "costume/koopa_shoes"));
 
     public KoopaShoesRenderer() {
         super(KOOPA_SHOES);
+        this.addRenderLayer(new CostumeTrimLayer<>(this));
     }
 
     @Override
@@ -26,5 +29,15 @@ public class KoopaShoesRenderer extends GeoArmorRenderer<KoopaShoesItem> {
         else if (stack.is(ItemRegistry.WHITE_KOOPA_SHOES))
             return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/white_koopa_shoes.png");
         else return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/item/costume/green_koopa_shoes.png");
+    }
+
+    @Override
+    public ItemStack getCurrentStack() {
+        return this.currentStack;
+    }
+
+    @Override
+    public EquipmentSlot getCurrentSlot() {
+        return this.currentSlot;
     }
 }

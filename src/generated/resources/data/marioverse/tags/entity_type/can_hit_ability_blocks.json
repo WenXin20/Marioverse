@@ -1,0 +1,20 @@
+{
+  "values": [
+    "#minecraft:impact_projectiles",
+    "minecraft:player",
+    "minecraft:villager",
+    "minecraft:wandering_trader",
+    {
+      "id": "guardvillagers:guard",
+      "required": false
+    },
+    {
+      "id": "mca:female_villager",
+      "required": false
+    },
+    {
+      "id": "mca:male_villager",
+      "required": false
+    }
+  ]
+}

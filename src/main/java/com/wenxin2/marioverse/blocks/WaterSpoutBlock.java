@@ -45,7 +45,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class WaterSpoutBlock extends Block implements BucketPickup {
     public static final BooleanProperty TOP = BlockStatePropertyRegistry.TOP;
-
     public static final VoxelShape SPOUT = Block.box(5, 0, 5, 11, 16, 11).optimize();
     public static final VoxelShape SPOUT_TOP = Block.box(5, 0, 5, 11, 12, 11).optimize();
 
@@ -123,11 +122,9 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
                 && (!stateBelow.getValue(WarpPipeBlock.CLOSED) && stateBelow.getValue(WarpPipeBlock.WATER_SPOUT))
                 && !(stateBelow.getBlock() instanceof ClearWarpPipeBlock))
             return true;
-        else if (stateBelow.getBlock() instanceof ClearWarpPipeBlock && stateBelow.getValue(WarpPipeBlock.FACING) == Direction.UP
-                && (!stateBelow.getValue(WarpPipeBlock.CLOSED) && stateBelow.getValue(WarpPipeBlock.WATER_SPOUT))
-                && stateBelow.getValue(ClearWarpPipeBlock.WATERLOGGED))
-            return true;
-        else return false;
+        else return stateBelow.getBlock() instanceof ClearWarpPipeBlock && stateBelow.getValue(WarpPipeBlock.FACING) == Direction.UP
+                    && (!stateBelow.getValue(WarpPipeBlock.CLOSED) && stateBelow.getValue(WarpPipeBlock.WATER_SPOUT))
+                    && stateBelow.getValue(ClearWarpPipeBlock.WATERLOGGED);
     }
 
     public static boolean canExistIn(LevelAccessor worldAccessor, BlockPos pos) {

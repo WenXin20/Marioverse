@@ -1,0 +1,25 @@
+{
+  "type": "marioverse:hex_color_shaped",
+  "category": "equipment",
+  "group": "marioverse:ability_blocks",
+  "key": {
+    "A": {
+      "tag": "c:slime_balls"
+    },
+    "D": {
+      "tag": "c:gems/diamond"
+    },
+    "T": {
+      "item": "marioverse:mario_armor_trim_smithing_template"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    "ADA",
+    "DTD",
+    "WDW"
+  ],
+  "result": "marioverse:mario_ability_block"
+}

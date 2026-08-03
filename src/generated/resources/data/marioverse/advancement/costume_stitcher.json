@@ -1,0 +1,36 @@
+{
+  "parent": "marioverse:root",
+  "criteria": {
+    "costume_stitcher": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:costumes"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.marioverse.costume_stitcher.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "marioverse:hat"
+    },
+    "title": {
+      "translate": "advancements.marioverse.costume_stitcher.title"
+    }
+  },
+  "requirements": [
+    [
+      "costume_stitcher"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

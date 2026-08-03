@@ -13,6 +13,6 @@ public class MegaMushroomModel extends DefaultedEntityGeoModel<MegaMushroomEntit
 
     @Override
     public RenderType getRenderType(MegaMushroomEntity animatable, ResourceLocation texture) {
-        return RenderType.entitySolid(getTextureResource(animatable));
+        return RenderType.entityCutout(this.getTextureResource(animatable));
     }
 }

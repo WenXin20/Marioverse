@@ -1,0 +1,36 @@
+{
+  "parent": "marioverse:costume_stitcher",
+  "criteria": {
+    "trimmed_out": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:character_trims"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.marioverse.trimmed_out.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "marioverse:mario_armor_trim_smithing_template"
+    },
+    "title": {
+      "translate": "advancements.marioverse.trimmed_out.title"
+    }
+  },
+  "requirements": [
+    [
+      "trimmed_out"
+    ]
+  ],
+  "rewards": {
+    "experience": 120
+  },
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,37 @@
+{
+  "parent": "marioverse:trimmed_out",
+  "criteria": {
+    "ability_unlocked": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:ability_blocks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.marioverse.ability_unlocked.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "marioverse:mario_ability_block"
+    },
+    "title": {
+      "translate": "advancements.marioverse.ability_unlocked.title"
+    }
+  },
+  "requirements": [
+    [
+      "ability_unlocked"
+    ]
+  ],
+  "rewards": {
+    "experience": 120
+  },
+  "sends_telemetry_event": true
+}

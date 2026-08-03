@@ -1,8 +1,7 @@
 {
   "values": [
     "#marioverse:koopa_shoes",
-    "#marioverse:shoes/luigi",
-    "#marioverse:shoes/mario",
-    "#marioverse:shoes/peach"
+    "marioverse:heels",
+    "marioverse:shoes"
   ]
 }

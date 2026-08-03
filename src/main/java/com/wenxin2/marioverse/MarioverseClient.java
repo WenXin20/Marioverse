@@ -42,6 +42,7 @@ import com.wenxin2.marioverse.client.renderers.entities.SpinyCheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SplunkinRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
+import com.wenxin2.marioverse.client.renderers.entities.power_ups.DashMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.IceFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.MegaMushroomRenderer;
@@ -80,6 +81,7 @@ import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -108,49 +110,22 @@ public class MarioverseClient {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.WHITE_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_HAT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_HAT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_FIRE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_HAT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.MARIO_ICE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HAT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHOES.get(), ArmorRenderingExtension::costumeRenderer);
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_HAT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_HAT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_FIRE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_HAT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_PANTS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.LUIGI_ICE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_CROWN.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_FIRE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_BODICE.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_DRESS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PEACH_ICE_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CROWN.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.BODICE.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.DRESS.get(), ArmorRenderingExtension::costumeRenderer);
+        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HEELS.get(), ArmorRenderingExtension::costumeRenderer);
     }
 
     @SubscribeEvent
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         event.register((state, world, pos, tintIndex) -> {
             return world != null && pos != null
-                    ? BiomeColors.getAverageWaterColor(world, pos) | 0xFF0000cc : 0xFFFFFFFF;
+                    ? BiomeColors.getAverageWaterColor(world, pos) | 0x0000cc : 0xFFFFFFFF;
         }, BlockRegistry.WATER_SPOUT.get());
     }
 
@@ -158,9 +133,60 @@ public class MarioverseClient {
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> {
                     if (tintIndex == 1)
-                        return 0xFF3F76E4;
+                        return 0x3F76E4;
                     return -1;
                 }, ItemRegistry.PLASTIC_WATER_BUCKET.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xED0011);
+                    return -1;
+                },
+                ItemRegistry.CHRISTMAS_HAT.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xF6343A);
+                    return -1;
+                },
+                ItemRegistry.HAT.get(),
+                ItemRegistry.SHIRT.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0x325EFF);
+                    return -1;
+                },
+                ItemRegistry.PANTS.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xA94535);
+                    return -1;
+                },
+                ItemRegistry.SHOES.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xFF647D);
+                    return -1;
+                },
+                ItemRegistry.CROWN.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 0)
+                        return DyedItemColor.getOrDefault(stack, 0xFFC1D7);
+                    return -1;
+                },
+                ItemRegistry.BODICE.get(),
+                ItemRegistry.DRESS.get(),
+                ItemRegistry.HEELS.get()
         );
     }
 
@@ -189,6 +215,7 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.LARGE_SNOWBALL.get(), LargeSnowballRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_CUBE.get(), IceCubeRenderer::new);
 
+        event.registerEntityRenderer(EntityRegistry.DASH_MUSHROOM.get(), DashMushroomRenderer::new);
         event.registerEntityRenderer(EntityRegistry.FIRE_FLOWER.get(), FireFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.ICE_FLOWER.get(), IceFlowerRenderer::new);
         event.registerEntityRenderer(EntityRegistry.MEGA_MUSHROOM.get(), MegaMushroomRenderer::new);

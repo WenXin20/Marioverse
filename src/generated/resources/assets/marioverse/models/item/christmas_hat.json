@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "marioverse:item/christmas_hat"
+    "layer0": "marioverse:item/christmas_hat",
+    "layer1": "marioverse:item/christmas_hat_overlay"
   }
 }

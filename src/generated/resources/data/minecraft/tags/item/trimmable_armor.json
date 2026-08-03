@@ -1,3 +1,22 @@
 {
-  "values": []
+  "values": [
+    "marioverse:bodice",
+    "marioverse:christmas_hat",
+    "marioverse:crown",
+    "marioverse:dress",
+    "marioverse:golden_koopa_shoes",
+    "marioverse:green_koopa_shoes",
+    "marioverse:hat",
+    "marioverse:heels",
+    "marioverse:pants",
+    "marioverse:plastic_bucket",
+    "marioverse:plastic_powder_snow_bucket",
+    "marioverse:plastic_quicksand_bucket",
+    "marioverse:plastic_red_quicksand_bucket",
+    "marioverse:plastic_water_bucket",
+    "marioverse:red_koopa_shoes",
+    "marioverse:shirt",
+    "marioverse:shoes",
+    "marioverse:white_koopa_shoes"
+  ]
 }

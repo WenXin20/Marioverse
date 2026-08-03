@@ -6,28 +6,28 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:mario_costume_smithing_template",
+          "name": "marioverse:mario_armor_trim_smithing_template",
           "weight": 10
         },
         {
           "type": "minecraft:item",
-          "name": "marioverse:luigi_costume_smithing_template",
+          "name": "marioverse:luigi_armor_trim_smithing_template",
           "weight": 8
         },
         {
           "type": "minecraft:item",
-          "name": "marioverse:peach_costume_smithing_template",
+          "name": "marioverse:wario_armor_trim_smithing_template",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:waluigi_armor_trim_smithing_template",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:princess_armor_trim_smithing_template",
           "weight": 4
-        },
-        {
-          "type": "minecraft:item",
-          "name": "marioverse:fire_costume_smithing_template",
-          "weight": 6
-        },
-        {
-          "type": "minecraft:item",
-          "name": "marioverse:ice_costume_smithing_template",
-          "weight": 6
         }
       ],
       "rolls": 1

@@ -1,6 +1,8 @@
 package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
+import com.wenxin2.marioverse.items.KoopaShoesItem;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -212,8 +214,13 @@ public class SnowPokeyEntity extends PokeyEntity implements GeoEntity, NeutralMo
         super.populateDefaultEquipmentSlots(random, difficulty);
 
         if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
-            if (random.nextFloat() < 0.60F)
-                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ItemRegistry.PLASTIC_BUCKET.get()));
+            if (random.nextFloat() < 0.60F) {
+                ItemStack stack = new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
+
+                if (random.nextFloat() < 0.2F && this.level() instanceof ServerLevelAccessor levelAccessor)
+                    PlasticBucketItem.applyRandomTrim(levelAccessor, random, stack);
+                this.setItemSlot(EquipmentSlot.HEAD, stack);
+            }
         }
     }
 

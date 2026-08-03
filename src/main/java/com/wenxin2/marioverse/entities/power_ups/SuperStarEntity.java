@@ -3,11 +3,15 @@ package com.wenxin2.marioverse.entities.power_ups;
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.goals.ContinuousJumpGoal;
 import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
+import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -25,15 +29,21 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
-    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.super_star.idle");
+public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, PowerUpSource {
+    protected static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public SuperStarEntity(EntityType<? extends SuperStarEntity> entityType, Level world) {
         super(entityType, world);
         this.moveControl = new BounceMoveControl(this, 1, this.getJumpSound(), 1.0F, 1.0F);
+    }
+
+    @Override
+    public Holder<PowerUpType> getPowerUpType() {
+        return PowerUpTypeRegistry.SUPER_STAR;
     }
 
     @Override
@@ -45,6 +55,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimation));
+        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, this.getSpawnDuration()));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
@@ -104,6 +115,11 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity {
             for (Entity passenger : entity.getPassengers())
                 this.applyToRiders(world, passenger);
         }
+    }
+
+    @Override
+    protected int getSpawnDuration() {
+        return 20;
     }
 
     private void applyToRiders(Level world, Entity firstEntity) {

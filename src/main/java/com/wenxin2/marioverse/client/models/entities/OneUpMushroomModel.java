@@ -13,6 +13,6 @@ public class OneUpMushroomModel extends DefaultedEntityGeoModel<OneUpMushroomEnt
 
     @Override
     public RenderType getRenderType(OneUpMushroomEntity animatable, ResourceLocation texture) {
-        return RenderType.entitySolid(getTextureResource(animatable));
+        return RenderType.entityCutout(this.getTextureResource(animatable));
     }
 }

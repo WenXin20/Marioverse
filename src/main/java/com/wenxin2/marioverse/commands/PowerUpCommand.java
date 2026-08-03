@@ -25,6 +25,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.vehicle.VehicleEntity;
+import net.minecraft.world.level.Level;
 
 public class PowerUpCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -45,15 +46,31 @@ public class PowerUpCommand {
                         .then(Commands.literal("fire_flower")
                                 .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "fire_flower"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
+                                        .then(Commands.argument("durationTicks", IntegerArgumentType.integer(-1))
+                                                .executes(ctx -> applyPowerUp(ctx.getSource(),
+                                                        EntityArgument.getEntities(ctx, "targets"),
+                                                        "fire_flower",
+                                                        BoolArgumentType.getBool(ctx, "enablePowerUp"),
+                                                        IntegerArgumentType.getInteger(ctx, "durationTicks")
+                                                ))
+                                        )
                                         .executes(ctx -> applyPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"),
-                                                "fire_flower", BoolArgumentType.getBool(ctx, "enablePowerUp")))
+                                                "fire_flower", BoolArgumentType.getBool(ctx, "enablePowerUp"), -1))
                                 )
                         )
                         .then(Commands.literal("ice_flower")
                                 .executes(ctx -> hasPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"), "ice_flower"))
                                 .then(Commands.argument("enablePowerUp", BoolArgumentType.bool())
+                                        .then(Commands.argument("durationTicks", IntegerArgumentType.integer(-1))
+                                                .executes(ctx -> applyPowerUp(ctx.getSource(),
+                                                        EntityArgument.getEntities(ctx, "targets"),
+                                                        "ice_flower",
+                                                        BoolArgumentType.getBool(ctx, "enablePowerUp"),
+                                                        IntegerArgumentType.getInteger(ctx, "durationTicks")
+                                                ))
+                                        )
                                         .executes(ctx -> applyPowerUp(ctx.getSource(), EntityArgument.getEntities(ctx, "targets"),
-                                                "ice_flower", BoolArgumentType.getBool(ctx, "enablePowerUp")))
+                                                "ice_flower", BoolArgumentType.getBool(ctx, "enablePowerUp"), -1))
                                 )
                         )
                         .then(Commands.literal("super_mushroom")
@@ -140,14 +157,20 @@ public class PowerUpCommand {
         );
     }
 
-    private static void applyPowerUpType(Entity entity, String powerUpName, boolean enablePowerUp) {
+    private static void applyPowerUpType(Entity entity, String powerUpName, boolean enablePowerUp, int durationTicks) {
         switch (powerUpName) {
-            case "fire_flower" -> entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, enablePowerUp);
-            case "ice_flower" -> entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, enablePowerUp);
+            case "fire_flower" -> {
+                entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, enablePowerUp);
+                entity.setData(DataAttachmentRegistry.FIRE_FLOWER_DURATION, durationTicks);
+            }
+            case "ice_flower" -> {
+                entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, enablePowerUp);
+                entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, durationTicks);
+            }
         }
     }
 
-    private static int applyPowerUp(CommandSourceStack source, Collection<? extends Entity> targets, String powerUpName, boolean enablePowerUp) {
+    private static int applyPowerUp(CommandSourceStack source, Collection<? extends Entity> targets, String powerUpName, boolean enablePowerUp, int durationTicks) {
         int count = 0;
         Component powerUpBoolean = Component.translatable(enablePowerUp
                 ? "commands.marioverse.boolean.true" : "commands.marioverse.boolean.false");
@@ -155,7 +178,7 @@ public class PowerUpCommand {
         for (Entity entity : targets) {
             if (entity instanceof LivingEntity) {
                 float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
-                applyPowerUpType(entity, powerUpName, enablePowerUp);
+                PowerUpCommand.applyPowerUpType(entity, powerUpName, enablePowerUp, durationTicks);
                 count++;
 
                 if (enablePowerUp)
@@ -192,13 +215,15 @@ public class PowerUpCommand {
         int count = 0;
 
         for (Entity entity : targets) {
-            if (entity instanceof LivingEntity livingEntity) {
-                float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
+            Level level = entity.level();
+
+            if (entity instanceof LivingEntity) {
+                float pitch = 0.9F + level.random.nextFloat() * 0.2F;
                 entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, true);
-                DashMushroomItem.mushroomAbilities(null, livingEntity.level(), livingEntity, boostStrength, false, true);
+                DashMushroomItem.mushroomAbilities(null, level, entity, boostStrength, false, true);
                 count++;
 
-                entity.level().playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
+                level.playSound(null, entity.blockPosition(), SoundRegistry.POWERS_UP.get(),
                         SoundSource.AMBIENT, 1.0F, pitch);
 
                 if (count == 1) {

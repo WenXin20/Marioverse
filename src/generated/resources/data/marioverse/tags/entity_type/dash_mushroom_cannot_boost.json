@@ -1,5 +1,14 @@
 {
   "values": [
-    "#marioverse:power_ups"
+    "#marioverse:power_ups",
+    "minecraft:armor_stand",
+    {
+      "id": "dummmmmmy:target_dummy",
+      "required": false
+    },
+    {
+      "id": "supplementaries:hat_stand",
+      "required": false
+    }
   ]
 }

@@ -1,9 +1,8 @@
 {
   "values": [
-    "#marioverse:hats/luigi",
-    "#marioverse:hats/mario",
-    "#marioverse:hats/peach",
     "marioverse:christmas_hat",
+    "marioverse:crown",
+    "marioverse:hat",
     "marioverse:plastic_bucket"
   ]
 }

@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.entities.ai.controls.BounceMoveControl;
 import com.wenxin2.marioverse.entities.ai.controls.JumpInPlaceMoveControl;
+import com.wenxin2.marioverse.entities.power_ups.BasePowerUpEntity;
 import java.util.EnumSet;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -16,6 +17,8 @@ public class ContinuousJumpGoal extends Goal {
 
     @Override
     public boolean canUse() {
+        if (this.mob instanceof BasePowerUpEntity powerUp && powerUp.isSpawning())
+            return false;
         return !this.mob.isPassenger();
     }
 

@@ -308,6 +308,18 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityType.PLAYER)
                 .add(EntityType.SNOW_GOLEM);
 
+        tag(TagRegistry.CAN_HIT_ABILITY_BLOCKS)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES)
+                .add(EntityType.PLAYER)
+                .add(EntityType.VILLAGER)
+                .add(EntityType.WANDERING_TRADER)
+                .addOptional(GUARD_VILLAGER)
+                .addOptional(FEMALE_VILLAGER)
+                .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.CAN_HIT_ABILITY_BLOCKS_FROM_SIDE)
+                .addTag(EntityTypeTags.IMPACT_PROJECTILES);
+
         tag(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
                 .addTag(EntityTypeTags.IMPACT_PROJECTILES)
                 .add(EntityType.PLAYER);
@@ -384,6 +396,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
         tag(TagRegistry.CAN_WEAR_COSTUMES)
                 .addTag(Tags.EntityTypes.BOSSES)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
                 .add(EntityRegistry.DRY_BONES.get())
@@ -560,8 +573,18 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.DAMAGE_CANNOT_SHRINK)
                 .addTag(TagRegistry.POWER_UP_ENTITIES);
 
+        tag(TagRegistry.DAMAGE_REMOVES_COSTUME)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get());
+
         tag(TagRegistry.DASH_MUSHROOM_CANNOT_BOOST)
-                .addTag(TagRegistry.POWER_UP_ENTITIES);
+                .addTag(TagRegistry.POWER_UP_ENTITIES)
+                .add(EntityType.ARMOR_STAND)
+                .addOptional(TEST_DUMMY)
+                .addOptional(HAT_STAND);
 
         tag(TagRegistry.DEATH_BLOCKS_IMMUNE);
 
@@ -612,6 +635,13 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addOptional(GUARD_VILLAGER)
                 .addOptional(FEMALE_VILLAGER)
                 .addOptional(MALE_VILLAGER);
+
+        tag(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get());
 
         tag(TagRegistry.FIRE_GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)
@@ -675,13 +705,6 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.IRON_SPIKE_IMMUNE)
                 .addTag(TagRegistry.POWER_UP_ENTITIES)
                 .add(EntityRegistry.BOO.get());
-
-        tag(TagRegistry.EQUIP_COSTUMES_IN_ARMOR_SLOTS)
-                .addTag(TagRegistry.CHEEP_CHEEPS)
-                .addTag(TagRegistry.GOOMBA_ENTITIES)
-                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
-                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
-                .add(EntityRegistry.DRY_BONES.get());
 
         tag(TagRegistry.GOOMBA_CAN_ATTACK)
                 .add(EntityType.IRON_GOLEM)
@@ -896,6 +919,13 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.SUPER_MUSHROOM.get())
                 .add(EntityRegistry.ONE_UP_MUSHROOM.get())
                 .add(EntityRegistry.SUPER_STAR.get());
+
+        tag(TagRegistry.POWER_UP_APPLIES_COSTUME)
+                .addTag(TagRegistry.CHEEP_CHEEPS)
+                .addTag(TagRegistry.GOOMBA_ENTITIES)
+                .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
+                .addTag(TagRegistry.KOOPA_TROOPA_ENTITIES)
+                .add(EntityRegistry.DRY_BONES.get());
 
         tag(TagRegistry.POWERS_UP_RIDER)
                 .addTag(Tags.EntityTypes.BOATS)

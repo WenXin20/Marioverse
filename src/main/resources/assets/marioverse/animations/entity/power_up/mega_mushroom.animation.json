@@ -1,11 +1,11 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.mega_mushroom.walk": {
+		"move.walk": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
-				"body": {
+				"head": {
 					"scale": {
 						"0.0": {
 							"vector": [1, 1, 1]
@@ -20,6 +20,76 @@
 							"vector": [1, 0.8, 1]
 						},
 						"2.0": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
+		},
+		"misc.spawn": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 1.5,
+			"bones": {
+				"head": {
+					"scale": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.3333": {
+							"vector": [0.15, 0.15, 0.15]
+						},
+						"1.0": {
+							"vector": [0.35, 1, 0.35]
+						},
+						"1.5": {
+							"vector": [1, 1, 1]
+						}
+					}
+				},
+				"cap_rotator": {
+					"rotation": {
+						"1.0": {
+							"vector": [10, 0, 0]
+						},
+						"1.0833": {
+							"vector": [-19.17, 0, 0]
+						},
+						"1.25": {
+							"vector": [0, 0, 0]
+						},
+						"1.3333": {
+							"vector": [0, 0, 7.5]
+						},
+						"1.4167": {
+							"vector": [0, 0, -7.5]
+						},
+						"1.5": {
+							"vector": [0, 0, 0]
+						}
+					},
+					"position": {
+						"1.0": {
+							"vector": [0, -7, 0]
+						},
+						"1.25": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"face": {
+					"rotation": {
+						"1.0833": {
+							"vector": [-22.5, 0, 0]
+						},
+						"1.25": {
+							"vector": [0, 0, 0]
+						}
+					},
+					"scale": {
+						"1.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.25": {
 							"vector": [1, 1, 1]
 						}
 					}

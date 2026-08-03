@@ -1,0 +1,128 @@
+{
+  "parent": "marioverse:ability_unlocked",
+  "criteria": {
+    "daisy_ability_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:daisy_ability_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "luigi_ability_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:luigi_ability_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "mario_ability_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:mario_ability_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "peach_ability_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:peach_ability_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "rosalina_ability_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:rosalina_ability_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "steve_ability_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:steve_ability_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "waluigi_ability_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:waluigi_ability_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "wario_ability_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:wario_ability_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.marioverse.abilities_galore.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "marioverse:peach_ability_block"
+    },
+    "title": {
+      "translate": "advancements.marioverse.abilities_galore.title"
+    }
+  },
+  "requirements": [
+    [
+      "daisy_ability_block"
+    ],
+    [
+      "luigi_ability_block"
+    ],
+    [
+      "mario_ability_block"
+    ],
+    [
+      "peach_ability_block"
+    ],
+    [
+      "rosalina_ability_block"
+    ],
+    [
+      "steve_ability_block"
+    ],
+    [
+      "waluigi_ability_block"
+    ],
+    [
+      "wario_ability_block"
+    ]
+  ],
+  "rewards": {
+    "experience": 150
+  },
+  "sends_telemetry_event": true
+}

@@ -28,6 +28,7 @@ import com.wenxin2.marioverse.entities.SnowPokeyBodyEntity;
 import com.wenxin2.marioverse.entities.SnowPokeyEntity;
 import com.wenxin2.marioverse.entities.SpinyCheepCheepEntity;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
+import com.wenxin2.marioverse.entities.power_ups.DashMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
@@ -69,12 +70,15 @@ public class EntityRegistry {
             Marioverse.ENTITIES.register("ice_cube", () -> EntityType.Builder.of(IceCubeEntity::new, MobCategory.MISC)
                     .sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<DashMushroomEntity>> DASH_MUSHROOM =
+            Marioverse.ENTITIES.register("dash_mushroom", () -> EntityType.Builder.of(DashMushroomEntity::new, MobCategory.AMBIENT)
+                    .sized(0.8F, 0.8F).build("dash_mushroom"));
     public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER =
             Marioverse.ENTITIES.register("fire_flower", () -> EntityType.Builder.of(FireFlowerEntity::new, MobCategory.AMBIENT)
-                    .sized(0.6F, 0.6F).build("fire_flower"));
+                    .sized(0.6F, 0.875F).build("fire_flower"));
     public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER =
             Marioverse.ENTITIES.register("ice_flower", () -> EntityType.Builder.of(IceFlowerEntity::new, MobCategory.AMBIENT)
-                    .sized(0.6F, 0.6F).build("ice_flower"));
+                    .sized(0.6F, 0.875F).build("ice_flower"));
     public static final DeferredHolder<EntityType<?>, EntityType<MegaMushroomEntity>> MEGA_MUSHROOM =
             Marioverse.ENTITIES.register("mega_mushroom", () -> EntityType.Builder.of(MegaMushroomEntity::new, MobCategory.AMBIENT)
                     .sized(1.875F, 1.75F).build("mega_mushroom"));
@@ -337,6 +341,7 @@ public class EntityRegistry {
                 .add(Attributes.SAFE_FALL_DISTANCE, 40.0F)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.3F);
 
+        event.put(EntityRegistry.DASH_MUSHROOM.get(), mushroomAttributes.build());
         event.put(EntityRegistry.FIRE_FLOWER.get(), powerUpAttributes.build());
         event.put(EntityRegistry.ICE_FLOWER.get(), powerUpAttributes.build());
         event.put(EntityRegistry.MEGA_MUSHROOM.get(), megaMushroomAttributes.build());

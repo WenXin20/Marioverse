@@ -1,0 +1,25 @@
+{
+  "type": "marioverse:hex_color_shaped",
+  "category": "equipment",
+  "group": "marioverse:ability_blocks",
+  "key": {
+    "A": {
+      "item": "minecraft:cyan_wool"
+    },
+    "D": {
+      "tag": "c:gems/lapis"
+    },
+    "T": {
+      "tag": "minecraft:trim_templates"
+    },
+    "W": {
+      "item": "minecraft:cyan_wool"
+    }
+  },
+  "pattern": [
+    "ADA",
+    "DTD",
+    "WDW"
+  ],
+  "result": "marioverse:steve_ability_block"
+}

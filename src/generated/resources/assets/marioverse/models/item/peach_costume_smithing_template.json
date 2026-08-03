@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "marioverse:item/peach_costume_smithing_template"
-  }
-}

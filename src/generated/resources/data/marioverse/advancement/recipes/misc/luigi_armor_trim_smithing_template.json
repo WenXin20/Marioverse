@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_luigi_armor_trim_smithing_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:luigi_armor_trim_smithing_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:luigi_armor_trim_smithing_template"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_luigi_armor_trim_smithing_template"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:luigi_armor_trim_smithing_template"
+    ]
+  }
+}

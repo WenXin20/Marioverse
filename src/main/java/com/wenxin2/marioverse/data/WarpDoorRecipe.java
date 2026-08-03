@@ -81,4 +81,9 @@ public class WarpDoorRecipe extends CustomRecipe {
     public RecipeSerializer<?> getSerializer() {
         return RecipeSerializerRegistry.WARP_DOOR.get();
     }
+
+    @Override
+    public boolean isSpecial() {
+        return false;
+    }
 }

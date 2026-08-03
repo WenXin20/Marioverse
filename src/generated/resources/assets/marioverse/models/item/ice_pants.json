@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/ice_pants",
+    "layer1": "marioverse:item/ice_pants_overlay"
+  }
+}

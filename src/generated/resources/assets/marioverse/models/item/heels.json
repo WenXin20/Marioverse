@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "marioverse:item/fire_heels",
+      "predicate": {
+        "marioverse:power_up_type": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/ice_heels",
+      "predicate": {
+        "marioverse:power_up_type": 2.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "marioverse:item/heels",
+    "layer1": "marioverse:item/heels_overlay"
+  }
+}

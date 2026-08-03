@@ -1,0 +1,8 @@
+{
+  "asset_id": "marioverse:luigi",
+  "decal": false,
+  "description": {
+    "translate": "trim_pattern.marioverse.luigi"
+  },
+  "template_item": "marioverse:luigi_armor_trim_smithing_template"
+}

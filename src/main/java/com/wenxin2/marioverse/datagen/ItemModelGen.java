@@ -40,17 +40,19 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
+        this.basicTwoLayerItem(ItemRegistry.CHRISTMAS_HAT.get());
+
         this.basicItem(ItemRegistry.BOO_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
         this.basicItem(ItemRegistry.BOWSER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.CHRISTMAS_HAT.get());
         this.basicItem(ItemRegistry.COLD_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.COOKED_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.COOKED_PORCUPUFFER.get());
         this.basicItem(ItemRegistry.COOKED_SPINY_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.DASH_MUSHROOM.get());
+        this.basicItem(ItemRegistry.DASH_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.DEEP_CHEEP.get());
         this.basicItem(ItemRegistry.DEEP_CHEEP_BUCKET.get());
         this.basicItem(ItemRegistry.DEEP_CHEEP_SPAWN_EGG.get());
@@ -58,8 +60,8 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.EEP_CHEEP.get());
         this.basicItem(ItemRegistry.EEP_CHEEP_BUCKET.get());
         this.basicItem(ItemRegistry.EEP_CHEEP_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.FIRE_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.FIRE_FLOWER.get());
+        this.basicItem(ItemRegistry.FIRE_FLOWER_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.FIRE_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.GOLDEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GOLD_KOOPA_SHELL.get());
@@ -68,50 +70,17 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.GREEN_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.GREEN_KOOPA_TROOPA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.HEFTY_GOOMBA_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.ICE_COSTUME_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.ICE_FLOWER.get());
+        this.basicItem(ItemRegistry.ICE_FLOWER_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.LARGE_SNOWBALL.get());
-        this.basicItem(ItemRegistry.LUIGI_COSTUME_SMITHING_TEMPLATE.get());
-        this.basicItem(ItemRegistry.LUIGI_FIRE_HAT.get());
-        this.basicItem(ItemRegistry.LUIGI_FIRE_PANTS.get());
-        this.basicItem(ItemRegistry.LUIGI_FIRE_SHIRT.get());
-        this.basicItem(ItemRegistry.LUIGI_FIRE_SHOES.get());
-        this.basicItem(ItemRegistry.LUIGI_HAT.get());
-        this.basicItem(ItemRegistry.LUIGI_ICE_HAT.get());
-        this.basicItem(ItemRegistry.LUIGI_ICE_PANTS.get());
-        this.basicItem(ItemRegistry.LUIGI_ICE_SHIRT.get());
-        this.basicItem(ItemRegistry.LUIGI_ICE_SHOES.get());
-        this.basicItem(ItemRegistry.LUIGI_PANTS.get());
-        this.basicItem(ItemRegistry.LUIGI_SHIRT.get());
-        this.basicItem(ItemRegistry.LUIGI_SHOES.get());
-        this.basicItem(ItemRegistry.MARIO_COSTUME_SMITHING_TEMPLATE.get());
-        this.basicItem(ItemRegistry.MARIO_FIRE_HAT.get());
-        this.basicItem(ItemRegistry.MARIO_FIRE_PANTS.get());
-        this.basicItem(ItemRegistry.MARIO_FIRE_SHIRT.get());
-        this.basicItem(ItemRegistry.MARIO_FIRE_SHOES.get());
-        this.basicItem(ItemRegistry.MARIO_HAT.get());
-        this.basicItem(ItemRegistry.MARIO_ICE_HAT.get());
-        this.basicItem(ItemRegistry.MARIO_ICE_PANTS.get());
-        this.basicItem(ItemRegistry.MARIO_ICE_SHIRT.get());
-        this.basicItem(ItemRegistry.MARIO_ICE_SHOES.get());
-        this.basicItem(ItemRegistry.MARIO_PANTS.get());
-        this.basicItem(ItemRegistry.MARIO_SHIRT.get());
-        this.basicItem(ItemRegistry.MARIO_SHOES.get());
+        this.basicItem(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get());
+        this.basicItem(ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());;
         this.basicItem(ItemRegistry.MEGA_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM.get());
+        this.basicItem(ItemRegistry.MINI_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
-        this.basicItem(ItemRegistry.PEACH_BODICE.get());
-        this.basicItem(ItemRegistry.PEACH_COSTUME_SMITHING_TEMPLATE.get());
-        this.basicItem(ItemRegistry.PEACH_CROWN.get());
-        this.basicItem(ItemRegistry.PEACH_DRESS.get());
-        this.basicItem(ItemRegistry.PEACH_FIRE_BODICE.get());
-        this.basicItem(ItemRegistry.PEACH_FIRE_DRESS.get());
-        this.basicItem(ItemRegistry.PEACH_FIRE_SHOES.get());
-        this.basicItem(ItemRegistry.PEACH_ICE_BODICE.get());
-        this.basicItem(ItemRegistry.PEACH_ICE_DRESS.get());
-        this.basicItem(ItemRegistry.PEACH_ICE_SHOES.get());
-        this.basicItem(ItemRegistry.PEACH_SHOES.get());
+        this.basicItem(ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
@@ -121,6 +90,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.PLUMBER_POTTERY_SHERD.get());
         this.basicItem(ItemRegistry.POKEY_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PORCUPUFFER.get());
+        this.basicItem(ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.QUICKSAND_BUCKET.get());
         this.basicItem(ItemRegistry.RED_KOOPA_SHELL.get());
         this.basicItem(ItemRegistry.RED_KOOPA_SHOES.get());
@@ -132,7 +102,11 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SPLUNKIN_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_MUSHROOM.get());
+        this.basicItem(ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.SUPER_STAR.get());
+        this.basicItem(ItemRegistry.SUPER_STAR_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get());
+        this.basicItem(ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get());
         this.basicItem(ItemRegistry.WARM_CHEEP_CHEEP.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
         this.basicItem(ItemRegistry.WHITE_KOOPA_SHOES.get());
@@ -153,6 +127,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
 
         this.largeItem(ItemRegistry.MEGA_MUSHROOM.get());
+        this.largeItem(ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG.get());
 
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_BUCKET.get(), Fluids.EMPTY, false, false);
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
@@ -222,6 +197,120 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/mrs_puff_spawn_egg"));
         this.getBuilder("qwilfish_spawn_egg").parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/qwilfish_spawn_egg"));
+
+
+        this.basicTwoLayerItem(ItemRegistry.HAT.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_hat")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_hat")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_hat")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_hat"))
+                .texture("layer1", modLoc("item/fire_hat_overlay"));
+        this.getBuilder("ice_hat")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_hat"))
+                .texture("layer1", modLoc("item/ice_hat_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.SHIRT.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_shirt")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_shirt")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_shirt")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_shirt"))
+                .texture("layer1", modLoc("item/fire_shirt_overlay"));
+        this.getBuilder("ice_shirt")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_shirt"))
+                .texture("layer1", modLoc("item/ice_shirt_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.PANTS.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_pants")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_pants")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_pants")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_pants"))
+                .texture("layer1", modLoc("item/fire_pants_overlay"));
+        this.getBuilder("ice_pants")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_pants"))
+                .texture("layer1", modLoc("item/ice_pants_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.SHOES.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_shoes")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_shoes")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_shoes")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_shoes"))
+                .texture("layer1", modLoc("item/fire_shoes_overlay"));
+        this.getBuilder("ice_shoes")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_shoes"))
+                .texture("layer1", modLoc("item/ice_shoes_overlay"));
+
+
+        this.basicTwoLayerItem(ItemRegistry.CROWN.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_crown")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_crown")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_crown")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_crown"))
+                .texture("layer1", modLoc("item/fire_crown_overlay"));
+        this.getBuilder("ice_crown")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_crown"))
+                .texture("layer1", modLoc("item/ice_crown_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.BODICE.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_bodice")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_bodice")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_bodice")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_bodice"))
+                .texture("layer1", modLoc("item/fire_bodice_overlay"));
+        this.getBuilder("ice_bodice")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_bodice"))
+                .texture("layer1", modLoc("item/ice_bodice_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.DRESS.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_dress")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_dress")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_dress")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_dress"))
+                .texture("layer1", modLoc("item/fire_dress_overlay"));
+        this.getBuilder("ice_dress")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_dress"))
+                .texture("layer1", modLoc("item/ice_dress_overlay"));
+
+        this.basicTwoLayerItem(ItemRegistry.HEELS.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/fire_heels")))
+                .predicate(modLoc("power_up_type"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/ice_heels")))
+                .predicate(modLoc("power_up_type"), 2.0F).end();
+        this.getBuilder("fire_heels")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/fire_heels"))
+                .texture("layer1", modLoc("item/fire_heels_overlay"));
+        this.getBuilder("ice_heels")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/ice_heels"))
+                .texture("layer1", modLoc("item/ice_heels_overlay"));
     }
 
     public void coralTowerItem(Item item) {
@@ -229,6 +318,14 @@ public class ItemModelGen extends ItemModelProvider {
         this.getBuilder(location.toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "block/" + location.getPath() + "_top"));
+    }
+
+    public ItemModelBuilder basicTwoLayerItem(Item item) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        return this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
+                .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + "_overlay"));
     }
 
     public void largeItem(Item item) {

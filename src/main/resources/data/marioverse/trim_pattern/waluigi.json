@@ -1,0 +1,8 @@
+{
+  "asset_id": "marioverse:waluigi",
+  "decal": false,
+  "description": {
+    "translate": "trim_pattern.marioverse.waluigi"
+  },
+  "template_item": "marioverse:waluigi_armor_trim_smithing_template"
+}

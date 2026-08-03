@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
+import com.wenxin2.marioverse.items.PowerUpItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -15,7 +16,7 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
-import com.wenxin2.marioverse.items.BasePowerUpItem;
+import com.wenxin2.marioverse.items.PowerUpSpawnEggItem;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
@@ -515,16 +516,21 @@ public class QuestionBlock extends BaseEntityBlock {
                                           boolean spawnPowerUps, boolean canEmptyBuckets, TagKey<EntityType<?>> cannotSpawn) {
         if (!(level instanceof ServerLevel serverLevel)) return;
 
-        if (!spawnMobs && stack.getItem() instanceof SpawnEggItem spawnEgg) {
-            EntityType<?> entityType = spawnEgg.getType(stack);
+        if (stack.getItem() instanceof PowerUpItem) {
+            QuestionBlock.spawnItem(level, pos, stack, true);
+            return;
+        }
+
+        if (!spawnPowerUps && stack.getItem() instanceof PowerUpSpawnEggItem powerUpItem) {
+            EntityType<?> entityType = powerUpItem.getType(stack);
             if (entityType.is(cannotSpawn))
                 return;
             QuestionBlock.spawnItem(level, pos, stack, true);
             return;
         }
 
-        if (!spawnPowerUps && stack.getItem() instanceof BasePowerUpItem powerUpItem) {
-            EntityType<?> entityType = powerUpItem.getType(stack);
+        if (!spawnMobs && stack.getItem() instanceof SpawnEggItem spawnEgg) {
+            EntityType<?> entityType = spawnEgg.getType(stack);
             if (entityType.is(cannotSpawn))
                 return;
             QuestionBlock.spawnItem(level, pos, stack, true);
