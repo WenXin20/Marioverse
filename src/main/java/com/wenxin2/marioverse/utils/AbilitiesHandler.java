@@ -201,8 +201,10 @@ public interface AbilitiesHandler extends CostumeHandler {
                 && (entity.getType().is(TagRegistry.CAN_CONSUME_FIRE_FLOWERS) || ConfigRegistry.FIRE_FLOWER_POWERS_ALL_MOBS.get())) {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
-            if (level instanceof ServerLevel serverLevel)
-                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleTypes.FLAME, serverLevel, entity, 160, 1.0, 0.075);
+            if (level instanceof ServerLevel serverLevel) {
+                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleTypes.FLAME, serverLevel, entity, 160, 0, 1.0, 0.075);
+                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleTypes.SMOKE, serverLevel, entity, 160, 0, 1.0, 0.005);
+            }
 
             if (entity.getHealth() < entity.getMaxHealth())
                 entity.heal(ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
@@ -230,8 +232,8 @@ public interface AbilitiesHandler extends CostumeHandler {
             AttributeInstance healthAttribute = entity.getAttribute(Attributes.MAX_HEALTH);
 
             if (level instanceof ServerLevel serverLevel) {
-                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleRegistry.ICE_STAR.get(), serverLevel, entity, 80, 1.0, 1.5);
-                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleTypes.SNOWFLAKE, serverLevel, entity, 80, 0.75, 0.2);
+                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleRegistry.ICE_STAR.get(), serverLevel, entity, 80, 0, 1.0, 1.5);
+                ServerParticleUtils.spawnSprayUpwardsParticles(ParticleTypes.SNOWFLAKE, serverLevel, entity, 80, 0, 0.75, 0.2);
             }
 
             if (entity.getHealth() < entity.getMaxHealth())

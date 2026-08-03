@@ -38,6 +38,7 @@
 - Added new spawn animations to power ups
 - Added flame particles to the Fire Flower
 - Added ice particles to the Ice Flower
+- Improved particles when powering up using fire or ice flowers
 - Remodeled the fire & ice flower power ups
 - Improved models of mushroom power ups
 - Increased particles on golden koopa shells

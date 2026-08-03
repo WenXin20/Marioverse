@@ -232,7 +232,7 @@ public class ServerParticleUtils {
     }
 
     public static void spawnSprayUpwardsParticles(ParticleOptions particleOptions, ServerLevel serverLevel, Entity entity,
-                                                  int avgAmount, double heightMultiplier, double velocity) {
+                                                  int avgAmount, int count, double heightMultiplier, double velocity) {
         RandomSource rand = serverLevel.getRandom();
         float scaleFactor = entity.getBbWidth() * entity.getBbHeight();
         int numParticles = (int) (scaleFactor * Math.max(3, avgAmount));
@@ -251,7 +251,7 @@ public class ServerParticleUtils {
 
             double motionY = (height / 2.0) + rand.nextDouble() * (height / 2.0);
 
-            serverLevel.sendParticles(particleOptions, x, y, z, 0, 0.0, motionY, 0.0, velocity);
+            serverLevel.sendParticles(particleOptions, x, y, z, count, 0.0, motionY, 0.0, velocity);
         }
     }
 
