@@ -25,6 +25,7 @@
     "HumanoidArmorLayerMixin",
     "InventoryScreenMixin",
     "LivingEntityClientMixin",
+    "LivingEntityRendererAccessor",
     "LivingEntityRendererMixin"
   ],
   "injectors": {

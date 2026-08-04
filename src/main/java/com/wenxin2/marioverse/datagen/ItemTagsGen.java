@@ -287,6 +287,8 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.CHARMS).add(ItemRegistry.ONE_UP_MUSHROOM.get());
 
+        tag(TagRegistry.CHARMS_CURIO).add(ItemRegistry.ONE_UP_MUSHROOM.get());
+
         tag(ItemTags.HEAD_ARMOR).addTag(TagRegistry.HATS);
 
         tag(ItemTags.CHEST_ARMOR).addTag(TagRegistry.SHIRTS);
@@ -302,6 +304,18 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.COSTUME_PANTS).addTag(TagRegistry.PANTS);
 
         tag(TagRegistry.COSTUME_SHOES).addTag(TagRegistry.SHOES);
+
+        tag(TagRegistry.COSTUME_HAT_CURIO).addTag(TagRegistry.HATS)
+                .add(Items.DIAMOND_HELMET);
+
+        tag(TagRegistry.COSTUME_SHIRT_CURIO).addTag(TagRegistry.SHIRTS)
+                .add(Items.DIAMOND_CHESTPLATE);
+
+        tag(TagRegistry.COSTUME_PANTS_CURIO).addTag(TagRegistry.PANTS)
+                .add(Items.DIAMOND_LEGGINGS);
+
+        tag(TagRegistry.COSTUME_SHOES_CURIO).addTag(TagRegistry.SHOES)
+                .add(Items.DIAMOND_BOOTS);
 
         tag(Tags.Items.MELEE_WEAPON_TOOLS)
                 .add(ItemRegistry.CREATIVE_WRENCH.get())

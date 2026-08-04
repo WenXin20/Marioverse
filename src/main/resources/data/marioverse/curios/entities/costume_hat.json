@@ -1,0 +1,43 @@
+{
+  "replace": false,
+  "entities": [
+    "marioverse:boo",
+    "marioverse:cheep_cheep",
+    "marioverse:deep_cheep",
+    "marioverse:dry_bones",
+    "marioverse:eep_cheep",
+    "marioverse:gold_koopa_shell",
+    "marioverse:gold_koopa_troopa",
+    "marioverse:goomba",
+    "marioverse:green_koopa_shell",
+    "marioverse:green_koopa_troopa",
+    "marioverse:hefty_goomba",
+    "marioverse:mega_goomba",
+    "marioverse:mini_goomba",
+    "marioverse:pokey",
+    "marioverse:porcupuffer",
+    "marioverse:red_koopa_shell",
+    "marioverse:red_koopa_troopa",
+    "marioverse:snow_pokey",
+    "marioverse:spiny_cheep_cheep",
+    "marioverse:splunkin",
+    "minecraft:armor_stand",
+    "minecraft:bogged",
+    "minecraft:drowned",
+    "minecraft:giant",
+    "minecraft:husk",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:player",
+    "minecraft:skeleton",
+    "minecraft:stray",
+    "minecraft:villager",
+    "minecraft:wither_skeleton",
+    "minecraft:zombie",
+    "minecraft:zombie_villager",
+    "minecraft:zombified_piglin"
+  ],
+  "slots": [
+    "costume_hat"
+  ]
+}

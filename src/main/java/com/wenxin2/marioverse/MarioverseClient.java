@@ -11,7 +11,6 @@ import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementItemParticle;
 import com.wenxin2.marioverse.client.particles.PollenParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
-import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
 import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CheckpointFlagBlockEntityRenderer;
@@ -20,6 +19,7 @@ import com.wenxin2.marioverse.client.renderers.blocks.GoalPoleBlockEntityRendere
 import com.wenxin2.marioverse.client.renderers.blocks.PottedPiranhaPlantBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.StarCoinBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.WarpPipeBlockEntityRenderer;
+import com.wenxin2.marioverse.client.renderers.curios.CostumeCurioRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.BooRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.CheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.DeepCheepRenderer;
@@ -79,8 +79,11 @@ import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -95,6 +98,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
@@ -103,22 +107,30 @@ public class MarioverseClient {
     public static void clientSetup(final FMLClientSetupEvent event) {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CHRISTMAS_HAT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PLASTIC_BUCKET.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.WHITE_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CHRISTMAS_HAT.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PLASTIC_BUCKET.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.WHITE_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+//
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HAT.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PANTS.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+//
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CROWN.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.BODICE.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.DRESS.get(), ArmorRenderingExtension::costumeRenderer);
+//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HEELS.get(), ArmorRenderingExtension::costumeRenderer);
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HAT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PANTS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHOES.get(), ArmorRenderingExtension::costumeRenderer);
+        CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
+    }
 
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CROWN.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.BODICE.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.DRESS.get(), ArmorRenderingExtension::costumeRenderer);
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HEELS.get(), ArmorRenderingExtension::costumeRenderer);
+    private static void registerSlot(EquipmentSlot slot, Item... items) {
+        for (Item item : items) {
+            CuriosRendererRegistry.register(item, () -> new CostumeCurioRenderer(slot));
+        }
     }
 
     @SubscribeEvent

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "icon": "marioverse:gui/slot/empty_shirt_slot",
+  "operation": "SET",
+  "drop_rule": "DEFAULT",
+  "size": 1,
+  "order": 1200,
+  "validators": [
+    "curios:tag"
+  ]
+}

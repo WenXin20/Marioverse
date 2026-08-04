@@ -6,25 +6,31 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
-import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import io.wispforest.accessories.AccessoriesLoaderInternals;
 import io.wispforest.accessories.compat.GeckoLibCompat;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.Color;
@@ -32,6 +38,7 @@ import software.bernie.geckolib.util.Color;
 @Mixin({HumanoidArmorLayer.class})
 public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends HumanoidModel<T>,
         A extends HumanoidModel<T>> extends RenderLayer<T, M> implements ArmorRenderingExtension<T, A> {
+
     @Unique
     private @Nullable ItemStack tempStack = null;
 
@@ -40,7 +47,8 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
     }
 
     @Shadow
-    protected abstract void renderArmorPiece(PoseStack var1, MultiBufferSource var2, T var3, EquipmentSlot var4, int var5, A var6, float var7, float var8, float var9, float var10, float var11, float var12);
+    protected abstract void renderArmorPiece(PoseStack var1, MultiBufferSource var2, T var3, EquipmentSlot var4,
+                                             int var5, A var6, float var7, float var8, float var9, float var10, float var11, float var12);
 
     @Shadow
     private A getArmorModel(EquipmentSlot slot) {
@@ -54,28 +62,33 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
                                      T livingEntity, EquipmentSlot equipmentSlot, int light, float limbSwing, float limbSwingAmount,
                                      float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, A baseModel) {
         this.tempStack = stack;
+        GeoRenderProvider provider = GeoRenderProvider.of(stack);
+        HumanoidModel<?> geckolibModel = provider != null
+                ? provider.getGeoArmorRenderer((T) livingEntity, stack, equipmentSlot, baseModel)
+                : null;
 
-        HumanoidModel<?> geckolibModel = GeoRenderProvider.of(stack).getGeoArmorRenderer(livingEntity, stack, equipmentSlot, baseModel);
-        if (geckolibModel instanceof GeoArmorRenderer<?> geoArmorRenderer) {
-            geoArmorRenderer.prepForRender(livingEntity, stack, equipmentSlot, baseModel, multiBufferSource, partialTicks, limbSwing, limbSwingAmount, netHeadYaw, headPitch);
-            geoArmorRenderer.renderToBuffer(poseStack, null,
-                    light, OverlayTexture.NO_OVERLAY, Color.WHITE.argbInt());
-            baseModel.copyPropertiesTo((A)geckolibModel);
-        } else this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, equipmentSlot, light, this.getArmorModel(equipmentSlot), limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
+        if (geckolibModel instanceof GeoArmorRenderer<?> geoArmorRenderer && stack.getItem() instanceof GeoItem) {
+            geoArmorRenderer.prepForRender(livingEntity, stack, equipmentSlot, baseModel, multiBufferSource, partialTicks,
+                    limbSwing, limbSwingAmount, netHeadYaw, headPitch);
+            geoArmorRenderer.renderToBuffer(poseStack, null, light, OverlayTexture.NO_OVERLAY, Color.WHITE.argbInt());
+            baseModel.copyPropertiesTo((A) geckolibModel);
+        } else {
+            this.renderArmorPiece(poseStack, multiBufferSource, (T) livingEntity, equipmentSlot, light,
+                    this.getArmorModel(equipmentSlot), limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
+        }
         this.tempStack = null;
     }
 
-    @WrapOperation(
-            method = {"renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;FFFFFF)V"},
-            at = { @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;")}
-    )
+    @WrapOperation(method = {"renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;FFFFFF)V"},
+            at = { @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;")})
     private ItemStack getAlternativeStack(LivingEntity instance, EquipmentSlot equipmentSlot, Operation<ItemStack> original) {
-        return this.tempStack != null ? this.tempStack : (ItemStack)original.call(instance, equipmentSlot);
+        return this.tempStack != null ? this.tempStack : original.call(instance, equipmentSlot);
     }
 
     @Unique
     private boolean attemptGeckoRender(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int light, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        return !AccessoriesLoaderInternals.isModLoaded("geckolib") ? false : GeckoLibCompat.renderGeckoArmor(poseStack, multiBufferSource, livingEntity, stack, equipmentSlot, (HumanoidModel)this.getParentModel(), this.getArmorModel(equipmentSlot), partialTicks, light, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, this::setPartVisibility);
+        return GeckoLibCompat.renderGeckoArmor(poseStack, multiBufferSource, livingEntity, stack, equipmentSlot,
+                (HumanoidModel) this.getParentModel(), this.getArmorModel(equipmentSlot), partialTicks, light, limbSwing,
+                limbSwingAmount, ageInTicks, netHeadYaw, headPitch, this::setPartVisibility);
     }
 }

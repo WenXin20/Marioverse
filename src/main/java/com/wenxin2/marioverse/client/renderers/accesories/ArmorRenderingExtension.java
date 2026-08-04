@@ -17,31 +17,31 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public interface ArmorRenderingExtension<T extends LivingEntity, A extends HumanoidModel<T>> {
-    static AccessoryRenderer costumeRenderer() {
-        return new AccessoryRenderer() {
-            public <M extends LivingEntity> void render(ItemStack stack, SlotReference reference, PoseStack matrices, EntityModel<M> model,
-                                                        MultiBufferSource multiBufferSource, int light, float limbSwing, float limbSwingAmount,
-                                                        float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-                EntityRenderer<? super LivingEntity> entityRender = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(reference.entity());
-                if (entityRender instanceof LivingEntityRendererAccessor<?, ?> accessor) {
-                    Item var16 = stack.getItem();
-                    if (var16 instanceof Equipable equipable) {
-                        EquipmentSlot equipmentSlot = equipable.getEquipmentSlot();
-                        Optional var17 = accessor.getLayers().stream().filter((renderLayer) -> {
-                            return renderLayer instanceof io.wispforest.accessories.api.client.ArmorRenderingExtension
-                                    || renderLayer instanceof ArmorRenderingExtension;
-                        }).findFirst();
-                        if (model instanceof HumanoidModel<M> humanoidModel) {
-                            var17.ifPresent((layer) -> {
-                                ((ArmorRenderingExtension) layer).renderEquipmentStack(stack, matrices, multiBufferSource, reference.entity(),
-                                        equipmentSlot, light, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, humanoidModel);
-                            });
-                        }
-                    }
-                }
-            }
-        };
-    }
+//    static AccessoryRenderer costumeRenderer() {
+//        return new AccessoryRenderer() {
+//            public <M extends LivingEntity> void render(ItemStack stack, SlotReference reference, PoseStack matrices, EntityModel<M> model,
+//                                                        MultiBufferSource multiBufferSource, int light, float limbSwing, float limbSwingAmount,
+//                                                        float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+//                EntityRenderer<? super LivingEntity> entityRender = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(reference.entity());
+//                if (entityRender instanceof LivingEntityRendererAccessor<?, ?> accessor) {
+//                    Item var16 = stack.getItem();
+//                    if (var16 instanceof Equipable equipable) {
+//                        EquipmentSlot equipmentSlot = equipable.getEquipmentSlot();
+//                        Optional var17 = accessor.getLayers().stream().filter((renderLayer) -> {
+//                            return renderLayer instanceof io.wispforest.accessories.api.client.ArmorRenderingExtension
+//                                    || renderLayer instanceof ArmorRenderingExtension;
+//                        }).findFirst();
+//                        if (model instanceof HumanoidModel<M> humanoidModel) {
+//                            var17.ifPresent((layer) -> {
+//                                ((ArmorRenderingExtension) layer).renderEquipmentStack(stack, matrices, multiBufferSource, reference.entity(),
+//                                        equipmentSlot, light, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, humanoidModel);
+//                            });
+//                        }
+//                    }
+//                }
+//            }
+//        };
+//    }
 
     default void renderEquipmentStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot,
                                       int light, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
