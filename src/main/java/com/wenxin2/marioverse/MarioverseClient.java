@@ -107,22 +107,19 @@ public class MarioverseClient {
     public static void clientSetup(final FMLClientSetupEvent event) {
         AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
 
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CHRISTMAS_HAT.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PLASTIC_BUCKET.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.GREEN_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.RED_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.WHITE_KOOPA_SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-//
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HAT.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHIRT.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.PANTS.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.SHOES.get(), ArmorRenderingExtension::costumeRenderer);
-//
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.CROWN.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.BODICE.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.DRESS.get(), ArmorRenderingExtension::costumeRenderer);
-//        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.HEELS.get(), ArmorRenderingExtension::costumeRenderer);
+        CuriosRendererRegistry.register(ItemRegistry.HAT.get(), () -> new CostumeCurioRenderer(EquipmentSlot.HEAD));
+
+        event.enqueueWork(() -> {
+            registerSlot(EquipmentSlot.HEAD, Items.DIAMOND_HELMET, ItemRegistry.CROWN.get(), ItemRegistry.CHRISTMAS_HAT.get(),
+                    ItemRegistry.PLASTIC_BUCKET.get());
+
+            registerSlot(EquipmentSlot.CHEST, Items.DIAMOND_CHESTPLATE, ItemRegistry.SHIRT.get(), ItemRegistry.BODICE.get());
+
+            registerSlot(EquipmentSlot.LEGS, Items.DIAMOND_LEGGINGS, ItemRegistry.PANTS.get(), ItemRegistry.DRESS.get());
+
+            registerSlot(EquipmentSlot.FEET, Items.DIAMOND_BOOTS, ItemRegistry.SHOES.get(), ItemRegistry.HEELS.get(), ItemRegistry.GOLDEN_KOOPA_SHOES.get(),
+                    ItemRegistry.GREEN_KOOPA_SHOES.get(), ItemRegistry.RED_KOOPA_SHOES.get(), ItemRegistry.WHITE_KOOPA_SHOES.get());
+        });
 
         CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
     }

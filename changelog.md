@@ -1,3 +1,8 @@
+## Update 1.11.1
+- Migrated compat to use Curios instead of Accessories
+- Added the data component `marioverse:undying_charm`
+  - Any item with this component will function as a one up
+
 ## Update 1.11.0
 - Added power up spawn eggs 
   - Used for spawning the power up entity from ? Blocks

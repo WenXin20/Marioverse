@@ -43,6 +43,9 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_UNBREAKABLE =
             Marioverse.COMPONENTS.register("is_unbreakable", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> UNDYING_CHARM =
+            Marioverse.COMPONENTS.register("undying_charm", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
             Marioverse.COMPONENTS.register("linked_pos", () -> DataComponentType.<BlockPos>builder()

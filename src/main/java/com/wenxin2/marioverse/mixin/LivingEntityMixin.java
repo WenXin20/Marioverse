@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
-import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
+import com.wenxin2.marioverse.network.client_bound.data.UndyingCharmPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -24,6 +24,8 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -70,6 +72,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, AbilitiesHandler {
@@ -268,10 +273,43 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             for (InteractionHand hand : InteractionHand.values()) {
                 ItemStack stackInHand = livingEntity.getItemInHand(hand);
-                if (stackInHand.getItem() instanceof OneUpMushroomItem) {
+                if (stackInHand.getComponents().getOrDefault(DataComponentRegistry.UNDYING_CHARM.get(), false)) {
                     stack = stackInHand.copy();
-                    stackInHand.shrink(1);
                     break;
+                }
+            }
+
+            Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(livingEntity);
+
+            if (curiosInventory.isPresent()) {
+                Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
+                ICurioStacksHandler slotCharm = curios.get("charm");
+
+                if (slotCharm != null) {
+                    ItemStack stackCharm = slotCharm.getStacks().getStackInSlot(0);
+
+                    if (stackCharm.getComponents().getOrDefault(DataComponentRegistry.UNDYING_CHARM.get(), false)) {
+                        livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
+                                soundSource, 1.0F, pitch);
+                        livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
+
+                        if (livingEntity.level() instanceof ServerLevel serverLevel) {
+                            ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverLevel, livingEntity, 25);
+
+                            if (stackCharm.getItem() instanceof OneUpMushroomItem)
+                                ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
+                            if (livingEntity instanceof ServerPlayer player && !stackCharm.isEmpty())
+                                PacketDistributor.sendToPlayer(player, new UndyingCharmPayload(true, stackCharm.copy()));
+                        }
+
+                        if (livingEntity instanceof ServerPlayer serverplayer) {
+                            serverplayer.awardStat(Stats.ITEM_USED.get(stackCharm.getItem()), 1);
+                            CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stackCharm);
+                            this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
+                        }
+                        stackCharm.shrink(1);
+                        return true;
+                    }
                 }
             }
 
@@ -284,13 +322,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                         livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                                 soundSource, 1.0F, pitch);
                         livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
-                        stackCharm.shrink(1);
 
                         if (livingEntity.level() instanceof ServerLevel serverLevel) {
                             ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverLevel, livingEntity, 25);
-                            ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
-                            if (livingEntity instanceof ServerPlayer player)
-                                PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
+
+                            if (stackCharm.getItem() instanceof OneUpMushroomItem)
+                                ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
+                            if (livingEntity instanceof ServerPlayer player && !stackCharm.isEmpty())
+                                PacketDistributor.sendToPlayer(player, new UndyingCharmPayload(true, stackCharm.copy()));
                         }
 
                         if (livingEntity instanceof ServerPlayer serverplayer) {
@@ -298,22 +337,24 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                             CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stack);
                             this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                         }
+                        stackCharm.shrink(1);
                         return true;
                     }
                 }
             }
 
-            if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
+            if (!stack.isEmpty() && stack.getComponents().getOrDefault(DataComponentRegistry.UNDYING_CHARM.get(), false)) {
                 livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         soundSource, 1.0F, pitch);
                 livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
-                stack.shrink(1);
 
                 if (livingEntity.level() instanceof ServerLevel serverLevel) {
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverLevel, livingEntity, 25);
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
-                    if (livingEntity instanceof ServerPlayer player)
-                        PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
+
+                    if (stack.getItem() instanceof OneUpMushroomItem)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
+                    if (livingEntity instanceof ServerPlayer player && !stack.isEmpty())
+                        PacketDistributor.sendToPlayer(player, new UndyingCharmPayload(true, stack.copy()));
                 }
 
                 if (livingEntity instanceof ServerPlayer serverplayer) {
@@ -321,6 +362,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stack);
                     this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                 }
+                stack.shrink(1);
                 return true;
             }
         }

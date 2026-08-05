@@ -240,7 +240,8 @@ public class ItemRegistry {
         DASH_MUSHROOM = registerItem("dash_mushroom",
                 () -> new DashMushroomItem(5, new Item.Properties().food(FoodRegistry.DASH_MUSHROOM)));
         ONE_UP_MUSHROOM = registerItem("one_up_mushroom",
-                () -> new OneUpMushroomItem(5, new Item.Properties().stacksTo(1)));
+                () -> new OneUpMushroomItem(5, new Item.Properties().stacksTo(1)
+                        .component(DataComponentRegistry.UNDYING_CHARM, true)));
         SUPER_STAR = registerItem("super_star",
                 () -> new SuperStarItem(5, new Item.Properties()));
         FIRE_FLOWER = registerItem("fire_flower",

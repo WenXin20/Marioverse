@@ -2,12 +2,12 @@ package com.wenxin2.marioverse.network;
 
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.DisguiseStatePayload;
-import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
+import com.wenxin2.marioverse.network.client_bound.data.UndyingCharmPayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.SwingHandPayload;
 import com.wenxin2.marioverse.network.client_bound.handler.AmericaNamePacket;
 import com.wenxin2.marioverse.network.client_bound.handler.DisguiseStatePacket;
-import com.wenxin2.marioverse.network.client_bound.handler.OneUpPacket;
+import com.wenxin2.marioverse.network.client_bound.handler.UndyingCharmPacket;
 import com.wenxin2.marioverse.network.client_bound.handler.WonderNamePacket;
 import com.wenxin2.marioverse.network.client_bound.handler.SwingHandPacket;
 import com.wenxin2.marioverse.network.server_bound.data.BlockFacePayload;
@@ -77,8 +77,8 @@ public class PacketHandler {
         // Sends to client
         registrar.playToClient(AmericaNamePayload.PAYLOAD, AmericaNamePayload.STREAM_CODEC, AmericaNamePacket.get()::handle);
         registrar.playToClient(DisguiseStatePayload.PAYLOAD, DisguiseStatePayload.STREAM_CODEC, DisguiseStatePacket.get()::handle);
-        registrar.playToClient(OneUpPayload.PAYLOAD, OneUpPayload.STREAM_CODEC, OneUpPacket.get()::handle);
         registrar.playToClient(SwingHandPayload.PAYLOAD, SwingHandPayload.STREAM_CODEC, SwingHandPacket.get()::handle);
+        registrar.playToClient(UndyingCharmPayload.PAYLOAD, UndyingCharmPayload.STREAM_CODEC, UndyingCharmPacket.get()::handle);
         registrar.playToClient(WonderNamePayload.PAYLOAD, WonderNamePayload.STREAM_CODEC, WonderNamePacket.get()::handle);
 
         // Sends to server

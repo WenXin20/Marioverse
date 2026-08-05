@@ -29,7 +29,6 @@ import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
 import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
-import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import io.wispforest.accessories.api.AccessoriesAPI;
@@ -202,25 +201,6 @@ public class RegistryEventHandlers {
         event.enqueueWork(DispenserBehaviors::register);
         event.enqueueWork(() -> AccessoriesAPI
                 .registerAccessory(ItemRegistry.PLASTIC_BUCKET.get(), new PlasticBucketAccessory()));
-    }
-
-    @SubscribeEvent
-    public static void onTagsUpdated(TagsUpdatedEvent event) {
-        registerTag(EquipmentSlot.HEAD, TagRegistry.COSTUME_HAT);
-        registerTag(EquipmentSlot.CHEST, TagRegistry.COSTUME_SHIRT);
-        registerTag(EquipmentSlot.LEGS, TagRegistry.COSTUME_PANTS);
-        registerTag(EquipmentSlot.FEET, TagRegistry.COSTUME_SHOES);
-    }
-
-    private static void registerTag(EquipmentSlot slot, TagKey<Item> tag) {
-        BuiltInRegistries.ITEM.getTag(tag).ifPresent(named -> {
-            for (Holder<Item> holder : named) {
-                Item item = holder.value();
-                if (REGISTERED.add(item)) {
-                    CuriosRendererRegistry.register(item, () -> new CostumeCurioRenderer(slot));
-                }
-            }
-        });
     }
 
     public static void gatherData(GatherDataEvent event) {
