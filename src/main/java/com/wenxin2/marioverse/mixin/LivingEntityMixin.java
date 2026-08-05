@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.items.FemaleCostumeItem;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
 import com.wenxin2.marioverse.network.client_bound.data.UndyingCharmPayload;
@@ -99,6 +100,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_MOBS.get();
+    }
+
+    @Unique
+    private static boolean mv$isCostume(ItemStack stackChest) {
+        return stackChest.getItem() instanceof FemaleCostumeItem || stackChest.getItem() instanceof MaleCostumeItem;
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -443,7 +449,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Inject(method = "canFreeze", at = @At("HEAD"), cancellable = true)
     private void canFreeze(CallbackInfoReturnable<Boolean> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
         ItemStack stackHead = entity.getItemBySlot(EquipmentSlot.HEAD);
         ItemStack stackChest = entity.getItemBySlot(EquipmentSlot.CHEST);
         ItemStack stackLegs = entity.getItemBySlot(EquipmentSlot.LEGS);
@@ -454,15 +459,44 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                 || stackLegs.is(ItemTags.FREEZE_IMMUNE_WEARABLES)
                 || stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
 
-        boolean armorCostumeHasIceFlower = (stackHead.getItem() instanceof MaleCostumeItem
+        boolean armorCostumeHasIceFlower = (stackHead.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackHead)
                 && Boolean.TRUE.equals(stackHead.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                    || (stackChest.getItem() instanceof MaleCostumeItem
+                    || (stackChest.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackChest)
                         && Boolean.TRUE.equals(stackChest.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                    || (stackLegs.getItem() instanceof MaleCostumeItem
+                    || (stackLegs.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackLegs)
                         && Boolean.TRUE.equals(stackLegs.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                    || (stackFeet.getItem() instanceof MaleCostumeItem
+                    || (stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackFeet)
                         && Boolean.TRUE.equals(stackFeet.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER));
 
+        hasFreezeImmunity = hasFreezeImmunity || armorCostumeHasIceFlower;
+
+        Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(entity);
+
+        if (curiosInventory.isPresent()) {
+            Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
+            ICurioStacksHandler slotHat = curios.get("costume_hat");
+            ICurioStacksHandler slotShirt = curios.get("costume_shirt");
+            ICurioStacksHandler slotPants = curios.get("costume_pants");
+            ICurioStacksHandler slotShoes = curios.get("costume_shoes");
+
+            ItemStack stackHat = slotHat != null ? slotHat.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+            ItemStack stackShirt = slotShirt != null ? slotShirt.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+            ItemStack stackPants = slotPants != null ? slotPants.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+            ItemStack stackShoes = slotShoes != null ? slotShoes.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+
+            boolean curioCostumeHasIceFlower = (stackHat.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackHat)
+                    && Boolean.TRUE.equals(stackHat.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
+                        || (stackShirt.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackShirt)
+                            && Boolean.TRUE.equals(stackShirt.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
+                        || (stackPants.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackPants)
+                            && Boolean.TRUE.equals(stackPants.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
+                        || (stackShoes.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackShoes)
+                            && Boolean.TRUE.equals(stackShoes.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER));
+
+            hasFreezeImmunity = hasFreezeImmunity || curioCostumeHasIceFlower;
+        }
+
+        AccessoriesCapability capability = AccessoriesCapability.get(entity);
         if (capability != null) {
             AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
             AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
@@ -474,23 +508,17 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             ItemStack stackPants = containerPants != null ? containerPants.getAccessories().getItem(0) : ItemStack.EMPTY;
             ItemStack stackShoes = containerShoes != null ? containerShoes.getAccessories().getItem(0) : ItemStack.EMPTY;
 
-            boolean hasHat = stackHat.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
-            boolean hasShirt = stackShirt.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
-            boolean hasPants = stackPants.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
-            boolean hasShoes = stackShoes.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
-
-            boolean accessoryCostumeHasIceFlower = (hasHat && stackHat.getItem() instanceof MaleCostumeItem
+            boolean accessoryCostumeHasIceFlower = (stackHat.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackHat)
                     && Boolean.TRUE.equals(stackHat.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                        || (hasShirt && stackShirt.getItem() instanceof MaleCostumeItem
+                        || (stackShirt.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackShirt)
                             && Boolean.TRUE.equals(stackShirt.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                        || (hasPants && stackPants.getItem() instanceof MaleCostumeItem
+                        || (stackPants.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackPants)
                             && Boolean.TRUE.equals(stackPants.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                        || (hasShoes && stackShoes.getItem() instanceof MaleCostumeItem
+                        || (stackShoes.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackShoes)
                             && Boolean.TRUE.equals(stackShoes.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER));
 
-            hasFreezeImmunity = hasFreezeImmunity || hasHat || hasShirt || hasPants || hasShoes
-                    || armorCostumeHasIceFlower || accessoryCostumeHasIceFlower;
-        } else hasFreezeImmunity = hasFreezeImmunity && armorCostumeHasIceFlower;
+            hasFreezeImmunity = hasFreezeImmunity || accessoryCostumeHasIceFlower;
+        }
 
         if (hasFreezeImmunity)
             cir.setReturnValue(false);
