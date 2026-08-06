@@ -12,7 +12,8 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import io.wispforest.accessories.api.AccessoriesCapability;
+import java.util.Map;
+import java.util.Optional;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +27,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoEntity;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity, PowerUpSource {
     private long lastCollisionTime = 0;
@@ -109,11 +113,15 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity, Po
 
         if (!entity.isSpectator()
                 && (ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get() || entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS))) {
-            AccessoriesCapability capability = AccessoriesCapability.get(entity);
+            Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(entity);
             ItemStack offhandStack = entity.getOffhandItem();
 
-            if (capability != null && !capability.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get()))
-                capability.attemptToEquipAccessory(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
+            ICurioStacksHandler slotCharm = curiosInventory.map(handler -> handler.getCurios().get("charm")).orElse(null);
+            ItemStack stackCharm = slotCharm != null ? slotCharm.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+            boolean equippedInCurios = curiosInventory.map(handler -> handler.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())).orElse(false);
+
+            if (slotCharm != null && !equippedInCurios && stackCharm.isEmpty())
+                slotCharm.getStacks().setStackInSlot(0, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
             else if (offhandStack.isEmpty())
                 entity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
             else if (offhandStack.getCount() >= 1 && entity instanceof Player player)

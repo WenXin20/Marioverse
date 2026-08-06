@@ -8,10 +8,9 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -51,6 +50,9 @@ import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableEntity {
     public static final RawAnimation SHAKE = RawAnimation.begin().thenLoop("move.shake");
@@ -378,26 +380,31 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, TraceableE
 
         if (ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
                 && !partSource.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-            AccessoriesCapability entityCap = AccessoriesCapability.get(entity);
-            if (entityCap != null) {
+            Optional<ICuriosItemHandler> entityCuriosInventory = CuriosApi.getCuriosInventory(entity);
+            if (entityCuriosInventory.isPresent()) {
+                Map<String, ICurioStacksHandler> entityCurios = entityCuriosInventory.get().getCurios();
                 String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
 
                 for (String slotType : slotTypes) {
-                    AccessoriesContainer containerEntity = entityCap.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
-                    if (containerEntity == null) continue;
+                    ICurioStacksHandler slotEntity = entityCurios.get(slotType);
+                    if (slotEntity == null)
+                        continue;
 
                     for (DryBonesPartEntity part : parts) {
-                        AccessoriesCapability partCap = AccessoriesCapability.get(part);
-                        if (partCap == null) continue;
+                        Optional<ICuriosItemHandler> partCuriosInventory = CuriosApi.getCuriosInventory(part);
+                        if (partCuriosInventory.isEmpty())
+                            continue;
 
-                        AccessoriesContainer containerPart = partCap.getContainer(SlotTypeLoader.getSlotType(part, slotType));
-                        if (containerPart == null) continue;
+                        Map<String, ICurioStacksHandler> partCurios = partCuriosInventory.get().getCurios();
+                        ICurioStacksHandler slotPart = partCurios.get(slotType);
+                        if (slotPart == null)
+                            continue;
 
-                        ItemStack partStack = containerPart.getAccessories().getItem(0);
-                        ItemStack existing = containerEntity.getAccessories().getItem(0);
+                        ItemStack partStack = slotPart.getStacks().getStackInSlot(0);
+                        ItemStack existing = slotEntity.getStacks().getStackInSlot(0);
 
                         if (!partStack.isEmpty() && existing.isEmpty()) {
-                            containerEntity.getAccessories().setItem(0, partStack.copy());
+                            slotEntity.getStacks().setStackInSlot(0, partStack.copy());
                             break;
                         }
                     }
