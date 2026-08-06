@@ -454,10 +454,10 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         ItemStack stackLegs = entity.getItemBySlot(EquipmentSlot.LEGS);
         ItemStack stackFeet = entity.getItemBySlot(EquipmentSlot.FEET);
 
-        boolean hasFreezeImmunity = stackHead.is(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                || stackChest.is(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                || stackLegs.is(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                || stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
+        boolean hasFreezeImmunity = (stackHead.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !mv$isCostume(stackHead))
+                || (stackChest.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !mv$isCostume(stackChest))
+                || (stackLegs.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !mv$isCostume(stackLegs))
+                || (stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !mv$isCostume(stackFeet));
 
         boolean armorCostumeHasIceFlower = (stackHead.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackHead)
                 && Boolean.TRUE.equals(stackHead.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
