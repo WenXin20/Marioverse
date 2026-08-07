@@ -460,10 +460,12 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
 
         if (biome.is(TagRegistry.HAS_TROPICAL_PIRANHA_PLANT) && chance < 0.75F)
             this.setVariant(PiranhaPlantVariants.TROPICAL);
-        else if (this.blockPosition().getY() < 32 && !biome.is(TagRegistry.CAVE_PIRANHA_PLANT_CANNOT_SPAWN))
-            this.setVariant(PiranhaPlantVariants.CAVE);
-        else if (this.blockPosition().getY() < 0 && !biome.is(TagRegistry.DEEP_CAVE_PIRANHA_PLANT_CANNOT_SPAWN))
+        else if (this.blockPosition().getY() < ConfigRegistry.DEEP_CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get()
+                && !biome.is(TagRegistry.DEEP_CAVE_PIRANHA_PLANT_CANNOT_SPAWN))
             this.setVariant(PiranhaPlantVariants.DEEP_CAVE);
+        else if (this.blockPosition().getY() < ConfigRegistry.CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get()
+                && !biome.is(TagRegistry.CAVE_PIRANHA_PLANT_CANNOT_SPAWN))
+            this.setVariant(PiranhaPlantVariants.CAVE);
         else this.setVariant(PiranhaPlantVariants.NORMAL);
 
         if (type == MobSpawnType.MOB_SUMMONED)
