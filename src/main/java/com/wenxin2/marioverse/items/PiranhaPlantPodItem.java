@@ -1,7 +1,9 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
@@ -69,6 +71,11 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
 
                 if (entity instanceof PiranhaPlantEntity piranhaPlant) {
                     BlockPos newPos = piranhaPlant.findValidBlockPos();
+                    String variantName = stack.get(DataComponentRegistry.VARIANT.get());
+
+                    if (variantName != null)
+                        piranhaPlant.setVariant(variantName);
+
                     piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
                     piranhaPlant.setOwner(player);
                     piranhaPlant.setPersistenceRequired();

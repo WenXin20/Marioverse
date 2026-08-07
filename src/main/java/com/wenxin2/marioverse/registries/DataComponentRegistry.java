@@ -54,6 +54,9 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> LINKED_BLOCK =
             Marioverse.COMPONENTS.register("linked_block", () -> DataComponentType.<String>builder()
                     .persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> VARIANT =
+            Marioverse.COMPONENTS.register("variant", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Component>> PIPE_NAME =
             Marioverse.COMPONENTS.register("pipe_name", () -> DataComponentType.<Component>builder()

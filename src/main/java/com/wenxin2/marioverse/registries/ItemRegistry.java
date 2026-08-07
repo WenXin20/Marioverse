@@ -279,7 +279,8 @@ public class ItemRegistry {
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
 
         PIRANHA_PLANT_POD = registerItem("piranha_plant_pod",
-                () -> new PiranhaPlantPodItem(6, EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PiranhaPlantPodItem(6, EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()
+                        .component(DataComponentRegistry.VARIANT, "normal")));
 
         MARIO_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("mario_armor_trim_smithing_template",
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.MARIO));
