@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-21T16:37:31.8337843	Tags for minecraft:worldgen/biome mod id marioverse
+// 1.21.1	2026-08-07T00:08:49.5718888	Tags for minecraft:worldgen/biome mod id marioverse
 7acd972b7a034b9ad9e174b14c2d0693c3d4481d data/marioverse/tags/worldgen/biome/has_boo.json
 b020f6cdcd2d955793278b2f89a178a1d31e599a data/marioverse/tags/worldgen/biome/has_cheep_cheep.json
 9c57d566ae8a9db354b56e04a7c1a6035f78878a data/marioverse/tags/worldgen/biome/has_cold_cheep_cheep.json
@@ -24,4 +24,5 @@ a2ef6080d33c29a10db059a25ae7597166de66e0 data/marioverse/tags/worldgen/biome/has
 f5975c55240e9fe09edb81c0e15335e7b385cf1e data/marioverse/tags/worldgen/biome/has_structure/has_classic_underground.json
 b020f6cdcd2d955793278b2f89a178a1d31e599a data/marioverse/tags/worldgen/biome/has_submerged_pipes.json
 ebf8fcf19de8793fb2f5aab5b14d1b39b9746809 data/marioverse/tags/worldgen/biome/has_trampoline_caps.json
+40c32276a71acbba542072cfc7916d61f7656107 data/marioverse/tags/worldgen/biome/has_tropical_piranha_plant.json
 ada57d03764fe71c940471ac4773c2ed996e7897 data/marioverse/tags/worldgen/biome/has_warm_cheep_cheep.json

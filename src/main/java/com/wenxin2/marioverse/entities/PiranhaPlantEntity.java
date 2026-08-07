@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.entities.ai.goals.LookAtEntityTagGoal;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
+import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
+import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.network.server_bound.data.PiranhaPlantHidePayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -12,10 +14,12 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -63,6 +67,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -86,6 +91,8 @@ import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, TraceableEntity {
+    private static final EntityDataAccessor<String> VARIANT = SynchedEntityData
+            .defineId(PiranhaPlantEntity.class, EntityDataSerializers.STRING);
     public static final RawAnimation CONSTANT_BITES = RawAnimation.begin().thenLoop("piranha_plant.constant_bite");
     public static final RawAnimation DEATH = RawAnimation.begin().thenPlayAndHold("piranha_plant.death");
     public static final RawAnimation EMERGE = RawAnimation.begin().thenPlay("piranha_plant.emerge");
@@ -240,6 +247,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         tag.putBoolean("IsHiding", this.isHiding());
         tag.putInt("Age", this.getAge());
         tag.putInt("ForcedAge", this.forcedAge);
+        tag.putString("Variant", this.getVariant());
 
         if (this.ownerUUID != null)
             tag.putUUID("Owner", this.ownerUUID);
@@ -256,6 +264,9 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         this.setAge(tag.getInt("Age"));
         this.forcedAge = tag.getInt("ForcedAge");
 
+        if (tag.contains("Variant"))
+            this.setVariant(tag.getString("Variant"));
+
         if (tag.hasUUID("Owner")) {
             this.ownerUUID = tag.getUUID("Owner");
             this.cachedOwner = null;
@@ -266,6 +277,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_BABY_ID, false);
+        builder.define(VARIANT, CheepCheepVariants.NORMAL);
     }
 
     @Override
@@ -440,10 +452,46 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficulty, MobSpawnType type, @Nullable SpawnGroupData data) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        MobSpawnType type, @Nullable SpawnGroupData spawnData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, type, spawnData);
+        Holder<Biome> biome = level.getBiome(this.blockPosition());
+        float chance = random.nextFloat();
+
+        if (biome.is(TagRegistry.HAS_TROPICAL_PIRANHA_PLANT) && chance < 0.75F)
+            this.setVariant(PiranhaPlantVariants.TROPICAL);
+        else if (this.blockPosition().getY() < 32 && !biome.is(TagRegistry.CAVE_PIRANHA_PLANT_CANNOT_SPAWN))
+            this.setVariant(PiranhaPlantVariants.CAVE);
+        else if (this.blockPosition().getY() < 0 && !biome.is(TagRegistry.DEEP_CAVE_PIRANHA_PLANT_CANNOT_SPAWN))
+            this.setVariant(PiranhaPlantVariants.DEEP_CAVE);
+        else this.setVariant(PiranhaPlantVariants.NORMAL);
+
         if (type == MobSpawnType.MOB_SUMMONED)
             this.setAge(-24000);
-        return super.finalizeSpawn(levelAccessor, difficulty, type, data);
+        return data;
+    }
+
+    public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends AgeableMob> entityType, ServerLevelAccessor levelAccessor,
+                                                      MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return levelAccessor.getDifficulty() != Difficulty.PEACEFUL
+                && (MobSpawnType.ignoresLightRequirements(spawnType)
+                    || isBrightEnoughToSpawn(levelAccessor.getLevel(), pos)
+                    || isValidCaveSpawn(levelAccessor.getLevel(), pos));
+    }
+
+    protected static boolean isBrightEnoughToSpawn(ServerLevel level, BlockPos pos) {
+        return level.isDay() && level.getBrightness(LightLayer.SKY, pos) > 0
+                && level.getBrightness(LightLayer.BLOCK, pos) <= 0
+                && level.getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_SPAWNABLE_ON);
+    }
+
+    protected static boolean isValidCaveSpawn(ServerLevel level, BlockPos pos) {
+        return level.dimension() == Level.OVERWORLD
+                && !level.canSeeSky(pos)
+                && level.getBrightness(LightLayer.BLOCK, pos) <= 0
+                && (pos.getY() < ConfigRegistry.CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get()
+                    || pos.getY() < ConfigRegistry.DEEP_CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get())
+                && level.getBlockState(pos.below()).is(TagRegistry.CAVE_PIRANHA_PLANTS_SPAWNABLE_ON);
     }
 
     @NotNull
@@ -510,18 +558,6 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             case WEST -> new AABB(this.getX() - 0.8125 * width * scale, this.getY(), this.getZ() - 0.45 * width * scale,
                     this.getX() + 0.45 * width * scale, this.getY() + 1.0 * height * scale, this.getZ() + 0.45 * width * scale);
         };
-    }
-
-    public static boolean checkPiranhaPlantSpawnRules(EntityType<? extends AgeableMob> entityType, ServerLevelAccessor levelAccessor,
-                                                      MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return levelAccessor.getDifficulty() != Difficulty.PEACEFUL
-                && (MobSpawnType.ignoresLightRequirements(spawnType) || isBrightEnoughToSpawn(levelAccessor.getLevel(), pos))
-                && levelAccessor.getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_SPAWNABLE_ON);
-    }
-
-    protected static boolean isBrightEnoughToSpawn(ServerLevel level, BlockPos pos) {
-        return level.isDay() && level.getBrightness(LightLayer.SKY, pos) > 0
-                && level.getBrightness(LightLayer.BLOCK, pos) <= 0;
     }
 
     @Override
@@ -646,6 +682,18 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             }
         }
         return true;
+    }
+
+    public String getVariant() {
+        return this.entityData.get(VARIANT);
+    }
+
+    public void setVariant(String variant) {
+        this.entityData.set(VARIANT, variant);
+    }
+
+    public boolean isChomper() {
+        return this.getName().getString().toLowerCase(Locale.ROOT).equals("chomper");
     }
 
     public int getAge() {

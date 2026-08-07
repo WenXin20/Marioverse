@@ -95,6 +95,11 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .addTag(BiomeTags.IS_JUNGLE)
                 .add(Biomes.DARK_FOREST);
 
+        tag(TagRegistry.HAS_TROPICAL_PIRANHA_PLANT)
+                .addTag(Tags.Biomes.IS_JUNGLE)
+                .addTag(BiomeTags.IS_JUNGLE)
+                .add(Biomes.LUSH_CAVES);
+
 
         tag(TagRegistry.HAS_BRICK_LANES)
                 .addTag(Tags.Biomes.IS_MUSHROOM)

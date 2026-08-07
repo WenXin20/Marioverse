@@ -21,7 +21,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
@@ -210,8 +209,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(SIZE, CheepCheepVariants.NORMAL.toString());
-        builder.define(VARIANT, CheepCheepVariants.NORMAL.toString());
+        builder.define(SIZE, CheepCheepVariants.NORMAL);
+        builder.define(VARIANT, CheepCheepVariants.NORMAL);
     }
 
     @Override
@@ -283,7 +282,7 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
                                         MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnData);
-        Holder<Biome> biome = level.getBiome(blockPosition());
+        Holder<Biome> biome = level.getBiome(this.blockPosition());
         RandomSource random = level.getRandom();
         float chance = random.nextFloat();
 
@@ -334,8 +333,8 @@ public class CheepCheepEntity extends AbstractSchoolingFish implements GeoEntity
         return this.entityData.get(SIZE);
     }
 
-    public void setSize(String variant) {
-        this.entityData.set(SIZE, variant);
+    public void setSize(String size) {
+        this.entityData.set(SIZE, size);
     }
 
     public String getVariant() {

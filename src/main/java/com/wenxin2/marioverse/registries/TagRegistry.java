@@ -17,6 +17,8 @@ public class TagRegistry {
     public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
     public static final TagKey<BannerPattern> PLUMBER_BANNER_PATTERN = bannerPatternTags("pattern_item/plumber");
 
+    public static final TagKey<Biome> CAVE_PIRANHA_PLANT_CANNOT_SPAWN = biomeTags("cave_piranha_plant_cannot_spawn");
+    public static final TagKey<Biome> DEEP_CAVE_PIRANHA_PLANT_CANNOT_SPAWN = biomeTags("deep_cave_piranha_plant_cannot_spawn");
     public static final TagKey<Biome> HAS_BOO = biomeTags("has_boo");
     public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
     public static final TagKey<Biome> HAS_CHEEP_CHEEP = biomeTags("has_cheep_cheep");
@@ -42,6 +44,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_SPLUNKIN = biomeTags("has_splunkin");
     public static final TagKey<Biome> HAS_SUBMERGED_PIPES = biomeTags("has_submerged_pipes");
     public static final TagKey<Biome> HAS_TRAMPOLINE_CAPS = biomeTags("has_trampoline_caps");
+    public static final TagKey<Biome> HAS_TROPICAL_PIRANHA_PLANT = biomeTags("has_tropical_piranha_plant");
     public static final TagKey<Biome> HAS_WARM_CHEEP_CHEEP = biomeTags("has_warm_cheep_cheep");
 
     public static final TagKey<Block> ABILITY_BLOCKS = blockTags("ability_blocks");
@@ -54,6 +57,7 @@ public class TagRegistry {
     public static final TagKey<Block> CALCITE_BRICK_BLOCKS = blockTags("calcite_bricks");
     public static final TagKey<Block> CALCITE_BRICK_PEDESTAL_BLOCKS = blockTags("calcite_brick_pedestals");
     public static final TagKey<Block> CANNOT_USE_AS_DISGUISE = blockTags("cannot_use_as_disguise");
+    public static final TagKey<Block> CAVE_PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("cave_piranha_plants_spawnable_on");
     public static final TagKey<Block> CHECKPOINT_FLAG_BLOCKS = blockTags("checkpoint_flags");
     public static final TagKey<Block> CHISELED_CALCITE_BRICK_BLOCKS = blockTags("chiseled_calcite_bricks");
     public static final TagKey<Block> CORAL_TOWER_BLOCKS = blockTags("coral_towers");
