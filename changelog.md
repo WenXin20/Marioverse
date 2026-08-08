@@ -1,4 +1,5 @@
 ## Update 1.11.1
+### Remove equipped items before uninstalling Accessories
 - Migrated compat to use Curios instead of Accessories
 - Added the data component `marioverse:undying_charm`
   - Any item with this component will function as a one up
