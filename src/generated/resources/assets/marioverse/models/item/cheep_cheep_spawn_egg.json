@@ -1,5 +1,19 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "marioverse:item/cold_cheep_cheep_spawn_egg",
+      "predicate": {
+        "marioverse:variant": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/warm_cheep_cheep_spawn_egg",
+      "predicate": {
+        "marioverse:variant": 2.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "marioverse:item/cheep_cheep_spawn_egg"
   }

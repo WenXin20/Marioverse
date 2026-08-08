@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.registries;
 
+import net.minecraft.world.level.dimension.DimensionType;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -262,9 +263,11 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue WARIO_ABILITY_SAFE_FALL_DISTANCE;
     public static ModConfigSpec.DoubleValue WARIO_ABILITY_WIDTH_SCALE;
 
-    public static ModConfigSpec.IntValue BOO_SUN_EXPOSURE_LIMIT;
     public static ModConfigSpec.IntValue BOO_LIGHT_SENSITIVITY;
+    public static ModConfigSpec.IntValue BOO_SUN_EXPOSURE_LIMIT;
+    public static ModConfigSpec.IntValue CAVE_PIRANHA_PLANT_MAX_Y_SPAWN;
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
+    public static ModConfigSpec.IntValue DEEP_CAVE_PIRANHA_PLANT_MAX_Y_SPAWN;
     public static ModConfigSpec.IntValue DRY_BONES_DEATH_DURATION;
     public static ModConfigSpec.IntValue DRY_BONES_REASSEMBLE_DURATION;
     public static ModConfigSpec.IntValue FIREBALL_COOLDOWN;
@@ -295,8 +298,8 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue MAX_PLAYER_ICE_BALLS;
     public static ModConfigSpec.IntValue MAX_POKEY_HEIGHT;
     public static ModConfigSpec.IntValue MAX_SNOW_POKEY_HEIGHT;
-    public static ModConfigSpec.IntValue MEGA_MUSHROOM_MINING_RADIUS;
     public static ModConfigSpec.IntValue MEGA_MUSHROOM_DURATION;
+    public static ModConfigSpec.IntValue MEGA_MUSHROOM_MINING_RADIUS;
     public static ModConfigSpec.IntValue ONE_UP_COOLDOWN;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
@@ -1099,6 +1102,14 @@ public class ConfigRegistry {
                             .comment("Applies to any block in the '#marioverse:piranha_plant_can_hide' block tag.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("piranha_plant_hide_duration", 200, 80, 72000);
+                    CAVE_PIRANHA_PLANT_MAX_Y_SPAWN = BUILDER.translation("configuration.marioverse.cave_piranha_plant_max_y_spawn")
+                            .comment("The max y level cave piranha plant variants can spawn.")
+                            .comment("For blacklisting biomes, use the '#marioverse:cave_piranha_plant_cannot_spawn' biome tag.§b")
+                            .defineInRange("cave_piranha_plant_max_y_spawn", 64, -64, 320);
+                    DEEP_CAVE_PIRANHA_PLANT_MAX_Y_SPAWN = BUILDER.translation("configuration.marioverse.deep_cave_piranha_plant_max_y_spawn")
+                            .comment("The max y level deep cave piranha plant variants can spawn.")
+                            .comment("For blacklisting biomes, use the '#marioverse:deep_cave_piranha_plant_cannot_spawn' biome tag.§b")
+                            .defineInRange("deep_cave_piranha_plant_max_y_spawn", 0, -64, 320);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_POKEY);

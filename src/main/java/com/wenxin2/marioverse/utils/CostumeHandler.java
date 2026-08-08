@@ -1,18 +1,12 @@
 package com.wenxin2.marioverse.utils;
 
-import com.wenxin2.marioverse.entities.power_ups.AbstractPowerUpEntity;
-import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
-import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.power_up.PowerUpSource;
-import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
-import net.minecraft.core.Holder;
+import java.util.Map;
+import java.util.Optional;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -20,6 +14,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 public interface CostumeHandler {
     default boolean mv$hasCostume(LivingEntity entity) {
@@ -29,18 +26,19 @@ public interface CostumeHandler {
                 && entity.getItemBySlot(EquipmentSlot.FEET).is(TagRegistry.COSTUMES))
             return true;
 
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
-        if (capability != null) {
-            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
-            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
-            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
-            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
+        Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(entity);
+        if (curiosInventory.isPresent()) {
+            Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
+            ICurioStacksHandler slotHat = curios.get("costume_hat");
+            ICurioStacksHandler slotShirt = curios.get("costume_shirt");
+            ICurioStacksHandler slotPants = curios.get("costume_pants");
+            ICurioStacksHandler slotShoes = curios.get("costume_shoes");
 
-            if (containerHat != null && containerShirt != null && containerPants != null && containerShoes != null) {
-                ItemStack stackHat = containerHat.getAccessories().getItem(0);
-                ItemStack stackShirt = containerShirt.getAccessories().getItem(0);
-                ItemStack stackPants = containerPants.getAccessories().getItem(0);
-                ItemStack stackShoes = containerShoes.getAccessories().getItem(0);
+            if (slotHat != null && slotShirt != null && slotPants != null && slotShoes != null) {
+                ItemStack stackHat = slotHat.getStacks().getStackInSlot(0);
+                ItemStack stackShirt = slotShirt.getStacks().getStackInSlot(0);
+                ItemStack stackPants = slotPants.getStacks().getStackInSlot(0);
+                ItemStack stackShoes = slotShoes.getStacks().getStackInSlot(0);
 
                 return stackHat.is(TagRegistry.COSTUMES) && stackShirt.is(TagRegistry.COSTUMES)
                         && stackPants.is(TagRegistry.COSTUMES) && stackShoes.is(TagRegistry.COSTUMES);
@@ -50,17 +48,17 @@ public interface CostumeHandler {
     }
 
     default void applyCostumeChange(LivingEntity entity, PowerUpSource source) {
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
+        Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(entity);
 
-        if (capability != null) {
+        if (curiosInventory.isPresent()) {
             if (entity instanceof Player && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get())
-                this.updateCostume(entity, source, capability);
+                this.updateCostume(entity, source, curiosInventory.get());
             else if (!(entity instanceof Player) && ConfigRegistry.EQUIP_COSTUMES_MOBS.get())
-                this.updateCostume(entity, source, capability);
+                this.updateCostume(entity, source, curiosInventory.get());
         }
     }
 
-    default void updateCostume(LivingEntity entity, PowerUpSource source, AccessoriesCapability capability) {
+    default void updateCostume(LivingEntity entity, PowerUpSource source, ICuriosItemHandler capability) {
         if (entity.getType().is(TagRegistry.CAN_WEAR_COSTUMES)) {
             List<ItemStack> hatCostumeItems = BuiltInRegistries.ITEM.getOrCreateTag(TagRegistry.POWER_UP_HAT_COSTUMES).stream()
                     .map(holder -> new ItemStack(holder.value())).toList();
@@ -98,21 +96,18 @@ public interface CostumeHandler {
             }
         }
 
-        this.applyAccessoryCostumeComponents(capability.getContainer(SlotTypeLoader
-                .getSlotType(entity, "costume_hat")), source);
-        this.applyAccessoryCostumeComponents(capability.getContainer(SlotTypeLoader
-                .getSlotType(entity, "costume_shirt")), source);
-        this.applyAccessoryCostumeComponents(capability.getContainer(SlotTypeLoader
-                .getSlotType(entity, "costume_pants")), source);
-        this.applyAccessoryCostumeComponents(capability.getContainer(SlotTypeLoader
-                .getSlotType(entity, "costume_shoes")), source);
+        Map<String, ICurioStacksHandler> curios = capability.getCurios();
+        this.applyCurioCostumeComponents(curios.get("costume_hat"), source);
+        this.applyCurioCostumeComponents(curios.get("costume_shirt"), source);
+        this.applyCurioCostumeComponents(curios.get("costume_pants"), source);
+        this.applyCurioCostumeComponents(curios.get("costume_shoes"), source);
     }
 
-    default void applyAccessoryCostumeComponents(AccessoriesContainer container, PowerUpSource source) {
-        if (container == null)
+    default void applyCurioCostumeComponents(ICurioStacksHandler slotHandler, PowerUpSource source) {
+        if (slotHandler == null)
             return;
 
-        ItemStack stack = container.getAccessories().getItem(0);
+        ItemStack stack = slotHandler.getStacks().getStackInSlot(0);
         if (stack.is(TagRegistry.COSTUMES))
             this.applyPowerUpComponents(stack, source);
     }

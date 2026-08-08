@@ -3,10 +3,9 @@ package com.wenxin2.marioverse.items;
 import com.wenxin2.marioverse.client.renderers.costumes.MaleCostumeRenderer;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
@@ -29,6 +28,9 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 public class MaleCostumeItem extends BaseCostumeItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -90,14 +92,15 @@ public class MaleCostumeItem extends BaseCostumeItem implements GeoItem {
             MaleCostumeItem.clearPowerUps(stack);
         }
 
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
-        if (capability != null) {
+        Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(entity);
+        if (curiosInventory.isPresent()) {
+            Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
             for (String slotName : new String[]{"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"}) {
-                AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotName));
-                if (container == null)
+                ICurioStacksHandler slotHandler = curios.get(slotName);
+                if (slotHandler == null)
                     continue;
 
-                ItemStack stack = container.getAccessories().getItem(0);
+                ItemStack stack = slotHandler.getStacks().getStackInSlot(0);
                 MaleCostumeItem.clearPowerUps(stack);
             }
         }

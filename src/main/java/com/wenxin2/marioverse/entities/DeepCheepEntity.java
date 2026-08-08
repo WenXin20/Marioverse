@@ -156,7 +156,7 @@ public class DeepCheepEntity extends CheepCheepEntity implements GeoEntity {
         return this.entityData.get(SIZE);
     }
 
-    public void setSize(String variant) {
-        this.entityData.set(SIZE, variant);
+    public void setSize(String size) {
+        this.entityData.set(SIZE, size);
     }
 }

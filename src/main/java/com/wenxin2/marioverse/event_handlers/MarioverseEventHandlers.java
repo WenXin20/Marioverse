@@ -29,6 +29,7 @@ import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
+import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
@@ -50,11 +51,10 @@ import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -122,6 +122,9 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import org.jetbrains.annotations.Nullable;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
@@ -380,17 +383,19 @@ public class MarioverseEventHandlers {
                             soundSource, 1.0F, pitch);
             }
 
-            AccessoriesCapability capability = AccessoriesCapability.get(player);
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
+            Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(player);
+            if (curiosInventory.isPresent() && ConfigRegistry.EQUIP_COSTUMES_PLAYERS.get()
                     && entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)
                     && !player.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
                 String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+
                 for (String slotType : slotTypes) {
-                    AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(player, slotType));
-                    if (container != null) {
-                        ItemStack stack = container.getAccessories().getItem(0);
+                    ICurioStacksHandler slotHandler = curios.get(slotType);
+                    if (slotHandler != null) {
+                        ItemStack stack = slotHandler.getStacks().getStackInSlot(0);
                         if (stack.is(TagRegistry.POWER_UP_COSTUMES))
-                            removeCostume(player, capability);
+                            removeCostume(curiosInventory.get());
                     }
                 }
             }
@@ -434,17 +439,19 @@ public class MarioverseEventHandlers {
             if (healthAfterDamage <= threshold)
                 entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, false);
 
-            AccessoriesCapability capability = AccessoriesCapability.get(entity);
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+            Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(entity);
+            if (curiosInventory.isPresent() && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
                     && entity.getType().is(TagRegistry.DAMAGE_REMOVES_COSTUME)
                     && !entity.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+                Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
                 String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+
                 for (String slotType : slotTypes) {
-                    AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
-                    if (container != null) {
-                        ItemStack stack = container.getAccessories().getItem(0);
+                    ICurioStacksHandler slotHandler = curios.get(slotType);
+                    if (slotHandler != null) {
+                        ItemStack stack = slotHandler.getStacks().getStackInSlot(0);
                         if (stack.is(TagRegistry.POWER_UP_COSTUMES))
-                            removeCostume(entity, capability);
+                            removeCostume(curiosInventory.get());
                     }
                 }
             }
@@ -519,31 +526,32 @@ public class MarioverseEventHandlers {
             entity.removeData(DataAttachmentRegistry.HAS_DOUBLE_JUMP);
     }
 
-    private static void removeCostume(LivingEntity entity, AccessoriesCapability capability) {
-        AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
-        AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
-        AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
-        AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
+    private static void removeCostume(ICuriosItemHandler capability) {
+        Map<String, ICurioStacksHandler> curios = capability.getCurios();
+        ICurioStacksHandler slotHat = curios.get("costume_hat");
+        ICurioStacksHandler slotShirt = curios.get("costume_shirt");
+        ICurioStacksHandler slotPants = curios.get("costume_pants");
+        ICurioStacksHandler slotShoes = curios.get("costume_shoes");
 
-        if (containerHat != null) {
-            ItemStack stack = containerHat.getAccessories().getItem(0);
+        if (slotHat != null) {
+            ItemStack stack = slotHat.getStacks().getStackInSlot(0);
             if (stack.is(TagRegistry.COSTUMES))
-                containerHat.getAccessories().removeItem(0, 1);
+                slotHat.getStacks().extractItem(0, 1, false);
         }
-        if (containerShirt != null) {
-            ItemStack stack = containerShirt.getAccessories().getItem(0);
+        if (slotShirt != null) {
+            ItemStack stack = slotShirt.getStacks().getStackInSlot(0);
             if (stack.is(TagRegistry.COSTUMES))
-                containerShirt.getAccessories().removeItem(0, 1);
+                slotShirt.getStacks().extractItem(0, 1, false);
         }
-        if (containerPants != null) {
-            ItemStack stack = containerPants.getAccessories().getItem(0);
+        if (slotPants != null) {
+            ItemStack stack = slotPants.getStacks().getStackInSlot(0);
             if (stack.is(TagRegistry.COSTUMES))
-                containerPants.getAccessories().removeItem(0, 1);
+                slotPants.getStacks().extractItem(0, 1, false);
         }
-        if (containerShoes != null) {
-            ItemStack stack = containerShoes.getAccessories().getItem(0);
+        if (slotShoes != null) {
+            ItemStack stack = slotShoes.getStacks().getStackInSlot(0);
             if (stack.is(TagRegistry.COSTUMES))
-                containerShoes.getAccessories().removeItem(0, 1);
+                slotShoes.getStacks().extractItem(0, 1, false);
         }
     }
 
@@ -621,7 +629,6 @@ public class MarioverseEventHandlers {
         Level level = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = level.getBlockState(pos);
-        BlockEntity blockEntity = level.getBlockEntity(pos);
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
@@ -629,15 +636,20 @@ public class MarioverseEventHandlers {
         BlockState newState = BlockRegistry.POTTED_PIRANHA_PLANT.get().defaultBlockState()
                 .setValue(BlockStateProperties.HORIZONTAL_AXIS, axis);
 
-        if (heldItem.getItem() instanceof PiranhaPlantPodItem
+        if (heldItem.getItem() instanceof PiranhaPlantPodItem plantPodItem
                 && state.getBlock() instanceof FlowerPotBlock flowerPot
                 && !(state.getBlock() instanceof PottedPiranhaPlantBlock)
                 && flowerPot.getPotted() == Blocks.AIR
                 && !player.isShiftKeyDown()) {
 
             level.setBlock(pos, newState, 3);
+            BlockEntity blockEntity = level.getBlockEntity(pos);
 
             if (blockEntity instanceof PottedPiranhaPlantBlockEntity piranhaPlantBE) {
+                piranhaPlantBE.setData(DataAttachmentRegistry.VARIANT, heldItem
+                        .getOrDefault(DataComponentRegistry.VARIANT, PiranhaPlantVariants.NORMAL));
+                if (plantPodItem.isChomper(heldItem))
+                    piranhaPlantBE.setData(DataAttachmentRegistry.VARIANT, PiranhaPlantVariants.CHOMPER);
                 piranhaPlantBE.setOwner(player);
                 piranhaPlantBE.setChanged();
             }
@@ -648,6 +660,7 @@ public class MarioverseEventHandlers {
             heldItem.consume(1, player);
         }
 
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         if (player.isCreative() && player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem blockItem
                 && !blockItem.getBlock().defaultBlockState().is(TagRegistry.CANNOT_USE_AS_DISGUISE)
                 && blockEntity instanceof DisguisedBlockEntity disguiseBE) {

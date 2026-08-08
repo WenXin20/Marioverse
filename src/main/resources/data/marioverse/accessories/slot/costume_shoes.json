@@ -1,6 +1,6 @@
 {
   "replace": false,
-  "icon": "marioverse:gui/slot/empty_shoes_slot",
+  "icon": "marioverse:slot/empty_shoes_slot",
   "operation": "set",
   "drop_rule": "KEEP",
   "amount": 1,

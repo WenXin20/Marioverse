@@ -1,3 +1,21 @@
+## Update 1.11.1
+**Now requires Curios instead of Accessories**
+
+**Remove equipped items before uninstalling Accessories**
+
+- Migrated compat to use Curios instead of Accessories
+- Added the data component `marioverse:undying_charm`
+  - Any item with this component will function as a one up
+- Added Piranha Plant variants
+  - Tropical variants spawn in jungles & lush caves
+  - Cave variants spawn underground
+  - Deep Cave variants spawn deep underground
+  - All variants have spawn eggs
+  - Added the "Chomper" name tag variant
+- Added spawn eggs for warm & cold Cheep Cheep variants
+
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
+
 ## Update 1.11.0
 - Added power up spawn eggs 
   - Used for spawning the power up entity from ? Blocks
@@ -43,8 +61,6 @@
 - Improved models of mushroom power ups
 - Increased particles on golden koopa shells
 - Fixed waist & dress rendering on koopas & goombas in the wrong position
-
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.10.1
 - Fixed a crash when the Warp Disruptor used on a player, and then the player stepped on a pipe

@@ -280,6 +280,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<String>> TYPE = Marioverse.ATTACHMENT_TYPES
             .register("type", () -> AttachmentType.builder(() -> "").serialize(Codec.STRING)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeUtf, FriendlyByteBuf::readUtf)).build());
+    public static final Supplier<AttachmentType<String>> VARIANT = Marioverse.ATTACHMENT_TYPES
+            .register("variant", () -> AttachmentType.builder(() -> "").serialize(Codec.STRING)
+                    .sync(StreamCodec.of(FriendlyByteBuf::writeUtf, FriendlyByteBuf::readUtf)).build());
 
     public static final Supplier<AttachmentType<Integer>> ENTITY_FROZEN_DURATION = Marioverse.ATTACHMENT_TYPES
             .register("entity_frozen_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)

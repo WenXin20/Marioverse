@@ -1,8 +1,12 @@
 package com.wenxin2.marioverse;
 
+import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
+import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
+import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,6 +103,10 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.COOKED_PORCUPUFFER);
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
+            add(event, ItemRegistry.PIRANHA_PLANT_POD, DataComponentRegistry.VARIANT.get(), PiranhaPlantVariants.TROPICAL);
+            add(event, ItemRegistry.PIRANHA_PLANT_POD, DataComponentRegistry.VARIANT.get(), PiranhaPlantVariants.CAVE);
+            add(event, ItemRegistry.PIRANHA_PLANT_POD, DataComponentRegistry.VARIANT.get(), PiranhaPlantVariants.DEEP_CAVE);
+            add(event, ItemRegistry.PIRANHA_PLANT_POD, DataComponentRegistry.VARIANT.get(), PiranhaPlantVariants.CHOMPER);
 
             add(event, ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE);
             add(event, ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE);
@@ -175,14 +183,20 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.POKEY_SPAWN_EGG);
             add(event, ItemRegistry.SNOW_POKEY_SPAWN_EGG);
             add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
+            add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), PiranhaPlantVariants.TROPICAL);
+            add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), PiranhaPlantVariants.CAVE);
+            add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), PiranhaPlantVariants.DEEP_CAVE);
+            add(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), PiranhaPlantVariants.CHOMPER);
             add(event, ItemRegistry.BOO_SPAWN_EGG);
             add(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG);
+            add(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), CheepCheepVariants.WARM);
+            add(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), CheepCheepVariants.COLD);
             add(event, ItemRegistry.EEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.DEEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
             add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG);
-            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, Component.literal("Mrs. Puff"));
-            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, Component.literal("Qwilfish"));
+            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), PorcupufferVariants.MRS_PUFF);
+            add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), PorcupufferVariants.QWILFISH);
         }
 
         if (event.getTabKey() == MARIOVERSE_BUILDING_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
@@ -577,13 +591,23 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
+                ItemStack piranhaPlantPod = new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
+                ItemStack cavePiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.CAVE);
+                ItemStack chomperPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.CHOMPER);
+                ItemStack deepCavePiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.DEEP_CAVE);
+                ItemStack tropicalPiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.TROPICAL);
+
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
 
                 addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.RED_TRAMPOLINE_CAP, BlockRegistry.BLUE_TRAMPOLINE_CAP);
                 addAfter(event, Blocks.SPORE_BLOSSOM, BlockRegistry.DANGO_BLOSSOM);
-                addAfter(event, Items.PITCHER_POD, ItemRegistry.PIRANHA_PLANT_POD);
+                addAfter(event, Items.PITCHER_POD, piranhaPlantPod);
+                addAfter(event, piranhaPlantPod, tropicalPiranhaPlantPod);
+                addAfter(event, tropicalPiranhaPlantPod, cavePiranhaPlantPod);
+                addAfter(event, cavePiranhaPlantPod, deepCavePiranhaPlantPod);
+                addAfter(event, deepCavePiranhaPlantPod, chomperPod);
 
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
 
@@ -739,11 +763,22 @@ public class MarioverseCreativeTabs {
             }
 
             if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+                ItemStack cheepCheep = new ItemStack(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get());
+                ItemStack coldCheepCheep = variant(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get(), CheepCheepVariants.COLD);
+                ItemStack warmCheepCheep = variant(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get(), CheepCheepVariants.WARM);
+
                 ItemStack goomba = new ItemStack(ItemRegistry.GOOMBA_SPAWN_EGG.get());
                 ItemStack goombella = customName(ItemRegistry.GOOMBA_SPAWN_EGG.get(), Component.literal("Goombella"));
+
                 ItemStack porcupuffer = new ItemStack(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get());
-                ItemStack mrsPuff = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Mrs. Puff"));
-                ItemStack qwilfish = customName(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), Component.literal("Qwilfish"));
+                ItemStack mrsPuff = variant(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), PorcupufferVariants.MRS_PUFF);
+                ItemStack qwilfish = variant(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(), PorcupufferVariants.QWILFISH);
+
+                ItemStack piranhaPlant = new ItemStack(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
+                ItemStack cavePiranhaPlant = variant(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get(), PiranhaPlantVariants.CAVE);
+                ItemStack chomper = variant(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get(), PiranhaPlantVariants.CHOMPER);
+                ItemStack deepCavePiranhaPlant = variant(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get(), PiranhaPlantVariants.DEEP_CAVE);
+                ItemStack tropicalPiranhaPlant = variant(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get(), PiranhaPlantVariants.TROPICAL);
 
                 addAfter(event, Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG);
                 addAfter(event, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG, ItemRegistry.DASH_MUSHROOM_SPAWN_EGG);
@@ -766,10 +801,16 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG, ItemRegistry.DRY_BONES_SPAWN_EGG);
                 addAfter(event, ItemRegistry.DRY_BONES_SPAWN_EGG, ItemRegistry.POKEY_SPAWN_EGG);
                 addAfter(event, ItemRegistry.POKEY_SPAWN_EGG, ItemRegistry.SNOW_POKEY_SPAWN_EGG);
-                addAfter(event, ItemRegistry.SNOW_POKEY_SPAWN_EGG, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG);
-                addAfter(event, ItemRegistry.PIRANHA_PLANT_SPAWN_EGG, ItemRegistry.BOO_SPAWN_EGG);
-                addAfter(event, ItemRegistry.BOO_SPAWN_EGG, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG);
-                addAfter(event, ItemRegistry.CHEEP_CHEEP_SPAWN_EGG, ItemRegistry.EEP_CHEEP_SPAWN_EGG);
+                addAfter(event, ItemRegistry.SNOW_POKEY_SPAWN_EGG, piranhaPlant);
+                addAfter(event, piranhaPlant, tropicalPiranhaPlant);
+                addAfter(event, tropicalPiranhaPlant, cavePiranhaPlant);
+                addAfter(event, cavePiranhaPlant, deepCavePiranhaPlant);
+                addAfter(event, deepCavePiranhaPlant, chomper);
+                addAfter(event, chomper, ItemRegistry.BOO_SPAWN_EGG);
+                addAfter(event, ItemRegistry.BOO_SPAWN_EGG, cheepCheep);
+                addAfter(event, cheepCheep, warmCheepCheep);
+                addAfter(event, warmCheepCheep, coldCheepCheep);
+                addAfter(event, coldCheepCheep, ItemRegistry.EEP_CHEEP_SPAWN_EGG);
                 addAfter(event, ItemRegistry.EEP_CHEEP_SPAWN_EGG, ItemRegistry.DEEP_CHEEP_SPAWN_EGG);
                 addAfter(event, ItemRegistry.DEEP_CHEEP_SPAWN_EGG, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG);
                 addAfter(event, ItemRegistry.SPINY_CHEEP_CHEEP_SPAWN_EGG, porcupuffer);
@@ -1323,6 +1364,13 @@ public class MarioverseCreativeTabs {
 
         tag.putString("Variant", variant);
         stack.set(DataComponents.BUCKET_ENTITY_DATA, CustomData.of(tag));
+        return stack;
+    }
+
+    public static ItemStack variant(ItemLike item, String variant) {
+        ItemStack stack = new ItemStack(item);
+
+        stack.set(DataComponentRegistry.VARIANT, variant);
         return stack;
     }
 

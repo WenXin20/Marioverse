@@ -3,9 +3,10 @@ package com.wenxin2.marioverse.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
+import com.wenxin2.marioverse.items.FemaleCostumeItem;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomItem;
-import com.wenxin2.marioverse.network.client_bound.data.OneUpPayload;
+import com.wenxin2.marioverse.network.client_bound.data.UndyingCharmPayload;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -20,10 +21,9 @@ import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -70,6 +70,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements BlockWarpEntityHandler, EntityWarpEntityHandler, AbilitiesHandler {
@@ -94,6 +97,11 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_MOBS.get();
+    }
+
+    @Unique
+    private static boolean mv$isCostume(ItemStack stackChest) {
+        return stackChest.getItem() instanceof FemaleCostumeItem || stackChest.getItem() instanceof MaleCostumeItem;
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -201,62 +209,6 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         } else entity.setData(DataAttachmentRegistry.HAS_DASH_MUSHROOM_BOOST, false);
     }
 
-    @ModifyReturnValue(method = "getArmorValue", at = @At("RETURN"))
-    private int getArmorValue(int original) {
-        LivingEntity entity = (LivingEntity) (Object) this;
-
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
-        if (capability != null) {
-            AccessoriesContainer[] accessorySlots = {
-                    capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat")),
-                    capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt")),
-                    capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants")),
-                    capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"))
-            };
-
-            int totalExtraArmor = 0;
-            float totalToughness = 0.0F;
-            float totalKnockbackResistance = 0.0F;
-
-            for (AccessoriesContainer container : accessorySlots) {
-                if (container == null) return original;
-                ItemStack stack = container.getAccessories().getItem(0);
-                if (!stack.isEmpty() && stack.getItem() instanceof ArmorItem accessoryArmor) {
-                    ArmorMaterial material = accessoryArmor.getMaterial().value();
-                    totalExtraArmor += material.getDefense(accessoryArmor.getType()) / 2;
-                    totalToughness += material.toughness() / 2;
-                    totalKnockbackResistance += material.knockbackResistance() / 2;
-                }
-            }
-
-            AttributeInstance toughnessAttribute = entity.getAttribute(Attributes.ARMOR_TOUGHNESS);
-            if (toughnessAttribute != null) {
-                boolean hasModifier = toughnessAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS) != null;
-                if (totalToughness > 0) {
-                    AttributeModifier toughnessModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS,
-                            totalToughness, AttributeModifier.Operation.ADD_VALUE);
-
-                    if (!hasModifier)
-                        toughnessAttribute.addPermanentModifier(toughnessModifier);
-                } else if (hasModifier) toughnessAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_TOUGHNESS);
-            }
-
-            AttributeInstance knockbackAttribute = entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
-            if (knockbackAttribute != null) {
-                boolean hasModifier = knockbackAttribute.getModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE) != null;
-                if (totalKnockbackResistance > 0) {
-                    AttributeModifier knockbackModifier = new AttributeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE,
-                            totalKnockbackResistance, AttributeModifier.Operation.ADD_VALUE);
-
-                    if (!hasModifier)
-                        knockbackAttribute.addPermanentModifier(knockbackModifier);
-                } else if (hasModifier)  knockbackAttribute.removeModifier(AttributesRegistry.COSTUME_ARMOR_KNOCKBACK_RESISTANCE);
-            }
-
-            return original + totalExtraArmor;
-        } else return original;
-    }
-
     @ModifyReturnValue(method = "checkTotemDeathProtection", at = @At("RETURN"))
     private boolean checkTotemDeathProtection(boolean original, DamageSource source) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
@@ -268,52 +220,58 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
 
             for (InteractionHand hand : InteractionHand.values()) {
                 ItemStack stackInHand = livingEntity.getItemInHand(hand);
-                if (stackInHand.getItem() instanceof OneUpMushroomItem) {
+                if (stackInHand.getComponents().getOrDefault(DataComponentRegistry.UNDYING_CHARM.get(), false)) {
                     stack = stackInHand.copy();
-                    stackInHand.shrink(1);
                     break;
                 }
             }
 
-            AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
-            if (capability != null) {
-                AccessoriesContainer containerCharm = capability.getContainer(SlotTypeLoader.getSlotType(livingEntity, "charm"));
-                if (containerCharm != null) {
-                    ItemStack stackCharm = containerCharm.getAccessories().getItem(0);
-                    if (stackCharm.getItem() instanceof OneUpMushroomItem) {
+            Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(livingEntity);
+
+            if (curiosInventory.isPresent()) {
+                Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
+                ICurioStacksHandler slotCharm = curios.get("charm");
+
+                if (slotCharm != null) {
+                    ItemStack stackCharm = slotCharm.getStacks().getStackInSlot(0);
+
+                    if (stackCharm.getComponents().getOrDefault(DataComponentRegistry.UNDYING_CHARM.get(), false)) {
                         livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                                 soundSource, 1.0F, pitch);
                         livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
-                        stackCharm.shrink(1);
 
                         if (livingEntity.level() instanceof ServerLevel serverLevel) {
                             ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverLevel, livingEntity, 25);
-                            ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
-                            if (livingEntity instanceof ServerPlayer player)
-                                PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
+
+                            if (stackCharm.getItem() instanceof OneUpMushroomItem)
+                                ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
+                            if (livingEntity instanceof ServerPlayer player && !stackCharm.isEmpty())
+                                PacketDistributor.sendToPlayer(player, new UndyingCharmPayload(true, stackCharm.copy()));
                         }
 
                         if (livingEntity instanceof ServerPlayer serverplayer) {
-                            serverplayer.awardStat(Stats.ITEM_USED.get(ItemRegistry.ONE_UP_MUSHROOM.get()), 1);
-                            CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stack);
+                            serverplayer.awardStat(Stats.ITEM_USED.get(stackCharm.getItem()), 1);
+                            CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stackCharm);
                             this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                         }
+                        stackCharm.shrink(1);
                         return true;
                     }
                 }
             }
 
-            if (!stack.isEmpty() && stack.getItem() instanceof OneUpMushroomItem) {
+            if (!stack.isEmpty() && stack.getComponents().getOrDefault(DataComponentRegistry.UNDYING_CHARM.get(), false)) {
                 livingEntity.level().playSound(null, livingEntity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                         soundSource, 1.0F, pitch);
                 livingEntity.setHealth(ConfigRegistry.ONE_UP_HEALTH_HEALED.get().floatValue());
-                stack.shrink(1);
 
                 if (livingEntity.level() instanceof ServerLevel serverLevel) {
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleRegistry.POWERED_UP.get(), serverLevel, livingEntity, 25);
-                    ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
-                    if (livingEntity instanceof ServerPlayer player)
-                        PacketDistributor.sendToPlayer(player, new OneUpPayload(true));
+
+                    if (stack.getItem() instanceof OneUpMushroomItem)
+                        ServerParticleUtils.spawnRewardParticle(ParticleRegistry.ONE_UP.get(), serverLevel, livingEntity, 1.0);
+                    if (livingEntity instanceof ServerPlayer player && !stack.isEmpty())
+                        PacketDistributor.sendToPlayer(player, new UndyingCharmPayload(true, stack.copy()));
                 }
 
                 if (livingEntity instanceof ServerPlayer serverplayer) {
@@ -321,6 +279,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
                     CriteriaTriggers.USED_TOTEM.trigger(serverplayer, stack);
                     this.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                 }
+                stack.shrink(1);
                 return true;
             }
         }
@@ -401,54 +360,52 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
     @Inject(method = "canFreeze", at = @At("HEAD"), cancellable = true)
     private void canFreeze(CallbackInfoReturnable<Boolean> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        AccessoriesCapability capability = AccessoriesCapability.get(entity);
         ItemStack stackHead = entity.getItemBySlot(EquipmentSlot.HEAD);
         ItemStack stackChest = entity.getItemBySlot(EquipmentSlot.CHEST);
         ItemStack stackLegs = entity.getItemBySlot(EquipmentSlot.LEGS);
         ItemStack stackFeet = entity.getItemBySlot(EquipmentSlot.FEET);
 
-        boolean hasFreezeImmunity = stackHead.is(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                || stackChest.is(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                || stackLegs.is(ItemTags.FREEZE_IMMUNE_WEARABLES)
-                || stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
+        boolean hasFreezeImmunity = (stackHead.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !mv$isCostume(stackHead))
+                || (stackChest.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !mv$isCostume(stackChest))
+                || (stackLegs.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !mv$isCostume(stackLegs))
+                || (stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && !mv$isCostume(stackFeet));
 
-        boolean armorCostumeHasIceFlower = (stackHead.getItem() instanceof MaleCostumeItem
+        boolean armorCostumeHasIceFlower = (stackHead.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackHead)
                 && Boolean.TRUE.equals(stackHead.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                    || (stackChest.getItem() instanceof MaleCostumeItem
+                    || (stackChest.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackChest)
                         && Boolean.TRUE.equals(stackChest.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                    || (stackLegs.getItem() instanceof MaleCostumeItem
+                    || (stackLegs.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackLegs)
                         && Boolean.TRUE.equals(stackLegs.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                    || (stackFeet.getItem() instanceof MaleCostumeItem
+                    || (stackFeet.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackFeet)
                         && Boolean.TRUE.equals(stackFeet.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER));
 
-        if (capability != null) {
-            AccessoriesContainer containerHat = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_hat"));
-            AccessoriesContainer containerShirt = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shirt"));
-            AccessoriesContainer containerPants = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_pants"));
-            AccessoriesContainer containerShoes = capability.getContainer(SlotTypeLoader.getSlotType(entity, "costume_shoes"));
+        hasFreezeImmunity = hasFreezeImmunity || armorCostumeHasIceFlower;
 
-            ItemStack stackHat = containerHat != null ? containerHat.getAccessories().getItem(0) : ItemStack.EMPTY;
-            ItemStack stackShirt = containerShirt != null ? containerShirt.getAccessories().getItem(0) : ItemStack.EMPTY;
-            ItemStack stackPants = containerPants != null ? containerPants.getAccessories().getItem(0) : ItemStack.EMPTY;
-            ItemStack stackShoes = containerShoes != null ? containerShoes.getAccessories().getItem(0) : ItemStack.EMPTY;
+        Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(entity);
 
-            boolean hasHat = stackHat.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
-            boolean hasShirt = stackShirt.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
-            boolean hasPants = stackPants.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
-            boolean hasShoes = stackShoes.is(ItemTags.FREEZE_IMMUNE_WEARABLES);
+        if (curiosInventory.isPresent()) {
+            Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
+            ICurioStacksHandler slotHat = curios.get("costume_hat");
+            ICurioStacksHandler slotShirt = curios.get("costume_shirt");
+            ICurioStacksHandler slotPants = curios.get("costume_pants");
+            ICurioStacksHandler slotShoes = curios.get("costume_shoes");
 
-            boolean accessoryCostumeHasIceFlower = (hasHat && stackHat.getItem() instanceof MaleCostumeItem
+            ItemStack stackHat = slotHat != null ? slotHat.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+            ItemStack stackShirt = slotShirt != null ? slotShirt.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+            ItemStack stackPants = slotPants != null ? slotPants.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+            ItemStack stackShoes = slotShoes != null ? slotShoes.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+
+            boolean curioCostumeHasIceFlower = (stackHat.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackHat)
                     && Boolean.TRUE.equals(stackHat.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                        || (hasShirt && stackShirt.getItem() instanceof MaleCostumeItem
+                        || (stackShirt.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackShirt)
                             && Boolean.TRUE.equals(stackShirt.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                        || (hasPants && stackPants.getItem() instanceof MaleCostumeItem
+                        || (stackPants.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackPants)
                             && Boolean.TRUE.equals(stackPants.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER))
-                        || (hasShoes && stackShoes.getItem() instanceof MaleCostumeItem
+                        || (stackShoes.is(ItemTags.FREEZE_IMMUNE_WEARABLES) && mv$isCostume(stackShoes)
                             && Boolean.TRUE.equals(stackShoes.get(DataComponentRegistry.POWER_UP_TYPE.get()) == PowerUpTypeRegistry.ICE_FLOWER));
 
-            hasFreezeImmunity = hasFreezeImmunity || hasHat || hasShirt || hasPants || hasShoes
-                    || armorCostumeHasIceFlower || accessoryCostumeHasIceFlower;
-        } else hasFreezeImmunity = hasFreezeImmunity && armorCostumeHasIceFlower;
+            hasFreezeImmunity = hasFreezeImmunity || curioCostumeHasIceFlower;
+        }
 
         if (hasFreezeImmunity)
             cir.setReturnValue(false);

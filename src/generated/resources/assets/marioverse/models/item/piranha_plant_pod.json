@@ -1,5 +1,31 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "marioverse:item/chomper_pod",
+      "predicate": {
+        "marioverse:variant": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/cave_piranha_plant_pod",
+      "predicate": {
+        "marioverse:variant": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/deep_cave_piranha_plant_pod",
+      "predicate": {
+        "marioverse:variant": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/tropical_piranha_plant_pod",
+      "predicate": {
+        "marioverse:variant": 4.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "marioverse:item/piranha_plant_pod"
   }
