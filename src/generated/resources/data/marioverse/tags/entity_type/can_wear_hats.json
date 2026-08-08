@@ -27,10 +27,6 @@
     "minecraft:zombie_villager",
     "minecraft:zombified_piglin",
     {
-      "id": "#accessories:defaulted_targets",
-      "required": false
-    },
-    {
       "id": "#twilightforest:bosses",
       "required": false
     },
