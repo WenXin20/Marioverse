@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.accessories.PlasticBucketAccessory;
+import com.wenxin2.marioverse.curios.PlasticBucketCurio;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpTrapDoorBlock;
 import com.wenxin2.marioverse.blocks.behaviors.DispenserBehaviors;
@@ -28,12 +28,11 @@ import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
 import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
-import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +94,7 @@ import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import top.theillusivec4.curios.api.CuriosApi;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class RegistryEventHandlers {
@@ -103,6 +103,7 @@ public class RegistryEventHandlers {
     private static final Set<String> DOOR_STATES = Set.of("facing", "half", "hinge", "open", "powered");
     private static final Set<String> TRAPDOOR_STATES = Set.of("facing", "half", "open", "powered");
     private static final String WATERLOGGED = "waterlogged";
+    private static final Set<Item> REGISTERED = new HashSet<>();
 
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
@@ -191,8 +192,7 @@ public class RegistryEventHandlers {
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(DispenserBehaviors::register);
-        event.enqueueWork(() -> AccessoriesAPI
-                .registerAccessory(ItemRegistry.PLASTIC_BUCKET.get(), new PlasticBucketAccessory()));
+        event.enqueueWork(() -> CuriosApi.registerCurio(ItemRegistry.PLASTIC_BUCKET.get(), new PlasticBucketCurio()));
     }
 
     public static void gatherData(GatherDataEvent event) {

@@ -94,6 +94,21 @@
 					]
 				},
 				{
+					"name": "spikes",
+					"parent": "right_jaw",
+					"pivot": [-0.3, 19, 0],
+					"cubes": [
+						{
+							"origin": [-16, 19, 0],
+							"size": [8, 18, 0],
+							"uv": {
+								"north": {"uv": [29, 70], "uv_size": [-8, 18]},
+								"south": {"uv": [37, 70], "uv_size": [-8, 18]}
+							}
+						}
+					]
+				},
+				{
 					"name": "left_jaw",
 					"parent": "head",
 					"pivot": [-0.7, 19, 0],

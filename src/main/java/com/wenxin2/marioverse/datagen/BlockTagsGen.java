@@ -233,6 +233,10 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS);
 
+        tag(TagRegistry.CAVE_PIRANHA_PLANTS_SPAWNABLE_ON)
+                .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
+                .addTag(BlockTags.BASE_STONE_OVERWORLD);
+
         tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS);
 
         tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS);
@@ -503,6 +507,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(BlockTags.ICE);
 
         tag(TagRegistry.PIRANHA_PLANTS_SPAWNABLE_ON)
+                .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .addTag(BlockTags.DIRT);
 
         tag(TagRegistry.QUESTION_BLOCKS)

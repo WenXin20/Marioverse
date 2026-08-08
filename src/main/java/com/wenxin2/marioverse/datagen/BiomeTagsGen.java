@@ -18,12 +18,29 @@ public class BiomeTagsGen extends BiomeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        tag(TagRegistry.CAVE_PIRANHA_PLANT_CANNOT_SPAWN)
+                .add(Biomes.DEEP_DARK);
+
+        tag(TagRegistry.DEEP_CAVE_PIRANHA_PLANT_CANNOT_SPAWN)
+                .add(Biomes.DEEP_DARK);
+
         tag(TagRegistry.HAS_BOO)
                 .add(Biomes.DARK_FOREST)
                 .add(Biomes.SOUL_SAND_VALLEY);
 
+        tag(TagRegistry.HAS_CAVE_PIRANHA_PLANT)
+                .addTag(BiomeTags.IS_OVERWORLD);
+
+        tag(TagRegistry.HAS_DEEP_CAVE_PIRANHA_PLANT)
+                .addTag(BiomeTags.IS_OVERWORLD);
+
         tag(TagRegistry.HAS_CHEEP_CHEEP)
                 .addTag(BiomeTags.IS_OVERWORLD);
+
+        tag(TagRegistry.HAS_COLD_CHEEP_CHEEP)
+                .addTag(Tags.Biomes.IS_COLD_END)
+                .addTag(Tags.Biomes.IS_COLD_OVERWORLD)
+                .addTag(Tags.Biomes.IS_SNOWY);
 
         tag(TagRegistry.HAS_CORAL_TOWERS)
                 .add(Biomes.WARM_OCEAN);
@@ -33,11 +50,6 @@ public class BiomeTagsGen extends BiomeTagsProvider {
 
         tag(TagRegistry.HAS_EEP_CHEEP)
                 .addTag(BiomeTags.IS_OVERWORLD);
-
-        tag(TagRegistry.HAS_COLD_CHEEP_CHEEP)
-                .addTag(Tags.Biomes.IS_COLD_END)
-                .addTag(Tags.Biomes.IS_COLD_OVERWORLD)
-                .addTag(Tags.Biomes.IS_SNOWY);
 
         tag(TagRegistry.HAS_WARM_CHEEP_CHEEP)
                 .addTag(Tags.Biomes.IS_HOT_NETHER)
@@ -94,6 +106,11 @@ public class BiomeTagsGen extends BiomeTagsProvider {
                 .addTag(Tags.Biomes.IS_JUNGLE)
                 .addTag(BiomeTags.IS_JUNGLE)
                 .add(Biomes.DARK_FOREST);
+
+        tag(TagRegistry.HAS_TROPICAL_PIRANHA_PLANT)
+                .addTag(Tags.Biomes.IS_JUNGLE)
+                .addTag(BiomeTags.IS_JUNGLE)
+                .add(Biomes.LUSH_CAVES);
 
 
         tag(TagRegistry.HAS_BRICK_LANES)

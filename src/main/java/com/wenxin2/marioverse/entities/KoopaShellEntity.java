@@ -16,11 +16,10 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -93,6 +92,9 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEntity, TraceableEntity {
     private static final EntityDataAccessor<Boolean> DATA_IS_SLIDING = SynchedEntityData.defineId(KoopaShellEntity.class, EntityDataSerializers.BOOLEAN);
@@ -947,17 +949,21 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         for (EquipmentSlot slot : EquipmentSlot.values())
             troopa.setItemSlot(slot, this.getItemBySlot(slot).copy());
 
-        AccessoriesCapability capability = AccessoriesCapability.get(this);
-        if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+        Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(this);
+        Optional<ICuriosItemHandler> curiosInventoryTroopa = CuriosApi.getCuriosInventory(troopa);
+        if (curiosInventory.isPresent() && curiosInventoryTroopa.isPresent() && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
                 && !this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
+            Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
+            Map<String, ICurioStacksHandler> curiosTroopa = curiosInventoryTroopa.get().getCurios();
+
             String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
             for (String slotType : slotTypes) {
-                AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(troopa, slotType));
-                if (container != null) {
-                    ItemStack stack = container.getAccessories().getItem(0);
-                    if (containerEntity != null)
-                        containerEntity.getAccessories().setItem(0, stack);
+                ICurioStacksHandler slotHandler = curios.get(slotType);
+                ICurioStacksHandler slotHandlerTroopa = curiosTroopa.get(slotType);
+                if (slotHandler != null) {
+                    ItemStack stack = slotHandler.getStacks().getStackInSlot(0);
+                    if (slotHandlerTroopa != null)
+                        slotHandlerTroopa.getStacks().setStackInSlot(0, stack.copy());
                 }
             }
         }

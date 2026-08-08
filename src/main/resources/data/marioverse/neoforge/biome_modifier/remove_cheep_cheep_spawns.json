@@ -1,0 +1,7 @@
+{
+  "type": "neoforge:remove_spawns",
+  "biomes": "minecraft:deep_dark",
+  "entity_types": [
+      "marioverse:cheep_cheep"
+  ]
+}

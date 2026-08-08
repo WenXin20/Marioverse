@@ -166,6 +166,18 @@ public class ItemModelGen extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", modLoc("item/warm_cheep_cheep_bucket"));
 
+        this.basicItem(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/cold_cheep_cheep_spawn_egg")))
+                .predicate(modLoc("variant"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/warm_cheep_cheep_spawn_egg")))
+                .predicate(modLoc("variant"), 2.0F).end();
+        this.getBuilder("cold_cheep_cheep_spawn_egg")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/cold_cheep_cheep_spawn_egg"));
+        this.getBuilder("warm_cheep_cheep_spawn_egg")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/warm_cheep_cheep_spawn_egg"));
+
         this.handheldItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.asItem()).override()
                 .model(new ModelFile.UncheckedModelFile(modLoc("item/american_checkpoint_flag")))
                 .predicate(modLoc("custom_name"), 1.0F).end().override()
@@ -187,6 +199,50 @@ public class ItemModelGen extends ItemModelProvider {
                 .predicate(modLoc("custom_name"), 1.0F).end();
         this.getBuilder("goombella_spawn_egg").parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "item/goombella_spawn_egg"));
+
+        this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/chomper_pod")))
+                .predicate(modLoc("variant"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/cave_piranha_plant_pod")))
+                .predicate(modLoc("variant"), 2.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/deep_cave_piranha_plant_pod")))
+                .predicate(modLoc("variant"), 3.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/tropical_piranha_plant_pod")))
+                .predicate(modLoc("variant"), 4.0F).end();
+        this.getBuilder("chomper_pod")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/chomper_pod"));
+        this.getBuilder("cave_piranha_plant_pod")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/cave_piranha_plant_pod"));
+        this.getBuilder("deep_cave_piranha_plant_pod")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/deep_cave_piranha_plant_pod"));
+        this.getBuilder("tropical_piranha_plant_pod")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/tropical_piranha_plant_pod"));
+
+        this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.asItem()).override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/chomper_spawn_egg")))
+                .predicate(modLoc("variant"), 1.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/cave_piranha_plant_spawn_egg")))
+                .predicate(modLoc("variant"), 2.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/deep_cave_piranha_plant_spawn_egg")))
+                .predicate(modLoc("variant"), 3.0F).end().override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/tropical_piranha_plant_spawn_egg")))
+                .predicate(modLoc("variant"), 4.0F).end();
+        this.getBuilder("chomper_spawn_egg")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/chomper_spawn_egg"));
+        this.getBuilder("cave_piranha_plant_spawn_egg")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/cave_piranha_plant_spawn_egg"));
+        this.getBuilder("deep_cave_piranha_plant_spawn_egg")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/deep_cave_piranha_plant_spawn_egg"));
+        this.getBuilder("tropical_piranha_plant_spawn_egg")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/tropical_piranha_plant_spawn_egg"));
 
         this.basicItem(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get()).override()
                 .model(new ModelFile.UncheckedModelFile(modLoc("item/mrs_puff_spawn_egg")))

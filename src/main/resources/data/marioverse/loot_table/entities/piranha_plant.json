@@ -1,36 +1,194 @@
 {
   "type": "minecraft:entity",
-  "random_sequence": "marioverse:entities/piranha_plant",
+  "random_sequence": "minecraft:entities/piranha_plant",
   "pools": [
     {
+      "rolls": 1,
       "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
           "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{CustomName:'{\"text\":\"Chomper\"}'}"
+              }
+            }
+          ],
           "functions": [
             {
               "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 1,
-                "min": -5
-              },
+              "count": 1,
               "function": "minecraft:set_count"
             },
             {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 2,
-                "min": 0
-              },
-              "enchantment": "minecraft:looting",
-              "function": "minecraft:enchanted_count_increase"
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "chomper"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{CustomName:'{\"text\":\"chomper\"}'}"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "chomper"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{Variant:\"normal\"}"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "normal"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{Variant:\"cave\"}"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "cave"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{Variant:\"deep_cave\"}"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "deep_cave"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{Variant:\"tropical\"}"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "tropical"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{Variant:\"chomper\"}"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "chomper"
+              }
             }
           ]
         }
-      ],
-      "rolls": 1
+      ]
     }
   ]
 }

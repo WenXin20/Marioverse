@@ -15,12 +15,10 @@ import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -83,6 +81,9 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 public class DryBonesEntity extends Monster implements GeoEntity {
     public static final RawAnimation ATTACK_SWING_LEFT = RawAnimation.begin().thenPlay("attack.swing.left");
@@ -478,17 +479,23 @@ public class DryBonesEntity extends Monster implements GeoEntity {
             entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, this.getData(DataAttachmentRegistry.HAS_SUPER_STAR));
             entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, this.getData(DataAttachmentRegistry.SUPER_STAR_DURATION));
 
-            AccessoriesCapability capability = AccessoriesCapability.get(this);
-            if (capability != null && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
+            String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+            Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(this);
+            Optional<ICuriosItemHandler> curiosInventoryEntity = CuriosApi.getCuriosInventory(entity);
+
+            if (curiosInventory.isPresent() && curiosInventoryEntity.isPresent()
+                    && ConfigRegistry.EQUIP_COSTUMES_MOBS.get()
                     && this.getType().is(TagRegistry.CANNOT_LOSE_POWER_UP)) {
-                String[] slotTypes = {"costume_hat", "costume_shirt", "costume_pants", "costume_shoes"};
+                Map<String, ICurioStacksHandler> curios = curiosInventory.get().getCurios();
+                Map<String, ICurioStacksHandler> curiosEntity = curiosInventoryEntity.get().getCurios();
+
                 for (String slotType : slotTypes) {
-                    AccessoriesContainer container = capability.getContainer(SlotTypeLoader.getSlotType(this, slotType));
-                    AccessoriesContainer containerEntity = capability.getContainer(SlotTypeLoader.getSlotType(entity, slotType));
-                    if (container != null) {
-                        ItemStack stack = container.getAccessories().getItem(0);
-                        if (containerEntity != null)
-                            containerEntity.getAccessories().setItem(0, stack);
+                    ICurioStacksHandler slotHandler = curios.get(slotType);
+                    ICurioStacksHandler slotHandlerEntity = curiosEntity.get(slotType);
+                    if (slotHandler != null) {
+                        ItemStack stack = slotHandler.getStacks().getStackInSlot(0);
+                        if (slotHandlerEntity != null)
+                            slotHandlerEntity.getStacks().setStackInSlot(0, stack.copy());
                     }
                 }
             }

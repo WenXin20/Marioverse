@@ -2,11 +2,15 @@ package com.wenxin2.marioverse.blocks.entities;
 
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nonnull;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -108,6 +112,12 @@ public class PottedPiranhaPlantBlockEntity extends BlockEntity implements GeoBlo
             this.ownerUUID = tag.getUUID("Owner");
             this.cachedOwner = null;
         }
+    }
+
+    @Override
+    protected void collectImplicitComponents(@Nonnull DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(DataComponentRegistry.VARIANT.get(), this.getData(DataAttachmentRegistry.VARIANT));
     }
 
     @Nullable

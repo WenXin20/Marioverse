@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "entities": [
+    "marioverse:dry_bones",
+    "marioverse:gold_koopa_shell",
+    "marioverse:gold_koopa_troopa",
+    "marioverse:green_koopa_shell",
+    "marioverse:green_koopa_troopa",
+    "marioverse:porcupuffer",
+    "marioverse:red_koopa_shell",
+    "marioverse:red_koopa_troopa",
+    "minecraft:armor_stand",
+    "minecraft:bogged",
+    "minecraft:drowned",
+    "minecraft:giant",
+    "minecraft:husk",
+    "minecraft:piglin",
+    "minecraft:piglin_brute",
+    "minecraft:player",
+    "minecraft:skeleton",
+    "minecraft:stray",
+    "minecraft:villager",
+    "minecraft:wither_skeleton",
+    "minecraft:zombie",
+    "minecraft:zombie_villager",
+    "minecraft:zombified_piglin"
+  ],
+  "slots": [
+    "costume_shoes"
+  ]
+}

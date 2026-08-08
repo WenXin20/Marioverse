@@ -26,6 +26,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "marioverse:variant"
+              ],
+              "source": "block_entity"
+            }
+          ],
           "name": "marioverse:piranha_plant_pod"
         }
       ],

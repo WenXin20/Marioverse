@@ -5,6 +5,8 @@ import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
+import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -83,15 +85,17 @@ public class PottedPiranhaPlantBlock extends FlowerPotBlock implements EntityBlo
 
     @NotNull
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()
+                && level.getBlockEntity(pos) instanceof PottedPiranhaPlantBlockEntity blockEntity) {
             ItemStack stack = new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
+            stack.set(DataComponentRegistry.VARIANT, blockEntity.getData(DataAttachmentRegistry.VARIANT));
             if (!player.addItem(stack))
                 player.drop(stack, false);
 
-            world.setBlock(pos, Blocks.FLOWER_POT.defaultBlockState(), 3);
-            world.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-            return InteractionResult.sidedSuccess(world.isClientSide);
+            level.setBlock(pos, Blocks.FLOWER_POT.defaultBlockState(), 3);
+            level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         } else return InteractionResult.PASS;
     }
 

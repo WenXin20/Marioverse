@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-01T15:55:36.254079	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-08-07T22:17:37.8157204	Tags for minecraft:entity_type mod id marioverse
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
@@ -37,11 +37,11 @@ bb5bd7b027d1bb8941ccc3f06f3627805426cc8c data/marioverse/tags/entity_type/can_pi
 837b5a3de82aee31fd154b5c06e7b161cd2a3054 data/marioverse/tags/entity_type/can_smash_blocks_from_side.json
 aeb24f4da760ca691b7300c18413c7baaa27aafe data/marioverse/tags/entity_type/can_stomp_enemies.json
 3a14066743d7a34e01eaa29837854934e775e7e3 data/marioverse/tags/entity_type/can_walk_on_quicksand.json
-6d2bdb02b5104e1cb55a441cb594f3462eb98992 data/marioverse/tags/entity_type/can_wear_costumes.json
-305612d98eec09967b54050b93708c5c2aeea2fc data/marioverse/tags/entity_type/can_wear_hats.json
-cb5ec3613f4da6bbd6c7700eda601e92b706c660 data/marioverse/tags/entity_type/can_wear_pants.json
-cb5ec3613f4da6bbd6c7700eda601e92b706c660 data/marioverse/tags/entity_type/can_wear_shirts.json
-cb5ec3613f4da6bbd6c7700eda601e92b706c660 data/marioverse/tags/entity_type/can_wear_shoes.json
+dd5ddaddae058e14840d406350d553c5f1fd8e40 data/marioverse/tags/entity_type/can_wear_costumes.json
+3670ba84e35a530e3e1b1a5c5ab4d0eff41767a0 data/marioverse/tags/entity_type/can_wear_hats.json
+2b1e8d1b589b5a367c9c9a546fa7cb336d3e737a data/marioverse/tags/entity_type/can_wear_pants.json
+2b1e8d1b589b5a367c9c9a546fa7cb336d3e737a data/marioverse/tags/entity_type/can_wear_shirts.json
+2b1e8d1b589b5a367c9c9a546fa7cb336d3e737a data/marioverse/tags/entity_type/can_wear_shoes.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/checkpoint_flag_cannot_spawn.json
 8a861b24dc51483a42c994da351f0875a16481f9 data/marioverse/tags/entity_type/cheep_cheeps.json
 f32abf517bf97e61dee70e9d6a198e3f0811ed6a data/marioverse/tags/entity_type/cheep_cheep_avoids.json

@@ -17,12 +17,16 @@ public class TagRegistry {
     public static final TagKey<BannerPattern> BOWSER_BANNER_PATTERN = bannerPatternTags("pattern_item/bowser");
     public static final TagKey<BannerPattern> PLUMBER_BANNER_PATTERN = bannerPatternTags("pattern_item/plumber");
 
+    public static final TagKey<Biome> CAVE_PIRANHA_PLANT_CANNOT_SPAWN = biomeTags("cave_piranha_plant_cannot_spawn");
+    public static final TagKey<Biome> DEEP_CAVE_PIRANHA_PLANT_CANNOT_SPAWN = biomeTags("deep_cave_piranha_plant_cannot_spawn");
     public static final TagKey<Biome> HAS_BOO = biomeTags("has_boo");
     public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
+    public static final TagKey<Biome> HAS_CAVE_PIRANHA_PLANT = biomeTags("has_cave_piranha_plant");
     public static final TagKey<Biome> HAS_CHEEP_CHEEP = biomeTags("has_cheep_cheep");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
     public static final TagKey<Biome> HAS_COLD_CHEEP_CHEEP = biomeTags("has_cold_cheep_cheep");
     public static final TagKey<Biome> HAS_CORAL_TOWERS = biomeTags("has_coral_towers");
+    public static final TagKey<Biome> HAS_DEEP_CAVE_PIRANHA_PLANT = biomeTags("has_deep_cave_piranha_plant");
     public static final TagKey<Biome> HAS_DEEP_CHEEP = biomeTags("has_deep_cheep");
     public static final TagKey<Biome> HAS_DRY_BONES = biomeTags("has_dry_bones");
     public static final TagKey<Biome> HAS_EEP_CHEEP = biomeTags("has_eep_cheep");
@@ -42,6 +46,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_SPLUNKIN = biomeTags("has_splunkin");
     public static final TagKey<Biome> HAS_SUBMERGED_PIPES = biomeTags("has_submerged_pipes");
     public static final TagKey<Biome> HAS_TRAMPOLINE_CAPS = biomeTags("has_trampoline_caps");
+    public static final TagKey<Biome> HAS_TROPICAL_PIRANHA_PLANT = biomeTags("has_tropical_piranha_plant");
     public static final TagKey<Biome> HAS_WARM_CHEEP_CHEEP = biomeTags("has_warm_cheep_cheep");
 
     public static final TagKey<Block> ABILITY_BLOCKS = blockTags("ability_blocks");
@@ -54,6 +59,7 @@ public class TagRegistry {
     public static final TagKey<Block> CALCITE_BRICK_BLOCKS = blockTags("calcite_bricks");
     public static final TagKey<Block> CALCITE_BRICK_PEDESTAL_BLOCKS = blockTags("calcite_brick_pedestals");
     public static final TagKey<Block> CANNOT_USE_AS_DISGUISE = blockTags("cannot_use_as_disguise");
+    public static final TagKey<Block> CAVE_PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("cave_piranha_plants_spawnable_on");
     public static final TagKey<Block> CHECKPOINT_FLAG_BLOCKS = blockTags("checkpoint_flags");
     public static final TagKey<Block> CHISELED_CALCITE_BRICK_BLOCKS = blockTags("chiseled_calcite_bricks");
     public static final TagKey<Block> CORAL_TOWER_BLOCKS = blockTags("coral_towers");
@@ -145,16 +151,16 @@ public class TagRegistry {
     public static final TagKey<Item> CAN_SELECT_CLEAR_WARP_PIPES = itemTags("can_select_clear_warp_pipes");
     public static final TagKey<Item> CAN_SELECT_WATER_SPOUTS = itemTags("can_select_water_spouts");
     public static final TagKey<Item> CHARACTER_TRIMS = itemTags("character_trims");
-    public static final TagKey<Item> CHARMS = itemTags("accessories", "charm");
+    public static final TagKey<Item> CHARMS_CURIO = itemTags("curios", "charm");
     public static final TagKey<Item> CHECKPOINT_FLAG_ITEMS = itemTags("checkpoint_flags");
     public static final TagKey<Item> CHEEP_CHEEP_ITEMS = itemTags("cheep_cheeps");
     public static final TagKey<Item> CHISELED_CALCITE_BRICK_ITEMS = itemTags("chiseled_calcite_bricks");
     public static final TagKey<Item> CORAL_TOWERS = itemTags("coral_towers");
     public static final TagKey<Item> COSTUMES = itemTags("costumes");
-    public static final TagKey<Item> COSTUME_HAT = itemTags("accessories", "costume_hat");
-    public static final TagKey<Item> COSTUME_PANTS = itemTags("accessories", "costume_pants");
-    public static final TagKey<Item> COSTUME_SHIRT = itemTags("accessories", "costume_shirt");
-    public static final TagKey<Item> COSTUME_SHOES = itemTags("accessories", "costume_shoes");
+    public static final TagKey<Item> COSTUME_HAT_CURIO = itemTags("curios", "costume_hat");
+    public static final TagKey<Item> COSTUME_PANTS_CURIO = itemTags("curios", "costume_pants");
+    public static final TagKey<Item> COSTUME_SHIRT_CURIO = itemTags("curios", "costume_shirt");
+    public static final TagKey<Item> COSTUME_SHOES_CURIO = itemTags("curios", "costume_shoes");
     public static final TagKey<Item> CRACKED_CALCITE_BRICK_ITEMS = itemTags("cracked_calcite_bricks");
     public static final TagKey<Item> CRAFTS_WARP_DOOR = itemTags("crafts_warp_door");
     public static final TagKey<Item> CRAFTS_WARP_PAINTING = itemTags("crafts_warp_painting");

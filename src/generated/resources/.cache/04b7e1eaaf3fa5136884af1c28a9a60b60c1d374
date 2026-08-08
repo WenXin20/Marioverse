@@ -1,9 +1,9 @@
-// 1.21.1	2026-08-01T19:13:39.2215394	Tags for minecraft:item mod id marioverse
-265baa7f3dced2121fb0848548ff79774c0e5919 data/accessories/tags/item/charm.json
-12a385e27b83b786abd681ad79468c23b4ea7928 data/accessories/tags/item/costume_hat.json
-c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/accessories/tags/item/costume_pants.json
-5f8e2f228e3a17259c41a80fcab82c7710137516 data/accessories/tags/item/costume_shirt.json
-120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/accessories/tags/item/costume_shoes.json
+// 1.21.1	2026-08-07T22:17:37.830247	Tags for minecraft:item mod id marioverse
+265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
+df28088c1d2145312f6fbf6ae3c566b2c2cf9c93 data/curios/tags/item/costume_hat.json
+f1d71566d06fd5511273a769fab65ff8efeb63f4 data/curios/tags/item/costume_pants.json
+9587bbd3fe6f1f935c45b85e5b863dcfc7d36ac9 data/curios/tags/item/costume_shirt.json
+c189ba95ada4ea32edd907df3ff06405eb3f4c9b data/curios/tags/item/costume_shoes.json
 35de035941203b4243a091bd1caf176db23cd17e data/c/tags/item/animal_foods.json
 c0f4685b342c133937969cb5a2c80e7ee93e1ce0 data/c/tags/item/buckets.json
 1d9f59c8c89ea3b59ff39d20864ab894d79e0b18 data/c/tags/item/buckets/empty.json

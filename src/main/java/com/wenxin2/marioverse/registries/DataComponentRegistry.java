@@ -43,6 +43,9 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> IS_UNBREAKABLE =
             Marioverse.COMPONENTS.register("is_unbreakable", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> UNDYING_CHARM =
+            Marioverse.COMPONENTS.register("undying_charm", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
             Marioverse.COMPONENTS.register("linked_pos", () -> DataComponentType.<BlockPos>builder()
@@ -50,6 +53,9 @@ public class DataComponentRegistry {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> LINKED_BLOCK =
             Marioverse.COMPONENTS.register("linked_block", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> VARIANT =
+            Marioverse.COMPONENTS.register("variant", () -> DataComponentType.<String>builder()
                     .persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Component>> PIPE_NAME =
