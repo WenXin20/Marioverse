@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.util.FakePlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class PiranhaPlantPodItem extends BetterSpawnEggItem {
     public PiranhaPlantPodItem(Supplier<? extends EntityType<? extends Mob>> entityType,
@@ -71,10 +73,10 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
 
                 if (entity instanceof PiranhaPlantEntity piranhaPlant) {
                     BlockPos newPos = piranhaPlant.findValidBlockPos();
-                    String variantName = stack.get(DataComponentRegistry.VARIANT.get());
+                    String variant = stack.get(DataComponentRegistry.VARIANT.get());
 
-                    if (variantName != null)
-                        piranhaPlant.setVariant(variantName);
+                    if (variant != null)
+                        piranhaPlant.setVariant(variant);
 
                     piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
                     piranhaPlant.setOwner(player);

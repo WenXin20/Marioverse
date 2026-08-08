@@ -15,6 +15,9 @@ import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
+import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
+import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.network.server_bound.data.DoubleJumpPayload;
@@ -73,7 +76,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -241,15 +243,27 @@ public class ClientEventHandlers {
 
             ItemProperties.register(ItemRegistry.CHEEP_CHEEP_BUCKET.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "variant"),
+                    (stack, level, entity, seed) -> cheepCheepBucket(stack));
+
+            ItemProperties.register(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "variant"),
                     (stack, level, entity, seed) -> cheepCheepVariant(stack));
 
             ItemProperties.register(ItemRegistry.GOOMBA_SPAWN_EGG.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> goombellaName(stack));
 
+            ItemProperties.register(ItemRegistry.PIRANHA_PLANT_POD.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "variant"),
+                    (stack, level, entity, seed) -> piranhaPlantVariant(stack));
+
+            ItemProperties.register(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "variant"),
+                    (stack, level, entity, seed) -> piranhaPlantVariant(stack));
+
             ItemProperties.register(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
-                    (stack, level, entity, seed) -> porcupufferCustomName(stack));
+                    (stack, level, entity, seed) -> porcupufferVariant(stack));
 
             ItemProperties.register(ItemRegistry.HAT.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
@@ -305,7 +319,7 @@ public class ClientEventHandlers {
         });
     }
 
-    private static float cheepCheepVariant(ItemStack stack) {
+    private static float cheepCheepBucket(ItemStack stack) {
         CustomData data = stack.get(DataComponents.BUCKET_ENTITY_DATA);
 
         if (data == null)
@@ -322,7 +336,53 @@ public class ClientEventHandlers {
             return 1.0F;
         if (variant.equals("warm"))
             return 2.0F;
+        return 0.0F;
+    }
 
+    private static float cheepCheepVariant(ItemStack stack) {
+        String variant = stack.get(DataComponentRegistry.VARIANT.get());
+
+        if (variant == null)
+            return 0.0F;
+        if (variant.equals(CheepCheepVariants.COLD))
+            return 1.0F;
+        if (variant.equals(CheepCheepVariants.WARM))
+            return 2.0F;
+        return 0.0F;
+    }
+
+    private static float piranhaPlantVariant(ItemStack stack) {
+        Component name = stack.get(DataComponents.CUSTOM_NAME);
+        String variant = stack.get(DataComponentRegistry.VARIANT.get());
+
+        if (variant == null)
+            return 0.0F;
+        if (variant.equals(PiranhaPlantVariants.CHOMPER)
+                || (name != null && name.getString().equalsIgnoreCase("chomper")))
+            return 1.0F;
+        if (variant.equals(PiranhaPlantVariants.CAVE))
+            return 2.0F;
+        if (variant.equals(PiranhaPlantVariants.DEEP_CAVE))
+            return 3.0F;
+        if (variant.equals(PiranhaPlantVariants.TROPICAL))
+            return 4.0F;
+        return 0.0F;
+    }
+
+    private static float porcupufferVariant(ItemStack stack) {
+        Component name = stack.get(DataComponents.CUSTOM_NAME);
+        String variant = stack.get(DataComponentRegistry.VARIANT.get());
+
+        if (variant == null)
+            return 0.0F;
+        if (variant.equals(PorcupufferVariants.MRS_PUFF)
+                || (name != null && (name.getString().equalsIgnoreCase("mrs puff")
+                    || name.getString().toLowerCase(Locale.ROOT).equals("mrs. puff")
+                    || name.getString().toLowerCase(Locale.ROOT).equals("mrs_puff"))))
+            return 1.0F;
+        if (variant.equals(PorcupufferVariants.QWILFISH) ||
+                (name != null && name.getString().equalsIgnoreCase("qwilfish")))
+            return 2.0F;
         return 0.0F;
     }
 
@@ -341,27 +401,8 @@ public class ClientEventHandlers {
     private static float goombellaName(ItemStack stack) {
         if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
             Component name = stack.get(DataComponents.CUSTOM_NAME);
-            if (name != null && (name.getString().equalsIgnoreCase("goombella")
-                    || name.getString().equalsIgnoreCase("goombella spawn egg")))
+            if (name != null && name.getString().equalsIgnoreCase("goombella"))
                 return 1.0F;
-        }
-        return 0.0F;
-    }
-
-    private static float porcupufferCustomName(ItemStack stack) {
-        if (stack.has(DataComponents.CUSTOM_NAME) && stack.get(DataComponents.CUSTOM_NAME) != null) {
-            Component name = stack.get(DataComponents.CUSTOM_NAME);
-            if (name != null && (name.getString().equalsIgnoreCase("mrs puff")
-                    || name.getString().toLowerCase(Locale.ROOT).equals("mrs. puff")
-                    || name.getString().toLowerCase(Locale.ROOT).equals("mrs_puff")
-                    || name.getString().equalsIgnoreCase("mrs puff spawn egg")
-                    || name.getString().equalsIgnoreCase("mrs. puff spawn egg")
-                    || name.getString().equalsIgnoreCase("mrs_puff spawn egg")))
-                return 1.0F;
-
-            if (name != null && (name.getString().equalsIgnoreCase("qwilfish")
-                    || name.getString().equalsIgnoreCase("qwilfish spawn egg")))
-                return 2.0F;
         }
         return 0.0F;
     }

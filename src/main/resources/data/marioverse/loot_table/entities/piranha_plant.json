@@ -14,6 +14,58 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
+                "nbt": "{CustomName:'{\"text\":\"Chomper\"}'}"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "chomper"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "nbt": "{CustomName:'{\"text\":\"chomper\"}'}"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": 1,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "marioverse:variant": "chomper"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:piranha_plant_pod",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
                 "nbt": "{Variant:\"normal\"}"
               }
             }
@@ -119,58 +171,6 @@
               "entity": "this",
               "predicate": {
                 "nbt": "{Variant:\"chomper\"}"
-              }
-            }
-          ],
-          "functions": [
-            {
-              "add": false,
-              "count": 1,
-              "function": "minecraft:set_count"
-            },
-            {
-              "function": "minecraft:set_components",
-              "components": {
-                "marioverse:variant": "chomper"
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "marioverse:piranha_plant_pod",
-          "conditions": [
-            {
-              "condition": "minecraft:entity_properties",
-              "entity": "this",
-              "predicate": {
-                "nbt": "{CustomName:'{\"text\":\"Chomper\"}'}"
-              }
-            }
-          ],
-          "functions": [
-            {
-              "add": false,
-              "count": 1,
-              "function": "minecraft:set_count"
-            },
-            {
-              "function": "minecraft:set_components",
-              "components": {
-                "marioverse:variant": "chomper"
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "marioverse:piranha_plant_pod",
-          "conditions": [
-            {
-              "condition": "minecraft:entity_properties",
-              "entity": "this",
-              "predicate": {
-                "nbt": "{CustomName:'{\"text\":\"chomper\"}'}"
               }
             }
           ],

@@ -279,8 +279,8 @@ public class ItemRegistry {
                 () -> new WarpDisruptorItem(new Item.Properties().durability(128)));
 
         PIRANHA_PLANT_POD = registerItem("piranha_plant_pod",
-                () -> new PiranhaPlantPodItem(6, EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()
-                        .component(DataComponentRegistry.VARIANT, "normal")));
+                () -> new PiranhaPlantPodItem(6, EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties().component(DataComponentRegistry.VARIANT, "normal")));
 
         MARIO_ARMOR_TRIM_SMITHING_TEMPLATE = registerItem("mario_armor_trim_smithing_template",
                 () -> SmithingTemplateItem.createArmorTrimTemplate(TrimPatternRegistry.MARIO));
@@ -368,43 +368,62 @@ public class ItemRegistry {
                 () -> new Item(new Item.Properties()));
 
         BOO_SPAWN_EGG = registerItem("boo_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.BOO, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.BOO, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         CHEEP_CHEEP_SPAWN_EGG = registerItem("cheep_cheep_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BetterSpawnEggItem(EntityRegistry.CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties().component(DataComponentRegistry.VARIANT, "normal")));
         DEEP_CHEEP_SPAWN_EGG = registerItem("deep_cheep_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.DEEP_CHEEP, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.DEEP_CHEEP, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         DRY_BONES_SPAWN_EGG = registerItem("dry_bones_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.DRY_BONES, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.DRY_BONES, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         EEP_CHEEP_SPAWN_EGG = registerItem("eep_cheep_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.EEP_CHEEP, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.EEP_CHEEP, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         FIRE_GOOMBA_SPAWN_EGG = registerItem("fire_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.FIRE_GOOMBA, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         GOLD_KOOPA_TROOPA_SPAWN_EGG = registerItem("gold_koopa_troopa_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.GOLD_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.GOLD_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         GOOMBA_SPAWN_EGG = registerItem("goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.GOOMBA, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         GREEN_KOOPA_TROOPA_SPAWN_EGG = registerItem("green_koopa_troopa_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.GREEN_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.GREEN_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         HEFTY_GOOMBA_SPAWN_EGG = registerItem("hefty_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.HEFTY_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.HEFTY_GOOMBA, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         MEGA_GOOMBA_SPAWN_EGG = registerItem("mega_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.MEGA_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.MEGA_GOOMBA, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         MINI_GOOMBA_SPAWN_EGG = registerItem("mini_goomba_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.MINI_GOOMBA, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         PIRANHA_PLANT_SPAWN_EGG = registerItem("piranha_plant_spawn_egg",
-                () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BetterSpawnEggItem(EntityRegistry.PIRANHA_PLANT, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties().component(DataComponentRegistry.VARIANT, "normal")));
         POKEY_SPAWN_EGG = registerItem("pokey_spawn_egg",
-                () -> new PokeySpawnEggItem(EntityRegistry.POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new PokeySpawnEggItem(EntityRegistry.POKEY_BODY, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         PORCUPUFFER_SPAWN_EGG = registerItem("porcupuffer_spawn_egg",
-                () -> new PokeySpawnEggItem(EntityRegistry.PORCUPUFFER, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new BetterSpawnEggItem(EntityRegistry.PORCUPUFFER, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties().component(DataComponentRegistry.VARIANT, "normal")));
         RED_KOOPA_TROOPA_SPAWN_EGG = registerItem("red_koopa_troopa_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.RED_KOOPA_TROOPA, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         SNOW_POKEY_SPAWN_EGG = registerItem("snow_pokey_spawn_egg",
-                () -> new SnowPokeySpawnEggItem(EntityRegistry.SNOW_POKEY_BODY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new SnowPokeySpawnEggItem(EntityRegistry.SNOW_POKEY_BODY, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         SPINY_CHEEP_CHEEP_SPAWN_EGG = registerItem("spiny_cheep_cheep_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.SPINY_CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.SPINY_CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
         SPLUNKIN_SPAWN_EGG = registerItem("splunkin_spawn_egg",
-                () -> new DeferredSpawnEggItem(EntityRegistry.SPLUNKIN, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+                () -> new DeferredSpawnEggItem(EntityRegistry.SPLUNKIN, 0xFFFFFF, 0xFFFFFF,
+                        new Item.Properties()));
     }
 
     public static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {

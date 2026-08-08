@@ -1,6 +1,9 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.entities.CheepCheepEntity;
 import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
+import com.wenxin2.marioverse.entities.PorcupufferEntity;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import java.util.List;
 import java.util.function.Supplier;
 import net.minecraft.client.gui.screens.Screen;
@@ -21,6 +24,7 @@ import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import org.jetbrains.annotations.NotNull;
 
 public class BetterSpawnEggItem extends DeferredSpawnEggItem {
     int tooltipLineAmt = 0;
@@ -34,6 +38,17 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
                           int primaryColor, int secondaryColor, Properties properties) {
         super(entityType, primaryColor, secondaryColor, properties);
         this.tooltipLineAmt = tooltipLineAmt;
+    }
+
+    @NotNull
+    @Override
+    public Component getName(ItemStack stack) {
+        String variant = stack.get(DataComponentRegistry.VARIANT.get());
+
+        if (variant != null)
+            return Component.translatable(this.getDescriptionId(stack) + "." + variant);
+
+        return super.getName(stack);
     }
 
     @Override
@@ -85,9 +100,27 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
                     stack.shrink(1);
                     world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);
 
+                    if (entity instanceof CheepCheepEntity cheepCheep) {
+                        String variant = stack.get(DataComponentRegistry.VARIANT.get());
+
+                        if (variant != null)
+                            cheepCheep.setVariant(variant);
+                    }
+
                     if (entity instanceof PiranhaPlantEntity piranhaPlant) {
                         BlockPos newPos = piranhaPlant.findValidBlockPos();
+                        String variant = stack.get(DataComponentRegistry.VARIANT.get());
+
+                        if (variant != null)
+                            piranhaPlant.setVariant(variant);
                         piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
+                    }
+
+                    if (entity instanceof PorcupufferEntity porcupuffer) {
+                        String variant = stack.get(DataComponentRegistry.VARIANT.get());
+
+                        if (variant != null)
+                            porcupuffer.setVariant(variant);
                     }
                 }
 

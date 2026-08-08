@@ -6,7 +6,9 @@
   - Tropical variants spawn in jungles & lush caves
   - Cave variants spawn underground
   - Deep Cave variants spawn deep underground
+  - All variants have spawn eggs
   - Added the "Chomper" name tag variant
+- Added spawn eggs for warm & cold Cheep Cheep variants
 
 ## Update 1.11.0
 - Added power up spawn eggs 
