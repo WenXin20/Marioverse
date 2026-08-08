@@ -38,7 +38,7 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
+    public @NotNull InteractionResult useOn(UseOnContext context) {
         Level world = context.getLevel();
         if (!(world instanceof ServerLevel))
             return InteractionResult.SUCCESS;

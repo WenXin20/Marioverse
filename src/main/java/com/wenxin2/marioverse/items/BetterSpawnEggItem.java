@@ -62,6 +62,7 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
     }
 
+    @NotNull
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level world = context.getLevel();
@@ -97,9 +98,6 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
                 Entity entity = entityType.spawn((ServerLevel) world, stack, context.getPlayer(), spawnPos, MobSpawnType.SPAWN_EGG, true,
                         direction == Direction.UP);
                 if (entity != null) {
-                    stack.shrink(1);
-                    world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);
-
                     if (entity instanceof CheepCheepEntity cheepCheep) {
                         String variant = stack.get(DataComponentRegistry.VARIANT.get());
 
@@ -122,6 +120,8 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
                         if (variant != null)
                             porcupuffer.setVariant(variant);
                     }
+                    stack.shrink(1);
+                    world.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);
                 }
 
                 return InteractionResult.CONSUME;
