@@ -11,7 +11,7 @@ import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementItemParticle;
 import com.wenxin2.marioverse.client.particles.PollenParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
-import com.wenxin2.marioverse.client.renderers.accesories.OneUpRenderer;
+import com.wenxin2.marioverse.client.renderers.curios.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CheckpointFlagBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CoinBlockEntityRenderer;
@@ -60,7 +60,6 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
-import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -105,29 +104,25 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 public class MarioverseClient {
 
     public static void clientSetup(final FMLClientSetupEvent event) {
-        AccessoriesRendererRegistry.registerRenderer(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
-
-        CuriosRendererRegistry.register(ItemRegistry.HAT.get(), () -> new CostumeCurioRenderer(EquipmentSlot.HEAD));
-
-        event.enqueueWork(() -> {
-            registerSlot(EquipmentSlot.HEAD, Items.DIAMOND_HELMET, ItemRegistry.CROWN.get(), ItemRegistry.CHRISTMAS_HAT.get(),
-                    ItemRegistry.PLASTIC_BUCKET.get());
-
-            registerSlot(EquipmentSlot.CHEST, Items.DIAMOND_CHESTPLATE, ItemRegistry.SHIRT.get(), ItemRegistry.BODICE.get());
-
-            registerSlot(EquipmentSlot.LEGS, Items.DIAMOND_LEGGINGS, ItemRegistry.PANTS.get(), ItemRegistry.DRESS.get());
-
-            registerSlot(EquipmentSlot.FEET, Items.DIAMOND_BOOTS, ItemRegistry.SHOES.get(), ItemRegistry.HEELS.get(), ItemRegistry.GOLDEN_KOOPA_SHOES.get(),
-                    ItemRegistry.GREEN_KOOPA_SHOES.get(), ItemRegistry.RED_KOOPA_SHOES.get(), ItemRegistry.WHITE_KOOPA_SHOES.get());
-        });
-
         CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
-    }
 
-    private static void registerSlot(EquipmentSlot slot, Item... items) {
-        for (Item item : items) {
-            CuriosRendererRegistry.register(item, () -> new CostumeCurioRenderer(slot));
-        }
+        CuriosRendererRegistry.register(ItemRegistry.CHRISTMAS_HAT.get(), () -> new CostumeCurioRenderer(EquipmentSlot.HEAD));
+        CuriosRendererRegistry.register(ItemRegistry.CROWN.get(), () -> new CostumeCurioRenderer(EquipmentSlot.HEAD));
+        CuriosRendererRegistry.register(ItemRegistry.HAT.get(), () -> new CostumeCurioRenderer(EquipmentSlot.HEAD));
+        CuriosRendererRegistry.register(ItemRegistry.PLASTIC_BUCKET.get(), () -> new CostumeCurioRenderer(EquipmentSlot.HEAD));
+
+        CuriosRendererRegistry.register(ItemRegistry.BODICE.get(), () -> new CostumeCurioRenderer(EquipmentSlot.CHEST));
+        CuriosRendererRegistry.register(ItemRegistry.SHIRT.get(), () -> new CostumeCurioRenderer(EquipmentSlot.CHEST));
+
+        CuriosRendererRegistry.register(ItemRegistry.DRESS.get(), () -> new CostumeCurioRenderer(EquipmentSlot.LEGS));
+        CuriosRendererRegistry.register(ItemRegistry.PANTS.get(), () -> new CostumeCurioRenderer(EquipmentSlot.LEGS));
+
+        CuriosRendererRegistry.register(ItemRegistry.GOLDEN_KOOPA_SHOES.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
+        CuriosRendererRegistry.register(ItemRegistry.GREEN_KOOPA_SHOES.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
+        CuriosRendererRegistry.register(ItemRegistry.HEELS.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
+        CuriosRendererRegistry.register(ItemRegistry.RED_KOOPA_SHOES.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
+        CuriosRendererRegistry.register(ItemRegistry.SHOES.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
+        CuriosRendererRegistry.register(ItemRegistry.WHITE_KOOPA_SHOES.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
     }
 
     @SubscribeEvent

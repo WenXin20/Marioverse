@@ -60,7 +60,6 @@ dependencies {
 
     // Imports
     // Marioverse Dependencies
-    implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib, Required Dependency
     implementation "curse.maven:ctm-${ctm_version}" // Optional Dependency
     implementation "curse.maven:every-compat-${every_compat_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:fusion-connected-textures-${fusion_version}" // Optional Dependency
@@ -68,10 +67,10 @@ dependencies {
     implementation "curse.maven:mmmmmmmmmmmm-${test_dummy_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:stone-zone-${stone_zone_version}" // Requires Moonlight, Optional Dependency
     implementation "curse.maven:supplementaries-${supplementaries_version}" // Requires Moonlight, Optional Dependency
-    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
-    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api" // Required Dependency
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}" // Required Dependency
 
-    compileOnly "curse.maven:aether-255308:6389857"
+    compileOnly "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
     compileOnly "curse.maven:amendments-896746:7461027" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     compileOnly "curse.maven:copycats-968398:7251823" // Requires Create
@@ -103,13 +102,14 @@ dependencies {
     implementation "curse.maven:xaeros-world-map-317780:7598481"
 
     // Libraries
+    compileOnly "curse.maven:accessories-${accessories_version}" // Requires Owo Lib
     implementation "curse.maven:architectury-api-${architectury_api_version}"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
     compileOnly "curse.maven:embeddium-${embeddium_version}" // Incompatible w/ Sodium
     implementation "curse.maven:kotlin-for-forge-351264:7471280"
     implementation "curse.maven:framework-549225:7530361"
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
-    implementation "curse.maven:owo-lib-${owo_version}"
+    compileOnly "curse.maven:owo-lib-${owo_version}"
     compileOnly "curse.maven:sable-1312371:8263584" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     implementation "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium

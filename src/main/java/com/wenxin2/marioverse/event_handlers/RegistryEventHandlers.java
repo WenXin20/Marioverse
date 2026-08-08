@@ -1,11 +1,10 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.accessories.PlasticBucketAccessory;
+import com.wenxin2.marioverse.curios.PlasticBucketCurio;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpTrapDoorBlock;
 import com.wenxin2.marioverse.blocks.behaviors.DispenserBehaviors;
-import com.wenxin2.marioverse.client.renderers.curios.CostumeCurioRenderer;
 import com.wenxin2.marioverse.commands.PowerUpCommand;
 import com.wenxin2.marioverse.datagen.AdvancementDataGen;
 import com.wenxin2.marioverse.datagen.DataMapGen;
@@ -30,8 +29,6 @@ import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
-import com.wenxin2.marioverse.registries.TagRegistry;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -44,7 +41,6 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.component.DataComponents;
@@ -61,8 +57,6 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.DyeColor;
@@ -95,13 +89,12 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
+import top.theillusivec4.curios.api.CuriosApi;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class RegistryEventHandlers {
@@ -199,8 +192,7 @@ public class RegistryEventHandlers {
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(DispenserBehaviors::register);
-        event.enqueueWork(() -> AccessoriesAPI
-                .registerAccessory(ItemRegistry.PLASTIC_BUCKET.get(), new PlasticBucketAccessory()));
+        event.enqueueWork(() -> CuriosApi.registerCurio(ItemRegistry.PLASTIC_BUCKET.get(), new PlasticBucketCurio()));
     }
 
     public static void gatherData(GatherDataEvent event) {

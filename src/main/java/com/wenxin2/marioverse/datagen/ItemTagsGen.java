@@ -285,8 +285,6 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SHOES.get())
                 .add(ItemRegistry.WHITE_KOOPA_SHOES.get());
 
-        tag(TagRegistry.CHARMS).add(ItemRegistry.ONE_UP_MUSHROOM.get());
-
         tag(TagRegistry.CHARMS_CURIO).add(ItemRegistry.ONE_UP_MUSHROOM.get());
 
         tag(ItemTags.HEAD_ARMOR).addTag(TagRegistry.HATS);
@@ -296,14 +294,6 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.LEG_ARMOR).addTag(TagRegistry.PANTS);
 
         tag(ItemTags.FOOT_ARMOR).addTag(TagRegistry.SHOES);
-
-        tag(TagRegistry.COSTUME_HAT).addTag(TagRegistry.HATS);
-
-        tag(TagRegistry.COSTUME_SHIRT).addTag(TagRegistry.SHIRTS);
-
-        tag(TagRegistry.COSTUME_PANTS).addTag(TagRegistry.PANTS);
-
-        tag(TagRegistry.COSTUME_SHOES).addTag(TagRegistry.SHOES);
 
         tag(TagRegistry.COSTUME_HAT_CURIO).addTag(TagRegistry.HATS)
                 .add(Items.DIAMOND_HELMET);

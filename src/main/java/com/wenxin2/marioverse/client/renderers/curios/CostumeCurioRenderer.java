@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.client.renderers.curios;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.wenxin2.marioverse.client.renderers.accesories.ArmorRenderingExtension;
 import com.wenxin2.marioverse.mixin.LivingEntityRendererAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
