@@ -16,15 +16,18 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 public class BouncingIceBallRenderer extends GeoEntityRenderer<BouncingIceBallProjectile> {
     public BouncingIceBallRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new BouncingIceBallModel());
-        this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
+        addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 
     @Override
     public void preRender(PoseStack poseStack, BouncingIceBallProjectile animatable, BakedGeoModel model,
                           @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer,
                           boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
-        poseStack.mulPose(Axis.YP.rotationDegrees(45)); // hardcoded, ignore entity rotation entirely
-        super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick,
-                LightTexture.FULL_BRIGHT, packedOverlay, colour);
+        poseStack.pushPose();
+            poseStack.mulPose(Axis.YP.rotationDegrees(-animatable.getYRot()));
+            poseStack.mulPose(Axis.XP.rotationDegrees(animatable.getXRot()));
+            super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick,
+                    LightTexture.FULL_BRIGHT, packedOverlay, colour);
+        poseStack.popPose();
     }
 }
