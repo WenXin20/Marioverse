@@ -33,9 +33,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class BlockSpawnerMenu extends AbstractContainerMenu {
     static final ResourceLocation EMPTY_SLOT_BLOCK = ResourceLocation
-            .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/slot/empty_block_slot");
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "slot/empty_block_slot");
     static final ResourceLocation EMPTY_SLOT_DISGUISE = ResourceLocation
-            .fromNamespaceAndPath(Marioverse.MOD_ID, "gui/slot/empty_disguise_slot");
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "slot/empty_disguise_slot");
     private final ContainerLevelAccess access;
     private final ContainerData data;
     protected final Player player;

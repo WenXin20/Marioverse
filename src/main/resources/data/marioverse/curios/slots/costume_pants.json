@@ -1,6 +1,6 @@
 {
   "replace": false,
-  "icon": "marioverse:gui/slot/empty_pants_slot",
+  "icon": "marioverse:slot/empty_pants_slot",
   "operation": "SET",
   "drop_rule": "DEFAULT",
   "size": 1,

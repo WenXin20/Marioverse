@@ -102,14 +102,14 @@ dependencies {
     implementation "curse.maven:xaeros-world-map-317780:7598481"
 
     // Libraries
-    compileOnly "curse.maven:accessories-${accessories_version}" // Requires Owo Lib
+    implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib
     implementation "curse.maven:architectury-api-${architectury_api_version}"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
     compileOnly "curse.maven:embeddium-${embeddium_version}" // Incompatible w/ Sodium
     implementation "curse.maven:kotlin-for-forge-351264:7471280"
     implementation "curse.maven:framework-549225:7530361"
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
-    compileOnly "curse.maven:owo-lib-${owo_version}"
+    implementation "curse.maven:owo-lib-${owo_version}"
     compileOnly "curse.maven:sable-1312371:8263584" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     implementation "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
