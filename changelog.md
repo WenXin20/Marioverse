@@ -9,7 +9,6 @@
   - All variants have spawn eggs
   - Added the "Chomper" name tag variant
 - Added spawn eggs for warm & cold Cheep Cheep variants
-- Fixed rare crash when rendering ice balls & fireballs
 
 ## Update 1.11.0
 - Added power up spawn eggs 
