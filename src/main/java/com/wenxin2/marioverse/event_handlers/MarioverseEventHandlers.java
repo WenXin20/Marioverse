@@ -29,6 +29,7 @@ import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
+import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
@@ -51,6 +52,7 @@ import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -627,7 +629,6 @@ public class MarioverseEventHandlers {
         Level level = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = level.getBlockState(pos);
-        BlockEntity blockEntity = level.getBlockEntity(pos);
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
@@ -635,15 +636,20 @@ public class MarioverseEventHandlers {
         BlockState newState = BlockRegistry.POTTED_PIRANHA_PLANT.get().defaultBlockState()
                 .setValue(BlockStateProperties.HORIZONTAL_AXIS, axis);
 
-        if (heldItem.getItem() instanceof PiranhaPlantPodItem
+        if (heldItem.getItem() instanceof PiranhaPlantPodItem plantPodItem
                 && state.getBlock() instanceof FlowerPotBlock flowerPot
                 && !(state.getBlock() instanceof PottedPiranhaPlantBlock)
                 && flowerPot.getPotted() == Blocks.AIR
                 && !player.isShiftKeyDown()) {
 
             level.setBlock(pos, newState, 3);
+            BlockEntity blockEntity = level.getBlockEntity(pos);
 
             if (blockEntity instanceof PottedPiranhaPlantBlockEntity piranhaPlantBE) {
+                piranhaPlantBE.setData(DataAttachmentRegistry.VARIANT, heldItem
+                        .getOrDefault(DataComponentRegistry.VARIANT, PiranhaPlantVariants.NORMAL));
+                if (plantPodItem.isChomper(heldItem))
+                    piranhaPlantBE.setData(DataAttachmentRegistry.VARIANT, PiranhaPlantVariants.CHOMPER);
                 piranhaPlantBE.setOwner(player);
                 piranhaPlantBE.setChanged();
             }
@@ -654,6 +660,7 @@ public class MarioverseEventHandlers {
             heldItem.consume(1, player);
         }
 
+        BlockEntity blockEntity = level.getBlockEntity(pos);
         if (player.isCreative() && player.isShiftKeyDown() && heldItem.getItem() instanceof BlockItem blockItem
                 && !blockItem.getBlock().defaultBlockState().is(TagRegistry.CANNOT_USE_AS_DISGUISE)
                 && blockEntity instanceof DisguisedBlockEntity disguiseBE) {

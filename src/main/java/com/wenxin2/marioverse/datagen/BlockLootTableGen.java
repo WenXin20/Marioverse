@@ -30,7 +30,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -128,6 +130,10 @@ public class BlockLootTableGen extends LootTableProvider {
             });
         }
 
+        protected LootTable.Builder createNoLootDrop() {
+            return LootTable.lootTable();
+        }
+
         protected LootTable.Builder createCheckpointFlagDrop(Block block) {
             return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
@@ -153,8 +159,15 @@ public class BlockLootTableGen extends LootTableProvider {
             );
         }
 
-        protected LootTable.Builder createNoLootDrop() {
-            return LootTable.lootTable();
+        protected LootTable.Builder createPottedPiranhaPlantTable(ItemLike itemLike) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(Blocks.FLOWER_POT,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(Blocks.FLOWER_POT))))
+                    .withPool(this.applyExplosionCondition(itemLike, LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(itemLike)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponentRegistry.VARIANT.get())))));
         }
 
         protected LootTable.Builder createStarCoinDrop(Block block) {

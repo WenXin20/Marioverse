@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
@@ -95,5 +96,9 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
                 return InteractionResult.CONSUME;
             }
         }
+    }
+
+    public boolean isChomper(ItemStack stack) {
+        return this.getName(stack).getString().toLowerCase(Locale.ROOT).equals("chomper");
     }
 }
