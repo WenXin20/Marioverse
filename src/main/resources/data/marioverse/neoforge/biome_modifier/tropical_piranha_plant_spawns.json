@@ -4,7 +4,7 @@
   "spawners": [
     {
       "type": "marioverse:piranha_plant",
-      "weight": 15,
+      "weight": 30,
       "minCount": 1,
       "maxCount": 1
     }
