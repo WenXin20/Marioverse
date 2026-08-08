@@ -21,10 +21,12 @@ public class TagRegistry {
     public static final TagKey<Biome> DEEP_CAVE_PIRANHA_PLANT_CANNOT_SPAWN = biomeTags("deep_cave_piranha_plant_cannot_spawn");
     public static final TagKey<Biome> HAS_BOO = biomeTags("has_boo");
     public static final TagKey<Biome> HAS_BRICK_LANES = biomeTags("has_structure/has_brick_lanes");
+    public static final TagKey<Biome> HAS_CAVE_PIRANHA_PLANT = biomeTags("has_cave_piranha_plant");
     public static final TagKey<Biome> HAS_CHEEP_CHEEP = biomeTags("has_cheep_cheep");
     public static final TagKey<Biome> HAS_CLASSIC_UNDERGROUND = biomeTags("has_structure/has_classic_underground");
     public static final TagKey<Biome> HAS_COLD_CHEEP_CHEEP = biomeTags("has_cold_cheep_cheep");
     public static final TagKey<Biome> HAS_CORAL_TOWERS = biomeTags("has_coral_towers");
+    public static final TagKey<Biome> HAS_DEEP_CAVE_PIRANHA_PLANT = biomeTags("has_deep_cave_piranha_plant");
     public static final TagKey<Biome> HAS_DEEP_CHEEP = biomeTags("has_deep_cheep");
     public static final TagKey<Biome> HAS_DRY_BONES = biomeTags("has_dry_bones");
     public static final TagKey<Biome> HAS_EEP_CHEEP = biomeTags("has_eep_cheep");

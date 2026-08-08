@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#marioverse:has_cave_piranha_plant",
+  "spawners": [
+    {
+      "type": "marioverse:piranha_plant",
+      "weight": 20,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

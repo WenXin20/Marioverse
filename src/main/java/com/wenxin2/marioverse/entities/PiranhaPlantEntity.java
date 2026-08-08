@@ -488,8 +488,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     }
 
     protected static boolean isValidCaveSpawn(ServerLevel level, BlockPos pos) {
-        return level.dimension() == Level.OVERWORLD
-                && !level.canSeeSky(pos)
+        return !level.canSeeSky(pos)
                 && level.getBrightness(LightLayer.BLOCK, pos) <= 0
                 && (pos.getY() < ConfigRegistry.CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get()
                     || pos.getY() < ConfigRegistry.DEEP_CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get())

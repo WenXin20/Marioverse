@@ -1,0 +1,7 @@
+{
+  "type": "neoforge:remove_spawns",
+  "biomes": "#marioverse:deep_cave_piranha_plant_cannot_spawn",
+  "entity_types": [
+      "marioverse:piranha_plant"
+  ]
+}
