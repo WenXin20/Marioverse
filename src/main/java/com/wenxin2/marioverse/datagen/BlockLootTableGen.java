@@ -89,13 +89,7 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (block == BlockRegistry.DEEP_FUNGAL_STONE.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get()));
-                    else if (block == BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
-                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
-                                BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get()));
                     else if (block == BlockRegistry.FUNGAL_STONE.get())
-                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
-                                BlockRegistry.FUNGAL_COBBLESTONE.get()));
-                    else if (block == BlockRegistry.ROCKY_FUNGAL_STONE.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.FUNGAL_COBBLESTONE.get()));
                     else if (block instanceof PottedPiranhaPlantBlock)
@@ -126,12 +120,18 @@ public class BlockLootTableGen extends LootTableProvider {
                 blockFamily.getVariants().forEach((variant, variantBlock) -> {
                     BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
                     BlockFamilyExtended.Variant quicksand = BlockFamilyExtended.Variant.QUICKSAND;
+                    BlockFamilyExtended.Variant rocky = BlockFamilyExtended.Variant.ROCKY;
                     BlockFamilyExtended.Variant slabs = BlockFamilyExtended.Variant.SLAB;
                     BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
 
                     if (variant == quicksand)
                         dropOther(variantBlock, blockFamily.getBaseBlock());
-                    else if (variant == questionBlock)
+                    else if (variant == rocky) {
+                        Block cobblestone = blockFamily == BlockFamilyRegistry.DEEP_FUNGAL_STONE
+                                ? BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get()
+                                : BlockRegistry.FUNGAL_COBBLESTONE.get();
+                        add(variantBlock, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock, cobblestone));
+                    } else if (variant == questionBlock)
                         add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
                     else if (variant == smashableBlocks)
                         add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));

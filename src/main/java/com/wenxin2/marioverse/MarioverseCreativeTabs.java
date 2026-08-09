@@ -365,6 +365,16 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_BUTTON);
 
+            add(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
+            add(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_STAIRS);
+            add(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_SLAB);
+            add(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_WALL);
+
+            add(event, BlockRegistry.DEEP_FUNGAL_COBBLESTONE);
+            add(event, BlockRegistry.DEEP_FUNGAL_COBBLESTONE_STAIRS);
+            add(event, BlockRegistry.DEEP_FUNGAL_COBBLESTONE_SLAB);
+            add(event, BlockRegistry.DEEP_FUNGAL_COBBLESTONE_WALL);
+
             add(event, BlockRegistry.DEEP_FUNGAL_BRICKS);
             add(event, BlockRegistry.CRACKED_DEEP_FUNGAL_BRICKS);
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS);
@@ -383,6 +393,11 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB);
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL);
             add(event, BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS);
+
+            add(event, BlockRegistry.HARD_DEEP_FUNGAL_BLOCK);
+            add(event, BlockRegistry.HARD_DEEP_FUNGAL_STAIRS);
+            add(event, BlockRegistry.HARD_DEEP_FUNGAL_SLAB);
+            add(event, BlockRegistry.HARD_DEEP_FUNGAL_WALL);
 
             add(event, Blocks.AMETHYST_BLOCK);
             add(event, BlockRegistry.AMETHYST_STAIRS);
@@ -615,6 +630,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE);
                 addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
 
                 addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.RED_TRAMPOLINE_CAP, BlockRegistry.BLUE_TRAMPOLINE_CAP);
