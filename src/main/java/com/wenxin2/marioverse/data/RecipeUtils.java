@@ -31,6 +31,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,6 +59,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.PRESSURE_PLATE, (outputItem, inputItem) -> pressurePlateBuilder(RecipeCategory.REDSTONE, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.QUESTION_BLOCK, (outputItem, inputItem) -> questionBlockBuilder(1, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.QUESTION_PANEL, (outputItem, inputItem) -> questionPanelBuilder(4, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.ROCKY, (outputItem, inputItem) -> rockyBuilder(1, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.SIGN, (outputItem, inputItem) -> signBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.SLAB, (outputItem, inputItem) -> slabBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.STAIRS, (outputItem, inputItem) -> stairBuilder(outputItem, Ingredient.of(inputItem)))
@@ -71,16 +73,18 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG, (outputItem, inputItemTag) -> questionBlockTagBuilder(1, outputItem, inputItemTag))
                     .build();
 
-    public static final Map<BlockFamilyExtended.Variant, Integer> STONECUTTING_OUTPUTS = Map.of(
-            BlockFamilyExtended.Variant.BRICKS, 1,
-            BlockFamilyExtended.Variant.CHISELED, 1,
-            BlockFamilyExtended.Variant.CUT, 1,
-            BlockFamilyExtended.Variant.PEDESTAL, 1,
-            BlockFamilyExtended.Variant.POLISHED, 1,
-            BlockFamilyExtended.Variant.SLAB, 2,
-            BlockFamilyExtended.Variant.SMASHABLE_BLOCKS, 1,
-            BlockFamilyExtended.Variant.STAIRS, 1,
-            BlockFamilyExtended.Variant.WALL, 1
+    public static final Map<BlockFamilyExtended.Variant, Integer> STONECUTTING_OUTPUTS = Map.ofEntries(
+            Map.entry(BlockFamilyExtended.Variant.BRICKS, 1),
+            Map.entry(BlockFamilyExtended.Variant.CHISELED, 1),
+            Map.entry(BlockFamilyExtended.Variant.CUT, 1),
+            Map.entry(BlockFamilyExtended.Variant.HARD_BLOCK, 1),
+            Map.entry(BlockFamilyExtended.Variant.PEDESTAL, 1),
+            Map.entry(BlockFamilyExtended.Variant.POLISHED, 1),
+            Map.entry(BlockFamilyExtended.Variant.ROCKY, 1),
+            Map.entry(BlockFamilyExtended.Variant.SLAB, 2),
+            Map.entry(BlockFamilyExtended.Variant.SMASHABLE_BLOCKS, 1),
+            Map.entry(BlockFamilyExtended.Variant.STAIRS, 1),
+            Map.entry(BlockFamilyExtended.Variant.WALL, 1)
     );
 
     public static Stream<VanillaRecipeProvider.TrimTemplate> smithingTrims() {
@@ -155,6 +159,14 @@ public class RecipeUtils extends RecipeProvider {
                 .requires(Tags.Items.DUSTS_REDSTONE)
                 .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
                 .group(Marioverse.MOD_ID + ":question_panels");
+    }
+
+    public static RecipeBuilder rockyBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .requires(inputItem)
+                .requires(Blocks.POINTED_DRIPSTONE)
+                .unlockedBy("has_dripstone", has(Blocks.POINTED_DRIPSTONE))
+                .group(Marioverse.MOD_ID + ":rocky");
     }
 
     public static RecipeBuilder storageBrickBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {

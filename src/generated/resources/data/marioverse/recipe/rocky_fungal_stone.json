@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:rocky",
+  "ingredients": [
+    {
+      "item": "marioverse:fungal_stone"
+    },
+    {
+      "item": "minecraft:pointed_dripstone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:rocky_fungal_stone"
+  }
+}

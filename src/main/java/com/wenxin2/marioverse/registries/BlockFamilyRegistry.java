@@ -455,9 +455,16 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .button(BlockRegistry.FUNGAL_STONE_BUTTON.get())
             .polished(BlockRegistry.POLISHED_FUNGAL_STONE.get())
             .pressurePlate(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get())
+            .rocky(BlockRegistry.ROCKY_FUNGAL_STONE.get())
             .slab(BlockRegistry.FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.FUNGAL_STONE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended ROCKY_FUNGAL_STONE = familyBuilder(BlockRegistry.ROCKY_FUNGAL_STONE.get())
+            .slab(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
+            .stairs(BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS.get())
+            .wall(BlockRegistry.ROCKY_FUNGAL_STONE_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended FUNGAL_COBBLESTONE = familyBuilder(BlockRegistry.FUNGAL_COBBLESTONE.get())

@@ -104,7 +104,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(), BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
                 BlockRegistry.MARIO_ABILITY_BLOCK.get(), BlockRegistry.PEACH_ABILITY_BLOCK.get(), BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
                 BlockRegistry.STEVE_ABILITY_BLOCK.get(), BlockRegistry.WALUIGI_ABILITY_BLOCK.get(), BlockRegistry.WARIO_ABILITY_BLOCK.get());
-        this.cubeTopBlocks(BlockRegistry.FUNGAL_STONE.get());
+        this.cubeTopBlocks(BlockRegistry.FUNGAL_STONE.get(), BlockRegistry.ROCKY_FUNGAL_STONE.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(), BlockRegistry.BUBBLE_CORAL_TOWER.get(), BlockRegistry.FIRE_CORAL_TOWER.get(),
                 BlockRegistry.HORN_CORAL_TOWER.get(), BlockRegistry.TUBE_CORAL_TOWER.get(), BlockRegistry.DEAD_BRAIN_CORAL_TOWER.get(),
                 BlockRegistry.DEAD_BUBBLE_CORAL_TOWER.get(), BlockRegistry.DEAD_FIRE_CORAL_TOWER.get(), BlockRegistry.DEAD_HORN_CORAL_TOWER.get(),
@@ -533,7 +533,8 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(slab)) {
                     texture = modLoc("block/" + removeSlabName );
                     this.slabMirroredNSModel(slabBlock, texture);
-                } else if (block == BlockFamilyRegistry.FUNGAL_STONE.get(slab)) {
+                } else if (block == BlockFamilyRegistry.FUNGAL_STONE.get(slab)
+                        || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(slab)) {
                     texture = modLoc("block/" + removeSlabName);
                     topTexture = modLoc("block/" + removeSlabName + "_top");
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
@@ -638,7 +639,8 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(stairs)) {
                     texture = modLoc("block/" + removeStairName);
                     this.stairsMirroredNSModel(stairBlock, texture);
-                } else if (block == BlockFamilyRegistry.FUNGAL_STONE.get(stairs)) {
+                } else if (block == BlockFamilyRegistry.FUNGAL_STONE.get(stairs)
+                        || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(stairs)) {
                     texture = modLoc("block/" + removeStairName);
                     topTexture = modLoc("block/" + removeStairName + "_top");
                     this.stairsBlock(stairBlock, texture, topTexture, topTexture);

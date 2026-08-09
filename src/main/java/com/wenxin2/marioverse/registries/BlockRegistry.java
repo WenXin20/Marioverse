@@ -324,6 +324,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_WALL;
     public static final DeferredBlock<Block> RED_SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE;
+    public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_SLAB;
+    public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_STAIRS;
+    public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> ROSALINA_ABILITY_BLOCK;
     public static final DeferredBlock<Block> SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_PEDESTAL;
@@ -757,10 +761,20 @@ public class BlockRegistry {
         FUNGAL_STONE_WALL = registerBlock("fungal_stone_wall", () -> wall(FUNGAL_STONE.get()));
 
 
+        ROCKY_FUNGAL_STONE = registerBlock("rocky_fungal_stone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
+                        .strength(2.0F, 6.0F)));
+
+        ROCKY_FUNGAL_STONE_SLAB = registerBlock("rocky_fungal_stone_slab", () -> slab(ROCKY_FUNGAL_STONE.get()));
+
+        ROCKY_FUNGAL_STONE_STAIRS = registerBlock("rocky_fungal_stone_stairs", () -> stair(ROCKY_FUNGAL_STONE.get()));
+
+        ROCKY_FUNGAL_STONE_WALL = registerBlock("rocky_fungal_stone_wall", () -> wall(ROCKY_FUNGAL_STONE.get()));
+
+
         FUNGAL_COBBLESTONE = registerBlock("fungal_cobblestone",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
-                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
+                        .strength(2.0F, 6.0F)));
 
         FUNGAL_COBBLESTONE_SLAB = registerBlock("fungal_cobblestone_slab", () -> slab(FUNGAL_COBBLESTONE.get()));
 

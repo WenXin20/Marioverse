@@ -51,7 +51,7 @@ public class MarioverseCreativeTabs {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_BUILDING_BLOCKS_TAB = TABS.register("marioverse_building_blocks_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("creative_tab.marioverse_building_blocks"))
-            .icon(() -> new ItemStack(BlockRegistry.FUNGAL_STONE.get())).build());
+            .icon(() -> new ItemStack(BlockRegistry.FUNGAL_COBBLESTONE.get())).build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MARIOVERSE_ITEMS_TAB = TABS.register("marioverse_items_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("creative_tab.marioverse_items"))
@@ -324,6 +324,11 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE);
             add(event, BlockRegistry.FUNGAL_STONE_BUTTON);
 
+            add(event, BlockRegistry.ROCKY_FUNGAL_STONE);
+            add(event, BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS);
+            add(event, BlockRegistry.ROCKY_FUNGAL_STONE_SLAB);
+            add(event, BlockRegistry.ROCKY_FUNGAL_STONE_WALL);
+
             add(event, BlockRegistry.FUNGAL_COBBLESTONE);
             add(event, BlockRegistry.FUNGAL_COBBLESTONE_STAIRS);
             add(event, BlockRegistry.FUNGAL_COBBLESTONE_SLAB);
@@ -346,12 +351,12 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS);
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB);
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_WALL);
+            add(event, BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS);
 
             add(event, BlockRegistry.HARD_FUNGAL_BLOCK);
             add(event, BlockRegistry.HARD_FUNGAL_STAIRS);
             add(event, BlockRegistry.HARD_FUNGAL_SLAB);
             add(event, BlockRegistry.HARD_FUNGAL_WALL);
-            add(event, BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS);
 
             add(event, BlockRegistry.DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_STAIRS);
@@ -608,7 +613,8 @@ public class MarioverseCreativeTabs {
                 ItemStack tropicalPiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.TROPICAL);
 
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
-                addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
 
                 addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.RED_TRAMPOLINE_CAP, BlockRegistry.BLUE_TRAMPOLINE_CAP);
@@ -894,7 +900,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FUNGAL_STONE_WALL, BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE, BlockRegistry.FUNGAL_STONE_BUTTON);
 
-                addAfter(event, BlockRegistry.FUNGAL_STONE_BUTTON, BlockRegistry.FUNGAL_COBBLESTONE);
+                addAfter(event, BlockRegistry.FUNGAL_STONE_BUTTON, BlockRegistry.ROCKY_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS);
+                addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS, BlockRegistry.ROCKY_FUNGAL_STONE_SLAB);
+                addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE_SLAB, BlockRegistry.ROCKY_FUNGAL_STONE_WALL);
+
+                addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE_WALL, BlockRegistry.FUNGAL_COBBLESTONE);
                 addAfter(event, BlockRegistry.FUNGAL_COBBLESTONE, BlockRegistry.FUNGAL_COBBLESTONE_STAIRS);
                 addAfter(event, BlockRegistry.FUNGAL_COBBLESTONE_STAIRS, BlockRegistry.FUNGAL_COBBLESTONE_SLAB);
                 addAfter(event, BlockRegistry.FUNGAL_COBBLESTONE_SLAB, BlockRegistry.FUNGAL_COBBLESTONE_WALL);

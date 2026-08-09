@@ -170,6 +170,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder rocky(Block block) {
+            this.family.variants.put(Variant.ROCKY, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder sign(Block block, Block blockWall) {
             this.family.variants.put(Variant.SIGN, block);
             this.family.variants.put(Variant.WALL_SIGN, blockWall);
@@ -250,6 +255,7 @@ public class BlockFamilyExtended {
         QUESTION_BLOCK_TAG("question_block_tag"),
         QUESTION_PANEL("question_panel"),
         QUICKSAND("quicksand"),
+        ROCKY("rocky"),
         SIGN("sign"),
         SLAB("slab"),
         SMASHABLE_BLOCKS("smashable_blocks"),

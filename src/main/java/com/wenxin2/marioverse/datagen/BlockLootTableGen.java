@@ -86,6 +86,12 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createNameableWarpPipeBEDrop(block));
                     else if (block instanceof WaterSpoutBlock)
                         this.add(block, this.createNoLootDrop());
+                    else if (block == BlockRegistry.FUNGAL_STONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.FUNGAL_COBBLESTONE.get()));
+                    else if (block == BlockRegistry.ROCKY_FUNGAL_STONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.FUNGAL_COBBLESTONE.get()));
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPottedPiranhaPlantTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.BLUE_TRAMPOLINE_CAP.get())

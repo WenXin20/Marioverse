@@ -254,11 +254,13 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
-                .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem());
+                .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE.asItem());
 
         tag(ItemTags.STONE_TOOL_MATERIALS)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
-                .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem());
+                .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE.asItem());
 
         tag(ItemTags.TRIM_TEMPLATES)
                 .add(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get())
