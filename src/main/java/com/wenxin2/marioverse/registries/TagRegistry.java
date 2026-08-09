@@ -78,6 +78,9 @@ public class TagRegistry {
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
     public static final TagKey<Block> HARD_BLOCKS = blockTags("hard_blocks");
+    public static final TagKey<Block> HARD_SLABS = blockTags("hard_slabs");
+    public static final TagKey<Block> HARD_STAIRS = blockTags("hard_stairs");
+    public static final TagKey<Block> HARD_WALLS = blockTags("hard_walls");
     public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");
     public static final TagKey<Block> ICE_CUBE_EXTINGUISHES = blockTags("ice_cube_extinguishes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
@@ -179,6 +182,9 @@ public class TagRegistry {
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HALLOWEEN_MASKS = itemTags("halloween_masks");
     public static final TagKey<Item> HARD_BLOCK_ITEMS = itemTags("hard_blocks");
+    public static final TagKey<Item> HARD_SLAB_ITEMS = itemTags("hard_slabs");
+    public static final TagKey<Item> HARD_STAIR_ITEMS = itemTags("hard_stairs");
+    public static final TagKey<Item> HARD_WALL_ITEMS = itemTags("hard_walls");
     public static final TagKey<Item> HATS = itemTags("hats");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");

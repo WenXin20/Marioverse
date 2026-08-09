@@ -310,18 +310,18 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_MAGENTA_CALCITE, BlockRegistry.CALCITE.get(DyeColor.MAGENTA), FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_PINK_CALCITE, BlockRegistry.CALCITE.get(DyeColor.PINK), FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_COBBLESTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_COBBLESTONE, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_COBBLESTONE, BlockRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
-        generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
-
         generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_BRICKS, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_BRICKS, BlockRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
-
-        generateStonecuttingRecipes(output, BlockFamilyRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
@@ -338,14 +338,31 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS, BlockRegistry.POLISHED_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_COBBLESTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_COBBLESTONE, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_COBBLESTONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS, BlockRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.CUT_SANDSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.CUT_SANDSTONE, Blocks.SANDSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));

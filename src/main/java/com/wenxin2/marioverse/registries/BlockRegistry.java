@@ -189,6 +189,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_WALL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_PANEL;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_SLAB;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_STAIRS;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_WALL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_BUTTON;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_PRESSURE_PLATE;
@@ -218,6 +222,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
+    public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_BLOCK;
+    public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_SLAB;
+    public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_STAIRS;
+    public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_WALL;
     public static final DeferredBlock<Block> HARD_FUNGAL_BLOCK;
     public static final DeferredBlock<Block> HARD_FUNGAL_SLAB;
     public static final DeferredBlock<Block> HARD_FUNGAL_STAIRS;
@@ -324,6 +332,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_WALL;
     public static final DeferredBlock<Block> RED_SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE;
+    public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_SLAB;
+    public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_STAIRS;
+    public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_STAIRS;
@@ -879,6 +891,28 @@ public class BlockRegistry {
         DEEP_FUNGAL_STONE_WALL = registerBlock("deep_fungal_stone_wall", () -> wall(DEEP_FUNGAL_STONE.get()));
 
 
+        ROCKY_DEEP_FUNGAL_STONE = registerBlock("rocky_deep_fungal_stone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
+                        .strength(3.5F, 6.0F)));
+
+        ROCKY_DEEP_FUNGAL_STONE_SLAB = registerBlock("rocky_deep_fungal_stone_slab", () -> slab(ROCKY_DEEP_FUNGAL_STONE.get()));
+
+        ROCKY_DEEP_FUNGAL_STONE_STAIRS = registerBlock("rocky_deep_fungal_stone_stairs", () -> stair(ROCKY_DEEP_FUNGAL_STONE.get()));
+
+        ROCKY_DEEP_FUNGAL_STONE_WALL = registerBlock("rocky_deep_fungal_stone_wall", () -> wall(ROCKY_DEEP_FUNGAL_STONE.get()));
+
+
+        DEEP_FUNGAL_COBBLESTONE = registerBlock("deep_fungal_cobblestone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
+                        .strength(3.5F, 6.0F)));
+
+        DEEP_FUNGAL_COBBLESTONE_SLAB = registerBlock("deep_fungal_cobblestone_slab", () -> slab(DEEP_FUNGAL_COBBLESTONE.get()));
+
+        DEEP_FUNGAL_COBBLESTONE_STAIRS = registerBlock("deep_fungal_cobblestone_stairs", () -> stair(DEEP_FUNGAL_COBBLESTONE.get()));
+
+        DEEP_FUNGAL_COBBLESTONE_WALL = registerBlock("deep_fungal_cobblestone_wall", () -> wall(DEEP_FUNGAL_COBBLESTONE.get()));
+
+
         DEEP_FUNGAL_BRICKS = registerBlock("deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())));
 
@@ -902,13 +936,25 @@ public class BlockRegistry {
 
 
         POLISHED_DEEP_FUNGAL_STONE = registerBlock("polished_deep_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get()).strength(2.5F, 6.0F)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
+                        .strength(2.5F, 6.0F)));
 
         POLISHED_DEEP_FUNGAL_STONE_STAIRS = registerBlock("polished_deep_fungal_stone_stairs", () -> stair(POLISHED_DEEP_FUNGAL_STONE.get()));
 
         POLISHED_DEEP_FUNGAL_STONE_SLAB = registerBlock("polished_deep_fungal_stone_slab", () -> slab(POLISHED_DEEP_FUNGAL_STONE.get()));
 
         POLISHED_DEEP_FUNGAL_STONE_WALL = registerBlock("polished_deep_fungal_stone_wall", () -> wall(POLISHED_DEEP_FUNGAL_STONE.get()));
+
+
+        HARD_DEEP_FUNGAL_BLOCK = registerBlock("hard_deep_fungal_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
+                        .strength(4.0F, 8.0F)));
+
+        HARD_DEEP_FUNGAL_STAIRS = registerBlock("hard_deep_fungal_stairs", () -> stair(HARD_DEEP_FUNGAL_BLOCK.get()));
+
+        HARD_DEEP_FUNGAL_SLAB = registerBlock("hard_deep_fungal_slab", () -> slab(HARD_DEEP_FUNGAL_BLOCK.get()));
+
+        HARD_DEEP_FUNGAL_WALL = registerBlock("hard_deep_fungal_wall", () -> wall(HARD_DEEP_FUNGAL_BLOCK.get()));
 
 
         DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",

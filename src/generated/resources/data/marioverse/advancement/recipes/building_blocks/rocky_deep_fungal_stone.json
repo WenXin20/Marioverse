@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_deep_fungal_stone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:deep_fungal_stone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dripstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:pointed_dripstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:rocky_deep_fungal_stone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dripstone",
+      "has_deep_fungal_stone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:rocky_deep_fungal_stone"
+    ]
+  }
+}

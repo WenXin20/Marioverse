@@ -56,6 +56,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.HARD_BLOCKS, TagRegistry.HARD_BLOCK_ITEMS);
+        copy(TagRegistry.HARD_SLABS, TagRegistry.HARD_SLAB_ITEMS);
+        copy(TagRegistry.HARD_STAIRS, TagRegistry.HARD_STAIR_ITEMS);
+        copy(TagRegistry.HARD_WALLS, TagRegistry.HARD_WALL_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
         copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
@@ -250,16 +253,19 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.GOLD_KOOPA_TROOPA_SPAWN_EGG.get())
                 .add(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.asItem())
                 .add(BlockRegistry.STAR_COIN.asItem())
-                .add(ItemRegistry.SUPER_STAR.get());
+                .add(ItemRegistry.SUPER_STAR.get())
+                .add(ItemRegistry.SUPER_STAR_SPAWN_EGG.get());
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS)
-                .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.asItem())
                 .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.asItem())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.asItem());
 
         tag(ItemTags.STONE_TOOL_MATERIALS)
-                .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.asItem())
                 .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.asItem())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.asItem());
 
         tag(ItemTags.TRIM_TEMPLATES)

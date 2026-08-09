@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "marioverse:block/hard_deep_fungal_block"
+  }
+}

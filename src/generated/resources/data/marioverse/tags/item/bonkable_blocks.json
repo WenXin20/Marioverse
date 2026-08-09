@@ -1,5 +1,9 @@
 {
   "values": [
+    "#marioverse:hard_blocks",
+    "#marioverse:hard_slabs",
+    "#marioverse:hard_stairs",
+    "#marioverse:hard_walls",
     "#marioverse:invisible_question_blocks",
     "#marioverse:question_blocks",
     "#marioverse:storage_bricks",

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:deep_fungal_stone"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:rocky_deep_fungal_stone"
+  }
+}

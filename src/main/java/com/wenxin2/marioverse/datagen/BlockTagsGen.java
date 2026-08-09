@@ -133,6 +133,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptional(AUTOMOBILITY_STEEP_SLOPE);
 
         tag(TagRegistry.BONKABLE_BLOCKS)
+                .addTag(TagRegistry.HARD_BLOCKS)
+                .addTag(TagRegistry.HARD_SLABS)
+                .addTag(TagRegistry.HARD_STAIRS)
+                .addTag(TagRegistry.HARD_WALLS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
@@ -350,7 +354,20 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
 
         tag(TagRegistry.HARD_BLOCKS)
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_BLOCK.get())
                 .add(BlockRegistry.HARD_FUNGAL_BLOCK.get());
+
+        tag(TagRegistry.HARD_SLABS)
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_SLAB.get())
+                .add(BlockRegistry.HARD_FUNGAL_SLAB.get());
+
+        tag(TagRegistry.HARD_STAIRS)
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_STAIRS.get())
+                .add(BlockRegistry.HARD_FUNGAL_STAIRS.get());
+
+        tag(TagRegistry.HARD_WALLS)
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_WALL.get())
+                .add(BlockRegistry.HARD_FUNGAL_WALL.get());
 
         tag(TagRegistry.ICE_BALL_EXTINGUISHES)
                 .addTag(BlockTags.FIRE)
@@ -662,7 +679,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
         tag(Tags.Blocks.COBBLESTONES)
-                .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get())
                 .add(BlockRegistry.FUNGAL_COBBLESTONE.get());
 
         tag(Tags.Blocks.PUMPKINS_CARVED)
@@ -680,6 +697,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
 
         tag(BlockTags.ANCIENT_CITY_REPLACEABLE)
@@ -691,6 +709,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.BASE_STONE_OVERWORLD)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
 
         tag(BlockTags.CORALS);
@@ -783,10 +802,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
                 .add(BlockRegistry.CALCITE_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.FUNGAL_COBBLESTONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_SLAB.get())
                 .add(BlockRegistry.HARD_FUNGAL_SLAB.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB.get())
@@ -795,6 +816,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
@@ -815,10 +837,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
                 .add(BlockRegistry.CALCITE_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_COBBLESTONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_STAIRS.get())
                 .add(BlockRegistry.HARD_FUNGAL_STAIRS.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS.get())
@@ -827,6 +851,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
@@ -853,10 +878,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
                 .add(BlockRegistry.CALCITE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_WALL.get())
                 .add(BlockRegistry.HARD_FUNGAL_WALL.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL.get())
@@ -865,6 +892,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
@@ -944,6 +972,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_SLAB.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_STAIRS.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
@@ -965,6 +997,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_BLOCK.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_SLAB.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_STAIRS.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_WALL.get())
                 .add(BlockRegistry.HARD_FUNGAL_BLOCK.get())
                 .add(BlockRegistry.HARD_FUNGAL_SLAB.get())
                 .add(BlockRegistry.HARD_FUNGAL_STAIRS.get())
@@ -999,6 +1035,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS.get())
@@ -1064,6 +1104,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_POLISHED_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_POLISHED_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_BLOCK.get())
+                .add(BlockRegistry.HARD_FUNGAL_BLOCK.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "marioverse:block/rocky_deep_fungal_stone"
+  }
+}
