@@ -10,6 +10,18 @@
       { "type": "is_same_block" },
       {
         "type": "match_block",
+        "block": "marioverse:polished_fungal_brick_slab"
+      },
+      {
+        "type": "match_block",
+        "block": "marioverse:polished_fungal_brick_stairs"
+      },
+      {
+        "type": "match_block",
+        "block": "marioverse:polished_fungal_brick_wall"
+      },
+      {
+        "type": "match_block",
         "block": "marioverse:cracked_polished_fungal_bricks"
       },
       {
