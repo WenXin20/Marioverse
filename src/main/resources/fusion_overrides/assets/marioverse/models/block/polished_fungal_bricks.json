@@ -1,0 +1,22 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "all": "marioverse:block/polished_fungal_bricks"
+  },
+  "connections": {
+    "all": [
+      { "type": "is_same_block" },
+      {
+        "type": "match_block",
+        "block": "marioverse:cracked_polished_fungal_bricks"
+      },
+      {
+        "type": "match_block",
+        "block": "marioverse:chiseled_polished_fungal_bricks"
+      }
+    ],
+    "default": { "type": "is_same_block" }
+  }
+}

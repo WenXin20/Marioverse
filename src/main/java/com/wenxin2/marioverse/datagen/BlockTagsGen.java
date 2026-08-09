@@ -349,6 +349,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
 
+        tag(TagRegistry.HARD_BLOCKS)
+                .add(BlockRegistry.HARD_FUNGAL_BLOCK.get());
+
         tag(TagRegistry.ICE_BALL_EXTINGUISHES)
                 .addTag(BlockTags.FIRE)
                 .addTag(BlockTags.CANDLES)
@@ -658,6 +661,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
+        tag(Tags.Blocks.COBBLESTONES)
+                .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE.get());
+
         tag(Tags.Blocks.PUMPKINS_CARVED)
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
 
@@ -755,6 +762,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.HARD_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
 
         tag(BlockTags.SAND)
@@ -775,7 +783,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.HARD_FUNGAL_SLAB.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
@@ -804,7 +814,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.HARD_FUNGAL_STAIRS.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
@@ -839,7 +851,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.HARD_FUNGAL_WALL.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
@@ -935,12 +949,21 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_SLAB.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_STAIRS.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_STONE.get())
+                .add(BlockRegistry.FUNGAL_STONE_BUTTON.get())
                 .add(BlockRegistry.FUNGAL_STONE_BUTTON.get())
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.HARD_FUNGAL_BLOCK.get())
+                .add(BlockRegistry.HARD_FUNGAL_SLAB.get())
+                .add(BlockRegistry.HARD_FUNGAL_STAIRS.get())
+                .add(BlockRegistry.HARD_FUNGAL_WALL.get())
                 .add(BlockRegistry.IRON_SPIKE.get())
                 .add(BlockRegistry.ON_OFF_SWITCH.get())
                 .add(BlockRegistry.POLISHED_AMETHYST.get())

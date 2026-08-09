@@ -69,7 +69,9 @@ public class BrickPedestalBlock extends Block implements SimpleWaterloggedBlock 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (state.getValue(TOP)) {
-            if (state.getBlock() == BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL.get()
+            if (state.getBlock() == BlockRegistry.FUNGAL_BRICK_PEDESTAL.get()
+                    || state.getBlock() == BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get()
+                    || state.getBlock() == BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL.get()
                     || state.getBlock() == BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL.get())
                 return FUNGAL_BRICK_PEDESTAL_TOP;
             else return BRICK_PEDESTAL_TOP;

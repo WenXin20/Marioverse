@@ -324,6 +324,11 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE);
             add(event, BlockRegistry.FUNGAL_STONE_BUTTON);
 
+            add(event, BlockRegistry.FUNGAL_COBBLESTONE);
+            add(event, BlockRegistry.FUNGAL_COBBLESTONE_STAIRS);
+            add(event, BlockRegistry.FUNGAL_COBBLESTONE_SLAB);
+            add(event, BlockRegistry.FUNGAL_COBBLESTONE_WALL);
+
             add(event, BlockRegistry.FUNGAL_BRICKS);
             add(event, BlockRegistry.CRACKED_FUNGAL_BRICKS);
             add(event, BlockRegistry.FUNGAL_BRICK_STAIRS);
@@ -341,6 +346,11 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS);
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB);
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_WALL);
+
+            add(event, BlockRegistry.HARD_FUNGAL_BLOCK);
+            add(event, BlockRegistry.HARD_FUNGAL_STAIRS);
+            add(event, BlockRegistry.HARD_FUNGAL_SLAB);
+            add(event, BlockRegistry.HARD_FUNGAL_WALL);
             add(event, BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS);
 
             add(event, BlockRegistry.DEEP_FUNGAL_STONE);
@@ -884,12 +894,22 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FUNGAL_STONE_WALL, BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE, BlockRegistry.FUNGAL_STONE_BUTTON);
 
-                addAfter(event, BlockRegistry.FUNGAL_STONE_BUTTON, BlockRegistry.POLISHED_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.FUNGAL_STONE_BUTTON, BlockRegistry.FUNGAL_COBBLESTONE);
+                addAfter(event, BlockRegistry.FUNGAL_COBBLESTONE, BlockRegistry.FUNGAL_COBBLESTONE_STAIRS);
+                addAfter(event, BlockRegistry.FUNGAL_COBBLESTONE_STAIRS, BlockRegistry.FUNGAL_COBBLESTONE_SLAB);
+                addAfter(event, BlockRegistry.FUNGAL_COBBLESTONE_SLAB, BlockRegistry.FUNGAL_COBBLESTONE_WALL);
+
+                addAfter(event, BlockRegistry.FUNGAL_COBBLESTONE_WALL, BlockRegistry.POLISHED_FUNGAL_STONE);
                 addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE, BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS);
                 addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS, BlockRegistry.POLISHED_FUNGAL_STONE_SLAB);
                 addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_SLAB, BlockRegistry.POLISHED_FUNGAL_STONE_WALL);
 
-                addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_WALL, BlockRegistry.DEEP_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.POLISHED_FUNGAL_STONE_WALL, BlockRegistry.HARD_FUNGAL_BLOCK);
+                addAfter(event, BlockRegistry.HARD_FUNGAL_BLOCK, BlockRegistry.HARD_FUNGAL_STAIRS);
+                addAfter(event, BlockRegistry.HARD_FUNGAL_STAIRS, BlockRegistry.HARD_FUNGAL_SLAB);
+                addAfter(event, BlockRegistry.HARD_FUNGAL_SLAB, BlockRegistry.HARD_FUNGAL_WALL);
+
+                addAfter(event, BlockRegistry.HARD_FUNGAL_WALL, BlockRegistry.DEEP_FUNGAL_STONE);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE_STAIRS);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE_STAIRS, BlockRegistry.DEEP_FUNGAL_STONE_SLAB);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE_SLAB, BlockRegistry.DEEP_FUNGAL_STONE_WALL);

@@ -55,6 +55,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
+        copy(TagRegistry.HARD_BLOCKS, TagRegistry.HARD_BLOCK_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
         copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
@@ -68,6 +69,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.WOODEN_BRIDGE_BLOCKS, TagRegistry.WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS);
 
+        copy(Tags.Blocks.COBBLESTONES, Tags.Items.COBBLESTONES);
         copy(Tags.Blocks.PUMPKINS_CARVED, Tags.Items.PUMPKINS_CARVED);
         copy(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS, Tags.Items.PUMPKINS_JACK_O_LANTERNS);
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
@@ -252,11 +254,11 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
-                .add(BlockRegistry.FUNGAL_STONE.asItem());
+                .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem());
 
         tag(ItemTags.STONE_TOOL_MATERIALS)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.asItem())
-                .add(BlockRegistry.FUNGAL_STONE.asItem());
+                .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem());
 
         tag(ItemTags.TRIM_TEMPLATES)
                 .add(ItemRegistry.LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE.get())

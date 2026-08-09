@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:hard_fungal_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:hard_fungal_stairs"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:fungal_cobblestone"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:fungal_cobblestone_wall"
+  }
+}

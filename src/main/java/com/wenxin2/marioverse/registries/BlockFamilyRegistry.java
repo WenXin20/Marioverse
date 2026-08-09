@@ -452,13 +452,25 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended FUNGAL_STONE = familyBuilder(BlockRegistry.FUNGAL_STONE.get())
-            .bricks(BlockRegistry.FUNGAL_BRICKS.get())
             .button(BlockRegistry.FUNGAL_STONE_BUTTON.get())
             .polished(BlockRegistry.POLISHED_FUNGAL_STONE.get())
             .pressurePlate(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get())
             .slab(BlockRegistry.FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.FUNGAL_STONE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended FUNGAL_COBBLESTONE = familyBuilder(BlockRegistry.FUNGAL_COBBLESTONE.get())
+            .bricks(BlockRegistry.FUNGAL_BRICKS.get())
+            .slab(BlockRegistry.FUNGAL_COBBLESTONE_SLAB.get())
+            .stairs(BlockRegistry.FUNGAL_COBBLESTONE_STAIRS.get())
+            .wall(BlockRegistry.FUNGAL_COBBLESTONE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended HARD_FUNGAL_BLOCK = familyBuilder(BlockRegistry.HARD_FUNGAL_BLOCK.get())
+            .slab(BlockRegistry.HARD_FUNGAL_SLAB.get())
+            .stairs(BlockRegistry.HARD_FUNGAL_STAIRS.get())
+            .wall(BlockRegistry.HARD_FUNGAL_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended FUNGAL_BRICKS = familyBuilder(BlockRegistry.FUNGAL_BRICKS.get())
@@ -473,6 +485,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended POLISHED_FUNGAL_STONE = familyBuilder(BlockRegistry.POLISHED_FUNGAL_STONE.get())
             .bricks(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
+            .hardBlock(BlockRegistry.HARD_FUNGAL_BLOCK.get())
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get())
             .questionBlock(BlockRegistry.FUNGAL_QUESTION_BLOCK.get())
             .questionPanel(BlockRegistry.FUNGAL_QUESTION_PANEL.get())

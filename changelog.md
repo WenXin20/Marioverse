@@ -1,3 +1,11 @@
+## Update 1.12.0
+- Fungal Stone sets
+  - Added new textures
+  - Added Fungal Cobblestone sets
+  - Added Hard Fungal Block sets
+
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
+
 ## Update 1.11.1
 **Now requires Curios instead of Accessories**
 
@@ -13,8 +21,6 @@
   - All variants have spawn eggs
   - Added the "Chomper" name tag variant
 - Added spawn eggs for warm & cold Cheep Cheep variants
-
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.11.0
 - Added power up spawn eggs 

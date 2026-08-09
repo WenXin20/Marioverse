@@ -98,11 +98,13 @@ public class BlockStateGen extends BlockStateProvider {
                 lantern = BlockRegistry.SPLUNKIN_O_LANTERN.get();
         Block waterSpout = BlockRegistry.WATER_SPOUT.get();
 
-        this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(), BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.FUNGAL_STONE.get(),
-                BlockRegistry.MONSTER_DEATH_BLOCK.get(), BlockRegistry.PASSIVE_DEATH_BLOCK.get(), BlockRegistry.PLAYER_DEATH_BLOCK.get());
+        this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(), BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.HARD_FUNGAL_BLOCK.get(),
+                BlockRegistry.FUNGAL_COBBLESTONE.get(), BlockRegistry.MONSTER_DEATH_BLOCK.get(),
+                BlockRegistry.PASSIVE_DEATH_BLOCK.get(), BlockRegistry.PLAYER_DEATH_BLOCK.get());
         this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(), BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
                 BlockRegistry.MARIO_ABILITY_BLOCK.get(), BlockRegistry.PEACH_ABILITY_BLOCK.get(), BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
                 BlockRegistry.STEVE_ABILITY_BLOCK.get(), BlockRegistry.WALUIGI_ABILITY_BLOCK.get(), BlockRegistry.WARIO_ABILITY_BLOCK.get());
+        this.cubeTopBlocks(BlockRegistry.FUNGAL_STONE.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(), BlockRegistry.BUBBLE_CORAL_TOWER.get(), BlockRegistry.FIRE_CORAL_TOWER.get(),
                 BlockRegistry.HORN_CORAL_TOWER.get(), BlockRegistry.TUBE_CORAL_TOWER.get(), BlockRegistry.DEAD_BRAIN_CORAL_TOWER.get(),
                 BlockRegistry.DEAD_BUBBLE_CORAL_TOWER.get(), BlockRegistry.DEAD_FIRE_CORAL_TOWER.get(), BlockRegistry.DEAD_HORN_CORAL_TOWER.get(),
@@ -377,7 +379,9 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("minecraft:block/" + removePedestalName);
 
                     this.pedestalModel(block, texture);
-                } else if (block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(pedestal)
+                } else if (block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
+                        || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(pedestal)
+                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(pedestal)) {
                     texture = modLoc("block/" + removePedestalName);
 
@@ -529,11 +533,19 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(slab)) {
                     texture = modLoc("block/" + removeSlabName );
                     this.slabMirroredNSModel(slabBlock, texture);
+                } else if (block == BlockFamilyRegistry.FUNGAL_STONE.get(slab)) {
+                    texture = modLoc("block/" + removeSlabName);
+                    topTexture = modLoc("block/" + removeSlabName + "_top");
+                    this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
+                    this.itemModels().slab(blockName, texture, topTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(slab)) {
+                    texture = modLoc("block/" + blockName);
+                    topTexture = modLoc("block/" + removeSlabName + "_block");
+                    this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
+                    this.itemModels().slab(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_CALCITE.get(slab)
-                        || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
-                        || block == BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
                     texture = modLoc("block/" + blockName);
                     topTexture = modLoc("block/" + removeSlabName);
@@ -613,6 +625,7 @@ public class BlockStateGen extends BlockStateProvider {
                 String removeStairName = blockName.replace("_stairs", "").replace("brick", "bricks")
                         .replace("tile", "tiles");
                 ResourceLocation texture;
+                ResourceLocation topTexture;
 
                 if (block == BlockFamilyRegistry.AMETHYST.get(stairs)) {
                     texture = mcLoc("block/" + removeStairName + "_block");
@@ -625,6 +638,15 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(stairs)) {
                     texture = modLoc("block/" + removeStairName);
                     this.stairsMirroredNSModel(stairBlock, texture);
+                } else if (block == BlockFamilyRegistry.FUNGAL_STONE.get(stairs)) {
+                    texture = modLoc("block/" + removeStairName);
+                    topTexture = modLoc("block/" + removeStairName + "_top");
+                    this.stairsBlock(stairBlock, texture, topTexture, topTexture);
+                    this.itemModels().stairs(blockName, texture, topTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(stairs)) {
+                    texture = modLoc("block/" + removeStairName + "_block");
+                    this.stairsBlock(stairBlock, removeStairName, texture);
+                    this.itemModels().stairs(blockName, texture, texture, texture);
                 } else {
                     texture = modLoc("block/" + removeStairName);
                     this.stairsBlock(stairBlock, removeStairName, texture);
@@ -744,6 +766,10 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(wall)) {
                     texture = modLoc("block/" + removeWallName);
                     this.wallMirroredNSModel(wallBlock, texture);
+                } else if (block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(wall)) {
+                    texture = modLoc("block/" + removeWallName + "_block");
+                    this.wallBlock(wallBlock, removeWallName, texture);
+                    this.itemModels().wallInventory(blockName, texture);
                 } else {
                     texture = modLoc("block/" + removeWallName);
                     this.wallBlock(wallBlock, removeWallName, texture);

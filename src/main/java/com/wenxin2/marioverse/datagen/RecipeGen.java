@@ -40,8 +40,8 @@ public class RecipeGen extends RecipeUtils {
     @Override
     protected void buildRecipes(RecipeOutput output) {
         this.generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        smithingTrims().forEach(item -> trimSmithing(output, item.template(), item.id()));
+        RecipeGen.waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        RecipeGen.smithingTrims().forEach(item -> trimSmithing(output, item.template(), item.id()));
 
         campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD,
                 TagRegistry.CHEEP_CHEEP_ITEMS, output);
@@ -51,8 +51,8 @@ public class RecipeGen extends RecipeUtils {
                 ItemRegistry.PORCUPUFFER, output);
         smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
                 BlockRegistry.DEEP_FUNGAL_STONE, output);
-        smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
-                BlockRegistry.FUNGAL_STONE, output);
+        smeltingRecipe(200, 0.1F, BlockRegistry.FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
+                BlockRegistry.FUNGAL_COBBLESTONE, output);
         smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD,
                 TagRegistry.CHEEP_CHEEP_ITEMS, output);
         smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD,
@@ -314,9 +314,16 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_COBBLESTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_COBBLESTONE, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_BRICKS, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, BlockRegistry.POLISHED_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));

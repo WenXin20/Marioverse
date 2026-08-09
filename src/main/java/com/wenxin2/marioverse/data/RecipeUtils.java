@@ -52,6 +52,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.DOOR, (outputItem, inputItem) -> doorBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.FENCE, (outputItem, inputItem) -> fenceBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.HARD_BLOCK, (outputItem, inputItem) -> threeByThreeBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PEDESTAL, (outputItem, inputItem) -> pedestalBuilder(5, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.POLISHED, (outputItem, inputItem) -> polishedBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PRESSURE_PLATE, (outputItem, inputItem) -> pressurePlateBuilder(RecipeCategory.REDSTONE, outputItem, Ingredient.of(inputItem)))
@@ -87,6 +88,14 @@ public class RecipeUtils extends RecipeProvider {
                         ItemRegistry.MARIO_ARMOR_TRIM_SMITHING_TEMPLATE.get())
                 .map(item -> new VanillaRecipeProvider.TrimTemplate(item,
                         ResourceLocation.withDefaultNamespace(getItemName(item) + "_smithing_trim")));
+    }
+
+    public static RecipeBuilder threeByThreeBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("###")
+                .pattern("###")
+                .pattern("###");
     }
 
     public static RecipeBuilder twoByTwoBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, Ingredient inputItem) {
@@ -974,10 +983,6 @@ public class RecipeUtils extends RecipeProvider {
 
     protected static void generateRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet set) {
         family.getVariants().forEach((variant, block) -> {
-            if (block == BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
-                    || block == BlockRegistry.POLISHED_FUNGAL_STONE.get())
-                return;
-
             if (block.requiredFeatures().isSubsetOf(set)) {
                 BiFunction<ItemLike, ItemLike, RecipeBuilder> recipeFunction = SHAPE_BUILDERS.get(variant);
                 ItemLike itemlike = getBaseBlock(family, variant);
@@ -1009,7 +1014,7 @@ public class RecipeUtils extends RecipeProvider {
                 }
 
                 if (variant == BlockFamilyExtended.Variant.CRACKED)
-                    smeltingResultFromBase(output, block, itemlike);
+                    RecipeUtils.smeltingResultFromBase(output, block, itemlike);
             }
         });
     }
@@ -1024,10 +1029,6 @@ public class RecipeUtils extends RecipeProvider {
 
     protected void generateStonecuttingRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet featureFlags) {
         family.getVariants().forEach((variant, block) -> {
-            if (block == BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get()
-                    || block == BlockRegistry.POLISHED_FUNGAL_STONE.get())
-                return;
-
             if (block.requiredFeatures().isSubsetOf(featureFlags)) {
                 ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
                         ? family.getBaseBlock() : getBaseBlock(family, variant);

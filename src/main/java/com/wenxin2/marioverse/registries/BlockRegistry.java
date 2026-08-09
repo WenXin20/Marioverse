@@ -205,6 +205,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_WALL;
+    public static final DeferredBlock<Block> FUNGAL_COBBLESTONE;
+    public static final DeferredBlock<Block> FUNGAL_COBBLESTONE_SLAB;
+    public static final DeferredBlock<Block> FUNGAL_COBBLESTONE_STAIRS;
+    public static final DeferredBlock<Block> FUNGAL_COBBLESTONE_WALL;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> FUNGAL_STONE;
@@ -214,6 +218,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
+    public static final DeferredBlock<Block> HARD_FUNGAL_BLOCK;
+    public static final DeferredBlock<Block> HARD_FUNGAL_SLAB;
+    public static final DeferredBlock<Block> HARD_FUNGAL_STAIRS;
+    public static final DeferredBlock<Block> HARD_FUNGAL_WALL;
     public static final DeferredBlock<Block> HORN_CORAL_TOWER;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
@@ -736,7 +744,7 @@ public class BlockRegistry {
         FUNGAL_STONE = registerBlock("fungal_stone",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
         FUNGAL_STONE_BUTTON = registerBlock("fungal_stone_button", () -> button(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 25));
 
@@ -747,6 +755,18 @@ public class BlockRegistry {
         FUNGAL_STONE_STAIRS = registerBlock("fungal_stone_stairs", () -> stair(FUNGAL_STONE.get()));
 
         FUNGAL_STONE_WALL = registerBlock("fungal_stone_wall", () -> wall(FUNGAL_STONE.get()));
+
+
+        FUNGAL_COBBLESTONE = registerBlock("fungal_cobblestone",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
+                        .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+
+        FUNGAL_COBBLESTONE_SLAB = registerBlock("fungal_cobblestone_slab", () -> slab(FUNGAL_COBBLESTONE.get()));
+
+        FUNGAL_COBBLESTONE_STAIRS = registerBlock("fungal_cobblestone_stairs", () -> stair(FUNGAL_COBBLESTONE.get()));
+
+        FUNGAL_COBBLESTONE_WALL = registerBlock("fungal_cobblestone_wall", () -> wall(FUNGAL_COBBLESTONE.get()));
 
 
         FUNGAL_BRICKS = registerBlock("fungal_bricks",
@@ -772,13 +792,23 @@ public class BlockRegistry {
 
 
         POLISHED_FUNGAL_STONE = registerBlock("polished_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get()).strength(1.5F, 6.0F)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get())));
 
         POLISHED_FUNGAL_STONE_STAIRS = registerBlock("polished_fungal_stone_stairs", () -> stair(POLISHED_FUNGAL_STONE.get()));
 
         POLISHED_FUNGAL_STONE_SLAB = registerBlock("polished_fungal_stone_slab", () -> slab(POLISHED_FUNGAL_STONE.get()));
 
         POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall", () -> wall(POLISHED_FUNGAL_STONE.get()));
+
+
+        HARD_FUNGAL_BLOCK = registerBlock("hard_fungal_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get()).strength(2.5F, 8.0F)));
+
+        HARD_FUNGAL_STAIRS = registerBlock("hard_fungal_stairs", () -> stair(HARD_FUNGAL_BLOCK.get()));
+
+        HARD_FUNGAL_SLAB = registerBlock("hard_fungal_slab", () -> slab(HARD_FUNGAL_BLOCK.get()));
+
+        HARD_FUNGAL_WALL = registerBlock("hard_fungal_wall", () -> wall(HARD_FUNGAL_BLOCK.get()));
 
 
         FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
