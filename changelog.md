@@ -3,6 +3,12 @@
   - Added new textures
   - Added Fungal Cobblestone sets
   - Added Hard Fungal Block sets
+  - Added Rocky Fungal Stone sets
+- Deep Fungal Stone sets
+  - Added new textures
+  - Added Deep Fungal Cobblestone sets
+  - Added Hard Deep Fungal Block sets
+  - Added Rocky Deep Fungal Stone sets
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
