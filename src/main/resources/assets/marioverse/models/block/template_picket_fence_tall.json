@@ -1,0 +1,54 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "marioverse:block/template_picket_fence",
+	"textures": {
+		"particle": "#fence",
+		"fence": "marioverse:block/white_picket_fence",
+		"back": "marioverse:block/white_picket_fence_back"
+	},
+	"elements": [
+		{
+			"name": "back",
+			"from": [0, 6, 9],
+			"to": [16, 10, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 9.5]},
+			"faces": {
+				"north": {"uv": [0, 6, 16, 10], "texture": "#fence"},
+				"east": {"uv": [0, 6, 1, 10], "texture": "#back"},
+				"south": {"uv": [0, 6, 16, 10], "texture": "#back"},
+				"west": {"uv": [15, 6, 16, 10], "texture": "#fence"},
+				"up": {"uv": [0, 6, 16, 7], "texture": "#back"},
+				"down": {"uv": [0, 9, 16, 10], "texture": "#back"}
+			}
+		},
+		{
+			"name": "left",
+			"from": [1, 0, 7],
+			"to": [7, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 7.5, 8]},
+			"faces": {
+				"north": {"uv": [9, 0, 15, 16], "texture": "#fence"},
+				"east": {"uv": [9, 0, 11, 16], "texture": "#fence"},
+				"south": {"uv": [9, 0, 15, 16], "texture": "#fence"},
+				"west": {"uv": [13, 0, 15, 16], "texture": "#fence"},
+				"up": {"uv": [9, 0, 15, 2], "texture": "#fence"},
+				"down": {"uv": [9, 14, 15, 16], "texture": "#fence"}
+			}
+		},
+		{
+			"name": "right",
+			"from": [9, 0, 7],
+			"to": [15, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 8, 8]},
+			"faces": {
+				"north": {"uv": [1, 0, 7, 16], "texture": "#fence"},
+				"east": {"uv": [1, 0, 3, 16], "texture": "#fence"},
+				"south": {"uv": [1, 0, 7, 16], "texture": "#fence"},
+				"west": {"uv": [5, 0, 7, 16], "texture": "#fence"},
+				"up": {"uv": [1, 0, 7, 2], "texture": "#fence"},
+				"down": {"uv": [1, 14, 7, 16], "texture": "#fence"}
+			}
+		}
+	]
+}

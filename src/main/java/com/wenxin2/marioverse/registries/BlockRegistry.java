@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.blocks.MarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
 import com.wenxin2.marioverse.blocks.PassiveDeathBlock;
 import com.wenxin2.marioverse.blocks.PeachAbilityBlock;
+import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.PlayerDeathBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
@@ -105,6 +106,7 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
+    public static final DeferredBlock<Block> WHITE_PICKET_FENCE;
 
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE;
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE_STAIRS;
@@ -272,6 +274,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> MUSHROOT_PICKET_FENCE;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
@@ -621,6 +624,12 @@ public class BlockRegistry {
         POTTED_PIRANHA_PLANT = registerNoItemBlock("potted_piranha_plant",
                 () -> new PottedPiranhaPlantBlock(null, () -> Blocks.AIR,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        MUSHROOT_PICKET_FENCE = registerBlock("mushroot_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+
+        WHITE_PICKET_FENCE = registerBlock("white_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.SNOW)));
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",

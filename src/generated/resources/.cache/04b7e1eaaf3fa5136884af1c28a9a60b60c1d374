@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-09T15:44:18.0613292	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-09T23:03:20.4523758	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 df28088c1d2145312f6fbf6ae3c566b2c2cf9c93 data/curios/tags/item/costume_hat.json
 f1d71566d06fd5511273a769fab65ff8efeb63f4 data/curios/tags/item/costume_pants.json
@@ -29,6 +29,7 @@ d29b31117342e8bb0b2637977901bf49e4502b6d data/c/tags/item/dyed/red.json
 e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/item/dyed/white.json
 42c7244e9fe2ffc622abca363bb299a6d7b78c9c data/c/tags/item/dyed/yellow.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/enchantables.json
+393c1f9f28db0dd7eae67122cec8180a27617585 data/c/tags/item/fences/wooden.json
 5ba631e6e0d914f759a46e9551eb7db121a7cfde data/c/tags/item/foods/cooked_fish.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/c/tags/item/foods/raw_fish.json
 94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/c/tags/item/mushrooms.json
@@ -41,9 +42,12 @@ eb3f7ca15f032d0d19418282e01f56a49a060528 data/c/tags/item/foods/raw_fish.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/block_spawner_cannot_display.json
 ca0305ff998bb91ee30dc4040f60ff99130ad6f9 data/marioverse/tags/item/bonkable_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/item/brick_pedestals.json
-b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/marioverse/tags/item/bridges.json
-3a569791b5b1656007b0f1d7fceea0ec7e7c299b data/marioverse/tags/item/bridge_stairs.json
+a0120f8c2d7a557b29a19b0bb9031ea3cca2dbfe data/marioverse/tags/item/bridges.json
+5f2a4811099dd21bc38ee2f540493664acb5a981 data/marioverse/tags/item/bridges/wooden.json
+1f1162ca843bdf9d49fba0d105b6b413b5382275 data/marioverse/tags/item/bridge_stairs.json
+42e766f60c03b962bc96d2bff4bdccb4f7e3c8ec data/marioverse/tags/item/bridge_stairs/wooden.json
 cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/item/calcite.json
+43731a9f33d83c94e082d4772183380c855f499b data/marioverse/tags/item/calcite_blocks/dyed.json
 838a5bff6fba055496359b81eecc5147245de116 data/marioverse/tags/item/calcite_bricks.json
 72bdcfe08e01169a99721413f7b3125196d363e9 data/marioverse/tags/item/calcite_brick_pedestals.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/cannot_place_in_checkpoint_flags.json
@@ -68,7 +72,6 @@ bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/item/dotted_line_b
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/item/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/item/dyeable_warp_pipes.json
-43731a9f33d83c94e082d4772183380c855f499b data/marioverse/tags/item/dyed_calcite_blocks.json
 4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/item/flammable_wooden_bridges.json
 eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/item/flammable_wooden_bridge_stairs.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
@@ -83,6 +86,8 @@ bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.
 2bf71b8c33ad54da47f6204801153f8758427f38 data/marioverse/tags/item/koopa_shoes.json
 ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/item/mushroom_trampoline_blocks.json
 5caef3bf5fe1f82caaeaac7f566d0787b4b83f19 data/marioverse/tags/item/pants.json
+393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/item/picket_fences.json
+1bdc8a82aa1c2e60139870eb97b2db3bc951a5b5 data/marioverse/tags/item/picket_fences/wooden.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/item/pipe_junction_blocks.json
 51c64a5ea272d8b17a8acacd965c546d474f5efe data/marioverse/tags/item/piranha_plant_food.json
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/item/polished_calcite.json
@@ -105,8 +110,6 @@ d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calci
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/marioverse/tags/item/tools/wrenches.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/item/warp_pipes.json
 c244f100071156df3560fa1b7792613d9c04a72c data/marioverse/tags/item/warp_pipe_cannot_spawn.json
-5f2a4811099dd21bc38ee2f540493664acb5a981 data/marioverse/tags/item/wooden_bridges.json
-42e766f60c03b962bc96d2bff4bdccb4f7e3c8ec data/marioverse/tags/item/wooden_bridge_stairs.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/cat_food.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
@@ -117,6 +120,7 @@ cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/eq
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/fire_aspect.json
 cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/vanishing.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/weapon.json
+0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/minecraft/tags/item/fences.json
 b28d2334ac91b76d29f622d51412d34b0f4f498a data/minecraft/tags/item/fishes.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/item/flowers.json
 120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/minecraft/tags/item/foot_armor.json
@@ -134,4 +138,5 @@ eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/ocelot_food.js
 2773255bbc15ac09478a13c0dbb75621136e2331 data/minecraft/tags/item/trimmable_armor.json
 df17fbdce9a0384cbb7b56e5d419d6094b844928 data/minecraft/tags/item/trim_templates.json
 3c1886d95e214ef9718857803386a61ac15d9bb4 data/minecraft/tags/item/walls.json
-b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/item/wooden_stairs.json
+393c1f9f28db0dd7eae67122cec8180a27617585 data/minecraft/tags/item/wooden_fences.json
+a0120f8c2d7a557b29a19b0bb9031ea3cca2dbfe data/minecraft/tags/item/wooden_stairs.json

@@ -98,6 +98,7 @@ public class RecipeGen extends RecipeUtils {
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
         dyeItemRecipe(1, "calcite_from_dye", Blocks.CALCITE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.CALCITE_ITEMS, false, output);
+        dyeItemRecipe(1, "picket_fence_from_dye", BlockRegistry.WHITE_PICKET_FENCE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.PICKET_FENCE_ITEMS, false, output);
         mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
         mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
         mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
@@ -109,6 +110,7 @@ public class RecipeGen extends RecipeUtils {
         oneToOneRecipe(1, "wrenches", ItemRegistry.CREATIVE_WRENCH, RecipeCategory.MISC, ItemRegistry.CREATIVE_WRENCH, output);
         oneToOneRecipe(1, "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
         oneToOneRecipe(4, "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
+        picketFenceRecipe(2, "picket_fences", BlockRegistry.MUSHROOT_PICKET_FENCE, RecipeCategory.BUILDING_BLOCKS, Blocks.OAK_SLAB, Tags.Items.RODS_WOODEN, true, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, true, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, true, output);
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, true, output);

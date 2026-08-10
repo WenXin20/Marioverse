@@ -664,6 +664,24 @@ public class RecipeUtils extends RecipeProvider {
                 .save(output);
     }
 
+    public void picketFenceRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                         Object slab, Object stick, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("PSP")
+                .pattern("PSP")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'P', slab);
+        defineIngredient(builder, 'S', stick);
+
+        builder.unlockedBy(getUnlockName(slab), unlockCriterion(slab));
+
+        if (uniqueFileName && slab instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike) + "_" + outputAmt);
+        else builder.save(output);
+    }
+
     public void shirtRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, Object ingot, Object wool, boolean uniqueFileName, RecipeOutput output) {
         HexColorRecipeBuilder builder = HexColorRecipeBuilder

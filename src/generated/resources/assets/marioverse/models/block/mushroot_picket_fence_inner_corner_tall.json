@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_picket_fence_inner_corner_tall",
+  "textures": {
+    "back": "marioverse:block/mushroot_picket_fence_back",
+    "fence": "marioverse:block/mushroot_picket_fence"
+  }
+}

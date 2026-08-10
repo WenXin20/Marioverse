@@ -519,6 +519,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get());
 
+        tag(TagRegistry.PICKET_FENCES)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCES);
+
         tag(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)
                 .add(Blocks.DECORATED_POT);
@@ -675,8 +678,13 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get());
 
+        tag(TagRegistry.WOODEN_PICKET_FENCES)
+                .add(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+                .add(BlockRegistry.WHITE_PICKET_FENCE.get());
+
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
+
 
         tag(Tags.Blocks.COBBLESTONES)
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get())
@@ -693,6 +701,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(Tags.Blocks.SANDS_RED)
                 .add(BlockRegistry.RED_QUICKSAND.get());
+
+        tag(Tags.Blocks.FENCES_WOODEN)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCES);
 
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
@@ -756,6 +767,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
                 .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get());
+
+        tag(BlockTags.FENCES)
+                .addTag(TagRegistry.PICKET_FENCES);
 
         tag(BlockTags.FLOWERS)
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
@@ -897,12 +911,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
+        tag(BlockTags.WOODEN_FENCES)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCES);
+
         tag(BlockTags.WOODEN_STAIRS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);
 
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCES)
                 .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get())

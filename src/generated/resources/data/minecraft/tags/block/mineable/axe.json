@@ -1,7 +1,8 @@
 {
   "values": [
-    "#marioverse:wooden_bridges",
-    "#marioverse:wooden_bridge_stairs",
+    "#marioverse:bridges/wooden",
+    "#marioverse:bridge_stairs/wooden",
+    "#marioverse:picket_fences/wooden",
     "marioverse:blue_mushroom_trampoline",
     "marioverse:blue_trampoline_cap",
     "marioverse:red_mushroom_trampoline",

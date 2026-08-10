@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-09T15:44:18.0540999	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-09T23:03:20.4418209	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -23,6 +23,7 @@ b728cde38d1147b78e712f15e7ad901eece56c1f data/c/tags/block/dyed/purple.json
 d29b31117342e8bb0b2637977901bf49e4502b6d data/c/tags/block/dyed/red.json
 e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/block/dyed/white.json
 42c7244e9fe2ffc622abca363bb299a6d7b78c9c data/c/tags/block/dyed/yellow.json
+393c1f9f28db0dd7eae67122cec8180a27617585 data/c/tags/block/fences/wooden.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/block/pumpkins/carved.json
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/block/pumpkins/jack_o_lanterns.json
 9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/c/tags/block/sands/colorless.json
@@ -33,9 +34,12 @@ c53401f50b0f59c35d02f14d9dc888d401ed89dd data/framedblocks/tags/block/blockentit
 ca0305ff998bb91ee30dc4040f60ff99130ad6f9 data/marioverse/tags/block/bonkable_blocks.json
 7eaac583d66dabbfff1a436f536efd77ee40f87b data/marioverse/tags/block/bouncy_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/block/brick_pedestals.json
-b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/marioverse/tags/block/bridges.json
-3a569791b5b1656007b0f1d7fceea0ec7e7c299b data/marioverse/tags/block/bridge_stairs.json
+a0120f8c2d7a557b29a19b0bb9031ea3cca2dbfe data/marioverse/tags/block/bridges.json
+5f2a4811099dd21bc38ee2f540493664acb5a981 data/marioverse/tags/block/bridges/wooden.json
+1f1162ca843bdf9d49fba0d105b6b413b5382275 data/marioverse/tags/block/bridge_stairs.json
+42e766f60c03b962bc96d2bff4bdccb4f7e3c8ec data/marioverse/tags/block/bridge_stairs/wooden.json
 cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/block/calcite.json
+43731a9f33d83c94e082d4772183380c855f499b data/marioverse/tags/block/calcite_blocks/dyed.json
 838a5bff6fba055496359b81eecc5147245de116 data/marioverse/tags/block/calcite_bricks.json
 72bdcfe08e01169a99721413f7b3125196d363e9 data/marioverse/tags/block/calcite_brick_pedestals.json
 4677a62f0d83bd3bb4d6f24178f69a7607086794 data/marioverse/tags/block/cannot_use_as_disguise.json
@@ -50,7 +54,6 @@ bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/block/dotted_line_
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/block/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/block/dyeable_warp_pipes.json
-43731a9f33d83c94e082d4772183380c855f499b data/marioverse/tags/block/dyed_calcite_blocks.json
 8079bf4b3192621a465f4f333abe04910aa4cd42 data/marioverse/tags/block/fireball_sets_on_fire.json
 4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/block/flammable_wooden_bridges.json
 eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/block/flammable_wooden_bridge_stairs.json
@@ -63,8 +66,8 @@ d97e4710d09e6eed47363b70f7b2d48c19aacfb7 data/marioverse/tags/block/hard_slabs.j
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_ball_extinguishes.json
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_cube_extinguishes.json
 63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/block/invisible_question_blocks.json
-27be9c4f84c58aa84d57dd434811257dd45d055c data/marioverse/tags/block/mega_mushroom_can_break.json
-476b15bca1646ce140d44050ab46661ef7ae0cdf data/marioverse/tags/block/mega_mushroom_can_break/adventure_mode.json
+94a6ea364d801c0b3e4694b8d5355a82344abcdd data/marioverse/tags/block/mega_mushroom_can_break.json
+44fbb1dfa7779572aac31488b47a0d6a2dde5856 data/marioverse/tags/block/mega_mushroom_can_break/adventure_mode.json
 11bcfbe303c6dc312dda58598be28d186e443594 data/marioverse/tags/block/mega_mushroom_can_break/falling.json
 e6a968de6c4bf32c65f2aaf5943a8af49adefda7 data/marioverse/tags/block/melts.json
 5deb9af770fdad544511740089e3a3075ff82b32 data/marioverse/tags/block/melts_ice_cube.json
@@ -73,6 +76,8 @@ f12710e9c28fd237cbfc94b57f80a2fd67940d54 data/marioverse/tags/block/melts_into_p
 59cf3672223aaddb9a134569a973a414572c9389 data/marioverse/tags/block/melts_into_water.json
 5deb9af770fdad544511740089e3a3075ff82b32 data/marioverse/tags/block/melts_snowball.json
 ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/block/mushroom_trampoline_blocks.json
+393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/block/picket_fences.json
+1bdc8a82aa1c2e60139870eb97b2db3bc951a5b5 data/marioverse/tags/block/picket_fences/wooden.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/block/pipe_junction_blocks.json
 0a6d57dbfee5c2462339b802e3d71f90b2dbf41c data/marioverse/tags/block/piranha_plants_cannot_attach.json
 f62aa77ec565005717121de25d7a660229f0124a data/marioverse/tags/block/piranha_plants_can_hide.json
@@ -88,8 +93,6 @@ b5198f3739de7f61b4b40d9e39658a2b36218478 data/marioverse/tags/block/sable/floaty
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calcite_bricks.json
 4b5f6cc96623ba793a76d27abb6723552869d67c data/marioverse/tags/block/supports_dango_blossom.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/block/warp_pipes.json
-5f2a4811099dd21bc38ee2f540493664acb5a981 data/marioverse/tags/block/wooden_bridges.json
-42e766f60c03b962bc96d2bff4bdccb4f7e3c8ec data/marioverse/tags/block/wooden_bridge_stairs.json
 d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_efficient.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
 9c91acf2d7212f4d9a7994ac5aa2aeb60d7dcc92 data/minecraft/tags/block/base_stone_overworld.json
@@ -98,13 +101,14 @@ d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_effic
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
 f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
+0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/minecraft/tags/block/fences.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
 ec9415c11c813735ff73b20f0d88b7ebdb8cf59b data/minecraft/tags/block/flower_pots.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
-33888c331b3878eaceb10bc26f26e4b6c91b82a4 data/minecraft/tags/block/mineable/axe.json
+5f7bbc2ed64238090ac1b01ae188eea2c31bce2b data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 1349e229511fa4b588124d0318c290dc9a09cc65 data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
@@ -121,14 +125,15 @@ a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bo
 3c1886d95e214ef9718857803386a61ac15d9bb4 data/minecraft/tags/block/walls.json
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
-b1f5fb99a08b3dc4b4ba3711aa5ea04b8f55a67e data/minecraft/tags/block/wooden_stairs.json
+393c1f9f28db0dd7eae67122cec8180a27617585 data/minecraft/tags/block/wooden_fences.json
+a0120f8c2d7a557b29a19b0bb9031ea3cca2dbfe data/minecraft/tags/block/wooden_stairs.json
 bd435d1b18b49e9ba31e247f159b1ab81defe1af data/sable/tags/block/bouncy.json
 01dd6e4065586ee5b254a31109d7c694e7e5d5d6 data/sable/tags/block/end_stones.json
 50e8dc96e78e96d8d4049351037ce328ce9c7b62 data/sable/tags/block/frictive.json
-2566a22bd6f2a0f2d3cd6aab637341236c19a4d2 data/sable/tags/block/half_volume.json
+2d147fdc90ef544ee1d37f7e9bdb9308d6723563 data/sable/tags/block/half_volume.json
 623fa3eefe3ef8c5472911f16e916f214d418cf4 data/sable/tags/block/heavy.json
 ed8318623af15718a46a312178a6a298f2fee8c8 data/sable/tags/block/light.json
-553e4864b7288acc9066cbe2d1419cfc14d14a9e data/sable/tags/block/quarter_volume.json
+a22e372c23fd9460c3ce7f162266214db78e75ad data/sable/tags/block/quarter_volume.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/sable/tags/block/super_light.json
 94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/twilightforest/tags/block/portal/decoration.json
 132f7fa05987470fe6c5893238618629abacc326 data/twilightforest/tags/block/portal/generated_decoration.json

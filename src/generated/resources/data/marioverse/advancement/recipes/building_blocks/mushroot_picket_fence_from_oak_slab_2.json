@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_oak_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:oak_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:mushroot_picket_fence_from_oak_slab_2"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_oak_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:mushroot_picket_fence_from_oak_slab_2"
+    ]
+  }
+}

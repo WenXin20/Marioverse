@@ -61,6 +61,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.HARD_WALLS, TagRegistry.HARD_WALL_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
+        copy(TagRegistry.PICKET_FENCES, TagRegistry.PICKET_FENCE_ITEMS);
         copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
@@ -71,17 +72,21 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.WARP_PIPE_BLOCKS, TagRegistry.WARP_PIPE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_BLOCKS, TagRegistry.WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS);
+        copy(TagRegistry.WOODEN_PICKET_FENCES, TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
 
         copy(Tags.Blocks.COBBLESTONES, Tags.Items.COBBLESTONES);
         copy(Tags.Blocks.PUMPKINS_CARVED, Tags.Items.PUMPKINS_CARVED);
         copy(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS, Tags.Items.PUMPKINS_JACK_O_LANTERNS);
+        copy(Tags.Blocks.FENCES_WOODEN, Tags.Items.FENCES_WOODEN);
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
 
+        copy(BlockTags.FENCES, ItemTags.FENCES);
         copy(BlockTags.FLOWERS, ItemTags.FLOWERS);
         copy(BlockTags.SLABS, ItemTags.SLABS);
         copy(BlockTags.STAIRS, ItemTags.STAIRS);
         copy(BlockTags.STONE_BUTTONS, ItemTags.STONE_BUTTONS);
         copy(BlockTags.WALLS, ItemTags.WALLS);
+        copy(BlockTags.WOODEN_FENCES, ItemTags.WOODEN_FENCES);
         copy(BlockTags.WOODEN_STAIRS, ItemTags.WOODEN_STAIRS);
 
         for (DyeColor color : DyeColor.values())

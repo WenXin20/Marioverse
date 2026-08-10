@@ -70,7 +70,8 @@ public class TagRegistry {
     public static final TagKey<Block> DYEABLE_CHECKPOINT_FLAG_BLOCKS = blockTags("dyeable_checkpoint_flags");
     public static final TagKey<Block> DYEABLE_GOAL_POLE_BLOCKS = blockTags("dyeable_goal_poles");
     public static final TagKey<Block> DYEABLE_WARP_PIPE_BLOCKS = blockTags("dyeable_warp_pipes");
-    public static final TagKey<Block> DYED_CALCITE_BLOCKS = blockTags("dyed_calcite_blocks");
+    public static final TagKey<Block> DYED_CALCITE_BLOCKS = blockTags("calcite_blocks/dyed");
+    public static final TagKey<Block> DYED_PICKET_FENCES = blockTags("picket_fences/dyed");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
     public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_BLOCKS = blockTags("flammable_wooden_bridges");
     public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("flammable_wooden_bridge_stairs");
@@ -94,6 +95,7 @@ public class TagRegistry {
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
     public static final TagKey<Block> MELTS_SNOWBALL = blockTags("melts_snowball");
     public static final TagKey<Block> MUSHROOM_TRAMPOLINE_BLOCKS = blockTags("mushroom_trampoline_blocks");
+    public static final TagKey<Block> PICKET_FENCES = blockTags("picket_fences");
     public static final TagKey<Block> PIPE_JUNCTION_BLOCKS = blockTags("pipe_junction_blocks");
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
@@ -110,8 +112,9 @@ public class TagRegistry {
     public static final TagKey<Block> WARP_DOOR_BLOCKS = blockTags("warp_doors");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
     public static final TagKey<Block> WARP_TRAPDOOR_BLOCKS = blockTags("warp_trapdoors");
-    public static final TagKey<Block> WOODEN_BRIDGE_BLOCKS = blockTags("wooden_bridges");
-    public static final TagKey<Block> WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("wooden_bridge_stairs");
+    public static final TagKey<Block> WOODEN_BRIDGE_BLOCKS = blockTags("bridges/wooden");
+    public static final TagKey<Block> WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("bridge_stairs/wooden");
+    public static final TagKey<Block> WOODEN_PICKET_FENCES = blockTags("picket_fences/wooden");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
     public static final TagKey<DamageType> BYPASSES_BOO_INVULNERABILITY = damageTypeTags("bypasses_boo_invulnerability");
@@ -175,7 +178,8 @@ public class TagRegistry {
     public static final TagKey<Item> DYEABLE_CHECKPOINT_FLAG_ITEMS = itemTags("dyeable_checkpoint_flags");
     public static final TagKey<Item> DYEABLE_GOAL_POLE_ITEMS = itemTags("dyeable_goal_poles");
     public static final TagKey<Item> DYEABLE_WARP_PIPE_ITEMS = itemTags("dyeable_warp_pipes");
-    public static final TagKey<Item> DYED_CALCITE_ITEMS = itemTags("dyed_calcite_blocks");
+    public static final TagKey<Item> DYED_CALCITE_ITEMS = itemTags("calcite_blocks/dyed");
+    public static final TagKey<Item> DYED_PICKET_FENCE_ITEMS = itemTags("picket_fences/dyed");
     public static final TagKey<Item> FEMALE_COSTUMES = itemTags("costumes/female");;
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_ITEMS = itemTags("flammable_wooden_bridges");
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS = itemTags("flammable_wooden_bridge_stairs");
@@ -193,6 +197,7 @@ public class TagRegistry {
     public static final TagKey<Item> MALE_COSTUMES = itemTags("costumes/male");;
     public static final TagKey<Item> MUSHROOM_TRAMPOLINE_BLOCK_ITEMS = itemTags("mushroom_trampoline_blocks");
     public static final TagKey<Item> PANTS = itemTags("pants");
+    public static final TagKey<Item> PICKET_FENCE_ITEMS = itemTags("picket_fences");
     public static final TagKey<Item> PIPE_JUNCTION_BLOCK_ITEMS = itemTags("pipe_junction_blocks");
     public static final TagKey<Item> PIRANHA_PLANT_FOOD = itemTags("piranha_plant_food");
     public static final TagKey<Item> POLISHED_CALCITE_ITEMS = itemTags("polished_calcite");
@@ -215,8 +220,9 @@ public class TagRegistry {
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
     public static final TagKey<Item> WARP_TRAPDOOR_ITEMS = itemTags("warp_trapdoors");
-    public static final TagKey<Item> WOODEN_BRIDGE_ITEMS = itemTags("wooden_bridges");
-    public static final TagKey<Item> WOODEN_BRIDGE_STAIR_ITEMS = itemTags("wooden_bridge_stairs");
+    public static final TagKey<Item> WOODEN_BRIDGE_ITEMS = itemTags("bridges/wooden");
+    public static final TagKey<Item> WOODEN_BRIDGE_STAIR_ITEMS = itemTags("bridge_stairs/wooden");
+    public static final TagKey<Item> WOODEN_PICKET_FENCE_ITEMS = itemTags("picket_fences/wooden");
     public static final TagKey<Item> WRENCHES = itemTags("tools/wrenches");
 
     public static final TagKey<EntityType<?>> BOO_CAN_ATTACK = entityTypeTags("boo_can_attack");

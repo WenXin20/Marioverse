@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
+import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
@@ -132,6 +133,10 @@ public class BlockStateGen extends BlockStateProvider {
         this.mushroomTrampolineRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(), blockTexture(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()));
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
+        this.picketFenceModel(BlockRegistry.MUSHROOT_PICKET_FENCE.get(),
+                modLoc("block/mushroot_picket_fence"), modLoc("block/mushroot_picket_fence_back"));
+        this.picketFenceModel(BlockRegistry.WHITE_PICKET_FENCE.get(),
+                modLoc("block/white_picket_fence"), modLoc("block/white_picket_fence_back"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
         this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/potted_dango_blossom"),
                 modLoc("block/potted_dango_blossom_leaves"));
@@ -1237,6 +1242,49 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, true).addModels(new ConfiguredModel(modelTop));
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
+    }
+
+    private void picketFenceModel(Block block, ResourceLocation fenceTexture, ResourceLocation backTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile modelSide = this.models()
+                .withExistingParent(modelName, modLoc("block/template_picket_fence"))
+                .texture("fence", fenceTexture).texture("back", backTexture);
+        ModelFile modelSideTall = this.models()
+                .withExistingParent(modelName + "_tall", modLoc("block/template_picket_fence_tall"))
+                .texture("fence", fenceTexture).texture("back", backTexture);
+        ModelFile modelInner = this.models()
+                .withExistingParent(modelName + "_inner_corner", modLoc("block/template_picket_fence_inner_corner"))
+                .texture("fence", fenceTexture).texture("back", backTexture);
+        ModelFile modelInnerTall = this.models()
+                .withExistingParent(modelName + "_inner_corner_tall", modLoc("block/template_picket_fence_inner_corner_tall"))
+                .texture("fence", fenceTexture).texture("back", backTexture);
+        ModelFile modelOuter = this.models()
+                .withExistingParent(modelName + "_outer_corner", modLoc("block/template_picket_fence_outer_corner"))
+                .texture("fence", fenceTexture).texture("back", backTexture);
+        ModelFile modelOuterTall = this.models()
+                .withExistingParent(modelName + "_outer_corner_tall", modLoc("block/template_picket_fence_outer_corner_tall"))
+                .texture("fence", fenceTexture).texture("back", backTexture);
+
+        this.simpleBlockItem(block, modelSide);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction facing = state.getValue(PicketFenceBlock.FACING);
+            StairsShape shape = state.getValue(PicketFenceBlock.SHAPE);
+            boolean isTall = state.getValue(PicketFenceBlock.TALL);
+
+            int yRot = this.getYRotation(facing);
+            if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
+                yRot += 270;
+            yRot %= 360;
+
+            ModelFile model = switch (shape) {
+                case STRAIGHT -> isTall ? modelSideTall : modelSide;
+                case INNER_LEFT, INNER_RIGHT -> isTall ? modelInnerTall : modelInner;
+                case OUTER_LEFT, OUTER_RIGHT -> isTall ? modelOuterTall : modelOuter;
+            };
+            return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
+        });
     }
 
     private void pottedTrampolineCapRedModel(Block block, ResourceLocation activeTexture) {
