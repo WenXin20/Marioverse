@@ -85,7 +85,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
 
         BlockState state = this.defaultBlockState().setValue(FACING, facing);
         state = state.setValue(SHAPE, this.computeShape(state, level, pos));
-        state = state.setValue(TALL, level.getBlockState(pos.above()).is(this));
+        state = state.setValue(TALL, level.getBlockState(pos.above()).getBlock() instanceof PicketFenceBlock);
         return state;
     }
 
@@ -94,7 +94,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (direction == Direction.UP)
-            return state.setValue(TALL, neighborState.is(this));
+            return state.setValue(TALL, neighborState.getBlock() instanceof PicketFenceBlock);
         if (direction.getAxis().isHorizontal())
             return state.setValue(SHAPE, this.computeShape(state, level, pos));
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
@@ -139,7 +139,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
         Direction facing = state.getValue(FACING);
 
         BlockState aheadState = level.getBlockState(pos.relative(facing));
-        if (aheadState.is(this)) {
+        if (aheadState.getBlock() instanceof PicketFenceBlock) {
             Direction aheadFacing = aheadState.getValue(FACING);
             if (aheadFacing.getAxis() != facing.getAxis()
                     && this.canTakeShape(state, level, pos, aheadFacing.getOpposite())) {
@@ -149,7 +149,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
         }
 
         BlockState behindState = level.getBlockState(pos.relative(facing.getOpposite()));
-        if (behindState.is(this)) {
+        if (behindState.getBlock() instanceof PicketFenceBlock) {
             Direction behindFacing = behindState.getValue(FACING);
             if (behindFacing.getAxis() != facing.getAxis()
                     && this.canTakeShape(state, level, pos, behindFacing)) {
@@ -163,6 +163,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
 
     private boolean canTakeShape(BlockState state, LevelReader level, BlockPos pos, Direction direction) {
         BlockState neighbor = level.getBlockState(pos.relative(direction));
-        return !neighbor.is(this) || neighbor.getValue(FACING) != state.getValue(FACING);
+        return !(neighbor.getBlock() instanceof PicketFenceBlock)
+                || neighbor.getValue(FACING) != state.getValue(FACING);
     }
 }
