@@ -85,6 +85,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder cobble(Block block) {
+            this.family.variants.put(Variant.COBBLE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder cracked(Block block) {
             this.family.variants.put(Variant.CRACKED, block);
             return this;
@@ -238,6 +243,7 @@ public class BlockFamilyExtended {
         BRIDGE("bridge"),
         BRIDGE_STAIRS("bridge_stairs"),
         CHISELED("chiseled"),
+        COBBLE("cobble"),
         CRACKED("cracked"),
         CUSTOM_FENCE("fence"),
         CUSTOM_FENCE_GATE("fence_gate"),

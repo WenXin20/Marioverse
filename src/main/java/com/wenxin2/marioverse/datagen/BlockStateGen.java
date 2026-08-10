@@ -20,7 +20,9 @@ import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -51,6 +53,8 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockStateGen extends BlockStateProvider {
+    private final Set<Block> processedSimpleBlocks = new HashSet<>();
+
     public BlockStateGen(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Marioverse.MOD_ID, existingFileHelper);
     }
@@ -98,9 +102,7 @@ public class BlockStateGen extends BlockStateProvider {
                 lantern = BlockRegistry.SPLUNKIN_O_LANTERN.get();
         Block waterSpout = BlockRegistry.WATER_SPOUT.get();
 
-        this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(), BlockRegistry.HARD_DEEP_FUNGAL_BLOCK.get(),
-                BlockRegistry.HARD_FUNGAL_BLOCK.get(), BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get(),
-                BlockRegistry.FUNGAL_COBBLESTONE.get(), BlockRegistry.MONSTER_DEATH_BLOCK.get(),
+        this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(), BlockRegistry.MONSTER_DEATH_BLOCK.get(),
                 BlockRegistry.PASSIVE_DEATH_BLOCK.get(), BlockRegistry.PLAYER_DEATH_BLOCK.get());
         this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(), BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
                 BlockRegistry.MARIO_ABILITY_BLOCK.get(), BlockRegistry.PEACH_ABILITY_BLOCK.get(), BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
@@ -281,20 +283,25 @@ public class BlockStateGen extends BlockStateProvider {
         BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
             BlockFamilyExtended.Variant bricks = BlockFamilyExtended.Variant.BRICKS;
             BlockFamilyExtended.Variant chiseled = BlockFamilyExtended.Variant.CHISELED;
+            BlockFamilyExtended.Variant cobble = BlockFamilyExtended.Variant.COBBLE;
             BlockFamilyExtended.Variant cracked = BlockFamilyExtended.Variant.CRACKED;
+            BlockFamilyExtended.Variant hard_block = BlockFamilyExtended.Variant.HARD_BLOCK;
             BlockFamilyExtended.Variant polished = BlockFamilyExtended.Variant.POLISHED;
 
-            if (variant == bricks || variant == chiseled || variant == cracked || variant == polished) {
-                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                ResourceLocation mainTexture = modLoc("block/" + blockName);
-                ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
+            if (variant == bricks || variant == chiseled || variant == cobble
+                    || variant == cracked || variant == hard_block || variant == polished) {
+                if (this.processedSimpleBlocks.add(block)) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    ResourceLocation mainTexture = modLoc("block/" + blockName);
+                    ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
 
-                if (blockName.startsWith("chiseled_deep_fungal_bricks")
-                        || blockName.startsWith("chiseled_fungal_bricks")
-                        || blockName.startsWith("chiseled_polished_deep_fungal_bricks")
-                        || blockName.startsWith("chiseled_polished_fungal_bricks"))
-                    this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
-                else this.cubeAllModel(block, mainTexture);
+                    if (blockName.startsWith("chiseled_deep_fungal_bricks")
+                            || blockName.startsWith("chiseled_fungal_bricks")
+                            || blockName.startsWith("chiseled_polished_deep_fungal_bricks")
+                            || blockName.startsWith("chiseled_polished_fungal_bricks"))
+                        this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
+                    else this.cubeAllModel(block, mainTexture);
+                }
             }
         }));
     }

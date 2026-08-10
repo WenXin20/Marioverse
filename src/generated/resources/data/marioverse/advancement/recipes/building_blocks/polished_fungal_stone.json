@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_fungal_stone": {
+    "has_rocky_fungal_stone": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:fungal_stone"
+            "items": "marioverse:rocky_fungal_stone"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_fungal_stone"
+      "has_rocky_fungal_stone"
     ]
   ],
   "rewards": {

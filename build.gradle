@@ -81,17 +81,17 @@ dependencies {
     compileOnly "curse.maven:deep-aether-852465:6839619"
     compileOnly "curse.maven:gardens-of-the-dead-683174:5640395"
     compileOnly "maven.modrinth:grassier-grass:1.4.5-neoforge"
-    compileOnly "curse.maven:guard-villagers-360203:6066966"
+    implementation "curse.maven:guard-villagers-360203:6066966"
+    implementation "curse.maven:hole-filler-mod-440585:6583948"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     compileOnly "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
-    compileOnly "curse.maven:inventory-item-groups-1447374:8447055"
     implementation "curse.maven:jade-324717:6853386"
-    implementation "curse.maven:jei-${jei_version}"
+    compileOnly "curse.maven:jei-${jei_version}"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
     compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
-    compileOnly "curse.maven:roughly-enough-items-${rei_version}"
+    implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     compileOnly "curse.maven:the-twilight-forest-227639:7797302"
     compileOnly "curse.maven:treechop-421377:6254465"

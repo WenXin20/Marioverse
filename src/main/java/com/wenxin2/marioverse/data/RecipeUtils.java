@@ -3,10 +3,12 @@ package com.wenxin2.marioverse.data;
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.datagen.HexColorRecipeBuilder;
-import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
@@ -36,6 +38,10 @@ import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 public class RecipeUtils extends RecipeProvider {
+    private static final Set<Block> processedRecipes = new HashSet<>();
+    private final Set<String> claimedStonecuttingIds = new HashSet<>();
+    private final Set<List<Object>> processedStonecuttingPairs = new HashSet<>();
+
     public RecipeUtils(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {
         super(output, provider);
     }
@@ -995,7 +1001,7 @@ public class RecipeUtils extends RecipeProvider {
 
     protected static void generateRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet set) {
         family.getVariants().forEach((variant, block) -> {
-            if (block.requiredFeatures().isSubsetOf(set)) {
+            if (block.requiredFeatures().isSubsetOf(set) && processedRecipes.add(block)) {
                 BiFunction<ItemLike, ItemLike, RecipeBuilder> recipeFunction = SHAPE_BUILDERS.get(variant);
                 ItemLike itemlike = getBaseBlock(family, variant);
                 if (variant == BlockFamilyExtended.Variant.CHISELED
@@ -1055,9 +1061,12 @@ public class RecipeUtils extends RecipeProvider {
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
                         && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
-                    SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
-                            .unlockedBy(getHasName(baseBlock), has(baseBlock))
-                            .save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(block) + "_stonecutting");
+                    String id = getSimpleRecipeName(block) + "_stonecutting";
+                    if (this.claimStonecutting(baseBlock, block, id)) {
+                        SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
+                                .unlockedBy(getHasName(baseBlock), has(baseBlock))
+                                .save(output, Marioverse.MOD_ID + ":" + id);
+                    }
                 }
             }
         });
@@ -1079,30 +1088,21 @@ public class RecipeUtils extends RecipeProvider {
                         && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
                         && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
                         && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
-                    SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
-                            .unlockedBy(getHasName(baseBlock), has(baseBlock))
-                            .save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(block, inputItem) + "_stonecutting");
+                    String id = getConversionRecipeName(block, inputItem) + "_stonecutting";
+                    if (this.claimStonecutting(inputItem, block, id)) {
+                        SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
+                                .unlockedBy(getHasName(baseBlock), has(baseBlock))
+                                .save(output, Marioverse.MOD_ID + ":" + id);
+                    }
                 }
             }
         });
     }
 
-    protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, Item armorItem, Item inputItem, RecipeOutput output) {
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItem), Ingredient.of(inputItem), category, outputItem)
-                .unlocks(getHasName(armorItem), has(armorItem))
-                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
-    }
-
-    protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, Item armorItem,  TagKey<Item> inputItemTag, RecipeOutput output) {
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItem), Ingredient.of(inputItemTag), category, outputItem)
-                .unlocks(getHasName(armorItem), has(armorItem))
-                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
-    }
-
-    protected static void costumeSmithing(Item outputItem, RecipeCategory category, Item templateItem, TagKey<Item> armorItemTag, Item inputItem, RecipeOutput output) {
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(templateItem), Ingredient.of(armorItemTag), Ingredient.of(inputItem), category, outputItem)
-                .unlocks("has_armor", has(armorItemTag))
-                .save(output, Marioverse.MOD_ID + ":" + getItemName(outputItem) + "_smithing");
+    private boolean claimStonecutting(ItemLike input, ItemLike output, String id) {
+        if (!this.processedStonecuttingPairs.add(List.of(input, output)))
+            return false;
+        return this.claimedStonecuttingIds.add(id);
     }
 
     @SuppressWarnings("unchecked")

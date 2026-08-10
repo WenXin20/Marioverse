@@ -413,6 +413,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.DEEP_FUNGAL_STONE.get())
             .button(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
+            .cobble(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get())
             .polished(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
             .pressurePlate(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
             .rocky(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
@@ -422,6 +423,8 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended ROCKY_DEEP_FUNGAL_STONE = familyBuilder(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
+            .cobble(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get())
+            .polished(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
             .slab(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_WALL.get())
@@ -473,6 +476,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended FUNGAL_STONE = familyBuilder(BlockRegistry.FUNGAL_STONE.get())
             .button(BlockRegistry.FUNGAL_STONE_BUTTON.get())
+            .cobble(BlockRegistry.FUNGAL_COBBLESTONE.get())
             .polished(BlockRegistry.POLISHED_FUNGAL_STONE.get())
             .pressurePlate(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get())
             .rocky(BlockRegistry.ROCKY_FUNGAL_STONE.get())
@@ -482,6 +486,8 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended ROCKY_FUNGAL_STONE = familyBuilder(BlockRegistry.ROCKY_FUNGAL_STONE.get())
+            .cobble(BlockRegistry.FUNGAL_COBBLESTONE.get())
+            .polished(BlockRegistry.POLISHED_FUNGAL_STONE.get())
             .slab(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
             .stairs(BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS.get())
             .wall(BlockRegistry.ROCKY_FUNGAL_STONE_WALL.get())
