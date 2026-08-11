@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-09T23:03:20.4162759	Loot Tables
+// 1.21.1	2026-08-10T23:28:07.9261499	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 f88ef613fffcd146d7ce0ca224372270eb316a70 data/marioverse/loot_table/blocks/amethyst_bricks.json
@@ -14,6 +14,7 @@ a1b628c965936b7d54785d5d2ec2f756a3d7a65b data/marioverse/loot_table/blocks/ameth
 7863b5fdbe2910cae595b1414037b709bfd391eb data/marioverse/loot_table/blocks/amethyst_wall.json
 76ce5ec8f272e64285e6b3a218de5a7824877026 data/marioverse/loot_table/blocks/bamboo_bridge.json
 bfe20706b395d72b982f140843d87d2abf10c32a data/marioverse/loot_table/blocks/bamboo_bridge_stairs.json
+630ff5fa3f691b99868d916c3dce3819c931f76d data/marioverse/loot_table/blocks/bamboo_picket_fence.json
 25f08b02d3dcd5f45ebc49491bc4f2f3ab50ae56 data/marioverse/loot_table/blocks/birch_log_bridge.json
 eaf4089e7a4856e966020c6fbad290adbc414fa6 data/marioverse/loot_table/blocks/birch_log_bridge_stairs.json
 8bb14faea4a7e4d51c6785458224d641f9d6dc9b data/marioverse/loot_table/blocks/blackstone_brick_pedestal.json
@@ -58,6 +59,7 @@ d5051c6de5a8704a8370e32af4d2e19c1d245f41 data/marioverse/loot_table/blocks/calci
 bd555ed613e090a8c7a17e3844a42ba19ab4b17a data/marioverse/loot_table/blocks/calcite_wall.json
 e01d5807cc3f891cc51340d440cafb6f4f664b2e data/marioverse/loot_table/blocks/cherry_log_bridge.json
 93686786d34df68290a9de70b6020185bf6d4203 data/marioverse/loot_table/blocks/cherry_log_bridge_stairs.json
+d78269022af3e7851370b3e28975b1031db38103 data/marioverse/loot_table/blocks/cherry_picket_fence.json
 fa5bc026a052c01b757852f0256c3a4624222794 data/marioverse/loot_table/blocks/chiseled_amethyst_bricks.json
 bfd871fb2b9ae538fbc91646fe06021f3cfb8913 data/marioverse/loot_table/blocks/chiseled_black_calcite_bricks.json
 edee5703b6bf24c68305cf35cf5708324357adb9 data/marioverse/loot_table/blocks/chiseled_blue_calcite_bricks.json

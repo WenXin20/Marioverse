@@ -133,6 +133,10 @@ public class BlockStateGen extends BlockStateProvider {
         this.mushroomTrampolineRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(), blockTexture(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()));
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
+        this.picketFenceModel(BlockRegistry.BAMBOO_PICKET_FENCE.get(),
+                modLoc("block/bamboo_picket_fence"), modLoc("block/bamboo_picket_fence_back"));
+        this.picketFenceModel(BlockRegistry.CHERRY_PICKET_FENCE.get(),
+                modLoc("block/cherry_picket_fence"), modLoc("block/cherry_picket_fence_back"));
         this.picketFenceModel(BlockRegistry.MUSHROOT_PICKET_FENCE.get(),
                 modLoc("block/mushroot_picket_fence"), modLoc("block/mushroot_picket_fence_back"));
         this.picketFenceModel(BlockRegistry.WHITE_PICKET_FENCE.get(),

@@ -124,6 +124,14 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bridgeStairs(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get())
             .getFamily();
 
+    public static final BlockFamilyExtended BAMBOO_SLAB = familyBuilder(Blocks.BAMBOO_SLAB)
+            .picketFence(BlockRegistry.BAMBOO_PICKET_FENCE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CHERRY_SLAB = familyBuilder(Blocks.CHERRY_SLAB)
+            .picketFence(BlockRegistry.CHERRY_PICKET_FENCE.get())
+            .getFamily();
+
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)
             .button(BlockRegistry.AMETHYST_BUTTON.get())
             .polished(BlockRegistry.POLISHED_AMETHYST.get())

@@ -679,6 +679,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get());
 
         tag(TagRegistry.WOODEN_PICKET_FENCES)
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
                 .add(BlockRegistry.WHITE_PICKET_FENCE.get());
 

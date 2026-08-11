@@ -124,6 +124,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> AMETHYST_WALL;
     public static final DeferredBlock<Block> BAMBOO_BRIDGE;
     public static final DeferredBlock<Block> BAMBOO_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> BAMBOO_PICKET_FENCE;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
@@ -147,6 +148,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CALCITE_WALL;
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE;
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> CHERRY_PICKET_FENCE;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_FUNGAL_BRICKS;
@@ -626,11 +628,16 @@ public class BlockRegistry {
                 () -> new PottedPiranhaPlantBlock(null, () -> Blocks.AIR,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
+
+        BAMBOO_PICKET_FENCE = registerBlock("bamboo_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_FENCE)));
+        CHERRY_PICKET_FENCE = registerBlock("cherry_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_FENCE)));
         MUSHROOT_PICKET_FENCE = registerBlock("mushroot_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
-
         WHITE_PICKET_FENCE = registerBlock("white_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.SNOW)));
+
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",
