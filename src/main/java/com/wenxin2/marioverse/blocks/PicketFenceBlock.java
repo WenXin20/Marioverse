@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -19,6 +20,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.StairsShape;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -26,10 +29,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PicketFenceBlock extends HorizontalDirectionalBlock {
+public class PicketFenceBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
     public static final MapCodec<PicketFenceBlock> CODEC = simpleCodec(PicketFenceBlock::new);
     public static final EnumProperty<StairsShape> SHAPE = BlockStateProperties.STAIRS_SHAPE;
     public static final BooleanProperty TALL = BlockStatePropertyRegistry.TALL;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape SHAPE_STRAIGHT = Shapes
             .or(Block.box(9, 0, 7, 15, 16, 9),
@@ -73,7 +77,8 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(SHAPE, StairsShape.STRAIGHT)
-                .setValue(TALL, false));
+                .setValue(TALL, false)
+                .setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -83,13 +88,15 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, SHAPE, TALL);
+        builder.add(FACING, SHAPE, TALL, WATERLOGGED);
     }
 
     @NotNull
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED))
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         if (direction == Direction.UP)
             return state.setValue(TALL, neighborState.getBlock() instanceof PicketFenceBlock);
         if (direction.getAxis().isHorizontal())
@@ -131,14 +138,21 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction facing = context.getHorizontalDirection().getOpposite();
-        BlockPos pos = context.getClickedPos();
         LevelReader level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        Direction facing = context.getHorizontalDirection().getOpposite();
+        FluidState fluidState = context.getLevel().getFluidState(pos);
 
         BlockState state = this.defaultBlockState().setValue(FACING, facing);
         state = state.setValue(SHAPE, this.computeShape(state, level, pos));
         state = state.setValue(TALL, level.getBlockState(pos.above()).getBlock() instanceof PicketFenceBlock);
-        return state;
+        return state.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
+    }
+
+    @NotNull
+    @Override
+    public FluidState getFluidState(final BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @NotNull

@@ -108,10 +108,11 @@ public class RedDottedLineBlock extends OnBlock implements SimpleWaterloggedBloc
 
     @NotNull
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor worldAccessor, BlockPos pos, BlockPos neighborPos) {
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor,
+                                  BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED))
-            worldAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(worldAccessor));
+            levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
 
-        return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
+        return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
     }
 }
