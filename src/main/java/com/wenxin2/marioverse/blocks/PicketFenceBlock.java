@@ -10,6 +10,8 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -57,6 +59,14 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
                     Block.box(7, 0, 10, 9, 16, 15),
                     Block.box(0, 6, 9, 7, 10, 10),
                     Block.box(6, 6, 10, 7, 10, 16)).optimize();
+    private static final VoxelShape SHAPE_STRAIGHT_COLLISION = Block
+            .box(0, 0, 7, 16, 24, 10);
+    private static final VoxelShape SHAPE_OUTER_COLLISION = Shapes
+            .or(Block.box(6, 0, 7, 16, 24, 10),
+                    Block.box(6, 0, 0, 9, 24, 7)).optimize();
+    private static final VoxelShape SHAPE_INNER_COLLISION = Shapes
+            .or(Block.box(0, 0, 7, 9, 24, 10),
+                    Block.box(6, 0, 10, 9, 24, 16)).optimize();
 
     public PicketFenceBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -76,6 +86,48 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
         builder.add(FACING, SHAPE, TALL);
     }
 
+    @NotNull
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+                                  LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (direction == Direction.UP)
+            return state.setValue(TALL, neighborState.getBlock() instanceof PicketFenceBlock);
+        if (direction.getAxis().isHorizontal())
+            return state.setValue(SHAPE, this.computeShape(state, level, pos));
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        StairsShape shape = state.getValue(SHAPE);
+        boolean tall = state.getValue(TALL);
+
+        VoxelShape base = switch (shape) {
+            case STRAIGHT -> tall ? SHAPE_STRAIGHT_TALL : SHAPE_STRAIGHT;
+            case OUTER_LEFT, OUTER_RIGHT -> tall ? SHAPE_OUTER_TALL : SHAPE_OUTER;
+            case INNER_LEFT, INNER_RIGHT -> tall ? SHAPE_INNER_TALL : SHAPE_INNER;
+        };
+        Direction target = (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
+                ? state.getValue(FACING).getCounterClockWise() : state.getValue(FACING);
+        return this.rotateShape(Direction.NORTH, target, base);
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        StairsShape shape = state.getValue(SHAPE);
+
+        VoxelShape base = switch (shape) {
+            case STRAIGHT -> SHAPE_STRAIGHT_COLLISION;
+            case OUTER_LEFT, OUTER_RIGHT -> SHAPE_OUTER_COLLISION;
+            case INNER_LEFT, INNER_RIGHT -> SHAPE_INNER_COLLISION;
+        };
+        Direction target = (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
+                ? state.getValue(FACING).getCounterClockWise() : state.getValue(FACING);
+        return this.rotateShape(Direction.NORTH, target, base);
+    }
+
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -91,31 +143,43 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock {
 
     @NotNull
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
-                                  LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        if (direction == Direction.UP)
-            return state.setValue(TALL, neighborState.getBlock() instanceof PicketFenceBlock);
-        if (direction.getAxis().isHorizontal())
-            return state.setValue(SHAPE, this.computeShape(state, level, pos));
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @NotNull
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        Direction direction = state.getValue(FACING);
         StairsShape shape = state.getValue(SHAPE);
-        boolean tall = state.getValue(TALL);
 
-        VoxelShape base = switch (shape) {
-            case STRAIGHT -> tall ? SHAPE_STRAIGHT_TALL : SHAPE_STRAIGHT;
-            case OUTER_LEFT, OUTER_RIGHT -> tall ? SHAPE_OUTER_TALL : SHAPE_OUTER;
-            case INNER_LEFT, INNER_RIGHT -> tall ? SHAPE_INNER_TALL : SHAPE_INNER;
-        };
-        Direction target = (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
-                ? state.getValue(FACING).getCounterClockWise()
-                : state.getValue(FACING);
-
-        return this.rotateShape(Direction.NORTH, target, base);
+        switch (mirror) {
+            case LEFT_RIGHT -> {
+                if (direction.getAxis() == Direction.Axis.Z) {
+                    BlockState rotated = this.rotate(state, Rotation.CLOCKWISE_180);
+                    return switch (shape) {
+                        case INNER_LEFT -> rotated.setValue(SHAPE, StairsShape.INNER_RIGHT);
+                        case INNER_RIGHT -> rotated.setValue(SHAPE, StairsShape.INNER_LEFT);
+                        case OUTER_LEFT -> rotated.setValue(SHAPE, StairsShape.OUTER_RIGHT);
+                        case OUTER_RIGHT -> rotated.setValue(SHAPE, StairsShape.OUTER_LEFT);
+                        default -> rotated;
+                    };
+                }
+            }
+            case FRONT_BACK -> {
+                if (direction.getAxis() == Direction.Axis.X) {
+                    BlockState rotated = this.rotate(state, Rotation.CLOCKWISE_180);
+                    return switch (shape) {
+                        case INNER_LEFT -> rotated.setValue(SHAPE, StairsShape.INNER_LEFT);
+                        case INNER_RIGHT -> rotated.setValue(SHAPE, StairsShape.INNER_RIGHT);
+                        case OUTER_LEFT -> rotated.setValue(SHAPE, StairsShape.OUTER_RIGHT);
+                        case OUTER_RIGHT -> rotated.setValue(SHAPE, StairsShape.OUTER_LEFT);
+                        case STRAIGHT -> rotated;
+                    };
+                }
+            }
+        }
+        return super.mirror(state, mirror);
     }
 
     @Override
