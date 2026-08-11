@@ -57,6 +57,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
@@ -1697,6 +1698,16 @@ public class BlockRegistry {
     }
 
     public static void init() {
+    }
 
+    public static void registerAliases() {
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_picket_fence"), MUSHROOT_PICKET_FENCE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_picket_fence"), MUSHROOT_PICKET_FENCE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:white_picket_fence"), WHITE_PICKET_FENCE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:white_picket_fence"), WHITE_PICKET_FENCE.getId());
     }
 }

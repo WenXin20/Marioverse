@@ -88,6 +88,7 @@ public class Marioverse {
     public static final DeferredRegister<PowerUpType> POWER_UP_TYPES = DeferredRegister.create(POWER_UP_REGISTRY_KEY, Marioverse.MOD_ID);
 
     public Marioverse(IEventBus bus, Dist dist, ModContainer container) {
+        BlockRegistry.registerAliases();
         ItemRegistry.registerAliases();
         ATTACHMENT_TYPES.register(bus);
         COMPONENTS.register(bus);
