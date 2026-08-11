@@ -702,9 +702,6 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(Tags.Blocks.SANDS_RED)
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
-        tag(Tags.Blocks.FENCES_WOODEN)
-                .addTag(TagRegistry.WOODEN_PICKET_FENCES);
-
         tag(Tags.Blocks.STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get())
@@ -767,9 +764,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
                 .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get());
-
-        tag(BlockTags.FENCES)
-                .addTag(TagRegistry.PICKET_FENCES);
 
         tag(BlockTags.FLOWERS)
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
@@ -910,9 +904,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
-
-        tag(BlockTags.WOODEN_FENCES)
-                .addTag(TagRegistry.WOODEN_PICKET_FENCES);
 
         tag(BlockTags.WOODEN_STAIRS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);

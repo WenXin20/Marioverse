@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-09T23:03:20.4523758	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-10T21:29:54.8911607	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 df28088c1d2145312f6fbf6ae3c566b2c2cf9c93 data/curios/tags/item/costume_hat.json
 f1d71566d06fd5511273a769fab65ff8efeb63f4 data/curios/tags/item/costume_pants.json
@@ -29,6 +29,7 @@ d29b31117342e8bb0b2637977901bf49e4502b6d data/c/tags/item/dyed/red.json
 e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/item/dyed/white.json
 42c7244e9fe2ffc622abca363bb299a6d7b78c9c data/c/tags/item/dyed/yellow.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/enchantables.json
+0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/c/tags/item/fences.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/c/tags/item/fences/wooden.json
 5ba631e6e0d914f759a46e9551eb7db121a7cfde data/c/tags/item/foods/cooked_fish.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/c/tags/item/foods/raw_fish.json
