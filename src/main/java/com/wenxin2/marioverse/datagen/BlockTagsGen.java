@@ -287,6 +287,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS);
 
         tag(TagRegistry.DYED_PICKET_FENCES)
+                .add(BlockRegistry.RED_PICKET_FENCE.get())
                 .add(BlockRegistry.WHITE_PICKET_FENCE.get());
 
         tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
@@ -704,6 +705,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.MANGROVE_PICKET_FENCE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
                 .add(BlockRegistry.OAK_PICKET_FENCE.get())
+                .add(BlockRegistry.RED_PICKET_FENCE.get())
                 .add(BlockRegistry.SPRUCE_PICKET_FENCE.get())
                 .add(BlockRegistry.WARPED_PICKET_FENCE.get())
                 .add(BlockRegistry.WHITE_PICKET_FENCE.get());

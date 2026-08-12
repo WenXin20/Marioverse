@@ -93,7 +93,7 @@ dependencies {
     compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    compileOnly "curse.maven:the-twilight-forest-227639:7797302"
+    implementation "curse.maven:the-twilight-forest-227639:7797302"
     compileOnly "curse.maven:treechop-421377:6254465"
     compileOnly "curse.maven:tree-physics-1522010:8448844"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight

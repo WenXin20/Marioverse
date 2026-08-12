@@ -146,6 +146,7 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.OAK_PICKET_FENCE.get(),
                 BlockRegistry.SPRUCE_PICKET_FENCE.get(),
                 BlockRegistry.WARPED_PICKET_FENCE.get(),
+                BlockRegistry.RED_PICKET_FENCE.get(),
                 BlockRegistry.WHITE_PICKET_FENCE.get());
 
         this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));

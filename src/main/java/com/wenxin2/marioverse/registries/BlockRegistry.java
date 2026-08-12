@@ -107,6 +107,7 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
+    public static final DeferredBlock<Block> RED_PICKET_FENCE;
     public static final DeferredBlock<Block> WHITE_PICKET_FENCE;
 
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE;
@@ -664,6 +665,8 @@ public class BlockRegistry {
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
         WHITE_PICKET_FENCE = registerBlock("white_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.SNOW)));
+        RED_PICKET_FENCE = registerBlock("red_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.COLOR_RED)));
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",

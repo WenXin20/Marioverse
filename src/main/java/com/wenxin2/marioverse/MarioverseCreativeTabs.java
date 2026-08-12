@@ -402,6 +402,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CRIMSON_PICKET_FENCE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE);
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
+            add(event, BlockRegistry.RED_PICKET_FENCE);
             add(event, BlockRegistry.WHITE_PICKET_FENCE);
 
             add(event, BlockRegistry.OAK_LOG_BRIDGE);
@@ -919,6 +920,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.BAMBOO_BRIDGE, BlockRegistry.STRIPPED_BAMBOO_BRIDGE);
                 addAfter(event, Blocks.BAMBOO_FENCE_GATE, BlockRegistry.BAMBOO_PICKET_FENCE);
 
+                addAfter(event, Blocks.BAMBOO_BUTTON, BlockRegistry.MUSHROOT_PICKET_FENCE);
+
                 addAfter(event, Blocks.CRIMSON_SLAB, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS, BlockRegistry.CRIMSON_STEM_BRIDGE);
@@ -930,8 +933,6 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS, BlockRegistry.WARPED_STEM_BRIDGE);
                 addAfter(event, BlockRegistry.WARPED_STEM_BRIDGE, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE);
                 addAfter(event, Blocks.WARPED_FENCE_GATE, BlockRegistry.WARPED_PICKET_FENCE);
-
-                addAfter(event, Blocks.WARPED_BUTTON, BlockRegistry.MUSHROOT_PICKET_FENCE);
 
                 addAfter(event, Blocks.CHAIN, BlockRegistry.IRON_SPIKE);
                 addAfter(event, BlockRegistry.IRON_SPIKE, BlockRegistry.SPIKE_PANEL);

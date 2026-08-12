@@ -99,6 +99,7 @@ public class RecipeGen extends RecipeUtils {
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
         dyeItemRecipe(1, "calcite_from_dye", Blocks.CALCITE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.CALCITE_ITEMS, false, output);
         dyeItemRecipe(1, "picket_fence_from_dye", BlockRegistry.WHITE_PICKET_FENCE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.PICKET_FENCE_ITEMS, false, output);
+        dyeItemRecipe(1, "picket_fence_from_dye", BlockRegistry.RED_PICKET_FENCE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_RED, TagRegistry.PICKET_FENCE_ITEMS, false, output);
         mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
         mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
         mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
