@@ -38,16 +38,6 @@
   "menu.marioverse.storage_bricks": "Storage Bricks",
   "menu.marioverse.warp_pipe": "Warp Pipe",
 
-  "block_type.marioverse.brick_pedestal": "%s Brick Pedestal",
-  "block_type.marioverse.invisible_question_bricks": "Invisible %s Question Bricks",
-  "block_type.marioverse.log_bridge": "%s Log Bridge",
-  "block_type.marioverse.log_bridge_stairs": "%s Log Bridge Stairs",
-  "block_type.marioverse.question_bricks": "%s Question Bricks",
-  "block_type.marioverse.smashable_bricks": "Smashable %s Bricks",
-  "block_type.marioverse.storage_bricks": "Storage %s Bricks",
-  "block_type.marioverse.stripped_log_bridge": "Stripped %s Log Bridge",
-  "block_type.marioverse.stripped_log_bridge_stairs": "Stripped %s Log Bridge Stairs",
-
   "block.marioverse.block_spawner": "Block Spawner",
   "block.marioverse.blue_dotted_line_block": "Blue Dotted-Line Block",
   "block.marioverse.blue_mushroom_trampoline": "Blue Mushroom Trampoline",
@@ -130,6 +120,8 @@
   "block.marioverse.oak_picket_fence": "Oak Picket Fence",
   "block.marioverse.spruce_picket_fence": "Spruce Picket Fence",
   "block.marioverse.warped_picket_fence": "Warped Picket Fence",
+
+  "block.marioverse.red_picket_fence": "Red Picket Fence",
   "block.marioverse.white_picket_fence": "White Picket Fence",
 
   "block.marioverse.acacia_log_bridge_stairs": "Acacia Log Bridge Stairs",
@@ -2099,5 +2091,16 @@
   "block.everycomp.mv.regions_unexplored.stripped_green_bioshroom_log_bridge_stairs": "Stripped Green Bioshroom Stem Bridge Stairs",
   "block.everycomp.mv.regions_unexplored.stripped_pink_bioshroom_log_bridge_stairs": "Stripped Pink Bioshroom Stem Bridge Stairs",
   "block.everycomp.mv.regions_unexplored.stripped_yellow_bioshroom_log_bridge_stairs": "Stripped Yellow Bioshroom Stem Bridge Stairs",
-  "block.everycomp.mv.soulfulnether.stripped_fright_log_bridge_stairs": "Stripped Fright Stem Bridge Stairs"
+  "block.everycomp.mv.soulfulnether.stripped_fright_log_bridge_stairs": "Stripped Fright Stem Bridge Stairs",
+
+  "block_type.marioverse.brick_pedestal": "%s Brick Pedestal",
+  "block_type.marioverse.invisible_question_bricks": "Invisible %s Question Bricks",
+  "block_type.marioverse.log_bridge": "%s Log Bridge",
+  "block_type.marioverse.log_bridge_stairs": "%s Log Bridge Stairs",
+  "block_type.marioverse.picket_fence": "%s Picket Fence",
+  "block_type.marioverse.question_bricks": "%s Question Bricks",
+  "block_type.marioverse.smashable_bricks": "Smashable %s Bricks",
+  "block_type.marioverse.storage_bricks": "Storage %s Bricks",
+  "block_type.marioverse.stripped_log_bridge": "Stripped %s Log Bridge",
+  "block_type.marioverse.stripped_log_bridge_stairs": "Stripped %s Log Bridge Stairs"
 }
