@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.EnumSet;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
@@ -207,6 +208,21 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
     @Override
     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
+    }
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.FLAMMABLE_WOODEN_PICKET_FENCES);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 20;
     }
 
     private VoxelShape rotateShape(Direction from, Direction to, VoxelShape shape) {
