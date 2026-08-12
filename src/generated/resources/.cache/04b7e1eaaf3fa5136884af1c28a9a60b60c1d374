@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-10T23:28:07.9548055	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-11T22:33:31.6298201	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 df28088c1d2145312f6fbf6ae3c566b2c2cf9c93 data/curios/tags/item/costume_hat.json
 f1d71566d06fd5511273a769fab65ff8efeb63f4 data/curios/tags/item/costume_pants.json
@@ -88,7 +88,8 @@ bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.
 ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/item/mushroom_trampoline_blocks.json
 5caef3bf5fe1f82caaeaac7f566d0787b4b83f19 data/marioverse/tags/item/pants.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/item/picket_fences.json
-f1f965302dcadf33d207a388bf860eb2f917d358 data/marioverse/tags/item/picket_fences/wooden.json
+17c6497aa93908ab638da3dd7540ad9feb117552 data/marioverse/tags/item/picket_fences/dyed.json
+1b9489db38ff0d88e5ca15a491b82afe7daabe36 data/marioverse/tags/item/picket_fences/wooden.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/item/pipe_junction_blocks.json
 51c64a5ea272d8b17a8acacd965c546d474f5efe data/marioverse/tags/item/piranha_plant_food.json
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/item/polished_calcite.json

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:picket_fences",
+  "key": {
+    "#": {
+      "item": "minecraft:crimson_slab"
+    },
+    "S": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "#S#",
+    "#S#"
+  ],
+  "result": {
+    "count": 2,
+    "id": "marioverse:crimson_picket_fence"
+  }
+}

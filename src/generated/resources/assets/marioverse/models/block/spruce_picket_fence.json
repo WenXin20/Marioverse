@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_picket_fence",
+  "textures": {
+    "back": "marioverse:block/spruce_picket_fence_back",
+    "fence": "marioverse:block/spruce_picket_fence"
+  }
+}

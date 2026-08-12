@@ -111,6 +111,7 @@ public class BlockRegistry {
 
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE;
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> ACACIA_PICKET_FENCE;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
@@ -127,6 +128,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BAMBOO_PICKET_FENCE;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> BIRCH_PICKET_FENCE;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BLOCK_SPAWNER;
@@ -168,6 +170,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRACKED_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> CRIMSON_PICKET_FENCE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
@@ -175,6 +178,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DANGO_BLOSSOM;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEAD_BRAIN_CORAL_TOWER;
@@ -192,12 +196,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_WALL;
-    public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
-    public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_SLAB;
     public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_WALL;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_BUTTON;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_PRESSURE_PLATE;
@@ -268,9 +272,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> IRON_SPIKE;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> JUNGLE_PICKET_FENCE;
     public static final DeferredBlock<Block> LUIGI_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> MANGROVE_PICKET_FENCE;
     public static final DeferredBlock<Block> MARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MONSTER_DEATH_BLOCK;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
@@ -282,6 +288,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> OAK_PICKET_FENCE;
     public static final DeferredBlock<Block> ON_OFF_SWITCH;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
@@ -381,6 +388,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SPLUNKIN_O_LANTERN;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> SPRUCE_PICKET_FENCE;
     public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STEVE_ABILITY_BLOCK;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
@@ -442,6 +450,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WALUIGI_ABILITY_BLOCK;
     public static final DeferredBlock<Block> WARIO_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> WARPED_PICKET_FENCE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> WATER_SPOUT;
@@ -629,15 +638,32 @@ public class BlockRegistry {
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
 
-        BAMBOO_PICKET_FENCE = registerBlock("bamboo_picket_fence",
-                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_FENCE)));
+        OAK_PICKET_FENCE = registerBlock("oak_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+        SPRUCE_PICKET_FENCE = registerBlock("spruce_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_FENCE)));
+        BIRCH_PICKET_FENCE = registerBlock("birch_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_FENCE)));
+        ACACIA_PICKET_FENCE = registerBlock("acacia_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_FENCE)));
+        JUNGLE_PICKET_FENCE = registerBlock("jungle_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_FENCE)));
         CHERRY_PICKET_FENCE = registerBlock("cherry_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_FENCE)));
+        DARK_OAK_PICKET_FENCE = registerBlock("dark_oak_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_FENCE)));
+        MANGROVE_PICKET_FENCE = registerBlock("mangrove_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_FENCE)));
+        BAMBOO_PICKET_FENCE = registerBlock("bamboo_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_FENCE)));
+        CRIMSON_PICKET_FENCE = registerBlock("crimson_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FENCE)));
+        WARPED_PICKET_FENCE = registerBlock("warped_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE)));
         MUSHROOT_PICKET_FENCE = registerBlock("mushroot_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
         WHITE_PICKET_FENCE = registerBlock("white_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.SNOW)));
-
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",

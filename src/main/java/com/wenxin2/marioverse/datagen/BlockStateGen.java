@@ -85,6 +85,11 @@ public class BlockStateGen extends BlockStateProvider {
             this.coralTowerModel(block, blockTexture(block));
     }
 
+    private void picketFenceBlocks(Block... blocks) {
+        for (Block block : blocks)
+            this.picketFenceModel(block, blockTexture(block), texture(block, "_back"));
+    }
+
     private String name(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block).getPath();
     }
@@ -103,17 +108,45 @@ public class BlockStateGen extends BlockStateProvider {
                 lantern = BlockRegistry.SPLUNKIN_O_LANTERN.get();
         Block waterSpout = BlockRegistry.WATER_SPOUT.get();
 
-        this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(), BlockRegistry.MONSTER_DEATH_BLOCK.get(),
-                BlockRegistry.PASSIVE_DEATH_BLOCK.get(), BlockRegistry.PLAYER_DEATH_BLOCK.get());
-        this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(), BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
-                BlockRegistry.MARIO_ABILITY_BLOCK.get(), BlockRegistry.PEACH_ABILITY_BLOCK.get(), BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
-                BlockRegistry.STEVE_ABILITY_BLOCK.get(), BlockRegistry.WALUIGI_ABILITY_BLOCK.get(), BlockRegistry.WARIO_ABILITY_BLOCK.get());
-        this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.FUNGAL_STONE.get(),
-                BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(), BlockRegistry.ROCKY_FUNGAL_STONE.get());
-        this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(), BlockRegistry.BUBBLE_CORAL_TOWER.get(), BlockRegistry.FIRE_CORAL_TOWER.get(),
-                BlockRegistry.HORN_CORAL_TOWER.get(), BlockRegistry.TUBE_CORAL_TOWER.get(), BlockRegistry.DEAD_BRAIN_CORAL_TOWER.get(),
-                BlockRegistry.DEAD_BUBBLE_CORAL_TOWER.get(), BlockRegistry.DEAD_FIRE_CORAL_TOWER.get(), BlockRegistry.DEAD_HORN_CORAL_TOWER.get(),
+        this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(),
+                BlockRegistry.MONSTER_DEATH_BLOCK.get(),
+                BlockRegistry.PASSIVE_DEATH_BLOCK.get(),
+                BlockRegistry.PLAYER_DEATH_BLOCK.get());
+        this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(),
+                BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
+                BlockRegistry.MARIO_ABILITY_BLOCK.get(),
+                BlockRegistry.PEACH_ABILITY_BLOCK.get(),
+                BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
+                BlockRegistry.STEVE_ABILITY_BLOCK.get(),
+                BlockRegistry.WALUIGI_ABILITY_BLOCK.get(),
+                BlockRegistry.WARIO_ABILITY_BLOCK.get());
+        this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.FUNGAL_STONE.get(),
+                BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.ROCKY_FUNGAL_STONE.get());
+        this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(),
+                BlockRegistry.BUBBLE_CORAL_TOWER.get(),
+                BlockRegistry.FIRE_CORAL_TOWER.get(),
+                BlockRegistry.HORN_CORAL_TOWER.get(),
+                BlockRegistry.TUBE_CORAL_TOWER.get(),
+                BlockRegistry.DEAD_BRAIN_CORAL_TOWER.get(),
+                BlockRegistry.DEAD_BUBBLE_CORAL_TOWER.get(),
+                BlockRegistry.DEAD_FIRE_CORAL_TOWER.get(),
+                BlockRegistry.DEAD_HORN_CORAL_TOWER.get(),
                 BlockRegistry.DEAD_TUBE_CORAL_TOWER.get());
+        this.picketFenceBlocks(BlockRegistry.ACACIA_PICKET_FENCE.get(),
+                BlockRegistry.BAMBOO_PICKET_FENCE.get(),
+                BlockRegistry.BIRCH_PICKET_FENCE.get(),
+                BlockRegistry.CHERRY_PICKET_FENCE.get(),
+                BlockRegistry.CRIMSON_PICKET_FENCE.get(),
+                BlockRegistry.DARK_OAK_PICKET_FENCE.get(),
+                BlockRegistry.JUNGLE_PICKET_FENCE.get(),
+                BlockRegistry.MANGROVE_PICKET_FENCE.get(),
+                BlockRegistry.MUSHROOT_PICKET_FENCE.get(),
+                BlockRegistry.OAK_PICKET_FENCE.get(),
+                BlockRegistry.SPRUCE_PICKET_FENCE.get(),
+                BlockRegistry.WARPED_PICKET_FENCE.get(),
+                BlockRegistry.WHITE_PICKET_FENCE.get());
 
         this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));
         this.blossomModel(blossom, blockTexture(blossom), texture(blossom, "_leaves"));
@@ -133,14 +166,6 @@ public class BlockStateGen extends BlockStateProvider {
         this.mushroomTrampolineRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(), blockTexture(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()));
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
-        this.picketFenceModel(BlockRegistry.BAMBOO_PICKET_FENCE.get(),
-                modLoc("block/bamboo_picket_fence"), modLoc("block/bamboo_picket_fence_back"));
-        this.picketFenceModel(BlockRegistry.CHERRY_PICKET_FENCE.get(),
-                modLoc("block/cherry_picket_fence"), modLoc("block/cherry_picket_fence_back"));
-        this.picketFenceModel(BlockRegistry.MUSHROOT_PICKET_FENCE.get(),
-                modLoc("block/mushroot_picket_fence"), modLoc("block/mushroot_picket_fence_back"));
-        this.picketFenceModel(BlockRegistry.WHITE_PICKET_FENCE.get(),
-                modLoc("block/white_picket_fence"), modLoc("block/white_picket_fence_back"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
         this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/potted_dango_blossom"),
                 modLoc("block/potted_dango_blossom_leaves"));

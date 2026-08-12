@@ -52,6 +52,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS, TagRegistry.DYEABLE_GOAL_POLE_ITEMS);
         copy(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS);
         copy(TagRegistry.DYED_CALCITE_BLOCKS, TagRegistry.DYED_CALCITE_ITEMS);
+        copy(TagRegistry.DYED_PICKET_FENCES, TagRegistry.DYED_PICKET_FENCE_ITEMS);
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
@@ -247,10 +248,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.CHRISTMAS_HAT.get());
 
         tag(ItemTags.NON_FLAMMABLE_WOOD)
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE.asItem())
                 .add(BlockRegistry.CRIMSON_STEM_BRIDGE.asItem())
-                .add(BlockRegistry.WARPED_STEM_BRIDGE.asItem())
                 .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.asItem())
-                .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.asItem());
+                .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.asItem())
+                .add(BlockRegistry.WARPED_PICKET_FENCE.asItem())
+                .add(BlockRegistry.WARPED_STEM_BRIDGE.asItem());
 
         tag(ItemTags.OCELOT_FOOD)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)

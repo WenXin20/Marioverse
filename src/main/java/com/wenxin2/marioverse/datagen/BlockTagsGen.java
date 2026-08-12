@@ -286,6 +286,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS);
 
+        tag(TagRegistry.DYED_PICKET_FENCES)
+                .add(BlockRegistry.WHITE_PICKET_FENCE.get());
+
         tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
                 .addTag(BlockTags.INFINIBURN_END)
                 .addTag(BlockTags.INFINIBURN_END)
@@ -679,9 +682,18 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get());
 
         tag(TagRegistry.WOODEN_PICKET_FENCES)
+                .add(BlockRegistry.ACACIA_PICKET_FENCE.get())
                 .add(BlockRegistry.BAMBOO_PICKET_FENCE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE.get())
                 .add(BlockRegistry.CHERRY_PICKET_FENCE.get())
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+                .add(BlockRegistry.OAK_PICKET_FENCE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE.get())
+                .add(BlockRegistry.WARPED_PICKET_FENCE.get())
                 .add(BlockRegistry.WHITE_PICKET_FENCE.get());
 
         tag(TagRegistry.WRENCH_EFFICIENT)
