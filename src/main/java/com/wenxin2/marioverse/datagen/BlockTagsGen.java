@@ -343,6 +343,18 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS.get());
 
+        tag(TagRegistry.FLAMMABLE_WOODEN_PICKET_FENCES)
+                .add(BlockRegistry.ACACIA_PICKET_FENCE.get())
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE.get())
+                .add(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+                .add(BlockRegistry.OAK_PICKET_FENCE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE.get());
+
         tag(TagRegistry.FLOATY)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .add(BlockRegistry.COIN.get())

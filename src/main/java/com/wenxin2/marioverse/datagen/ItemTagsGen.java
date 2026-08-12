@@ -55,6 +55,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.DYED_PICKET_FENCES, TagRegistry.DYED_PICKET_FENCE_ITEMS);
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS);
+        copy(TagRegistry.FLAMMABLE_WOODEN_PICKET_FENCES, TagRegistry.FLAMMABLE_WOODEN_PICKET_FENCE_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.HARD_BLOCKS, TagRegistry.HARD_BLOCK_ITEMS);
         copy(TagRegistry.HARD_SLABS, TagRegistry.HARD_SLAB_ITEMS);

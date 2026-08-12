@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_rocky_deep_fungal_stone": {
+    "has_deep_fungal_stone": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:rocky_deep_fungal_stone"
+            "items": "marioverse:deep_fungal_stone"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_rocky_deep_fungal_stone"
+      "has_deep_fungal_stone"
     ]
   ],
   "rewards": {

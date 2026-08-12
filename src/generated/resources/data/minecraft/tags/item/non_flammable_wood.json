@@ -1,8 +1,10 @@
 {
   "values": [
+    "marioverse:crimson_picket_fence",
     "marioverse:crimson_stem_bridge",
-    "marioverse:warped_stem_bridge",
     "marioverse:stripped_crimson_stem_bridge",
-    "marioverse:stripped_warped_stem_bridge"
+    "marioverse:stripped_warped_stem_bridge",
+    "marioverse:warped_picket_fence",
+    "marioverse:warped_stem_bridge"
   ]
 }

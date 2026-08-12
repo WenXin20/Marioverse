@@ -75,6 +75,7 @@ public class TagRegistry {
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
     public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_BLOCKS = blockTags("flammable_wooden_bridges");
     public static final TagKey<Block> FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("flammable_wooden_bridge_stairs");
+    public static final TagKey<Block> FLAMMABLE_WOODEN_PICKET_FENCES = blockTags("flammable_wooden_picket_fences");
     public static final TagKey<Block> FLOATY = blockTags("sable/floaty");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
@@ -183,6 +184,7 @@ public class TagRegistry {
     public static final TagKey<Item> FEMALE_COSTUMES = itemTags("costumes/female");;
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_ITEMS = itemTags("flammable_wooden_bridges");
     public static final TagKey<Item> FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS = itemTags("flammable_wooden_bridge_stairs");
+    public static final TagKey<Item> FLAMMABLE_WOODEN_PICKET_FENCE_ITEMS = itemTags("flammable_wooden_picket_fences");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HALLOWEEN_MASKS = itemTags("halloween_masks");
     public static final TagKey<Item> HARD_BLOCK_ITEMS = itemTags("hard_blocks");

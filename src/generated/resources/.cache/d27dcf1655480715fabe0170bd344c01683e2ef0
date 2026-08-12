@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-11T22:33:31.6246821	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-12T00:00:29.3985559	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -56,6 +56,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_chec
 8079bf4b3192621a465f4f333abe04910aa4cd42 data/marioverse/tags/block/fireball_sets_on_fire.json
 4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/block/flammable_wooden_bridges.json
 eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/block/flammable_wooden_bridge_stairs.json
+c03072407a3fe10ce47d4692ef69f0e681607002 data/marioverse/tags/block/flammable_wooden_picket_fences.json
 619667c1b7332d180fa0737d335fc257a9549000 data/marioverse/tags/block/freezes_into_packed_ice.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/block/goal_poles.json
 2ccd3de4338565050f70c42565fd224b87d3b597 data/marioverse/tags/block/hard_blocks.json
