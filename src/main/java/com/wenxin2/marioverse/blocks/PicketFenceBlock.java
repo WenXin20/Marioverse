@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import java.util.EnumSet;
+import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -34,6 +36,12 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
     public static final EnumProperty<StairsShape> SHAPE = BlockStateProperties.STAIRS_SHAPE;
     public static final BooleanProperty TALL = BlockStatePropertyRegistry.TALL;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
+    private static final Rotation[] ROTATION_BY_STEPS =
+            {Rotation.NONE, Rotation.CLOCKWISE_90, Rotation.CLOCKWISE_180, Rotation.COUNTERCLOCKWISE_90};
+    private static final Set<Direction> TOUCHING_STRAIGHT = EnumSet.of(Direction.WEST, Direction.EAST);
+    private static final Set<Direction> TOUCHING_OUTER = EnumSet.of(Direction.NORTH, Direction.EAST);
+    private static final Set<Direction> TOUCHING_INNER = EnumSet.of(Direction.WEST, Direction.SOUTH);
 
     private static final VoxelShape SHAPE_STRAIGHT = Shapes
             .or(Block.box(9, 0, 7, 15, 16, 9),
@@ -237,6 +245,34 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         }
 
         return StairsShape.STRAIGHT;
+    }
+
+    public boolean connectsToEdge(BlockState state, Direction direction) {
+        if (direction.getAxis().isVertical())
+            return false;
+
+        StairsShape shape = state.getValue(SHAPE);
+        Set<Direction> canonical = switch (shape) {
+            case STRAIGHT -> TOUCHING_STRAIGHT;
+            case OUTER_LEFT, OUTER_RIGHT -> TOUCHING_OUTER;
+            case INNER_LEFT, INNER_RIGHT -> TOUCHING_INNER;
+        };
+
+        int steps = (this.targetDirection(state).get2DDataValue() - Direction.NORTH.get2DDataValue() + 4) % 4;
+        Rotation rotation = ROTATION_BY_STEPS[steps];
+
+        for (Direction canonicalDirection : canonical) {
+            if (rotation.rotate(canonicalDirection) == direction)
+                return true;
+        }
+        return false;
+    }
+
+    private Direction targetDirection(BlockState state) {
+        StairsShape shape = state.getValue(SHAPE);
+        Direction facing = state.getValue(FACING);
+        return (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
+                ? facing.getCounterClockWise() : facing;
     }
 
     private boolean canTakeShape(BlockState state, LevelReader level, BlockPos pos, Direction direction) {
