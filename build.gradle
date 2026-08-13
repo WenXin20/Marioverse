@@ -74,8 +74,8 @@ dependencies {
     compileOnly "curse.maven:amendments-896746:7461027" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     compileOnly "curse.maven:copycats-968398:7251823" // Requires Create
-    compileOnly "curse.maven:create-328085:7963363"
-    compileOnly "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
+    implementation "curse.maven:create-328085:7963363"
+    implementation "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
     compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
     compileOnly "curse.maven:framedblocks-441647:7584453"
     compileOnly "curse.maven:deep-aether-852465:6839619"
@@ -94,8 +94,8 @@ dependencies {
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:7797302"
-    compileOnly "curse.maven:treechop-421377:6254465"
-    compileOnly "curse.maven:tree-physics-1522010:8448844"
+    implementation "curse.maven:treechop-421377:6254465"
+    implementation "curse.maven:tree-physics-1522010:8448844"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
     implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:7598595"
@@ -110,7 +110,7 @@ dependencies {
     implementation "curse.maven:framework-549225:7530361"
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    compileOnly "curse.maven:sable-1312371:8263584" // Requires Create
+    implementation "curse.maven:sable-1312371:8263584" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     implementation "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"

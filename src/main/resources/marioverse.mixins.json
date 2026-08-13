@@ -15,6 +15,7 @@
     "PowderSnowBlockMixin",
     "ProjectileMixin",
     "ServerPlayerMixin",
+    "WallBlockMixin",
     "iris.IdMapMixin"
   ],
   "client": [

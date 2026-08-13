@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class IronBarsBlockMixin {
 
     @Inject(method = "getStateForPlacement", at = @At("RETURN"), cancellable = true)
-    private void mv$connectFencesOnPlacement(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
+    private void mv$getStateForPlacement(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir) {
         BlockState state = cir.getReturnValue();
         if (state == null)
             return;
@@ -44,7 +44,7 @@ public abstract class IronBarsBlockMixin {
     }
 
     @Inject(method = "updateShape", at = @At("RETURN"), cancellable = true)
-    private void mv$connectFencesOnUpdate(BlockState state, Direction direction, BlockState neighborState,
+    private void mv$updateShape(BlockState state, Direction direction, BlockState neighborState,
                                           LevelAccessor level, BlockPos pos, BlockPos neighborPos,
                                           CallbackInfoReturnable<BlockState> cir) {
         if (!direction.getAxis().isHorizontal())
