@@ -1,3 +1,6 @@
+## Update 1.11.2
+- Fix piranha plants spawning everywhere
+
 ## Update 1.11.1
 **Now requires Curios instead of Accessories**
 

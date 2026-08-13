@@ -35,6 +35,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -482,16 +483,25 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     }
 
     protected static boolean isBrightEnoughToSpawn(ServerLevel level, BlockPos pos) {
-        return level.isDay() && level.getBrightness(LightLayer.SKY, pos) > 0
+        Holder<Biome> biome = level.getBiome(pos);
+
+        return (biome.is(TagRegistry.HAS_PIRANHA_PLANT) || biome.is(TagRegistry.HAS_TROPICAL_PIRANHA_PLANT))
+                && level.isDay() && level.getBrightness(LightLayer.SKY, pos) > 0
                 && level.getBrightness(LightLayer.BLOCK, pos) <= 0
                 && level.getBlockState(pos.below()).is(TagRegistry.PIRANHA_PLANTS_SPAWNABLE_ON);
     }
 
     protected static boolean isValidCaveSpawn(ServerLevel level, BlockPos pos) {
-        return !level.canSeeSky(pos)
+        Holder<Biome> biome = level.getBiome(pos);
+        int caveMaxY = Mth.clamp(ConfigRegistry.CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get(),
+                level.getMinBuildHeight(), level.getMaxBuildHeight());
+        int deepCaveMaxY = Mth.clamp(ConfigRegistry.DEEP_CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get(),
+                level.getMinBuildHeight(), level.getMaxBuildHeight());
+
+        return (biome.is(TagRegistry.HAS_CAVE_PIRANHA_PLANT) || biome.is(TagRegistry.HAS_DEEP_CAVE_PIRANHA_PLANT))
+                && !level.canSeeSky(pos)
                 && level.getBrightness(LightLayer.BLOCK, pos) <= 0
-                && (pos.getY() < ConfigRegistry.CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get()
-                    || pos.getY() < ConfigRegistry.DEEP_CAVE_PIRANHA_PLANT_MAX_Y_SPAWN.get())
+                && (pos.getY() < caveMaxY || pos.getY() < deepCaveMaxY)
                 && level.getBlockState(pos.below()).is(TagRegistry.CAVE_PIRANHA_PLANTS_SPAWNABLE_ON);
     }
 
