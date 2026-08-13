@@ -32,7 +32,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.genInvisibleQuestionBlockVariants();
         this.genStorageBrickVariants();
 
-        this.simpleBlockItem(BlockRegistry.MUSHROOT_SAPLING.get());
+        this.basicBlockItem(BlockRegistry.MUSHROOT_SAPLING.asItem());
 
         this.basicItem(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.COIN.asItem());
@@ -384,6 +384,15 @@ public class ItemModelGen extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
                 .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + "_overlay"));
+    }
+
+    public ItemModelBuilder basicBlockItem(Item item) {
+        return basicBlockItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
+    }
+
+    public ItemModelBuilder basicBlockItem(ResourceLocation item) {
+        return this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "block/" + item.getPath()));
     }
 
     public void largeItem(Item item) {

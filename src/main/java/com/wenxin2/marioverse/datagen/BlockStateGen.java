@@ -1053,7 +1053,8 @@ public class BlockStateGen extends BlockStateProvider {
 
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/cross"))
-                .texture("cross", mainTexture);
+                .texture("cross", mainTexture)
+                .renderType("cutout_mipped");
 
         simpleBlock(block, model);
     }
@@ -1063,7 +1064,8 @@ public class BlockStateGen extends BlockStateProvider {
 
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/flower_pot_cross"))
-                .texture("plant", mainTexture);
+                .texture("plant", mainTexture)
+                .renderType("cutout_mipped");
 
         simpleBlock(block, model);
     }
