@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.datagen;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.data.RecipeUtils;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
@@ -107,10 +108,11 @@ public class RecipeGen extends RecipeUtils {
         onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.BLUE_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BLUE_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
         onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.RED_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
         onOffSwitchRecipe(1, "on_off_switches", BlockRegistry.ON_OFF_SWITCH, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Tags.Items.GEMS_QUARTZ, Blocks.REDSTONE_TORCH, false, output);
-        oneToOneRecipe(1, "large_snowballs", ItemRegistry.LARGE_SNOWBALL, RecipeCategory.MISC, Items.SNOW_BLOCK, output);
-        oneToOneRecipe(1, "wrenches", ItemRegistry.CREATIVE_WRENCH, RecipeCategory.MISC, ItemRegistry.CREATIVE_WRENCH, output);
-        oneToOneRecipe(1, "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
-        oneToOneRecipe(4, "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
+        oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "large_snowballs", ItemRegistry.LARGE_SNOWBALL, RecipeCategory.MISC, Items.SNOW_BLOCK, output);
+        oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "wrenches", ItemRegistry.CREATIVE_WRENCH, RecipeCategory.MISC, ItemRegistry.CREATIVE_WRENCH, output);
+        oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
+        oneToOneRecipe(4, "planks", BlockRegistry.MUSHROOT_PLANKS, RecipeCategory.BUILDING_BLOCKS, TagRegistry.MUSHROOT_LOG_ITEMS, output);
+        oneToOneRecipe(4, Marioverse.MOD_ID + ":" + "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
         picketFenceRecipe(2, "picket_fences", BlockRegistry.MUSHROOT_PICKET_FENCE, RecipeCategory.BUILDING_BLOCKS, Blocks.OAK_SLAB, Tags.Items.RODS_WOODEN, true, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, true, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, true, output);

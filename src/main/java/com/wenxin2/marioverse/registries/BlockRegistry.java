@@ -57,6 +57,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.entity.EntityType;
@@ -69,13 +70,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.WeatheringCopperFullBlock;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -284,7 +289,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> MUSHROOT_LEAVES;
+    public static final DeferredBlock<Block> MUSHROOT_LOG;
     public static final DeferredBlock<Block> MUSHROOT_PICKET_FENCE;
+    public static final DeferredBlock<Block> MUSHROOT_PLANKS;
+    public static final DeferredBlock<Block> MUSHROOT_SAPLING;
+    public static final DeferredBlock<Block> MUSHROOT_WOOD;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
@@ -324,6 +334,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
     public static final DeferredBlock<Block> POTTED_BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
+    public static final DeferredBlock<Block> POTTED_MUSHROOT_SAPLING;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
     public static final DeferredBlock<Block> POTTED_RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
@@ -440,6 +451,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_WOOD;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
@@ -636,6 +649,31 @@ public class BlockRegistry {
 
         POTTED_PIRANHA_PLANT = registerNoItemBlock("potted_piranha_plant",
                 () -> new PottedPiranhaPlantBlock(null, () -> Blocks.AIR,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+
+        MUSHROOT_LOG = registerBlock("mushroot_log", () -> log(MapColor.WOOD, MapColor.TERRACOTTA_ORANGE));
+
+        STRIPPED_MUSHROOT_LOG = registerBlock("stripped_mushroot_log", () -> log(MapColor.WOOD, MapColor.WOOD));
+
+        MUSHROOT_WOOD = registerBlock("mushroot_wood", () -> log(MapColor.TERRACOTTA_ORANGE, MapColor.TERRACOTTA_ORANGE));
+
+        STRIPPED_MUSHROOT_WOOD = registerBlock("stripped_mushroot_wood", () -> log(MapColor.WOOD, MapColor.WOOD));
+
+        MUSHROOT_LEAVES = registerBlock("mushroot_leaves", () -> leaves(SoundType.GRASS));
+
+        MUSHROOT_PLANKS = registerBlock("mushroot_planks",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
+                        .instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD)
+                        .strength(2.0F, 3.0F).ignitedByLava()));
+
+        MUSHROOT_SAPLING = registerBlock("mushroot_sapling",
+                () -> new SaplingBlock(TreeGrower.OAK, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                        .noCollission().randomTicks().instabreak()));
+
+        POTTED_MUSHROOT_SAPLING = registerBlock("potted_mushroot_sapling",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.MUSHROOT_SAPLING,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
 
@@ -1686,7 +1724,30 @@ public class BlockRegistry {
         FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
         pot.addPlant(BlockRegistry.BLUE_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
+        pot.addPlant(BlockRegistry.MUSHROOT_SAPLING.getId(), BlockRegistry.POTTED_MUSHROOT_SAPLING);
         pot.addPlant(BlockRegistry.RED_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_TRAMPOLINE_CAP);
+    }
+
+    private static Block log(MapColor colorTop, MapColor color) {
+        return new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                .mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? colorTop : color)
+                .instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD)
+                .strength(2.0F).ignitedByLava());
+    }
+
+    private static Block log(MapColor colorTop, MapColor color, SoundType soundType) {
+        return new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                .mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? colorTop : color)
+                .instrument(NoteBlockInstrument.BASS).sound(soundType)
+                .strength(2.0F).ignitedByLava());
+    }
+
+    private static Block leaves(SoundType soundType) {
+        return new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+                .pushReaction(PushReaction.DESTROY).isValidSpawn(BlockRegistry::ocelotOrParrot)
+                .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
+                .isRedstoneConductor(BlockRegistry::never).strength(0.2F)
+                .sound(soundType).randomTicks().noOcclusion().ignitedByLava());
     }
 
     private static Block button(Block block, BlockSetType blockSetType, int ticksPressed) {
@@ -1731,6 +1792,10 @@ public class BlockRegistry {
         if (blockGetter instanceof OnBlock)
             return state.getValue(OnBlock.ACTIVE);
         return false;
+    }
+
+    public static Boolean ocelotOrParrot(BlockState state, BlockGetter blockGetter, BlockPos pos, EntityType<?> type) {
+        return type == EntityType.OCELOT || type == EntityType.PARROT;
     }
 
     public static void init() {

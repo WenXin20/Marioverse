@@ -1,0 +1,10 @@
+{
+  "values": {
+    "marioverse:mushroot_log": {
+      "stripped_block": "marioverse:stripped_mushroot_log"
+    },
+    "marioverse:mushroot_wood": {
+      "stripped_block": "marioverse:stripped_mushroot_wood"
+    }
+  }
+}

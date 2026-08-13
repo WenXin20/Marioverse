@@ -74,6 +74,22 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bridgeStairs(BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS.get())
             .getFamily();
 
+    public static final BlockFamilyExtended MUSHROOT_LOG = familyBuilder(BlockRegistry.MUSHROOT_LOG.get())
+            .planks(BlockRegistry.MUSHROOT_PLANKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_MUSHROOT_LOG = familyBuilder(BlockRegistry.STRIPPED_MUSHROOT_LOG.get())
+            .planks(BlockRegistry.MUSHROOT_PLANKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MUSHROOT_WOOD = familyBuilder(BlockRegistry.MUSHROOT_WOOD.get())
+            .planks(BlockRegistry.MUSHROOT_PLANKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_MUSHROOT_WOOD = familyBuilder(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get())
+            .planks(BlockRegistry.MUSHROOT_PLANKS.get())
+            .getFamily();
+
     public static final BlockFamilyExtended DARK_OAK_LOG = familyBuilder(Blocks.DARK_OAK_LOG)
             .bridge(BlockRegistry.DARK_OAK_LOG_BRIDGE.get())
             .bridgeStairs(BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS.get())

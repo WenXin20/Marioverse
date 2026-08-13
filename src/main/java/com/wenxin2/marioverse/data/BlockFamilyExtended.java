@@ -150,6 +150,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder planks(Block block) {
+            this.family.variants.put(Variant.PLANKS, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder polished(Block block) {
             this.family.variants.put(Variant.POLISHED, block);
             return this;
@@ -261,6 +266,7 @@ public class BlockFamilyExtended {
         MOSAIC("mosaic"),
         PEDESTAL("pedestal"),
         PICKET_FENCE("picket_fence"),
+        PLANKS("planks"),
         POLISHED("polished"),
         PRESSURE_PLATE("pressure_plate"),
         QUESTION_BLOCK("question_block"),

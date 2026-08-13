@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-12T00:34:31.1433732	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-12T23:05:16.1737523	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -28,6 +28,8 @@ e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/block/dyed/white.json
 9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/c/tags/block/sands/colorless.json
 e31783925b31fdd1f8d79491031265d854c17543 data/c/tags/block/sands/red.json
 9c91acf2d7212f4d9a7994ac5aa2aeb60d7dcc92 data/c/tags/block/stones.json
+0ad9d824b4db2184ad3dde40c8c0fb4b4cc747a4 data/c/tags/block/stripped_logs.json
+6b4769067bf2d655eaa4e7f3501052b87ce26d17 data/c/tags/block/stripped_woods.json
 c53401f50b0f59c35d02f14d9dc888d401ed89dd data/framedblocks/tags/block/blockentity_whitelisted.json
 3eec7e612d82d83d6e4ea342be2749d52e801fa1 data/marioverse/tags/block/ability_blocks.json
 ca0305ff998bb91ee30dc4040f60ff99130ad6f9 data/marioverse/tags/block/bonkable_blocks.json
@@ -76,6 +78,7 @@ f12710e9c28fd237cbfc94b57f80a2fd67940d54 data/marioverse/tags/block/melts_into_p
 59cf3672223aaddb9a134569a973a414572c9389 data/marioverse/tags/block/melts_into_water.json
 5deb9af770fdad544511740089e3a3075ff82b32 data/marioverse/tags/block/melts_snowball.json
 ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/block/mushroom_trampoline_blocks.json
+bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/block/mushroot_logs.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/block/picket_fences.json
 25f0dd69ae90387c755ac6667543c6012ea7d4dc data/marioverse/tags/block/picket_fences/dyed.json
 e1ea051653bf26daee7f5c32ac5edd8a067a14ec data/marioverse/tags/block/picket_fences/wooden.json
@@ -103,18 +106,23 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune
 f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
-ec9415c11c813735ff73b20f0d88b7ebdb8cf59b data/minecraft/tags/block/flower_pots.json
+0cb094dee24c617bf248ca753c1a39c4b6750e4d data/minecraft/tags/block/flower_pots.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
+e433af55e1c180aea3ccf78cdbf9c88644a14ae1 data/minecraft/tags/block/leaves.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/logs.json
+db85174ac00eb7bab404efe489de6b734ecda2e4 data/minecraft/tags/block/logs_that_burn.json
 5f7bbc2ed64238090ac1b01ae188eea2c31bce2b data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 1349e229511fa4b588124d0318c290dc9a09cc65 data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
 11bf9914a37f97368e3320edbd090ecc24c07476 data/minecraft/tags/block/needs_iron_tool.json
 9d1c2fbbbbffc0bbc0ce1265f2be54dc26a8fb72 data/minecraft/tags/block/needs_stone_tool.json
+fb8cccee89301ce9304b2eb6cabc63e22fc7f979 data/minecraft/tags/block/planks.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json
+13bf88fa0be995d43b5756ef502c4ff178735a1a data/minecraft/tags/block/saplings.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
 8bec1ef5bee8c3b635422f922cd1823b2a2c35f7 data/minecraft/tags/block/slabs.json
 835cd4c1c8f9ccf885590ced2b4a7a0c21080176 data/minecraft/tags/block/stairs.json

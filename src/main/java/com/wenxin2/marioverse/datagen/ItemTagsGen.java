@@ -63,6 +63,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.HARD_WALLS, TagRegistry.HARD_WALL_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
+        copy(TagRegistry.MUSHROOT_LOGS, TagRegistry.MUSHROOT_LOG_ITEMS);
         copy(TagRegistry.PICKET_FENCES, TagRegistry.PICKET_FENCE_ITEMS);
         copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
@@ -80,8 +81,13 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(Tags.Blocks.PUMPKINS_CARVED, Tags.Items.PUMPKINS_CARVED);
         copy(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS, Tags.Items.PUMPKINS_JACK_O_LANTERNS);
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
+        copy(Tags.Blocks.STRIPPED_LOGS, Tags.Items.STRIPPED_LOGS);
+        copy(Tags.Blocks.STRIPPED_WOODS, Tags.Items.STRIPPED_WOODS);
 
         copy(BlockTags.FLOWERS, ItemTags.FLOWERS);
+        copy(BlockTags.LEAVES, ItemTags.LEAVES);
+        copy(BlockTags.LOGS, ItemTags.LOGS);
+        copy(BlockTags.PLANKS, ItemTags.PLANKS);
         copy(BlockTags.SLABS, ItemTags.SLABS);
         copy(BlockTags.STAIRS, ItemTags.STAIRS);
         copy(BlockTags.STONE_BUTTONS, ItemTags.STONE_BUTTONS);

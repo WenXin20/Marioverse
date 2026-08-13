@@ -24,7 +24,6 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
-import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.data.recipes.packs.VanillaRecipeProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -888,7 +887,7 @@ public class RecipeUtils extends RecipeProvider {
                                Object input1, RecipeOutput output) {
         ShapelessRecipeBuilder builder = ShapelessRecipeBuilder
                 .shapeless(category, outputItem, outputAmt)
-                .group(Marioverse.MOD_ID + ":" + groupName);
+                .group(groupName);
 
         builder.unlockedBy(getUnlockName(input1), unlockCriterion(input1));
 

@@ -110,11 +110,13 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(),
                 BlockRegistry.MONSTER_DEATH_BLOCK.get(),
+                BlockRegistry.MUSHROOT_PLANKS.get(),
                 BlockRegistry.PASSIVE_DEATH_BLOCK.get(),
                 BlockRegistry.PLAYER_DEATH_BLOCK.get());
         this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(),
                 BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
                 BlockRegistry.MARIO_ABILITY_BLOCK.get(),
+                BlockRegistry.MUSHROOT_LEAVES.get(),
                 BlockRegistry.PEACH_ABILITY_BLOCK.get(),
                 BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
                 BlockRegistry.STEVE_ABILITY_BLOCK.get(),
@@ -122,8 +124,10 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.WARIO_ABILITY_BLOCK.get());
         this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
+                BlockRegistry.MUSHROOT_LOG.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
-                BlockRegistry.ROCKY_FUNGAL_STONE.get());
+                BlockRegistry.ROCKY_FUNGAL_STONE.get(),
+                BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(),
                 BlockRegistry.BUBBLE_CORAL_TOWER.get(),
                 BlockRegistry.FIRE_CORAL_TOWER.get(),
@@ -151,6 +155,10 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));
         this.blossomModel(blossom, blockTexture(blossom), texture(blossom, "_leaves"));
+        this.crossModel(BlockRegistry.MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
+        this.crossFlowerPotModel(BlockRegistry.POTTED_MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
+        this.cubeAllModel(BlockRegistry.MUSHROOT_WOOD.get(), modLoc("block/mushroot_log"));
+        this.cubeAllModel(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get(), modLoc("block/stripped_mushroot_log"));
         this.cubeInnerOverlayModel(quicksand, texture(quicksand, "_top"), blockTexture(quicksand), texture(quicksand, "_top"));
         this.cubeInnerOverlayModel(redQuicksand, texture(redQuicksand, "_top"), blockTexture(redQuicksand), texture(redQuicksand, "_top"));
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), blockTexture(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
@@ -1038,6 +1046,26 @@ public class BlockStateGen extends BlockStateProvider {
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, false).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, true).addModels(new ConfiguredModel(modelTop));
+    }
+
+    private void crossModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cross"))
+                .texture("cross", mainTexture);
+
+        simpleBlock(block, model);
+    }
+
+    private void crossFlowerPotModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/flower_pot_cross"))
+                .texture("plant", mainTexture);
+
+        simpleBlock(block, model);
     }
 
     private void cubeAllModel(Block block, ResourceLocation mainTexture) {

@@ -535,6 +535,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get());
 
+        tag(TagRegistry.MUSHROOT_LOGS)
+                .add(BlockRegistry.MUSHROOT_LOG.get())
+                .add(BlockRegistry.MUSHROOT_WOOD.get())
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG.get())
+                .add(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get());
+
         tag(TagRegistry.PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES);
 
@@ -790,6 +796,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.FLOWER_POTS)
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
+                .add(BlockRegistry.POTTED_MUSHROOT_SAPLING.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
                 .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get());
 
@@ -814,6 +821,14 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
+        tag(BlockTags.LEAVES)
+                .add(BlockRegistry.MUSHROOT_LEAVES.get());
+
+        tag(BlockTags.LOGS);
+
+        tag(BlockTags.LOGS_THAT_BURN)
+                .addTag(TagRegistry.MUSHROOT_LOGS);
+
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .addTag(TagRegistry.ABILITY_BLOCKS);
 
@@ -822,9 +837,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.HARD_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
 
+        tag(BlockTags.PLANKS)
+                .add(BlockRegistry.MUSHROOT_PLANKS.get());
+
         tag(BlockTags.SAND)
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get());
+
+        tag(BlockTags.SAPLINGS)
+                .add(BlockRegistry.MUSHROOT_SAPLING.get());
 
         tag(BlockTags.SCULK_REPLACEABLE_WORLD_GEN)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
@@ -1107,6 +1128,12 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.WITHER_IMMUNE)
                 .addTag(TagRegistry.DEATH_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
+
+        tag(Tags.Blocks.STRIPPED_LOGS)
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
+
+        tag(Tags.Blocks.STRIPPED_WOODS)
+                .add(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get());
 
         tag(TagRegistry.blockTags("create", "corals"))
                 .addTag(TagRegistry.CORAL_TOWER_BLOCKS)

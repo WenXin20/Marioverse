@@ -9,6 +9,12 @@
     "marioverse:dango_blossom": {
       "chance": 0.65
     },
+    "marioverse:mushroot_leaves": {
+      "chance": 0.3
+    },
+    "marioverse:mushroot_sapling": {
+      "chance": 0.3
+    },
     "marioverse:piranha_plant_pod": {
       "chance": 0.3
     },

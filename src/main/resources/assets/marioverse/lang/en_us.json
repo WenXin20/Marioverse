@@ -85,6 +85,15 @@
   "block.marioverse.warp_trapdoor": "Warp %1$s",
   "block.marioverse.water_spout": "Water Spout",
 
+  "block.marioverse.mushroot_leaves": "Mushroot Leaves",
+  "block.marioverse.mushroot_log": "Mushroot Log",
+  "block.marioverse.mushroot_planks": "Mushroot Planks",
+  "block.marioverse.mushroot_sapling": "Mushroot Sapling",
+  "block.marioverse.mushroot_wood": "Mushroot Wood",
+  "block.marioverse.potted_mushroot_sapling": "Potted Mushroot Sapling",
+  "block.marioverse.stripped_mushroot_log": "Stripped Mushroot Log",
+  "block.marioverse.stripped_mushroot_wood": "Stripped Mushroot Wood",
+
   "block.marioverse.acacia_log_bridge": "Acacia Log Bridge",
   "block.marioverse.bamboo_bridge": "Bamboo Bridge",
   "block.marioverse.birch_log_bridge": "Birch Log Bridge",

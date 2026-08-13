@@ -203,6 +203,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STAR_COIN);
             add(event, BlockRegistry.COIN);
             add(event, BlockRegistry.DANGO_BLOSSOM);
+            add(event, BlockRegistry.MUSHROOT_SAPLING);
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
             add(event, BlockRegistry.TUBE_CORAL_TOWER);
@@ -215,6 +216,13 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DEAD_BUBBLE_CORAL_TOWER);
             add(event, BlockRegistry.DEAD_FIRE_CORAL_TOWER);
             add(event, BlockRegistry.DEAD_HORN_CORAL_TOWER);
+
+            add(event, BlockRegistry.MUSHROOT_LEAVES);
+            add(event, BlockRegistry.MUSHROOT_LOG);
+            add(event, BlockRegistry.MUSHROOT_WOOD);
+            add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG);
+            add(event, BlockRegistry.STRIPPED_MUSHROOT_WOOD);
+            add(event, BlockRegistry.MUSHROOT_PLANKS);
 
             add(event, BlockRegistry.FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE_STAIRS);
@@ -647,6 +655,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
 
+                addAfter(event, Blocks.CHERRY_LOG, BlockRegistry.MUSHROOT_LOG);
+
+                addAfter(event, Blocks.FLOWERING_AZALEA_LEAVES, BlockRegistry.MUSHROOT_LEAVES);
+
+                addAfter(event, Blocks.CHERRY_SAPLING, BlockRegistry.MUSHROOT_SAPLING);
+
                 addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.RED_TRAMPOLINE_CAP, BlockRegistry.BLUE_TRAMPOLINE_CAP);
                 addAfter(event, Blocks.SPORE_BLOSSOM, BlockRegistry.DANGO_BLOSSOM);
@@ -920,7 +934,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.BAMBOO_BRIDGE, BlockRegistry.STRIPPED_BAMBOO_BRIDGE);
                 addAfter(event, Blocks.BAMBOO_FENCE_GATE, BlockRegistry.BAMBOO_PICKET_FENCE);
 
-                addAfter(event, Blocks.BAMBOO_BUTTON, BlockRegistry.MUSHROOT_PICKET_FENCE);
+                addAfter(event, Blocks.BAMBOO_BUTTON, BlockRegistry.MUSHROOT_LOG);
+                addAfter(event, BlockRegistry.MUSHROOT_LOG, BlockRegistry.MUSHROOT_WOOD);
+                addAfter(event, BlockRegistry.MUSHROOT_WOOD, BlockRegistry.STRIPPED_MUSHROOT_LOG);
+                addAfter(event, BlockRegistry.STRIPPED_MUSHROOT_LOG, BlockRegistry.STRIPPED_MUSHROOT_WOOD);
+                addAfter(event, BlockRegistry.STRIPPED_MUSHROOT_WOOD, BlockRegistry.MUSHROOT_PLANKS);
+                addAfter(event, BlockRegistry.MUSHROOT_PLANKS, BlockRegistry.MUSHROOT_PICKET_FENCE);
 
                 addAfter(event, Blocks.CRIMSON_SLAB, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);

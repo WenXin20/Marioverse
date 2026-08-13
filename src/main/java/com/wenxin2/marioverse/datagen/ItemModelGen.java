@@ -32,6 +32,8 @@ public class ItemModelGen extends ItemModelProvider {
         this.genInvisibleQuestionBlockVariants();
         this.genStorageBrickVariants();
 
+        this.simpleBlockItem(BlockRegistry.MUSHROOT_SAPLING.get());
+
         this.basicItem(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.COIN.asItem());
         this.basicItem(BlockRegistry.DANGO_BLOSSOM.asItem());

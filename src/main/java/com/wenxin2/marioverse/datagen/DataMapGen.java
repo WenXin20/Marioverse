@@ -15,6 +15,7 @@ import net.neoforged.neoforge.registries.datamaps.builtin.FurnaceFuel;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 import net.neoforged.neoforge.registries.datamaps.builtin.Oxidizable;
 import net.neoforged.neoforge.registries.datamaps.builtin.ParrotImitation;
+import net.neoforged.neoforge.registries.datamaps.builtin.Strippable;
 import net.neoforged.neoforge.registries.datamaps.builtin.VibrationFrequency;
 import net.neoforged.neoforge.registries.datamaps.builtin.Waxable;
 
@@ -26,12 +27,14 @@ public class DataMapGen extends DataMapProvider {
     @Override
     protected void gather(HolderLookup.Provider provider) {
         builder(NeoForgeDataMaps.COMPOSTABLES)
-                .add(ItemRegistry.PIRANHA_PLANT_POD, new Compostable(0.3F), false)
+                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.DANGO_BLOSSOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
-                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
-                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false);
+                .add(BlockRegistry.MUSHROOT_LEAVES.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.MUSHROOT_SAPLING.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(ItemRegistry.PIRANHA_PLANT_POD, new Compostable(0.3F), false)
+                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false);
 
         builder(NeoForgeDataMaps.FURNACE_FUELS)
                 .add(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS, new FurnaceFuel(100), false)
@@ -73,6 +76,10 @@ public class DataMapGen extends DataMapProvider {
                 .add(EntityRegistry.PORCUPUFFER, new ParrotImitation(SoundRegistry.PARROT_IMITATES_PORCUPUFFER.get()), false)
                 .add(EntityRegistry.SPLUNKIN, new ParrotImitation(SoundRegistry.PARROT_IMITATES_SPLUNKIN.get()), false)
                 .add(EntityRegistry.SUPER_STAR, new ParrotImitation(SoundRegistry.PARROT_IMITATES_SUPER_STAR.get()), false);
+
+        builder(NeoForgeDataMaps.STRIPPABLES)
+                .add(BlockRegistry.MUSHROOT_LOG, new Strippable(BlockRegistry.STRIPPED_MUSHROOT_LOG.get()), false)
+                .add(BlockRegistry.MUSHROOT_WOOD, new Strippable(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get()), false);
 
         builder(NeoForgeDataMaps.WAXABLES)
                 .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get()), false)
