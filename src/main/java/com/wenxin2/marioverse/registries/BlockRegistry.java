@@ -53,6 +53,7 @@ import com.wenxin2.marioverse.blocks.WeatheringCopperPedestalBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
+import com.wenxin2.marioverse.world.grower.SuperTreeGrower;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
@@ -668,7 +669,7 @@ public class BlockRegistry {
                         .strength(2.0F, 3.0F).ignitedByLava()));
 
         MUSHROOT_SAPLING = registerBlock("mushroot_sapling",
-                () -> new SaplingBlock(TreeGrower.OAK, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+                () -> new SaplingBlock(SuperTreeGrower.MUSHROOT, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                         .noCollission().randomTicks().instabreak()));
 

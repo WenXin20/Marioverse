@@ -116,7 +116,6 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(),
                 BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
                 BlockRegistry.MARIO_ABILITY_BLOCK.get(),
-                BlockRegistry.MUSHROOT_LEAVES.get(),
                 BlockRegistry.PEACH_ABILITY_BLOCK.get(),
                 BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
                 BlockRegistry.STEVE_ABILITY_BLOCK.get(),
@@ -124,6 +123,7 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.WARIO_ABILITY_BLOCK.get());
         this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
+                BlockRegistry.MUSHROOT_LEAVES.get(),
                 BlockRegistry.MUSHROOT_LOG.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_FUNGAL_STONE.get(),

@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-12T23:05:16.1309597	Loot Tables
+// 1.21.1	2026-08-13T21:41:26.0055847	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 ebcb3099f486fc6158a6419f0121296ef95ecebe data/marioverse/loot_table/blocks/acacia_picket_fence.json
@@ -273,7 +273,7 @@ b18339d7dedd6b4749531110ca35e1aecf7ea1ee data/marioverse/loot_table/blocks/mario
 b55793337d7bc96bc83038957bd5f5b763082c80 data/marioverse/loot_table/blocks/mossy_stone_question_bricks.json
 c914523db3faf06e8be3e1766c6d459e3e73a6e5 data/marioverse/loot_table/blocks/mud_brick_pedestal.json
 440de862d35acca7898b8c1176af1497d2caf9bf data/marioverse/loot_table/blocks/mud_question_bricks.json
-b7a988046a1de48033c6a53271526803481ca801 data/marioverse/loot_table/blocks/mushroot_leaves.json
+3523a396a7aace0852388002ad0c5252ea827b5c data/marioverse/loot_table/blocks/mushroot_leaves.json
 1858f8cae444a321166dce2ee06423b36926bfb1 data/marioverse/loot_table/blocks/mushroot_log.json
 8f069f8a9cce857f925942fa3373c74e47696fe6 data/marioverse/loot_table/blocks/mushroot_picket_fence.json
 5f99f3458893da8e7963c0c0e3f71cf499c0a070 data/marioverse/loot_table/blocks/mushroot_planks.json

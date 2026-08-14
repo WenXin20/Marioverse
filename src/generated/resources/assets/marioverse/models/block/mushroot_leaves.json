@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "bottom": "marioverse:block/mushroot_leaves_bottom",
+    "bottom": "marioverse:block/mushroot_leaves_top",
     "side": "marioverse:block/mushroot_leaves",
     "top": "marioverse:block/mushroot_leaves_top"
   }

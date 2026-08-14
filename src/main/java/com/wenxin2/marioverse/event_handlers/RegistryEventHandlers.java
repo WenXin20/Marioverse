@@ -29,6 +29,7 @@ import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.world.feature.SuperTreeFeatures;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -207,10 +208,10 @@ public class RegistryEventHandlers {
 
         generator.addProvider(event.includeServer(), new AdvancementDataGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeServer(), new DataMapGen(output, provider));
-        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, provider,
-                new RegistrySetBuilder()
+        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, provider, new RegistrySetBuilder()
                 .add(Registries.BANNER_PATTERN, BannerPatternRegistry::bootstrap)
-                .add(Registries.DAMAGE_TYPE, DamageTypeRegistry::bootstrap), Set.of(Marioverse.MOD_ID)));
+                .add(Registries.DAMAGE_TYPE, DamageTypeRegistry::bootstrap)
+                .add(Registries.CONFIGURED_FEATURE, SuperTreeFeatures::bootstrap), Set.of(Marioverse.MOD_ID)));
 
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, provider, existingFileHelper));
