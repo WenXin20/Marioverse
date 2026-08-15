@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-13T23:16:39.6050159	Block States: marioverse
+// 1.21.1	2026-08-14T19:15:07.2603124	Block States: marioverse
 d1717a729a26a5dd7dafa52989ecc31e34effcd1 assets/marioverse/blockstates/acacia_log_bridge.json
 e4d20594d7136755ae656526e1cf307ac2049b4b assets/marioverse/blockstates/acacia_log_bridge_stairs.json
 d65bf75f34b7870ff9d3d3210771b9af78163516 assets/marioverse/blockstates/acacia_picket_fence.json
@@ -1269,7 +1269,7 @@ df71c0cbb9c7b351f8479b8f934c7bcf500573d9 assets/marioverse/models/block/mangrove
 a55a7ab270c353755720a2c2313ca96e2b10b5e7 assets/marioverse/models/block/mud_brick_pedestal.json
 2f3a2c81e9f3fececdc27b02e269d54bdee784dd assets/marioverse/models/block/mud_brick_pedestal_top.json
 b055c5463f98238b99410597b68df4b473345e5d assets/marioverse/models/block/mud_question_bricks.json
-941f101e7e545ed7af9efe1ffe3a758786e02df8 assets/marioverse/models/block/mushroot_leaves.json
+f4466ae6ea42405da24e9fc9c20227952ac69eb5 assets/marioverse/models/block/mushroot_leaves.json
 036811e826fa2a22d3643c0d35f7360a4198619f assets/marioverse/models/block/mushroot_log.json
 2531b64d3aeda151c701cc0f54b29215db9635a8 assets/marioverse/models/block/mushroot_picket_fence.json
 e0e1c311ff7861711b0750a0cdde2329db3e0cb6 assets/marioverse/models/block/mushroot_picket_fence_inner_corner.json
