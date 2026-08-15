@@ -19,16 +19,18 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+import org.jetbrains.annotations.NotNull;
 
 public class TaperingTrunkPlacer extends TrunkPlacer {
-    private static final int MAX_ROOT_DEPTH = 6;
+    private static final int MAX_ROOT_DEPTH = 8;
 
     public static final MapCodec<TaperingTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(instance ->
             trunkPlacerParts(instance)
                     .and(IntProvider.codec(1, 8).fieldOf("taper_rate").forGetter(p -> p.taperRate))
                     .and(Codec.BOOL.fieldOf("square_base").forGetter(p -> p.squareBase))
                     .and(BranchConfig.CODEC.fieldOf("branches").forGetter(p -> p.branchConfig))
-                    .apply(instance, (baseHeight1, heightRandA1, heightRandB1, taperRate1, squareBase1, branchConfig1) -> new TaperingTrunkPlacer(squareBase1, baseHeight1, heightRandA1, heightRandB1, taperRate1, branchConfig1)));
+                    .apply(instance, (baseHeight1, heightRandA1, heightRandB1, taperRate1, squareBase1, branchConfig1)
+                            -> new TaperingTrunkPlacer(squareBase1, baseHeight1, heightRandA1, heightRandB1, taperRate1, branchConfig1)));
 
     private final IntProvider taperRate;
     private final boolean squareBase;
@@ -42,11 +44,13 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         this.branchConfig = branchConfig;
     }
 
+    @NotNull
     @Override
     protected TrunkPlacerType<?> type() {
         return TreeRegistry.TAPERING_TRUNK_PLACER.get();
     }
 
+    @NotNull
     @Override
     public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
                                                             RandomSource random, int freeTreeHeight, BlockPos pos, TreeConfiguration config) {
@@ -63,20 +67,16 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         int minRadius = Math.max(1, this.branchConfig.minBranchRadius().sample(random));
 
         for (int y = 0; y < freeTreeHeight; y++) {
-            if (y < squareEnd) {
+            if (y < squareEnd)
                 this.placeSquare(level, blockSetter, random, config, pos, y, mutable);
-            } else if (y < taperEnd) {
+            else if (y < taperEnd)
                 this.placeCross(level, blockSetter, random, config, pos, y, mutable, 1);
-            } else if (y < flareStart) {
+            else if (y < flareStart) {
                 if (minRadius <= 1) {
                     mutable.setWithOffset(pos, 0, y, 0);
                     placeLog(level, blockSetter, random, mutable, config);
-                } else {
-                    this.placeCross(level, blockSetter, random, config, pos, y, mutable, minRadius - 1);
-                }
-            } else {
-                this.placeCross(level, blockSetter, random, config, pos, y, mutable, 1);
-            }
+                } else this.placeCross(level, blockSetter, random, config, pos, y, mutable, minRadius - 1);
+            } else this.placeCross(level, blockSetter, random, config, pos, y, mutable, 1);
         }
 
         List<FoliagePlacer.FoliageAttachment> attachments = new ArrayList<>();
@@ -93,19 +93,15 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         if (useSquareBase) {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dz = -1; dz <= 1; dz++) {
-                    if (dx == 0 && dz == 0) {
+                    if (dx == 0 && dz == 0)
                         continue;
-                    }
                     this.placeRootColumn(level, blockSetter, random, config, pos.offset(dx, 0, dz));
                 }
             }
         }
 
-        // only place the usual dirt patch if the ground was already solid right under the trunk --
-        // if roots had to grow down, they've already reached solid ground on their own
-        if (centerDepth == 0) {
+        if (centerDepth == 0)
             setDirtAt(level, blockSetter, random, pos.below(), config);
-        }
     }
 
     private int placeRootColumn(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
@@ -130,11 +126,10 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dz = -1; dz <= 1; dz++) {
                 mutable.setWithOffset(pos, dx, y, dz);
-                if (dx == 0 && dz == 0) {
+
+                if (dx == 0 && dz == 0)
                     placeLog(level, blockSetter, random, mutable, config);
-                } else {
-                    placeLogIfFree(level, blockSetter, random, mutable, config);
-                }
+                else placeLogIfFree(level, blockSetter, random, mutable, config);
             }
         }
     }
@@ -165,12 +160,11 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         branchAttachments.add(new FoliagePlacer.FoliageAttachment(centerEnd, 0, false));
 
         int branches = this.branchConfig.branchCount().sample(random);
-        if (branches <= 0) {
+        if (branches <= 0)
             return branchAttachments;
-        }
 
         Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-        for (int i = directions.length - 1; i > 0; i--) { // Fisher-Yates so branches pick distinct sides
+        for (int i = directions.length - 1; i > 0; i--) { // Fisher-Yates so branches pick specific sides
             int j = random.nextInt(i + 1);
             Direction tmp = directions[i];
             directions[i] = directions[j];
@@ -186,7 +180,6 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
             BlockPos tip = this.placeStaircaseBranch(blockSetter, random, config, trunkAttach, dir, reach, rise);
             branchAttachments.add(new FoliagePlacer.FoliageAttachment(tip, 0, false));
         }
-
         return branchAttachments;
     }
 
@@ -197,6 +190,7 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
 
         int outSteps = 0;
         int upSteps = 0;
+
         while (outSteps < reach || upSteps < rise) {
             boolean moveOut = outSteps < reach && (upSteps >= rise || (outSteps + 1) * rise <= (upSteps + 1) * reach);
             if (moveOut) {
@@ -209,7 +203,6 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
                 this.placeBranchLog(blockSetter, random, config, current, Direction.Axis.Y);
             }
         }
-
         return current.immutable();
     }
 
@@ -223,9 +216,8 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
                            TreeConfiguration config, BlockPos from, BlockPos to) {
         BlockPos delta = to.offset(-from.getX(), -from.getY(), -from.getZ());
         int steps = Math.max(Math.abs(delta.getX()), Math.max(Math.abs(delta.getY()), Math.abs(delta.getZ())));
-        if (steps == 0) {
+        if (steps == 0)
             return;
-        }
 
         float stepX = (float) delta.getX() / steps;
         float stepY = (float) delta.getY() / steps;
@@ -233,7 +225,8 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         Direction.Axis axis = this.limbAxis(delta);
 
         for (int i = 0; i <= steps; i++) {
-            BlockPos logPos = from.offset(Mth.floor(0.5F + i * stepX), Mth.floor(0.5F + i * stepY), Mth.floor(0.5F + i * stepZ));
+            BlockPos logPos = from.offset(Mth.floor(0.5F + i * stepX), Mth.floor(0.5F + i * stepY),
+                    Mth.floor(0.5F + i * stepZ));
             BlockState state = config.trunkProvider.getState(random, logPos).trySetValue(RotatedPillarBlock.AXIS, axis);
             blockSetter.accept(logPos, state);
         }
@@ -243,18 +236,17 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         int dx = Math.abs(delta.getX());
         int dz = Math.abs(delta.getZ());
         int horizontal = Math.max(dx, dz);
-        if (horizontal == 0) {
+        if (horizontal == 0)
             return Direction.Axis.Y;
-        }
         return dx >= dz ? Direction.Axis.X : Direction.Axis.Z;
     }
 
     public record BranchConfig(IntProvider minBranchRadius, IntProvider branchCount, IntProvider branchLength, IntProvider branchDrop) {
-        public static final Codec<BranchConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                IntProvider.codec(1, 4).fieldOf("min_branch_radius").forGetter(BranchConfig::minBranchRadius),
-                IntProvider.codec(0, 4).fieldOf("branch_count").forGetter(BranchConfig::branchCount),
-                IntProvider.codec(1, 10).fieldOf("branch_length").forGetter(BranchConfig::branchLength),
-                IntProvider.codec(1, 10).fieldOf("branch_drop").forGetter(BranchConfig::branchDrop)
-        ).apply(instance, BranchConfig::new));
+        public static final Codec<BranchConfig> CODEC = RecordCodecBuilder.create(instance -> instance
+                .group(IntProvider.codec(1, 4).fieldOf("min_branch_radius").forGetter(BranchConfig::minBranchRadius),
+                        IntProvider.codec(0, 4).fieldOf("branch_count").forGetter(BranchConfig::branchCount),
+                        IntProvider.codec(1, 10).fieldOf("branch_length").forGetter(BranchConfig::branchLength),
+                        IntProvider.codec(1, 10).fieldOf("branch_drop").forGetter(BranchConfig::branchDrop))
+                .apply(instance, BranchConfig::new));
     }
 }

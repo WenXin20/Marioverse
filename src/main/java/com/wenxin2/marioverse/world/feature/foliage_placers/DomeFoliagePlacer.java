@@ -10,11 +10,12 @@ import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+import org.jetbrains.annotations.NotNull;
 
 public class DomeFoliagePlacer extends FoliagePlacer {
     public static final MapCodec<DomeFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            foliagePlacerParts(instance).and(IntProvider.codec(1, 16).fieldOf("height").forGetter(placer -> placer.height))
-                    .apply(instance, DomeFoliagePlacer::new));
+            foliagePlacerParts(instance).and(IntProvider.codec(1, 16).fieldOf("height")
+                            .forGetter(placer -> placer.height)).apply(instance, DomeFoliagePlacer::new));
 
     private final IntProvider height;
 
@@ -23,6 +24,7 @@ public class DomeFoliagePlacer extends FoliagePlacer {
         this.height = height;
     }
 
+    @NotNull
     @Override
     protected FoliagePlacerType<?> type() {
         return TreeRegistry.DOME_FOLIAGE_PLACER.get();
@@ -35,7 +37,7 @@ public class DomeFoliagePlacer extends FoliagePlacer {
         int bottomY = offset - foliageHeight;
 
         for (int y = offset; y >= bottomY; y--) {
-            int rowFromBottom = y - bottomY; // 0 at the bottom (equator), foliageHeight at the top (pole)
+            int rowFromBottom = y - bottomY;
             int layerRadius = this.hemisphereRadius(radius, foliageHeight, rowFromBottom);
             this.placeLeavesRow(level, foliageSetter, random, config, attachment.pos(), layerRadius, y, doubleTrunk);
         }
@@ -58,8 +60,6 @@ public class DomeFoliagePlacer extends FoliagePlacer {
 
     @Override
     protected boolean shouldSkipLocation(RandomSource random, int localX, int localY, int localZ, int range, boolean large) {
-        // a real circular cross-section per row, same test FancyFoliagePlacer uses, instead
-        // of corner-cutting a square -- this is what makes each row actually round
         return Mth.square((float) localX + 0.5F) + Mth.square((float) localZ + 0.5F) > (float) (range * range);
     }
 }
