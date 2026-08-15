@@ -11,6 +11,7 @@
   - Added Rocky Deep Fungal Stone sets
 - Added Picket Fences 
 - Added Mushroot block set
+  - Added Mushroot tree & mega Mushroot tree
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
