@@ -1062,7 +1062,8 @@ public class RecipeUtils extends RecipeProvider {
 
                     if (claimedDefaultShapeRecipeNames.add(block))
                         recipeBuilder.save(output);
-                    else recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                    else
+                        recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                                 getConversionRecipeName(block, itemlike)));
                 }
 

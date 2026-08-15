@@ -60,8 +60,8 @@ public class BlockFamilyExtended {
             return this.family;
         }
 
-        public BlockFamilyExtended.Builder button(Block block) {
-            this.family.variants.put(Variant.BUTTON, block);
+        public BlockFamilyExtended.Builder boards(Block block) {
+            this.family.variants.put(Variant.BOARDS, block);
             return this;
         }
 
@@ -77,6 +77,11 @@ public class BlockFamilyExtended {
 
         public BlockFamilyExtended.Builder bridgeStairs(Block block) {
             this.family.variants.put(Variant.BRIDGE_STAIRS, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder button(Block block) {
+            this.family.variants.put(Variant.BUTTON, block);
             return this;
         }
 
@@ -137,6 +142,11 @@ public class BlockFamilyExtended {
 
         public BlockFamilyExtended.Builder mosaic(Block block) {
             this.family.variants.put(Variant.MOSAIC, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder panels(Block block) {
+            this.family.variants.put(Variant.PANELS, block);
             return this;
         }
 
@@ -248,10 +258,11 @@ public class BlockFamilyExtended {
     }
 
     public static enum Variant {
-        BUTTON("button"),
+        BOARDS("boards"),
         BRICKS("bricks"),
         BRIDGE("bridge"),
         BRIDGE_STAIRS("bridge_stairs"),
+        BUTTON("button"),
         CHISELED("chiseled"),
         COBBLE("cobble"),
         CRACKED("cracked"),
@@ -264,6 +275,7 @@ public class BlockFamilyExtended {
         HARD_BLOCK("hard_block"),
         INVISIBLE_QUESTION_BLOCK("invisible_question_block"),
         MOSAIC("mosaic"),
+        PANELS("panel"),
         PEDESTAL("pedestal"),
         PICKET_FENCE("picket_fence"),
         PLANKS("planks"),

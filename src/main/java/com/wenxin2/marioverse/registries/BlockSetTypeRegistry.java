@@ -26,4 +26,6 @@ public class BlockSetTypeRegistry {
                     SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON
             )
     );
+
+    public static final BlockSetType MUSHROOT = BlockSetType.register(new BlockSetType("mushroot"));
 }
