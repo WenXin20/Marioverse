@@ -81,6 +81,7 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.WeatheringCopperFullBlock;
@@ -712,7 +713,7 @@ public class BlockRegistry {
                         .noOcclusion().ignitedByLava()));
 
         MUSHROOT_TRAPDOOR = registerBlock("mushroot_trapdoor",
-                () -> new DoorBlock(BlockSetTypeRegistry.MUSHROOT, BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
+                () -> new TrapDoorBlock(BlockSetTypeRegistry.MUSHROOT, BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
                         .pushReaction(PushReaction.DESTROY).isValidSpawn(Blocks::never).strength(3.0F)
                         .noOcclusion().ignitedByLava()));
 

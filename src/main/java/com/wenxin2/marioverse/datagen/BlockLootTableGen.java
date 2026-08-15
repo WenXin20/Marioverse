@@ -33,6 +33,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -78,6 +79,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createCheckpointFlagDrop(block));
                     else if (block instanceof CoralTowerBlock || block instanceof DeadCoralTowerBlock)
                         this.add(block, this.createSilkTouchOnlyTable(block));
+                    else if (block instanceof DoorBlock)
+                        this.add(block, this.createDoorTable(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
                     else if (block instanceof PipeBubblesBlock || block instanceof BlockSpawnerBlock

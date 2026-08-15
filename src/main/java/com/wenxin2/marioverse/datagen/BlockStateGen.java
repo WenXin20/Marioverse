@@ -32,11 +32,13 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -57,6 +59,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class BlockStateGen extends BlockStateProvider {
     private final Set<Block> processedSimpleBlocks = new HashSet<>();
+    private final Set<Block> processedDoors = new HashSet<>();
+    private final Set<Block> processedTrapdoors = new HashSet<>();
 
     public BlockStateGen(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Marioverse.MOD_ID, existingFileHelper);
@@ -195,6 +199,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genBridges();
         this.genBridgeStairs();
         this.genButtons();
+        this.genDoors();
         this.genFences();
         this.genFenceGates();
         this.genInvisibleQuestionBlocks();
@@ -207,6 +212,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genSmashableBlocks();
         this.genStairs();
         this.genStorageBricks();
+        this.genTrapdoors();
         this.genWalls();
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE.entrySet()) {
@@ -342,6 +348,23 @@ public class BlockStateGen extends BlockStateProvider {
                     this.buttonBlock(buttonBlock, texture);
                     this.itemModels().buttonInventory(blockName, texture);
                 }
+            }
+        }));
+    }
+
+    private void genDoors() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant door = BlockFamilyExtended.Variant.DOOR;
+
+            if (variant == door && block instanceof DoorBlock doorBlock) {
+                if (!this.processedDoors.add(block))
+                    return;
+
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                ResourceLocation textureTop = modLoc("block/" + blockName + "_top");
+                ResourceLocation textureBottom = modLoc("block/" + blockName + "_bottom");
+
+                this.doorBlock(doorBlock, textureBottom, textureTop);
             }
         }));
     }
@@ -894,6 +917,22 @@ public class BlockStateGen extends BlockStateProvider {
 
                     this.storageBrickModel(block, mainTexture, emptyTexture);
                 }
+            }
+        }));
+    }
+
+    private void genTrapdoors() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant trapdoor = BlockFamilyExtended.Variant.TRAPDOOR;
+
+            if (variant == trapdoor && block instanceof TrapDoorBlock trapdoorBlock) {
+                if (!this.processedTrapdoors.add(block))
+                    return;
+
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                ResourceLocation texture = modLoc("block/" + blockName);
+
+                this.trapdoorBlock(trapdoorBlock, texture, true);
             }
         }));
     }
