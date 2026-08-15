@@ -11,7 +11,22 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:potted_mushroot_sapling"
+          "name": "minecraft:flower_pot"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "marioverse:mushroot_sapling"
         }
       ],
       "rolls": 1.0

@@ -104,6 +104,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.DANGO_BLOSSOM.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.DANGO_BLOSSOM.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.MUSHROOT_SAPLING.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.MUSHROOT_SAPLING.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.RED_TRAMPOLINE_CAP.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
                     else this.dropSelf(block);
