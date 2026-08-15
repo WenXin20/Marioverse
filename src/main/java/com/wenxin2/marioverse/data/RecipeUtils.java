@@ -38,7 +38,10 @@ import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 public class RecipeUtils extends RecipeProvider {
-    private static final Set<Block> processedRecipes = new HashSet<>();
+    private static final Set<List<Object>> processedRecipes = new HashSet<>();
+    private static final Set<ItemLike> claimedDefaultShapeRecipeNames = new HashSet<>();
+    private static final Set<ItemLike> claimedDefaultTagRecipeNames = new HashSet<>();
+    private static final Set<ItemLike> claimedDefaultCrackedSmeltingNames = new HashSet<>();
     private final Set<String> claimedStonecuttingIds = new HashSet<>();
     private final Set<List<Object>> processedStonecuttingPairs = new HashSet<>();
 
@@ -1023,14 +1026,21 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     protected static void smeltingResultFromBase(RecipeOutput output, ItemLike outputItem, ItemLike inputItem) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, outputItem, 0.1F, 200)
-                .unlockedBy(getHasName(inputItem), has(inputItem))
-                .save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smelting");
+        if (inputItem == null)
+            throw new IllegalStateException("No base item resolved for cracked-smelting recipe of " + outputItem + ".");
+
+        SimpleCookingRecipeBuilder builder = SimpleCookingRecipeBuilder
+                .smelting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, outputItem, 0.1F, 200)
+                .unlockedBy(getHasName(inputItem), has(inputItem));
+
+        if (claimedDefaultCrackedSmeltingNames.add(outputItem))
+            builder.save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smelting");
+        else builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem) + "_smelting");
     }
 
     protected static void generateRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet set) {
         family.getVariants().forEach((variant, block) -> {
-            if (block.requiredFeatures().isSubsetOf(set) && processedRecipes.add(block)) {
+            if (block.requiredFeatures().isSubsetOf(set) && processedRecipes.add(List.of(family, block))) {
                 BiFunction<ItemLike, ItemLike, RecipeBuilder> recipeFunction = SHAPE_BUILDERS.get(variant);
                 ItemLike itemlike = getBaseBlock(family, variant);
                 if (variant == BlockFamilyExtended.Variant.CHISELED
@@ -1038,13 +1048,22 @@ public class RecipeUtils extends RecipeProvider {
                     itemlike = family.getBaseBlock();
 
                 if (recipeFunction != null) {
+                    if (itemlike == null)
+                        throw new IllegalStateException("No base item resolved for " + variant
+                                + " recipe of " + block + " in family " + family
+                                + " - check the family's base block/slab setup.");
+
                     RecipeBuilder recipeBuilder = recipeFunction.apply(block, itemlike);
                     family.getRecipeGroupPrefix().ifPresent(
                             string -> recipeBuilder.group(string +
                                     (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
                     ItemLike finalItemlike = itemlike;
                     recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemlike));
-                    recipeBuilder.save(output);
+
+                    if (claimedDefaultShapeRecipeNames.add(block))
+                        recipeBuilder.save(output);
+                    else recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                                getConversionRecipeName(block, itemlike)));
                 }
 
                 BiFunction<ItemLike, TagKey<Item>, RecipeBuilder> recipeTagFunction = SHAPE_TAG_BUILDERS.get(variant);
@@ -1056,8 +1075,15 @@ public class RecipeUtils extends RecipeProvider {
                             string -> recipeBuilder.group(string +
                                     (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
                     ItemLike finalItemlike = itemlike;
-                    recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemTag));
-                    recipeBuilder.save(output);
+                    String unlockName = finalItemlike != null
+                            ? family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike))
+                            : family.getRecipeUnlockedBy().orElseGet(() -> "has_" + itemTag.location().getPath());
+                    recipeBuilder.unlockedBy(unlockName, has(itemTag));
+
+                    if (claimedDefaultTagRecipeNames.add(block))
+                        recipeBuilder.save(output);
+                    else recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                                getConversionRecipeTagName(block, itemTag)));
                 }
 
                 if (variant == BlockFamilyExtended.Variant.CRACKED)
@@ -1169,7 +1195,7 @@ public class RecipeUtils extends RecipeProvider {
         throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
     }
 
-    private String getRecipeItemName(Object ingredient) {
+    private static String getRecipeItemName(Object ingredient) {
         if (ingredient instanceof ItemLike item)
             return getItemName(item);
         else if (ingredient instanceof TagKey<?> tag)
@@ -1189,7 +1215,7 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     @NotNull
-    protected String getConversionRecipeTagName(ItemLike outputItem, TagKey<?> tag) {
-        return getItemName(outputItem) + "_from_" + this.getRecipeItemName(tag);
+    protected static String getConversionRecipeTagName(ItemLike outputItem, TagKey<?> tag) {
+        return getItemName(outputItem) + "_from_" + getRecipeItemName(tag);
     }
 }
