@@ -212,7 +212,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
 
     @Override
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        return state.is(TagRegistry.FLAMMABLE_WOODEN_PICKET_FENCES);
+        return state.is(TagRegistry.FLAMMABLE_PICKET_FENCES);
     }
 
     @Override

@@ -25,6 +25,7 @@ import com.wenxin2.marioverse.registries.RecipeSerializerRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TreeRegistry;
+import com.wenxin2.marioverse.registries.WoodTypeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;

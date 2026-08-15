@@ -39,9 +39,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class RecipeUtils extends RecipeProvider {
     private static final Set<List<Object>> processedRecipes = new HashSet<>();
-    private static final Set<ItemLike> claimedDefaultShapeRecipeNames = new HashSet<>();
-    private static final Set<ItemLike> claimedDefaultTagRecipeNames = new HashSet<>();
-    private static final Set<ItemLike> claimedDefaultCrackedSmeltingNames = new HashSet<>();
+    private static final Set<ItemLike> claimedRecipeNames = new HashSet<>();
+    private static final Set<ItemLike> claimedTagRecipeNames = new HashSet<>();
+    private static final Set<ItemLike> claimedSmeltingNames = new HashSet<>();
     private final Set<String> claimedStonecuttingIds = new HashSet<>();
     private final Set<List<Object>> processedStonecuttingPairs = new HashSet<>();
 
@@ -51,6 +51,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public static final Map<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>> SHAPE_BUILDERS =
             ImmutableMap.<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>>builder()
+                    .put(BlockFamilyExtended.Variant.BOARDS, (outputItem, inputItem) -> boardsBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BUTTON, (outputItem, inputItem) -> buttonBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BRICKS, (outputItem, inputItem) -> twoByTwoBuilder(4, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BRIDGE, (outputItem, inputItem) -> bridgeBuilder(6, outputItem, Ingredient.of(inputItem)))
@@ -63,6 +64,8 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.FENCE, (outputItem, inputItem) -> fenceBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HARD_BLOCK, (outputItem, inputItem) -> threeByThreeBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.PANELS, (outputItem, inputItem) -> panelsBuilder(2, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.PANELS_FROM_BOARDS, (outputItem, inputItem) -> panelsFromBoardsBuilder(5, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PEDESTAL, (outputItem, inputItem) -> pedestalBuilder(5, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PICKET_FENCE, (outputItem, inputItem) -> picketFenceBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.POLISHED, (outputItem, inputItem) -> polishedBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
@@ -119,6 +122,16 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("##");
     }
 
+    public static RecipeBuilder boardsBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('S', Tags.Items.RODS_WOODEN)
+                .pattern("#S")
+                .pattern("S#")
+                .unlockedBy("has_stick", has(Tags.Items.RODS_WOODEN))
+                .group(Marioverse.MOD_ID + ":boards");
+    }
+
     public static RecipeBuilder bridgeBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
         return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('#', inputItem)
@@ -137,6 +150,27 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("#  ")
                 .unlockedBy("has_string", has(Tags.Items.STRINGS))
                 .group(Marioverse.MOD_ID + ":bridge_stairs");
+    }
+
+    public static RecipeBuilder panelsBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('S', Tags.Items.RODS_WOODEN)
+                .pattern("#S")
+                .pattern("S#")
+                .unlockedBy("has_stick", has(Tags.Items.RODS_WOODEN))
+                .group(Marioverse.MOD_ID + ":panels");
+    }
+
+    public static RecipeBuilder panelsFromBoardsBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('S', Tags.Items.RODS_WOODEN)
+                .pattern("#S#")
+                .pattern("S#S")
+                .pattern("#S#")
+                .unlockedBy("has_stick", has(Tags.Items.RODS_WOODEN))
+                .group(Marioverse.MOD_ID + ":panels");
     }
 
     public static RecipeBuilder pedestalBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
@@ -1033,7 +1067,7 @@ public class RecipeUtils extends RecipeProvider {
                 .smelting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, outputItem, 0.1F, 200)
                 .unlockedBy(getHasName(inputItem), has(inputItem));
 
-        if (claimedDefaultCrackedSmeltingNames.add(outputItem))
+        if (claimedSmeltingNames.add(outputItem))
             builder.save(output, Marioverse.MOD_ID + ":" + getSimpleRecipeName(outputItem) + "_smelting");
         else builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, inputItem) + "_smelting");
     }
@@ -1060,7 +1094,7 @@ public class RecipeUtils extends RecipeProvider {
                     ItemLike finalItemlike = itemlike;
                     recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemlike));
 
-                    if (claimedDefaultShapeRecipeNames.add(block))
+                    if (claimedRecipeNames.add(block))
                         recipeBuilder.save(output);
                     else
                         recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
@@ -1081,7 +1115,7 @@ public class RecipeUtils extends RecipeProvider {
                             : family.getRecipeUnlockedBy().orElseGet(() -> "has_" + itemTag.location().getPath());
                     recipeBuilder.unlockedBy(unlockName, has(itemTag));
 
-                    if (claimedDefaultTagRecipeNames.add(block))
+                    if (claimedTagRecipeNames.add(block))
                         recipeBuilder.save(output);
                     else recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                                 getConversionRecipeTagName(block, itemTag)));

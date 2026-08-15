@@ -3,8 +3,6 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.VoxelShapeUtils;
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -173,7 +171,7 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
 
     @Override
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        return state.is(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS);
+        return state.is(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS);
     }
 
     @Override

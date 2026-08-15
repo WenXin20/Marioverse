@@ -150,6 +150,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder panelsFromBoards(Block block) {
+            this.family.variants.put(Variant.PANELS_FROM_BOARDS, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder pedestal(Block block) {
             this.family.variants.put(Variant.PEDESTAL, block);
             return this;
@@ -275,7 +280,8 @@ public class BlockFamilyExtended {
         HARD_BLOCK("hard_block"),
         INVISIBLE_QUESTION_BLOCK("invisible_question_block"),
         MOSAIC("mosaic"),
-        PANELS("panel"),
+        PANELS("panels"),
+        PANELS_FROM_BOARDS("panels_from_boards"),
         PEDESTAL("pedestal"),
         PICKET_FENCE("picket_fence"),
         PLANKS("planks"),

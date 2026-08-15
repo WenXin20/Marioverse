@@ -69,7 +69,10 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
@@ -86,6 +89,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -246,6 +250,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> HARD_FUNGAL_SLAB;
     public static final DeferredBlock<Block> HARD_FUNGAL_STAIRS;
     public static final DeferredBlock<Block> HARD_FUNGAL_WALL;
+    public static final DeferredBlock<Block> HARD_MUSHROOT_BLOCK;
+    public static final DeferredBlock<Block> HARD_MUSHROOT_SLAB;
+    public static final DeferredBlock<Block> HARD_MUSHROOT_STAIRS;
+    public static final DeferredBlock<Block> HARD_MUSHROOT_WALL;
     public static final DeferredBlock<Block> HORN_CORAL_TOWER;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
@@ -290,11 +298,30 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> MUSHROOT_BOARDS;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_FENCE;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_FENCE_GATE;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_SLAB;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_BUTTON;
+    public static final DeferredBlock<Block> MUSHROOT_DOOR;
+    public static final DeferredBlock<Block> MUSHROOT_FENCE;
+    public static final DeferredBlock<Block> MUSHROOT_FENCE_GATE;
     public static final DeferredBlock<Block> MUSHROOT_LEAVES;
     public static final DeferredBlock<Block> MUSHROOT_LOG;
+    public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE;
+    public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_PANELS;
+    public static final DeferredBlock<Block> MUSHROOT_PANEL_SLAB;
+    public static final DeferredBlock<Block> MUSHROOT_PANEL_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_PANEL_WALL;
     public static final DeferredBlock<Block> MUSHROOT_PICKET_FENCE;
     public static final DeferredBlock<Block> MUSHROOT_PLANKS;
+    public static final DeferredBlock<Block> MUSHROOT_PRESSURE_PLATE;
     public static final DeferredBlock<Block> MUSHROOT_SAPLING;
+    public static final DeferredBlock<Block> MUSHROOT_SLAB;
+    public static final DeferredBlock<Block> MUSHROOT_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_TRAPDOOR;
     public static final DeferredBlock<Block> MUSHROOT_WOOD;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
@@ -453,6 +480,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_MUSHROOT_WOOD;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE_STAIRS;
@@ -667,6 +696,78 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
                         .instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD)
                         .strength(2.0F, 3.0F).ignitedByLava()));
+
+        MUSHROOT_STAIRS = registerBlock("mushroot_stairs", () -> stair(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_SLAB = registerBlock("mushroot_slab", () -> slab(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_FENCE = registerBlock("mushroot_fence", () -> fence(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_FENCE_GATE = registerBlock("mushroot_fence_gate",
+                () -> fenceGate(WoodTypeRegistry.MUSHROOT, MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_DOOR = registerBlock("mushroot_door",
+                () -> new DoorBlock(BlockSetTypeRegistry.MUSHROOT, BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
+                        .pushReaction(PushReaction.DESTROY).strength(3.0F)
+                        .noOcclusion().ignitedByLava()));
+
+        MUSHROOT_TRAPDOOR = registerBlock("mushroot_trapdoor",
+                () -> new DoorBlock(BlockSetTypeRegistry.MUSHROOT, BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
+                        .pushReaction(PushReaction.DESTROY).isValidSpawn(Blocks::never).strength(3.0F)
+                        .noOcclusion().ignitedByLava()));
+
+        MUSHROOT_BUTTON = registerBlock("mushroot_button", () -> button(MUSHROOT_PLANKS.get(),
+                BlockSetTypeRegistry.MUSHROOT, 10));
+
+        MUSHROOT_PRESSURE_PLATE = registerBlock("mushroot_pressure_plate", () -> pressurePlate(MUSHROOT_PLANKS.get(),
+                BlockSetTypeRegistry.MUSHROOT));
+
+        MUSHROOT_LOG_BRIDGE = registerBlock("mushroot_log_bridge",
+                () -> new BridgeBlock(BlockRegistry.MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_MUSHROOT_LOG_BRIDGE = registerBlock("stripped_mushroot_log_bridge",
+                () -> new BridgeBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_LOG_BRIDGE_STAIRS = registerBlock("mushroot_log_bridge_stairs",
+                () -> new BridgeStairBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                        .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS = registerBlock("stripped_mushroot_log_bridge_stairs",
+                () -> new BridgeStairBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_BOARDS = registerBlock("mushroot_boards",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())));
+
+        MUSHROOT_BOARD_STAIRS = registerBlock("mushroot_board_stairs", () -> stair(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_BOARD_SLAB = registerBlock("mushroot_board_slab", () -> slab(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_BOARD_FENCE = registerBlock("mushroot_board_fence", () -> fence(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_BOARD_FENCE_GATE = registerBlock("mushroot_board_fence_gate",
+                () -> fenceGate(WoodTypeRegistry.MUSHROOT, MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_PANELS = registerBlock("mushroot_panels",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())));
+
+        MUSHROOT_PANEL_STAIRS = registerBlock("mushroot_panel_stairs", () -> stair(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_PANEL_SLAB = registerBlock("mushroot_panel_slab", () -> slab(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_PANEL_WALL = registerBlock("mushroot_panel_wall", () -> wall(MUSHROOT_PLANKS.get()));
+
+        HARD_MUSHROOT_BLOCK = registerBlock("hard_mushroot_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
+                        .strength(4.0F, 8.0F)));
+
+        HARD_MUSHROOT_STAIRS = registerBlock("hard_mushroot_stairs", () -> stair(HARD_MUSHROOT_BLOCK.get()));
+
+        HARD_MUSHROOT_SLAB = registerBlock("hard_mushroot_slab", () -> slab(HARD_MUSHROOT_BLOCK.get()));
+
+        HARD_MUSHROOT_WALL = registerBlock("hard_mushroot_wall", () -> wall(HARD_MUSHROOT_BLOCK.get()));
 
         MUSHROOT_SAPLING = registerBlock("mushroot_sapling",
                 () -> new SaplingBlock(SuperTreeGrower.MUSHROOT, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
@@ -1753,6 +1854,15 @@ public class BlockRegistry {
 
     private static Block button(Block block, BlockSetType blockSetType, int ticksPressed) {
         return new ButtonBlock(blockSetType, ticksPressed, BlockBehaviour.Properties.ofFullCopy(block).noCollission());
+    }
+
+    private static Block fence(Block block) {
+        return new FenceBlock(BlockBehaviour.Properties.ofFullCopy(block).forceSolidOn());
+    }
+
+    private static Block fenceGate(WoodType woodType, Block block) {
+        return new FenceGateBlock(woodType, BlockBehaviour.Properties.ofFullCopy(block)
+                .strength(2.0F, 3.0F).forceSolidOn().ignitedByLava());
     }
 
     private static Block pressurePlate(Block block, BlockSetType blockSetType) {

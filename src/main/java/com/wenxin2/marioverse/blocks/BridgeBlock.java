@@ -1,13 +1,11 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
-import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
@@ -182,7 +180,7 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        return state.is(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS);
+        return state.is(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS);
     }
 
     @Override

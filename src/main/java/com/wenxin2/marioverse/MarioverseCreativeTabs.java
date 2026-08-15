@@ -223,6 +223,28 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG);
             add(event, BlockRegistry.STRIPPED_MUSHROOT_WOOD);
             add(event, BlockRegistry.MUSHROOT_PLANKS);
+            add(event, BlockRegistry.MUSHROOT_STAIRS);
+            add(event, BlockRegistry.MUSHROOT_SLAB);
+            add(event, BlockRegistry.MUSHROOT_FENCE);
+            add(event, BlockRegistry.MUSHROOT_FENCE_GATE);
+            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
+            add(event, BlockRegistry.MUSHROOT_PRESSURE_PLATE);
+            add(event, BlockRegistry.MUSHROOT_BUTTON);
+            add(event, BlockRegistry.MUSHROOT_BOARDS);
+            add(event, BlockRegistry.MUSHROOT_BOARD_STAIRS);
+            add(event, BlockRegistry.MUSHROOT_BOARD_SLAB);
+            add(event, BlockRegistry.MUSHROOT_BOARD_FENCE);
+            add(event, BlockRegistry.MUSHROOT_BOARD_FENCE_GATE);
+            add(event, BlockRegistry.MUSHROOT_PANELS);
+            add(event, BlockRegistry.MUSHROOT_PANEL_SLAB);
+            add(event, BlockRegistry.MUSHROOT_PANEL_STAIRS);
+            add(event, BlockRegistry.MUSHROOT_PANEL_WALL);
+            add(event, BlockRegistry.HARD_MUSHROOT_BLOCK);
+            add(event, BlockRegistry.HARD_MUSHROOT_SLAB);
+            add(event, BlockRegistry.HARD_MUSHROOT_STAIRS);
+            add(event, BlockRegistry.HARD_MUSHROOT_WALL);
+            add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
+            add(event, BlockRegistry.MUSHROOT_DOOR);
 
             add(event, BlockRegistry.FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE_STAIRS);
@@ -409,7 +431,6 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BAMBOO_PICKET_FENCE);
             add(event, BlockRegistry.CRIMSON_PICKET_FENCE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE);
-            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
             add(event, BlockRegistry.RED_PICKET_FENCE);
             add(event, BlockRegistry.WHITE_PICKET_FENCE);
 

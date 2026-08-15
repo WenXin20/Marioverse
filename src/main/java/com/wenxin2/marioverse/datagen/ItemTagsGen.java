@@ -53,9 +53,13 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS);
         copy(TagRegistry.DYED_CALCITE_BLOCKS, TagRegistry.DYED_CALCITE_ITEMS);
         copy(TagRegistry.DYED_PICKET_FENCES, TagRegistry.DYED_PICKET_FENCE_ITEMS);
-        copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS);
-        copy(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS);
-        copy(TagRegistry.FLAMMABLE_WOODEN_PICKET_FENCES, TagRegistry.FLAMMABLE_WOODEN_PICKET_FENCE_ITEMS);
+        copy(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS, TagRegistry.FLAMMABLE_BRIDGE_ITEMS);
+        copy(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_BRIDGE_STAIR_ITEMS);
+        copy(TagRegistry.FLAMMABLE_HARD_BLOCKS, TagRegistry.FLAMMABLE_HARD_BLOCK_ITEMS);
+        copy(TagRegistry.FLAMMABLE_HARD_SLABS, TagRegistry.FLAMMABLE_HARD_SLAB_ITEMS);
+        copy(TagRegistry.FLAMMABLE_HARD_STAIRS, TagRegistry.FLAMMABLE_HARD_STAIR_ITEMS);
+        copy(TagRegistry.FLAMMABLE_HARD_WALLS, TagRegistry.FLAMMABLE_HARD_WALL_ITEMS);
+        copy(TagRegistry.FLAMMABLE_PICKET_FENCES, TagRegistry.FLAMMABLE_PICKET_FENCE_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.HARD_BLOCKS, TagRegistry.HARD_BLOCK_ITEMS);
         copy(TagRegistry.HARD_SLABS, TagRegistry.HARD_SLAB_ITEMS);
@@ -70,20 +74,31 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.QUESTION_PANEL_BLOCKS, TagRegistry.QUESTION_PANELS_ITEMS);
         copy(TagRegistry.SMASHABLE_BLOCKS, TagRegistry.SMASHABLE_BLOCK_ITEMS);
+        copy(TagRegistry.STONE_HARD_BLOCKS, TagRegistry.STONE_HARD_BLOCK_ITEMS);
+        copy(TagRegistry.STONE_HARD_SLABS, TagRegistry.STONE_HARD_SLAB_ITEMS);
+        copy(TagRegistry.STONE_HARD_STAIRS, TagRegistry.STONE_HARD_STAIR_ITEMS);
+        copy(TagRegistry.STONE_HARD_WALLS, TagRegistry.STONE_HARD_WALL_ITEMS);
         copy(TagRegistry.STORAGE_BRICK_BLOCKS, TagRegistry.STORAGE_BRICK_ITEMS);
         copy(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS, TagRegistry.STORAGE_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.WARP_PIPE_BLOCKS, TagRegistry.WARP_PIPE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_BLOCKS, TagRegistry.WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS);
+        copy(TagRegistry.WOODEN_HARD_BLOCKS, TagRegistry.WOODEN_HARD_BLOCK_ITEMS);
+        copy(TagRegistry.WOODEN_HARD_SLABS, TagRegistry.WOODEN_HARD_SLAB_ITEMS);
+        copy(TagRegistry.WOODEN_HARD_STAIRS, TagRegistry.WOODEN_HARD_STAIR_ITEMS);
+        copy(TagRegistry.WOODEN_HARD_WALLS, TagRegistry.WOODEN_HARD_WALL_ITEMS);
         copy(TagRegistry.WOODEN_PICKET_FENCES, TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
 
         copy(Tags.Blocks.COBBLESTONES, Tags.Items.COBBLESTONES);
+        copy(Tags.Blocks.FENCES_WOODEN, Tags.Items.FENCES_WOODEN);
+        copy(Tags.Blocks.FENCE_GATES_WOODEN, Tags.Items.FENCE_GATES_WOODEN);
         copy(Tags.Blocks.PUMPKINS_CARVED, Tags.Items.PUMPKINS_CARVED);
         copy(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS, Tags.Items.PUMPKINS_JACK_O_LANTERNS);
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
         copy(Tags.Blocks.STRIPPED_LOGS, Tags.Items.STRIPPED_LOGS);
         copy(Tags.Blocks.STRIPPED_WOODS, Tags.Items.STRIPPED_WOODS);
 
+        copy(BlockTags.FENCE_GATES, ItemTags.FENCE_GATES);
         copy(BlockTags.FLOWERS, ItemTags.FLOWERS);
         copy(BlockTags.LEAVES, ItemTags.LEAVES);
         copy(BlockTags.LOGS, ItemTags.LOGS);
@@ -92,6 +107,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(BlockTags.STAIRS, ItemTags.STAIRS);
         copy(BlockTags.STONE_BUTTONS, ItemTags.STONE_BUTTONS);
         copy(BlockTags.WALLS, ItemTags.WALLS);
+        copy(BlockTags.WOODEN_FENCES, ItemTags.WOODEN_FENCES);
+        copy(BlockTags.WOODEN_SLABS, ItemTags.WOODEN_SLABS);
         copy(BlockTags.WOODEN_STAIRS, ItemTags.WOODEN_STAIRS);
 
         for (DyeColor color : DyeColor.values())

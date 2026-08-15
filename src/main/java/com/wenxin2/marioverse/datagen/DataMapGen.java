@@ -37,8 +37,8 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false);
 
         builder(NeoForgeDataMaps.FURNACE_FUELS)
-                .add(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS, new FurnaceFuel(100), false)
-                .add(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS, new FurnaceFuel(100), false);
+                .add(TagRegistry.FLAMMABLE_BRIDGE_ITEMS, new FurnaceFuel(100), false)
+                .add(TagRegistry.FLAMMABLE_BRIDGE_STAIR_ITEMS, new FurnaceFuel(100), false);
 
         builder(NeoForgeDataMaps.VIBRATION_FREQUENCIES)
                 .add(GameEventRegistry.CHECKPOINT_ACTIVATED, new VibrationFrequency(11), false);

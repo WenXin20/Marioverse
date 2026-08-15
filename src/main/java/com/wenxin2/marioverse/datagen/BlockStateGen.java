@@ -32,6 +32,8 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
@@ -110,6 +112,8 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(),
                 BlockRegistry.MONSTER_DEATH_BLOCK.get(),
+                BlockRegistry.MUSHROOT_BOARDS.get(),
+                BlockRegistry.MUSHROOT_PANELS.get(),
                 BlockRegistry.MUSHROOT_PLANKS.get(),
                 BlockRegistry.PASSIVE_DEATH_BLOCK.get(),
                 BlockRegistry.PLAYER_DEATH_BLOCK.get());
@@ -191,6 +195,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.genBridges();
         this.genBridgeStairs();
         this.genButtons();
+        this.genFences();
+        this.genFenceGates();
         this.genInvisibleQuestionBlocks();
         this.genPedestals();
         this.genPressurePlates();
@@ -264,6 +270,13 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation sideBridgeTexture = modLoc("block/" + blockName + "_side");
 
                     this.bambooBridgeModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture);
+                } else if (block == BlockFamilyRegistry.MUSHROOT_LOG.get(bridge)
+                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(bridge)) {
+                    removeBridgeName = blockName.replace("_bridge", "");
+                    sideTexture = modLoc("block/" + removeBridgeName);
+                    topTexture = modLoc("block/" + removeBridgeName + "_top");
+
+                    this.bridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
                 } else this.bridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
             }
         }));
@@ -284,13 +297,20 @@ public class BlockStateGen extends BlockStateProvider {
             if (variant == bridgeStairs) {
                 if (block == BlockFamilyRegistry.BAMBOO_BLOCK.get(bridgeStairs)
                         || block == BlockFamilyRegistry.STRIPPED_BAMBOO_BLOCK.get(bridgeStairs)) {
-                    removeBridgeName = blockName.replace("_bridge_stairs", "_block");
+                    removeBridgeName = blockName.replace("_bridge_stairs", "");
                     String removeStairsName = blockName.replace("_stairs", "");
                     sideTexture = mcLoc("block/" + removeBridgeName);
                     topTexture = mcLoc("block/" + removeBridgeName + "_top");
                     ResourceLocation sideBridgeTexture = modLoc("block/" + removeStairsName + "_side");
 
                     this.bambooBridgeStairsModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture, ropeKnotTexture);
+                } else if (block == BlockFamilyRegistry.MUSHROOT_LOG.get(bridgeStairs)
+                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(bridgeStairs)) {
+                    removeBridgeName = blockName.replace("_bridge_stairs", "");
+                    sideTexture = modLoc("block/" + removeBridgeName);
+                    topTexture = modLoc("block/" + removeBridgeName + "_top");
+
+                    this.bridgeStairsModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture, ropeKnotTexture);
                 } else this.bridgeStairsModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture, ropeKnotTexture);
             }
         }));
@@ -318,6 +338,38 @@ public class BlockStateGen extends BlockStateProvider {
                     this.buttonBlock(buttonBlock, texture);
                     this.itemModels().buttonInventory(blockName, texture);
                 }
+            }
+        }));
+    }
+
+    private void genFences() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant fence = BlockFamilyExtended.Variant.FENCE;
+
+            if (variant == fence && block instanceof FenceBlock fenceBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeFenceName = blockName.replace("_fence", "");
+                ResourceLocation texture;
+
+                texture = modLoc("block/" + removeFenceName);
+                this.fenceBlock(fenceBlock, texture);
+                this.itemModels().fenceInventory(blockName, texture);
+            }
+        }));
+    }
+
+    private void genFenceGates() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant fenceGate = BlockFamilyExtended.Variant.FENCE_GATE;
+
+            if (variant == fenceGate && block instanceof FenceGateBlock fenceGateBlock) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeFenceName = blockName.replace("_fence_gate", "");
+                ResourceLocation texture;
+
+                texture = modLoc("block/" + removeFenceName);
+                this.fenceGateBlock(fenceGateBlock, texture);
+                this.itemModels().fenceGate(blockName, texture);
             }
         }));
     }
@@ -473,7 +525,8 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == pressurePlate && block instanceof PressurePlateBlock pressurePlateBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removePressurePlateName = blockName.replace("_pressure_plate", "").replace("brick", "bricks");
+                String removePressurePlateName = blockName.replace("_pressure_plate", "")
+                        .replace("brick", "bricks");
                 ResourceLocation texture;
 
                 if (block == BlockFamilyRegistry.AMETHYST.get(pressurePlate)) {
@@ -596,7 +649,8 @@ public class BlockStateGen extends BlockStateProvider {
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(slab)
-                        || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(slab)) {
+                        || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(slab)) {
                     texture = modLoc("block/" + blockName);
                     topTexture = modLoc("block/" + removeSlabName + "_block");
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
@@ -705,7 +759,8 @@ public class BlockStateGen extends BlockStateProvider {
                     this.stairsBlock(stairBlock, texture, topTexture, topTexture);
                     this.itemModels().stairs(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(stairs)
-                        || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(stairs)) {
+                        || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(stairs)) {
                     texture = modLoc("block/" + removeStairName + "_block");
                     this.stairsBlock(stairBlock, removeStairName, texture);
                     this.itemModels().stairs(blockName, texture, texture, texture);
@@ -829,7 +884,8 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = modLoc("block/" + removeWallName);
                     this.wallMirroredNSModel(wallBlock, texture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(wall)
-                        || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(wall)) {
+                        || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(wall)) {
                     texture = modLoc("block/" + removeWallName + "_block");
                     this.wallBlock(wallBlock, removeWallName, texture);
                     this.itemModels().wallInventory(blockName, texture);
