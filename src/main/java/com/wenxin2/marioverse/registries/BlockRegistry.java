@@ -673,7 +673,7 @@ public class BlockRegistry {
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                         .noCollission().randomTicks().instabreak()));
 
-        POTTED_MUSHROOT_SAPLING = registerBlock("potted_mushroot_sapling",
+        POTTED_MUSHROOT_SAPLING = registerNoItemBlock("potted_mushroot_sapling",
                 () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.MUSHROOT_SAPLING,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
