@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_oak_slab": {
+    "has_mushroot_planks": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:oak_slab"
+            "items": "marioverse:mushroot_planks"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:mushroot_picket_fence_from_oak_slab_2"
+        "recipe": "marioverse:mushroot_door_from_mushroot_planks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_oak_slab"
+      "has_mushroot_planks"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:mushroot_picket_fence_from_oak_slab_2"
+      "marioverse:mushroot_door_from_mushroot_planks"
     ]
   }
 }

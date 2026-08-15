@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/mushroot_board_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/mushroot_boards"
+    },
+    "type=top": {
+      "model": "marioverse:block/mushroot_board_slab_top"
+    }
+  }
+}

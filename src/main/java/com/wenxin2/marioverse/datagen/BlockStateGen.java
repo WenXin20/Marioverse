@@ -297,7 +297,7 @@ public class BlockStateGen extends BlockStateProvider {
             if (variant == bridgeStairs) {
                 if (block == BlockFamilyRegistry.BAMBOO_BLOCK.get(bridgeStairs)
                         || block == BlockFamilyRegistry.STRIPPED_BAMBOO_BLOCK.get(bridgeStairs)) {
-                    removeBridgeName = blockName.replace("_bridge_stairs", "");
+                    removeBridgeName = blockName.replace("_bridge_stairs", "_block");
                     String removeStairsName = blockName.replace("_stairs", "");
                     sideTexture = mcLoc("block/" + removeBridgeName);
                     topTexture = mcLoc("block/" + removeBridgeName + "_top");
@@ -333,6 +333,10 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removeButtonName);
                     this.buttonBlock(buttonBlock, texture);
                     this.itemModels().buttonInventory(blockName, texture);
+                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(button)) {
+                    texture = modLoc("block/" + removeButtonName + "_planks");
+                    this.buttonBlock(buttonBlock, texture);
+                    this.itemModels().buttonInventory(blockName, texture);
                 } else {
                     texture = modLoc("block/" + removeButtonName);
                     this.buttonBlock(buttonBlock, texture);
@@ -348,12 +352,19 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == fence && block instanceof FenceBlock fenceBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeFenceName = blockName.replace("_fence", "");
+                String removeFenceName = blockName.replace("_fence", "_planks");
                 ResourceLocation texture;
 
-                texture = modLoc("block/" + removeFenceName);
-                this.fenceBlock(fenceBlock, texture);
-                this.itemModels().fenceInventory(blockName, texture);
+                if (block == BlockFamilyRegistry.MUSHROOT_BOARDS.get(fence)) {
+                    removeFenceName = blockName.replace("_fence", "s");
+                    texture = modLoc("block/" + removeFenceName);
+                    this.fenceBlock(fenceBlock, texture);
+                    this.itemModels().fenceInventory(blockName, texture);
+                } else {
+                    texture = modLoc("block/" + removeFenceName);
+                    this.fenceBlock(fenceBlock, texture);
+                    this.itemModels().fenceInventory(blockName, texture);
+                }
             }
         }));
     }
@@ -364,12 +375,19 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == fenceGate && block instanceof FenceGateBlock fenceGateBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeFenceName = blockName.replace("_fence_gate", "");
+                String removeFenceGateName = blockName.replace("_fence_gate", "_planks");
                 ResourceLocation texture;
 
-                texture = modLoc("block/" + removeFenceName);
-                this.fenceGateBlock(fenceGateBlock, texture);
-                this.itemModels().fenceGate(blockName, texture);
+                if (block == BlockFamilyRegistry.MUSHROOT_BOARDS.get(fenceGate)) {
+                    removeFenceGateName = blockName.replace("_fence_gate", "s");
+                    texture = modLoc("block/" + removeFenceGateName);
+                    this.fenceGateBlock(fenceGateBlock, texture);
+                    this.itemModels().fenceGate(blockName, texture);
+                } else {
+                    texture = modLoc("block/" + removeFenceGateName);
+                    this.fenceGateBlock(fenceGateBlock, texture);
+                    this.itemModels().fenceGate(blockName, texture);
+                }
             }
         }));
     }
@@ -537,6 +555,10 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removePressurePlateName);
                     this.pressurePlateBlock(pressurePlateBlock, texture);
                     this.itemModels().pressurePlate(blockName, texture);
+                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(pressurePlate)) {
+                    texture = modLoc("block/" + removePressurePlateName + "_planks");
+                    this.pressurePlateBlock(pressurePlateBlock, texture);
+                    this.itemModels().pressurePlate(blockName, texture);
                 } else {
                     texture = modLoc("block/" + removePressurePlateName);
                     this.pressurePlateBlock(pressurePlateBlock, texture);
@@ -624,7 +646,10 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == slab && block instanceof SlabBlock slabBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeSlabName = blockName.replace("_slab", "").replace("brick", "bricks")
+                String removeSlabName = blockName.replace("_slab", "")
+                        .replace("board", "boards")
+                        .replace("brick", "bricks")
+                        .replace("panel", "panels")
                         .replace("tile", "tiles");
                 ResourceLocation texture;
                 ResourceLocation topTexture;
@@ -663,6 +688,10 @@ public class BlockStateGen extends BlockStateProvider {
                     topTexture = modLoc("block/" + removeSlabName);
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(slab)) {
+                    texture = modLoc("block/" + removeSlabName + "_planks");
+                    this.slabBlock(slabBlock, texture, texture);
+                    this.itemModels().slab(blockName, texture, texture, texture);
                 } else {
                     texture = modLoc("block/" + removeSlabName);
                     this.slabBlock(slabBlock, texture, texture);
@@ -734,7 +763,10 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == stairs && block instanceof StairBlock stairBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeStairName = blockName.replace("_stairs", "").replace("brick", "bricks")
+                String removeStairName = blockName.replace("_stairs", "")
+                        .replace("board", "boards")
+                        .replace("brick", "bricks")
+                        .replace("panel", "panels")
                         .replace("tile", "tiles");
                 ResourceLocation texture;
                 ResourceLocation topTexture;
@@ -762,6 +794,10 @@ public class BlockStateGen extends BlockStateProvider {
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(stairs)) {
                     texture = modLoc("block/" + removeStairName + "_block");
+                    this.stairsBlock(stairBlock, removeStairName, texture);
+                    this.itemModels().stairs(blockName, texture, texture, texture);
+                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(stairs)) {
+                    texture = modLoc("block/" + removeStairName + "_planks");
                     this.stairsBlock(stairBlock, removeStairName, texture);
                     this.itemModels().stairs(blockName, texture, texture, texture);
                 } else {
@@ -868,7 +904,9 @@ public class BlockStateGen extends BlockStateProvider {
 
             if (variant == wall && block instanceof WallBlock wallBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                String removeWallName = blockName.replace("_wall", "").replace("brick", "bricks")
+                String removeWallName = blockName.replace("_wall", "")
+                        .replace("brick", "bricks")
+                        .replace("panel", "panels")
                         .replace("tile", "tiles");
                 ResourceLocation texture;
 

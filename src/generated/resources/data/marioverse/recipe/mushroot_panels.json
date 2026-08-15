@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:panels",
+  "key": {
+    "#": {
+      "item": "marioverse:mushroot_boards"
+    },
+    "S": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "#S#",
+    "S#S",
+    "#S#"
+  ],
+  "result": {
+    "count": 5,
+    "id": "marioverse:mushroot_panels"
+  }
+}

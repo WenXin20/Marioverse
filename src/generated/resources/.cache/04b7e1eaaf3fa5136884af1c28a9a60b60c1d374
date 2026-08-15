@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-12T23:05:16.1803104	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-15T14:21:47.1758807	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 df28088c1d2145312f6fbf6ae3c566b2c2cf9c93 data/curios/tags/item/costume_hat.json
 f1d71566d06fd5511273a769fab65ff8efeb63f4 data/curios/tags/item/costume_pants.json
@@ -30,7 +30,8 @@ e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/item/dyed/white.json
 42c7244e9fe2ffc622abca363bb299a6d7b78c9c data/c/tags/item/dyed/yellow.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/enchantables.json
 0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/c/tags/item/fences.json
-393c1f9f28db0dd7eae67122cec8180a27617585 data/c/tags/item/fences/wooden.json
+54e5741fb2fed8272ba53fe11f70ff0de2ad313f data/c/tags/item/fences/wooden.json
+46bde4fa65f87c818c38ef1fbaf368a06c07a800 data/c/tags/item/fence_gates/wooden.json
 5ba631e6e0d914f759a46e9551eb7db121a7cfde data/c/tags/item/foods/cooked_fish.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/c/tags/item/foods/raw_fish.json
 94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/c/tags/item/mushrooms.json
@@ -46,9 +47,11 @@ eb3f7ca15f032d0d19418282e01f56a49a060528 data/c/tags/item/foods/raw_fish.json
 ca0305ff998bb91ee30dc4040f60ff99130ad6f9 data/marioverse/tags/item/bonkable_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/item/brick_pedestals.json
 a0120f8c2d7a557b29a19b0bb9031ea3cca2dbfe data/marioverse/tags/item/bridges.json
-5f2a4811099dd21bc38ee2f540493664acb5a981 data/marioverse/tags/item/bridges/wooden.json
+4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/item/bridges/flammable.json
+f1c6204b036eee515b52e81487c9e33936b4fd08 data/marioverse/tags/item/bridges/wooden.json
 1f1162ca843bdf9d49fba0d105b6b413b5382275 data/marioverse/tags/item/bridge_stairs.json
-42e766f60c03b962bc96d2bff4bdccb4f7e3c8ec data/marioverse/tags/item/bridge_stairs/wooden.json
+eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/item/bridge_stairs/flammable.json
+6b51267160723525498e1e588ddc3d8632a877ca data/marioverse/tags/item/bridge_stairs/wooden.json
 cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/item/calcite.json
 43731a9f33d83c94e082d4772183380c855f499b data/marioverse/tags/item/calcite_blocks/dyed.json
 838a5bff6fba055496359b81eecc5147245de116 data/marioverse/tags/item/calcite_bricks.json
@@ -75,15 +78,24 @@ bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/item/dotted_line_b
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/item/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/item/dyeable_warp_pipes.json
-4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/item/flammable_wooden_bridges.json
-eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/item/flammable_wooden_bridge_stairs.json
-c03072407a3fe10ce47d4692ef69f0e681607002 data/marioverse/tags/item/flammable_wooden_picket_fences.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 8e8620f9d08b6691c8d8ebd6d2024858f829f602 data/marioverse/tags/item/halloween_masks.json
-2ccd3de4338565050f70c42565fd224b87d3b597 data/marioverse/tags/item/hard_blocks.json
-d97e4710d09e6eed47363b70f7b2d48c19aacfb7 data/marioverse/tags/item/hard_slabs.json
-05163565c86c4047bcf94efba185d0bccdcfd4c1 data/marioverse/tags/item/hard_stairs.json
-51674e69e72b79f6e06d344e27eafdcea1aa086f data/marioverse/tags/item/hard_walls.json
+9b32219f2274c96f38bfc440bd40f547e0b1d1f2 data/marioverse/tags/item/hard_blocks.json
+05655c39808805c28a2ddc260b61a89d5d070303 data/marioverse/tags/item/hard_blocks/flammable.json
+2ccd3de4338565050f70c42565fd224b87d3b597 data/marioverse/tags/item/hard_blocks/stone.json
+05ab6565223515d05536b6343998583a72ead6f5 data/marioverse/tags/item/hard_blocks/wooden.json
+4e9b7d09678526cd7f593521f0369a1b98e32391 data/marioverse/tags/item/hard_slabs.json
+e429b63e5bb7e2ca857e9c611e6d4d6008910f6f data/marioverse/tags/item/hard_slabs/flammable.json
+d97e4710d09e6eed47363b70f7b2d48c19aacfb7 data/marioverse/tags/item/hard_slabs/stone.json
+630340c6c75824d1f4289fe882d70f9fb2a7114d data/marioverse/tags/item/hard_slabs/wooden.json
+780ea59b12bbd0aa640a5f722c0cd518fab0f1b2 data/marioverse/tags/item/hard_stairs.json
+113c7794546d0276a9d68a6ed5153ef26575b7d2 data/marioverse/tags/item/hard_stairs/flammable.json
+05163565c86c4047bcf94efba185d0bccdcfd4c1 data/marioverse/tags/item/hard_stairs/stone.json
+126bf3117a1cbfd115eb4682d5e9da2e7c4fcf55 data/marioverse/tags/item/hard_stairs/wooden.json
+b9b2ef9406dd166901f9d7db92ed1e5c3cc2d6c4 data/marioverse/tags/item/hard_walls.json
+e67499202826522313b984165713df587d9443a0 data/marioverse/tags/item/hard_walls/flammable.json
+51674e69e72b79f6e06d344e27eafdcea1aa086f data/marioverse/tags/item/hard_walls/stone.json
+af8c6df02f0dfa05a8d77a96c10af86469880813 data/marioverse/tags/item/hard_walls/wooden.json
 b29f48e1b5b5cb6a44d885a5c04664a130f6b0c3 data/marioverse/tags/item/hats.json
 63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/item/invisible_question_blocks.json
 bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.json
@@ -93,6 +105,7 @@ bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/item/mushroot_logs
 5caef3bf5fe1f82caaeaac7f566d0787b4b83f19 data/marioverse/tags/item/pants.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/item/picket_fences.json
 25f0dd69ae90387c755ac6667543c6012ea7d4dc data/marioverse/tags/item/picket_fences/dyed.json
+c03072407a3fe10ce47d4692ef69f0e681607002 data/marioverse/tags/item/picket_fences/flammable.json
 e1ea051653bf26daee7f5c32ac5edd8a067a14ec data/marioverse/tags/item/picket_fences/wooden.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/item/pipe_junction_blocks.json
 51c64a5ea272d8b17a8acacd965c546d474f5efe data/marioverse/tags/item/piranha_plant_food.json
@@ -127,6 +140,7 @@ cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/eq
 cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/vanishing.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/weapon.json
 0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/minecraft/tags/item/fences.json
+46bde4fa65f87c818c38ef1fbaf368a06c07a800 data/minecraft/tags/item/fence_gates.json
 b28d2334ac91b76d29f622d51412d34b0f4f498a data/minecraft/tags/item/fishes.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/item/flowers.json
 120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/minecraft/tags/item/foot_armor.json
@@ -138,7 +152,7 @@ c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/minecraft/tags/item/leg_armor.json
 9fd4c305d56d4082be0c7af851514672b9ad89d8 data/minecraft/tags/item/non_flammable_wood.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/ocelot_food.json
 7a72c6a129d238f1304fe0899a4c5c215883cedb data/minecraft/tags/item/piglin_loved.json
-fb8cccee89301ce9304b2eb6cabc63e22fc7f979 data/minecraft/tags/item/planks.json
+1246002449a1e94e6f47058a9210307d8ff68423 data/minecraft/tags/item/planks.json
 8bec1ef5bee8c3b635422f922cd1823b2a2c35f7 data/minecraft/tags/item/slabs.json
 835cd4c1c8f9ccf885590ced2b4a7a0c21080176 data/minecraft/tags/item/stairs.json
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/item/stone_buttons.json
@@ -146,6 +160,7 @@ fb8cccee89301ce9304b2eb6cabc63e22fc7f979 data/minecraft/tags/item/planks.json
 9b52260544721b3a66786e479b920780ebb24e38 data/minecraft/tags/item/stone_tool_materials.json
 2773255bbc15ac09478a13c0dbb75621136e2331 data/minecraft/tags/item/trimmable_armor.json
 df17fbdce9a0384cbb7b56e5d419d6094b844928 data/minecraft/tags/item/trim_templates.json
-3c1886d95e214ef9718857803386a61ac15d9bb4 data/minecraft/tags/item/walls.json
-393c1f9f28db0dd7eae67122cec8180a27617585 data/minecraft/tags/item/wooden_fences.json
-a0120f8c2d7a557b29a19b0bb9031ea3cca2dbfe data/minecraft/tags/item/wooden_stairs.json
+29553a2f7e03edf163352c6b7a921d0162b6417c data/minecraft/tags/item/walls.json
+54e5741fb2fed8272ba53fe11f70ff0de2ad313f data/minecraft/tags/item/wooden_fences.json
+60e36229e51deb50214101fb4dfa04856351dd00 data/minecraft/tags/item/wooden_slabs.json
+3ae6e28950b39cc1e1f965450fe838908c2b7eef data/minecraft/tags/item/wooden_stairs.json

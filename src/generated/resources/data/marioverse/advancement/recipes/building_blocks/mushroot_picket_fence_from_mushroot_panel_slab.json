@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mushroot_panel_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:mushroot_panel_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_slabs": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:wooden_slabs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:mushroot_picket_fence_from_mushroot_panel_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_slabs",
+      "has_mushroot_panel_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:mushroot_picket_fence_from_mushroot_panel_slab"
+    ]
+  }
+}

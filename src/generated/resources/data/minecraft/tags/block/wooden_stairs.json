@@ -1,5 +1,9 @@
 {
   "values": [
-    "#marioverse:bridges/wooden"
+    "#marioverse:hard_stairs/wooden",
+    "#marioverse:bridge_stairs/wooden",
+    "marioverse:mushroot_board_stairs",
+    "marioverse:mushroot_panel_stairs",
+    "marioverse:mushroot_stairs"
   ]
 }

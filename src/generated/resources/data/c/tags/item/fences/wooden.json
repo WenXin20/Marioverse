@@ -1,5 +1,7 @@
 {
   "values": [
-    "#marioverse:picket_fences/wooden"
+    "#marioverse:picket_fences/wooden",
+    "marioverse:mushroot_board_fence",
+    "marioverse:mushroot_fence"
   ]
 }

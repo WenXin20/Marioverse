@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mushroot_panels": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:mushroot_panels"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:mushroot_door_from_mushroot_panels"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mushroot_panels"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:mushroot_door_from_mushroot_panels"
+    ]
+  }
+}
