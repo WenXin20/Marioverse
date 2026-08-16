@@ -1,18 +1,18 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/template_wall_side_tall",
   "loader": "fusion:model",
   "type": "connecting",
   "textures": {
-    "all": "marioverse:block/mushroot_panels"
+    "wall": "marioverse:block/mushroot_panels"
   },
   "connections": {
     "default": { "type": "is_same_block" },
     "side": {
       "type": "or",
       "predicates": [
+        { "type": "match_block", "block": "marioverse:mushroot_panels" },
         { "type": "match_block", "block": "marioverse:mushroot_panel_slab" },
-        { "type": "match_block", "block": "marioverse:mushroot_panel_stairs" },
-        { "type": "match_block", "block": "marioverse:mushroot_panel_wall" }
+        { "type": "match_block", "block": "marioverse:mushroot_panel_stairs" }
       ]
     }
   }
