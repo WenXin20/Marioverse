@@ -11,11 +11,12 @@
     }
   },
   "pattern": [
-    "#S",
-    "S#"
+    "#S#",
+    "S#S",
+    "#S#"
   ],
   "result": {
-    "count": 2,
+    "count": 5,
     "id": "marioverse:mushroot_panels"
   }
 }

@@ -1073,58 +1073,63 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     protected static void generateRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet set) {
-        family.getVariants().forEach((variant, block) -> {
-            if (block.requiredFeatures().isSubsetOf(set) && processedRecipes.add(List.of(family, block))) {
-                BiFunction<ItemLike, ItemLike, RecipeBuilder> recipeFunction = SHAPE_BUILDERS.get(variant);
-                ItemLike itemlike = getBaseBlock(family, variant);
-                if (variant == BlockFamilyExtended.Variant.CHISELED
-                        && !family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
-                    itemlike = family.getBaseBlock();
+        family.getVariants().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> {
+                    BlockFamilyExtended.Variant variant = entry.getKey();
+                    Block block = entry.getValue();
 
-                if (recipeFunction != null) {
-                    if (itemlike == null)
-                        throw new IllegalStateException("No base item resolved for " + variant
-                                + " recipe of " + block + " in family " + family
-                                + " - check the family's base block/slab setup.");
+                    if (block.requiredFeatures().isSubsetOf(set) && processedRecipes.add(List.of(family, block))) {
+                        BiFunction<ItemLike, ItemLike, RecipeBuilder> recipeFunction = SHAPE_BUILDERS.get(variant);
+                        ItemLike itemlike = getBaseBlock(family, variant);
+                        if (variant == BlockFamilyExtended.Variant.CHISELED
+                                && !family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
+                            itemlike = family.getBaseBlock();
 
-                    RecipeBuilder recipeBuilder = recipeFunction.apply(block, itemlike);
-                    family.getRecipeGroupPrefix().ifPresent(
-                            string -> recipeBuilder.group(string +
-                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
-                    ItemLike finalItemlike = itemlike;
-                    recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemlike));
+                        if (recipeFunction != null) {
+                            if (itemlike == null)
+                                throw new IllegalStateException("No base item resolved for " + variant
+                                        + " recipe of " + block + " in family " + family
+                                        + " - check the family's base block/slab setup.");
 
-                    if (claimedRecipeNames.add(block))
-                        recipeBuilder.save(output);
-                    else
-                        recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                                getConversionRecipeName(block, itemlike)));
-                }
+                            RecipeBuilder recipeBuilder = recipeFunction.apply(block, itemlike);
+                            family.getRecipeGroupPrefix().ifPresent(
+                                    string -> recipeBuilder.group(string +
+                                            (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
+                            ItemLike finalItemlike = itemlike;
+                            recipeBuilder.unlockedBy(family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike)), has(itemlike));
 
-                BiFunction<ItemLike, TagKey<Item>, RecipeBuilder> recipeTagFunction = SHAPE_TAG_BUILDERS.get(variant);
-                TagKey<Item> itemTag = TagRegistry.POLISHED_CALCITE_ITEMS;
+                            if (claimedRecipeNames.add(block))
+                                recipeBuilder.save(output);
+                            else
+                                recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                                        getConversionRecipeName(block, itemlike)));
+                        }
 
-                if (recipeTagFunction != null) {
-                    RecipeBuilder recipeBuilder = recipeTagFunction.apply(block, itemTag);
-                    family.getRecipeGroupPrefix().ifPresent(
-                            string -> recipeBuilder.group(string +
-                                    (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
-                    ItemLike finalItemlike = itemlike;
-                    String unlockName = finalItemlike != null
-                            ? family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike))
-                            : family.getRecipeUnlockedBy().orElseGet(() -> "has_" + itemTag.location().getPath());
-                    recipeBuilder.unlockedBy(unlockName, has(itemTag));
+                        BiFunction<ItemLike, TagKey<Item>, RecipeBuilder> recipeTagFunction = SHAPE_TAG_BUILDERS.get(variant);
+                        TagKey<Item> itemTag = TagRegistry.POLISHED_CALCITE_ITEMS;
 
-                    if (claimedTagRecipeNames.add(block))
-                        recipeBuilder.save(output);
-                    else recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                                getConversionRecipeTagName(block, itemTag)));
-                }
+                        if (recipeTagFunction != null) {
+                            RecipeBuilder recipeBuilder = recipeTagFunction.apply(block, itemTag);
+                            family.getRecipeGroupPrefix().ifPresent(
+                                    string -> recipeBuilder.group(string +
+                                            (variant == BlockFamilyExtended.Variant.CUT ? "" : "_" + variant.getRecipeGroup())));
+                            ItemLike finalItemlike = itemlike;
+                            String unlockName = finalItemlike != null
+                                    ? family.getRecipeUnlockedBy().orElseGet(() -> getHasName(finalItemlike))
+                                    : family.getRecipeUnlockedBy().orElseGet(() -> "has_" + itemTag.location().getPath());
+                            recipeBuilder.unlockedBy(unlockName, has(itemTag));
 
-                if (variant == BlockFamilyExtended.Variant.CRACKED)
-                    RecipeUtils.smeltingResultFromBase(output, block, itemlike);
-            }
-        });
+                            if (claimedTagRecipeNames.add(block))
+                                recipeBuilder.save(output);
+                            else recipeBuilder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                                    getConversionRecipeTagName(block, itemTag)));
+                        }
+
+                        if (variant == BlockFamilyExtended.Variant.CRACKED)
+                            RecipeUtils.smeltingResultFromBase(output, block, itemlike);
+                    }
+                });
     }
 
     protected static Block getBaseBlock(BlockFamilyExtended family, BlockFamilyExtended.Variant variant) {
@@ -1136,56 +1141,66 @@ public class RecipeUtils extends RecipeProvider {
     }
 
     protected void generateStonecuttingRecipes(RecipeOutput output, BlockFamilyExtended family, FeatureFlagSet featureFlags) {
-        family.getVariants().forEach((variant, block) -> {
-            if (block.requiredFeatures().isSubsetOf(featureFlags)) {
-                ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
-                        ? family.getBaseBlock() : getBaseBlock(family, variant);
-                int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
+        family.getVariants().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> {
+                    BlockFamilyExtended.Variant variant = entry.getKey();
+                    Block block = entry.getValue();
 
-                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BRIDGE
-                        && variant != BlockFamilyExtended.Variant.BUTTON
-                        && variant != BlockFamilyExtended.Variant.DOOR
-                        && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
-                        && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
-                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
-                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
-                        && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
-                        && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
-                    String id = getSimpleRecipeName(block) + "_stonecutting";
-                    if (this.claimStonecutting(baseBlock, block, id)) {
-                        SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
-                                .unlockedBy(getHasName(baseBlock), has(baseBlock))
-                                .save(output, Marioverse.MOD_ID + ":" + id);
+                    if (block.requiredFeatures().isSubsetOf(featureFlags)) {
+                        ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
+                                ? family.getBaseBlock() : getBaseBlock(family, variant);
+                        int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
+
+                        if (baseBlock != null && variant != BlockFamilyExtended.Variant.BRIDGE
+                                && variant != BlockFamilyExtended.Variant.BUTTON
+                                && variant != BlockFamilyExtended.Variant.DOOR
+                                && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
+                                && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
+                                && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
+                                && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
+                                && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
+                                && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
+                            String id = getSimpleRecipeName(block) + "_stonecutting";
+                            if (this.claimStonecutting(baseBlock, block, id)) {
+                                SingleItemRecipeBuilder.stonecutting(Ingredient.of(baseBlock), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
+                                        .unlockedBy(getHasName(baseBlock), has(baseBlock))
+                                        .save(output, Marioverse.MOD_ID + ":" + id);
+                            }
+                        }
                     }
-                }
-            }
         });
     }
 
     protected void generateStonecuttingFromBaseRecipes(RecipeOutput output, BlockFamilyExtended family, ItemLike inputItem, FeatureFlagSet featureFlags) {
-        family.getVariants().forEach((variant, block) -> {
-            if (block.requiredFeatures().isSubsetOf(featureFlags)) {
-                ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
-                        ? family.getBaseBlock() : getBaseBlock(family, variant);
-                int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
+        family.getVariants().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> {
+                    BlockFamilyExtended.Variant variant = entry.getKey();
+                    Block block = entry.getValue();
 
-                if (baseBlock != null && variant != BlockFamilyExtended.Variant.BRIDGE
-                        && variant != BlockFamilyExtended.Variant.BUTTON
-                        && variant != BlockFamilyExtended.Variant.DOOR
-                        && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
-                        && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
-                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
-                        && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
-                        && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
-                        && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
-                    String id = getConversionRecipeName(block, inputItem) + "_stonecutting";
-                    if (this.claimStonecutting(inputItem, block, id)) {
-                        SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
-                                .unlockedBy(getHasName(baseBlock), has(baseBlock))
-                                .save(output, Marioverse.MOD_ID + ":" + id);
+                    if (block.requiredFeatures().isSubsetOf(featureFlags)) {
+                        ItemLike baseBlock = (variant == BlockFamilyExtended.Variant.CHISELED)
+                                ? family.getBaseBlock() : getBaseBlock(family, variant);
+                        int outputAmount = STONECUTTING_OUTPUTS.getOrDefault(variant, 1);
+
+                        if (baseBlock != null && variant != BlockFamilyExtended.Variant.BRIDGE
+                                && variant != BlockFamilyExtended.Variant.BUTTON
+                                && variant != BlockFamilyExtended.Variant.DOOR
+                                && variant != BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK
+                                && variant != BlockFamilyExtended.Variant.PRESSURE_PLATE
+                                && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK
+                                && variant != BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG
+                                && variant != BlockFamilyExtended.Variant.QUESTION_PANEL
+                                && variant != BlockFamilyExtended.Variant.STORAGE_BRICKS) {
+                            String id = getConversionRecipeName(block, inputItem) + "_stonecutting";
+                            if (this.claimStonecutting(inputItem, block, id)) {
+                                SingleItemRecipeBuilder.stonecutting(Ingredient.of(inputItem), RecipeCategory.BUILDING_BLOCKS, block, outputAmount)
+                                        .unlockedBy(getHasName(baseBlock), has(baseBlock))
+                                        .save(output, Marioverse.MOD_ID + ":" + id);
+                            }
+                        }
                     }
-                }
-            }
         });
     }
 

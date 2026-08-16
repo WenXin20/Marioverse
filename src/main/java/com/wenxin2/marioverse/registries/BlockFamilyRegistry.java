@@ -207,7 +207,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .hardBlock(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
             .fence(BlockRegistry.MUSHROOT_FENCE.get())
             .fenceGate(BlockRegistry.MUSHROOT_FENCE_GATE.get())
-            .panels(BlockRegistry.MUSHROOT_PANELS.get())
+            .panelsFromBoards(BlockRegistry.MUSHROOT_PANELS.get())
             .pressurePlate(BlockRegistry.MUSHROOT_PRESSURE_PLATE.get())
             .slab(BlockRegistry.MUSHROOT_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_STAIRS.get())
@@ -216,7 +216,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended MUSHROOT_BOARDS = familyBuilder(BlockRegistry.MUSHROOT_BOARDS.get())
             .hardBlock(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
-            .panelsFromBoards(BlockRegistry.MUSHROOT_PANELS.get())
+            .panels(BlockRegistry.MUSHROOT_PANELS.get())
             .slab(BlockRegistry.MUSHROOT_BOARD_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_BOARD_STAIRS.get())
             .wall(BlockRegistry.MUSHROOT_BOARD_WALL.get())

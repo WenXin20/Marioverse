@@ -4,7 +4,7 @@
   "group": "marioverse:picket_fences",
   "key": {
     "#": {
-      "item": "marioverse:mushroot_slab"
+      "item": "marioverse:mushroot_board_slab"
     },
     "S": {
       "tag": "c:rods/wooden"

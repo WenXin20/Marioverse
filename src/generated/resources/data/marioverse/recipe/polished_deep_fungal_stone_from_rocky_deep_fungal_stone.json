@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "S": {
-      "item": "marioverse:fungal_stone"
+      "item": "marioverse:rocky_deep_fungal_stone"
     }
   },
   "pattern": [
@@ -12,6 +12,6 @@
   ],
   "result": {
     "count": 4,
-    "id": "marioverse:polished_fungal_stone"
+    "id": "marioverse:polished_deep_fungal_stone"
   }
 }

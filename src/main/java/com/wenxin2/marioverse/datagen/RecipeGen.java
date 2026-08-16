@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
@@ -34,7 +35,10 @@ public class RecipeGen extends RecipeUtils {
     }
 
     protected void generateForEnabledBlockFamilies(RecipeOutput output, FeatureFlagSet set) {
-        BlockFamilyRegistry.getAllExtendedFamilies().filter(BlockFamilyExtended::shouldGenerateRecipe)
+        BlockFamilyRegistry.getAllExtendedFamilies()
+                .sorted(Comparator.comparing(family ->
+                        BuiltInRegistries.BLOCK.getKey(family.getBaseBlock()).toString()))
+                .filter(BlockFamilyExtended::shouldGenerateRecipe)
                 .forEach(recipes -> generateRecipes(output, recipes, set));
     }
 

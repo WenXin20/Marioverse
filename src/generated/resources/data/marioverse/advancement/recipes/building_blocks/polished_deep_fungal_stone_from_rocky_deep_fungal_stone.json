@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_fungal_stone": {
+    "has_rocky_deep_fungal_stone": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:fungal_stone"
+            "items": "marioverse:rocky_deep_fungal_stone"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:polished_fungal_stone_from_fungal_stone"
+        "recipe": "marioverse:polished_deep_fungal_stone_from_rocky_deep_fungal_stone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_fungal_stone"
+      "has_rocky_deep_fungal_stone"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:polished_fungal_stone_from_fungal_stone"
+      "marioverse:polished_deep_fungal_stone_from_rocky_deep_fungal_stone"
     ]
   }
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_mushroot_board_slab": {
+    "has_mushroot_slab": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:mushroot_board_slab"
+            "items": "marioverse:mushroot_slab"
           }
         ]
       },
@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:mushroot_picket_fence_from_mushroot_board_slab"
+        "recipe": "marioverse:mushroot_picket_fence_from_mushroot_slab"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -32,12 +32,12 @@
     [
       "has_the_recipe",
       "has_slabs",
-      "has_mushroot_board_slab"
+      "has_mushroot_slab"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:mushroot_picket_fence_from_mushroot_board_slab"
+      "marioverse:mushroot_picket_fence_from_mushroot_slab"
     ]
   }
 }

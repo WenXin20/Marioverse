@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_mushroot_panels": {
+    "has_mushroot_boards": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:mushroot_panels"
+            "items": "marioverse:mushroot_boards"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_mushroot_panels"
+      "has_mushroot_boards"
     ]
   ],
   "rewards": {
