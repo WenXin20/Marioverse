@@ -9,7 +9,23 @@
   },
   "connections": {
     "default": { "type": "is_same_block" },
+    "bottom": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:mushroot_panels" },
+        { "type": "match_block", "block": "marioverse:mushroot_panel_stairs" },
+        { "type": "match_block", "block": "marioverse:mushroot_panel_wall" }
+      ]
+    },
     "side": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:mushroot_panels" },
+        { "type": "match_block", "block": "marioverse:mushroot_panel_stairs" },
+        { "type": "match_block", "block": "marioverse:mushroot_panel_wall" }
+      ]
+    },
+    "top": {
       "type": "or",
       "predicates": [
         { "type": "match_block", "block": "marioverse:mushroot_panels" },

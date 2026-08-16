@@ -7,7 +7,7 @@
   },
   "connections": {
     "default": { "type": "is_same_block" },
-    "side": {
+    "wall": {
       "type": "or",
       "predicates": [
         { "type": "match_block", "block": "marioverse:mushroot_panels" },
