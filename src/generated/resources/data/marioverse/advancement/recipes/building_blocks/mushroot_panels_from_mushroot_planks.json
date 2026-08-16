@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_mushroot_panels": {
+    "has_mushroot_planks": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:mushroot_panels"
+            "items": "marioverse:mushroot_planks"
           }
         ]
       },
@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:mushroot_panels_from_mushroot_panels"
+        "recipe": "marioverse:mushroot_panels_from_mushroot_planks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -32,12 +32,12 @@
     [
       "has_the_recipe",
       "has_stick",
-      "has_mushroot_panels"
+      "has_mushroot_planks"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:mushroot_panels_from_mushroot_panels"
+      "marioverse:mushroot_panels_from_mushroot_planks"
     ]
   }
 }

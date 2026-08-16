@@ -357,6 +357,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
 
         tag(TagRegistry.FLAMMABLE_WALLS)
+                .add(BlockRegistry.MUSHROOT_BOARD_WALL.get())
                 .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
 
@@ -772,11 +773,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_COBBLESTONE.get());
 
         tag(Tags.Blocks.FENCES_WOODEN)
-                .add(BlockRegistry.MUSHROOT_BOARD_FENCE.get())
                 .add(BlockRegistry.MUSHROOT_FENCE.get());
 
         tag(Tags.Blocks.FENCE_GATES_WOODEN)
-                .add(BlockRegistry.MUSHROOT_BOARD_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get());
 
         tag(Tags.Blocks.PUMPKINS_CARVED)
@@ -849,7 +848,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.FENCE_GATES)
-                .add(BlockRegistry.MUSHROOT_BOARD_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get());
 
         tag(BlockTags.FLOWER_POTS)
@@ -1004,6 +1002,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.HARD_DEEP_FUNGAL_WALL.get())
                 .add(BlockRegistry.HARD_FUNGAL_WALL.get())
+                .add(BlockRegistry.MUSHROOT_BOARD_WALL.get())
                 .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL.get())
@@ -1018,7 +1017,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
         tag(BlockTags.WOODEN_FENCES)
-                .add(BlockRegistry.MUSHROOT_BOARD_FENCE.get())
                 .add(BlockRegistry.MUSHROOT_FENCE.get());
 
         tag(BlockTags.WOODEN_SLABS)
@@ -1040,6 +1038,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WOODEN_HARD_BLOCKS)
                 .addTag(TagRegistry.WOODEN_HARD_WALLS)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES)
+                .addTag(TagRegistry.WOODEN_WALLS)
                 .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get())

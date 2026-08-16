@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-15T23:07:39.0378758	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-16T11:42:04.8144944	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -23,8 +23,8 @@ b728cde38d1147b78e712f15e7ad901eece56c1f data/c/tags/block/dyed/purple.json
 d29b31117342e8bb0b2637977901bf49e4502b6d data/c/tags/block/dyed/red.json
 e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/block/dyed/white.json
 42c7244e9fe2ffc622abca363bb299a6d7b78c9c data/c/tags/block/dyed/yellow.json
-87a4bc884c3441c2a0110c043c6e88617648625c data/c/tags/block/fences/wooden.json
-46bde4fa65f87c818c38ef1fbaf368a06c07a800 data/c/tags/block/fence_gates/wooden.json
+a7e1111b0a112941295c13c793d696ce6f478c40 data/c/tags/block/fences/wooden.json
+386b81af7f837807d6299c2567d62a0fb8af568c data/c/tags/block/fence_gates/wooden.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/block/pumpkins/carved.json
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/block/pumpkins/jack_o_lanterns.json
 9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/c/tags/block/sands/colorless.json
@@ -110,7 +110,7 @@ b5198f3739de7f61b4b40d9e39658a2b36218478 data/marioverse/tags/block/sable/floaty
 129bdbfd56e1b77fb5044c8cd355398967f9819b data/marioverse/tags/block/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calcite_bricks.json
 4b5f6cc96623ba793a76d27abb6723552869d67c data/marioverse/tags/block/supports_dango_blossom.json
-64d09bc2852c74f0702cd953555576e364c3fde0 data/marioverse/tags/block/walls/flammable.json
+d2d1adc22b6694626493a6a626d0b189d8485523 data/marioverse/tags/block/walls/flammable.json
 e21461de112b3f56c122ee90f9677336d9b95754 data/marioverse/tags/block/walls/wooden.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/block/warp_pipes.json
 d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_efficient.json
@@ -121,7 +121,7 @@ d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_effic
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
 f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
-46bde4fa65f87c818c38ef1fbaf368a06c07a800 data/minecraft/tags/block/fence_gates.json
+386b81af7f837807d6299c2567d62a0fb8af568c data/minecraft/tags/block/fence_gates.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
 0cb094dee24c617bf248ca753c1a39c4b6750e4d data/minecraft/tags/block/flower_pots.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json
@@ -131,7 +131,7 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid
 e433af55e1c180aea3ccf78cdbf9c88644a14ae1 data/minecraft/tags/block/leaves.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/logs.json
 db85174ac00eb7bab404efe489de6b734ecda2e4 data/minecraft/tags/block/logs_that_burn.json
-efea75559a9b287f960cb996d510337a9bc140db data/minecraft/tags/block/mineable/axe.json
+62919f652515adf5b2c8c1e6582f774798b83a82 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 1349e229511fa4b588124d0318c290dc9a09cc65 data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
@@ -147,10 +147,10 @@ b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.
 da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
 a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficient.json
 a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
-29553a2f7e03edf163352c6b7a921d0162b6417c data/minecraft/tags/block/walls.json
+c1d835760cafacd76917fdf79d03a50fa0969088 data/minecraft/tags/block/walls.json
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
-87a4bc884c3441c2a0110c043c6e88617648625c data/minecraft/tags/block/wooden_fences.json
+a7e1111b0a112941295c13c793d696ce6f478c40 data/minecraft/tags/block/wooden_fences.json
 60e36229e51deb50214101fb4dfa04856351dd00 data/minecraft/tags/block/wooden_slabs.json
 3ae6e28950b39cc1e1f965450fe838908c2b7eef data/minecraft/tags/block/wooden_stairs.json
 bd435d1b18b49e9ba31e247f159b1ab81defe1af data/sable/tags/block/bouncy.json

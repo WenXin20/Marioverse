@@ -945,6 +945,7 @@ public class BlockStateGen extends BlockStateProvider {
             if (variant == wall && block instanceof WallBlock wallBlock) {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
                 String removeWallName = blockName.replace("_wall", "")
+                        .replace("board", "boards")
                         .replace("brick", "bricks")
                         .replace("panel", "panels")
                         .replace("tile", "tiles");

@@ -232,8 +232,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_BOARDS);
             add(event, BlockRegistry.MUSHROOT_BOARD_STAIRS);
             add(event, BlockRegistry.MUSHROOT_BOARD_SLAB);
-            add(event, BlockRegistry.MUSHROOT_BOARD_FENCE);
-            add(event, BlockRegistry.MUSHROOT_BOARD_FENCE_GATE);
+            add(event, BlockRegistry.MUSHROOT_BOARD_WALL);
             add(event, BlockRegistry.MUSHROOT_PANELS);
             add(event, BlockRegistry.MUSHROOT_PANEL_SLAB);
             add(event, BlockRegistry.MUSHROOT_PANEL_STAIRS);
@@ -242,8 +241,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.HARD_MUSHROOT_SLAB);
             add(event, BlockRegistry.HARD_MUSHROOT_STAIRS);
             add(event, BlockRegistry.HARD_MUSHROOT_WALL);
-            add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
             add(event, BlockRegistry.MUSHROOT_DOOR);
+            add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
 
             add(event, BlockRegistry.FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE_STAIRS);
@@ -964,7 +963,27 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MUSHROOT_WOOD, BlockRegistry.STRIPPED_MUSHROOT_LOG);
                 addAfter(event, BlockRegistry.STRIPPED_MUSHROOT_LOG, BlockRegistry.STRIPPED_MUSHROOT_WOOD);
                 addAfter(event, BlockRegistry.STRIPPED_MUSHROOT_WOOD, BlockRegistry.MUSHROOT_PLANKS);
-                addAfter(event, BlockRegistry.MUSHROOT_PLANKS, BlockRegistry.MUSHROOT_PICKET_FENCE);
+                addAfter(event, BlockRegistry.MUSHROOT_PLANKS, BlockRegistry.MUSHROOT_STAIRS);
+                addAfter(event, BlockRegistry.MUSHROOT_STAIRS, BlockRegistry.MUSHROOT_SLAB);
+                addAfter(event, BlockRegistry.MUSHROOT_SLAB, BlockRegistry.MUSHROOT_FENCE);
+                addAfter(event, BlockRegistry.MUSHROOT_FENCE, BlockRegistry.MUSHROOT_FENCE_GATE);
+                addAfter(event, BlockRegistry.MUSHROOT_FENCE_GATE, BlockRegistry.MUSHROOT_PICKET_FENCE);
+                addAfter(event, BlockRegistry.MUSHROOT_PICKET_FENCE, BlockRegistry.MUSHROOT_BOARDS);
+                addAfter(event, BlockRegistry.MUSHROOT_BOARDS, BlockRegistry.MUSHROOT_BOARD_STAIRS);
+                addAfter(event, BlockRegistry.MUSHROOT_BOARD_STAIRS, BlockRegistry.MUSHROOT_BOARD_SLAB);
+                addAfter(event, BlockRegistry.MUSHROOT_BOARD_SLAB, BlockRegistry.MUSHROOT_BOARD_WALL);
+                addAfter(event, BlockRegistry.MUSHROOT_BOARD_WALL, BlockRegistry.MUSHROOT_PANELS);
+                addAfter(event, BlockRegistry.MUSHROOT_PANELS, BlockRegistry.MUSHROOT_PANEL_STAIRS);
+                addAfter(event, BlockRegistry.MUSHROOT_PANEL_STAIRS, BlockRegistry.MUSHROOT_PANEL_SLAB);
+                addAfter(event, BlockRegistry.MUSHROOT_PANEL_SLAB, BlockRegistry.MUSHROOT_PANEL_WALL);
+                addAfter(event, BlockRegistry.MUSHROOT_PANEL_WALL, BlockRegistry.MUSHROOT_DOOR);
+                addAfter(event, BlockRegistry.MUSHROOT_DOOR, BlockRegistry.MUSHROOT_TRAPDOOR);
+                addAfter(event, BlockRegistry.MUSHROOT_TRAPDOOR, BlockRegistry.MUSHROOT_PRESSURE_PLATE);
+                addAfter(event, BlockRegistry.MUSHROOT_PRESSURE_PLATE, BlockRegistry.MUSHROOT_BUTTON);
+                addAfter(event, BlockRegistry.MUSHROOT_BUTTON, BlockRegistry.MUSHROOT_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.MUSHROOT_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS, BlockRegistry.MUSHROOT_LOG_BRIDGE);
+                addAfter(event, BlockRegistry.MUSHROOT_LOG_BRIDGE, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE);
 
                 addAfter(event, Blocks.CRIMSON_SLAB, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);

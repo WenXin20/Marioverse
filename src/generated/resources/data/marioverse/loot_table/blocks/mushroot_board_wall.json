@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "marioverse:mushroot_board_fence_gate"
+          "name": "marioverse:mushroot_board_wall"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "marioverse:blocks/mushroot_board_fence_gate"
+  "random_sequence": "marioverse:blocks/mushroot_board_wall"
 }

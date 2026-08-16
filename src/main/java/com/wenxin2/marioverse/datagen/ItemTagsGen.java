@@ -60,6 +60,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.FLAMMABLE_HARD_STAIRS, TagRegistry.FLAMMABLE_HARD_STAIR_ITEMS);
         copy(TagRegistry.FLAMMABLE_HARD_WALLS, TagRegistry.FLAMMABLE_HARD_WALL_ITEMS);
         copy(TagRegistry.FLAMMABLE_PICKET_FENCES, TagRegistry.FLAMMABLE_PICKET_FENCE_ITEMS);
+        copy(TagRegistry.FLAMMABLE_WALLS, TagRegistry.FLAMMABLE_WALL_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.HARD_BLOCKS, TagRegistry.HARD_BLOCK_ITEMS);
         copy(TagRegistry.HARD_SLABS, TagRegistry.HARD_SLAB_ITEMS);
@@ -88,6 +89,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.WOODEN_HARD_STAIRS, TagRegistry.WOODEN_HARD_STAIR_ITEMS);
         copy(TagRegistry.WOODEN_HARD_WALLS, TagRegistry.WOODEN_HARD_WALL_ITEMS);
         copy(TagRegistry.WOODEN_PICKET_FENCES, TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
+        copy(TagRegistry.WOODEN_WALLS, TagRegistry.WOODEN_WALL_ITEMS);
 
         copy(Tags.Blocks.COBBLESTONES, Tags.Items.COBBLESTONES);
         copy(Tags.Blocks.FENCES_WOODEN, Tags.Items.FENCES_WOODEN);

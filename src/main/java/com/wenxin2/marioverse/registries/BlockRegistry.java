@@ -9,7 +9,6 @@ import com.wenxin2.marioverse.blocks.CoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DaisyAbilityBlock;
 import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
-import com.wenxin2.marioverse.blocks.FlammableWallBlock;
 import com.wenxin2.marioverse.blocks.LuigiAbilityBlock;
 import com.wenxin2.marioverse.blocks.MarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
@@ -86,7 +85,6 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.WeatheringCopperFullBlock;
-import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -301,8 +299,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUSHROOT_BOARDS;
-    public static final DeferredBlock<Block> MUSHROOT_BOARD_FENCE;
-    public static final DeferredBlock<Block> MUSHROOT_BOARD_FENCE_GATE;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_WALL;
     public static final DeferredBlock<Block> MUSHROOT_BOARD_SLAB;
     public static final DeferredBlock<Block> MUSHROOT_BOARD_STAIRS;
     public static final DeferredBlock<Block> MUSHROOT_BUTTON;
@@ -747,10 +744,7 @@ public class BlockRegistry {
 
         MUSHROOT_BOARD_SLAB = registerBlock("mushroot_board_slab", () -> slab(MUSHROOT_PLANKS.get()));
 
-        MUSHROOT_BOARD_FENCE = registerBlock("mushroot_board_fence", () -> fence(MUSHROOT_PLANKS.get()));
-
-        MUSHROOT_BOARD_FENCE_GATE = registerBlock("mushroot_board_fence_gate",
-                () -> fenceGate(WoodTypeRegistry.MUSHROOT, MUSHROOT_PLANKS.get()));
+        MUSHROOT_BOARD_WALL = registerBlock("mushroot_board_wall", () -> wall(MUSHROOT_PLANKS.get()));
 
         MUSHROOT_PANELS = registerBlock("mushroot_panels",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())));
@@ -759,7 +753,7 @@ public class BlockRegistry {
 
         MUSHROOT_PANEL_SLAB = registerBlock("mushroot_panel_slab", () -> slab(MUSHROOT_PLANKS.get()));
 
-        MUSHROOT_PANEL_WALL = registerBlock("mushroot_panel_wall", () -> flammableWall(MUSHROOT_PLANKS.get()));
+        MUSHROOT_PANEL_WALL = registerBlock("mushroot_panel_wall", () -> wall(MUSHROOT_PLANKS.get()));
 
         HARD_MUSHROOT_BLOCK = registerBlock("hard_mushroot_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
@@ -769,7 +763,7 @@ public class BlockRegistry {
 
         HARD_MUSHROOT_SLAB = registerBlock("hard_mushroot_slab", () -> slab(HARD_MUSHROOT_BLOCK.get()));
 
-        HARD_MUSHROOT_WALL = registerBlock("hard_mushroot_wall", () -> flammableWall(HARD_MUSHROOT_BLOCK.get()));
+        HARD_MUSHROOT_WALL = registerBlock("hard_mushroot_wall", () -> wall(HARD_MUSHROOT_BLOCK.get()));
 
         MUSHROOT_SAPLING = registerBlock("mushroot_sapling",
                 () -> new SaplingBlock(SuperTreeGrower.MUSHROOT, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
@@ -1867,10 +1861,6 @@ public class BlockRegistry {
                 .strength(2.0F, 3.0F).forceSolidOn().ignitedByLava());
     }
 
-    private static Block flammableWall(Block block) {
-        return new FlammableWallBlock(BlockBehaviour.Properties.ofFullCopy(block).forceSolidOn());
-    }
-
     private static Block pressurePlate(Block block, BlockSetType blockSetType) {
         return new PressurePlateBlock(blockSetType, BlockBehaviour.Properties.ofFullCopy(block).noCollission());
     }
@@ -1919,6 +1909,12 @@ public class BlockRegistry {
     }
 
     public static void registerAliases() {
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("marioverse:mushroot_board_fence"), MUSHROOT_BOARD_WALL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("marioverse:mushroot_board_fence"), MUSHROOT_BOARD_WALL.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("marioverse:mushroot_board_fence_gate"), MUSHROOT_BOARD_WALL.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
