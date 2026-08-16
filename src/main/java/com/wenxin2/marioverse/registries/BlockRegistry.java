@@ -1934,6 +1934,14 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_leaves"), MUSHROOT_LEAVES.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_log"), MUSHROOT_LOG.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_log"), MUSHROOT_LOG.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_wood"), MUSHROOT_WOOD.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_wood"), MUSHROOT_WOOD.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_picket_fence"), MUSHROOT_PICKET_FENCE.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_picket_fence"), MUSHROOT_PICKET_FENCE.getId());
@@ -1949,6 +1957,10 @@ public class BlockRegistry {
                 .parse("superbb:mushroot_stairs"), MUSHROOT_BOARD_STAIRS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_stairs"), MUSHROOT_BOARD_STAIRS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:stripped_mushroot_log"), STRIPPED_MUSHROOT_LOG.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:stripped_mushroot_log"), STRIPPED_MUSHROOT_LOG.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:white_picket_fence"), WHITE_PICKET_FENCE.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
