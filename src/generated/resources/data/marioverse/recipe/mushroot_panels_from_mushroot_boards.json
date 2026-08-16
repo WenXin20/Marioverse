@@ -1,10 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "marioverse:picket_fences",
+  "group": "marioverse:panels",
   "key": {
     "#": {
-      "item": "marioverse:mushroot_slab"
+      "item": "marioverse:mushroot_boards"
     },
     "S": {
       "tag": "c:rods/wooden"
@@ -12,10 +12,11 @@
   },
   "pattern": [
     "#S#",
+    "S#S",
     "#S#"
   ],
   "result": {
-    "count": 2,
-    "id": "marioverse:mushroot_picket_fence"
+    "count": 5,
+    "id": "marioverse:mushroot_panels"
   }
 }

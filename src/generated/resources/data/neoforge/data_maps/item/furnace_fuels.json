@@ -5,6 +5,12 @@
     },
     "#marioverse:bridges/flammable": {
       "burn_time": 100
+    },
+    "#marioverse:hard_blocks/flammable": {
+      "burn_time": 300
+    },
+    "#marioverse:walls/flammable": {
+      "burn_time": 300
     }
   }
 }

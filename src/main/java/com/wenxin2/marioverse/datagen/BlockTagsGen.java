@@ -356,6 +356,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.FLAMMABLE_HARD_WALLS)
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
 
+        tag(TagRegistry.FLAMMABLE_WALLS)
+                .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
+                .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
+
         tag(TagRegistry.FLAMMABLE_PICKET_FENCES)
                 .add(BlockRegistry.ACACIA_PICKET_FENCE.get())
                 .add(BlockRegistry.BAMBOO_PICKET_FENCE.get())
@@ -755,6 +759,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPRUCE_PICKET_FENCE.get())
                 .add(BlockRegistry.WARPED_PICKET_FENCE.get())
                 .add(BlockRegistry.WHITE_PICKET_FENCE.get());
+
+        tag(TagRegistry.WOODEN_WALLS)
+                .addTag(TagRegistry.FLAMMABLE_WALLS);
 
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);

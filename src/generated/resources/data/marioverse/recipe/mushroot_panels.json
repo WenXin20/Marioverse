@@ -4,19 +4,18 @@
   "group": "marioverse:panels",
   "key": {
     "#": {
-      "item": "marioverse:mushroot_boards"
+      "item": "marioverse:mushroot_planks"
     },
     "S": {
       "tag": "c:rods/wooden"
     }
   },
   "pattern": [
-    "#S#",
-    "S#S",
-    "#S#"
+    "#S",
+    "S#"
   ],
   "result": {
-    "count": 5,
+    "count": 2,
     "id": "marioverse:mushroot_panels"
   }
 }

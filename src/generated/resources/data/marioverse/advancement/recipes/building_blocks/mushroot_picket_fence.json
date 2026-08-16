@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_mushroot_board_slab": {
+    "has_mushroot_slab": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:mushroot_board_slab"
+            "items": "marioverse:mushroot_slab"
           }
         ]
       },
@@ -32,7 +32,7 @@
     [
       "has_the_recipe",
       "has_slabs",
-      "has_mushroot_board_slab"
+      "has_mushroot_slab"
     ]
   ],
   "rewards": {

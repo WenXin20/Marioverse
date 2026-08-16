@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-15T14:21:47.170912	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-15T23:07:39.0378758	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -110,6 +110,8 @@ b5198f3739de7f61b4b40d9e39658a2b36218478 data/marioverse/tags/block/sable/floaty
 129bdbfd56e1b77fb5044c8cd355398967f9819b data/marioverse/tags/block/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calcite_bricks.json
 4b5f6cc96623ba793a76d27abb6723552869d67c data/marioverse/tags/block/supports_dango_blossom.json
+64d09bc2852c74f0702cd953555576e364c3fde0 data/marioverse/tags/block/walls/flammable.json
+e21461de112b3f56c122ee90f9677336d9b95754 data/marioverse/tags/block/walls/wooden.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/block/warp_pipes.json
 d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_efficient.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json

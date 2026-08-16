@@ -215,23 +215,19 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_BOARDS = familyBuilder(BlockRegistry.MUSHROOT_BOARDS.get())
-            .door(BlockRegistry.MUSHROOT_DOOR.get())
             .fence(BlockRegistry.MUSHROOT_BOARD_FENCE.get())
             .fenceGate(BlockRegistry.MUSHROOT_BOARD_FENCE_GATE.get())
             .hardBlock(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
             .panelsFromBoards(BlockRegistry.MUSHROOT_PANELS.get())
             .slab(BlockRegistry.MUSHROOT_BOARD_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_BOARD_STAIRS.get())
-            .trapdoor(BlockRegistry.MUSHROOT_TRAPDOOR.get())
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_PANELS = familyBuilder(BlockRegistry.MUSHROOT_PANELS.get())
-            .door(BlockRegistry.MUSHROOT_DOOR.get())
             .hardBlock(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
             .panelsFromBoards(BlockRegistry.MUSHROOT_PANELS.get())
             .slab(BlockRegistry.MUSHROOT_PANEL_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_PANEL_STAIRS.get())
-            .trapdoor(BlockRegistry.MUSHROOT_TRAPDOOR.get())
             .wall(BlockRegistry.MUSHROOT_PANEL_WALL.get())
             .getFamily();
 

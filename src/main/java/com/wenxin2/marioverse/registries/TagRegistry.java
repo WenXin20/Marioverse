@@ -73,13 +73,14 @@ public class TagRegistry {
     public static final TagKey<Block> DYED_CALCITE_BLOCKS = blockTags("calcite_blocks/dyed");
     public static final TagKey<Block> DYED_PICKET_FENCES = blockTags("picket_fences/dyed");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
+    public static final TagKey<Block> FLAMMABLE_BRIDGE_BLOCKS = blockTags("bridges/flammable");
+    public static final TagKey<Block> FLAMMABLE_BRIDGE_STAIR_BLOCKS = blockTags("bridge_stairs/flammable");
     public static final TagKey<Block> FLAMMABLE_HARD_BLOCKS = blockTags("hard_blocks/flammable");
     public static final TagKey<Block> FLAMMABLE_HARD_SLABS = blockTags("hard_slabs/flammable");
     public static final TagKey<Block> FLAMMABLE_HARD_STAIRS = blockTags("hard_stairs/flammable");
     public static final TagKey<Block> FLAMMABLE_HARD_WALLS = blockTags("hard_walls/flammable");
-    public static final TagKey<Block> FLAMMABLE_BRIDGE_BLOCKS = blockTags("bridges/flammable");
-    public static final TagKey<Block> FLAMMABLE_BRIDGE_STAIR_BLOCKS = blockTags("bridge_stairs/flammable");
     public static final TagKey<Block> FLAMMABLE_PICKET_FENCES = blockTags("picket_fences/flammable");
+    public static final TagKey<Block> FLAMMABLE_WALLS = blockTags("walls/flammable");
     public static final TagKey<Block> FLOATY = blockTags("sable/floaty");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
@@ -128,6 +129,7 @@ public class TagRegistry {
     public static final TagKey<Block> WOODEN_HARD_SLABS = blockTags("hard_slabs/wooden");
     public static final TagKey<Block> WOODEN_HARD_STAIRS = blockTags("hard_stairs/wooden");
     public static final TagKey<Block> WOODEN_HARD_WALLS = blockTags("hard_walls/wooden");
+    public static final TagKey<Block> WOODEN_WALLS = blockTags("walls/wooden");
     public static final TagKey<Block> WOODEN_PICKET_FENCES = blockTags("picket_fences/wooden");
     public static final TagKey<Block> WRENCH_EFFICIENT = blockTags("wrench_efficient");
 
@@ -195,13 +197,14 @@ public class TagRegistry {
     public static final TagKey<Item> DYED_CALCITE_ITEMS = itemTags("calcite_blocks/dyed");
     public static final TagKey<Item> DYED_PICKET_FENCE_ITEMS = itemTags("picket_fences/dyed");
     public static final TagKey<Item> FEMALE_COSTUMES = itemTags("costumes/female");
+    public static final TagKey<Item> FLAMMABLE_BRIDGE_ITEMS = itemTags("bridges/flammable");
+    public static final TagKey<Item> FLAMMABLE_BRIDGE_STAIR_ITEMS = itemTags("bridge_stairs/flammable");
     public static final TagKey<Item> FLAMMABLE_HARD_BLOCK_ITEMS = itemTags("hard_blocks/flammable");
     public static final TagKey<Item> FLAMMABLE_HARD_SLAB_ITEMS = itemTags("hard_slabs/flammable");
     public static final TagKey<Item> FLAMMABLE_HARD_STAIR_ITEMS = itemTags("hard_stairs/flammable");
     public static final TagKey<Item> FLAMMABLE_HARD_WALL_ITEMS = itemTags("hard_walls/flammable");
-    public static final TagKey<Item> FLAMMABLE_BRIDGE_ITEMS = itemTags("bridges/flammable");
-    public static final TagKey<Item> FLAMMABLE_BRIDGE_STAIR_ITEMS = itemTags("bridge_stairs/flammable");
     public static final TagKey<Item> FLAMMABLE_PICKET_FENCE_ITEMS = itemTags("picket_fences/flammable");
+    public static final TagKey<Item> FLAMMABLE_WALL_ITEMS = itemTags("walls/flammable");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
     public static final TagKey<Item> HALLOWEEN_MASKS = itemTags("halloween_masks");
     public static final TagKey<Item> HARD_BLOCK_ITEMS = itemTags("hard_blocks");
@@ -251,6 +254,7 @@ public class TagRegistry {
     public static final TagKey<Item> WOODEN_HARD_STAIR_ITEMS = itemTags("hard_stairs/wooden");
     public static final TagKey<Item> WOODEN_HARD_WALL_ITEMS = itemTags("hard_walls/wooden");
     public static final TagKey<Item> WOODEN_PICKET_FENCE_ITEMS = itemTags("picket_fences/wooden");
+    public static final TagKey<Item> WOODEN_WALL_ITEMS = itemTags("walls/wooden");
     public static final TagKey<Item> WRENCHES = itemTags("tools/wrenches");
 
     public static final TagKey<EntityType<?>> BOO_CAN_ATTACK = entityTypeTags("boo_can_attack");

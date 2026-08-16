@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.blocks.CoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DaisyAbilityBlock;
 import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
+import com.wenxin2.marioverse.blocks.FlammableWallBlock;
 import com.wenxin2.marioverse.blocks.LuigiAbilityBlock;
 import com.wenxin2.marioverse.blocks.MarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
@@ -758,7 +759,7 @@ public class BlockRegistry {
 
         MUSHROOT_PANEL_SLAB = registerBlock("mushroot_panel_slab", () -> slab(MUSHROOT_PLANKS.get()));
 
-        MUSHROOT_PANEL_WALL = registerBlock("mushroot_panel_wall", () -> wall(MUSHROOT_PLANKS.get()));
+        MUSHROOT_PANEL_WALL = registerBlock("mushroot_panel_wall", () -> flammableWall(MUSHROOT_PLANKS.get()));
 
         HARD_MUSHROOT_BLOCK = registerBlock("hard_mushroot_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
@@ -768,7 +769,7 @@ public class BlockRegistry {
 
         HARD_MUSHROOT_SLAB = registerBlock("hard_mushroot_slab", () -> slab(HARD_MUSHROOT_BLOCK.get()));
 
-        HARD_MUSHROOT_WALL = registerBlock("hard_mushroot_wall", () -> wall(HARD_MUSHROOT_BLOCK.get()));
+        HARD_MUSHROOT_WALL = registerBlock("hard_mushroot_wall", () -> flammableWall(HARD_MUSHROOT_BLOCK.get()));
 
         MUSHROOT_SAPLING = registerBlock("mushroot_sapling",
                 () -> new SaplingBlock(SuperTreeGrower.MUSHROOT, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
@@ -1864,6 +1865,10 @@ public class BlockRegistry {
     private static Block fenceGate(WoodType woodType, Block block) {
         return new FenceGateBlock(woodType, BlockBehaviour.Properties.ofFullCopy(block)
                 .strength(2.0F, 3.0F).forceSolidOn().ignitedByLava());
+    }
+
+    private static Block flammableWall(Block block) {
+        return new FlammableWallBlock(BlockBehaviour.Properties.ofFullCopy(block).forceSolidOn());
     }
 
     private static Block pressurePlate(Block block, BlockSetType blockSetType) {

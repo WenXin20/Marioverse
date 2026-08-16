@@ -933,6 +933,7 @@ public class BlockStateGen extends BlockStateProvider {
                 ResourceLocation texture = modLoc("block/" + blockName);
 
                 this.trapdoorBlock(trapdoorBlock, texture, true);
+                this.itemModels().trapdoorBottom(blockName, texture);
             }
         }));
     }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_mushroot_planks": {
+    "has_deep_fungal_stone": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:mushroot_planks"
+            "items": "marioverse:deep_fungal_stone"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:mushroot_door_from_mushroot_planks"
+        "recipe": "marioverse:polished_deep_fungal_stone_from_deep_fungal_stone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_mushroot_planks"
+      "has_deep_fungal_stone"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:mushroot_door_from_mushroot_planks"
+      "marioverse:polished_deep_fungal_stone_from_deep_fungal_stone"
     ]
   }
 }
