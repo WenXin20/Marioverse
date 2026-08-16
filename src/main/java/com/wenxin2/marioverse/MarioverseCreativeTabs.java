@@ -227,7 +227,6 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_SLAB);
             add(event, BlockRegistry.MUSHROOT_FENCE);
             add(event, BlockRegistry.MUSHROOT_FENCE_GATE);
-            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
             add(event, BlockRegistry.MUSHROOT_PRESSURE_PLATE);
             add(event, BlockRegistry.MUSHROOT_BUTTON);
             add(event, BlockRegistry.MUSHROOT_BOARDS);
@@ -431,6 +430,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BAMBOO_PICKET_FENCE);
             add(event, BlockRegistry.CRIMSON_PICKET_FENCE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE);
+            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
             add(event, BlockRegistry.RED_PICKET_FENCE);
             add(event, BlockRegistry.WHITE_PICKET_FENCE);
 
@@ -452,6 +452,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE);
             add(event, BlockRegistry.BAMBOO_BRIDGE);
             add(event, BlockRegistry.STRIPPED_BAMBOO_BRIDGE);
+            add(event, BlockRegistry.MUSHROOT_LOG_BRIDGE);
+            add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE);
             add(event, BlockRegistry.CRIMSON_STEM_BRIDGE);
             add(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE);
             add(event, BlockRegistry.WARPED_STEM_BRIDGE);
@@ -475,6 +477,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS);
             add(event, BlockRegistry.BAMBOO_BRIDGE_STAIRS);
             add(event, BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS);
+            add(event, BlockRegistry.MUSHROOT_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS);
             add(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
             add(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);
             add(event, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS);

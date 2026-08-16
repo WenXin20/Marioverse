@@ -225,7 +225,6 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended MUSHROOT_PANELS = familyBuilder(BlockRegistry.MUSHROOT_PANELS.get())
             .hardBlock(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
-            .panelsFromBoards(BlockRegistry.MUSHROOT_PANELS.get())
             .slab(BlockRegistry.MUSHROOT_PANEL_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_PANEL_STAIRS.get())
             .wall(BlockRegistry.MUSHROOT_PANEL_WALL.get())
