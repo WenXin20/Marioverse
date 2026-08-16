@@ -70,7 +70,9 @@ import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -200,6 +202,38 @@ public class RegistryEventHandlers {
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(DispenserBehaviors::register);
         event.enqueueWork(() -> CuriosApi.registerCurio(ItemRegistry.PLASTIC_BUCKET.get(), new PlasticBucketCurio()));
+
+        event.enqueueWork(() -> {
+            FireBlock fireBlock = (FireBlock) Blocks.FIRE;
+
+            fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_LOG.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_WOOD.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get(), 5, 5);
+
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARDS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARD_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARD_STAIRS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARD_WALL.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_FENCE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_FENCE_GATE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANELS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANEL_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANEL_STAIRS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANEL_WALL.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PLANKS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_STAIRS.get(), 5, 20);
+
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_LEAVES.get(), 30, 60);
+
+            fireBlock.setFlammable(BlockRegistry.DANGO_BLOSSOM.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_SAPLING.get(), 60, 100);
+        });
     }
 
     public static void gatherData(GatherDataEvent event) {

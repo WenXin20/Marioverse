@@ -171,7 +171,7 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
 
     @Override
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        return state.is(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS);
+        return state.is(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS);
     }
 
     @Override

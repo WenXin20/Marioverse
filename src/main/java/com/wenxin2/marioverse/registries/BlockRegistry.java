@@ -1910,12 +1910,6 @@ public class BlockRegistry {
 
     public static void registerAliases() {
         Marioverse.BLOCKS.addAlias(ResourceLocation
-                .parse("marioverse:mushroot_board_fence"), MUSHROOT_BOARD_WALL.getId());
-        Marioverse.ITEMS.addAlias(ResourceLocation
-                .parse("marioverse:mushroot_board_fence"), MUSHROOT_BOARD_WALL.getId());
-        Marioverse.BLOCKS.addAlias(ResourceLocation
-                .parse("marioverse:mushroot_board_fence_gate"), MUSHROOT_BOARD_WALL.getId());
-        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
