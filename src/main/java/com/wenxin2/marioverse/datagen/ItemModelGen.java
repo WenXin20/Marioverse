@@ -33,6 +33,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.genStorageBrickVariants();
 
         this.basicBlockItem(BlockRegistry.MUSHROOT_SAPLING.asItem());
+        this.basicBlockItem(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.asItem());
 
         this.basicItem(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.COIN.asItem());
@@ -392,8 +393,9 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     public ItemModelBuilder basicBlockItem(ResourceLocation item) {
+        String removeName = item.getPath().replace("_pane", "");
         return this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "block/" + item.getPath()));
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "block/" + removeName));
     }
 
     public void largeItem(Item item) {

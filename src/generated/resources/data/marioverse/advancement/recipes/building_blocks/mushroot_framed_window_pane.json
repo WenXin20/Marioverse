@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mushroot_framed_window": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:mushroot_framed_window"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:mushroot_framed_window_pane"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mushroot_framed_window"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:mushroot_framed_window_pane"
+    ]
+  }
+}

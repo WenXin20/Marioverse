@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:framed_windows",
+  "key": {
+    "#": {
+      "item": "marioverse:mushroot_framed_window"
+    }
+  },
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 16,
+    "id": "marioverse:mushroot_framed_window_pane"
+  }
+}

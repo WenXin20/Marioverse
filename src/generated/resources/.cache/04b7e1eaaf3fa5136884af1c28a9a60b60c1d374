@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-16T11:42:04.8204859	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-17T00:33:24.6139208	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 df28088c1d2145312f6fbf6ae3c566b2c2cf9c93 data/curios/tags/item/costume_hat.json
 f1d71566d06fd5511273a769fab65ff8efeb63f4 data/curios/tags/item/costume_pants.json
@@ -34,6 +34,10 @@ e4fe40d6e12176e769e36a1f677f03c2f1322ef6 data/c/tags/item/dyed/white.json
 386b81af7f837807d6299c2567d62a0fb8af568c data/c/tags/item/fence_gates/wooden.json
 5ba631e6e0d914f759a46e9551eb7db121a7cfde data/c/tags/item/foods/cooked_fish.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/c/tags/item/foods/raw_fish.json
+789473b71265972c32eafed83385821b3ee84ed0 data/c/tags/item/glass_blocks/colorless.json
+789473b71265972c32eafed83385821b3ee84ed0 data/c/tags/item/glass_blocks/wooden.json
+c7065018449d1318e71044df4526e528d11f4109 data/c/tags/item/glass_panes/colorless.json
+c7065018449d1318e71044df4526e528d11f4109 data/c/tags/item/glass_panes/wooden.json
 94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/c/tags/item/mushrooms.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/pumpkins/carved.json
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/item/pumpkins/jack_o_lanterns.json
@@ -80,19 +84,19 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/item/dyeable_warp_pipes.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 8e8620f9d08b6691c8d8ebd6d2024858f829f602 data/marioverse/tags/item/halloween_masks.json
-9b32219f2274c96f38bfc440bd40f547e0b1d1f2 data/marioverse/tags/item/hard_blocks.json
+997a52ff3478dd9eca0ec393d430955c84aadb02 data/marioverse/tags/item/hard_blocks.json
 05655c39808805c28a2ddc260b61a89d5d070303 data/marioverse/tags/item/hard_blocks/flammable.json
 2ccd3de4338565050f70c42565fd224b87d3b597 data/marioverse/tags/item/hard_blocks/stone.json
 05ab6565223515d05536b6343998583a72ead6f5 data/marioverse/tags/item/hard_blocks/wooden.json
-4e9b7d09678526cd7f593521f0369a1b98e32391 data/marioverse/tags/item/hard_slabs.json
+bac652612496beb7ddb340cc1d8590ef37ac8af4 data/marioverse/tags/item/hard_slabs.json
 e429b63e5bb7e2ca857e9c611e6d4d6008910f6f data/marioverse/tags/item/hard_slabs/flammable.json
 d97e4710d09e6eed47363b70f7b2d48c19aacfb7 data/marioverse/tags/item/hard_slabs/stone.json
 630340c6c75824d1f4289fe882d70f9fb2a7114d data/marioverse/tags/item/hard_slabs/wooden.json
-780ea59b12bbd0aa640a5f722c0cd518fab0f1b2 data/marioverse/tags/item/hard_stairs.json
+f7aef5d77b14da39ecbbf799286dd6ebe9a59c8f data/marioverse/tags/item/hard_stairs.json
 113c7794546d0276a9d68a6ed5153ef26575b7d2 data/marioverse/tags/item/hard_stairs/flammable.json
 05163565c86c4047bcf94efba185d0bccdcfd4c1 data/marioverse/tags/item/hard_stairs/stone.json
 126bf3117a1cbfd115eb4682d5e9da2e7c4fcf55 data/marioverse/tags/item/hard_stairs/wooden.json
-b9b2ef9406dd166901f9d7db92ed1e5c3cc2d6c4 data/marioverse/tags/item/hard_walls.json
+28be2c883b29679104a961899ba70e36af24cbf5 data/marioverse/tags/item/hard_walls.json
 e67499202826522313b984165713df587d9443a0 data/marioverse/tags/item/hard_walls/flammable.json
 51674e69e72b79f6e06d344e27eafdcea1aa086f data/marioverse/tags/item/hard_walls/stone.json
 af8c6df02f0dfa05a8d77a96c10af86469880813 data/marioverse/tags/item/hard_walls/wooden.json
@@ -131,6 +135,12 @@ d2d1adc22b6694626493a6a626d0b189d8485523 data/marioverse/tags/item/walls/flammab
 e21461de112b3f56c122ee90f9677336d9b95754 data/marioverse/tags/item/walls/wooden.json
 7346945c7c5c416b22be3ac6294fe66cc9a68538 data/marioverse/tags/item/warp_pipes.json
 c244f100071156df3560fa1b7792613d9c04a72c data/marioverse/tags/item/warp_pipe_cannot_spawn.json
+2c77098d11f1ad603e2ec6e2f1d92b86cb529273 data/marioverse/tags/item/windows.json
+55e56a2838ce61088939ee7b2941825b996079cb data/marioverse/tags/item/windows/flammable.json
+55e56a2838ce61088939ee7b2941825b996079cb data/marioverse/tags/item/windows/wooden.json
+92e8323419028ee10abec566b400798d034e706a data/marioverse/tags/item/window_panes.json
+5e4c2fc0fd9b9b60d7e3771a03b0ac2b7c20b44f data/marioverse/tags/item/window_panes/flammable.json
+5e4c2fc0fd9b9b60d7e3771a03b0ac2b7c20b44f data/marioverse/tags/item/window_panes/wooden.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/cat_food.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json

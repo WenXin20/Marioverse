@@ -74,6 +74,7 @@ import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -81,6 +82,7 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
@@ -321,6 +323,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_SLAB;
     public static final DeferredBlock<Block> MUSHROOT_STAIRS;
     public static final DeferredBlock<Block> MUSHROOT_TRAPDOOR;
+    public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW;
+    public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW_PANE;
     public static final DeferredBlock<Block> MUSHROOT_WOOD;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
@@ -764,6 +768,12 @@ public class BlockRegistry {
         HARD_MUSHROOT_SLAB = registerBlock("hard_mushroot_slab", () -> slab(HARD_MUSHROOT_BLOCK.get()));
 
         HARD_MUSHROOT_WALL = registerBlock("hard_mushroot_wall", () -> wall(HARD_MUSHROOT_BLOCK.get()));
+
+        MUSHROOT_FRAMED_WINDOW = registerBlock("mushroot_framed_window",
+                () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).ignitedByLava()));
+
+        MUSHROOT_FRAMED_WINDOW_PANE = registerBlock("mushroot_framed_window_pane",
+                () -> new IronBarsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS_PANE).ignitedByLava()));
 
         MUSHROOT_SAPLING = registerBlock("mushroot_sapling",
                 () -> new SaplingBlock(SuperTreeGrower.MUSHROOT, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
@@ -1929,6 +1939,8 @@ public class BlockRegistry {
                 .parse("superbb:mushroot_fence_gate"), MUSHROOT_FENCE_GATE.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_fence_gate"), MUSHROOT_FENCE_GATE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_window"), MUSHROOT_FRAMED_WINDOW.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_leaves"), MUSHROOT_LEAVES.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation

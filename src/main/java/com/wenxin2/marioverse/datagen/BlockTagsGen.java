@@ -361,6 +361,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
 
+        tag(TagRegistry.FLAMMABLE_WINDOWS)
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get());
+
+        tag(TagRegistry.FLAMMABLE_WINDOW_PANES)
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get());
+
         tag(TagRegistry.FLAMMABLE_PICKET_FENCES)
                 .add(BlockRegistry.ACACIA_PICKET_FENCE.get())
                 .add(BlockRegistry.BAMBOO_PICKET_FENCE.get())
@@ -387,18 +393,22 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
 
         tag(TagRegistry.HARD_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_BLOCKS)
                 .addTag(TagRegistry.STONE_HARD_BLOCKS)
                 .addTag(TagRegistry.WOODEN_HARD_BLOCKS);
 
         tag(TagRegistry.HARD_SLABS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_SLABS)
                 .addTag(TagRegistry.STONE_HARD_SLABS)
                 .addTag(TagRegistry.WOODEN_HARD_SLABS);
 
         tag(TagRegistry.HARD_STAIRS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_STAIRS)
                 .addTag(TagRegistry.STONE_HARD_STAIRS)
                 .addTag(TagRegistry.WOODEN_HARD_STAIRS);
 
         tag(TagRegistry.HARD_WALLS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_WALLS)
                 .addTag(TagRegistry.STONE_HARD_WALLS)
                 .addTag(TagRegistry.WOODEN_HARD_WALLS);
 
@@ -719,6 +729,14 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
 
+        tag(TagRegistry.WINDOWS)
+                .addTag(TagRegistry.FLAMMABLE_WINDOWS)
+                .addTag(TagRegistry.WOODEN_WINDOWS);
+
+        tag(TagRegistry.WINDOW_PANES)
+                .addTag(TagRegistry.FLAMMABLE_WINDOW_PANES)
+                .addTag(TagRegistry.WOODEN_WINDOW_PANES);
+
         tag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .add(BlockRegistry.CRIMSON_STEM_BRIDGE.get())
@@ -764,6 +782,12 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.WOODEN_WALLS)
                 .addTag(TagRegistry.FLAMMABLE_WALLS);
 
+        tag(TagRegistry.WOODEN_WINDOWS)
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get());
+
+        tag(TagRegistry.WOODEN_WINDOW_PANES)
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get());
+
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
 
@@ -777,6 +801,12 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(Tags.Blocks.FENCE_GATES_WOODEN)
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get());
+
+        tag(Tags.Blocks.GLASS_BLOCKS_COLORLESS)
+                .addTag(TagRegistry.WOODEN_WINDOWS);
+
+        tag(Tags.Blocks.GLASS_PANES_COLORLESS)
+                .addTag(TagRegistry.WOODEN_WINDOW_PANES);
 
         tag(Tags.Blocks.PUMPKINS_CARVED)
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
@@ -1039,6 +1069,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WOODEN_HARD_WALLS)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_WALLS)
+                .addTag(TagRegistry.WOODEN_WINDOWS)
+                .addTag(TagRegistry.WOODEN_WINDOW_PANES)
                 .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get())
@@ -1212,6 +1244,12 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(Tags.Blocks.STRIPPED_WOODS)
                 .add(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get());
+
+        tag(TagRegistry.blockTags("c", "glass_blocks/wooden"))
+                .addTag(TagRegistry.WOODEN_WINDOWS);
+
+        tag(TagRegistry.blockTags("c", "glass_panes/wooden"))
+                .addTag(TagRegistry.WOODEN_WINDOW_PANES);
 
         tag(TagRegistry.blockTags("create", "corals"))
                 .addTag(TagRegistry.CORAL_TOWER_BLOCKS)

@@ -79,8 +79,6 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createCheckpointFlagDrop(block));
                     else if (block instanceof CoralTowerBlock || block instanceof DeadCoralTowerBlock)
                         this.add(block, this.createSilkTouchOnlyTable(block));
-                    else if (block instanceof DoorBlock)
-                        this.add(block, this.createDoorTable(block));
                     else if (block instanceof GoalPoleBlock)
                         this.add(block, this.createNameableBlockEntityTable(block));
                     else if (block instanceof PipeBubblesBlock || block instanceof BlockSpawnerBlock
@@ -129,25 +127,28 @@ public class BlockLootTableGen extends LootTableProvider {
         private void genBlockVariants() {
             BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
                 blockFamily.getVariants().forEach((variant, variantBlock) -> {
+                    BlockFamilyExtended.Variant door = BlockFamilyExtended.Variant.DOOR;
                     BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
                     BlockFamilyExtended.Variant quicksand = BlockFamilyExtended.Variant.QUICKSAND;
                     BlockFamilyExtended.Variant rocky = BlockFamilyExtended.Variant.ROCKY;
                     BlockFamilyExtended.Variant slabs = BlockFamilyExtended.Variant.SLAB;
                     BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
 
-                    if (variant == quicksand)
+                    if (variant == door)
+                        this.add(variantBlock, this.createDoorTable(variantBlock));
+                    else if (variant == quicksand)
                         dropOther(variantBlock, blockFamily.getBaseBlock());
                     else if (variant == rocky) {
                         Block cobblestone = blockFamily == BlockFamilyRegistry.DEEP_FUNGAL_STONE
                                 ? BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get()
                                 : BlockRegistry.FUNGAL_COBBLESTONE.get();
-                        add(variantBlock, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock, cobblestone));
+                        this.add(variantBlock, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock, cobblestone));
                     } else if (variant == questionBlock)
-                        add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
+                        this.add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
                     else if (variant == smashableBlocks)
-                        add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));
+                        this.add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));
                     else if (variant == slabs)
-                        add(variantBlock, this.createSlabItemTable(variantBlock));
+                        this.add(variantBlock, this.createSlabItemTable(variantBlock));
                     else dropSelf(variantBlock);
                 });
             });

@@ -35,9 +35,12 @@ import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
@@ -61,6 +64,8 @@ public class BlockStateGen extends BlockStateProvider {
     private final Set<Block> processedSimpleBlocks = new HashSet<>();
     private final Set<Block> processedDoors = new HashSet<>();
     private final Set<Block> processedTrapdoors = new HashSet<>();
+    private final Set<Block> processedWindows = new HashSet<>();
+    private final Set<Block> processedWindowPanes = new HashSet<>();
 
     public BlockStateGen(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Marioverse.MOD_ID, existingFileHelper);
@@ -214,6 +219,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.genStorageBricks();
         this.genTrapdoors();
         this.genWalls();
+        this.genWindows();
+        this.genWindowPanes();
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -977,6 +984,41 @@ public class BlockStateGen extends BlockStateProvider {
         }));
     }
 
+    private void genWindows() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant window = BlockFamilyExtended.Variant.WINDOW;
+
+            if (variant == window && block instanceof TransparentBlock transparentBlock) {
+                if (!this.processedWindows.add(block))
+                    return;
+
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                ResourceLocation texture = modLoc("block/" + blockName);
+
+                this.cubeAllCutoutModel(transparentBlock, texture);
+                this.itemModels().cubeAll(blockName, texture);
+            }
+        }));
+    }
+
+    private void genWindowPanes() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant windowPane = BlockFamilyExtended.Variant.WINDOW_PANE;
+
+            if (variant == windowPane && block instanceof IronBarsBlock paneBlock) {
+                if (!this.processedWindowPanes.add(block))
+                    return;
+
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                String removeName = blockName.replace("_pane", "");
+                ResourceLocation texture = modLoc("block/" + removeName);
+                ResourceLocation textureTop = modLoc("block/" + blockName + "_top");
+
+                this.paneBlockWithRenderType(paneBlock, texture, textureTop, "cutout_mipped");
+            }
+        }));
+    }
+
     private void blockSpawnerBlockModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
                                         ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
@@ -1211,6 +1253,17 @@ public class BlockStateGen extends BlockStateProvider {
         ModelFile model = models()
                 .withExistingParent(modelName, mcLoc("minecraft:block/cube_all"))
                 .texture("all", mainTexture);
+
+        simpleBlockWithItem(block, model);
+    }
+
+    private void cubeAllCutoutModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_all"))
+                .texture("all", mainTexture)
+                .renderType("cutout_mipped");
 
         simpleBlockWithItem(block, model);
     }

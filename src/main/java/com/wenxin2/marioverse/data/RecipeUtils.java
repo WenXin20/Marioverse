@@ -66,7 +66,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.HARD_BLOCK, (outputItem, inputItem) -> threeByThreeBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PANELS, (outputItem, inputItem) -> panelsBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PANELS_FROM_BOARDS, (outputItem, inputItem) -> panelsFromBoardsBuilder(5, outputItem, Ingredient.of(inputItem)))
-                    .put(BlockFamilyExtended.Variant.PEDESTAL, (outputItem, inputItem) -> pedestalBuilder(5, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.PEDESTAL, (outputItem, inputItem) -> pedestalBuilder(5, outputItem, inputItem))
                     .put(BlockFamilyExtended.Variant.PICKET_FENCE, (outputItem, inputItem) -> picketFenceBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.POLISHED, (outputItem, inputItem) -> polishedBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PRESSURE_PLATE, (outputItem, inputItem) -> pressurePlateBuilder(RecipeCategory.REDSTONE, outputItem, Ingredient.of(inputItem)))
@@ -79,6 +79,8 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.STORAGE_BRICKS, (outputItem, inputItem) -> storageBrickBuilder(4, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.TRAPDOOR, (outputItem, inputItem) -> trapdoorBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.WALL, (outputItem, inputItem) -> wallBuilder(RecipeCategory.DECORATIONS, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.WINDOW, (outputItem, inputItem) -> windowBuilder(3, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.WINDOW_PANE, (outputItem, inputItem) -> windowPaneBuilder(16, outputItem, inputItem))
                     .build();
 
     public static final Map<BlockFamilyExtended.Variant, BiFunction<ItemLike, TagKey<Item>, RecipeBuilder>> SHAPE_TAG_BUILDERS =
@@ -173,11 +175,12 @@ public class RecipeUtils extends RecipeProvider {
                 .group(Marioverse.MOD_ID + ":panels");
     }
 
-    public static RecipeBuilder pedestalBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+    public static RecipeBuilder pedestalBuilder(int outputAmt, ItemLike outputItem, ItemLike inputItem) {
         return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('#', inputItem)
                 .pattern("# #")
                 .pattern("###")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
                 .group(Marioverse.MOD_ID + ":brick_pedestals");
     }
 
@@ -232,6 +235,26 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern(" B ")
                 .unlockedBy("has_chest", has(Tags.Items.CHESTS_WOODEN))
                 .group(Marioverse.MOD_ID + ":storage_bricks");
+    }
+
+    public static RecipeBuilder windowBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('G', Tags.Items.GLASS_BLOCKS_COLORLESS)
+                .pattern(" # ")
+                .pattern("#G#")
+                .pattern(" # ")
+                .unlockedBy("has_glass", has(Tags.Items.GLASS_BLOCKS_COLORLESS))
+                .group(Marioverse.MOD_ID + ":framed_windows");
+    }
+
+    public static RecipeBuilder windowPaneBuilder(int outputAmt, ItemLike outputItem, ItemLike inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("###")
+                .pattern("###")
+                .unlockedBy(getHasName(inputItem), has(inputItem))
+                .group(Marioverse.MOD_ID + ":framed_windows");
     }
 
     public void oneByTwoRecipe(int outputAmt, ItemLike outputItem, RecipeCategory category, ItemLike inputItem, RecipeOutput output) {

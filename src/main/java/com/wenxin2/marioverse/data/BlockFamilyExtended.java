@@ -241,6 +241,16 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder window(Block block) {
+            this.family.variants.put(Variant.WINDOW, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder windowPane(Block block) {
+            this.family.variants.put(Variant.WINDOW_PANE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder dontGenerateModel() {
             this.family.generateModel = false;
             return this;
@@ -299,7 +309,9 @@ public class BlockFamilyExtended {
         STORAGE_BRICKS("storage_bricks"),
         TRAPDOOR("trapdoor"),
         WALL("wall"),
-        WALL_SIGN("wall_sign");
+        WALL_SIGN("wall_sign"),
+        WINDOW("window"),
+        WINDOW_PANE("window_pane");
 
         private final String recipeGroup;
 

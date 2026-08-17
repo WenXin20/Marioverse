@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "render_type": "cutout_mipped",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "all": "marioverse:block/mushroot_framed_window"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" }
+  }
+}

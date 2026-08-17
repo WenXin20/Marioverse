@@ -40,7 +40,9 @@ public class DataMapGen extends DataMapProvider {
                 .add(TagRegistry.FLAMMABLE_BRIDGE_ITEMS, new FurnaceFuel(100), false)
                 .add(TagRegistry.FLAMMABLE_BRIDGE_STAIR_ITEMS, new FurnaceFuel(100), false)
                 .add(TagRegistry.FLAMMABLE_HARD_BLOCK_ITEMS, new FurnaceFuel(300), false)
-                .add(TagRegistry.FLAMMABLE_WALL_ITEMS, new FurnaceFuel(300), false);
+                .add(TagRegistry.FLAMMABLE_WALL_ITEMS, new FurnaceFuel(300), false)
+                .add(TagRegistry.FLAMMABLE_WINDOW_ITEMS, new FurnaceFuel(150), false)
+                .add(TagRegistry.FLAMMABLE_WINDOW_PANE_ITEMS, new FurnaceFuel(60), false);
 
         builder(NeoForgeDataMaps.VIBRATION_FREQUENCIES)
                 .add(GameEventRegistry.CHECKPOINT_ACTIVATED, new VibrationFrequency(11), false);

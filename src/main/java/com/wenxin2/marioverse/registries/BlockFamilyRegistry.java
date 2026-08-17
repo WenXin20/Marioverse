@@ -212,6 +212,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .slab(BlockRegistry.MUSHROOT_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_STAIRS.get())
             .trapdoor(BlockRegistry.MUSHROOT_TRAPDOOR.get())
+            .window(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_BOARDS = familyBuilder(BlockRegistry.MUSHROOT_BOARDS.get())
@@ -220,6 +221,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .slab(BlockRegistry.MUSHROOT_BOARD_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_BOARD_STAIRS.get())
             .wall(BlockRegistry.MUSHROOT_BOARD_WALL.get())
+            .window(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_PANELS = familyBuilder(BlockRegistry.MUSHROOT_PANELS.get())
@@ -227,12 +229,17 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .slab(BlockRegistry.MUSHROOT_PANEL_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_PANEL_STAIRS.get())
             .wall(BlockRegistry.MUSHROOT_PANEL_WALL.get())
+            .window(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
             .getFamily();
 
     public static final BlockFamilyExtended HARD_MUSHROOT_BLOCK = familyBuilder(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
             .slab(BlockRegistry.HARD_MUSHROOT_SLAB.get())
             .stairs(BlockRegistry.HARD_MUSHROOT_STAIRS.get())
             .wall(BlockRegistry.HARD_MUSHROOT_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MUSHROOT_FRAMED_WINDOW = familyBuilder(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
+            .windowPane(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get())
             .getFamily();
 
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)

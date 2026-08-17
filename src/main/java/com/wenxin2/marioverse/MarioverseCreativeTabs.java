@@ -241,6 +241,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.HARD_MUSHROOT_SLAB);
             add(event, BlockRegistry.HARD_MUSHROOT_STAIRS);
             add(event, BlockRegistry.HARD_MUSHROOT_WALL);
+            add(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW);
+            add(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE);
             add(event, BlockRegistry.MUSHROOT_DOOR);
             add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
 
@@ -976,7 +978,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MUSHROOT_PANELS, BlockRegistry.MUSHROOT_PANEL_STAIRS);
                 addAfter(event, BlockRegistry.MUSHROOT_PANEL_STAIRS, BlockRegistry.MUSHROOT_PANEL_SLAB);
                 addAfter(event, BlockRegistry.MUSHROOT_PANEL_SLAB, BlockRegistry.MUSHROOT_PANEL_WALL);
-                addAfter(event, BlockRegistry.MUSHROOT_PANEL_WALL, BlockRegistry.MUSHROOT_DOOR);
+                addAfter(event, BlockRegistry.MUSHROOT_PANEL_WALL, BlockRegistry.MUSHROOT_FRAMED_WINDOW);
+                addAfter(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW, BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE);
+                addAfter(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE, BlockRegistry.MUSHROOT_DOOR);
                 addAfter(event, BlockRegistry.MUSHROOT_DOOR, BlockRegistry.MUSHROOT_TRAPDOOR);
                 addAfter(event, BlockRegistry.MUSHROOT_TRAPDOOR, BlockRegistry.MUSHROOT_PRESSURE_PLATE);
                 addAfter(event, BlockRegistry.MUSHROOT_PRESSURE_PLATE, BlockRegistry.MUSHROOT_BUTTON);

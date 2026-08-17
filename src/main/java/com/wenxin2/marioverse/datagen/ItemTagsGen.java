@@ -61,6 +61,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.FLAMMABLE_HARD_WALLS, TagRegistry.FLAMMABLE_HARD_WALL_ITEMS);
         copy(TagRegistry.FLAMMABLE_PICKET_FENCES, TagRegistry.FLAMMABLE_PICKET_FENCE_ITEMS);
         copy(TagRegistry.FLAMMABLE_WALLS, TagRegistry.FLAMMABLE_WALL_ITEMS);
+        copy(TagRegistry.FLAMMABLE_WINDOWS, TagRegistry.FLAMMABLE_WINDOW_ITEMS);
+        copy(TagRegistry.FLAMMABLE_WINDOW_PANES, TagRegistry.FLAMMABLE_WINDOW_PANE_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
         copy(TagRegistry.HARD_BLOCKS, TagRegistry.HARD_BLOCK_ITEMS);
         copy(TagRegistry.HARD_SLABS, TagRegistry.HARD_SLAB_ITEMS);
@@ -82,6 +84,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.STORAGE_BRICK_BLOCKS, TagRegistry.STORAGE_BRICK_ITEMS);
         copy(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS, TagRegistry.STORAGE_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.WARP_PIPE_BLOCKS, TagRegistry.WARP_PIPE_ITEMS);
+        copy(TagRegistry.WINDOWS, TagRegistry.WINDOW_ITEMS);
+        copy(TagRegistry.WINDOW_PANES, TagRegistry.WINDOW_PANE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_BLOCKS, TagRegistry.WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.WOODEN_HARD_BLOCKS, TagRegistry.WOODEN_HARD_BLOCK_ITEMS);
@@ -90,10 +94,14 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.WOODEN_HARD_WALLS, TagRegistry.WOODEN_HARD_WALL_ITEMS);
         copy(TagRegistry.WOODEN_PICKET_FENCES, TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
         copy(TagRegistry.WOODEN_WALLS, TagRegistry.WOODEN_WALL_ITEMS);
+        copy(TagRegistry.WOODEN_WINDOWS, TagRegistry.WOODEN_WINDOW_ITEMS);
+        copy(TagRegistry.WOODEN_WINDOW_PANES, TagRegistry.WOODEN_WINDOW_PANE_ITEMS);
 
         copy(Tags.Blocks.COBBLESTONES, Tags.Items.COBBLESTONES);
         copy(Tags.Blocks.FENCES_WOODEN, Tags.Items.FENCES_WOODEN);
         copy(Tags.Blocks.FENCE_GATES_WOODEN, Tags.Items.FENCE_GATES_WOODEN);
+        copy(Tags.Blocks.GLASS_BLOCKS_COLORLESS, Tags.Items.GLASS_BLOCKS_COLORLESS);
+        copy(Tags.Blocks.GLASS_PANES_COLORLESS, Tags.Items.GLASS_PANES_COLORLESS);
         copy(Tags.Blocks.PUMPKINS_CARVED, Tags.Items.PUMPKINS_CARVED);
         copy(Tags.Blocks.PUMPKINS_JACK_O_LANTERNS, Tags.Items.PUMPKINS_JACK_O_LANTERNS);
         copy(Tags.Blocks.STONES, Tags.Items.STONES);
@@ -115,6 +123,8 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         for (DyeColor color : DyeColor.values())
             copy(TagRegistry.blockTags("c", "dyed/" + color), TagRegistry.itemTags("c", "dyed/" + color));
+        copy(TagRegistry.blockTags("c", "glass_blocks/wooden"), TagRegistry.itemTags("c", "glass_blocks/wooden"));
+        copy(TagRegistry.blockTags("c", "glass_panes/wooden"), TagRegistry.itemTags("c", "glass_panes/wooden"));
 
         tag(ItemTags.ARMOR_ENCHANTABLE)
                 .add(ItemRegistry.BODICE.get())

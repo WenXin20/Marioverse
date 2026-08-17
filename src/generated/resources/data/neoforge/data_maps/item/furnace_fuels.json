@@ -11,6 +11,12 @@
     },
     "#marioverse:walls/flammable": {
       "burn_time": 300
+    },
+    "#marioverse:window_panes/flammable": {
+      "burn_time": 60
+    },
+    "#marioverse:windows/flammable": {
+      "burn_time": 150
     }
   }
 }

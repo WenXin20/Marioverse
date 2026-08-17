@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_glass_pane_side_alt",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "edge": "marioverse:block/mushroot_framed_window_pane_top",
+    "pane": "marioverse:block/mushroot_framed_window"
+  }
+}
