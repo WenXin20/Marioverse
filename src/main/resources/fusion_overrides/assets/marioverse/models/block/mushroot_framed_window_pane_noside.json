@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/template_glass_pane_noside",
+  "render_type": "minecraft:cutout_mipped",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "pane": "marioverse:block/mushroot_framed_window"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" }
+  }
+}
