@@ -4,7 +4,7 @@
   "loader": "fusion:model",
   "type": "connecting",
   "textures": {
-    "pane": "marioverse:block/mushroot_framed_window"
+    "pane": "marioverse:block/mushroot_framed_window_pane"
   },
   "connections": {
     "default": { "type": "is_same_block" }
