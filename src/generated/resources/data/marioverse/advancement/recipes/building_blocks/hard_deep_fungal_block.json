@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_polished_deep_fungal_bricks": {
+    "has_chain": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:polished_deep_fungal_bricks"
+            "items": "marioverse:polished_deep_fungal_stone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_polished_deep_fungal_stone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:polished_deep_fungal_stone"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_polished_deep_fungal_bricks"
+      "has_chain",
+      "has_polished_deep_fungal_stone"
     ]
   ],
   "rewards": {

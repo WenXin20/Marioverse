@@ -74,6 +74,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -90,6 +91,7 @@ import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
@@ -111,6 +113,14 @@ public class RegistryEventHandlers {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         PowerUpCommand.register(event.getDispatcher());
+    }
+
+    public static void addBlockEntityValidBlocks(final BlockEntityTypeAddBlocksEvent event) {
+        event.modify(BlockEntityType.HANGING_SIGN,
+                BlockRegistry.MUSHROOT_HANGING_SIGN.get(), BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get());
+
+        event.modify(BlockEntityType.SIGN,
+                BlockRegistry.MUSHROOT_SIGN.get(), BlockRegistry.MUSHROOT_WALL_SIGN.get());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

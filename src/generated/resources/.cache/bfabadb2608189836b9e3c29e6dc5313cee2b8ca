@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-17T00:33:24.6018881	Item Models: marioverse
+// 1.21.1	2026-08-17T22:34:59.8621767	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -142,7 +142,9 @@ b8aec86620e9b6ec6fbf0cccb851c4c78e7fd92d assets/marioverse/models/item/mini_mush
 5e4f22b9514f8ff7c62f46451c1bee66b86cefed assets/marioverse/models/item/mrs_puff_spawn_egg.json
 0b3c93e7b6a9929084062135a271c5e6130844db assets/marioverse/models/item/mushroot_door.json
 df1f59e85f297a6d0d85934eb5940f5dc4141e40 assets/marioverse/models/item/mushroot_framed_window_pane.json
+5e9c25c00bfca92a822168e995e3a358ab45bb0d assets/marioverse/models/item/mushroot_hanging_sign.json
 8b762fed0ddad206554cfce9969a70202f165bee assets/marioverse/models/item/mushroot_sapling.json
+e9cb194a6076f62c378e8561f37a90db019678be assets/marioverse/models/item/mushroot_sign.json
 de0c3b51b45be55cd8615c33465ddeed4ad4fb6b assets/marioverse/models/item/one_up_mushroom.json
 07d89f7ff55215660e899f99f506f8b1ee861c6c assets/marioverse/models/item/one_up_mushroom_spawn_egg.json
 d71e2369371eda26924578fbbc22e15b1f7c69ff assets/marioverse/models/item/orange_checkpoint_flag.json

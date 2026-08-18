@@ -40,10 +40,12 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.BannerPatternItem;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.Tiers;
@@ -109,6 +111,8 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_MUSHROOM;
     public static final DeferredItem<Item> MINI_MUSHROOM_SPAWN_EGG;
+    public static final DeferredItem<Item> MUSHROOT_HANGING_SIGN;
+    public static final DeferredItem<Item> MUSHROOT_SIGN;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> PANTS;
@@ -153,6 +157,15 @@ public class ItemRegistry {
         STAR_COIN = registerItem("star_coin", () -> new StarCoinBlockItem(BlockRegistry.STAR_COIN.get(), new Item.Properties()));
         CLASSIC_CHECKPOINT_FLAG = registerItem("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlockItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), new Item.Properties()));
+
+        MUSHROOT_HANGING_SIGN = registerItem("mushroot_hanging_sign",
+                () -> new HangingSignItem(BlockRegistry.MUSHROOT_HANGING_SIGN.get(),
+                        BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get(),
+                        new Item.Properties().stacksTo(16)));
+
+        MUSHROOT_SIGN = registerItem("mushroot_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.MUSHROOT_SIGN.get(), BlockRegistry.MUSHROOT_WALL_SIGN.get()));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CHECKPOINT_FLAGS.put(color, registerItem(color.getName() + "_checkpoint_flag",

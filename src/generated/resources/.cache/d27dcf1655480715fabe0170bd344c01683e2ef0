@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-17T00:33:24.6104394	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-17T22:34:59.8732244	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -126,6 +126,7 @@ e21461de112b3f56c122ee90f9677336d9b95754 data/marioverse/tags/block/walls/wooden
 d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_efficient.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
 9c91acf2d7212f4d9a7994ac5aa2aeb60d7dcc92 data/minecraft/tags/block/base_stone_overworld.json
+de585f23227d35ce53a4581f7b4eaf6048585b1d data/minecraft/tags/block/ceiling_hanging_signs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/corals.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
@@ -153,12 +154,15 @@ b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
 8bec1ef5bee8c3b635422f922cd1823b2a2c35f7 data/minecraft/tags/block/slabs.json
 835cd4c1c8f9ccf885590ced2b4a7a0c21080176 data/minecraft/tags/block/stairs.json
+ffc1d076cddd81e49e995e1874de5cb086d4eb40 data/minecraft/tags/block/standing_signs.json
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/block/stone_buttons.json
 da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
 a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficient.json
 a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
 c1d835760cafacd76917fdf79d03a50fa0969088 data/minecraft/tags/block/walls.json
+4881a523aa09b21de0da1daeb555706b989268a6 data/minecraft/tags/block/wall_hanging_signs.json
 d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
+d90cde624d3a35c0d13ed4fea71909d60a64878b data/minecraft/tags/block/wall_signs.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
 a7e1111b0a112941295c13c793d696ce6f478c40 data/minecraft/tags/block/wooden_fences.json
 60e36229e51deb50214101fb4dfa04856351dd00 data/minecraft/tags/block/wooden_slabs.json

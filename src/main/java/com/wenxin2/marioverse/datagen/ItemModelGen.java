@@ -83,6 +83,8 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.MUSHROOT_HANGING_SIGN.get());
+        this.basicItem(ItemRegistry.MUSHROOT_SIGN.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.get());

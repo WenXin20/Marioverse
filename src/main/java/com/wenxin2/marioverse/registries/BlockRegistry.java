@@ -69,6 +69,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.FenceBlock;
@@ -82,9 +83,12 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.WeatheringCopperFullBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -308,6 +312,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_DOOR;
     public static final DeferredBlock<Block> MUSHROOT_FENCE;
     public static final DeferredBlock<Block> MUSHROOT_FENCE_GATE;
+    public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW;
+    public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW_PANE;
+    public static final DeferredBlock<Block> MUSHROOT_HANGING_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_LEAVES;
     public static final DeferredBlock<Block> MUSHROOT_LOG;
     public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE;
@@ -320,11 +327,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_PLANKS;
     public static final DeferredBlock<Block> MUSHROOT_PRESSURE_PLATE;
     public static final DeferredBlock<Block> MUSHROOT_SAPLING;
+    public static final DeferredBlock<Block> MUSHROOT_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_SLAB;
     public static final DeferredBlock<Block> MUSHROOT_STAIRS;
     public static final DeferredBlock<Block> MUSHROOT_TRAPDOOR;
-    public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW;
-    public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW_PANE;
+    public static final DeferredBlock<Block> MUSHROOT_WALL_HANGING_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_WALL_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WOOD;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
@@ -724,6 +732,22 @@ public class BlockRegistry {
 
         MUSHROOT_PRESSURE_PLATE = registerBlock("mushroot_pressure_plate", () -> pressurePlate(MUSHROOT_PLANKS.get(),
                 BlockSetTypeRegistry.MUSHROOT));
+
+        MUSHROOT_HANGING_SIGN = registerNoItemBlock("mushroot_hanging_sign",
+                () -> new CeilingHangingSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_WALL_HANGING_SIGN = registerNoItemBlock("mushroot_wall_hanging_sign",
+                () -> new WallHangingSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_SIGN = registerNoItemBlock("mushroot_sign",
+                () -> new StandingSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_WALL_SIGN = registerNoItemBlock("mushroot_wall_sign",
+                () -> new WallSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
 
         MUSHROOT_LOG_BRIDGE = registerBlock("mushroot_log_bridge",
                 () -> new BridgeBlock(BlockRegistry.MUSHROOT_LOG.get(), BlockBehaviour.Properties

@@ -194,6 +194,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
+        tag(ItemTags.HANGING_SIGNS)
+                .add(ItemRegistry.MUSHROOT_HANGING_SIGN.get());
+
+        tag(ItemTags.SIGNS)
+                .add(ItemRegistry.MUSHROOT_SIGN.get());
+
         tag(ItemTags.VANISHING_ENCHANTABLE)
                 .add(ItemRegistry.BODICE.get())
                 .add(ItemRegistry.CROWN.get())

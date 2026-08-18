@@ -838,6 +838,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
 
+        tag(BlockTags.CEILING_HANGING_SIGNS)
+                .add(BlockRegistry.MUSHROOT_HANGING_SIGN.get());
+
         tag(BlockTags.CORALS);
 
         tag(BlockTags.CRYSTAL_SOUND_BLOCKS)
@@ -1002,6 +1005,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
 
+        tag(BlockTags.STANDING_SIGNS)
+                .add(BlockRegistry.MUSHROOT_SIGN.get());
+
         tag(BlockTags.STONE_BUTTONS)
                 .add(BlockRegistry.AMETHYST_BUTTON.get())
                 .add(BlockRegistry.CALCITE_BUTTON.get())
@@ -1017,6 +1023,12 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.WALL_POST_OVERRIDE)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
                 .add(BlockRegistry.SPIKE_PANEL.get());
+
+        tag(BlockTags.WALL_HANGING_SIGNS)
+                .add(BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get());
+
+        tag(BlockTags.WALL_SIGNS)
+                .add(BlockRegistry.MUSHROOT_WALL_SIGN.get());
 
         tag(BlockTags.WALLS)
                 .addTag(TagRegistry.HARD_WALLS)

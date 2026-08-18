@@ -149,8 +149,9 @@ public class Marioverse {
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onRightClickBlock);
         bus.addListener(this::commonSetup);
-        bus.addListener(RegistryEventHandlers::gatherData);
+        bus.addListener(RegistryEventHandlers::addBlockEntityValidBlocks);
         bus.addListener(RegistryEventHandlers::addPackFinder);
+        bus.addListener(RegistryEventHandlers::gatherData);
         bus.addListener(PowerUpTypeRegistry::registerRegistry);
 //        bus.addListener(TreesDataGen::gatherData);
     }

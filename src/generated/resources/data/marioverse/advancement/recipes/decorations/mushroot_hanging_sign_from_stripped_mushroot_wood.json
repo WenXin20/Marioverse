@@ -5,17 +5,17 @@
       "conditions": {
         "items": [
           {
-            "items": "marioverse:mushroot_planks"
+            "items": "#c:chains"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_mushroot_planks": {
+    "has_stripped_mushroot_wood": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:mushroot_planks"
+            "items": "marioverse:stripped_mushroot_wood"
           }
         ]
       },
@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:hard_mushroot_block_from_mushroot_planks"
+        "recipe": "marioverse:mushroot_hanging_sign_from_stripped_mushroot_wood"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -32,12 +32,12 @@
     [
       "has_the_recipe",
       "has_chain",
-      "has_mushroot_planks"
+      "has_stripped_mushroot_wood"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:hard_mushroot_block_from_mushroot_planks"
+      "marioverse:mushroot_hanging_sign_from_stripped_mushroot_wood"
     ]
   }
 }

@@ -1,6 +1,16 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_chain": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:polished_fungal_stone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_polished_fungal_stone": {
       "conditions": {
         "items": [
@@ -21,6 +31,7 @@
   "requirements": [
     [
       "has_the_recipe",
+      "has_chain",
       "has_polished_fungal_stone"
     ]
   ],

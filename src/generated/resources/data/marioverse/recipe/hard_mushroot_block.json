@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
+  "group": "marioverse:hard_blocks",
   "key": {
     "#": {
       "item": "marioverse:mushroot_boards"

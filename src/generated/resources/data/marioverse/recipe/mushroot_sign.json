@@ -1,19 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
-  "group": "marioverse:hard_blocks",
+  "category": "misc",
+  "group": "sign",
   "key": {
     "#": {
       "item": "marioverse:mushroot_planks"
+    },
+    "X": {
+      "item": "minecraft:stick"
     }
   },
   "pattern": [
     "###",
     "###",
-    "###"
+    " X "
   ],
   "result": {
-    "count": 9,
-    "id": "marioverse:hard_mushroot_block"
+    "count": 3,
+    "id": "marioverse:mushroot_sign"
   }
 }

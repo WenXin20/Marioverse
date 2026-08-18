@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-17T00:33:24.5926373	Loot Tables
+// 1.21.1	2026-08-17T22:34:59.8485934	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 ebcb3099f486fc6158a6419f0121296ef95ecebe data/marioverse/loot_table/blocks/acacia_picket_fence.json
@@ -287,6 +287,7 @@ d3aaff89a8d524a20e88ca8806e34e47d8e891f6 data/marioverse/loot_table/blocks/mushr
 d5766df66ae660d1efdb5491263263e539f4acb7 data/marioverse/loot_table/blocks/mushroot_fence_gate.json
 3689d3d5796e208c353123cc79e1759a1182427d data/marioverse/loot_table/blocks/mushroot_framed_window.json
 8fd24fb9c39b0c79d0660fa35afc4e3394428ba7 data/marioverse/loot_table/blocks/mushroot_framed_window_pane.json
+5241b58e895afcaeaf0b8ea907cacac100b18872 data/marioverse/loot_table/blocks/mushroot_hanging_sign.json
 3523a396a7aace0852388002ad0c5252ea827b5c data/marioverse/loot_table/blocks/mushroot_leaves.json
 1858f8cae444a321166dce2ee06423b36926bfb1 data/marioverse/loot_table/blocks/mushroot_log.json
 b39158e9d7ec0b1d6d6cf8d72d78fd9cbe955d0b data/marioverse/loot_table/blocks/mushroot_log_bridge.json
@@ -299,9 +300,12 @@ f833dc8bc409db95f94664b33f22d21b871935e9 data/marioverse/loot_table/blocks/mushr
 5f99f3458893da8e7963c0c0e3f71cf499c0a070 data/marioverse/loot_table/blocks/mushroot_planks.json
 b51812d0cc27dca67daa9bfb845808dfd7120577 data/marioverse/loot_table/blocks/mushroot_pressure_plate.json
 1c81cb22dfe75bff6bd11467ca597482afe8f8f2 data/marioverse/loot_table/blocks/mushroot_sapling.json
+a6a7de34f562dc6023e3e24df7c86d620f21e419 data/marioverse/loot_table/blocks/mushroot_sign.json
 f236338643148a4c7d4066ef182ebaea1d4fa9f8 data/marioverse/loot_table/blocks/mushroot_slab.json
 911b20f8c63fc4e955014b4b69346e5ad4ba7988 data/marioverse/loot_table/blocks/mushroot_stairs.json
 16c4faa8d6eb65360298e6b55440debf61784bb1 data/marioverse/loot_table/blocks/mushroot_trapdoor.json
+6d967b43271e0ebf0ff4c947b419804ce311a1d7 data/marioverse/loot_table/blocks/mushroot_wall_hanging_sign.json
+2dde25f1e30a2c75e62ca5b1e857b5b642c41918 data/marioverse/loot_table/blocks/mushroot_wall_sign.json
 78ff392c77dbe2c12805c267af2a734f34021764 data/marioverse/loot_table/blocks/mushroot_wood.json
 c00cfbf5009d08ba5755f2db67201390f688a8ea data/marioverse/loot_table/blocks/nether_brick_pedestal.json
 052249c89490368837222ce7cff3b7d96522652c data/marioverse/loot_table/blocks/nether_question_bricks.json

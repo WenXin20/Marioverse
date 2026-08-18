@@ -32,6 +32,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
@@ -40,9 +41,12 @@ import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
@@ -207,11 +211,13 @@ public class BlockStateGen extends BlockStateProvider {
         this.genDoors();
         this.genFences();
         this.genFenceGates();
+        this.genHangingSigns();
         this.genInvisibleQuestionBlocks();
         this.genPedestals();
         this.genPressurePlates();
         this.genQuestionBlocks();
         this.genQuestionPanels();
+        this.genSigns();
         this.genSimpleBlockWithItem();
         this.genSlabs();
         this.genSmashableBlocks();
@@ -422,31 +428,20 @@ public class BlockStateGen extends BlockStateProvider {
         }));
     }
 
-    private void genSimpleBlockWithItem() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
-            BlockFamilyExtended.Variant bricks = BlockFamilyExtended.Variant.BRICKS;
-            BlockFamilyExtended.Variant chiseled = BlockFamilyExtended.Variant.CHISELED;
-            BlockFamilyExtended.Variant cobble = BlockFamilyExtended.Variant.COBBLE;
-            BlockFamilyExtended.Variant cracked = BlockFamilyExtended.Variant.CRACKED;
-            BlockFamilyExtended.Variant hard_block = BlockFamilyExtended.Variant.HARD_BLOCK;
-            BlockFamilyExtended.Variant polished = BlockFamilyExtended.Variant.POLISHED;
+    private void genHangingSigns() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(family -> {
+            Block sign = family.getVariants().get(BlockFamilyExtended.Variant.HANGING_SIGN);
+            Block wallSign = family.getVariants().get(BlockFamilyExtended.Variant.WALL_HANGING_SIGN);
 
-            if (variant == bricks || variant == chiseled || variant == cobble
-                    || variant == cracked || variant == hard_block || variant == polished) {
-                if (this.processedSimpleBlocks.add(block)) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    ResourceLocation mainTexture = modLoc("block/" + blockName);
-                    ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
+            if (sign instanceof CeilingHangingSignBlock hangingSign
+                    && wallSign instanceof WallHangingSignBlock wallHangingSign) {
+                String signName = BuiltInRegistries.BLOCK.getKey(sign).getPath();
+                String baseName = signName.replace("_hanging_sign", "");
+                ResourceLocation texture = modLoc("block/stripped_" + baseName + "_log");
 
-                    if (blockName.startsWith("chiseled_deep_fungal_bricks")
-                            || blockName.startsWith("chiseled_fungal_bricks")
-                            || blockName.startsWith("chiseled_polished_deep_fungal_bricks")
-                            || blockName.startsWith("chiseled_polished_fungal_bricks"))
-                        this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
-                    else this.cubeAllModel(block, mainTexture);
-                }
+                this.hangingSignBlock(hangingSign, wallHangingSign, texture);
             }
-        }));
+        });
     }
 
     private void genInvisibleQuestionBlocks() {
@@ -666,6 +661,49 @@ public class BlockStateGen extends BlockStateProvider {
                 ResourceLocation topTexture = modLoc("block/" + blockName);
 
                 this.questionPanelModel(block, bottomTexture, topTexture, offTexture);
+            }
+        }));
+    }
+
+    private void genSigns() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(family -> {
+            Block sign = family.getVariants().get(BlockFamilyExtended.Variant.SIGN);
+            Block wallSign = family.getVariants().get(BlockFamilyExtended.Variant.WALL_SIGN);
+
+            if (sign instanceof StandingSignBlock standingSign
+                    && wallSign instanceof WallSignBlock wallSignBlock) {
+                String signName = BuiltInRegistries.BLOCK.getKey(sign).getPath();
+                String baseName = signName.replace("_sign", "");
+                ResourceLocation texture = modLoc("block/" + baseName + "_planks");
+
+                this.signBlock(standingSign, wallSignBlock, texture);
+            }
+        });
+    }
+
+    private void genSimpleBlockWithItem() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant bricks = BlockFamilyExtended.Variant.BRICKS;
+            BlockFamilyExtended.Variant chiseled = BlockFamilyExtended.Variant.CHISELED;
+            BlockFamilyExtended.Variant cobble = BlockFamilyExtended.Variant.COBBLE;
+            BlockFamilyExtended.Variant cracked = BlockFamilyExtended.Variant.CRACKED;
+            BlockFamilyExtended.Variant hard_block = BlockFamilyExtended.Variant.HARD_BLOCK;
+            BlockFamilyExtended.Variant polished = BlockFamilyExtended.Variant.POLISHED;
+
+            if (variant == bricks || variant == chiseled || variant == cobble
+                    || variant == cracked || variant == hard_block || variant == polished) {
+                if (this.processedSimpleBlocks.add(block)) {
+                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+                    ResourceLocation mainTexture = modLoc("block/" + blockName);
+                    ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
+
+                    if (blockName.startsWith("chiseled_deep_fungal_bricks")
+                            || blockName.startsWith("chiseled_fungal_bricks")
+                            || blockName.startsWith("chiseled_polished_deep_fungal_bricks")
+                            || blockName.startsWith("chiseled_polished_fungal_bricks"))
+                        this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
+                    else this.cubeAllModel(block, mainTexture);
+                }
             }
         }));
     }

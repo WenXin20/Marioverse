@@ -243,6 +243,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.HARD_MUSHROOT_WALL);
             add(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW);
             add(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE);
+            add(event, ItemRegistry.MUSHROOT_SIGN);
+            add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
             add(event, BlockRegistry.MUSHROOT_DOOR);
             add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
 
@@ -1363,6 +1365,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL);
                 addAfter(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
                 addDyedBlocks(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.CALCITE_BRICK_PEDESTAL, false, false);
+
+                addAfter(event, Items.BAMBOO_HANGING_SIGN, ItemRegistry.MUSHROOT_SIGN);
+                addAfter(event, ItemRegistry.MUSHROOT_SIGN, ItemRegistry.MUSHROOT_HANGING_SIGN);
 
                 addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.IRON_SPIKE);
 

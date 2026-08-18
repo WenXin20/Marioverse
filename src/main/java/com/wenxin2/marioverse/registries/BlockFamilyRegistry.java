@@ -83,6 +83,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended STRIPPED_MUSHROOT_LOG = familyBuilder(BlockRegistry.STRIPPED_MUSHROOT_LOG.get())
             .bridge(BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE.get())
             .bridgeStairs(BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS.get())
+            .hangingSign(BlockRegistry.MUSHROOT_HANGING_SIGN.get(), BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get())
             .planks(BlockRegistry.MUSHROOT_PLANKS.get())
             .getFamily();
 
@@ -91,6 +92,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended STRIPPED_MUSHROOT_WOOD = familyBuilder(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get())
+            .hangingSign(BlockRegistry.MUSHROOT_HANGING_SIGN.get(), BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get())
             .planks(BlockRegistry.MUSHROOT_PLANKS.get())
             .getFamily();
 
@@ -209,6 +211,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .fenceGate(BlockRegistry.MUSHROOT_FENCE_GATE.get())
             .panelsFromBoards(BlockRegistry.MUSHROOT_PANELS.get())
             .pressurePlate(BlockRegistry.MUSHROOT_PRESSURE_PLATE.get())
+            .sign(BlockRegistry.MUSHROOT_SIGN.get(), BlockRegistry.MUSHROOT_WALL_SIGN.get())
             .slab(BlockRegistry.MUSHROOT_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_STAIRS.get())
             .trapdoor(BlockRegistry.MUSHROOT_TRAPDOOR.get())
