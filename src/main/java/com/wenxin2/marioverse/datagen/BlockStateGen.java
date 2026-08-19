@@ -20,6 +20,8 @@ import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -37,8 +39,8 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
@@ -65,14 +67,14 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockStateGen extends BlockStateProvider {
-    private final Set<Block> processedSimpleBlocks = new HashSet<>();
-    private final Set<Block> processedDoors = new HashSet<>();
-    private final Set<Block> processedTrapdoors = new HashSet<>();
-    private final Set<Block> processedWindows = new HashSet<>();
-    private final Set<Block> processedWindowPanes = new HashSet<>();
+    private final Map<BlockFamilyExtended.Variant, Set<Block>> generatedBlocks = new EnumMap<>(BlockFamilyExtended.Variant.class);
 
     public BlockStateGen(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Marioverse.MOD_ID, existingFileHelper);
+    }
+
+    private boolean isBlockGenerated(BlockFamilyExtended.Variant variant, Block block) {
+        return !this.generatedBlocks.computeIfAbsent(variant, v -> new HashSet<>()).add(block);
     }
 
     private ResourceLocation texture(Block block, String suffix) {
@@ -105,6 +107,20 @@ public class BlockStateGen extends BlockStateProvider {
             this.picketFenceModel(block, blockTexture(block), texture(block, "_back"));
     }
 
+    private void axisBlocks(ResourceLocation texture, Block... blocks) {
+        for (Block block : blocks) {
+            if (block instanceof RotatedPillarBlock pillarBlock)
+                this.axisBlock(pillarBlock, texture, modLoc(texture.getPath() + "_top"));
+        }
+    }
+
+    private void logBlocks(Block... blocks) {
+        for (Block block : blocks) {
+            if (block instanceof RotatedPillarBlock pillarBlock)
+                this.logBlock(pillarBlock);
+        }
+    }
+
     private String name(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block).getPath();
     }
@@ -123,6 +139,8 @@ public class BlockStateGen extends BlockStateProvider {
                 lantern = BlockRegistry.SPLUNKIN_O_LANTERN.get();
         Block waterSpout = BlockRegistry.WATER_SPOUT.get();
 
+        this.axisBlocks(modLoc("block/mushroot_log"), BlockRegistry.MUSHROOT_WOOD.get());
+        this.axisBlocks(modLoc("block/stripped_mushroot_log"), BlockRegistry.STRIPPED_MUSHROOT_WOOD.get());
         this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(),
                 BlockRegistry.MONSTER_DEATH_BLOCK.get(),
                 BlockRegistry.MUSHROOT_BOARDS.get(),
@@ -141,10 +159,8 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.WARIO_ABILITY_BLOCK.get());
         this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
-                BlockRegistry.MUSHROOT_LOG.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
-                BlockRegistry.ROCKY_FUNGAL_STONE.get(),
-                BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
+                BlockRegistry.ROCKY_FUNGAL_STONE.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(),
                 BlockRegistry.BUBBLE_CORAL_TOWER.get(),
                 BlockRegistry.FIRE_CORAL_TOWER.get(),
@@ -155,6 +171,8 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.DEAD_FIRE_CORAL_TOWER.get(),
                 BlockRegistry.DEAD_HORN_CORAL_TOWER.get(),
                 BlockRegistry.DEAD_TUBE_CORAL_TOWER.get());
+        this.logBlocks(BlockRegistry.MUSHROOT_LOG.get(),
+                BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
         this.picketFenceBlocks(BlockRegistry.ACACIA_PICKET_FENCE.get(),
                 BlockRegistry.BAMBOO_PICKET_FENCE.get(),
                 BlockRegistry.BIRCH_PICKET_FENCE.get(),
@@ -174,8 +192,6 @@ public class BlockStateGen extends BlockStateProvider {
         this.blossomModel(blossom, blockTexture(blossom), texture(blossom, "_leaves"));
         this.crossModel(BlockRegistry.MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
         this.crossFlowerPotModel(BlockRegistry.POTTED_MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
-        this.cubeAllModel(BlockRegistry.MUSHROOT_WOOD.get(), modLoc("block/mushroot_log"));
-        this.cubeAllModel(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get(), modLoc("block/stripped_mushroot_log"));
         this.cubeInnerOverlayModel(quicksand, texture(quicksand, "_top"), blockTexture(quicksand), texture(quicksand, "_top"));
         this.cubeInnerOverlayModel(redQuicksand, texture(redQuicksand, "_top"), blockTexture(redQuicksand), texture(redQuicksand, "_top"));
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), blockTexture(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
@@ -370,7 +386,7 @@ public class BlockStateGen extends BlockStateProvider {
             BlockFamilyExtended.Variant door = BlockFamilyExtended.Variant.DOOR;
 
             if (variant == door && block instanceof DoorBlock doorBlock) {
-                if (!this.processedDoors.add(block))
+                if (this.isBlockGenerated(door, block))
                     return;
 
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
@@ -430,11 +446,13 @@ public class BlockStateGen extends BlockStateProvider {
 
     private void genHangingSigns() {
         BlockFamilyRegistry.getAllExtendedFamilies().forEach(family -> {
-            Block sign = family.getVariants().get(BlockFamilyExtended.Variant.HANGING_SIGN);
+            BlockFamilyExtended.Variant variant = BlockFamilyExtended.Variant.HANGING_SIGN;
+            Block sign = family.getVariants().get(variant);
             Block wallSign = family.getVariants().get(BlockFamilyExtended.Variant.WALL_HANGING_SIGN);
 
             if (sign instanceof CeilingHangingSignBlock hangingSign
-                    && wallSign instanceof WallHangingSignBlock wallHangingSign) {
+                    && wallSign instanceof WallHangingSignBlock wallHangingSign
+                    && !this.isBlockGenerated(variant, sign)) {
                 String signName = BuiltInRegistries.BLOCK.getKey(sign).getPath();
                 String baseName = signName.replace("_hanging_sign", "");
                 ResourceLocation texture = modLoc("block/stripped_" + baseName + "_log");
@@ -681,30 +699,30 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
+    private static final Set<BlockFamilyExtended.Variant> SIMPLE_BLOCK_VARIANTS = EnumSet.of(
+            BlockFamilyExtended.Variant.BRICKS,
+            BlockFamilyExtended.Variant.CHISELED,
+            BlockFamilyExtended.Variant.COBBLE,
+            BlockFamilyExtended.Variant.CRACKED,
+            BlockFamilyExtended.Variant.HARD_BLOCK,
+            BlockFamilyExtended.Variant.POLISHED
+    );
+
     private void genSimpleBlockWithItem() {
-        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
-            BlockFamilyExtended.Variant bricks = BlockFamilyExtended.Variant.BRICKS;
-            BlockFamilyExtended.Variant chiseled = BlockFamilyExtended.Variant.CHISELED;
-            BlockFamilyExtended.Variant cobble = BlockFamilyExtended.Variant.COBBLE;
-            BlockFamilyExtended.Variant cracked = BlockFamilyExtended.Variant.CRACKED;
-            BlockFamilyExtended.Variant hard_block = BlockFamilyExtended.Variant.HARD_BLOCK;
-            BlockFamilyExtended.Variant polished = BlockFamilyExtended.Variant.POLISHED;
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(family -> family.getVariants().forEach((variant, block) -> {
+            if (!SIMPLE_BLOCK_VARIANTS.contains(variant) || this.isBlockGenerated(variant, block))
+                return;
 
-            if (variant == bricks || variant == chiseled || variant == cobble
-                    || variant == cracked || variant == hard_block || variant == polished) {
-                if (this.processedSimpleBlocks.add(block)) {
-                    String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-                    ResourceLocation mainTexture = modLoc("block/" + blockName);
-                    ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
+            String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+            ResourceLocation mainTexture = modLoc("block/" + blockName);
 
-                    if (blockName.startsWith("chiseled_deep_fungal_bricks")
-                            || blockName.startsWith("chiseled_fungal_bricks")
-                            || blockName.startsWith("chiseled_polished_deep_fungal_bricks")
-                            || blockName.startsWith("chiseled_polished_fungal_bricks"))
-                        this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
-                    else this.cubeAllModel(block, mainTexture);
-                }
-            }
+            if (blockName.startsWith("chiseled_deep_fungal_bricks")
+                    || blockName.startsWith("chiseled_fungal_bricks")
+                    || blockName.startsWith("chiseled_polished_deep_fungal_bricks")
+                    || blockName.startsWith("chiseled_polished_fungal_bricks")) {
+                ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
+                this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
+            } else this.cubeAllModel(block, mainTexture);
         }));
     }
 
@@ -971,7 +989,7 @@ public class BlockStateGen extends BlockStateProvider {
             BlockFamilyExtended.Variant trapdoor = BlockFamilyExtended.Variant.TRAPDOOR;
 
             if (variant == trapdoor && block instanceof TrapDoorBlock trapdoorBlock) {
-                if (!this.processedTrapdoors.add(block))
+                if (this.isBlockGenerated(variant, block))
                     return;
 
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
@@ -1027,7 +1045,7 @@ public class BlockStateGen extends BlockStateProvider {
             BlockFamilyExtended.Variant window = BlockFamilyExtended.Variant.WINDOW;
 
             if (variant == window && block instanceof TransparentBlock transparentBlock) {
-                if (!this.processedWindows.add(block))
+                if (this.isBlockGenerated(variant, block))
                     return;
 
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
@@ -1044,7 +1062,7 @@ public class BlockStateGen extends BlockStateProvider {
             BlockFamilyExtended.Variant windowPane = BlockFamilyExtended.Variant.WINDOW_PANE;
 
             if (variant == windowPane && block instanceof IronBarsBlock paneBlock) {
-                if (!this.processedWindowPanes.add(block))
+                if (this.isBlockGenerated(variant, block))
                     return;
 
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();

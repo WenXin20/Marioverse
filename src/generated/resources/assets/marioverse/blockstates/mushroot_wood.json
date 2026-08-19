@@ -1,7 +1,16 @@
 {
   "variants": {
-    "": {
+    "axis=x": {
+      "model": "marioverse:block/mushroot_wood_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
       "model": "marioverse:block/mushroot_wood"
+    },
+    "axis=z": {
+      "model": "marioverse:block/mushroot_wood_horizontal",
+      "x": 90
     }
   }
 }
