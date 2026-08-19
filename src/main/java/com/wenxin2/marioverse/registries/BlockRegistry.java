@@ -319,6 +319,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_LOG;
     public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE;
     public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_LOG_PLATFORM;
     public static final DeferredBlock<Block> MUSHROOT_PANELS;
     public static final DeferredBlock<Block> MUSHROOT_PANEL_SLAB;
     public static final DeferredBlock<Block> MUSHROOT_PANEL_STAIRS;
@@ -493,6 +494,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG;
     public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG_PLATFORM;
     public static final DeferredBlock<Block> STRIPPED_MUSHROOT_WOOD;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE_STAIRS;
@@ -764,6 +766,10 @@ public class BlockRegistry {
         STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS = registerBlock("stripped_mushroot_log_bridge_stairs",
                 () -> new BridgeStairBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
                         .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_LOG_PLATFORM = registerBlock("mushroot_log_platform", () -> slab(MUSHROOT_PLANKS.get()));
+
+        STRIPPED_MUSHROOT_LOG_PLATFORM = registerBlock("stripped_mushroot_log_platform", () -> slab(MUSHROOT_PLANKS.get()));
 
         MUSHROOT_BOARDS = registerBlock("mushroot_boards",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())));
