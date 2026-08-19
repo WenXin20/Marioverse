@@ -161,6 +161,9 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.BOWSER_POTTERY_SHERD);
             add(event, ItemRegistry.PLUMBER_POTTERY_SHERD);
 
+            add(event, ItemRegistry.MUSHROOT_BOAT);
+            add(event, ItemRegistry.MUSHROOT_CHEST_BOAT);
+
             add(event, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG);
             add(event, ItemRegistry.DASH_MUSHROOM_SPAWN_EGG);
             add(event, ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG);
@@ -831,6 +834,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PLASTIC_WATER_BUCKET, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
+
+                addAfter(event, Items.BAMBOO_CHEST_RAFT, ItemRegistry.MUSHROOT_BOAT);
+                addAfter(event, ItemRegistry.MUSHROOT_BOAT, ItemRegistry.MUSHROOT_CHEST_BOAT);
             }
 
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
