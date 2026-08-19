@@ -28,6 +28,8 @@ import com.wenxin2.marioverse.entities.SnowPokeyBodyEntity;
 import com.wenxin2.marioverse.entities.SnowPokeyEntity;
 import com.wenxin2.marioverse.entities.SpinyCheepCheepEntity;
 import com.wenxin2.marioverse.entities.SplunkinEntity;
+import com.wenxin2.marioverse.entities.WoodTypeBoat;
+import com.wenxin2.marioverse.entities.WoodTypeChestBoat;
 import com.wenxin2.marioverse.entities.power_ups.DashMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
@@ -190,6 +192,19 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN =
             Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
                     .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeBoat>> MUSHROOT_BOAT =
+            Marioverse.ENTITIES.register("mushroot_boat", () -> EntityType.Builder.<WoodTypeBoat>of(
+                            (type, level) -> new WoodTypeBoat(type, level, ItemRegistry.MUSHROOT_BOAT.get()), MobCategory.MISC)
+                    .sized(1.375F, 0.5625F)
+                    .clientTrackingRange(10)
+                    .build("mushroot_boat"));
+    public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeChestBoat>> MUSHROOT_CHEST_BOAT =
+            Marioverse.ENTITIES.register("mushroot_chest_boat", () -> EntityType.Builder.<WoodTypeChestBoat>of(
+                            (type, level) -> new WoodTypeChestBoat(type, level, ItemRegistry.MUSHROOT_CHEST_BOAT.get()), MobCategory.MISC)
+                    .sized(1.375F, 0.5625F)
+                    .clientTrackingRange(10)
+                    .build("mushroot_chest_boat"));
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {

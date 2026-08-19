@@ -40,6 +40,7 @@ import com.wenxin2.marioverse.client.renderers.entities.PokeyRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PorcupufferRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SpinyCheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SplunkinRenderer;
+import com.wenxin2.marioverse.client.renderers.entities.WoodTypeBoatRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer;
 import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.DashMushroomRenderer;
@@ -63,6 +64,8 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -213,7 +216,20 @@ public class MarioverseClient {
     }
 
     @SubscribeEvent
+    private static void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(WoodTypeBoatRenderer.MUSHROOT_BOAT_LAYER, BoatModel::createBodyModel);
+        event.registerLayerDefinition(WoodTypeBoatRenderer.MUSHROOT_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel);
+    }
+
+    @SubscribeEvent
     private static void registerEntityRenderers(final EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(EntityRegistry.MUSHROOT_BOAT.get(),
+                context -> new WoodTypeBoatRenderer(context, false,
+                        WoodTypeBoatRenderer.MUSHROOT_BOAT_LAYER, Marioverse.id("textures/entity/boat/mushroot.png")));
+        event.registerEntityRenderer(EntityRegistry.MUSHROOT_CHEST_BOAT.get(),
+                context -> new WoodTypeBoatRenderer(context, true,
+                        WoodTypeBoatRenderer.MUSHROOT_CHEST_BOAT_LAYER, Marioverse.id("textures/entity/chest_boat/mushroot.png")));
+
         event.registerEntityRenderer(EntityRegistry.BOUNCING_FIREBALL.get(), BouncingFireballRenderer::new);
         event.registerEntityRenderer(EntityRegistry.BOUNCING_ICE_BALL.get(), BouncingIceBallRenderer::new);
         event.registerEntityRenderer(EntityRegistry.LARGE_SNOWBALL.get(), LargeSnowballRenderer::new);

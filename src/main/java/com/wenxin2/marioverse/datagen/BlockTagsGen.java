@@ -568,6 +568,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_MUSHROOT_LOG.get())
                 .add(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get());
 
+        tag(TagRegistry.MUSHROOT_PLANKS)
+                .add(BlockRegistry.MUSHROOT_BOARDS.get())
+                .add(BlockRegistry.MUSHROOT_PANELS.get())
+                .add(BlockRegistry.MUSHROOT_PLANKS.get());
+
         tag(TagRegistry.PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES);
 

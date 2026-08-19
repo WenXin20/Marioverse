@@ -377,6 +377,25 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void boatRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                           Object planks, boolean uniqueFileName, RecipeOutput output) {
+        HexColorRecipeBuilder builder = HexColorRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("P P")
+                .pattern("PPP")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'P', planks);
+
+        builder.unlockedBy(getUnlockName(planks), unlockCriterion(planks));
+
+        if (uniqueFileName && planks instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && planks instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
     public void bodiceRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, Object wool, boolean uniqueFileName, RecipeOutput output) {
         HexColorRecipeBuilder builder = HexColorRecipeBuilder
@@ -441,6 +460,24 @@ public class RecipeUtils extends RecipeProvider {
 
         if (uniqueFileName && input1 instanceof ItemLike itemLike)
             builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike));
+        else builder.save(output);
+    }
+
+    public void chestBoatRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                              Object chest, Object boat, boolean uniqueFileName, RecipeOutput output) {
+        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder
+                .shapeless(category, outputItem, outputAmt)
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        builder.unlockedBy(getUnlockName(chest), unlockCriterion(chest));
+        builder.unlockedBy(getUnlockName(boat), unlockCriterion(boat));
+
+        builder.unlockedBy(getUnlockName(boat), unlockCriterion(boat));
+
+        if (uniqueFileName && chest instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && chest instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
         else builder.save(output);
     }
 

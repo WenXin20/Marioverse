@@ -1,4 +1,5 @@
-// 1.21.1	2026-08-07T22:17:37.8157204	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-08-18T21:13:17.6200981	Tags for minecraft:entity_type mod id marioverse
+7aa7cfc9b2c77ebf64872414831b143a25df5be6 data/c/tags/entity_type/boats.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json

@@ -1,0 +1,14 @@
+{
+  "type": "marioverse:hex_color_shaped",
+  "group": "marioverse:boats",
+  "key": {
+    "P": {
+      "tag": "marioverse:mushroot_planks"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "result": "marioverse:mushroot_boat"
+}

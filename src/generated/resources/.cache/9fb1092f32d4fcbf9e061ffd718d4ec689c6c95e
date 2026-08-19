@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-17T22:34:59.8888501	Recipes
+// 1.21.1	2026-08-18T22:51:45.5536851	Recipes
 2bf7ec4a931f32b3e07a82f7c1d9c6c0f50a818c data/marioverse/advancement/recipes/building_blocks/acacia_log_bridge.json
 6d1e764faebfd5f094a6f7ae599591def04214fe data/marioverse/advancement/recipes/building_blocks/acacia_log_bridge_stairs.json
 af5813b2e7064951e5f3f6bb343593fa179944ba data/marioverse/advancement/recipes/building_blocks/acacia_picket_fence.json
@@ -1248,6 +1248,8 @@ d991ebf0074b7e13de92bbe88abd0260bf7df05a data/marioverse/advancement/recipes/red
 6a56afff3e2be5eec301b028e5189f35f2389612 data/marioverse/advancement/recipes/redstone/mushroot_fence_gate.json
 084f3cb15c14b956e14a608081970efe92429d7f data/marioverse/advancement/recipes/redstone/mushroot_pressure_plate.json
 33c1e954a014a599b453e3abda5b42891dc2bc62 data/marioverse/advancement/recipes/redstone/mushroot_trapdoor.json
+952b9d92f9cee5c91ed5bdbbe22b5f9898ee9eb7 data/marioverse/advancement/recipes/transportation/mushroot_boat.json
+1c36ea207800aa58650dea237372b6d4cd4d9ebc data/marioverse/advancement/recipes/transportation/mushroot_chest_boat.json
 da320b4980baad5ad301db3ffee49da91774b3f6 data/marioverse/recipe/acacia_log_bridge.json
 398720bfb08234480b5f9e09775db197d74aaec5 data/marioverse/recipe/acacia_log_bridge_stairs.json
 229f4ae8854057409e31cdb539d8108df5254d3e data/marioverse/recipe/acacia_picket_fence.json
@@ -1928,7 +1930,9 @@ c8dce54e6513a7343fd5021826a51f7d2e20bcf0 data/marioverse/recipe/mud_brick_pedest
 eb1bf6d06efae659929c10a5f4c1b8823429903c data/marioverse/recipe/mushroot_board_slab.json
 38704f9f4ccfd2300750e2dd8e88097d4fea5c27 data/marioverse/recipe/mushroot_board_stairs.json
 49c560ed4fe677a9d18766442d36e96a77011a9c data/marioverse/recipe/mushroot_board_wall.json
+05301912bbcb90b54ea3ec97f5805561a211f5c3 data/marioverse/recipe/mushroot_boat.json
 6d161b1657155e4e8fe774a6708294a88875bb7a data/marioverse/recipe/mushroot_button.json
+7a61ae423b848f83f4a75e0bb9ff5e8f63f6ff2e data/marioverse/recipe/mushroot_chest_boat.json
 a571b2592d846827b05f00ebbed738dc1a994b26 data/marioverse/recipe/mushroot_door.json
 ae7c73e9b5a8a5737ae78b2e59d341702f842c12 data/marioverse/recipe/mushroot_fence.json
 4298e78b268742a04fc1b42cec935d5bcf211af0 data/marioverse/recipe/mushroot_fence_gate.json

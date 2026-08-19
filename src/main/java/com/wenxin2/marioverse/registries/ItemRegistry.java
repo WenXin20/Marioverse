@@ -28,6 +28,7 @@ import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.SuperMushroomItem;
 import com.wenxin2.marioverse.items.SuperStarItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
+import com.wenxin2.marioverse.items.WoodTypeBoatItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -39,6 +40,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.BannerPatternItem;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
@@ -111,6 +113,8 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_MUSHROOM;
     public static final DeferredItem<Item> MINI_MUSHROOM_SPAWN_EGG;
+    public static final DeferredItem<Item> MUSHROOT_BOAT;
+    public static final DeferredItem<Item> MUSHROOT_CHEST_BOAT;
     public static final DeferredItem<Item> MUSHROOT_HANGING_SIGN;
     public static final DeferredItem<Item> MUSHROOT_SIGN;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
@@ -157,6 +161,13 @@ public class ItemRegistry {
         STAR_COIN = registerItem("star_coin", () -> new StarCoinBlockItem(BlockRegistry.STAR_COIN.get(), new Item.Properties()));
         CLASSIC_CHECKPOINT_FLAG = registerItem("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlockItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), new Item.Properties()));
+
+        MUSHROOT_BOAT = Marioverse.ITEMS.register("mushroot_boat",
+                () -> new WoodTypeBoatItem(false, EntityRegistry.MUSHROOT_BOAT.get(),
+                        new Item.Properties().stacksTo(1)));
+        MUSHROOT_CHEST_BOAT = Marioverse.ITEMS.register("mushroot_chest_boat",
+                () -> new WoodTypeBoatItem(true, EntityRegistry.MUSHROOT_CHEST_BOAT.get(),
+                        new Item.Properties().stacksTo(1)));
 
         MUSHROOT_HANGING_SIGN = registerItem("mushroot_hanging_sign",
                 () -> new HangingSignItem(BlockRegistry.MUSHROOT_HANGING_SIGN.get(),

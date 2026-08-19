@@ -71,6 +71,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOT_LOGS, TagRegistry.MUSHROOT_LOG_ITEMS);
+        copy(TagRegistry.MUSHROOT_PLANKS, TagRegistry.MUSHROOT_PLANK_ITEMS);
         copy(TagRegistry.PICKET_FENCES, TagRegistry.PICKET_FENCE_ITEMS);
         copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
@@ -139,6 +140,12 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
                 .add(ItemRegistry.SHIRT.get())
                 .add(ItemRegistry.SHOES.get());
+
+        this.tag(ItemTags.BOATS)
+                .add(ItemRegistry.MUSHROOT_BOAT.get());
+
+        this.tag(ItemTags.CHEST_BOATS)
+                .add(ItemRegistry.MUSHROOT_CHEST_BOAT.get());
 
         tag(ItemTags.DECORATED_POT_SHERDS)
                 .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())

@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-17T22:34:59.8732244	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-18T22:51:45.5384958	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -96,6 +96,7 @@ f12710e9c28fd237cbfc94b57f80a2fd67940d54 data/marioverse/tags/block/melts_into_p
 5deb9af770fdad544511740089e3a3075ff82b32 data/marioverse/tags/block/melts_snowball.json
 ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/block/mushroom_trampoline_blocks.json
 bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/block/mushroot_logs.json
+1246002449a1e94e6f47058a9210307d8ff68423 data/marioverse/tags/block/mushroot_planks.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/block/picket_fences.json
 25f0dd69ae90387c755ac6667543c6012ea7d4dc data/marioverse/tags/block/picket_fences/dyed.json
 c03072407a3fe10ce47d4692ef69f0e681607002 data/marioverse/tags/block/picket_fences/flammable.json

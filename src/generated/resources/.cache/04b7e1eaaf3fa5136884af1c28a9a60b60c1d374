@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-17T22:34:59.882103	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-18T22:51:45.5461404	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 df28088c1d2145312f6fbf6ae3c566b2c2cf9c93 data/curios/tags/item/costume_hat.json
 f1d71566d06fd5511273a769fab65ff8efeb63f4 data/curios/tags/item/costume_pants.json
@@ -106,6 +106,7 @@ bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.
 2bf71b8c33ad54da47f6204801153f8758427f38 data/marioverse/tags/item/koopa_shoes.json
 ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/item/mushroom_trampoline_blocks.json
 bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/item/mushroot_logs.json
+1246002449a1e94e6f47058a9210307d8ff68423 data/marioverse/tags/item/mushroot_planks.json
 5caef3bf5fe1f82caaeaac7f566d0787b4b83f19 data/marioverse/tags/item/pants.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/item/picket_fences.json
 25f0dd69ae90387c755ac6667543c6012ea7d4dc data/marioverse/tags/item/picket_fences/dyed.json
@@ -141,8 +142,10 @@ c244f100071156df3560fa1b7792613d9c04a72c data/marioverse/tags/item/warp_pipe_can
 92e8323419028ee10abec566b400798d034e706a data/marioverse/tags/item/window_panes.json
 5e4c2fc0fd9b9b60d7e3771a03b0ac2b7c20b44f data/marioverse/tags/item/window_panes/flammable.json
 5e4c2fc0fd9b9b60d7e3771a03b0ac2b7c20b44f data/marioverse/tags/item/window_panes/wooden.json
+1fe6931a35767f221cace80ac27f799e699f04c7 data/minecraft/tags/item/boats.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/cat_food.json
 5f8e2f228e3a17259c41a80fcab82c7710137516 data/minecraft/tags/item/chest_armor.json
+949141b2a513dc422d27c5b586550b3edb5f8f48 data/minecraft/tags/item/chest_boats.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 9bfbb4d85a1100341f4bddfed36c9208fecf6a11 data/minecraft/tags/item/dyeable.json
 450d5d57c3f6722874b16bfb65e7a315e45e4ccf data/minecraft/tags/item/enchantable/armor.json
