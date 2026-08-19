@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-17T22:34:59.8485934	Loot Tables
+// 1.21.1	2026-08-19T01:12:39.5862146	Loot Tables
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
 ebcb3099f486fc6158a6419f0121296ef95ecebe data/marioverse/loot_table/blocks/acacia_picket_fence.json
@@ -292,6 +292,7 @@ d5766df66ae660d1efdb5491263263e539f4acb7 data/marioverse/loot_table/blocks/mushr
 1858f8cae444a321166dce2ee06423b36926bfb1 data/marioverse/loot_table/blocks/mushroot_log.json
 b39158e9d7ec0b1d6d6cf8d72d78fd9cbe955d0b data/marioverse/loot_table/blocks/mushroot_log_bridge.json
 048abb1ecf79f6b8c78f44a328ff2ed5ded3422c data/marioverse/loot_table/blocks/mushroot_log_bridge_stairs.json
+8e5f1cd4acbc3628959bcb5f198fa616fca6ddb7 data/marioverse/loot_table/blocks/mushroot_log_platform.json
 bdebbed0822b525f32fbb430d1bddbba04c9ee63 data/marioverse/loot_table/blocks/mushroot_panels.json
 540a905fce5c3f21c40dbeb75686159c03ad7b80 data/marioverse/loot_table/blocks/mushroot_panel_slab.json
 c0c08495e9830c71920966118a0868e3372dcc04 data/marioverse/loot_table/blocks/mushroot_panel_stairs.json
@@ -524,6 +525,7 @@ bb201ba97809b0613c0e3eaa196bfeea62840041 data/marioverse/loot_table/blocks/strip
 d03fd9795e7bb124568a8dbdeccfac1d34df84d8 data/marioverse/loot_table/blocks/stripped_mushroot_log.json
 f2e98bea38df8de4a1f23cc8b0c0520ad420e689 data/marioverse/loot_table/blocks/stripped_mushroot_log_bridge.json
 8e9819396cae7a6bacb2e492e5968aa3521fb4e3 data/marioverse/loot_table/blocks/stripped_mushroot_log_bridge_stairs.json
+075f1d34206d61b49ec8c7799dd7b1fede2e336d data/marioverse/loot_table/blocks/stripped_mushroot_log_platform.json
 12755f5ad0dbde613da3b1069f8c1be9bbd3914e data/marioverse/loot_table/blocks/stripped_mushroot_wood.json
 723a5b53e491ebafbdb3c4d192c8bdababfb2374 data/marioverse/loot_table/blocks/stripped_oak_log_bridge.json
 6007bcfe7c1e841fa2a4417b88231e160e4c81cb data/marioverse/loot_table/blocks/stripped_oak_log_bridge_stairs.json

@@ -4,7 +4,7 @@
   "group": "marioverse:chest_boats",
   "ingredients": [
     {
-      "tag": "c:chests"
+      "tag": "c:chests/wooden"
     },
     {
       "item": "marioverse:mushroot_boat"

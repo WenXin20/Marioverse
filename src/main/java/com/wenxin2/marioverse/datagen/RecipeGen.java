@@ -99,7 +99,7 @@ public class RecipeGen extends RecipeUtils {
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WALUIGI_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WARIO_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         boatRecipe(1, "boats", ItemRegistry.MUSHROOT_BOAT, RecipeCategory.TRANSPORTATION, TagRegistry.MUSHROOT_PLANK_ITEMS, false, output);
-        chestBoatRecipe(1, "chest_boats", ItemRegistry.MUSHROOT_CHEST_BOAT, RecipeCategory.TRANSPORTATION, Tags.Items.CHESTS, ItemRegistry.MUSHROOT_BOAT, false, output);
+        chestBoatRecipe(1, "chest_boats", ItemRegistry.MUSHROOT_CHEST_BOAT, RecipeCategory.TRANSPORTATION, Tags.Items.CHESTS_WOODEN, ItemRegistry.MUSHROOT_BOAT, false, output);
         checkeredRecipe(4, "spike_panels", BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), false, output);
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.SUPER_MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
