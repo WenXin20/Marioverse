@@ -469,10 +469,21 @@ public class RecipeUtils extends RecipeProvider {
                 .shapeless(category, outputItem, outputAmt)
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
-        builder.unlockedBy(getUnlockName(chest), unlockCriterion(chest));
         builder.unlockedBy(getUnlockName(boat), unlockCriterion(boat));
 
-        builder.unlockedBy(getUnlockName(boat), unlockCriterion(boat));
+        if (chest instanceof ItemLike itemLike)
+            builder.requires(itemLike);
+        else if (chest instanceof TagKey<?> itemLike && itemLike.registry() == Registries.ITEM) {
+            TagKey<Item> tag = (TagKey<Item>) itemLike;
+            builder.requires(tag);
+        }
+
+        if (boat instanceof ItemLike itemLike)
+            builder.requires(itemLike);
+        else if (boat instanceof TagKey<?> itemLike && itemLike.registry() == Registries.ITEM) {
+            TagKey<Item> tag = (TagKey<Item>) itemLike;
+            builder.requires(tag);
+        }
 
         if (uniqueFileName && chest instanceof ItemLike itemLike)
             builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));

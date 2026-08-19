@@ -2,7 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "group": "marioverse:chest_boats",
-  "ingredients": [],
+  "ingredients": [
+    {
+      "tag": "c:chests"
+    },
+    {
+      "item": "marioverse:mushroot_boat"
+    }
+  ],
   "result": {
     "count": 1,
     "id": "marioverse:mushroot_chest_boat"

@@ -11,7 +11,14 @@
   - Added Rocky Deep Fungal Stone sets
 - Added Picket Fences 
 - Added Mushroot block set
-  - Added Mushroot tree & mega Mushroot tree
+  - Mushroot tree & mega Mushroot tree
+  - Doors & Trapdoors
+  - Signs & Hanging Signs
+  - Boats & Chest Boats
+  - Framed Windows
+  - Boards & Panels
+  - Hard Blocks
+  - Picket Fences
 - Fix flammability of Log Stairs
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
