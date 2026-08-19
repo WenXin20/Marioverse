@@ -109,15 +109,23 @@ public class BlockStateGen extends BlockStateProvider {
 
     private void axisBlocks(ResourceLocation texture, Block... blocks) {
         for (Block block : blocks) {
-            if (block instanceof RotatedPillarBlock pillarBlock)
+            ModelFile.UncheckedModelFile model = new ModelFile.UncheckedModelFile(modLoc("block/" + this.name(block)));
+
+            if (block instanceof RotatedPillarBlock pillarBlock) {
                 this.axisBlock(pillarBlock, texture, modLoc(texture.getPath() + "_top"));
+                this.simpleBlockItem(block, model);
+            }
         }
     }
 
     private void logBlocks(Block... blocks) {
         for (Block block : blocks) {
-            if (block instanceof RotatedPillarBlock pillarBlock)
+            ModelFile.UncheckedModelFile model = new ModelFile.UncheckedModelFile(modLoc("block/" + this.name(block)));
+            
+            if (block instanceof RotatedPillarBlock pillarBlock) {
                 this.logBlock(pillarBlock);
+                this.simpleBlockItem(block, model);
+            }
         }
     }
 
