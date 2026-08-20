@@ -356,6 +356,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.FLAMMABLE_HARD_WALLS)
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
 
+        tag(TagRegistry.FLAMMABLE_PLATFORMS)
+                .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get());
+
         tag(TagRegistry.FLAMMABLE_WALLS)
                 .add(BlockRegistry.MUSHROOT_BOARD_WALL.get())
                 .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
@@ -587,6 +591,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .addTag(BlockTags.DIRT);
 
+        tag(TagRegistry.PLATFORMS)
+                .addTag(TagRegistry.FLAMMABLE_PLATFORMS)
+                .addTag(TagRegistry.WOODEN_PLATFORMS);
+
         tag(TagRegistry.QUESTION_BLOCKS)
                 .add(BlockRegistry.AMETHYST_QUESTION_BLOCK.get())
                 .add(BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get())
@@ -783,6 +791,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPRUCE_PICKET_FENCE.get())
                 .add(BlockRegistry.WARPED_PICKET_FENCE.get())
                 .add(BlockRegistry.WHITE_PICKET_FENCE.get());
+
+        tag(TagRegistry.WOODEN_PLATFORMS)
+                .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get());
 
         tag(TagRegistry.WOODEN_WALLS)
                 .addTag(TagRegistry.FLAMMABLE_WALLS);
@@ -1085,6 +1097,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WOODEN_HARD_BLOCKS)
                 .addTag(TagRegistry.WOODEN_HARD_WALLS)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES)
+                .addTag(TagRegistry.WOODEN_PLATFORMS)
                 .addTag(TagRegistry.WOODEN_WALLS)
                 .addTag(TagRegistry.WOODEN_WINDOWS)
                 .addTag(TagRegistry.WOODEN_WINDOW_PANES)

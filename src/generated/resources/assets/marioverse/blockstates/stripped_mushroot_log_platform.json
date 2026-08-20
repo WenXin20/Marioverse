@@ -1,0 +1,46 @@
+{
+  "variants": {
+    "axis=x,type=bottom,waterlogged=false": {
+      "model": "marioverse:block/stripped_mushroot_log_platform",
+      "y": 90
+    },
+    "axis=x,type=bottom,waterlogged=true": {
+      "model": "marioverse:block/stripped_mushroot_log_platform",
+      "y": 90
+    },
+    "axis=x,type=double,waterlogged=false": {
+      "model": "marioverse:block/stripped_mushroot_log_platform_double",
+      "y": 90
+    },
+    "axis=x,type=double,waterlogged=true": {
+      "model": "marioverse:block/stripped_mushroot_log_platform_double",
+      "y": 90
+    },
+    "axis=x,type=top,waterlogged=false": {
+      "model": "marioverse:block/stripped_mushroot_log_platform_top",
+      "y": 90
+    },
+    "axis=x,type=top,waterlogged=true": {
+      "model": "marioverse:block/stripped_mushroot_log_platform_top",
+      "y": 90
+    },
+    "axis=z,type=bottom,waterlogged=false": {
+      "model": "marioverse:block/stripped_mushroot_log_platform"
+    },
+    "axis=z,type=bottom,waterlogged=true": {
+      "model": "marioverse:block/stripped_mushroot_log_platform"
+    },
+    "axis=z,type=double,waterlogged=false": {
+      "model": "marioverse:block/stripped_mushroot_log_platform_double"
+    },
+    "axis=z,type=double,waterlogged=true": {
+      "model": "marioverse:block/stripped_mushroot_log_platform_double"
+    },
+    "axis=z,type=top,waterlogged=false": {
+      "model": "marioverse:block/stripped_mushroot_log_platform_top"
+    },
+    "axis=z,type=top,waterlogged=true": {
+      "model": "marioverse:block/stripped_mushroot_log_platform_top"
+    }
+  }
+}

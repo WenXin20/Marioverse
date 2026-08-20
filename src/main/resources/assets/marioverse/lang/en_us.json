@@ -102,6 +102,7 @@
   "block.marioverse.mushroot_hanging_sign": "Mushroot Hanging Sign",
   "block.marioverse.mushroot_leaves": "Mushroot Leaves",
   "block.marioverse.mushroot_log": "Mushroot Log",
+  "block.marioverse.mushroot_log_platform": "Mushroot Log Platform",
   "block.marioverse.mushroot_log_bridge": "Mushroot Log Bridge",
   "block.marioverse.mushroot_log_bridge_stairs": "Mushroot Log Bridge Stairs",
   "block.marioverse.mushroot_panel_slab": "Mushroot Panel Slab",
@@ -122,6 +123,7 @@
   "block.marioverse.stripped_mushroot_log": "Stripped Mushroot Log",
   "block.marioverse.stripped_mushroot_log_bridge": "Stripped Mushroot Log Bridge",
   "block.marioverse.stripped_mushroot_log_bridge_stairs": "Stripped Mushroot Log Bridge Stairs",
+  "block.marioverse.stripped_mushroot_log_platform": "Stripped Mushroot Log Platform",
   "block.marioverse.stripped_mushroot_wood": "Stripped Mushroot Wood",
 
   "block.marioverse.acacia_log_bridge": "Acacia Log Bridge",
@@ -673,6 +675,9 @@
   "block.marioverse.ability_block.tooltip.ability.double_jump": " §7• Double Jump",
   "block.marioverse.ability_block.tooltip.ability.resets": " §7• Restores default abilities",
 
+  "block.marioverse.bridges.tooltip": "§6§oSemi-solid Platform",
+  "block.marioverse.bridge_stairs.tooltip": "§6§oSemi-solid Platform",
+
   "block.marioverse.black_checkpoint_flag.tooltip": "§cKing Bowser",
   "block.marioverse.blue_checkpoint_flag.tooltip": "§9Toad",
   "block.marioverse.brown_checkpoint_flag.tooltip": "§4Goomba",
@@ -742,10 +747,14 @@
   "block.marioverse.passive_death_block.tooltip.no_loot": " §7• No loot or xp drops from mobs",
   "block.marioverse.passive_death_block.tooltip.unbreakable": " §7• §eUnbreakable",
 
+  "block.marioverse.platforms.tooltip": "§6§oSemi-solid Platform",
+
   "block.marioverse.player_death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "block.marioverse.player_death_block.tooltip.ability": "§6Ability:",
   "block.marioverse.player_death_block.tooltip.description": " §7• Instakills only players",
   "block.marioverse.player_death_block.tooltip.unbreakable": " §7• §eUnbreakable",
+
+  "block.marioverse.smashable_blocks.tooltip": "§6§oSmashable",
 
   "block.marioverse.warp_door.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "block.marioverse.warp_door.tooltip.ability": "§6Ability:",
@@ -1454,8 +1463,6 @@
   "subtitles.marioverse.projectile.ice_ball_froze_enemy": "Ice Ball froze enemy",
   "subtitles.marioverse.projectile.ice_ball_shattered": "Ice Ball shattered",
   "subtitles.marioverse.projectile.ice_ball_shattered_on_enemy": "Ice Ball shattered",
-
-  "tooltip.marioverse.smashable_blocks": "§6§oSmashable",
 
   "menu.marioverse.block_spawner.clock_button": "",
   "menu.marioverse.block_spawner.clock_button.tooltip": "Confirm",

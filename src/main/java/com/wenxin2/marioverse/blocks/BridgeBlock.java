@@ -1,11 +1,17 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
@@ -33,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
-    public static final EnumProperty<HalfBlockStates> HALF = EnumProperty.create("half", HalfBlockStates.class);
+    public static final EnumProperty<HalfBlockStates> HALF = BlockStatePropertyRegistry.HALF;
     public Block logBlock;
 
     protected static final VoxelShape BOTTOM_AABB_X =
@@ -70,6 +76,14 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
         stateBuilder.add(AXIS, HALF, WATERLOGGED);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
+        list.add(Component.literal(""));
+        list.add(Component.translatable("block.marioverse.bridges.tooltip"));
+
+        super.appendHoverText(stack, context, list, options);
     }
 
     @NotNull

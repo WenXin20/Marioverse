@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-18T22:51:45.5461404	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-08-19T21:07:57.9443013	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 df28088c1d2145312f6fbf6ae3c566b2c2cf9c93 data/curios/tags/item/costume_hat.json
 f1d71566d06fd5511273a769fab65ff8efeb63f4 data/curios/tags/item/costume_pants.json
@@ -114,6 +114,9 @@ c03072407a3fe10ce47d4692ef69f0e681607002 data/marioverse/tags/item/picket_fences
 e1ea051653bf26daee7f5c32ac5edd8a067a14ec data/marioverse/tags/item/picket_fences/wooden.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/item/pipe_junction_blocks.json
 51c64a5ea272d8b17a8acacd965c546d474f5efe data/marioverse/tags/item/piranha_plant_food.json
+c20fca4effcee87410d7931dd6c1d3ca164d668e data/marioverse/tags/item/platforms.json
+c9632423c02a4da37c7da80e7e8a4b6fcbed0867 data/marioverse/tags/item/platforms/flammable.json
+c9632423c02a4da37c7da80e7e8a4b6fcbed0867 data/marioverse/tags/item/platforms/wooden.json
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/item/polished_calcite.json
 46917e7306850aedf22c53f9664894363b91fed9 data/marioverse/tags/item/porcupuffer_food.json
 0f368a478ac982f8aa4086d64560ef7916a62791 data/marioverse/tags/item/power_ups.json

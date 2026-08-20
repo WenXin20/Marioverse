@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.blocks.CoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DaisyAbilityBlock;
 import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
+import com.wenxin2.marioverse.blocks.LogPlatformBlock;
 import com.wenxin2.marioverse.blocks.LuigiAbilityBlock;
 import com.wenxin2.marioverse.blocks.MarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
@@ -767,9 +768,13 @@ public class BlockRegistry {
                 () -> new BridgeStairBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
                         .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
 
-        MUSHROOT_LOG_PLATFORM = registerBlock("mushroot_log_platform", () -> slab(MUSHROOT_PLANKS.get()));
+        MUSHROOT_LOG_PLATFORM = registerBlock("mushroot_log_platform",
+                () -> new LogPlatformBlock(BlockRegistry.MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
 
-        STRIPPED_MUSHROOT_LOG_PLATFORM = registerBlock("stripped_mushroot_log_platform", () -> slab(MUSHROOT_PLANKS.get()));
+        STRIPPED_MUSHROOT_LOG_PLATFORM = registerBlock("stripped_mushroot_log_platform",
+                () -> new LogPlatformBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
 
         MUSHROOT_BOARDS = registerBlock("mushroot_boards",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())));
@@ -1953,6 +1958,8 @@ public class BlockRegistry {
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_bridge"), MUSHROOT_LOG_PLATFORM.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_cube"), HARD_MUSHROOT_BLOCK.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation

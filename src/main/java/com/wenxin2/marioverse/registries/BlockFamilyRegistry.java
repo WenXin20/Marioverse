@@ -77,6 +77,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended MUSHROOT_LOG = familyBuilder(BlockRegistry.MUSHROOT_LOG.get())
             .bridge(BlockRegistry.MUSHROOT_LOG_BRIDGE.get())
             .bridgeStairs(BlockRegistry.MUSHROOT_LOG_BRIDGE_STAIRS.get())
+            .logPlatform(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
             .planks(BlockRegistry.MUSHROOT_PLANKS.get())
             .getFamily();
 
@@ -84,6 +85,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bridge(BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE.get())
             .bridgeStairs(BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS.get())
             .hangingSign(BlockRegistry.MUSHROOT_HANGING_SIGN.get(), BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get())
+            .logPlatform(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get())
             .planks(BlockRegistry.MUSHROOT_PLANKS.get())
             .getFamily();
 

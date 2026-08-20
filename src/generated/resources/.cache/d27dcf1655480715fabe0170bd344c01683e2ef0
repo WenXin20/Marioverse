@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-18T22:51:45.5384958	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-19T21:07:57.9377554	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -105,6 +105,9 @@ e1ea051653bf26daee7f5c32ac5edd8a067a14ec data/marioverse/tags/block/picket_fence
 0a6d57dbfee5c2462339b802e3d71f90b2dbf41c data/marioverse/tags/block/piranha_plants_cannot_attach.json
 f62aa77ec565005717121de25d7a660229f0124a data/marioverse/tags/block/piranha_plants_can_hide.json
 31bdfbff542c88b54b0353a0078cd2b1ae1d40fc data/marioverse/tags/block/piranha_plants_spawnable_on.json
+c20fca4effcee87410d7931dd6c1d3ca164d668e data/marioverse/tags/block/platforms.json
+c9632423c02a4da37c7da80e7e8a4b6fcbed0867 data/marioverse/tags/block/platforms/flammable.json
+c9632423c02a4da37c7da80e7e8a4b6fcbed0867 data/marioverse/tags/block/platforms/wooden.json
 44036eb26928121bf25fe25717be6be525eae521 data/marioverse/tags/block/polished_calcite.json
 05196126a22460d63899d1005ccb115203d709be data/marioverse/tags/block/question_blocks.json
 393ea5b00751c106f645d15d1015cf85be2921c0 data/marioverse/tags/block/question_blocks_can_place.json
@@ -143,7 +146,7 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid
 e433af55e1c180aea3ccf78cdbf9c88644a14ae1 data/minecraft/tags/block/leaves.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/logs.json
 db85174ac00eb7bab404efe489de6b734ecda2e4 data/minecraft/tags/block/logs_that_burn.json
-67d7d019b489429b9b02bc80210104d71b9487d7 data/minecraft/tags/block/mineable/axe.json
+a48a61f41d8c8b91e4d5973a0d39e9e04444ef95 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 1349e229511fa4b588124d0318c290dc9a09cc65 data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json

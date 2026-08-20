@@ -19,6 +19,7 @@
   - Boards & Panels
   - Hard Blocks
   - Picket Fences
+  - Log Platforms
 - Fix flammability of Log Stairs
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)

@@ -133,7 +133,7 @@ public class MarioverseEventHandlers {
         ItemStack stack = event.getItemStack();
 
         if (stack.is(TagRegistry.SMASHABLE_BLOCK_ITEMS))
-            event.getToolTip().add(Component.translatable("tooltip.marioverse.smashable_blocks"));
+            event.getToolTip().add(Component.translatable("block.marioverse.smashable_blocks.tooltip"));
     }
 
     @SubscribeEvent

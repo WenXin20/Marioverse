@@ -65,6 +65,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HANGING_SIGN, (outputItem, inputItem) -> hangingSignBuilder(6, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HARD_BLOCK, (outputItem, inputItem) -> hardBlockBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
+                    .put(BlockFamilyExtended.Variant.LOG_PLATFORM, (outputItem, inputItem) -> logPlatformBuilder(6, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
                     .put(BlockFamilyExtended.Variant.PANELS, (outputItem, inputItem) -> panelsBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PANELS_FROM_BOARDS, (outputItem, inputItem) -> panelsFromBoardsBuilder(5, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PEDESTAL, (outputItem, inputItem) -> pedestalBuilder(5, outputItem, inputItem))
@@ -174,6 +175,14 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("###")
                 .unlockedBy("has_chain", has(inputItem))
                 .group(Marioverse.MOD_ID + ":hard_blocks");
+    }
+
+    public static RecipeBuilder logPlatformBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, ItemLike inputItem) {
+        return ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("###")
+                .unlockedBy("has_log", has(inputItem))
+                .group(Marioverse.MOD_ID + ":log_platforms");
     }
 
     public static RecipeBuilder panelsBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {

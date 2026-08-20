@@ -80,6 +80,7 @@ public class TagRegistry {
     public static final TagKey<Block> FLAMMABLE_HARD_STAIRS = blockTags("hard_stairs/flammable");
     public static final TagKey<Block> FLAMMABLE_HARD_WALLS = blockTags("hard_walls/flammable");
     public static final TagKey<Block> FLAMMABLE_PICKET_FENCES = blockTags("picket_fences/flammable");
+    public static final TagKey<Block> FLAMMABLE_PLATFORMS = blockTags("platforms/flammable");
     public static final TagKey<Block> FLAMMABLE_WALLS = blockTags("walls/flammable");
     public static final TagKey<Block> FLAMMABLE_WINDOWS = blockTags("windows/flammable");
     public static final TagKey<Block> FLAMMABLE_WINDOW_PANES = blockTags("window_panes/flammable");
@@ -110,6 +111,7 @@ public class TagRegistry {
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
     public static final TagKey<Block> PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("piranha_plants_spawnable_on");
+    public static final TagKey<Block> PLATFORMS = blockTags("platforms");
     public static final TagKey<Block> POLISHED_CALCITE_BLOCKS = blockTags("polished_calcite");
     public static final TagKey<Block> QUESTION_BLOCKS = blockTags("question_blocks");
     public static final TagKey<Block> QUESTION_BLOCKS_CAN_PLACE = blockTags("question_blocks_can_place");
@@ -135,6 +137,7 @@ public class TagRegistry {
     public static final TagKey<Block> WOODEN_HARD_STAIRS = blockTags("hard_stairs/wooden");
     public static final TagKey<Block> WOODEN_HARD_WALLS = blockTags("hard_walls/wooden");
     public static final TagKey<Block> WOODEN_PICKET_FENCES = blockTags("picket_fences/wooden");
+    public static final TagKey<Block> WOODEN_PLATFORMS = blockTags("platforms/wooden");
     public static final TagKey<Block> WOODEN_WALLS = blockTags("walls/wooden");
     public static final TagKey<Block> WOODEN_WINDOWS = blockTags("windows/wooden");
     public static final TagKey<Block> WOODEN_WINDOW_PANES = blockTags("window_panes/wooden");
@@ -211,6 +214,7 @@ public class TagRegistry {
     public static final TagKey<Item> FLAMMABLE_HARD_STAIR_ITEMS = itemTags("hard_stairs/flammable");
     public static final TagKey<Item> FLAMMABLE_HARD_WALL_ITEMS = itemTags("hard_walls/flammable");
     public static final TagKey<Item> FLAMMABLE_PICKET_FENCE_ITEMS = itemTags("picket_fences/flammable");
+    public static final TagKey<Item> FLAMMABLE_PLATFORM_ITEMS = itemTags("platforms/flammable");
     public static final TagKey<Item> FLAMMABLE_WALL_ITEMS = itemTags("walls/flammable");
     public static final TagKey<Item> FLAMMABLE_WINDOW_ITEMS = itemTags("windows/flammable");
     public static final TagKey<Item> FLAMMABLE_WINDOW_PANE_ITEMS = itemTags("window_panes/flammable");
@@ -233,6 +237,7 @@ public class TagRegistry {
     public static final TagKey<Item> PICKET_FENCE_ITEMS = itemTags("picket_fences");
     public static final TagKey<Item> PIPE_JUNCTION_BLOCK_ITEMS = itemTags("pipe_junction_blocks");
     public static final TagKey<Item> PIRANHA_PLANT_FOOD = itemTags("piranha_plant_food");
+    public static final TagKey<Item> PLATFORM_ITEMS = itemTags("platforms");
     public static final TagKey<Item> POLISHED_CALCITE_ITEMS = itemTags("polished_calcite");
     public static final TagKey<Item> PORCUPUFFER_FOOD = itemTags("porcupuffer_food");
     public static final TagKey<Item> POWER_UP_COSTUMES = itemTags("power_up_costumes");
@@ -266,6 +271,7 @@ public class TagRegistry {
     public static final TagKey<Item> WOODEN_HARD_STAIR_ITEMS = itemTags("hard_stairs/wooden");
     public static final TagKey<Item> WOODEN_HARD_WALL_ITEMS = itemTags("hard_walls/wooden");
     public static final TagKey<Item> WOODEN_PICKET_FENCE_ITEMS = itemTags("picket_fences/wooden");
+    public static final TagKey<Item> WOODEN_PLATFORM_ITEMS = itemTags("platforms/wooden");
     public static final TagKey<Item> WOODEN_WALL_ITEMS = itemTags("walls/wooden");
     public static final TagKey<Item> WOODEN_WINDOW_ITEMS = itemTags("windows/wooden");
     public static final TagKey<Item> WOODEN_WINDOW_PANE_ITEMS = itemTags("window_panes/wooden");

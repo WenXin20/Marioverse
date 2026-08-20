@@ -146,6 +146,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder logPlatform(Block block) {
+            this.family.variants.put(Variant.LOG_PLATFORM, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder mosaic(Block block) {
             this.family.variants.put(Variant.MOSAIC, block);
             return this;
@@ -296,6 +301,7 @@ public class BlockFamilyExtended {
         HANGING_SIGN("hanging_sign"),
         HARD_BLOCK("hard_block"),
         INVISIBLE_QUESTION_BLOCK("invisible_question_block"),
+        LOG_PLATFORM("log_platform"),
         MOSAIC("mosaic"),
         PANELS("panels"),
         PANELS_FROM_BOARDS("panels_from_boards"),

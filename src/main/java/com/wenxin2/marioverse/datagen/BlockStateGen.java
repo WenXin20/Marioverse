@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
+import com.wenxin2.marioverse.blocks.LogPlatformBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
@@ -121,7 +122,7 @@ public class BlockStateGen extends BlockStateProvider {
     private void logBlocks(Block... blocks) {
         for (Block block : blocks) {
             ModelFile.UncheckedModelFile model = new ModelFile.UncheckedModelFile(modLoc("block/" + this.name(block)));
-            
+
             if (block instanceof RotatedPillarBlock pillarBlock) {
                 this.logBlock(pillarBlock);
                 this.simpleBlockItem(block, model);
@@ -237,6 +238,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genFenceGates();
         this.genHangingSigns();
         this.genInvisibleQuestionBlocks();
+        this.genLogPlatforms();
         this.genPedestals();
         this.genPressurePlates();
         this.genQuestionBlocks();
@@ -315,7 +317,6 @@ public class BlockStateGen extends BlockStateProvider {
                     this.bambooBridgeModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture);
                 } else if (block == BlockFamilyRegistry.MUSHROOT_LOG.get(bridge)
                         || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(bridge)) {
-                    removeBridgeName = blockName.replace("_bridge", "");
                     sideTexture = modLoc("block/" + removeBridgeName);
                     topTexture = modLoc("block/" + removeBridgeName + "_top");
 
@@ -526,6 +527,35 @@ public class BlockStateGen extends BlockStateProvider {
 
                     this.invisibleQuestionBlockModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
                 }
+            }
+        }));
+    }
+
+    private void genLogPlatforms() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant platform = BlockFamilyExtended.Variant.LOG_PLATFORM;
+            String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+            String removePlatformName = blockName.replace("_platform", "");
+
+            ResourceLocation logTexture = mcLoc("block/" + removePlatformName);
+            ResourceLocation endTexture = mcLoc("block/" + removePlatformName + "_top");
+            ResourceLocation topTexture = modLoc("block/" + blockName);
+
+            if (variant == platform) {
+                if (block == BlockFamilyRegistry.BAMBOO_BLOCK.get(platform)
+                        || block == BlockFamilyRegistry.STRIPPED_BAMBOO_BLOCK.get(platform)) {
+                    removePlatformName = blockName.replace("_platform", "_block");
+                    logTexture = mcLoc("block/" + removePlatformName);
+                    endTexture = mcLoc("block/" + removePlatformName + "_top");
+
+                    this.logPlatformModel(block, logTexture, endTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.MUSHROOT_LOG.get(platform)
+                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(platform)) {
+                    logTexture = modLoc("block/" + removePlatformName);
+                    endTexture = modLoc("block/" + removePlatformName + "_top");
+
+                    this.logPlatformModel(block, logTexture, endTexture, topTexture);
+                } else this.logPlatformModel(block, logTexture, endTexture, topTexture);
             }
         }));
     }
@@ -1535,6 +1565,39 @@ public class BlockStateGen extends BlockStateProvider {
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
+    }
+
+    private void logPlatformModel(Block block, ResourceLocation logTexture, ResourceLocation endTexture, ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile modelBottom = models()
+                .withExistingParent(modelName, modLoc("block/template_log_platform"))
+                .texture("log", logTexture).texture("top", topTexture)
+                .texture("end", endTexture);
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_log_platform_top"))
+                .texture("log", logTexture).texture("top", topTexture)
+                .texture("end", endTexture);
+        ModelFile modelDouble = models()
+                .withExistingParent(modelName + "_double", modLoc("block/template_log_platform_double"))
+                .texture("log", logTexture).texture("top", topTexture)
+                .texture("end", endTexture);
+
+        this.simpleBlockItem(block, modelBottom);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction.Axis axis = state.getValue(LogPlatformBlock.AXIS);
+            SlabType type = state.getValue(LogPlatformBlock.TYPE);
+
+            ModelFile model = switch (type) {
+                case TOP -> modelTop;
+                case DOUBLE -> modelDouble;
+                default -> modelBottom;
+            };
+            int yRot = (axis == Direction.Axis.X ? 90 : 0);
+
+            return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
+        });
     }
 
     private void pedestalModel(Block block, ResourceLocation mainTexture) {

@@ -128,6 +128,7 @@ public class BlockLootTableGen extends LootTableProvider {
             BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
                 blockFamily.getVariants().forEach((variant, variantBlock) -> {
                     BlockFamilyExtended.Variant door = BlockFamilyExtended.Variant.DOOR;
+                    BlockFamilyExtended.Variant logPlatform = BlockFamilyExtended.Variant.LOG_PLATFORM;
                     BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
                     BlockFamilyExtended.Variant quicksand = BlockFamilyExtended.Variant.QUICKSAND;
                     BlockFamilyExtended.Variant rocky = BlockFamilyExtended.Variant.ROCKY;
@@ -147,7 +148,7 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
                     else if (variant == smashableBlocks)
                         this.add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));
-                    else if (variant == slabs)
+                    else if (variant == logPlatform || variant == slabs)
                         this.add(variantBlock, this.createSlabItemTable(variantBlock));
                     else dropSelf(variantBlock);
                 });
