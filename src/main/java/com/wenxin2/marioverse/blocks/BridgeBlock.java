@@ -80,9 +80,7 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
-        list.add(Component.literal(""));
         list.add(Component.translatable("block.marioverse.bridges.tooltip"));
-
         super.appendHoverText(stack, context, list, options);
     }
 

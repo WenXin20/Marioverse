@@ -59,9 +59,7 @@ public class PlatformBlock extends SlabBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
-        list.add(Component.literal(""));
         list.add(Component.translatable("block.marioverse.platforms.tooltip"));
-
         super.appendHoverText(stack, context, list, options);
     }
 
