@@ -3,12 +3,17 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.VoxelShapeUtils;
 import java.util.EnumMap;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -113,6 +118,14 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
                 .setValue(HALF, Half.BOTTOM).setValue(SHAPE, StairsShape.STRAIGHT)
                 .setValue(WATERLOGGED, Boolean.FALSE));
         this.logBlock = state.getBlock();
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> list, TooltipFlag options) {
+        list.add(Component.literal(""));
+        list.add(Component.translatable("block.marioverse.bridge_stairs.tooltip"));
+
+        super.appendHoverText(stack, context, list, options);
     }
 
     @NotNull
