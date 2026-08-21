@@ -56,11 +56,15 @@
           "max_inclusive": 4,
           "min_inclusive": 3
         },
-        "branch_drop": 6,
+        "branch_drop": {
+          "type": "minecraft:uniform",
+          "max_inclusive": 6,
+          "min_inclusive": 4
+        },
         "branch_length": {
           "type": "minecraft:uniform",
-          "max_inclusive": 7,
-          "min_inclusive": 4
+          "max_inclusive": 6,
+          "min_inclusive": 3
         },
         "min_branch_radius": 2
       },

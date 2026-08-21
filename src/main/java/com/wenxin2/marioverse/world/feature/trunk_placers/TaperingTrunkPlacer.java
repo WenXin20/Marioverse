@@ -81,7 +81,7 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
 
         List<FoliagePlacer.FoliageAttachment> attachments = new ArrayList<>();
         attachments.add(new FoliagePlacer.FoliageAttachment(pos.above(freeTreeHeight), 0, false));
-        attachments.addAll(this.placeBranches(level, blockSetter, random, config, pos, freeTreeHeight));
+        attachments.addAll(this.placeBranches(level, blockSetter, random, config, pos, freeTreeHeight, squareEnd, taperEnd, flareStart, minRadius));
 
         return attachments;
     }
@@ -147,14 +147,16 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
     }
 
     private List<FoliagePlacer.FoliageAttachment> placeBranches(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
-                                                                RandomSource random, TreeConfiguration config, BlockPos pos, int freeTreeHeight) {
+                                                                RandomSource random, TreeConfiguration config, BlockPos pos, int freeTreeHeight,
+                                                                int squareEnd, int taperEnd, int flareStart, int minRadius) {
         List<FoliagePlacer.FoliageAttachment> branchAttachments = new ArrayList<>();
 
         int drop = Math.max(1, this.branchConfig.branchDrop().sample(random));
         int splitY = Math.max(0, freeTreeHeight - drop);
         BlockPos trunkAttach = pos.above(splitY);
+        int trunkReach = this.trunkReachAt(splitY, squareEnd, taperEnd, flareStart, minRadius);
 
-        int centerRise = this.branchConfig.branchLength().sample(random) + 1 + random.nextInt(4);
+        int centerRise = this.branchConfig.branchLength().sample(random) + 2 + random.nextInt(4);
         BlockPos centerEnd = trunkAttach.above(centerRise);
         this.placeLimb(level, blockSetter, random, config, trunkAttach, centerEnd);
         branchAttachments.add(new FoliagePlacer.FoliageAttachment(centerEnd, 0, false));
@@ -164,23 +166,35 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
             return branchAttachments;
 
         Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-        for (int i = directions.length - 1; i > 0; i--) { // Fisher-Yates so branches pick specific sides
+        for (int i = directions.length - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
             Direction tmp = directions[i];
             directions[i] = directions[j];
             directions[j] = tmp;
         }
 
-        int maxSideRise = Math.max(1, centerRise - 1); // side branches stay below the center leader's peak
+        int maxSideRise = Math.max(1, centerRise - 1);
         for (int i = 0; i < Math.min(branches, directions.length); i++) {
             Direction dir = directions[i];
             int rise = Math.min(this.branchConfig.branchLength().sample(random), maxSideRise);
-            int reach = 2 + random.nextInt(2); // one block further out than before
+            int reach = 2 + random.nextInt(2);
 
-            BlockPos tip = this.placeStaircaseBranch(blockSetter, random, config, trunkAttach, dir, reach, rise);
+            BlockPos branchStart = trunkAttach.relative(dir, trunkReach + 1);
+            BlockPos tip = this.placeStaircaseBranch(blockSetter, random, config, branchStart, dir, reach, rise);
+
             branchAttachments.add(new FoliagePlacer.FoliageAttachment(tip, 0, false));
         }
         return branchAttachments;
+    }
+
+    private int trunkReachAt(int y, int squareEnd, int taperEnd, int flareStart, int minRadius) {
+        if (y < squareEnd)
+            return 1;
+        if (y < taperEnd)
+            return 1;
+        if (y < flareStart)
+            return minRadius <= 1 ? 0 : minRadius - 1;
+        return 1;
     }
 
     private BlockPos placeStaircaseBranch(BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,

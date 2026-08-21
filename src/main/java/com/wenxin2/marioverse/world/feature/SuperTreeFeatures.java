@@ -51,7 +51,7 @@ public class SuperTreeFeatures {
                 BlockStateProvider.simple(BlockRegistry.MUSHROOT_LOG.get()),
                 new TaperingTrunkPlacer(true, 7, 5, 0, UniformInt.of(1, 2),
                         new TaperingTrunkPlacer.BranchConfig(ConstantInt.of(2), UniformInt.of(3, 4),
-                                UniformInt.of(4, 7), ConstantInt.of(6))),
+                                UniformInt.of(3, 6), UniformInt.of(4, 6))),
                 BlockStateProvider.simple(BlockRegistry.MUSHROOT_LEAVES.get()),
                 new DomeFoliagePlacer(UniformInt.of(4, 5), ConstantInt.of(4), UniformInt.of(5, 8)),
                 new TwoLayersFeatureSize(1, 0, 2, OptionalInt.of(6))
