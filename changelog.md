@@ -20,6 +20,7 @@
   - Hard Blocks
   - Picket Fences
   - Log Platforms
+  - Arrow Signs
 - Add tooltips to bridges
 - Fix flammability of Log Stairs
 

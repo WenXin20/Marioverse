@@ -2,6 +2,9 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
+import com.wenxin2.marioverse.blocks.ArrowCeilingHangingSignBlock;
+import com.wenxin2.marioverse.blocks.ArrowStandingSignBlock;
+import com.wenxin2.marioverse.blocks.ArrowWallSignBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
@@ -330,6 +333,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_PRESSURE_PLATE;
     public static final DeferredBlock<Block> MUSHROOT_SAPLING;
     public static final DeferredBlock<Block> MUSHROOT_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_SLAB;
     public static final DeferredBlock<Block> MUSHROOT_STAIRS;
     public static final DeferredBlock<Block> MUSHROOT_TRAPDOOR;
@@ -750,6 +756,18 @@ public class BlockRegistry {
 
         MUSHROOT_WALL_SIGN = registerNoItemBlock("mushroot_wall_sign",
                 () -> new WallSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_HANGING_ARROW_SIGN = registerNoItemBlock("mushroot_hanging_arrow_sign",
+                () -> new ArrowCeilingHangingSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_ARROW_SIGN = registerNoItemBlock("mushroot_arrow_sign",
+                () -> new ArrowStandingSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_WALL_ARROW_SIGN = registerNoItemBlock("mushroot_wall_arrow_sign",
+                () -> new ArrowWallSignBlock(WoodTypeRegistry.MUSHROOT,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
 
         MUSHROOT_LOG_BRIDGE = registerBlock("mushroot_log_bridge",

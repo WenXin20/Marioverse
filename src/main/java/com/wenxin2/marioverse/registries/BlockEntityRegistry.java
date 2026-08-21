@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
+import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CoinBlockEntity;
@@ -22,6 +23,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class BlockEntityRegistry {
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ArrowSignBlockEntity>> ARROW_SIGN;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockSpawnerBlockEntity>> BLOCK_SPAWNER_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CoinBlockEntity>> COIN_BLOCK_ENTITY;
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CheckpointFlagBlockEntity>> CHECKPOINT_FLAG_BLOCK_ENTITY;
@@ -36,6 +38,14 @@ public class BlockEntityRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WarpTrapDoorBlockEntity>> WARP_TRAPDOOR_BLOCK_ENTITY;
 
     static {
+        ARROW_SIGN = Marioverse.BLOCK_ENTITIES.register("arrow_sign",
+                () -> BlockEntityType.Builder.of((pos, state) ->
+                                new ArrowSignBlockEntity(BlockEntityRegistry.ARROW_SIGN.get(), pos, state),
+                        BlockRegistry.MUSHROOT_ARROW_SIGN.get(),
+                        BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get()
+                ).build(null));
+
         BLOCK_SPAWNER_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("block_spawner",
                 () -> BlockEntityType.Builder.of((pos, state) ->
                                 new BlockSpawnerBlockEntity(BlockEntityRegistry.BLOCK_SPAWNER_BLOCK_ENTITY.get(), pos, state),
@@ -148,5 +158,6 @@ public class BlockEntityRegistry {
                         BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof TrapDoorBlock).toArray(Block[]::new)).build(null));
     }
 
-    public static void init() {}
+    public static void init() {
+    }
 }

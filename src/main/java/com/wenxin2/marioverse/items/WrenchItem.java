@@ -27,7 +27,9 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,7 +82,7 @@ public class WrenchItem extends LinkerItem {
             level.playSound(null, pos, SoundRegistry.SWITCH_RADIUS_TOGGLED.get(),
                     SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
             return InteractionResult.sidedSuccess(true);
-        }
+        } else WrenchItem.rotateRotation16(level, state, pos);
         return super.useOn(useOnContext);
     }
 
@@ -151,5 +153,17 @@ public class WrenchItem extends LinkerItem {
 
                 .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed,
                         AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).build();
+    }
+
+    public static boolean rotateRotation16(Level level, BlockState state, BlockPos pos) {
+        if (!state.hasProperty(BlockStateProperties.ROTATION_16))
+            return false;
+
+        if (!level.isClientSide) {
+            int current = state.getValue(BlockStateProperties.ROTATION_16);
+            level.setBlock(pos, state.setValue(BlockStateProperties.ROTATION_16,
+                    (current + 1) % 16), Block.UPDATE_CLIENTS);
+        }
+        return true;
     }
 }

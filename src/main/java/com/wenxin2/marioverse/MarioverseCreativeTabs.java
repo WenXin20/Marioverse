@@ -248,6 +248,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE);
             add(event, ItemRegistry.MUSHROOT_SIGN);
             add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN);
             add(event, BlockRegistry.MUSHROOT_DOOR);
             add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
 

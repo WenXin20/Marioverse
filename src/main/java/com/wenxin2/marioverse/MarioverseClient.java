@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementItemParticle;
 import com.wenxin2.marioverse.client.particles.PollenParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
+import com.wenxin2.marioverse.client.renderers.blocks.ArrowSignBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.curios.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CheckpointFlagBlockEntityRenderer;
@@ -206,6 +207,7 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(BlockEntityRegistry.ARROW_SIGN.get(), ArrowSignBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.BLOCK_SPAWNER_BLOCK_ENTITY.get(), BlockSpawnerBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.CHECKPOINT_FLAG_BLOCK_ENTITY.get(), CheckpointFlagBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.COIN_BLOCK_ENTITY.get(), CoinBlockEntityRenderer::new);

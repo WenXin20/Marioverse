@@ -24,6 +24,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     private static final ResourceLocation SIMULATED_HONEY_GLUE = ResourceLocation.fromNamespaceAndPath("simulated", "honey_glue");
     private static final ResourceLocation SUPP_DEEPSLATE_LAMP = ResourceLocation.fromNamespaceAndPath("supplementaries", "deepslate_lamp");
     private static final ResourceLocation SUPP_ENDERMAN_HEAD = ResourceLocation.fromNamespaceAndPath("supplementaries", "enderman_head");
+    private static final ResourceLocation SUPP_SOAP = ResourceLocation.fromNamespaceAndPath("supplementaries", "soap");
     private static final ResourceLocation VISTA_TV = ResourceLocation.fromNamespaceAndPath("vista", "television");
 
     public  ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
@@ -299,6 +300,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(TagRegistry.POWER_UP_COSTUMES)
                 .add(ItemRegistry.CHRISTMAS_HAT.get());
 
+        tag(ItemTags.HANGING_SIGNS)
+                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get());
+
         tag(ItemTags.NON_FLAMMABLE_WOOD)
                 .add(BlockRegistry.CRIMSON_PICKET_FENCE.asItem())
                 .add(BlockRegistry.CRIMSON_STEM_BRIDGE.asItem())
@@ -324,6 +328,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.STAR_COIN.asItem())
                 .add(ItemRegistry.SUPER_STAR.get())
                 .add(ItemRegistry.SUPER_STAR_SPAWN_EGG.get());
+
+        tag(ItemTags.SIGNS)
+                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get());
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS)
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.asItem())
@@ -374,17 +381,23 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.FOOT_ARMOR).addTag(TagRegistry.SHOES);
 
-        tag(TagRegistry.COSTUME_HAT_CURIO).addTag(TagRegistry.HATS)
-                .add(Items.DIAMOND_HELMET);
+        tag(TagRegistry.ARROW_ERASERS)
+                .addTag(Tags.Items.TOOLS_BRUSH)
+                .addTag(Tags.Items.TOOLS_SHEAR)
+                .add(Items.SPONGE)
+                .addOptional(SUPP_SOAP);
 
-        tag(TagRegistry.COSTUME_SHIRT_CURIO).addTag(TagRegistry.SHIRTS)
-                .add(Items.DIAMOND_CHESTPLATE);
+        tag(TagRegistry.COSTUME_HAT_CURIO)
+                .addTag(TagRegistry.HATS);
 
-        tag(TagRegistry.COSTUME_PANTS_CURIO).addTag(TagRegistry.PANTS)
-                .add(Items.DIAMOND_LEGGINGS);
+        tag(TagRegistry.COSTUME_SHIRT_CURIO)
+                .addTag(TagRegistry.SHIRTS);
 
-        tag(TagRegistry.COSTUME_SHOES_CURIO).addTag(TagRegistry.SHOES)
-                .add(Items.DIAMOND_BOOTS);
+        tag(TagRegistry.COSTUME_PANTS_CURIO)
+                .addTag(TagRegistry.PANTS);
+
+        tag(TagRegistry.COSTUME_SHOES_CURIO)
+                .addTag(TagRegistry.SHOES);
 
         tag(Tags.Items.MELEE_WEAPON_TOOLS)
                 .add(ItemRegistry.CREATIVE_WRENCH.get())

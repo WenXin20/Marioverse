@@ -46,6 +46,9 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> UNDYING_CHARM =
             Marioverse.COMPONENTS.register("undying_charm", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> WAXED =
+            Marioverse.COMPONENTS.register("waxed", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
             Marioverse.COMPONENTS.register("linked_pos", () -> DataComponentType.<BlockPos>builder()

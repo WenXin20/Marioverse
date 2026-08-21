@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#c:tools/brush",
+    "#c:tools/shear",
+    "minecraft:sponge",
+    {
+      "id": "supplementaries:soap",
+      "required": false
+    }
+  ]
+}
