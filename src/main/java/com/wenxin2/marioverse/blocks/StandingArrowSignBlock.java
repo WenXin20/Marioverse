@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
@@ -19,6 +20,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.RenderShape;
@@ -26,9 +29,11 @@ import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -37,23 +42,27 @@ import org.jetbrains.annotations.NotNull;
 public class StandingArrowSignBlock extends StandingSignBlock {
     public static final EnumProperty<ArrowDirection> ARROW_DIRECTION = BlockStatePropertyRegistry.ARROW_DIRECTION;
     public static final BooleanProperty BOARD = BlockStatePropertyRegistry.BOARD;
+    public static final BooleanProperty POST = BlockStatePropertyRegistry.POST;
 
     protected static final VoxelShape DEFAULT = Block
-            .box(4.0, 0.0, 4.0, 12.0, 16.0, 12.0);
-    protected static final VoxelShape POST = Block
+            .box(3.0, 0.0, 3.0, 13.0, 16.0, 13.0);
+    protected static final VoxelShape BOARD_SHAPE = Block
+            .box(3.0, 4.0, 3.0, 13.0, 14.0, 13.0);
+    protected static final VoxelShape POST_SHAPE = Block
             .box(6.5, 0.0, 6.5, 9.5, 16.0, 9.5);
 
     public StandingArrowSignBlock(WoodType woodType, Properties properties) {
         super(woodType, properties);
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(ARROW_DIRECTION, ArrowDirection.UP)
-                .setValue(BOARD, true));
+                .setValue(BOARD, true)
+                .setValue(POST, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(ARROW_DIRECTION, BOARD);
+        builder.add(ARROW_DIRECTION, BOARD, POST);
     }
 
     @NotNull
@@ -72,14 +81,33 @@ public class StandingArrowSignBlock extends StandingSignBlock {
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (!state.getValue(BOARD))
-            return POST;
+            return POST_SHAPE;
+        if (!state.getValue(POST))
+            return BOARD_SHAPE;
         return DEFAULT;
     }
 
     @NotNull
     @Override
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+                                     LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(BlockStateProperties.WATERLOGGED))
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        return true;
+    }
+
+    @NotNull
+    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return this.rotateArrow(level, state, pos) ? InteractionResult.SUCCESS : InteractionResult.PASS;
+        if (!player.getMainHandItem().isEmpty())
+            return InteractionResult.PASS;
+        return this.rotateArrow(level, state, pos)
+                ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
     @NotNull
@@ -96,13 +124,9 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         if (this.toggleBoard(level, state, pos, stack))
             return ItemInteractionResult.SUCCESS;
 
-        if (stack.is(TagRegistry.WRENCHES)) {
-            if (player.isSecondaryUseActive())
-                return WrenchItem.rotateRotation16(level, state, pos)
-                        ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (stack.is(TagRegistry.WRENCHES))
             return this.rotateArrow(level, state, pos)
                     ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
@@ -156,9 +180,20 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         if (!stack.is(ItemTags.AXES))
             return false;
 
-        if (!level.isClientSide)
-            level.setBlock(pos, state.cycle(BOARD), Block.UPDATE_CLIENTS);
-        level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS);
+        boolean hasBoard = state.getValue(BlockStatePropertyRegistry.BOARD);
+        boolean hasPost = state.getValue(BlockStatePropertyRegistry.POST);
+
+        BlockState newState;
+        if (hasBoard && hasPost)
+            newState = state.setValue(BlockStatePropertyRegistry.POST, false);
+        else if (hasBoard)
+            newState = state.setValue(BlockStatePropertyRegistry.BOARD, false).setValue(BlockStatePropertyRegistry.POST, true);
+        else newState = state.setValue(BlockStatePropertyRegistry.BOARD, true);
+
+        if (!level.isClientSide) {
+            level.setBlock(pos, newState, Block.UPDATE_CLIENTS);
+            level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS);
+        }
         return true;
     }
 }

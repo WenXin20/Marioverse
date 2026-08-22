@@ -65,7 +65,10 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
                                                BlockHitResult hitResult) {
-        return this.rotateArrow(level, state, pos) ? InteractionResult.SUCCESS : InteractionResult.PASS;
+        if (!player.getMainHandItem().isEmpty())
+            return InteractionResult.PASS;
+        return this.rotateArrow(level, state, pos)
+                ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
     @NotNull

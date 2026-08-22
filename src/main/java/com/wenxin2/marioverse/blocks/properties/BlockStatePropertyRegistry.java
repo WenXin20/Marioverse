@@ -9,6 +9,7 @@ public class BlockStatePropertyRegistry {
     public static final BooleanProperty BOARD = BooleanProperty.create("board");
     public static final BooleanProperty DISGUISED = BooleanProperty.create("disguised");
     public static final BooleanProperty INVISIBLE = BooleanProperty.create("invisible");
+    public static final BooleanProperty POST = BooleanProperty.create("post");
     public static final BooleanProperty TALL = BooleanProperty.create("tall");
     public static final BooleanProperty TOP = BooleanProperty.create("top");
     public static final EnumProperty<ArrowDirection> ARROW_DIRECTION = EnumProperty
