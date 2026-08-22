@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
+import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
@@ -19,6 +20,7 @@ import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.items.ArrowSignItem;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.network.server_bound.data.DoubleJumpPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
@@ -68,6 +70,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
@@ -241,6 +244,14 @@ public class ClientEventHandlers {
                     ItemBlockRenderTypes.setRenderLayer(warp, layer);
             }
 
+            for (Item item : BuiltInRegistries.ITEM) {
+                if (item instanceof ArrowSignItem arrowSignItem) {
+                    ItemProperties.register(arrowSignItem,
+                            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "arrow_direction"),
+                            (stack, level, entity, seed) -> arrowSignDirection(stack));
+                }
+            }
+
             ItemProperties.register(ItemRegistry.CHEEP_CHEEP_BUCKET.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "variant"),
                     (stack, level, entity, seed) -> cheepCheepBucket(stack));
@@ -317,6 +328,25 @@ public class ClientEventHandlers {
                         (stack, level, entity, seed) -> wonderAmericaName(stack));
             }
         });
+    }
+
+    private static float arrowSignDirection(ItemStack stack) {
+        ArrowDirection direction = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
+
+        if (direction == null)
+            return 0.0F;
+
+        return switch (direction) {
+            case UP -> 0.0F;
+            case TOP_RIGHT -> 1.0F;
+            case RIGHT -> 2.0F;
+            case BOTTOM_RIGHT -> 3.0F;
+            case DOWN -> 4.0F;
+            case BOTTOM_LEFT -> 5.0F;
+            case LEFT -> 6.0F;
+            case TOP_LEFT -> 7.0F;
+            case NONE -> 8.0F;
+        };
     }
 
     private static float cheepCheepBucket(ItemStack stack) {

@@ -18,7 +18,7 @@
 				{
 					"name": "board",
 					"parent": "root",
-					"pivot": [0, 8, 8],
+					"pivot": [0, 8, 0],
 					"cubes": [
 						{"origin": [-8, 3, 7], "size": [15, 5, 1], "uv": [0, 7]},
 						{"origin": [-7, 8, 7], "size": [15, 5, 1], "uv": [0, 0]}

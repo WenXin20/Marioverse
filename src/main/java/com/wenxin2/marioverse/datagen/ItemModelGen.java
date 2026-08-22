@@ -1,7 +1,9 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
+import com.wenxin2.marioverse.items.ArrowSignItem;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -83,7 +85,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM_SPAWN_EGG.get());
-        this.basicItem(ItemRegistry.MUSHROOT_ARROW_SIGN.get());
         this.basicItem(ItemRegistry.MUSHROOT_BOAT.get());
         this.basicItem(ItemRegistry.MUSHROOT_CHEST_BOAT.get());
         this.basicItem(ItemRegistry.MUSHROOT_HANGING_SIGN.get());
@@ -140,6 +141,12 @@ public class ItemModelGen extends ItemModelProvider {
 
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_BUCKET.get(), Fluids.EMPTY, false, false);
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
+
+        for (Item item : BuiltInRegistries.ITEM) {
+            if (item instanceof ArrowSignItem arrowSignItem) {
+                this.arrowSignItem(arrowSignItem);
+            }
+        }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet())
             this.handheldItem(entry.getValue().asItem()).override()
@@ -451,6 +458,32 @@ public class ItemModelGen extends ItemModelProvider {
     public void spawnEggItem(Item item, String parentModelPath) {
         getBuilder(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)).toString()).parent(new ModelFile
                 .UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, parentModelPath)));
+    }
+
+    public void arrowSignItem(Item item) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        String namespace = location.getNamespace();
+        String baseName = location.getPath(); // e.g. "mushroot_arrow_sign"
+
+        ItemModelBuilder builder = this.basicItem(item);
+
+        ArrowDirection[] directions = ArrowDirection.values();
+        for (int i = 0; i < directions.length; i++) {
+            ArrowDirection direction = directions[i];
+            String modelPath = direction == ArrowDirection.NONE ? baseName : baseName + "_" + direction.getSerializedName();
+            ResourceLocation modelLocation = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
+
+            builder = builder.override()
+                    .model(new ModelFile.UncheckedModelFile(modelLocation))
+                    .predicate(modLoc("arrow_direction"), (float) i)
+                    .end();
+
+            if (direction != ArrowDirection.NONE) {
+                this.getBuilder(modelPath)
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                        .texture("layer0", modelLocation);
+            }
+        }
     }
 
     private void genInvisibleQuestionBlockVariants() {
