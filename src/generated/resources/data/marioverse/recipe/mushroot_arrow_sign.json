@@ -4,10 +4,10 @@
   "group": "marioverse:arrow_signs",
   "key": {
     "C": {
-      "tag": "c:dyes/red"
+      "tag": "c:chains"
     },
     "D": {
-      "tag": "c:chains"
+      "tag": "c:dyes/red"
     },
     "P": {
       "tag": "marioverse:mushroot_planks"

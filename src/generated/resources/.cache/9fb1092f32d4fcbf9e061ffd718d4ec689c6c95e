@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-21T21:28:56.3624193	Recipes
+// 1.21.1	2026-08-22T18:22:15.3510174	Recipes
 2bf7ec4a931f32b3e07a82f7c1d9c6c0f50a818c data/marioverse/advancement/recipes/building_blocks/acacia_log_bridge.json
 6d1e764faebfd5f094a6f7ae599591def04214fe data/marioverse/advancement/recipes/building_blocks/acacia_log_bridge_stairs.json
 af5813b2e7064951e5f3f6bb343593fa179944ba data/marioverse/advancement/recipes/building_blocks/acacia_picket_fence.json
@@ -1929,7 +1929,7 @@ d20182ca02655d63f17311e1bca70a277ef9093f data/marioverse/recipe/mossy_stone_bric
 a72ceaef634aa21c995c8b8863b8534fbfe7b67a data/marioverse/recipe/mud_brick_pedestal_from_packed_mud_stonecutting.json
 c8dce54e6513a7343fd5021826a51f7d2e20bcf0 data/marioverse/recipe/mud_brick_pedestal_stonecutting.json
 77aba194d1e1d5684f26cf4e5a706fbf07926867 data/marioverse/recipe/mud_question_bricks.json
-82e17fd4d2e30db4252a44d36c707a14edd3d01d data/marioverse/recipe/mushroot_arrow_sign.json
+de66fb2b735ab5fbe8f37beed45af567ed984de5 data/marioverse/recipe/mushroot_arrow_sign.json
 8c101f6d9be9c7e937213975a8a5d54e4a26a69f data/marioverse/recipe/mushroot_boards.json
 eb1bf6d06efae659929c10a5f4c1b8823429903c data/marioverse/recipe/mushroot_board_slab.json
 38704f9f4ccfd2300750e2dd8e88097d4fea5c27 data/marioverse/recipe/mushroot_board_stairs.json
