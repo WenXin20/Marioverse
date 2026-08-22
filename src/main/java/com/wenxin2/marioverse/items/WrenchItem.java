@@ -1,10 +1,13 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
+import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import gardensofthedead.block.entity.HangingSignBlockEntity;
+import gardensofthedead.block.entity.SignBlockEntity;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -82,7 +85,10 @@ public class WrenchItem extends LinkerItem {
             level.playSound(null, pos, SoundRegistry.SWITCH_RADIUS_TOGGLED.get(),
                     SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
             return InteractionResult.sidedSuccess(true);
-        } else WrenchItem.rotateRotation16(level, state, pos);
+        } else if (state.hasProperty(BlockStateProperties.ROTATION_16)) {
+            WrenchItem.rotateRotation16(level, state, pos);
+            return InteractionResult.sidedSuccess(true);
+        }
         return super.useOn(useOnContext);
     }
 
@@ -156,7 +162,14 @@ public class WrenchItem extends LinkerItem {
     }
 
     public static boolean rotateRotation16(Level level, BlockState state, BlockPos pos) {
-        if (!state.hasProperty(BlockStateProperties.ROTATION_16))
+        if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity arrowSignBE
+                && arrowSignBE.isWaxed())
+            return false;
+        if (level.getBlockEntity(pos) instanceof SignBlockEntity signBE
+                && signBE.isWaxed())
+            return false;
+        if (level.getBlockEntity(pos) instanceof HangingSignBlockEntity hangingSignBE
+                && hangingSignBE.isWaxed())
             return false;
 
         if (!level.isClientSide) {

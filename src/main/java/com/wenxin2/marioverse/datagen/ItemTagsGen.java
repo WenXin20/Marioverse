@@ -35,6 +35,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
         copy(TagRegistry.ABILITY_BLOCKS, TagRegistry.ABILITY_BLOCK_ITEMS);
+        copy(TagRegistry.ARROW_SIGNS, TagRegistry.ARROW_SIGN_ITEMS);
         copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.BRIDGE_BLOCKS, TagRegistry.BRIDGE_ITEMS);
@@ -454,6 +455,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.CRAFTS_WARP_TRAPDOOR)
                 .addTag(Tags.Items.ENDER_PEARLS);
 
+        tag(TagRegistry.FLAMMABLE_ARROW_SIGN_ITEMS)
+                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get());
+
         tag(TagRegistry.HALLOWEEN_MASKS)
                 .addTag(Tags.Items.PUMPKINS_CARVED)
                 .addTag(Tags.Items.PUMPKINS_JACK_O_LANTERNS)
@@ -492,6 +496,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.DEBUG_STICK)
                 .add(Items.GLOW_INK_SAC)
                 .add(Items.INK_SAC);
+
+        tag(TagRegistry.WOODEN_ARROW_SIGN_ITEMS)
+                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGN_ITEMS);
 
         tag(TagRegistry.WRENCHES)
                 .add(ItemRegistry.CREATIVE_WRENCH.get())

@@ -60,6 +60,13 @@ public class BlockFamilyExtended {
             return this.family;
         }
 
+        public BlockFamilyExtended.Builder arrowSign(Block block, Block blockWall, Block blockHanging) {
+            this.family.variants.put(Variant.ARROW_SIGN, block);
+            this.family.variants.put(Variant.HANGING_ARROW_SIGN, blockHanging);
+            this.family.variants.put(Variant.WALL_ARROW_SIGN, blockWall);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder boards(Block block) {
             this.family.variants.put(Variant.BOARDS, block);
             return this;
@@ -284,6 +291,7 @@ public class BlockFamilyExtended {
     }
 
     public static enum Variant {
+        ARROW_SIGN("arrow_sign"),
         BOARDS("boards"),
         BRICKS("bricks"),
         BRIDGE("bridge"),
@@ -298,6 +306,7 @@ public class BlockFamilyExtended {
         DOOR("door"),
         FENCE("fence"),
         FENCE_GATE("fence_gate"),
+        HANGING_ARROW_SIGN("hanging_arrow_sign"),
         HANGING_SIGN("hanging_sign"),
         HARD_BLOCK("hard_block"),
         INVISIBLE_QUESTION_BLOCK("invisible_question_block"),
@@ -322,6 +331,7 @@ public class BlockFamilyExtended {
         STORAGE_BRICKS("storage_bricks"),
         TRAPDOOR("trapdoor"),
         WALL("wall"),
+        WALL_ARROW_SIGN("wall_arrow_sign"),
         WALL_HANGING_SIGN("wall_hanging_sign"),
         WALL_SIGN("wall_sign"),
         WINDOW("window"),

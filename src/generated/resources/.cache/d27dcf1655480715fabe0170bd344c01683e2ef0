@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-19T21:07:57.9377554	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-21T21:28:56.3476873	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -38,13 +38,16 @@ e31783925b31fdd1f8d79491031265d854c17543 data/c/tags/block/sands/red.json
 6b4769067bf2d655eaa4e7f3501052b87ce26d17 data/c/tags/block/stripped_woods.json
 c53401f50b0f59c35d02f14d9dc888d401ed89dd data/framedblocks/tags/block/blockentity_whitelisted.json
 3eec7e612d82d83d6e4ea342be2749d52e801fa1 data/marioverse/tags/block/ability_blocks.json
+c2972e78c3590d864d7f12bcf2864ba863370b17 data/marioverse/tags/block/arrow_signs.json
+093ac6fea9196463b7dad2856c504039cee822ec data/marioverse/tags/block/arrow_signs/flammable.json
+abe84c578ae0c16c2f3b1efc12786cd205ce7b6c data/marioverse/tags/block/arrow_signs/wooden.json
 ca0305ff998bb91ee30dc4040f60ff99130ad6f9 data/marioverse/tags/block/bonkable_blocks.json
 7eaac583d66dabbfff1a436f536efd77ee40f87b data/marioverse/tags/block/bouncy_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/block/brick_pedestals.json
-a0120f8c2d7a557b29a19b0bb9031ea3cca2dbfe data/marioverse/tags/block/bridges.json
+49d762151070111af7b6448de7186560882a0d7b data/marioverse/tags/block/bridges.json
 4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/block/bridges/flammable.json
 f1c6204b036eee515b52e81487c9e33936b4fd08 data/marioverse/tags/block/bridges/wooden.json
-1f1162ca843bdf9d49fba0d105b6b413b5382275 data/marioverse/tags/block/bridge_stairs.json
+410dd643364e87f3bfddfa5ae48508c8da2a8382 data/marioverse/tags/block/bridge_stairs.json
 eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/block/bridge_stairs/flammable.json
 6b51267160723525498e1e588ddc3d8632a877ca data/marioverse/tags/block/bridge_stairs/wooden.json
 cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/block/calcite.json
@@ -146,7 +149,7 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid
 e433af55e1c180aea3ccf78cdbf9c88644a14ae1 data/minecraft/tags/block/leaves.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/logs.json
 db85174ac00eb7bab404efe489de6b734ecda2e4 data/minecraft/tags/block/logs_that_burn.json
-a48a61f41d8c8b91e4d5973a0d39e9e04444ef95 data/minecraft/tags/block/mineable/axe.json
+c96bed5abdaea9415d191f3a1ed86ba0fd07784f data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 1349e229511fa4b588124d0318c290dc9a09cc65 data/minecraft/tags/block/mineable/pickaxe.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/mineable/shovel.json
@@ -165,7 +168,7 @@ a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficie
 a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
 c1d835760cafacd76917fdf79d03a50fa0969088 data/minecraft/tags/block/walls.json
 4881a523aa09b21de0da1daeb555706b989268a6 data/minecraft/tags/block/wall_hanging_signs.json
-d866131f12b969b88c78b346a05b94a48e4dc0d8 data/minecraft/tags/block/wall_post_override.json
+6a095a36a871422076ada4d3e98fff4c180a2138 data/minecraft/tags/block/wall_post_override.json
 d90cde624d3a35c0d13ed4fea71909d60a64878b data/minecraft/tags/block/wall_signs.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
 a7e1111b0a112941295c13c793d696ce6f478c40 data/minecraft/tags/block/wooden_fences.json

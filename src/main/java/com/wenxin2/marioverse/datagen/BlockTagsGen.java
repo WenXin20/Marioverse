@@ -177,6 +177,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WALUIGI_ABILITY_BLOCK.get())
                 .add(BlockRegistry.WARIO_ABILITY_BLOCK.get());
 
+        tag(TagRegistry.ARROW_SIGNS)
+                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS)
+                .addTag(TagRegistry.WOODEN_ARROW_SIGNS);
+
         tag(TagRegistry.BOUNCY_BLOCKS)
                 .add(Blocks.BROWN_MUSHROOM_BLOCK)
                 .add(Blocks.RED_MUSHROOM_BLOCK)
@@ -224,9 +228,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
 
         tag(TagRegistry.BRIDGE_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);
 
         tag(TagRegistry.BRIDGE_STAIR_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS);
 
         tag(TagRegistry.CALCITE_BLOCKS)
@@ -303,6 +309,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptionalTag(CompatRegistry.SUPP_CANDLE_HOLDERS)
                 .addOptionalTag(CompatRegistry.SUPP_SCONCES)
                 .addOptional(SUPP_FIRE_PIT);
+
+        tag(TagRegistry.FLAMMABLE_ARROW_SIGNS)
+                .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get());
 
         tag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .add(BlockRegistry.ACACIA_LOG_BRIDGE.get())
@@ -750,6 +761,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.FLAMMABLE_WINDOW_PANES)
                 .addTag(TagRegistry.WOODEN_WINDOW_PANES);
 
+        tag(TagRegistry.WOODEN_ARROW_SIGNS)
+                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS);
+
         tag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .add(BlockRegistry.CRIMSON_STEM_BRIDGE.get())
@@ -1038,6 +1052,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
 
         tag(BlockTags.WALL_POST_OVERRIDE)
+                .addTag(TagRegistry.ARROW_SIGNS)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
                 .add(BlockRegistry.SPIKE_PANEL.get());
 
@@ -1092,6 +1107,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.MUSHROOT_STAIRS.get());
 
         tag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(TagRegistry.WOODEN_ARROW_SIGNS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.WOODEN_HARD_BLOCKS)

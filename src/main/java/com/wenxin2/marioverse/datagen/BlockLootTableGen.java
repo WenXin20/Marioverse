@@ -134,6 +134,7 @@ public class BlockLootTableGen extends LootTableProvider {
                     BlockFamilyExtended.Variant rocky = BlockFamilyExtended.Variant.ROCKY;
                     BlockFamilyExtended.Variant slabs = BlockFamilyExtended.Variant.SLAB;
                     BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
+                    BlockFamilyExtended.Variant storageBricks = BlockFamilyExtended.Variant.STORAGE_BRICKS;
 
                     if (variant == door)
                         this.add(variantBlock, this.createDoorTable(variantBlock));
@@ -148,6 +149,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
                     else if (variant == smashableBlocks)
                         this.add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));
+                    else if (variant == storageBricks)
+                        this.add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
                     else if (variant == logPlatform || variant == slabs)
                         this.add(variantBlock, this.createSlabItemTable(variantBlock));
                     else dropSelf(variantBlock);
@@ -203,18 +206,6 @@ public class BlockLootTableGen extends LootTableProvider {
                                             .setProperties(StatePropertiesPredicate.Builder.properties()
                                                     .hasProperty(StarCoinBlock.HALF, DoubleBlockHalf.LOWER)
                                                     .hasProperty(StarCoinBlock.QUADRANT, QuadrantBlockStates.NORTH_WEST)))))
-            );
-        }
-
-        protected LootTable.Builder createStorageBlockDrop(Block block) {
-            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
-                        LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                                .add(LootItem.lootTableItem(block)
-                                        .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
-                                                        .include(DataComponents.CUSTOM_NAME)
-                                                        .include(DataComponents.CONTAINER)
-                                                        .include(DataComponents.LOCK)
-                                                        .include(DataComponents.CONTAINER_LOOT))))
             );
         }
     }

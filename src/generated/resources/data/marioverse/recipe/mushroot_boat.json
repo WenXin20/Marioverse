@@ -1,5 +1,6 @@
 {
-  "type": "marioverse:hex_color_shaped",
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "group": "marioverse:boats",
   "key": {
     "P": {
@@ -10,5 +11,8 @@
     "P P",
     "PPP"
   ],
-  "result": "marioverse:mushroot_boat"
+  "result": {
+    "count": 1,
+    "id": "marioverse:mushroot_boat"
+  }
 }

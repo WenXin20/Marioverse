@@ -205,6 +205,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_PLANKS = familyBuilder(BlockRegistry.MUSHROOT_PLANKS.get())
+            .arrowSign(BlockRegistry.MUSHROOT_ARROW_SIGN.get(), BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get(), BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get())
             .boards(BlockRegistry.MUSHROOT_BOARDS.get())
             .button(BlockRegistry.MUSHROOT_BUTTON.get())
             .door(BlockRegistry.MUSHROOT_DOOR.get())

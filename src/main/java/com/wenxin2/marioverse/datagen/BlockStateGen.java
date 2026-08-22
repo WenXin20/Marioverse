@@ -2,6 +2,9 @@ package com.wenxin2.marioverse.datagen;
 
 import com.google.gson.JsonObject;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
@@ -293,6 +296,30 @@ public class BlockStateGen extends BlockStateProvider {
 
             this.warpPipeModel(entry.getValue().get(), entranceTexture, bottomTexture, sideTexture, topTexture, topClosedTexture);
         }
+    }
+
+    private void genArrowSigns() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(family -> {
+            Block arrowSign = family.getVariants().get(BlockFamilyExtended.Variant.ARROW_SIGN);
+            Block hangingArrowSign = family.getVariants().get(BlockFamilyExtended.Variant.HANGING_ARROW_SIGN);
+            Block wallArrowSign = family.getVariants().get(BlockFamilyExtended.Variant.WALL_ARROW_SIGN);
+
+            if (arrowSign instanceof StandingArrowSignBlock standingSign
+                    && wallArrowSign instanceof WallArrowSignBlock wallSign
+                    && hangingArrowSign instanceof HangingArrowSignBlock hangingSign) {
+                String signName = BuiltInRegistries.BLOCK.getKey(arrowSign).getPath();
+                String baseName = signName.replace("_arrow_sign", "");
+                ResourceLocation texture = modLoc("block/" + baseName + "_planks");
+
+                ModelFile hangingSignModel = models().sign(name(hangingSign), texture);
+                ModelFile signModel = models().sign(name(standingSign), texture);
+                ModelFile wallSignModel = models().sign(name(wallSign), texture);
+
+                this.simpleBlock(hangingSign, new ConfiguredModel(hangingSignModel));
+                this.simpleBlock(standingSign, new ConfiguredModel(signModel));
+                this.simpleBlock(wallSign, new ConfiguredModel(wallSignModel));
+            }
+        });
     }
 
     private void genBridges() {

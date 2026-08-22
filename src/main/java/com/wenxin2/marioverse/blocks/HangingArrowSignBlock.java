@@ -1,8 +1,8 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
-import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.items.WrenchItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -18,18 +18,21 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.BlockHitResult;
-import javax.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-public class ArrowStandingSignBlock extends StandingSignBlock {
-    public ArrowStandingSignBlock(WoodType woodType, Properties properties) {
+import javax.annotation.Nullable;
+
+public class HangingArrowSignBlock extends CeilingHangingSignBlock {
+    public HangingArrowSignBlock(WoodType woodType, BlockBehaviour.Properties properties) {
         super(woodType, properties);
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, ArrowDirection.UP)
@@ -56,7 +59,8 @@ public class ArrowStandingSignBlock extends StandingSignBlock {
 
     @NotNull
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+                                               BlockHitResult hitResult) {
         return this.rotateArrow(level, state, pos) ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
@@ -64,15 +68,16 @@ public class ArrowStandingSignBlock extends StandingSignBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
                                               InteractionHand hand, BlockHitResult hitResult) {
+        if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity
+                && signBlockEntity.isWaxed())
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (this.wax(level, pos, stack))
             return ItemInteractionResult.SUCCESS;
         if (this.removeArrow(level, state, pos, stack))
             return ItemInteractionResult.SUCCESS;
-        if (this.removeBoard(level, state, pos, stack))
-            return ItemInteractionResult.SUCCESS;
 
         if (stack.is(TagRegistry.WRENCHES)) {
-            if (player.isSecondaryUseActive())
+            if (player.isSecondaryUseActive() && state.getValue(ATTACHED))
                 return WrenchItem.rotateRotation16(level, state, pos)
                         ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             return this.rotateArrow(level, state, pos)
@@ -106,6 +111,7 @@ public class ArrowStandingSignBlock extends StandingSignBlock {
         if (!level.isClientSide) {
             signBlockEntity.setWaxed(true);
             stack.shrink(1);
+            level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
         }
         return true;
     }
@@ -118,18 +124,6 @@ public class ArrowStandingSignBlock extends StandingSignBlock {
 
         if (!level.isClientSide)
             level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, ArrowDirection.NONE),
-                    Block.UPDATE_CLIENTS);
-        return true;
-    }
-
-    private boolean removeBoard(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        if (!stack.is(ItemTags.AXES))
-            return false;
-        if (!state.getValue(BlockStatePropertyRegistry.BOARD))
-            return false;
-
-        if (!level.isClientSide)
-            level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.BOARD, false),
                     Block.UPDATE_CLIENTS);
         return true;
     }

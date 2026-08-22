@@ -2,9 +2,9 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
-import com.wenxin2.marioverse.blocks.ArrowCeilingHangingSignBlock;
-import com.wenxin2.marioverse.blocks.ArrowStandingSignBlock;
-import com.wenxin2.marioverse.blocks.ArrowWallSignBlock;
+import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
@@ -759,15 +759,15 @@ public class BlockRegistry {
                         BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
 
         MUSHROOT_HANGING_ARROW_SIGN = registerNoItemBlock("mushroot_hanging_arrow_sign",
-                () -> new ArrowCeilingHangingSignBlock(WoodTypeRegistry.MUSHROOT,
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.MUSHROOT,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.WOOD)));
 
         MUSHROOT_ARROW_SIGN = registerNoItemBlock("mushroot_arrow_sign",
-                () -> new ArrowStandingSignBlock(WoodTypeRegistry.MUSHROOT,
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.MUSHROOT,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
 
         MUSHROOT_WALL_ARROW_SIGN = registerNoItemBlock("mushroot_wall_arrow_sign",
-                () -> new ArrowWallSignBlock(WoodTypeRegistry.MUSHROOT,
+                () -> new WallArrowSignBlock(WoodTypeRegistry.MUSHROOT,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
 
         MUSHROOT_LOG_BRIDGE = registerBlock("mushroot_log_bridge",

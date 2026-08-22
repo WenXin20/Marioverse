@@ -18,6 +18,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,8 +30,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
-public class ArrowWallSignBlock extends WallSignBlock {
-    public ArrowWallSignBlock(WoodType woodType, BlockBehaviour.Properties properties) {
+public class WallArrowSignBlock extends WallSignBlock {
+    public WallArrowSignBlock(WoodType woodType, BlockBehaviour.Properties properties) {
         super(woodType, properties);
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, ArrowDirection.UP)
@@ -65,17 +66,15 @@ public class ArrowWallSignBlock extends WallSignBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
                                               InteractionHand hand, BlockHitResult hitResult) {
+        if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity
+                && signBlockEntity.isWaxed())
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (this.wax(level, pos, stack))
             return ItemInteractionResult.SUCCESS;
         if (this.removeArrow(level, state, pos, stack))
             return ItemInteractionResult.SUCCESS;
-        if (this.removeBoard(level, state, pos, stack))
-            return ItemInteractionResult.SUCCESS;
 
         if (stack.is(TagRegistry.WRENCHES)) {
-            if (player.isSecondaryUseActive())
-                return WrenchItem.rotateRotation16(level, state, pos)
-                        ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             return this.rotateArrow(level, state, pos)
                     ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
@@ -107,6 +106,7 @@ public class ArrowWallSignBlock extends WallSignBlock {
         if (!level.isClientSide) {
             signBlockEntity.setWaxed(true);
             stack.shrink(1);
+            level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
         }
         return true;
     }
@@ -119,18 +119,6 @@ public class ArrowWallSignBlock extends WallSignBlock {
 
         if (!level.isClientSide)
             level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, ArrowDirection.NONE),
-                    Block.UPDATE_CLIENTS);
-        return true;
-    }
-
-    private boolean removeBoard(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        if (!stack.is(ItemTags.AXES))
-            return false;
-        if (!state.getValue(BlockStatePropertyRegistry.BOARD))
-            return false;
-
-        if (!level.isClientSide)
-            level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.BOARD, false),
                     Block.UPDATE_CLIENTS);
         return true;
     }

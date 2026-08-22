@@ -50,6 +50,7 @@ public class TagRegistry {
     public static final TagKey<Biome> HAS_WARM_CHEEP_CHEEP = biomeTags("has_warm_cheep_cheep");
 
     public static final TagKey<Block> ABILITY_BLOCKS = blockTags("ability_blocks");
+    public static final TagKey<Block> ARROW_SIGNS = blockTags("arrow_signs");
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
@@ -73,6 +74,7 @@ public class TagRegistry {
     public static final TagKey<Block> DYED_CALCITE_BLOCKS = blockTags("calcite_blocks/dyed");
     public static final TagKey<Block> DYED_PICKET_FENCES = blockTags("picket_fences/dyed");
     public static final TagKey<Block> FIREBALL_SETS_ON_FIRE = blockTags("fireball_sets_on_fire");
+    public static final TagKey<Block> FLAMMABLE_ARROW_SIGNS = blockTags("arrow_signs/flammable");
     public static final TagKey<Block> FLAMMABLE_BRIDGE_BLOCKS = blockTags("bridges/flammable");
     public static final TagKey<Block> FLAMMABLE_BRIDGE_STAIR_BLOCKS = blockTags("bridge_stairs/flammable");
     public static final TagKey<Block> FLAMMABLE_HARD_BLOCKS = blockTags("hard_blocks/flammable");
@@ -130,6 +132,7 @@ public class TagRegistry {
     public static final TagKey<Block> WARP_TRAPDOOR_BLOCKS = blockTags("warp_trapdoors");
     public static final TagKey<Block> WINDOWS = blockTags("windows");
     public static final TagKey<Block> WINDOW_PANES = blockTags("window_panes");
+    public static final TagKey<Block> WOODEN_ARROW_SIGNS = blockTags("arrow_signs/wooden");
     public static final TagKey<Block> WOODEN_BRIDGE_BLOCKS = blockTags("bridges/wooden");
     public static final TagKey<Block> WOODEN_BRIDGE_STAIR_BLOCKS = blockTags("bridge_stairs/wooden");
     public static final TagKey<Block> WOODEN_HARD_BLOCKS = blockTags("hard_blocks/wooden");
@@ -171,6 +174,7 @@ public class TagRegistry {
     public static final TagKey<Fluid> FREEZES_INTO_OBSIDIAN = fluidTags("freezes_into_obsidian");
 
     public static final TagKey<Item> ABILITY_BLOCK_ITEMS = itemTags("ability_blocks");
+    public static final TagKey<Item> ARROW_SIGN_ITEMS = itemTags("arrow_signs");
     public static final TagKey<Item> ARROW_ERASERS = itemTags("arrow_erasers");
     public static final TagKey<Item> BLOCK_SPAWNER_CANNOT_DISPLAY = itemTags("block_spawner_cannot_display");
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
@@ -208,6 +212,7 @@ public class TagRegistry {
     public static final TagKey<Item> DYED_CALCITE_ITEMS = itemTags("calcite_blocks/dyed");
     public static final TagKey<Item> DYED_PICKET_FENCE_ITEMS = itemTags("picket_fences/dyed");
     public static final TagKey<Item> FEMALE_COSTUMES = itemTags("costumes/female");
+    public static final TagKey<Item> FLAMMABLE_ARROW_SIGN_ITEMS = itemTags("arrow_signs/flammable");
     public static final TagKey<Item> FLAMMABLE_BRIDGE_ITEMS = itemTags("bridges/flammable");
     public static final TagKey<Item> FLAMMABLE_BRIDGE_STAIR_ITEMS = itemTags("bridge_stairs/flammable");
     public static final TagKey<Item> FLAMMABLE_HARD_BLOCK_ITEMS = itemTags("hard_blocks/flammable");
@@ -265,6 +270,7 @@ public class TagRegistry {
     public static final TagKey<Item> WARP_TRAPDOOR_ITEMS = itemTags("warp_trapdoors");
     public static final TagKey<Item> WINDOW_ITEMS = itemTags("windows");
     public static final TagKey<Item> WINDOW_PANE_ITEMS = itemTags("window_panes");
+    public static final TagKey<Item> WOODEN_ARROW_SIGN_ITEMS = itemTags("arrow_signs/wooden");
     public static final TagKey<Item> WOODEN_BRIDGE_ITEMS = itemTags("bridges/wooden");
     public static final TagKey<Item> WOODEN_BRIDGE_STAIR_ITEMS = itemTags("bridge_stairs/wooden");
     public static final TagKey<Item> WOODEN_HARD_BLOCK_ITEMS = itemTags("hard_blocks/wooden");

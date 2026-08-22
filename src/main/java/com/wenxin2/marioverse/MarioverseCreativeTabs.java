@@ -522,6 +522,10 @@ public class MarioverseCreativeTabs {
         if (event.getTabKey() == MARIOVERSE_FUNCTIONAL_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
             add(event, BlockRegistry.IRON_SPIKE);
             add(event, BlockRegistry.SPIKE_PANEL);
+            add(event, ItemRegistry.MUSHROOT_SIGN);
+            add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN);
+
             add(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
             addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);
             add(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE), Component.literal("Wonder Flag"));
@@ -1380,6 +1384,7 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Items.BAMBOO_HANGING_SIGN, ItemRegistry.MUSHROOT_SIGN);
                 addAfter(event, ItemRegistry.MUSHROOT_SIGN, ItemRegistry.MUSHROOT_HANGING_SIGN);
+                addAfter(event, ItemRegistry.MUSHROOT_HANGING_SIGN, ItemRegistry.MUSHROOT_ARROW_SIGN);
 
                 addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.IRON_SPIKE);
 

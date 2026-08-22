@@ -83,7 +83,7 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
                     315.0F, 292.5F, 270.0F, 247.5F, 225.0F,
                     202.5F, 180.0F, 157.5F, 135.0F, 112.5F
             };
-            rotationDegrees = rotationDegreesArray[rotationState];
+            rotationDegrees = (rotationDegreesArray[rotationState] + 90.0F) % 360.0F;
         } else if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING))
             rotationDegrees = state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot();
         else rotationDegrees = 0.0F;

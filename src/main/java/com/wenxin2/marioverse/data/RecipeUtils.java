@@ -365,7 +365,7 @@ public class RecipeUtils extends RecipeProvider {
 
     public void abilityBlockRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                                    Object trim, Object abilityItem, Object diamond, Object wool, boolean uniqueFileName, RecipeOutput output) {
-        HexColorRecipeBuilder builder = HexColorRecipeBuilder
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("ADA")
                 .pattern("DTD")
@@ -386,9 +386,31 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void arrowSignRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                   Object planks, Object dye, Object chain, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("C C")
+                .pattern("PDP")
+                .pattern("PPP")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'C', chain);
+        defineIngredient(builder, 'D', dye);
+        defineIngredient(builder, 'P', planks);
+
+        builder.unlockedBy(getUnlockName(planks), unlockCriterion(planks));
+
+        if (uniqueFileName && planks instanceof ItemLike itemLike)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeName(outputItem, itemLike)));
+        else if (uniqueFileName && planks instanceof TagKey<?> tag)
+            builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
+        else builder.save(output);
+    }
+
     public void boatRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                            Object planks, boolean uniqueFileName, RecipeOutput output) {
-        HexColorRecipeBuilder builder = HexColorRecipeBuilder
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("P P")
                 .pattern("PPP")
