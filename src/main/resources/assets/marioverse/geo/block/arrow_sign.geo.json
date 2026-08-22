@@ -24,7 +24,7 @@
 					]
 				},
 				{
-					"name": "sign",
+					"name": "board",
 					"parent": "root",
 					"pivot": [0, 10, 0],
 					"cubes": [

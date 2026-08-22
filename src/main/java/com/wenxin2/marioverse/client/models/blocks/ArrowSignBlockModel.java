@@ -73,7 +73,7 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
         super.setCustomAnimations(animatable, instanceId, animationState);
 
         BlockState state = animatable.getBlockState();
-        boolean boardAttached = state.getValue(BlockStatePropertyRegistry.BOARD);
+        boolean hasBoard = state.getValue(BlockStatePropertyRegistry.BOARD);
 
         float rotationDegrees;
         if (state.hasProperty(BlockStateProperties.ROTATION_16)) {
@@ -88,10 +88,10 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
             rotationDegrees = state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot();
         else rotationDegrees = 0.0F;
 
-        Optional<GeoBone> boardBone = this.getBone("sign");
+        Optional<GeoBone> boardBone = this.getBone("board");
         boardBone.ifPresent(geoBone -> {
-            geoBone.setHidden(!boardAttached);
-            if (boardAttached)
+            geoBone.setHidden(!hasBoard);
+            if (hasBoard)
                 geoBone.setRotY((float) Math.toRadians(rotationDegrees));
         });
     }

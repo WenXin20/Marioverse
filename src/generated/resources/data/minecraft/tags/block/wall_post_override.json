@@ -1,7 +1,7 @@
 {
   "values": [
-    "#marioverse:arrow_signs",
     "#marioverse:question_panels",
+    "marioverse:mushroot_arrow_sign",
     "marioverse:spike_panel"
   ]
 }

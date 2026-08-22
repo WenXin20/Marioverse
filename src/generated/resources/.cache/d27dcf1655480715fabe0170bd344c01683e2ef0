@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-21T21:28:56.3476873	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-21T22:08:43.5635376	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -168,7 +168,7 @@ a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficie
 a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
 c1d835760cafacd76917fdf79d03a50fa0969088 data/minecraft/tags/block/walls.json
 4881a523aa09b21de0da1daeb555706b989268a6 data/minecraft/tags/block/wall_hanging_signs.json
-6a095a36a871422076ada4d3e98fff4c180a2138 data/minecraft/tags/block/wall_post_override.json
+075809e8f8b692b75ab44507cc58369365e03a92 data/minecraft/tags/block/wall_post_override.json
 d90cde624d3a35c0d13ed4fea71909d60a64878b data/minecraft/tags/block/wall_signs.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
 a7e1111b0a112941295c13c793d696ce6f478c40 data/minecraft/tags/block/wooden_fences.json

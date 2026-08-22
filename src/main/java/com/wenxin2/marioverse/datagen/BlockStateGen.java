@@ -233,6 +233,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.waterSpoutModel(waterSpout, texture(waterSpout, "_flow"), texture(waterSpout, "_still"),
                 texture(waterSpout, "_splash"));
 
+        this.genArrowSigns();
         this.genBridges();
         this.genBridgeStairs();
         this.genButtons();

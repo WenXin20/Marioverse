@@ -127,7 +127,9 @@ public class BlockLootTableGen extends LootTableProvider {
         private void genBlockVariants() {
             BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
                 blockFamily.getVariants().forEach((variant, variantBlock) -> {
+                    BlockFamilyExtended.Variant arrowSign = BlockFamilyExtended.Variant.ARROW_SIGN;
                     BlockFamilyExtended.Variant door = BlockFamilyExtended.Variant.DOOR;
+                    BlockFamilyExtended.Variant hangingArrowSign = BlockFamilyExtended.Variant.HANGING_ARROW_SIGN;
                     BlockFamilyExtended.Variant logPlatform = BlockFamilyExtended.Variant.LOG_PLATFORM;
                     BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
                     BlockFamilyExtended.Variant quicksand = BlockFamilyExtended.Variant.QUICKSAND;
@@ -135,8 +137,11 @@ public class BlockLootTableGen extends LootTableProvider {
                     BlockFamilyExtended.Variant slabs = BlockFamilyExtended.Variant.SLAB;
                     BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
                     BlockFamilyExtended.Variant storageBricks = BlockFamilyExtended.Variant.STORAGE_BRICKS;
+                    BlockFamilyExtended.Variant wallArrowSign = BlockFamilyExtended.Variant.WALL_ARROW_SIGN;
 
-                    if (variant == door)
+                    if (variant == arrowSign || variant == hangingArrowSign || variant == wallArrowSign)
+                        this.add(variantBlock, this.createArrowSignBEDrop(variantBlock));
+                    else if (variant == door)
                         this.add(variantBlock, this.createDoorTable(variantBlock));
                     else if (variant == quicksand)
                         dropOther(variantBlock, blockFamily.getBaseBlock());
@@ -174,6 +179,16 @@ public class BlockLootTableGen extends LootTableProvider {
                             .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                     .setProperties(StatePropertiesPredicate.Builder.properties()
                                             .hasProperty(CheckpointFlagBlock.PART, TripleBlockStates.BOTTOM))))
+            );
+        }
+
+        protected LootTable.Builder createArrowSignBEDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                            .include(DataComponentRegistry.WAXED.get()))))
             );
         }
 

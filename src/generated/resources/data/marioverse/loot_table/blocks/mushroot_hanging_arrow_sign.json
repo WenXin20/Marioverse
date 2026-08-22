@@ -11,6 +11,16 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "marioverse:arrow_sign_direction",
+                "marioverse:waxed"
+              ],
+              "source": "block_entity"
+            }
+          ],
           "name": "marioverse:mushroot_arrow_sign"
         }
       ],

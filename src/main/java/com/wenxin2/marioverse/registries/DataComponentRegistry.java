@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.registries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.power_up.PowerUpType;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -16,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DataComponentRegistry {
@@ -99,6 +101,12 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> POS_Z =
             Marioverse.COMPONENTS.register("pos_z", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ArrowDirection>> ARROW_SIGN_DIRECTION =
+            Marioverse.COMPONENTS.register("arrow_sign_direction", () -> DataComponentType.<ArrowDirection>builder()
+                    .persistent(StringRepresentable.fromEnum(ArrowDirection::values))
+                    .networkSynchronized(ByteBufCodecs.idMapper(i -> ArrowDirection.values()[i], ArrowDirection::ordinal))
+                    .build());
 
     public static final Supplier<DataComponentType<Holder<PowerUpType>>> POWER_UP_TYPE =
             Marioverse.COMPONENTS.register("power_up_type", () -> DataComponentType.<Holder<PowerUpType>>builder()

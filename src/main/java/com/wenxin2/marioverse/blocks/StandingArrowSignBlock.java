@@ -1,11 +1,12 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
-import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.items.WrenchItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -14,8 +15,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LevelEvent;
@@ -24,23 +26,34 @@ import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.BlockHitResult;
-import javax.annotation.Nullable;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class StandingArrowSignBlock extends StandingSignBlock {
+    public static final EnumProperty<ArrowDirection> ARROW_DIRECTION = BlockStatePropertyRegistry.ARROW_DIRECTION;
+    public static final BooleanProperty BOARD = BlockStatePropertyRegistry.BOARD;
+
+    protected static final VoxelShape DEFAULT = Block
+            .box(4.0, 0.0, 4.0, 12.0, 16.0, 12.0);
+    protected static final VoxelShape POST = Block
+            .box(6.5, 0.0, 6.5, 9.5, 16.0, 9.5);
+
     public StandingArrowSignBlock(WoodType woodType, Properties properties) {
         super(woodType, properties);
         this.registerDefaultState(this.defaultBlockState()
-                .setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, ArrowDirection.UP)
-                .setValue(BlockStatePropertyRegistry.BOARD, true));
+                .setValue(ARROW_DIRECTION, ArrowDirection.UP)
+                .setValue(BOARD, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(BlockStatePropertyRegistry.ARROW_DIRECTION, BlockStatePropertyRegistry.BOARD);
+        builder.add(ARROW_DIRECTION, BOARD);
     }
 
     @NotNull
@@ -57,6 +70,14 @@ public class StandingArrowSignBlock extends StandingSignBlock {
 
     @NotNull
     @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        if (!state.getValue(BOARD))
+            return POST;
+        return DEFAULT;
+    }
+
+    @NotNull
+    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         return this.rotateArrow(level, state, pos) ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
@@ -68,7 +89,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity
                 && signBlockEntity.isWaxed())
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        if (this.wax(level, pos, stack))
+        if (this.wax(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
         if (this.removeArrow(level, state, pos, stack))
             return ItemInteractionResult.SUCCESS;
@@ -85,22 +106,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    private boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!state.getValue(BlockStatePropertyRegistry.BOARD))
-            return false;
-        if (level.isClientSide)
-            return true;
-
-        var direction = state.getValue(BlockStatePropertyRegistry.ARROW_DIRECTION).next();
-        level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
-        level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS); // TODO New sound
-        return true;
-    }
-
-    private boolean wax(Level level, BlockPos pos, ItemStack stack) {
+    private boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
         if (!stack.is(Items.HONEYCOMB))
             return false;
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
@@ -109,21 +115,40 @@ public class StandingArrowSignBlock extends StandingSignBlock {
 
         if (!level.isClientSide) {
             signBlockEntity.setWaxed(true);
-            stack.shrink(1);
+            stack.consume(1, player);
             level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
         }
+        return true;
+    }
+
+    private boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
+        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
+                || signBlockEntity.isWaxed())
+            return false;
+        if (!state.getValue(BOARD))
+            return false;
+        if (level.isClientSide)
+            return true;
+
+        var direction = state.getValue(ARROW_DIRECTION).next();
+        level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
+        signBlockEntity.setArrowDirection(direction);
+        level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS); // TODO New sound
         return true;
     }
 
     private boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
         if (!stack.is(TagRegistry.ARROW_ERASERS))
             return false;
-        if (state.getValue(BlockStatePropertyRegistry.ARROW_DIRECTION) == ArrowDirection.NONE)
+        if (state.getValue(ARROW_DIRECTION) == ArrowDirection.NONE)
             return false;
 
-        if (!level.isClientSide)
-            level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, ArrowDirection.NONE),
+        if (!level.isClientSide) {
+            level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE),
                     Block.UPDATE_CLIENTS);
+            if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
+                signBlockEntity.setArrowDirection(ArrowDirection.NONE);
+        }
         return true;
     }
 
@@ -132,7 +157,8 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             return false;
 
         if (!level.isClientSide)
-            level.setBlock(pos, state.cycle(BlockStatePropertyRegistry.BOARD), Block.UPDATE_CLIENTS);
+            level.setBlock(pos, state.cycle(BOARD), Block.UPDATE_CLIENTS);
+        level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS);
         return true;
     }
 }

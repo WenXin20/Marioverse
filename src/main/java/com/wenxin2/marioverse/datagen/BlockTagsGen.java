@@ -1052,8 +1052,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
 
         tag(BlockTags.WALL_POST_OVERRIDE)
-                .addTag(TagRegistry.ARROW_SIGNS)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
                 .add(BlockRegistry.SPIKE_PANEL.get());
 
         tag(BlockTags.WALL_HANGING_SIGNS)
