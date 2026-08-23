@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse;
 
+import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
@@ -249,6 +250,14 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.MUSHROOT_SIGN);
             add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
             add(event, ItemRegistry.MUSHROOT_ARROW_SIGN);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_RIGHT);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.RIGHT);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_RIGHT);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.DOWN);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_LEFT);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.LEFT);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_LEFT);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.NONE);
             add(event, BlockRegistry.MUSHROOT_DOOR);
             add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
 
