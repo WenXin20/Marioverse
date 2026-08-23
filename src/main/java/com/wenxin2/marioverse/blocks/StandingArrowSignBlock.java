@@ -1,11 +1,14 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.items.WrenchItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.Map;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -36,6 +39,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +54,15 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             .box(3.0, 4.0, 3.0, 13.0, 14.0, 13.0);
     protected static final VoxelShape POST_SHAPE = Block
             .box(6.5, 0.0, 6.5, 9.5, 16.0, 9.5);
+    private static final Map<Integer, VoxelShape> ROTATION_SHAPE = Maps.newHashMap(ImmutableMap
+            .of(0, Shapes.or(Block.box(1, 4, 4.5, 17, 9, 6.5),
+                            Block.box(-1, 9, 4.5, 15, 14, 6.5)).optimize(),
+                    4, Shapes.or(Block.box(9.5, 4, 1, 11.5, 9, 17),
+                            Block.box(9.5, 9, -1, 11.5, 14, 15)).optimize(),
+                    8, Shapes.or(Block.box(-1, 4, 9.5, 15, 9, 11.5),
+                            Block.box(1, 9, 9.5, 17, 14, 11.5)).optimize(),
+                    12, Shapes.or(Block.box(4.5, 4, -1, 6.5, 9, 15),
+                            Block.box(4.5, 9, 1, 6.5, 14, 17)).optimize()));
 
     public StandingArrowSignBlock(WoodType woodType, Properties properties) {
         super(woodType, properties);
@@ -82,9 +95,13 @@ public class StandingArrowSignBlock extends StandingSignBlock {
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (!state.getValue(BOARD))
             return POST_SHAPE;
+
+        VoxelShape rotationShape = ROTATION_SHAPE.get(state.getValue(BlockStateProperties.ROTATION_16));
+
         if (!state.getValue(POST))
-            return BOARD_SHAPE;
-        return DEFAULT;
+            return rotationShape != null ? rotationShape : BOARD_SHAPE;
+
+        return rotationShape != null ? Shapes.or(rotationShape, POST_SHAPE).optimize() : DEFAULT;
     }
 
     @NotNull
