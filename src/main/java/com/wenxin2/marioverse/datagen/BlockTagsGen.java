@@ -367,6 +367,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.FLAMMABLE_HARD_WALLS)
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
 
+        tag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS)
+                .add(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get());
+
         tag(TagRegistry.FLAMMABLE_PLATFORMS)
                 .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
                 .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get());
@@ -477,6 +481,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get());
+
+        tag(TagRegistry.LARGE_ARROW_SIGNS)
+                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS)
+                .addTag(TagRegistry.WOODEN_LARGE_ARROW_SIGNS);
 
         tag(TagRegistry.MEGA_MUSHROOM_CAN_BREAK)
                 .addTag(Tags.Blocks.GLASS_BLOCKS)
@@ -790,6 +798,9 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.WOODEN_HARD_WALLS)
                 .addTag(TagRegistry.FLAMMABLE_HARD_WALLS);
 
+        tag(TagRegistry.WOODEN_LARGE_ARROW_SIGNS)
+                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS);
+
         tag(TagRegistry.WOODEN_PICKET_FENCES)
                 .add(BlockRegistry.ACACIA_PICKET_FENCE.get())
                 .add(BlockRegistry.BAMBOO_PICKET_FENCE.get())
@@ -1053,6 +1064,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.WALL_POST_OVERRIDE)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .add(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
                 .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
                 .add(BlockRegistry.SPIKE_PANEL.get());
 
@@ -1112,6 +1124,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
                 .addTag(TagRegistry.WOODEN_HARD_BLOCKS)
                 .addTag(TagRegistry.WOODEN_HARD_WALLS)
+                .addTag(TagRegistry.WOODEN_LARGE_ARROW_SIGNS)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_PLATFORMS)
                 .addTag(TagRegistry.WOODEN_WALLS)

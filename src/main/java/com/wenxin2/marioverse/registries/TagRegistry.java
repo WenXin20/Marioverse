@@ -81,6 +81,7 @@ public class TagRegistry {
     public static final TagKey<Block> FLAMMABLE_HARD_SLABS = blockTags("hard_slabs/flammable");
     public static final TagKey<Block> FLAMMABLE_HARD_STAIRS = blockTags("hard_stairs/flammable");
     public static final TagKey<Block> FLAMMABLE_HARD_WALLS = blockTags("hard_walls/flammable");
+    public static final TagKey<Block> FLAMMABLE_LARGE_ARROW_SIGNS = blockTags("large_arrow_signs/flammable");
     public static final TagKey<Block> FLAMMABLE_PICKET_FENCES = blockTags("picket_fences/flammable");
     public static final TagKey<Block> FLAMMABLE_PLATFORMS = blockTags("platforms/flammable");
     public static final TagKey<Block> FLAMMABLE_WALLS = blockTags("walls/flammable");
@@ -96,6 +97,7 @@ public class TagRegistry {
     public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");
     public static final TagKey<Block> ICE_CUBE_EXTINGUISHES = blockTags("ice_cube_extinguishes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
+    public static final TagKey<Block> LARGE_ARROW_SIGNS = blockTags("large_arrow_signs");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK = blockTags("mega_mushroom_can_break");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE = blockTags("mega_mushroom_can_break/adventure_mode");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING = blockTags("mega_mushroom_can_break/falling");
@@ -139,6 +141,7 @@ public class TagRegistry {
     public static final TagKey<Block> WOODEN_HARD_SLABS = blockTags("hard_slabs/wooden");
     public static final TagKey<Block> WOODEN_HARD_STAIRS = blockTags("hard_stairs/wooden");
     public static final TagKey<Block> WOODEN_HARD_WALLS = blockTags("hard_walls/wooden");
+    public static final TagKey<Block> WOODEN_LARGE_ARROW_SIGNS = blockTags("large_arrow_signs/wooden");
     public static final TagKey<Block> WOODEN_PICKET_FENCES = blockTags("picket_fences/wooden");
     public static final TagKey<Block> WOODEN_PLATFORMS = blockTags("platforms/wooden");
     public static final TagKey<Block> WOODEN_WALLS = blockTags("walls/wooden");
@@ -174,8 +177,8 @@ public class TagRegistry {
     public static final TagKey<Fluid> FREEZES_INTO_OBSIDIAN = fluidTags("freezes_into_obsidian");
 
     public static final TagKey<Item> ABILITY_BLOCK_ITEMS = itemTags("ability_blocks");
-    public static final TagKey<Item> ARROW_SIGN_ITEMS = itemTags("arrow_signs");
     public static final TagKey<Item> ARROW_ERASERS = itemTags("arrow_erasers");
+    public static final TagKey<Item> ARROW_SIGN_ITEMS = itemTags("arrow_signs");
     public static final TagKey<Item> BLOCK_SPAWNER_CANNOT_DISPLAY = itemTags("block_spawner_cannot_display");
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
@@ -219,6 +222,7 @@ public class TagRegistry {
     public static final TagKey<Item> FLAMMABLE_HARD_SLAB_ITEMS = itemTags("hard_slabs/flammable");
     public static final TagKey<Item> FLAMMABLE_HARD_STAIR_ITEMS = itemTags("hard_stairs/flammable");
     public static final TagKey<Item> FLAMMABLE_HARD_WALL_ITEMS = itemTags("hard_walls/flammable");
+    public static final TagKey<Item> FLAMMABLE_LARGE_ARROW_SIGN_ITEMS = itemTags("large_arrow_signs/flammable");
     public static final TagKey<Item> FLAMMABLE_PICKET_FENCE_ITEMS = itemTags("picket_fences/flammable");
     public static final TagKey<Item> FLAMMABLE_PLATFORM_ITEMS = itemTags("platforms/flammable");
     public static final TagKey<Item> FLAMMABLE_WALL_ITEMS = itemTags("walls/flammable");
@@ -235,6 +239,7 @@ public class TagRegistry {
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");
     public static final TagKey<Item> KOOPA_SHOES = itemTags("koopa_shoes");
     public static final TagKey<Item> KOOPA_TROOPA_SPAWN_EGGS = itemTags("spawn_eggs/koopa_troopa");
+    public static final TagKey<Item> LARGE_ARROW_SIGN_ITEMS = itemTags("large_arrow_signs");
     public static final TagKey<Item> MALE_COSTUMES = itemTags("costumes/male");;
     public static final TagKey<Item> MUSHROOM_TRAMPOLINE_BLOCK_ITEMS = itemTags("mushroom_trampoline_blocks");
     public static final TagKey<Item> MUSHROOT_LOG_ITEMS = itemTags("mushroot_logs");
@@ -277,6 +282,7 @@ public class TagRegistry {
     public static final TagKey<Item> WOODEN_HARD_SLAB_ITEMS = itemTags("hard_slabs/wooden");
     public static final TagKey<Item> WOODEN_HARD_STAIR_ITEMS = itemTags("hard_stairs/wooden");
     public static final TagKey<Item> WOODEN_HARD_WALL_ITEMS = itemTags("hard_walls/wooden");
+    public static final TagKey<Item> WOODEN_LARGE_ARROW_SIGN_ITEMS = itemTags("large_arrow_signs/wooden");
     public static final TagKey<Item> WOODEN_PICKET_FENCE_ITEMS = itemTags("picket_fences/wooden");
     public static final TagKey<Item> WOODEN_PLATFORM_ITEMS = itemTags("platforms/wooden");
     public static final TagKey<Item> WOODEN_WALL_ITEMS = itemTags("walls/wooden");

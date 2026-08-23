@@ -72,6 +72,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.HARD_STAIRS, TagRegistry.HARD_STAIR_ITEMS);
         copy(TagRegistry.HARD_WALLS, TagRegistry.HARD_WALL_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
+        copy(TagRegistry.LARGE_ARROW_SIGNS, TagRegistry.LARGE_ARROW_SIGN_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOT_LOGS, TagRegistry.MUSHROOT_LOG_ITEMS);
         copy(TagRegistry.MUSHROOT_PLANKS, TagRegistry.MUSHROOT_PLANK_ITEMS);
@@ -132,6 +133,56 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.blockTags("c", "glass_blocks/wooden"), TagRegistry.itemTags("c", "glass_blocks/wooden"));
         copy(TagRegistry.blockTags("c", "glass_panes/wooden"), TagRegistry.itemTags("c", "glass_panes/wooden"));
 
+        tag(Tags.Items.ANIMAL_FOODS)
+                .addTag(TagRegistry.PIRANHA_PLANT_FOOD);
+
+        tag(Tags.Items.BUCKETS)
+                .addTag(TagRegistry.itemTags("c", "buckets/quicksand"));
+
+        tag(Tags.Items.BUCKETS_EMPTY)
+                .add(ItemRegistry.PLASTIC_BUCKET.get());
+
+        tag(Tags.Items.BUCKETS_ENTITY_WATER)
+                .add(ItemRegistry.CHEEP_CHEEP_BUCKET.get())
+                .add(ItemRegistry.DEEP_CHEEP_BUCKET.get())
+                .add(ItemRegistry.EEP_CHEEP_BUCKET.get())
+                .add(ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET.get());
+
+        tag(Tags.Items.BUCKETS_POWDER_SNOW)
+                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
+
+        tag(TagRegistry.itemTags("c", "buckets/quicksand"))
+                .add(ItemRegistry.QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.RED_QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
+
+        tag(Tags.Items.BUCKETS_WATER)
+                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+
+        tag(Tags.Items.ENCHANTABLES)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
+
+        tag(Tags.Items.FENCES)
+                .addTag(TagRegistry.PICKET_FENCE_ITEMS);
+
+        tag(Tags.Items.FENCES_WOODEN)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
+
+        tag(Tags.Items.FOODS_COOKED_FISH)
+                .add(ItemRegistry.COOKED_CHEEP_CHEEP.get())
+                .add(ItemRegistry.COOKED_PORCUPUFFER.get())
+                .add(ItemRegistry.COOKED_SPINY_CHEEP_CHEEP.get());
+
+        tag(Tags.Items.FOODS_RAW_FISH)
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.PORCUPUFFER.get())
+                .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
+
+        tag(Tags.Items.MUSHROOMS)
+                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
+
         tag(ItemTags.ARMOR_ENCHANTABLE)
                 .add(ItemRegistry.BODICE.get())
                 .add(ItemRegistry.CROWN.get())
@@ -148,6 +199,11 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         this.tag(ItemTags.BOATS)
                 .add(ItemRegistry.MUSHROOT_BOAT.get());
+
+        tag(ItemTags.CAT_FOOD)
+                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
+                .add(ItemRegistry.PORCUPUFFER.get())
+                .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         this.tag(ItemTags.CHEST_BOATS)
                 .add(ItemRegistry.MUSHROOT_CHEST_BOAT.get());
@@ -206,89 +262,6 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.CREATIVE_WRENCH.get())
                 .add(ItemRegistry.WRENCH.get());
 
-        tag(ItemTags.HANGING_SIGNS)
-                .add(ItemRegistry.MUSHROOT_HANGING_SIGN.get());
-
-        tag(ItemTags.SIGNS)
-                .add(ItemRegistry.MUSHROOT_SIGN.get());
-
-        tag(ItemTags.VANISHING_ENCHANTABLE)
-                .add(ItemRegistry.BODICE.get())
-                .add(ItemRegistry.CROWN.get())
-                .add(ItemRegistry.DRESS.get())
-                .add(ItemRegistry.HAT.get())
-                .add(ItemRegistry.HEELS.get())
-                .add(ItemRegistry.PANTS.get())
-                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
-                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
-                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
-                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
-                .add(ItemRegistry.SHIRT.get())
-                .add(ItemRegistry.SHOES.get())
-                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
-
-        tag(ItemTags.WEAPON_ENCHANTABLE)
-                .add(ItemRegistry.CREATIVE_WRENCH.get())
-                .add(ItemRegistry.WRENCH.get());
-
-        tag(ItemTags.WOODEN_FENCES)
-                .addTag(TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
-
-        tag(Tags.Items.ANIMAL_FOODS)
-                .addTag(TagRegistry.PIRANHA_PLANT_FOOD);
-
-        tag(Tags.Items.BUCKETS)
-                .addTag(TagRegistry.itemTags("c", "buckets/quicksand"));
-
-        tag(Tags.Items.BUCKETS_EMPTY)
-                .add(ItemRegistry.PLASTIC_BUCKET.get());
-
-        tag(Tags.Items.BUCKETS_ENTITY_WATER)
-                .add(ItemRegistry.CHEEP_CHEEP_BUCKET.get())
-                .add(ItemRegistry.DEEP_CHEEP_BUCKET.get())
-                .add(ItemRegistry.EEP_CHEEP_BUCKET.get())
-                .add(ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET.get());
-
-        tag(Tags.Items.BUCKETS_POWDER_SNOW)
-                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
-
-        tag(TagRegistry.itemTags("c", "buckets/quicksand"))
-                .add(ItemRegistry.QUICKSAND_BUCKET.get())
-                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
-                .add(ItemRegistry.RED_QUICKSAND_BUCKET.get())
-                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
-
-        tag(Tags.Items.BUCKETS_WATER)
-                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get());
-
-        tag(Tags.Items.ENCHANTABLES)
-                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
-
-        tag(Tags.Items.FENCES)
-                .addTag(TagRegistry.PICKET_FENCE_ITEMS);
-
-        tag(Tags.Items.FENCES_WOODEN)
-                .addTag(TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
-
-        tag(Tags.Items.FOODS_COOKED_FISH)
-                .add(ItemRegistry.COOKED_CHEEP_CHEEP.get())
-                .add(ItemRegistry.COOKED_PORCUPUFFER.get())
-                .add(ItemRegistry.COOKED_SPINY_CHEEP_CHEEP.get());
-
-        tag(Tags.Items.FOODS_RAW_FISH)
-                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
-                .add(ItemRegistry.PORCUPUFFER.get())
-                .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
-
-        tag(Tags.Items.MUSHROOMS)
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
-
-        tag(ItemTags.CAT_FOOD)
-                .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
-                .add(ItemRegistry.PORCUPUFFER.get())
-                .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
-
         tag(ItemTags.FISHES)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
                 .add(ItemRegistry.COOKED_CHEEP_CHEEP.get())
@@ -302,7 +275,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.CHRISTMAS_HAT.get());
 
         tag(ItemTags.HANGING_SIGNS)
-                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get());
+                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(ItemRegistry.MUSHROOT_HANGING_SIGN.get());
 
         tag(ItemTags.NON_FLAMMABLE_WOOD)
                 .add(BlockRegistry.CRIMSON_PICKET_FENCE.asItem())
@@ -331,7 +305,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SUPER_STAR_SPAWN_EGG.get());
 
         tag(ItemTags.SIGNS)
-                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get());
+                .add(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
+                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(ItemRegistry.MUSHROOT_SIGN.get());
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS)
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.asItem())
@@ -371,6 +347,28 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SHIRT.get())
                 .add(ItemRegistry.SHOES.get())
                 .add(ItemRegistry.WHITE_KOOPA_SHOES.get());
+
+        tag(ItemTags.VANISHING_ENCHANTABLE)
+                .add(ItemRegistry.BODICE.get())
+                .add(ItemRegistry.CROWN.get())
+                .add(ItemRegistry.DRESS.get())
+                .add(ItemRegistry.HAT.get())
+                .add(ItemRegistry.HEELS.get())
+                .add(ItemRegistry.PANTS.get())
+                .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_WATER_BUCKET.get())
+                .add(ItemRegistry.SHIRT.get())
+                .add(ItemRegistry.SHOES.get())
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.asItem());
+
+        tag(ItemTags.WEAPON_ENCHANTABLE)
+                .add(ItemRegistry.CREATIVE_WRENCH.get())
+                .add(ItemRegistry.WRENCH.get());
+
+        tag(ItemTags.WOODEN_FENCES)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
 
         tag(TagRegistry.CHARMS_CURIO).add(ItemRegistry.ONE_UP_MUSHROOM.get());
 
@@ -458,6 +456,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.FLAMMABLE_ARROW_SIGN_ITEMS)
                 .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get());
 
+        tag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGN_ITEMS)
+                .add(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get());
+
         tag(TagRegistry.HALLOWEEN_MASKS)
                 .addTag(Tags.Items.PUMPKINS_CARVED)
                 .addTag(Tags.Items.PUMPKINS_JACK_O_LANTERNS)
@@ -499,6 +500,9 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(TagRegistry.WOODEN_ARROW_SIGN_ITEMS)
                 .addTag(TagRegistry.FLAMMABLE_ARROW_SIGN_ITEMS);
+
+        tag(TagRegistry.WOODEN_LARGE_ARROW_SIGN_ITEMS)
+                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGN_ITEMS);
 
         tag(TagRegistry.WRENCHES)
                 .add(ItemRegistry.CREATIVE_WRENCH.get())
