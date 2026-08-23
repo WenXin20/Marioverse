@@ -7,12 +7,16 @@ import com.wenxin2.marioverse.blocks.CoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
+import com.wenxin2.marioverse.blocks.states.SideBlockStates;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
@@ -130,6 +134,8 @@ public class BlockLootTableGen extends LootTableProvider {
                     BlockFamilyExtended.Variant arrowSign = BlockFamilyExtended.Variant.ARROW_SIGN;
                     BlockFamilyExtended.Variant door = BlockFamilyExtended.Variant.DOOR;
                     BlockFamilyExtended.Variant hangingArrowSign = BlockFamilyExtended.Variant.HANGING_ARROW_SIGN;
+                    BlockFamilyExtended.Variant largeArrowSign = BlockFamilyExtended.Variant.LARGE_ARROW_SIGN;
+                    BlockFamilyExtended.Variant largeWallArrowSign = BlockFamilyExtended.Variant.LARGE_WALL_ARROW_SIGN;
                     BlockFamilyExtended.Variant logPlatform = BlockFamilyExtended.Variant.LOG_PLATFORM;
                     BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
                     BlockFamilyExtended.Variant quicksand = BlockFamilyExtended.Variant.QUICKSAND;
@@ -141,6 +147,8 @@ public class BlockLootTableGen extends LootTableProvider {
 
                     if (variant == arrowSign || variant == hangingArrowSign || variant == wallArrowSign)
                         this.add(variantBlock, this.createArrowSignBEDrop(variantBlock));
+                    else if (variant == largeArrowSign || variant == largeWallArrowSign)
+                        this.add(variantBlock, this.createLargeArrowSignBEDrop(variantBlock));
                     else if (variant == door)
                         this.add(variantBlock, this.createDoorTable(variantBlock));
                     else if (variant == quicksand)
@@ -189,6 +197,23 @@ public class BlockLootTableGen extends LootTableProvider {
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
                                             .include(DataComponentRegistry.WAXED.get()))))
+            );
+        }
+
+        protected LootTable.Builder createLargeArrowSignBEDrop(Block block) {
+            StatePropertiesPredicate.Builder properties = StatePropertiesPredicate.Builder.properties()
+                    .hasProperty(BlockStatePropertyRegistry.HALF, HalfBlockStates.BOTTOM);
+            if (block instanceof LargeWallArrowSignBlock)
+                properties.hasProperty(BlockStatePropertyRegistry.SIDE, SideBlockStates.LEFT);
+
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                            .include(DataComponentRegistry.WAXED.get()))
+                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                            .setProperties(properties))))
             );
         }
 

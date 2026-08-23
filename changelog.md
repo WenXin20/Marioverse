@@ -21,6 +21,7 @@
   - Picket Fences
   - Log Platforms
   - Arrow Signs
+  - Large Arrow Signs
 - Add tooltips to bridges
 - Fix flammability of Log Stairs
 

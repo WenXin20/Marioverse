@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.datagen;
 import com.google.gson.JsonObject;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
@@ -319,6 +321,22 @@ public class BlockStateGen extends BlockStateProvider {
                 this.simpleBlock(hangingSign, new ConfiguredModel(hangingSignModel));
                 this.simpleBlock(standingSign, new ConfiguredModel(signModel));
                 this.simpleBlock(wallSign, new ConfiguredModel(wallSignModel));
+            }
+
+            Block largeArrowSign = family.getVariants().get(BlockFamilyExtended.Variant.LARGE_ARROW_SIGN);
+            Block largeWallArrowSign = family.getVariants().get(BlockFamilyExtended.Variant.LARGE_WALL_ARROW_SIGN);
+
+            if (largeArrowSign instanceof LargeStandingArrowSignBlock largeSign
+                    && largeWallArrowSign instanceof LargeWallArrowSignBlock largeWallSign) {
+                String signName = BuiltInRegistries.BLOCK.getKey(largeArrowSign).getPath();
+                String baseName = signName.replace("large_", "").replace("_arrow_sign", "");
+                ResourceLocation texture = modLoc("block/" + baseName + "_planks");
+
+                ModelFile largeSignModel = models().sign(name(largeSign), texture);
+                ModelFile largeWallSignModel = models().sign(name(largeWallSign), texture);
+
+                this.simpleBlock(largeSign, new ConfiguredModel(largeSignModel));
+                this.simpleBlock(largeWallSign, new ConfiguredModel(largeWallSignModel));
             }
         });
     }

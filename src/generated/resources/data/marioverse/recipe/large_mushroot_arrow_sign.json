@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "marioverse:large_arrow_signs",
+  "key": {
+    "C": {
+      "tag": "c:chains"
+    },
+    "D": {
+      "tag": "c:dyes/red"
+    },
+    "P": {
+      "tag": "marioverse:mushroot_planks"
+    }
+  },
+  "pattern": [
+    "C C",
+    "PDP",
+    "PPP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:large_mushroot_arrow_sign"
+  }
+}

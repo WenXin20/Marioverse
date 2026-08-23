@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.items.ArrowSignItem;
+import com.wenxin2.marioverse.items.LargeArrowSignItem;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -143,10 +144,12 @@ public class ItemModelGen extends ItemModelProvider {
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
 
         for (Item item : BuiltInRegistries.ITEM) {
-            if (item instanceof ArrowSignItem arrowSignItem) {
+            if (item instanceof ArrowSignItem arrowSignItem && !(item instanceof LargeArrowSignItem)) {
                 this.arrowSignItem(arrowSignItem);
             }
         }
+
+        this.basicItem(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get());
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet())
             this.handheldItem(entry.getValue().asItem()).override()

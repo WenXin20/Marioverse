@@ -43,7 +43,9 @@ public class BlockEntityRegistry {
                                 new ArrowSignBlockEntity(BlockEntityRegistry.ARROW_SIGN.get(), pos, state),
                         BlockRegistry.MUSHROOT_ARROW_SIGN.get(),
                         BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get(),
-                        BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get()
+                        BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get(),
+                        BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get(),
+                        BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get()
                 ).build(null));
 
         BLOCK_SPAWNER_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("block_spawner",

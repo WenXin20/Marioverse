@@ -4,8 +4,11 @@ import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -30,6 +33,17 @@ public class ArrowSignItem extends BlockItem {
         super(standingSign, properties);
         this.wallSign = wallSign;
         this.hangingSign = hangingSign;
+    }
+
+    @NotNull
+    @Override
+    public Component getName(ItemStack stack) {
+        ArrowDirection direction = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
+        if (direction == null)
+            return super.getName(stack);
+
+        String key = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(this)).toLanguageKey("item") + "." + direction.getSerializedName();
+        return Component.translatable(key);
     }
 
     protected boolean canPlace(LevelReader level, BlockState state, BlockPos pos) {

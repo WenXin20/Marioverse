@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.ArrowSignItem;
+import com.wenxin2.marioverse.items.LargeArrowSignItem;
 import com.wenxin2.marioverse.items.FireFlowerItem;
 import com.wenxin2.marioverse.items.IceFlowerItem;
 import com.wenxin2.marioverse.items.MegaMushroomItem;
@@ -105,6 +106,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> ICE_FLOWER_SPAWN_EGG;
+    public static final DeferredItem<Item> LARGE_MUSHROOT_ARROW_SIGN;
     public static final DeferredItem<Item> LARGE_SNOWBALL;
     public static final DeferredItem<Item> LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MARIO_ARMOR_TRIM_SMITHING_TEMPLATE;
@@ -184,6 +186,10 @@ public class ItemRegistry {
                 () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
                         BlockRegistry.MUSHROOT_ARROW_SIGN.get(), BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get(),
                         BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get()));
+
+        LARGE_MUSHROOT_ARROW_SIGN = registerItem("large_mushroot_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get()));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CHECKPOINT_FLAGS.put(color, registerItem(color.getName() + "_checkpoint_flag",

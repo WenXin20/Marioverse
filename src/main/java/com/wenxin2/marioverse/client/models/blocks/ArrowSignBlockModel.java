@@ -1,6 +1,8 @@
 package com.wenxin2.marioverse.client.models.blocks;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +29,10 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/block/hanging_arrow_sign.geo.json");
     private static final ResourceLocation ATTACHED_HANGING_MODEL =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/block/hanging_arrow_sign_attached.geo.json");
+    private static final ResourceLocation LARGE_STANDING_MODEL =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/block/large_arrow_sign.geo.json");
+    private static final ResourceLocation LARGE_WALL_MODEL =
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/block/large_wall_arrow_sign.geo.json");
     private final ResourceLocation ANIMATION =
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/block/arrow_sign.animation.json");
 
@@ -35,7 +41,11 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
         BlockState state = blockEntity.getBlockState();
         Block block = state.getBlock();
 
-        if (block instanceof StandingSignBlock)
+        if (block instanceof LargeWallArrowSignBlock)
+            return LARGE_WALL_MODEL;
+        else if (block instanceof LargeStandingArrowSignBlock)
+            return LARGE_STANDING_MODEL;
+        else if (block instanceof StandingSignBlock)
             return STANDING_MODEL;
         else if (block instanceof WallSignBlock)
             return WALL_MODEL;
@@ -51,16 +61,21 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
     @Override
     public ResourceLocation getTextureResource(ArrowSignBlockEntity blockEntity) {
         BlockState state = blockEntity.getBlockState();
+        Block block = state.getBlock();
         var arrowDirection = state.getValue(BlockStatePropertyRegistry.ARROW_DIRECTION);
 
-        WoodType woodType = SignBlock.getWoodType(state.getBlock());
+        WoodType woodType = SignBlock.getWoodType(block);
         ResourceLocation woodTypeName = ResourceLocation.parse(woodType.name());
+
+        boolean isLarge = block instanceof LargeStandingArrowSignBlock || block instanceof LargeWallArrowSignBlock;
+        String folder = isLarge ? "large_arrow" : "arrow";
+        String prefix = isLarge ? "large_" + woodTypeName.getPath() : woodTypeName.getPath();
 
         if (arrowDirection.getSerializedName().equals("none"))
             return ResourceLocation.fromNamespaceAndPath(woodTypeName.getNamespace(),
-                    "textures/entity/signs/arrow/" + woodTypeName.getPath() + "_arrow_sign.png");
+                    "textures/entity/signs/" + folder + "/" + prefix + "_arrow_sign.png");
         return ResourceLocation.fromNamespaceAndPath(woodTypeName.getNamespace(),
-                "textures/entity/signs/arrow/" + woodTypeName.getPath() + "_arrow_sign_" + arrowDirection.getSerializedName() + ".png");
+                "textures/entity/signs/" + folder + "/" + prefix + "_arrow_sign_" + arrowDirection.getSerializedName() + ".png");
     }
 
     @Override
@@ -98,7 +113,15 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
         Optional<GeoBone> postBone = this.getBone("post");
         if (state.hasProperty(BlockStatePropertyRegistry.POST)) {
             boolean hasPost = state.getValue(BlockStatePropertyRegistry.POST);
-            postBone.ifPresent(geoBone -> geoBone.setHidden(!hasPost));
+            boolean snapToCardinal = state.getBlock() instanceof LargeStandingArrowSignBlock;
+
+            postBone.ifPresent(geoBone -> {
+                geoBone.setHidden(!hasPost);
+                if (hasPost && snapToCardinal) {
+                    float postRotationDegrees = Math.round(rotationDegrees / 90.0F) * 90.0F;
+                    geoBone.setRotY((float) Math.toRadians(postRotationDegrees));
+                }
+            });
         }
     }
 }

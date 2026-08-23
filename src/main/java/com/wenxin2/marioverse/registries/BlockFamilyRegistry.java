@@ -212,6 +212,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .hardBlock(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
             .fence(BlockRegistry.MUSHROOT_FENCE.get())
             .fenceGate(BlockRegistry.MUSHROOT_FENCE_GATE.get())
+            .largeArrowSign(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get())
             .panelsFromBoards(BlockRegistry.MUSHROOT_PANELS.get())
             .pressurePlate(BlockRegistry.MUSHROOT_PRESSURE_PLATE.get())
             .sign(BlockRegistry.MUSHROOT_SIGN.get(), BlockRegistry.MUSHROOT_WALL_SIGN.get())

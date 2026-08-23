@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks.properties;
 
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
+import com.wenxin2.marioverse.blocks.states.SideBlockStates;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 
@@ -16,4 +17,6 @@ public class BlockStatePropertyRegistry {
             .create("arrow_direction", ArrowDirection.class);
     public static final EnumProperty<HalfBlockStates> HALF = EnumProperty
             .create("half", HalfBlockStates.class);
+    public static final EnumProperty<SideBlockStates> SIDE = EnumProperty
+            .create("side", SideBlockStates.class);
 }

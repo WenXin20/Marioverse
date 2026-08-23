@@ -46,17 +46,17 @@ public class WallArrowSignBlock extends WallSignBlock {
 
     private static final Map<Direction, VoxelShape> SHAPE = Maps.newEnumMap(ImmutableMap
             .of(Direction.NORTH,
-                    Shapes.or(Block.box(1, 4, 14, 17, 9, 16),
-                            Block.box(-1, 9, 14, 15, 14, 16)).optimize(),
+                    Shapes.or(Block.box(1, 3, 14, 17, 8, 16),
+                            Block.box(-1, 8, 14, 15, 13, 16)).optimize(),
                     Direction.SOUTH,
-                    Shapes.or(Block.box(-1, 4, 0, 15, 9, 2),
-                            Block.box(1, 9, 0, 17, 14, 2)).optimize(),
+                    Shapes.or(Block.box(-1, 3, 0, 15, 8, 2),
+                            Block.box(1, 8, 0, 17, 13, 2)).optimize(),
                     Direction.EAST,
-                    Shapes.or(Block.box(0, 4, 1, 2, 9, 17),
-                            Block.box(0, 9, -1, 2, 14, 15)).optimize(),
+                    Shapes.or(Block.box(0, 3, 1, 2, 8, 17),
+                            Block.box(0, 8, -1, 2, 13, 15)).optimize(),
                     Direction.WEST,
-                    Shapes.or(Block.box(14, 9, 1, 16, 14, 17),
-                            Block.box(14, 4, -1, 16, 9, 15)).optimize()));
+                    Shapes.or(Block.box(14, 3, -1, 16, 8, 15),
+                                    Block.box(14, 8, 1, 16, 13, 17)).optimize()));
     
     public WallArrowSignBlock(WoodType woodType, BlockBehaviour.Properties properties) {
         super(woodType, properties);

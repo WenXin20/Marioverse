@@ -153,6 +153,12 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder largeArrowSign(Block block, Block blockWall) {
+            this.family.variants.put(Variant.LARGE_ARROW_SIGN, block);
+            this.family.variants.put(Variant.LARGE_WALL_ARROW_SIGN, blockWall);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder logPlatform(Block block) {
             this.family.variants.put(Variant.LOG_PLATFORM, block);
             return this;
@@ -310,6 +316,8 @@ public class BlockFamilyExtended {
         HANGING_SIGN("hanging_sign"),
         HARD_BLOCK("hard_block"),
         INVISIBLE_QUESTION_BLOCK("invisible_question_block"),
+        LARGE_ARROW_SIGN("large_arrow_sign"),
+        LARGE_WALL_ARROW_SIGN("large_wall_arrow_sign"),
         LOG_PLATFORM("log_platform"),
         MOSAIC("mosaic"),
         PANELS("panels"),

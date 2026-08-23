@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
@@ -320,6 +322,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW_PANE;
     public static final DeferredBlock<Block> MUSHROOT_HANGING_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_LEAVES;
+    public static final DeferredBlock<Block> LARGE_MUSHROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MUSHROOT_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_LOG;
     public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE;
     public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE_STAIRS;
@@ -768,6 +772,14 @@ public class BlockRegistry {
 
         MUSHROOT_WALL_ARROW_SIGN = registerNoItemBlock("mushroot_wall_arrow_sign",
                 () -> new WallArrowSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        LARGE_MUSHROOT_ARROW_SIGN = registerNoItemBlock("large_mushroot_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+
+        LARGE_MUSHROOT_WALL_ARROW_SIGN = registerNoItemBlock("large_mushroot_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.MUSHROOT,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
 
         MUSHROOT_LOG_BRIDGE = registerBlock("mushroot_log_bridge",
