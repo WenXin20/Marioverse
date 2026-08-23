@@ -26,12 +26,16 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -43,31 +47,34 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
     public static final EnumProperty<HalfBlockStates> HALF = BlockStatePropertyRegistry.HALF;
     public static final EnumProperty<SideBlockStates> SIDE = BlockStatePropertyRegistry.SIDE;
 
-    // Derived from the board cubes in large_wall_arrow_sign.geo.json: the board is 26 wide and 20
-    // tall. Each of the 4 blocks returns the full, uninterrupted shape of the whole board
-    // (translated into its own local frame) rather than being clipped to its own quadrant, so
-    // there's no seam at the block boundaries. RIGHT is a pure translation of LEFT (no mirroring)
-    // by the same offset used to place the RIGHT block (clockwise from FACING).
+    // Derived from the board cubes in large_wall_arrow_sign.geo.json, mirrored across the width
+    // axis (x at FACING=NORTH), not the depth axis, so the board's depth stays hugging the wall
+    // as authored (matching the standing sign's correction) while each plank's width-axis span
+    // still pairs with its own y-range. Each of the 4 blocks returns the full, uninterrupted shape
+    // of the whole board (translated into its own local frame) rather than being clipped to its
+    // own quadrant, so there's no seam at the block boundaries. RIGHT is a pure translation of
+    // LEFT (no further mirroring) by the same offset used to place the RIGHT block
+    // (clockwise from FACING).
     private static final Map<Direction, VoxelShape> BOTTOM_LEFT_SHAPE = Maps.newEnumMap(ImmutableMap
-            .of(Direction.NORTH, Shapes.or(Block.box(-12, 6, 14, 14, 16, 16), Block.box(-14, 16, 14, 12, 26, 16)).optimize(),
-                    Direction.EAST, Shapes.or(Block.box(0, 6, -12, 2, 16, 14), Block.box(0, 16, -14, 2, 26, 12)).optimize(),
-                    Direction.SOUTH, Shapes.or(Block.box(2, 6, 0, 28, 16, 2), Block.box(4, 16, 0, 30, 26, 2)).optimize(),
-                    Direction.WEST, Shapes.or(Block.box(14, 6, 2, 16, 16, 28), Block.box(14, 16, 4, 16, 26, 30)).optimize()));
+            .of(Direction.NORTH, Shapes.or(Block.box(2, 6, 14, 28, 16, 16), Block.box(4, 16, 14, 30, 26, 16)).optimize(),
+                    Direction.EAST, Shapes.or(Block.box(0, 6, 2, 2, 16, 28), Block.box(0, 16, 4, 2, 26, 30)).optimize(),
+                    Direction.SOUTH, Shapes.or(Block.box(-12, 6, 0, 14, 16, 2), Block.box(-14, 16, 0, 12, 26, 2)).optimize(),
+                    Direction.WEST, Shapes.or(Block.box(14, 6, -12, 16, 16, 14), Block.box(14, 16, -14, 16, 26, 12)).optimize()));
     private static final Map<Direction, VoxelShape> BOTTOM_RIGHT_SHAPE = Maps.newEnumMap(ImmutableMap
-            .of(Direction.NORTH, Shapes.or(Block.box(-28, 6, 14, -2, 16, 16), Block.box(-30, 16, 14, -4, 26, 16)).optimize(),
-                    Direction.EAST, Shapes.or(Block.box(0, 6, -28, 2, 16, -2), Block.box(0, 16, -30, 2, 26, -4)).optimize(),
-                    Direction.SOUTH, Shapes.or(Block.box(18, 6, 0, 44, 16, 2), Block.box(20, 16, 0, 46, 26, 2)).optimize(),
-                    Direction.WEST, Shapes.or(Block.box(14, 6, 18, 16, 16, 44), Block.box(14, 16, 20, 16, 26, 46)).optimize()));
+            .of(Direction.NORTH, Shapes.or(Block.box(-14, 6, 14, 12, 16, 16), Block.box(-12, 16, 14, 14, 26, 16)).optimize(),
+                    Direction.EAST, Shapes.or(Block.box(0, 6, -14, 2, 16, 12), Block.box(0, 16, -12, 2, 26, 14)).optimize(),
+                    Direction.SOUTH, Shapes.or(Block.box(4, 6, 0, 30, 16, 2), Block.box(2, 16, 0, 28, 26, 2)).optimize(),
+                    Direction.WEST, Shapes.or(Block.box(14, 6, 4, 16, 16, 30), Block.box(14, 16, 2, 16, 26, 28)).optimize()));
     private static final Map<Direction, VoxelShape> TOP_LEFT_SHAPE = Maps.newEnumMap(ImmutableMap
-            .of(Direction.NORTH, Shapes.or(Block.box(-12, -10, 14, 14, 0, 16), Block.box(-14, 0, 14, 12, 10, 16)).optimize(),
-                    Direction.EAST, Shapes.or(Block.box(0, -10, -12, 2, 0, 14), Block.box(0, 0, -14, 2, 10, 12)).optimize(),
-                    Direction.SOUTH, Shapes.or(Block.box(2, -10, 0, 28, 0, 2), Block.box(4, 0, 0, 30, 10, 2)).optimize(),
-                    Direction.WEST, Shapes.or(Block.box(14, -10, 2, 16, 0, 28), Block.box(14, 0, 4, 16, 10, 30)).optimize()));
+            .of(Direction.NORTH, Shapes.or(Block.box(2, -10, 14, 28, 0, 16), Block.box(4, 0, 14, 30, 10, 16)).optimize(),
+                    Direction.EAST, Shapes.or(Block.box(0, -10, 2, 2, 0, 28), Block.box(0, 0, 4, 2, 10, 30)).optimize(),
+                    Direction.SOUTH, Shapes.or(Block.box(-12, -10, 0, 14, 0, 2), Block.box(-14, 0, 0, 12, 10, 2)).optimize(),
+                    Direction.WEST, Shapes.or(Block.box(14, -10, -12, 16, 0, 14), Block.box(14, 0, -14, 16, 10, 12)).optimize()));
     private static final Map<Direction, VoxelShape> TOP_RIGHT_SHAPE = Maps.newEnumMap(ImmutableMap
-            .of(Direction.NORTH, Shapes.or(Block.box(-28, -10, 14, -2, 0, 16), Block.box(-30, 0, 14, -4, 10, 16)).optimize(),
-                    Direction.EAST, Shapes.or(Block.box(0, -10, -28, 2, 0, -2), Block.box(0, 0, -30, 2, 10, -4)).optimize(),
-                    Direction.SOUTH, Shapes.or(Block.box(18, -10, 0, 44, 0, 2), Block.box(20, 0, 0, 46, 10, 2)).optimize(),
-                    Direction.WEST, Shapes.or(Block.box(14, -10, 18, 16, 0, 44), Block.box(14, 0, 20, 16, 10, 46)).optimize()));
+            .of(Direction.NORTH, Shapes.or(Block.box(-14, -10, 14, 12, 0, 16), Block.box(-12, 0, 14, 14, 10, 16)).optimize(),
+                    Direction.EAST, Shapes.or(Block.box(0, -10, -14, 2, 0, 12), Block.box(0, 0, -12, 2, 10, 14)).optimize(),
+                    Direction.SOUTH, Shapes.or(Block.box(4, -10, 0, 30, 0, 2), Block.box(2, 0, 0, 28, 10, 2)).optimize(),
+                    Direction.WEST, Shapes.or(Block.box(14, -10, 4, 16, 0, 30), Block.box(14, 0, 2, 16, 10, 28)).optimize()));
 
     public LargeWallArrowSignBlock(WoodType woodType, BlockBehaviour.Properties properties) {
         super(woodType, properties);
@@ -115,11 +122,35 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         Direction rightDir = state.getValue(FACING).getClockWise();
         BlockPos rightPos = pos.relative(rightDir);
+        BlockPos abovePos = pos.above();
+        BlockPos aboveRightPos = rightPos.above();
 
-        level.setBlock(rightPos, state.setValue(SIDE, SideBlockStates.RIGHT), Block.UPDATE_ALL);
-        level.setBlock(pos.above(), state.setValue(HALF, HalfBlockStates.TOP), Block.UPDATE_ALL);
-        level.setBlock(rightPos.above(), state.setValue(HALF, HalfBlockStates.TOP).setValue(SIDE, SideBlockStates.RIGHT), Block.UPDATE_ALL);
+        level.setBlock(rightPos, state.setValue(SIDE, SideBlockStates.RIGHT)
+                .setValue(BlockStateProperties.WATERLOGGED, level.getFluidState(rightPos).getType() == Fluids.WATER), Block.UPDATE_ALL);
+        level.setBlock(abovePos, state.setValue(HALF, HalfBlockStates.TOP)
+                .setValue(BlockStateProperties.WATERLOGGED, level.getFluidState(abovePos).getType() == Fluids.WATER), Block.UPDATE_ALL);
+        level.setBlock(aboveRightPos, state.setValue(HALF, HalfBlockStates.TOP).setValue(SIDE, SideBlockStates.RIGHT)
+                .setValue(BlockStateProperties.WATERLOGGED, level.getFluidState(aboveRightPos).getType() == Fluids.WATER), Block.UPDATE_ALL);
         super.setPlacedBy(level, pos, state, placer, stack);
+    }
+
+    // SIDE (LEFT/RIGHT) means "clockwise from FACING", a relationship that's rotation-invariant, so
+    // a pure rotation only needs to carry FACING along. A mirror reverses chirality though: the
+    // part that was clockwise-of-primary becomes counter-clockwise-of-primary, so SIDE has to flip
+    // too, or the mirrored copy's own getShape/primaryPos logic would point at the wrong block.
+    @NotNull
+    @Override
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @NotNull
+    @Override
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        BlockState rotated = this.rotate(state, mirror.getRotation(state.getValue(FACING)));
+        SideBlockStates flippedSide = rotated.getValue(SIDE) == SideBlockStates.LEFT
+                ? SideBlockStates.RIGHT : SideBlockStates.LEFT;
+        return rotated.setValue(SIDE, flippedSide);
     }
 
     @NotNull

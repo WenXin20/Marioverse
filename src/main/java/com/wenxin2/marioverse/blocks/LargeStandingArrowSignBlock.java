@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -42,10 +43,6 @@ import org.jetbrains.annotations.NotNull;
 public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
     public static final EnumProperty<HalfBlockStates> HALF = BlockStatePropertyRegistry.HALF;
 
-    // The post is a 6x3 rectangle (not the square post of the regular sign), so unlike the
-    // regular sign its collision shape actually changes with rotation. Each half returns the
-    // full, uninterrupted shape of the whole 2-block sign (translated into its own local frame)
-    // rather than being clipped to its own half, so there's no seam at the block boundary.
     protected static final VoxelShape BOTTOM_DEFAULT_SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 32.0, 14.0);
     protected static final VoxelShape TOP_DEFAULT_SHAPE = Block.box(2.0, -16.0, 2.0, 14.0, 16.0, 14.0);
     private static final Map<Integer, VoxelShape> BOTTOM_POST_ROTATION_SHAPE = Maps.newHashMap(ImmutableMap
@@ -58,25 +55,27 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
                     4, Block.box(6.5, -16.0, 5.0, 9.5, 16.0, 11.0),
                     8, Block.box(5.0, -16.0, 6.5, 11.0, 16.0, 9.5),
                     12, Block.box(6.5, -16.0, 5.0, 9.5, 16.0, 11.0)));
-    // The board sits directly in front of the post (lower z), matching the geo model exactly.
+    // Mirrored across the post's own center on the WIDTH axis (x at rotation 0), not the depth
+    // axis, keeping the depth (z at rotation 0, in front of the post) as authored in the geo model
+    // and keeping each plank's width-axis span paired with its own y-range unchanged.
     private static final Map<Integer, VoxelShape> BOTTOM_BOARD_ROTATION_SHAPE = Maps.newHashMap(ImmutableMap
-            .of(0, Shapes.or(Block.box(-4.0, 9.0, 4.5, 22.0, 19.0, 6.5),
-                            Block.box(-6.0, 19.0, 4.5, 20.0, 29.0, 6.5)).optimize(),
-                    4, Shapes.or(Block.box(9.5, 9.0, -4.0, 11.5, 19.0, 22.0),
-                            Block.box(9.5, 19.0, -6.0, 11.5, 29.0, 20.0)).optimize(),
-                    8, Shapes.or(Block.box(-6.0, 9.0, 9.5, 20.0, 19.0, 11.5),
-                            Block.box(-4.0, 19.0, 9.5, 22.0, 29.0, 11.5)).optimize(),
-                    12, Shapes.or(Block.box(4.5, 9.0, -6.0, 6.5, 19.0, 20.0),
-                            Block.box(4.5, 19.0, -4.0, 6.5, 29.0, 22.0)).optimize()));
+            .of(0, Shapes.or(Block.box(-6.0, 9.0, 4.5, 20.0, 19.0, 6.5),
+                            Block.box(-4.0, 19.0, 4.5, 22.0, 29.0, 6.5)).optimize(),
+                    4, Shapes.or(Block.box(9.5, 9.0, -6.0, 11.5, 19.0, 20.0),
+                            Block.box(9.5, 19.0, -4.0, 11.5, 29.0, 22.0)).optimize(),
+                    8, Shapes.or(Block.box(-4.0, 9.0, 9.5, 22.0, 19.0, 11.5),
+                            Block.box(-6.0, 19.0, 9.5, 20.0, 29.0, 11.5)).optimize(),
+                    12, Shapes.or(Block.box(4.5, 9.0, -4.0, 6.5, 19.0, 22.0),
+                            Block.box(4.5, 19.0, -6.0, 6.5, 29.0, 20.0)).optimize()));
     private static final Map<Integer, VoxelShape> TOP_BOARD_ROTATION_SHAPE = Maps.newHashMap(ImmutableMap
-            .of(0, Shapes.or(Block.box(-4.0, -7.0, 4.5, 22.0, 3.0, 6.5),
-                            Block.box(-6.0, 3.0, 4.5, 20.0, 13.0, 6.5)).optimize(),
-                    4, Shapes.or(Block.box(9.5, -7.0, -4.0, 11.5, 3.0, 22.0),
-                            Block.box(9.5, 3.0, -6.0, 11.5, 13.0, 20.0)).optimize(),
-                    8, Shapes.or(Block.box(-6.0, -7.0, 9.5, 20.0, 3.0, 11.5),
-                            Block.box(-4.0, 3.0, 9.5, 22.0, 13.0, 11.5)).optimize(),
-                    12, Shapes.or(Block.box(4.5, -7.0, -6.0, 6.5, 3.0, 20.0),
-                            Block.box(4.5, 3.0, -4.0, 6.5, 13.0, 22.0)).optimize()));
+            .of(0, Shapes.or(Block.box(-6.0, -7.0, 4.5, 20.0, 3.0, 6.5),
+                            Block.box(-4.0, 3.0, 4.5, 22.0, 13.0, 6.5)).optimize(),
+                    4, Shapes.or(Block.box(9.5, -7.0, -6.0, 11.5, 3.0, 20.0),
+                            Block.box(9.5, 3.0, -4.0, 11.5, 13.0, 22.0)).optimize(),
+                    8, Shapes.or(Block.box(-4.0, -7.0, 9.5, 22.0, 3.0, 11.5),
+                            Block.box(-6.0, 3.0, 9.5, 20.0, 13.0, 11.5)).optimize(),
+                    12, Shapes.or(Block.box(4.5, -7.0, -4.0, 6.5, 3.0, 22.0),
+                            Block.box(4.5, 3.0, -6.0, 6.5, 13.0, 20.0)).optimize()));
 
     public LargeStandingArrowSignBlock(WoodType woodType, Properties properties) {
         super(woodType, properties);
@@ -109,7 +108,9 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        level.setBlock(pos.above(), state.setValue(HALF, HalfBlockStates.TOP), Block.UPDATE_ALL);
+        BlockPos abovePos = pos.above();
+        level.setBlock(abovePos, state.setValue(HALF, HalfBlockStates.TOP)
+                .setValue(BlockStateProperties.WATERLOGGED, level.getFluidState(abovePos).getType() == Fluids.WATER), Block.UPDATE_ALL);
         super.setPlacedBy(level, pos, state, placer, stack);
     }
 
@@ -253,5 +254,30 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
                 level.setBlock(otherPos, otherState.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
         }
         return true;
+    }
+
+    // Breaking either half must take the other one with it. Relying only on the AIR result from
+    // updateShape (as vanilla doors do) drops the other half's item by default even in creative,
+    // since that cascade isn't player-aware; proactively removing it here first (with drops
+    // suppressed for creative/wrong-tool, mirroring CheckpointFlagBlock) avoids that.
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+        if (!level.isClientSide() && level instanceof Level realLevel) {
+            BlockPos otherPos = this.otherHalfPos(state, pos);
+            if (realLevel.getBlockState(otherPos).is(this))
+                realLevel.destroyBlock(otherPos, true);
+        }
+        super.destroy(level, pos, state);
+    }
+
+    @NotNull
+    @Override
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide && (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos))) {
+            BlockPos otherPos = this.otherHalfPos(state, pos);
+            if (level.getBlockState(otherPos).is(this))
+                level.destroyBlock(otherPos, false);
+        }
+        return super.playerWillDestroy(level, pos, state, player);
     }
 }
