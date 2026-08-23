@@ -55,9 +55,6 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
                     4, Block.box(6.5, -16.0, 5.0, 9.5, 16.0, 11.0),
                     8, Block.box(5.0, -16.0, 6.5, 11.0, 16.0, 9.5),
                     12, Block.box(6.5, -16.0, 5.0, 9.5, 16.0, 11.0)));
-    // Mirrored across the post's own center on the WIDTH axis (x at rotation 0), not the depth
-    // axis, keeping the depth (z at rotation 0, in front of the post) as authored in the geo model
-    // and keeping each plank's width-axis span paired with its own y-range unchanged.
     private static final Map<Integer, VoxelShape> BOTTOM_BOARD_ROTATION_SHAPE = Maps.newHashMap(ImmutableMap
             .of(0, Shapes.or(Block.box(-6.0, 9.0, 4.5, 20.0, 19.0, 6.5),
                             Block.box(-4.0, 19.0, 4.5, 22.0, 29.0, 6.5)).optimize(),
@@ -88,22 +85,11 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         builder.add(HALF);
     }
 
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(HALF) == HalfBlockStates.BOTTOM ? super.newBlockEntity(pos, state) : null;
-    }
-
-    @Nullable
+    @NotNull
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        BlockPos pos = context.getClickedPos();
-        if (pos.getY() >= context.getLevel().getMaxBuildHeight() - 1
-                || !context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
-            return null;
-
         BlockState state = super.getStateForPlacement(context);
-        return state == null ? null : state.setValue(HALF, HalfBlockStates.BOTTOM);
+        return state.setValue(HALF, HalfBlockStates.BOTTOM);
     }
 
     @Override
@@ -176,10 +162,6 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
-    // The interaction methods above always redirect to the BOTTOM half's pos/state before calling
-    // super, so `pos` here is always the bottom block. BOARD/POST/ARROW_DIRECTION are per-block
-    // properties, so the toggle/rotate/erase below must be mirrored onto the TOP half as well or it
-    // desyncs (and, for BOARD/POST, the top half's own collision shape goes stale).
     private BlockPos otherHalfPos(BlockState state, BlockPos pos) {
         return state.getValue(HALF) == HalfBlockStates.BOTTOM ? pos.above() : pos.below();
     }
@@ -256,10 +238,6 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         return true;
     }
 
-    // Breaking either half must take the other one with it. Relying only on the AIR result from
-    // updateShape (as vanilla doors do) drops the other half's item by default even in creative,
-    // since that cascade isn't player-aware; proactively removing it here first (with drops
-    // suppressed for creative/wrong-tool, mirroring CheckpointFlagBlock) avoids that.
     @Override
     public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
         if (!level.isClientSide() && level instanceof Level realLevel) {

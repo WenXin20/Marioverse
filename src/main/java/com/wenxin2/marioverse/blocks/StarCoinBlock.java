@@ -273,11 +273,13 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         return super.updateShape(state, direction, neighborState, worldAccessor, pos, neighborPos);
     }
 
+    @NotNull
     @Override
     public BlockState rotate(BlockState state, Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
+    @NotNull
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return rotate(state, mirror.getRotation(state.getValue(FACING)));

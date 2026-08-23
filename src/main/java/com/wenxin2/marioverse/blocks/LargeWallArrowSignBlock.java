@@ -47,14 +47,6 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
     public static final EnumProperty<HalfBlockStates> HALF = BlockStatePropertyRegistry.HALF;
     public static final EnumProperty<SideBlockStates> SIDE = BlockStatePropertyRegistry.SIDE;
 
-    // Derived from the board cubes in large_wall_arrow_sign.geo.json, mirrored across the width
-    // axis (x at FACING=NORTH), not the depth axis, so the board's depth stays hugging the wall
-    // as authored (matching the standing sign's correction) while each plank's width-axis span
-    // still pairs with its own y-range. Each of the 4 blocks returns the full, uninterrupted shape
-    // of the whole board (translated into its own local frame) rather than being clipped to its
-    // own quadrant, so there's no seam at the block boundaries. RIGHT is a pure translation of
-    // LEFT (no further mirroring) by the same offset used to place the RIGHT block
-    // (clockwise from FACING).
     private static final Map<Direction, VoxelShape> BOTTOM_LEFT_SHAPE = Maps.newEnumMap(ImmutableMap
             .of(Direction.NORTH, Shapes.or(Block.box(2, 6, 14, 28, 16, 16), Block.box(4, 16, 14, 30, 26, 16)).optimize(),
                     Direction.EAST, Shapes.or(Block.box(0, 6, 2, 2, 16, 28), Block.box(0, 16, 4, 2, 26, 30)).optimize(),
@@ -88,12 +80,12 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         builder.add(HALF, SIDE);
     }
 
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(HALF) == HalfBlockStates.BOTTOM && state.getValue(SIDE) == SideBlockStates.LEFT
-                ? super.newBlockEntity(pos, state) : null;
-    }
+    // All 4 parts get a real block entity (the inherited WallArrowSignBlock behavior, so no
+    // override needed here anymore), even though only BOTTOM+LEFT is ever read from for game logic
+    // (interactions redirect there first). Without one, the other 3 parts have nothing for the
+    // block-breaking overlay to hook into and mining them shows no crack animation -
+    // see ArrowSignBlockEntityRenderer, which suppresses their normal render so this doesn't
+    // double/quadruple-draw the sign.
 
     @Nullable
     @Override
@@ -134,10 +126,6 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         super.setPlacedBy(level, pos, state, placer, stack);
     }
 
-    // SIDE (LEFT/RIGHT) means "clockwise from FACING", a relationship that's rotation-invariant, so
-    // a pure rotation only needs to carry FACING along. A mirror reverses chirality though: the
-    // part that was clockwise-of-primary becomes counter-clockwise-of-primary, so SIDE has to flip
-    // too, or the mirrored copy's own getShape/primaryPos logic would point at the wrong block.
     @NotNull
     @Override
     public BlockState rotate(BlockState state, Rotation rotation) {
@@ -211,14 +199,15 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
-    // The interaction methods above always redirect to the BOTTOM+LEFT part's pos/state before
-    // calling super, so `pos` here is always the primary block, and the other 3 parts can be found
-    // relative to it. ARROW_DIRECTION is a per-block property, so rotating/erasing must be mirrored
-    // onto all 4 parts or it desyncs.
     private BlockPos[] otherPartPositions(BlockState state, BlockPos primaryPos) {
         Direction rightDir = state.getValue(FACING).getClockWise();
         BlockPos rightPos = primaryPos.relative(rightDir);
-        return new BlockPos[] { rightPos, primaryPos.above(), rightPos.above() };
+
+        return new BlockPos[] {
+                rightPos,
+                primaryPos.above(),
+                rightPos.above()
+        };
     }
 
     @Override
@@ -266,9 +255,6 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         return true;
     }
 
-    // Breaking any one of the 4 parts should take the whole sign down. The updateShape cascade
-    // above handles orphaned parts eventually, but explicitly removing all 4 here is immediate and
-    // doesn't depend on neighbor-update propagation reaching the diagonally-opposite corner.
     private void removeOtherParts(Level level, BlockState state, BlockPos pos, boolean dropResources) {
         BlockPos primaryPos = this.primaryPos(state, pos);
         for (BlockPos otherPos : this.otherPartPositions(state, primaryPos)) {
