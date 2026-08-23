@@ -162,7 +162,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         return true;
     }
 
-    private boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
+    protected boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -178,7 +178,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         return true;
     }
 
-    private boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
+    protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
         if (!stack.is(TagRegistry.ARROW_ERASERS))
             return false;
         if (state.getValue(ARROW_DIRECTION) == ArrowDirection.NONE)
@@ -193,7 +193,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         return true;
     }
 
-    private boolean toggleBoard(Level level, BlockState state, BlockPos pos, ItemStack stack) {
+    protected boolean toggleBoard(Level level, BlockState state, BlockPos pos, ItemStack stack) {
         if (!stack.is(ItemTags.AXES))
             return false;
 

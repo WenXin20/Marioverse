@@ -99,7 +99,6 @@ public class RecipeGen extends RecipeUtils {
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WALUIGI_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WARIO_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         arrowSignRecipe(5, "arrow_signs", ItemRegistry.MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, TagRegistry.MUSHROOT_PLANK_ITEMS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
-        arrowSignRecipe(1, "large_arrow_signs", ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, TagRegistry.MUSHROOT_PLANK_ITEMS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
         boatRecipe(1, "boats", ItemRegistry.MUSHROOT_BOAT, RecipeCategory.TRANSPORTATION, TagRegistry.MUSHROOT_PLANK_ITEMS, false, output);
         chestBoatRecipe(1, "chest_boats", ItemRegistry.MUSHROOT_CHEST_BOAT, RecipeCategory.TRANSPORTATION, Tags.Items.CHESTS_WOODEN, ItemRegistry.MUSHROOT_BOAT, false, output);
         checkeredRecipe(4, "spike_panels", BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), false, output);

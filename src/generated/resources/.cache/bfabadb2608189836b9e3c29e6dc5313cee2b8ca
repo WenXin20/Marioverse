@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-22T23:28:18.238607	Item Models: marioverse
+// 1.21.1	2026-08-23T00:40:14.9006124	Item Models: marioverse
 e027f5c3c287ec1a6ad530736d0e8ac4eef261ea assets/marioverse/models/item/american_checkpoint_flag.json
 cc30ddab1a0241c6a8bb34a1d4b918f0fff9b2a7 assets/marioverse/models/item/american_classic_goal_pole.json
 338d31c6117ffc4339a70ecdc34a862455049eab assets/marioverse/models/item/american_goal_pole.json
@@ -122,7 +122,7 @@ ed4153cfb333060e013c7a9b156baba36fc0fe87 assets/marioverse/models/item/invisible
 dfc3db4a00febbc133ddb3b91cb884bd84b592d9 assets/marioverse/models/item/invisible_waxed_weathered_copper_question_block.json
 dfc3db4a00febbc133ddb3b91cb884bd84b592d9 assets/marioverse/models/item/invisible_weathered_copper_question_block.json
 f25c0e0377eea7dca0d94b82e6ad58322bcfe0a5 assets/marioverse/models/item/iron_spike.json
-61dd4fe8ced661fbe51b5ce7156a408fdbcc5d14 assets/marioverse/models/item/large_mushroot_arrow_sign.json
+4b00c00c8335f2025706b2560197bc70cfc752bd assets/marioverse/models/item/large_mushroot_arrow_sign.json
 1b7b61b4b9767b9ef01cb6552c95ee8d6efe0e7f assets/marioverse/models/item/large_snowball.json
 70fc7988477bcba9223a62e7ddf74bb812d47d0b assets/marioverse/models/item/light_blue_checkpoint_flag.json
 b00b02c1ff943f5ef3827c8bde7a91bc56852c89 assets/marioverse/models/item/light_blue_goal_pole.json

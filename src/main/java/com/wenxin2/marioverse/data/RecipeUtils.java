@@ -53,7 +53,7 @@ public class RecipeUtils extends RecipeProvider {
             ImmutableMap.<BlockFamilyExtended.Variant, BiFunction<ItemLike, ItemLike, RecipeBuilder>>builder()
                     .put(BlockFamilyExtended.Variant.BOARDS, (outputItem, inputItem) -> boardsBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BUTTON, (outputItem, inputItem) -> buttonBuilder(outputItem, Ingredient.of(inputItem)))
-                    .put(BlockFamilyExtended.Variant.BRICKS, (outputItem, inputItem) -> twoByTwoBuilder(4, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.BRICKS, (outputItem, inputItem) -> twoByTwoBuilder(4, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem), "bricks"))
                     .put(BlockFamilyExtended.Variant.BRIDGE, (outputItem, inputItem) -> bridgeBuilder(6, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.BRIDGE_STAIRS, (outputItem, inputItem) -> bridgeStairBuilder(6, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.CHISELED, (outputItem, inputItem) -> chiseledBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
@@ -65,6 +65,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HANGING_SIGN, (outputItem, inputItem) -> hangingSignBuilder(6, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HARD_BLOCK, (outputItem, inputItem) -> hardBlockBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
+                    .put(BlockFamilyExtended.Variant.LARGE_ARROW_SIGN, (outputItem, inputItem) -> twoByTwoBuilder(1, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem), "large_arrow_signs"))
                     .put(BlockFamilyExtended.Variant.LOG_PLATFORM, (outputItem, inputItem) -> logPlatformBuilder(6, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
                     .put(BlockFamilyExtended.Variant.PANELS, (outputItem, inputItem) -> panelsBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PANELS_FROM_BOARDS, (outputItem, inputItem) -> panelsFromBoardsBuilder(5, outputItem, Ingredient.of(inputItem)))
@@ -119,11 +120,12 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("###");
     }
 
-    public static RecipeBuilder twoByTwoBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, Ingredient inputItem) {
+    public static RecipeBuilder twoByTwoBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, Ingredient inputItem, String groupName) {
         return ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
                 .define('#', inputItem)
                 .pattern("##")
-                .pattern("##");
+                .pattern("##")
+                .group(Marioverse.MOD_ID + ":" + groupName);
     }
 
     public static RecipeBuilder boardsBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
@@ -1261,6 +1263,12 @@ public class RecipeUtils extends RecipeProvider {
             if (!family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
                 return null;
             else return family.get(BlockFamilyExtended.Variant.SLAB);
+
+        } else if (variant == BlockFamilyExtended.Variant.LARGE_ARROW_SIGN
+                || variant == BlockFamilyExtended.Variant.LARGE_WALL_ARROW_SIGN) {
+            if (!family.getVariants().containsKey(BlockFamilyExtended.Variant.ARROW_SIGN))
+                return null;
+            else return family.get(BlockFamilyExtended.Variant.ARROW_SIGN);
         } else return family.getBaseBlock();
     }
 

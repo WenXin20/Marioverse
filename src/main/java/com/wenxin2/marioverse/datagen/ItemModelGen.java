@@ -137,6 +137,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.handheldItem(ItemRegistry.WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
 
+        this.largeItem(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get());
         this.largeItem(ItemRegistry.MEGA_MUSHROOM.get());
         this.largeItem(ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG.get());
 
@@ -144,12 +145,10 @@ public class ItemModelGen extends ItemModelProvider {
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
 
         for (Item item : BuiltInRegistries.ITEM) {
-            if (item instanceof ArrowSignItem arrowSignItem && !(item instanceof LargeArrowSignItem)) {
+            if (item instanceof ArrowSignItem arrowSignItem && !(item instanceof LargeArrowSignItem))
                 this.arrowSignItem(arrowSignItem);
-            }
         }
 
-        this.basicItem(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get());
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet())
             this.handheldItem(entry.getValue().asItem()).override()

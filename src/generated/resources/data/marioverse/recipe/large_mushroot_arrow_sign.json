@@ -3,20 +3,13 @@
   "category": "misc",
   "group": "marioverse:large_arrow_signs",
   "key": {
-    "C": {
-      "tag": "c:chains"
-    },
-    "D": {
-      "tag": "c:dyes/red"
-    },
-    "P": {
-      "tag": "marioverse:mushroot_planks"
+    "#": {
+      "item": "marioverse:mushroot_arrow_sign"
     }
   },
   "pattern": [
-    "C C",
-    "PDP",
-    "PPP"
+    "##",
+    "##"
   ],
   "result": {
     "count": 1,

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_mushroot_planks": {
+    "has_mushroot_arrow_sign": {
       "conditions": {
         "items": [
           {
-            "items": "#marioverse:mushroot_planks"
+            "items": "marioverse:mushroot_arrow_sign"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_mushroot_planks"
+      "has_mushroot_arrow_sign"
     ]
   ],
   "rewards": {
