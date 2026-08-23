@@ -1399,6 +1399,10 @@ public class MarioverseCreativeTabs {
         }
     }
 
+    private static boolean alreadyExists(BuildCreativeModeTabContentsEvent event, ItemStack stack) {
+        return event.getParentEntries().contains(stack) || event.getSearchEntries().contains(stack);
+    }
+
     public static void add(BuildCreativeModeTabContentsEvent event, ItemLike item) {
         ItemStack stack = new ItemStack(item);
         add(event, stack);
@@ -1437,23 +1441,30 @@ public class MarioverseCreativeTabs {
             System.out.println("Warning, attempting to register an empty stack to tab!");
             return;
         }
-        event.accept(stack);
+
+        if (!alreadyExists(event, stack))
+         event.accept(stack);
     }
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
-        event.insertAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        addAfter(event, new ItemStack(afterItem), new ItemStack(item));
     }
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemStack stack) {
-        event.insertAfter(new ItemStack(afterItem), stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        addAfter(event, new ItemStack(afterItem), stack);
     }
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemLike item) {
-        event.insertAfter(afterStack, new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        addAfter(event, afterStack, new ItemStack(item));
     }
 
     public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemStack stack) {
-        event.insertAfter(afterStack, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        if (alreadyExists(event, stack))
+            return;
+
+        if (alreadyExists(event, afterStack))
+            event.insertAfter(afterStack, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        else add(event, stack);
     }
 
     public static <T> ItemStack addAfter(BuildCreativeModeTabContentsEvent event, ItemStack afterStack, ItemLike item,
@@ -1465,7 +1476,16 @@ public class MarioverseCreativeTabs {
     }
 
     public static void addBefore(BuildCreativeModeTabContentsEvent event, ItemLike beforeItem, ItemLike item) {
-        event.insertBefore(new ItemStack(beforeItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        addBefore(event, new ItemStack(beforeItem), new ItemStack(item));
+    }
+
+    public static void addBefore(BuildCreativeModeTabContentsEvent event, ItemStack beforeStack, ItemStack stack) {
+        if (alreadyExists(event, stack))
+            return;
+
+        if (alreadyExists(event, beforeStack))
+            event.insertBefore(beforeStack, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        else add(event, stack);
     }
 
     private static void addDyedBlocks(BuildCreativeModeTabContentsEvent event, ItemLike existingItem,
