@@ -1,5 +1,61 @@
 {
-  "parent": "marioverse:item/template_large_dropped_item",
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign_up",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign_top_right",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign_right",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign_bottom_right",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign_down",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign_bottom_left",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign_left",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign_top_left",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_mushroot_arrow_sign",
+      "predicate": {
+        "marioverse:arrow_direction": 8.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "marioverse:item/large_mushroot_arrow_sign"
   }

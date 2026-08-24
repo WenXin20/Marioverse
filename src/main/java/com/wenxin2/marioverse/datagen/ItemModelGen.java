@@ -137,7 +137,6 @@ public class ItemModelGen extends ItemModelProvider {
         this.handheldItem(ItemRegistry.WRENCH.get());
         this.handheldItem(ItemRegistry.WARP_DISRUPTOR.get());
 
-        this.largeItem(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get());
         this.largeItem(ItemRegistry.MEGA_MUSHROOM.get());
         this.largeItem(ItemRegistry.MEGA_MUSHROOM_SPAWN_EGG.get());
 
@@ -149,6 +148,10 @@ public class ItemModelGen extends ItemModelProvider {
                 this.arrowSignItem(arrowSignItem);
         }
 
+        for (Item item : BuiltInRegistries.ITEM) {
+            if (item instanceof LargeArrowSignItem arrowSignItem)
+                this.largeArrowSignItem(arrowSignItem);
+        }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet())
             this.handheldItem(entry.getValue().asItem()).override()
@@ -465,24 +468,44 @@ public class ItemModelGen extends ItemModelProvider {
     public void arrowSignItem(Item item) {
         ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
         String namespace = location.getNamespace();
-        String baseName = location.getPath(); // e.g. "mushroot_arrow_sign"
-
+        String baseName = location.getPath();
         ItemModelBuilder builder = this.basicItem(item);
-
         ArrowDirection[] directions = ArrowDirection.values();
+        
         for (int i = 0; i < directions.length; i++) {
             ArrowDirection direction = directions[i];
             String modelPath = direction == ArrowDirection.NONE ? baseName : baseName + "_" + direction.getSerializedName();
             ResourceLocation modelLocation = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
 
-            builder = builder.override()
-                    .model(new ModelFile.UncheckedModelFile(modelLocation))
-                    .predicate(modLoc("arrow_direction"), (float) i)
-                    .end();
+            builder = builder.override().model(new ModelFile.UncheckedModelFile(modelLocation))
+                    .predicate(modLoc("arrow_direction"), (float) i).end();
 
             if (direction != ArrowDirection.NONE) {
                 this.getBuilder(modelPath)
                         .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                        .texture("layer0", modelLocation);
+            }
+        }
+    }
+
+    public void largeArrowSignItem(Item item) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        String namespace = location.getNamespace();
+        String baseName = location.getPath();
+        ItemModelBuilder builder = this.basicItem(item);
+        ArrowDirection[] directions = ArrowDirection.values();
+
+        for (int i = 0; i < directions.length; i++) {
+            ArrowDirection direction = directions[i];
+            String modelPath = direction == ArrowDirection.NONE ? baseName : baseName + "_" + direction.getSerializedName();
+            ResourceLocation modelLocation = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
+
+            builder = builder.override().model(new ModelFile.UncheckedModelFile(modelLocation))
+                    .predicate(modLoc("arrow_direction"), (float) i).end();
+
+            if (direction != ArrowDirection.NONE) {
+                this.getBuilder(modelPath)
+                        .parent(new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"))
                         .texture("layer0", modelLocation);
             }
         }
