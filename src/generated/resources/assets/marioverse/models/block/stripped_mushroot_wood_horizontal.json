@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column_horizontal",
   "textures": {
-    "end": "marioverse:block/stripped_mushroot_log_top",
+    "end": "marioverse:block/stripped_mushroot_log",
     "side": "marioverse:block/stripped_mushroot_log"
   }
 }
