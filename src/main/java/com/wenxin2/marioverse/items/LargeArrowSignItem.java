@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
@@ -58,45 +60,42 @@ public class LargeArrowSignItem extends ArrowSignItem {
     @NotNull
     @Override
     public InteractionResult place(BlockPlaceContext context) {
+        ItemStack stack = context.getItemInHand();
+        Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
+        ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
+
         InteractionResult result = super.place(context);
 
         if (result.consumesAction()) {
             BlockPos pos = context.getClickedPos();
             Level level = context.getLevel();
 
-            if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity) {
-                ItemStack stack = context.getItemInHand();
+            if (savedWaxed != null || savedDirection != null) {
+                BlockState state = level.getBlockState(pos);
+                Block block = state.getBlock();
 
-                Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
-                if (savedWaxed != null)
-                    signBlockEntity.setWaxed(savedWaxed);
+                BlockPos[] siblingPositions;
+                if (block instanceof LargeStandingArrowSignBlock standingSign)
+                    siblingPositions = new BlockPos[] { standingSign.otherHalfPos(state, pos) };
+                else if (block instanceof LargeWallArrowSignBlock wallSign)
+                    siblingPositions = wallSign.siblingPositions(state, pos);
+                else siblingPositions = new BlockPos[0];
 
-                ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
-                if (savedDirection != null) {
-                    signBlockEntity.setArrowDirection(savedDirection);
+                for (BlockPos siblingPos : siblingPositions) {
+                    if (!(level.getBlockEntity(siblingPos) instanceof ArrowSignBlockEntity siblingEntity))
+                        continue;
 
-                    BlockState state = level.getBlockState(pos);
-                    if (state.hasProperty(BlockStatePropertyRegistry.ARROW_DIRECTION))
-                        level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, savedDirection),
-                                Block.UPDATE_CLIENTS);
-                }
-            }
+                    if (savedWaxed != null)
+                        siblingEntity.setWaxed(savedWaxed);
 
-            if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity) {
-                ItemStack stack = context.getItemInHand();
+                    if (savedDirection != null) {
+                        siblingEntity.setArrowDirection(savedDirection);
 
-                Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
-                if (savedWaxed != null)
-                    signBlockEntity.setWaxed(savedWaxed);
-
-                ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
-                if (savedDirection != null) {
-                    signBlockEntity.setArrowDirection(savedDirection);
-
-                    BlockState state = level.getBlockState(pos);
-                    if (state.hasProperty(BlockStatePropertyRegistry.ARROW_DIRECTION))
-                        level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, savedDirection),
-                                Block.UPDATE_CLIENTS);
+                        BlockState siblingState = level.getBlockState(siblingPos);
+                        if (siblingState.hasProperty(BlockStatePropertyRegistry.ARROW_DIRECTION))
+                            level.setBlock(siblingPos, siblingState.setValue(BlockStatePropertyRegistry.ARROW_DIRECTION, savedDirection),
+                                    Block.UPDATE_CLIENTS);
+                    }
                 }
             }
         }

@@ -84,6 +84,10 @@ public class ArrowSignItem extends BlockItem {
     @NotNull
     @Override
     public InteractionResult place(BlockPlaceContext context) {
+        ItemStack stack = context.getItemInHand();
+        Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
+        ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
+
         InteractionResult result = super.place(context);
 
         if (result.consumesAction()) {
@@ -91,13 +95,9 @@ public class ArrowSignItem extends BlockItem {
             Level level = context.getLevel();
 
             if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity) {
-                ItemStack stack = context.getItemInHand();
-
-                Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
                 if (savedWaxed != null)
                     signBlockEntity.setWaxed(savedWaxed);
 
-                ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
                 if (savedDirection != null) {
                     signBlockEntity.setArrowDirection(savedDirection);
 

@@ -171,7 +171,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         return state.getValue(HALF) == HalfBlockStates.TOP ? posBase.below() : posBase;
     }
 
-    private BlockPos[] siblingPositions(BlockState state, BlockPos pos) {
+    public BlockPos[] siblingPositions(BlockState state, BlockPos pos) {
         BlockPos posMain = this.primaryPos(state, pos);
         Direction directionClockwise = state.getValue(FACING).getClockWise();
         BlockPos posRight = posMain.relative(directionClockwise);

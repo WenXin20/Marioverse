@@ -261,7 +261,7 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         super.onBlockExploded(state, level, pos, explosion);
     }
 
-    private BlockPos otherHalfPos(BlockState state, BlockPos pos) {
+    public BlockPos otherHalfPos(BlockState state, BlockPos pos) {
         return state.getValue(HALF) == HalfBlockStates.BOTTOM ? pos.above() : pos.below();
     }
 }
