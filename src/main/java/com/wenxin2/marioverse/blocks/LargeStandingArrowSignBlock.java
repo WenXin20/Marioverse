@@ -228,7 +228,7 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
 
     @Override
     public void destroy(LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
-        if (!levelAccessor.isClientSide() && levelAccessor instanceof Level level) {
+        if (levelAccessor instanceof Level level) {
             BlockPos posOther = this.otherHalfPos(state, pos);
             if (level.getBlockState(posOther).is(this)) {
                 level.destroyBlock(posOther, false);
@@ -241,7 +241,7 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
     @NotNull
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide && (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos))) {
+        if (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos)) {
             BlockPos posOther = this.otherHalfPos(state, pos);
             if (level.getBlockState(posOther).is(this)) {
                 level.destroyBlock(posOther, false);

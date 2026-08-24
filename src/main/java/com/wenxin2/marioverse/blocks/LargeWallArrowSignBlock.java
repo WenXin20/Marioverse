@@ -244,16 +244,16 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
     }
 
     @Override
-    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
-        if (!level.isClientSide() && level instanceof Level realLevel)
-            this.removeOtherParts(realLevel, state, pos, false);
-        super.destroy(level, pos, state);
+    public void destroy(LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
+        if (levelAccessor instanceof Level level)
+            this.removeOtherParts(level, state, pos, false);
+        super.destroy(levelAccessor, pos, state);
     }
 
     @NotNull
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide && (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos)))
+        if (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos))
             this.removeOtherParts(level, state, pos, false);
         return super.playerWillDestroy(level, pos, state, player);
     }
