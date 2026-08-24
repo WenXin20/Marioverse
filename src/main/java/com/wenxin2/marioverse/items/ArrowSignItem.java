@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -55,6 +56,7 @@ public class ArrowSignItem extends BlockItem {
     protected BlockState getPlacementState(BlockPlaceContext context) {
         LevelReader level = context.getLevel();
         BlockPos pos = context.getClickedPos();
+        Player player = context.getPlayer();
 
         Block candidate = switch (context.getClickedFace()) {
             case UP -> this.getBlock();
@@ -70,6 +72,10 @@ public class ArrowSignItem extends BlockItem {
         if (result.hasProperty(BlockStateProperties.ROTATION_16))
             result = result.setValue(BlockStateProperties.ROTATION_16,
                     RotationSegment.convertToSegment(context.getRotation()));
+        if (result.hasProperty(BlockStatePropertyRegistry.BOARD)
+                && result.hasProperty(BlockStatePropertyRegistry.POST)
+                && player != null && player.isSecondaryUseActive())
+            result = result.setValue(BlockStatePropertyRegistry.BOARD, false);
 
         return this.canPlace(level, result, pos)
                 && level.isUnobstructed(result, pos, CollisionContext.empty()) ? result : null;

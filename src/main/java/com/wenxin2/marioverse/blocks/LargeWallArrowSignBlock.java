@@ -8,27 +8,26 @@ import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.blocks.states.SideBlockStates;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.Arrays;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -36,7 +35,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -79,13 +77,6 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         super.createBlockStateDefinition(builder);
         builder.add(HALF, SIDE);
     }
-
-    // All 4 parts get a real block entity (the inherited WallArrowSignBlock behavior, so no
-    // override needed here anymore), even though only BOTTOM+LEFT is ever read from for game logic
-    // (interactions redirect there first). Without one, the other 3 parts have nothing for the
-    // block-breaking overlay to hook into and mining them shows no crack animation -
-    // see ArrowSignBlockEntityRenderer, which suppresses their normal render so this doesn't
-    // double/quadruple-draw the sign.
 
     @Nullable
     @Override
@@ -175,45 +166,40 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
     }
 
     private BlockPos primaryPos(BlockState state, BlockPos pos) {
-        BlockPos basePos = state.getValue(SIDE) == SideBlockStates.RIGHT
+        BlockPos posBase = state.getValue(SIDE) == SideBlockStates.RIGHT
                 ? pos.relative(state.getValue(FACING).getCounterClockWise()) : pos;
-        return state.getValue(HALF) == HalfBlockStates.TOP ? basePos.below() : basePos;
+        return state.getValue(HALF) == HalfBlockStates.TOP ? posBase.below() : posBase;
     }
 
-    @NotNull
+    private BlockPos[] siblingPositions(BlockState state, BlockPos pos) {
+        BlockPos posMain = this.primaryPos(state, pos);
+        Direction directionClockwise = state.getValue(FACING).getClockWise();
+        BlockPos posRight = posMain.relative(directionClockwise);
+
+        return Arrays.stream(new BlockPos[] { posMain, posRight, posMain.above(), posRight.above() })
+                .filter(sibling -> !sibling.equals(pos))
+                .toArray(BlockPos[]::new);
+    }
+
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        BlockPos primaryPos = this.primaryPos(state, pos);
-        if (!primaryPos.equals(pos))
-            return super.useWithoutItem(level.getBlockState(primaryPos), level, primaryPos, player, hitResult);
-        return super.useWithoutItem(state, level, pos, player, hitResult);
-    }
-
-    @NotNull
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
-                                              InteractionHand hand, BlockHitResult hitResult) {
-        BlockPos primaryPos = this.primaryPos(state, pos);
-        if (!primaryPos.equals(pos))
-            return super.useItemOn(stack, level.getBlockState(primaryPos), level, primaryPos, player, hand, hitResult);
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
-    }
-
-    private BlockPos[] otherPartPositions(BlockState state, BlockPos primaryPos) {
-        Direction rightDir = state.getValue(FACING).getClockWise();
-        BlockPos rightPos = primaryPos.relative(rightDir);
-
-        return new BlockPos[] {
-                rightPos,
-                primaryPos.above(),
-                rightPos.above()
-        };
+    protected boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
+        boolean result = super.wax(level, pos, stack, player);
+        if (result && !level.isClientSide) {
+            BlockState state = level.getBlockState(pos);
+            for (BlockPos posOther : this.siblingPositions(state, pos)) {
+                if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity) {
+                    otherEntity.setWaxed(true);
+                    level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, posOther, 0);
+                }
+            }
+        }
+        return result;
     }
 
     @Override
     protected boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
+        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBE)
+                || signBE.isWaxed())
             return false;
         if (!state.getValue(BOARD))
             return false;
@@ -222,12 +208,14 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
 
         ArrowDirection direction = state.getValue(ARROW_DIRECTION).next();
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
-        signBlockEntity.setArrowDirection(direction);
+        signBE.setArrowDirection(direction);
 
-        for (BlockPos otherPos : this.otherPartPositions(state, pos)) {
-            BlockState otherState = level.getBlockState(otherPos);
-            if (otherState.is(this))
-                level.setBlock(otherPos, otherState.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
+        for (BlockPos posOther : this.siblingPositions(state, pos)) {
+            BlockState stateOther = level.getBlockState(posOther);
+            if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
+                otherSignBE.setArrowDirection(direction);
+            if (stateOther.is(this))
+                level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
         }
 
         level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS);
@@ -246,7 +234,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
             if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 signBlockEntity.setArrowDirection(ArrowDirection.NONE);
 
-            for (BlockPos otherPos : this.otherPartPositions(state, pos)) {
+            for (BlockPos otherPos : this.siblingPositions(state, pos)) {
                 BlockState otherState = level.getBlockState(otherPos);
                 if (otherState.is(this) && otherState.getValue(ARROW_DIRECTION) != ArrowDirection.NONE)
                     level.setBlock(otherPos, otherState.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
@@ -255,30 +243,33 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         return true;
     }
 
-    private void removeOtherParts(Level level, BlockState state, BlockPos pos, boolean dropResources) {
-        BlockPos primaryPos = this.primaryPos(state, pos);
-        for (BlockPos otherPos : this.otherPartPositions(state, primaryPos)) {
-            if (otherPos.equals(pos))
-                continue;
-            if (level.getBlockState(otherPos).is(this))
-                level.destroyBlock(otherPos, dropResources);
-        }
-        if (!primaryPos.equals(pos) && level.getBlockState(primaryPos).is(this))
-            level.destroyBlock(primaryPos, dropResources);
-    }
-
     @Override
     public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
         if (!level.isClientSide() && level instanceof Level realLevel)
-            this.removeOtherParts(realLevel, state, pos, true);
+            this.removeOtherParts(realLevel, state, pos, false);
         super.destroy(level, pos, state);
     }
 
     @NotNull
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide)
-            this.removeOtherParts(level, state, pos, !player.isCreative());
+        if (!level.isClientSide && (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos)))
+            this.removeOtherParts(level, state, pos, false);
         return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+        this.removeOtherParts(level, state, pos, false);
+        super.onBlockExploded(state, level, pos, explosion);
+    }
+
+    private void removeOtherParts(Level level, BlockState state, BlockPos pos, boolean dropResources) {
+        for (BlockPos posOther : this.siblingPositions(state, pos)) {
+            if (level.getBlockState(posOther).is(this)) {
+                level.destroyBlock(posOther, dropResources);
+                level.levelEvent(2001, posOther, Block.getId(level.getBlockState(posOther)));
+            }
+        }
     }
 }

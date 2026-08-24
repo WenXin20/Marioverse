@@ -13,27 +13,24 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -141,29 +138,18 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
-    @NotNull
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (state.getValue(HALF) == HalfBlockStates.TOP) {
-            BlockPos belowPos = pos.below();
-            return super.useWithoutItem(level.getBlockState(belowPos), level, belowPos, player, hitResult);
-        }
-        return super.useWithoutItem(state, level, pos, player, hitResult);
-    }
+    protected boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
+        boolean result = super.wax(level, pos, stack, player);
 
-    @NotNull
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
-                                              InteractionHand hand, BlockHitResult hitResult) {
-        if (state.getValue(HALF) == HalfBlockStates.TOP) {
-            BlockPos belowPos = pos.below();
-            return super.useItemOn(stack, level.getBlockState(belowPos), level, belowPos, player, hand, hitResult);
+        if (result && !level.isClientSide) {
+            BlockPos posOther = this.otherHalfPos(level.getBlockState(pos), pos);
+            if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity) {
+                otherEntity.setWaxed(true);
+                level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, posOther, 0);
+            }
         }
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
-    }
-
-    private BlockPos otherHalfPos(BlockState state, BlockPos pos) {
-        return state.getValue(HALF) == HalfBlockStates.BOTTOM ? pos.above() : pos.below();
+        return result;
     }
 
     @Override
@@ -209,10 +195,12 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
         signBlockEntity.setArrowDirection(direction);
 
-        BlockPos otherPos = this.otherHalfPos(state, pos);
-        BlockState otherState = level.getBlockState(otherPos);
-        if (otherState.is(this))
-            level.setBlock(otherPos, otherState.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
+        BlockPos posOther = this.otherHalfPos(state, pos);
+        BlockState stateOther = level.getBlockState(posOther);
+        if (stateOther.is(this))
+            level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
+        if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
+            otherSignBE.setArrowDirection(direction);
 
         level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS);
         return true;
@@ -239,23 +227,41 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
     }
 
     @Override
-    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
-        if (!level.isClientSide() && level instanceof Level realLevel) {
-            BlockPos otherPos = this.otherHalfPos(state, pos);
-            if (realLevel.getBlockState(otherPos).is(this))
-                realLevel.destroyBlock(otherPos, true);
+    public void destroy(LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
+        if (!levelAccessor.isClientSide() && levelAccessor instanceof Level level) {
+            BlockPos posOther = this.otherHalfPos(state, pos);
+            if (level.getBlockState(posOther).is(this)) {
+                level.destroyBlock(posOther, false);
+                levelAccessor.levelEvent(2001, posOther, Block.getId(levelAccessor.getBlockState(posOther)));
+            }
         }
-        super.destroy(level, pos, state);
+        super.destroy(levelAccessor, pos, state);
     }
 
     @NotNull
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide && (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos))) {
-            BlockPos otherPos = this.otherHalfPos(state, pos);
-            if (level.getBlockState(otherPos).is(this))
-                level.destroyBlock(otherPos, false);
+            BlockPos posOther = this.otherHalfPos(state, pos);
+            if (level.getBlockState(posOther).is(this)) {
+                level.destroyBlock(posOther, false);
+                level.levelEvent(2001, posOther, Block.getId(level.getBlockState(posOther)));
+            }
         }
         return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+        BlockPos posOther = this.otherHalfPos(state, pos);
+        if (level.getBlockState(posOther).is(this)) {
+            level.destroyBlock(posOther, false);
+            level.levelEvent(2001, posOther, Block.getId(level.getBlockState(posOther)));
+        }
+        super.onBlockExploded(state, level, pos, explosion);
+    }
+
+    private BlockPos otherHalfPos(BlockState state, BlockPos pos) {
+        return state.getValue(HALF) == HalfBlockStates.BOTTOM ? pos.above() : pos.below();
     }
 }

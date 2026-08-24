@@ -104,7 +104,7 @@ public class WallArrowSignBlock extends WallSignBlock {
                                               InteractionHand hand, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity
                 && signBlockEntity.isWaxed())
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         if (this.wax(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
         if (this.removeArrow(level, state, pos, stack))
@@ -117,7 +117,7 @@ public class WallArrowSignBlock extends WallSignBlock {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    private boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
+    protected boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
         if (!stack.is(Items.HONEYCOMB))
             return false;
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
@@ -149,16 +149,17 @@ public class WallArrowSignBlock extends WallSignBlock {
     }
 
     protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
+        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
+                || signBlockEntity.isWaxed())
+            return false;
         if (!stack.is(TagRegistry.ARROW_ERASERS))
             return false;
         if (state.getValue(ARROW_DIRECTION) == ArrowDirection.NONE)
             return false;
 
         if (!level.isClientSide) {
-            level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE),
-                    Block.UPDATE_CLIENTS);
-            if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                signBlockEntity.setArrowDirection(ArrowDirection.NONE);
+            level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
+            signBlockEntity.setArrowDirection(ArrowDirection.NONE);
         }
         return true;
     }

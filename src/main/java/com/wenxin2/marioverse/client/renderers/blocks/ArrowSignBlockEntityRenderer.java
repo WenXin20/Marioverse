@@ -15,8 +15,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
+import javax.annotation.Nullable;
 
 public class ArrowSignBlockEntityRenderer extends GeoBlockRenderer<ArrowSignBlockEntity> {
     public ArrowSignBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
@@ -35,19 +35,12 @@ public class ArrowSignBlockEntityRenderer extends GeoBlockRenderer<ArrowSignBloc
                 pos.getX() + 2.0, pos.getY() + 2.0, pos.getZ() + 2.0);
     }
 
-    // The large signs now give every part (both halves / all 4 wall quadrants) a real block
-    // entity so the block-breaking overlay has something to hook into wherever the player is
-    // mining (see the newBlockEntity comments on both blocks). That means every part would
-    // otherwise render its own full copy of the sign; suppress the normal render for everything
-    // but the primary part here, the same way StarCoinBlockEntityRenderer does for its 7 extra
-    // quadrants.
     @Nullable
     @Override
     public RenderType getRenderType(ArrowSignBlockEntity animatable, ResourceLocation texture,
-                                    @Nullable MultiBufferSource bufferSource, float partialTick) {
+                                     @Nullable MultiBufferSource bufferSource, float partialTick) {
         BlockState state = animatable.getBlockState();
         Block block = state.getBlock();
-
         if (block instanceof LargeStandingArrowSignBlock
                 && state.getValue(LargeStandingArrowSignBlock.HALF) != HalfBlockStates.BOTTOM)
             return null;
@@ -55,7 +48,6 @@ public class ArrowSignBlockEntityRenderer extends GeoBlockRenderer<ArrowSignBloc
                 && (state.getValue(LargeWallArrowSignBlock.HALF) != HalfBlockStates.BOTTOM
                         || state.getValue(LargeWallArrowSignBlock.SIDE) != SideBlockStates.LEFT))
             return null;
-
         return super.getRenderType(animatable, texture, bufferSource, partialTick);
     }
 }
