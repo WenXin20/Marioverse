@@ -312,7 +312,7 @@ public class BlockStateGen extends BlockStateProvider {
                     && hangingArrowSign instanceof HangingArrowSignBlock hangingSign) {
                 String signName = BuiltInRegistries.BLOCK.getKey(arrowSign).getPath();
                 String baseName = signName.replace("_arrow_sign", "");
-                ResourceLocation texture = modLoc("block/" + baseName + "_planks");
+                ResourceLocation texture = modLoc("item/" + signName + "_right");
 
                 ModelFile hangingSignModel = models().sign(name(hangingSign), texture);
                 ModelFile signModel = models().sign(name(standingSign), texture);
@@ -330,7 +330,7 @@ public class BlockStateGen extends BlockStateProvider {
                     && largeWallArrowSign instanceof LargeWallArrowSignBlock largeWallSign) {
                 String signName = BuiltInRegistries.BLOCK.getKey(largeArrowSign).getPath();
                 String baseName = signName.replace("large_", "").replace("_arrow_sign", "");
-                ResourceLocation texture = modLoc("block/" + baseName + "_planks");
+                ResourceLocation texture = modLoc("item/" + signName + "_right");
 
                 ModelFile largeSignModel = models().sign(name(largeSign), texture);
                 ModelFile largeWallSignModel = models().sign(name(largeWallSign), texture);
