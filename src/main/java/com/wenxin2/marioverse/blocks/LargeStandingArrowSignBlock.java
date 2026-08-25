@@ -244,8 +244,8 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         if (levelAccessor instanceof Level level) {
             BlockPos posOther = this.otherHalfPos(state, pos);
             if (level.getBlockState(posOther).is(this)) {
-                level.destroyBlock(posOther, false);
                 levelAccessor.levelEvent(2001, posOther, Block.getId(levelAccessor.getBlockState(posOther)));
+                level.destroyBlock(posOther, false);
             }
         }
         super.destroy(levelAccessor, pos, state);
@@ -257,8 +257,8 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         if (player.isCreative() || !player.hasCorrectToolForDrops(state, level, pos)) {
             BlockPos posOther = this.otherHalfPos(state, pos);
             if (level.getBlockState(posOther).is(this)) {
-                level.destroyBlock(posOther, false);
                 level.levelEvent(2001, posOther, Block.getId(level.getBlockState(posOther)));
+                level.destroyBlock(posOther, false);
             }
         }
         return super.playerWillDestroy(level, pos, state, player);
@@ -268,8 +268,8 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
     public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
         BlockPos posOther = this.otherHalfPos(state, pos);
         if (level.getBlockState(posOther).is(this)) {
-            level.destroyBlock(posOther, false);
             level.levelEvent(2001, posOther, Block.getId(level.getBlockState(posOther)));
+            level.destroyBlock(posOther, false);
         }
         super.onBlockExploded(state, level, pos, explosion);
     }

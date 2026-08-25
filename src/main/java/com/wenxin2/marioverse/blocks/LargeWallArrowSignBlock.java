@@ -279,8 +279,8 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
     private void removeOtherParts(Level level, BlockState state, BlockPos pos, boolean dropResources) {
         for (BlockPos posOther : this.siblingPositions(state, pos)) {
             if (level.getBlockState(posOther).is(this)) {
-                level.destroyBlock(posOther, dropResources);
                 level.levelEvent(2001, posOther, Block.getId(level.getBlockState(posOther)));
+                level.destroyBlock(posOther, dropResources);
             }
         }
     }
