@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.items.WrenchItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
+import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import javax.annotation.Nullable;
@@ -19,8 +20,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -174,7 +177,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         var direction = state.getValue(ARROW_DIRECTION).next();
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
         signBlockEntity.setArrowDirection(direction);
-        level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS); // TODO New sound
+        level.playSound(null, pos, SoundRegistry.ARROW_ROTATES.get(), SoundSource.BLOCKS);
         return true;
     }
 
@@ -186,6 +189,11 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             return false;
         if (state.getValue(ARROW_DIRECTION) == ArrowDirection.NONE)
             return false;
+
+        if (stack.getItem() instanceof BrushItem)
+            level.playSound(null, pos, SoundEvents.BRUSH_GENERIC, SoundSource.BLOCKS);
+        if (stack.getItem() instanceof ShearsItem)
+            level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS);
 
         if (!level.isClientSide) {
             level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);

@@ -118,7 +118,7 @@ public class BlockStateGen extends BlockStateProvider {
             ModelFile.UncheckedModelFile model = new ModelFile.UncheckedModelFile(modLoc("block/" + this.name(block)));
 
             if (block instanceof RotatedPillarBlock pillarBlock) {
-                this.axisBlock(pillarBlock, texture, modLoc(texture.getPath() + "_top"));
+                this.axisBlock(pillarBlock, texture, texture);
                 this.simpleBlockItem(block, model);
             }
         }
