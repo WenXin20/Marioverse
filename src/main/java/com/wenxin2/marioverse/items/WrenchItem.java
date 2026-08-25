@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -13,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -174,8 +177,22 @@ public class WrenchItem extends LinkerItem {
 
         if (!level.isClientSide) {
             int current = state.getValue(BlockStateProperties.ROTATION_16);
-            level.setBlock(pos, state.setValue(BlockStateProperties.ROTATION_16,
-                    (current + 1) % 16), Block.UPDATE_CLIENTS);
+            int rotated = (current + 1) % 16;
+            level.setBlock(pos, state.setValue(BlockStateProperties.ROTATION_16, rotated), Block.UPDATE_CLIENTS);
+
+            Block block = state.getBlock();
+            BlockPos[] siblingPositions;
+            if (block instanceof LargeStandingArrowSignBlock standingSign)
+                siblingPositions = new BlockPos[] { standingSign.otherHalfPos(state, pos) };
+            else siblingPositions = new BlockPos[0];
+
+            for (BlockPos siblingPos : siblingPositions) {
+                BlockState siblingState = level.getBlockState(siblingPos);
+                if (siblingState.is(block) && siblingState.hasProperty(BlockStateProperties.ROTATION_16))
+                    level.setBlock(siblingPos, siblingState.setValue(BlockStateProperties.ROTATION_16, rotated), Block.UPDATE_CLIENTS);
+            }
+
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS);
         }
         return true;
     }
