@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -211,6 +212,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
 
         ArrowDirection direction = state.getValue(ARROW_DIRECTION).next();
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
+        level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         signBE.setArrowDirection(direction);
 
         for (BlockPos posOther : this.siblingPositions(state, pos)) {
@@ -239,6 +241,8 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
 
         if (!level.isClientSide) {
             level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
+            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
+
             if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 signBlockEntity.setArrowDirection(ArrowDirection.NONE);
 

@@ -542,24 +542,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.SPIKE_PANEL);
             add(event, ItemRegistry.MUSHROOT_SIGN);
             add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.UP);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_RIGHT);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.RIGHT);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_RIGHT);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.DOWN);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_LEFT);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.LEFT);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_LEFT);
-            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.NONE);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.UP);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_RIGHT);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.RIGHT);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_RIGHT);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.DOWN);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_LEFT);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.LEFT);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_LEFT);
-            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.NONE);
+            add(event, ItemRegistry.MUSHROOT_ARROW_SIGN);
+            add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN);
 
             add(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
             addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);

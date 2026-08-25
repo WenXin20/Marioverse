@@ -6,11 +6,15 @@ import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import java.util.List;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -28,6 +32,23 @@ public class LargeArrowSignItem extends ArrowSignItem {
     public LargeArrowSignItem(Properties properties, Block standingSign, Block wallSign) {
         super(properties, standingSign, wallSign, wallSign);
         this.largeWallSign = wallSign;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
+        if (Screen.hasShiftDown()) {
+            list.add(Component.literal(""));
+
+            list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.instructions"));
+            list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.instructions.placement"));
+            list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.right_click"));
+            list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.right_click.axe"));
+            list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.right_click.shears"));
+            list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.shift_right_click"));
+            list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.shift_right_click.post"));
+
+            list.add(Component.literal(""));
+        } else list.add(Component.translatable("block.marioverse.warp_pipe.tooltip"));
     }
 
     @Nullable

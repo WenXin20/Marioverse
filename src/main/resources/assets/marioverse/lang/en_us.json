@@ -994,6 +994,15 @@
   "item.marioverse.heels": "Heels",
 
 
+  "item.marioverse.arrow_signs.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "item.marioverse.arrow_signs.tooltip.instructions": "§9Instructions:",
+  "item.marioverse.arrow_signs.tooltip.instructions.placement": " §7• Place on floors, walls, or ceilings",
+  "item.marioverse.arrow_signs.tooltip.right_click": "§2Right-click:",
+  "item.marioverse.arrow_signs.tooltip.right_click.axe": " §7• Toggle the board/post on standing signs using an axe",
+  "item.marioverse.arrow_signs.tooltip.right_click.shears": " §7• Remove the arrow with Shears or a brush",
+  "item.marioverse.arrow_signs.tooltip.shift_right_click": "§6Shift-right-click:",
+  "item.marioverse.arrow_signs.tooltip.shift_right_click.post": " §7• Places the standing sign as a post only",
+
   "item.marioverse.button.ticksPressed": "§8Ticks Pressed: %1$s",
 
   "item.marioverse.christmas_hat.tooltip": "§e§o[Shift for §9ℹ§e§o]",
@@ -1088,6 +1097,15 @@
   "item.marioverse.ice_flower.tooltip.line3": "§9Ability:",
   "item.marioverse.ice_flower.tooltip.line4": " §7• Press",
   "item.marioverse.ice_flower.tooltip.line4.keybind": " %1$s §7to shoot §bice balls",
+
+  "item.marioverse.large_arrow_signs.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "item.marioverse.large_arrow_signs.tooltip.instructions": "§9Instructions:",
+  "item.marioverse.large_arrow_signs.tooltip.instructions.placement": " §7• Place on floors or walls",
+  "item.marioverse.large_arrow_signs.tooltip.right_click": "§2Right-click:",
+  "item.marioverse.large_arrow_signs.tooltip.right_click.axe": " §7• Toggle the board/post on standing signs using an axe",
+  "item.marioverse.large_arrow_signs.tooltip.right_click.shears": " §7• Remove the arrow with Shears or a brush",
+  "item.marioverse.large_arrow_signs.tooltip.shift_right_click": "§6Shift-right-click:",
+  "item.marioverse.large_arrow_signs.tooltip.shift_right_click.post": " §7• Places the standing sign as a post only",
 
   "item.marioverse.male_costume.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.male_costume.tooltip.line1": "§9Ability:",

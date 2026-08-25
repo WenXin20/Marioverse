@@ -36,6 +36,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -131,6 +132,7 @@ public class WallArrowSignBlock extends WallSignBlock {
             signBlockEntity.setWaxed(true);
             stack.consume(1, player);
             level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
+            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         }
         return true;
     }
@@ -146,8 +148,9 @@ public class WallArrowSignBlock extends WallSignBlock {
 
         var direction = state.getValue(ARROW_DIRECTION).next();
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
-        signBlockEntity.setArrowDirection(direction);
+        level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         level.playSound(null, pos, SoundRegistry.ARROW_ROTATES.get(), SoundSource.BLOCKS);
+        signBlockEntity.setArrowDirection(direction);
         return true;
     }
 
@@ -167,6 +170,7 @@ public class WallArrowSignBlock extends WallSignBlock {
 
         if (!level.isClientSide) {
             level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
+            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
             signBlockEntity.setArrowDirection(ArrowDirection.NONE);
         }
         return true;
