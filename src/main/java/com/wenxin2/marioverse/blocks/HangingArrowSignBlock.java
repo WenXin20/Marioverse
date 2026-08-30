@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -122,6 +123,21 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
                     ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.FLAMMABLE_ARROW_SIGNS);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 20;
     }
 
     private boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {

@@ -70,16 +70,16 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api" // Required Dependency
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}" // Required Dependency
 
-    compileOnly "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
+    implementation "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
     compileOnly "curse.maven:amendments-896746:7461027" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
-    compileOnly "curse.maven:copycats-968398:7251823" // Requires Create
+    implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7963363"
     implementation "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
     compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
     compileOnly "curse.maven:framedblocks-441647:7584453"
     compileOnly "curse.maven:deep-aether-852465:6839619"
-    compileOnly "curse.maven:gardens-of-the-dead-683174:5640395"
+    implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     compileOnly "maven.modrinth:grassier-grass:1.4.5-neoforge"
     implementation "curse.maven:guard-villagers-360203:6066966"
     implementation "curse.maven:hole-filler-mod-440585:6583948"

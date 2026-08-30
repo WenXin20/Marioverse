@@ -29,8 +29,6 @@ import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
     private static final Map<ResourceLocation, Boolean> TEXTURE_EXISTS_CACHE = new ConcurrentHashMap<>();
-
-    // Cached per baked model (stable per geo file) instead of recomputed every frame.
     private record BoneHideInfo(List<GeoBone> othersToHide, Set<GeoBone> arrowAncestors) {}
     private static final Map<GeoBone, BoneHideInfo> HIDE_INFO_CACHE = new IdentityHashMap<>();
 

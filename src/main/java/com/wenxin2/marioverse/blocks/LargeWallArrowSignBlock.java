@@ -291,6 +291,21 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         super.onBlockExploded(state, level, pos, explosion);
     }
 
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 20;
+    }
+
     private void removeOtherParts(Level level, BlockState state, BlockPos pos, boolean dropResources) {
         for (BlockPos posOther : this.siblingPositions(state, pos)) {
             if (level.getBlockState(posOther).is(this)) {

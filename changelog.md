@@ -22,8 +22,9 @@
   - Log Platforms
   - Arrow Signs
   - Large Arrow Signs
-- Add tooltips to bridges
-- Fix flammability of Log Stairs
+- Added Arrow Signs for all wood types, with Every Compat support
+- Added tooltips to bridges
+- Fixed flammability of Log Stairs
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

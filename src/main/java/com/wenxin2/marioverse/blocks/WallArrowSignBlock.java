@@ -128,6 +128,21 @@ public class WallArrowSignBlock extends WallSignBlock {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.FLAMMABLE_ARROW_SIGNS);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 20;
+    }
+
     protected boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
         if (!stack.is(Items.HONEYCOMB))
             return false;

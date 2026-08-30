@@ -287,6 +287,21 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         super.onBlockExploded(state, level, pos, explosion);
     }
 
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 20;
+    }
+
     public BlockPos otherHalfPos(BlockState state, BlockPos pos) {
         return state.getValue(HALF) == HalfBlockStates.BOTTOM ? pos.above() : pos.below();
     }
