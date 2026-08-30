@@ -911,6 +911,62 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
 
+    public static final BlockFamilyExtended OAK_PLANKS = familyBuilder(Blocks.OAK_PLANKS)
+            .arrowSign(BlockRegistry.OAK_ARROW_SIGN.get(), BlockRegistry.OAK_WALL_ARROW_SIGN.get(), BlockRegistry.OAK_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_OAK_ARROW_SIGN.get(), BlockRegistry.LARGE_OAK_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPRUCE_PLANKS = familyBuilder(Blocks.SPRUCE_PLANKS)
+            .arrowSign(BlockRegistry.SPRUCE_ARROW_SIGN.get(), BlockRegistry.SPRUCE_WALL_ARROW_SIGN.get(), BlockRegistry.SPRUCE_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get(), BlockRegistry.LARGE_SPRUCE_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BIRCH_PLANKS = familyBuilder(Blocks.BIRCH_PLANKS)
+            .arrowSign(BlockRegistry.BIRCH_ARROW_SIGN.get(), BlockRegistry.BIRCH_WALL_ARROW_SIGN.get(), BlockRegistry.BIRCH_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_BIRCH_ARROW_SIGN.get(), BlockRegistry.LARGE_BIRCH_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended JUNGLE_PLANKS = familyBuilder(Blocks.JUNGLE_PLANKS)
+            .arrowSign(BlockRegistry.JUNGLE_ARROW_SIGN.get(), BlockRegistry.JUNGLE_WALL_ARROW_SIGN.get(), BlockRegistry.JUNGLE_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_JUNGLE_ARROW_SIGN.get(), BlockRegistry.LARGE_JUNGLE_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended ACACIA_PLANKS = familyBuilder(Blocks.ACACIA_PLANKS)
+            .arrowSign(BlockRegistry.ACACIA_ARROW_SIGN.get(), BlockRegistry.ACACIA_WALL_ARROW_SIGN.get(), BlockRegistry.ACACIA_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_ACACIA_ARROW_SIGN.get(), BlockRegistry.LARGE_ACACIA_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended DARK_OAK_PLANKS = familyBuilder(Blocks.DARK_OAK_PLANKS)
+            .arrowSign(BlockRegistry.DARK_OAK_ARROW_SIGN.get(), BlockRegistry.DARK_OAK_WALL_ARROW_SIGN.get(), BlockRegistry.DARK_OAK_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_DARK_OAK_ARROW_SIGN.get(), BlockRegistry.LARGE_DARK_OAK_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended MANGROVE_PLANKS = familyBuilder(Blocks.MANGROVE_PLANKS)
+            .arrowSign(BlockRegistry.MANGROVE_ARROW_SIGN.get(), BlockRegistry.MANGROVE_WALL_ARROW_SIGN.get(), BlockRegistry.MANGROVE_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_MANGROVE_ARROW_SIGN.get(), BlockRegistry.LARGE_MANGROVE_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CHERRY_PLANKS = familyBuilder(Blocks.CHERRY_PLANKS)
+            .arrowSign(BlockRegistry.CHERRY_ARROW_SIGN.get(), BlockRegistry.CHERRY_WALL_ARROW_SIGN.get(), BlockRegistry.CHERRY_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_CHERRY_ARROW_SIGN.get(), BlockRegistry.LARGE_CHERRY_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended BAMBOO_PLANKS = familyBuilder(Blocks.BAMBOO_PLANKS)
+            .arrowSign(BlockRegistry.BAMBOO_ARROW_SIGN.get(), BlockRegistry.BAMBOO_WALL_ARROW_SIGN.get(), BlockRegistry.BAMBOO_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_BAMBOO_ARROW_SIGN.get(), BlockRegistry.LARGE_BAMBOO_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended CRIMSON_PLANKS = familyBuilder(Blocks.CRIMSON_PLANKS)
+            .arrowSign(BlockRegistry.CRIMSON_ARROW_SIGN.get(), BlockRegistry.CRIMSON_WALL_ARROW_SIGN.get(), BlockRegistry.CRIMSON_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_CRIMSON_ARROW_SIGN.get(), BlockRegistry.LARGE_CRIMSON_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended WARPED_PLANKS = familyBuilder(Blocks.WARPED_PLANKS)
+            .arrowSign(BlockRegistry.WARPED_ARROW_SIGN.get(), BlockRegistry.WARPED_WALL_ARROW_SIGN.get(), BlockRegistry.WARPED_HANGING_ARROW_SIGN.get())
+            .largeArrowSign(BlockRegistry.LARGE_WARPED_ARROW_SIGN.get(), BlockRegistry.LARGE_WARPED_WALL_ARROW_SIGN.get())
+            .getFamily();
+
+
     private static BlockFamilyExtended.Builder familyBuilder(Block block) {
         BlockFamilyExtended.Builder builder = new BlockFamilyExtended.Builder(block);
         BlockFamilyExtended BlockFamilyExtended = MAP.put(block, builder.getFamily());

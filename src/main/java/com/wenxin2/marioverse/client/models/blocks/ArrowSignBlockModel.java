@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
@@ -62,7 +63,6 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
     public ResourceLocation getTextureResource(ArrowSignBlockEntity blockEntity) {
         BlockState state = blockEntity.getBlockState();
         Block block = state.getBlock();
-        var arrowDirection = state.getValue(BlockStatePropertyRegistry.ARROW_DIRECTION);
 
         WoodType woodType = SignBlock.getWoodType(block);
         ResourceLocation woodTypeName = ResourceLocation.parse(woodType.name());
@@ -70,12 +70,23 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
         boolean isLarge = block instanceof LargeStandingArrowSignBlock || block instanceof LargeWallArrowSignBlock;
         String folder = isLarge ? "large_arrow" : "arrow";
         String prefix = isLarge ? "large_" + woodTypeName.getPath() : woodTypeName.getPath();
+        String filename = prefix + "_arrow_sign";
 
-        if (arrowDirection.getSerializedName().equals("none"))
-            return ResourceLocation.fromNamespaceAndPath(woodTypeName.getNamespace(),
-                    "textures/entity/signs/" + folder + "/" + prefix + "_arrow_sign.png");
+        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
+        if (!blockId.getNamespace().equals(Marioverse.MOD_ID)) {
+            // EveryCompat writes recolored textures under the compat block's own namespace/folder,
+            // splicing its folder prefix into our template path right after "entity".
+            String blockPath = blockId.getPath();
+            int lastSlash = blockPath.lastIndexOf('/');
+            String blockFolderPrefix = lastSlash >= 0 ? blockPath.substring(0, lastSlash) : "";
+            String path = blockFolderPrefix.isEmpty()
+                    ? "entity/signs/" + folder + "/" + filename
+                    : "entity/" + blockFolderPrefix + "/signs/" + folder + "/" + filename;
+            return ResourceLocation.fromNamespaceAndPath(blockId.getNamespace(), "textures/" + path + ".png");
+        }
+
         return ResourceLocation.fromNamespaceAndPath(woodTypeName.getNamespace(),
-                "textures/entity/signs/" + folder + "/" + prefix + "_arrow_sign_" + arrowDirection.getSerializedName() + ".png");
+                "textures/entity/signs/" + folder + "/" + filename + ".png");
     }
 
     @Override
@@ -109,6 +120,10 @@ public class ArrowSignBlockModel extends GeoModel<ArrowSignBlockEntity> {
             if (hasBoard)
                 geoBone.setRotY((float) Math.toRadians(rotationDegrees));
         });
+
+        // Only ArrowOverlayGeoLayer's reRender pass should draw the arrow bone.
+        Optional<GeoBone> arrowBone = this.getBone("arrow");
+        arrowBone.ifPresent(geoBone -> geoBone.setHidden(true));
 
         Optional<GeoBone> postBone = this.getBone("post");
         if (state.hasProperty(BlockStatePropertyRegistry.POST)) {

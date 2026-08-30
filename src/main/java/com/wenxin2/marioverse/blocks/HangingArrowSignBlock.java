@@ -10,14 +10,19 @@ import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ParticleUtils;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Vector3f;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -104,6 +109,8 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (this.wax(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
+        if (this.dye(level, pos, stack, player))
+            return ItemInteractionResult.SUCCESS;
         if (this.removeArrow(level, state, pos, stack))
             return ItemInteractionResult.SUCCESS;
 
@@ -128,6 +135,28 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
             signBlockEntity.setWaxed(true);
             stack.consume(1, player);
             level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
+        }
+        return true;
+    }
+
+    private boolean dye(Level level, BlockPos pos, ItemStack stack, Player player) {
+        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
+                || signBlockEntity.isWaxed())
+            return false;
+        if (!(stack.getItem() instanceof DyeItem dyeItem))
+            return false;
+        if (signBlockEntity.getArrowDyeColor() == dyeItem.getDyeColor())
+            return false;
+
+        if (!level.isClientSide) {
+            signBlockEntity.setArrowDyeColor(dyeItem.getDyeColor());
+            stack.consume(1, player);
+            level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS);
+
+            int textColor = dyeItem.getDyeColor().getTextColor();
+            Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
+                    (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
+            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new DustParticleOptions(colorVec, 1.0F), UniformInt.of(8, 12));
         }
         return true;
     }

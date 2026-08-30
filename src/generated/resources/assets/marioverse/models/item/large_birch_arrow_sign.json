@@ -1,0 +1,70 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "marioverse:item/large_birch_arrow_sign_up_red",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_birch_arrow_sign_top_right_red",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_birch_arrow_sign_right_red",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_birch_arrow_sign_bottom_right_red",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_birch_arrow_sign_down_red",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_birch_arrow_sign_bottom_left_red",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_birch_arrow_sign_left_red",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_birch_arrow_sign_top_left_red",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/large_birch_arrow_sign",
+      "predicate": {
+        "marioverse:arrow_direction": 8.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "marioverse:item/large_arrow_sign/large_birch_arrow_sign"
+  }
+}

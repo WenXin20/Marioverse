@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "marioverse:arrow_signs",
+  "key": {
+    "C": {
+      "tag": "c:chains"
+    },
+    "D": {
+      "tag": "c:dyes/red"
+    },
+    "P": {
+      "item": "minecraft:jungle_planks"
+    }
+  },
+  "pattern": [
+    "C C",
+    "PDP",
+    "PPP"
+  ],
+  "result": {
+    "count": 5,
+    "id": "marioverse:jungle_arrow_sign"
+  }
+}

@@ -21,6 +21,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -143,13 +144,16 @@ public class ItemModelGen extends ItemModelProvider {
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_BUCKET.get(), Fluids.EMPTY, false, false);
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
 
+        // Compat items are namespaced elsewhere and EveryCompat generates their own models.
         for (Item item : BuiltInRegistries.ITEM) {
-            if (item instanceof ArrowSignItem arrowSignItem && !(item instanceof LargeArrowSignItem))
+            if (item instanceof ArrowSignItem arrowSignItem && !(item instanceof LargeArrowSignItem)
+                    && BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Marioverse.MOD_ID))
                 this.arrowSignItem(arrowSignItem);
         }
 
         for (Item item : BuiltInRegistries.ITEM) {
-            if (item instanceof LargeArrowSignItem arrowSignItem)
+            if (item instanceof LargeArrowSignItem arrowSignItem
+                    && BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Marioverse.MOD_ID))
                 this.largeArrowSignItem(arrowSignItem);
         }
 
@@ -466,49 +470,70 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     public void arrowSignItem(Item item) {
-        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
-        String namespace = location.getNamespace();
-        String baseName = location.getPath();
-        ItemModelBuilder builder = this.basicItem(item);
-        ArrowDirection[] directions = ArrowDirection.values();
-        
-        for (int i = 0; i < directions.length; i++) {
-            ArrowDirection direction = directions[i];
-            String modelPath = direction == ArrowDirection.NONE ? baseName : baseName + "_" + direction.getSerializedName();
-            ResourceLocation modelLocation = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
-
-            builder = builder.override().model(new ModelFile.UncheckedModelFile(modelLocation))
-                    .predicate(modLoc("arrow_direction"), (float) i).end();
-
-            if (direction != ArrowDirection.NONE) {
-                this.getBuilder(modelPath)
-                        .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                        .texture("layer0", modelLocation);
-            }
-        }
+        this.arrowOverlayItem(item, "item/arrow_sign", "",
+                new ModelFile.UncheckedModelFile("item/generated"));
     }
 
     public void largeArrowSignItem(Item item) {
+        this.arrowOverlayItem(item, "item/large_arrow_sign", "large_",
+                new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"));
+    }
+
+    private void arrowOverlayItem(Item item, String textureFolder, String overlayPrefix, ModelFile parent) {
         ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
         String namespace = location.getNamespace();
         String baseName = location.getPath();
-        ItemModelBuilder builder = this.basicItem(item);
-        ArrowDirection[] directions = ArrowDirection.values();
+        ResourceLocation boardTexture = ResourceLocation.fromNamespaceAndPath(namespace, textureFolder + "/" + baseName);
 
-        for (int i = 0; i < directions.length; i++) {
-            ArrowDirection direction = directions[i];
-            String modelPath = direction == ArrowDirection.NONE ? baseName : baseName + "_" + direction.getSerializedName();
-            ResourceLocation modelLocation = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
+        ItemModelBuilder builder = this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", boardTexture);
 
-            builder = builder.override().model(new ModelFile.UncheckedModelFile(modelLocation))
-                    .predicate(modLoc("arrow_direction"), (float) i).end();
+        DyeColor[] dyeColors = DyeColor.values();
 
-            if (direction != ArrowDirection.NONE) {
-                this.getBuilder(modelPath)
-                        .parent(new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"))
-                        .texture("layer0", modelLocation);
+        for (ArrowDirection direction : ArrowDirection.values()) {
+            if (direction == ArrowDirection.NONE)
+                continue;
+
+            // Red is always drawn - other colors fall back to it below when missing.
+            String redOverlayName = overlayPrefix + DyeColor.RED.getSerializedName() + "_arrow_" + direction.getSerializedName();
+            ResourceLocation redTexture = ResourceLocation.fromNamespaceAndPath(namespace, textureFolder + "/" + redOverlayName);
+            String redModelPath = baseName + "_" + direction.getSerializedName() + "_" + DyeColor.RED.getSerializedName();
+            this.getBuilder(redModelPath)
+                    .parent(parent)
+                    .texture("layer0", boardTexture)
+                    .texture("layer1", redTexture);
+            ResourceLocation redModel = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + redModelPath);
+
+            // dyeIndex: 0 = undyed, else dyeColor.ordinal() + 1 - must match ClientEventHandlers.
+            for (int dyeIndex = 0; dyeIndex <= dyeColors.length; dyeIndex++) {
+                DyeColor dyeColor = dyeIndex == 0 ? null : dyeColors[dyeIndex - 1];
+                ResourceLocation targetModel = redModel;
+
+                if (dyeColor != null && dyeColor != DyeColor.RED) {
+                    String overlayName = overlayPrefix + dyeColor.getSerializedName() + "_arrow_" + direction.getSerializedName();
+                    ResourceLocation overlayTexture = ResourceLocation.fromNamespaceAndPath(namespace, textureFolder + "/" + overlayName);
+
+                    if (this.existingFileHelper.exists(overlayTexture, ModelProvider.TEXTURE)) {
+                        String modelPath = baseName + "_" + direction.getSerializedName() + "_" + dyeColor.getSerializedName();
+                        this.getBuilder(modelPath)
+                                .parent(parent)
+                                .texture("layer0", boardTexture)
+                                .texture("layer1", overlayTexture);
+                        targetModel = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
+                    }
+                }
+
+                builder = builder.override()
+                        .model(new ModelFile.UncheckedModelFile(targetModel))
+                        .predicate(modLoc("arrow_direction"), (float) direction.ordinal())
+                        .predicate(modLoc("arrow_dye_color"), (float) dyeIndex).end();
             }
         }
+
+        builder.override()
+                .model(new ModelFile.UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(namespace, "item/" + baseName)))
+                .predicate(modLoc("arrow_direction"), (float) ArrowDirection.NONE.ordinal()).end();
     }
 
     private void genInvisibleQuestionBlockVariants() {

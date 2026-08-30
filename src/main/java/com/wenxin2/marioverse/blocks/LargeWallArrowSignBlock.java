@@ -201,6 +201,21 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
     }
 
     @Override
+    protected boolean dye(Level level, BlockPos pos, ItemStack stack, Player player) {
+        boolean result = super.dye(level, pos, stack, player);
+
+        if (result && !level.isClientSide
+                && level.getBlockEntity(pos) instanceof ArrowSignBlockEntity thisEntity) {
+            BlockState state = level.getBlockState(pos);
+            for (BlockPos posOther : this.siblingPositions(state, pos)) {
+                if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity)
+                    otherEntity.setArrowDyeColor(thisEntity.getArrowDyeColor());
+            }
+        }
+        return result;
+    }
+
+    @Override
     protected boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBE)
                 || signBE.isWaxed())

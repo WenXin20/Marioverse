@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.blocks.states.SideBlockStates;
 import com.wenxin2.marioverse.client.models.blocks.ArrowSignBlockModel;
+import com.wenxin2.marioverse.client.renderers.blocks.layers.ArrowOverlayGeoLayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -21,6 +22,7 @@ import javax.annotation.Nullable;
 public class ArrowSignBlockEntityRenderer extends GeoBlockRenderer<ArrowSignBlockEntity> {
     public ArrowSignBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         super(new ArrowSignBlockModel());
+        this.addRenderLayer(new ArrowOverlayGeoLayer(this));
     }
 
     @NotNull
@@ -39,15 +41,21 @@ public class ArrowSignBlockEntityRenderer extends GeoBlockRenderer<ArrowSignBloc
     @Override
     public RenderType getRenderType(ArrowSignBlockEntity animatable, ResourceLocation texture,
                                      @Nullable MultiBufferSource bufferSource, float partialTick) {
-        BlockState state = animatable.getBlockState();
+        if (!isPrimaryPart(animatable.getBlockState()))
+            return null;
+        return super.getRenderType(animatable, texture, bufferSource, partialTick);
+    }
+
+    // Only the primary quadrant of a large sign's multi-block-entity set should render.
+    public static boolean isPrimaryPart(BlockState state) {
         Block block = state.getBlock();
         if (block instanceof LargeStandingArrowSignBlock
                 && state.getValue(LargeStandingArrowSignBlock.HALF) != HalfBlockStates.BOTTOM)
-            return null;
+            return false;
         if (block instanceof LargeWallArrowSignBlock
                 && (state.getValue(LargeWallArrowSignBlock.HALF) != HalfBlockStates.BOTTOM
                         || state.getValue(LargeWallArrowSignBlock.SIDE) != SideBlockStates.LEFT))
-            return null;
-        return super.getRenderType(animatable, texture, bufferSource, partialTick);
+            return false;
+        return true;
     }
 }

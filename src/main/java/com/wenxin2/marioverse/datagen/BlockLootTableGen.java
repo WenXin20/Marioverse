@@ -196,6 +196,7 @@ public class BlockLootTableGen extends LootTableProvider {
                             .add(LootItem.lootTableItem(block)
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                            .include(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get())
                                             .include(DataComponentRegistry.WAXED.get()))))
             );
         }
@@ -211,6 +212,7 @@ public class BlockLootTableGen extends LootTableProvider {
                             .add(LootItem.lootTableItem(block)
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                            .include(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get())
                                             .include(DataComponentRegistry.WAXED.get()))
                                     .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                             .setProperties(properties))))

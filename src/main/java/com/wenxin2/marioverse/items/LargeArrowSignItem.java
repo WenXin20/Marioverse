@@ -13,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -84,6 +85,7 @@ public class LargeArrowSignItem extends ArrowSignItem {
         ItemStack stack = context.getItemInHand();
         Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
         ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
+        DyeColor savedDyeColor = stack.get(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get());
 
         InteractionResult result = super.place(context);
 
@@ -91,7 +93,7 @@ public class LargeArrowSignItem extends ArrowSignItem {
             BlockPos pos = context.getClickedPos();
             Level level = context.getLevel();
 
-            if (savedWaxed != null || savedDirection != null) {
+            if (savedWaxed != null || savedDirection != null || savedDyeColor != null) {
                 BlockState state = level.getBlockState(pos);
                 Block block = state.getBlock();
 
@@ -108,6 +110,8 @@ public class LargeArrowSignItem extends ArrowSignItem {
 
                     if (savedWaxed != null)
                         siblingEntity.setWaxed(savedWaxed);
+                    if (savedDyeColor != null)
+                        siblingEntity.setArrowDyeColor(savedDyeColor);
 
                     if (savedDirection != null) {
                         siblingEntity.setArrowDirection(savedDirection);

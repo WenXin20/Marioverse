@@ -249,6 +249,9 @@ public class ClientEventHandlers {
                     ItemProperties.register(arrowSignItem,
                             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "arrow_direction"),
                             (stack, level, entity, seed) -> arrowSignDirection(stack));
+                    ItemProperties.register(arrowSignItem,
+                            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "arrow_dye_color"),
+                            (stack, level, entity, seed) -> arrowSignDyeColor(stack));
                 }
             }
 
@@ -347,6 +350,11 @@ public class ClientEventHandlers {
             case TOP_LEFT -> 7.0F;
             case NONE -> 8.0F;
         };
+    }
+
+    private static float arrowSignDyeColor(ItemStack stack) {
+        DyeColor dyeColor = stack.get(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get());
+        return (float) ((dyeColor != null ? dyeColor : DyeColor.RED).ordinal() + 1);
     }
 
     private static float cheepCheepBucket(ItemStack stack) {

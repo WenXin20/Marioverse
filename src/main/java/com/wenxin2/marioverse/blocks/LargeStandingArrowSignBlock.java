@@ -157,6 +157,19 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
     }
 
     @Override
+    protected boolean dye(Level level, BlockPos pos, ItemStack stack, Player player) {
+        boolean result = super.dye(level, pos, stack, player);
+
+        if (result && !level.isClientSide
+                && level.getBlockEntity(pos) instanceof ArrowSignBlockEntity thisEntity) {
+            BlockPos posOther = this.otherHalfPos(level.getBlockState(pos), pos);
+            if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity)
+                otherEntity.setArrowDyeColor(thisEntity.getArrowDyeColor());
+        }
+        return result;
+    }
+
+    @Override
     protected boolean toggleBoard(Level level, BlockState state, BlockPos pos, ItemStack stack) {
         if (!stack.is(ItemTags.AXES))
             return false;

@@ -99,6 +99,17 @@ public class RecipeGen extends RecipeUtils {
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WALUIGI_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WARIO_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         arrowSignRecipe(5, "arrow_signs", ItemRegistry.MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, TagRegistry.MUSHROOT_PLANK_ITEMS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.OAK_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.SPRUCE_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.SPRUCE_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.BIRCH_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.BIRCH_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.JUNGLE_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.JUNGLE_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.ACACIA_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.ACACIA_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.DARK_OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.DARK_OAK_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.MANGROVE_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.MANGROVE_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.CHERRY_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.CHERRY_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.BAMBOO_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.BAMBOO_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.CRIMSON_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.CRIMSON_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
+        arrowSignRecipe(5, "arrow_signs", ItemRegistry.WARPED_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.WARPED_PLANKS, Tags.Items.DYES_RED, Tags.Items.CHAINS, false, output);
         boatRecipe(1, "boats", ItemRegistry.MUSHROOT_BOAT, RecipeCategory.TRANSPORTATION, TagRegistry.MUSHROOT_PLANK_ITEMS, false, output);
         chestBoatRecipe(1, "chest_boats", ItemRegistry.MUSHROOT_CHEST_BOAT, RecipeCategory.TRANSPORTATION, Tags.Items.CHESTS_WOODEN, ItemRegistry.MUSHROOT_BOAT, false, output);
         checkeredRecipe(4, "spike_panels", BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), false, output);

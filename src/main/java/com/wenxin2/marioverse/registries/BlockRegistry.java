@@ -340,6 +340,61 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> OAK_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPRUCE_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPRUCE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPRUCE_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPRUCE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPRUCE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> BIRCH_ARROW_SIGN;
+    public static final DeferredBlock<Block> BIRCH_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> BIRCH_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BIRCH_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BIRCH_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> JUNGLE_ARROW_SIGN;
+    public static final DeferredBlock<Block> JUNGLE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> JUNGLE_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_JUNGLE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_JUNGLE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> ACACIA_ARROW_SIGN;
+    public static final DeferredBlock<Block> ACACIA_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> ACACIA_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_ACACIA_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_ACACIA_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> DARK_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> DARK_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> DARK_OAK_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_DARK_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_DARK_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> MANGROVE_ARROW_SIGN;
+    public static final DeferredBlock<Block> MANGROVE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> MANGROVE_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MANGROVE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MANGROVE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> CHERRY_ARROW_SIGN;
+    public static final DeferredBlock<Block> CHERRY_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> CHERRY_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CHERRY_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CHERRY_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> BAMBOO_ARROW_SIGN;
+    public static final DeferredBlock<Block> BAMBOO_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> BAMBOO_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BAMBOO_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BAMBOO_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> CRIMSON_ARROW_SIGN;
+    public static final DeferredBlock<Block> CRIMSON_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> CRIMSON_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CRIMSON_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CRIMSON_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> WARPED_ARROW_SIGN;
+    public static final DeferredBlock<Block> WARPED_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> WARPED_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_WARPED_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_WARPED_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_SLAB;
     public static final DeferredBlock<Block> MUSHROOT_STAIRS;
     public static final DeferredBlock<Block> MUSHROOT_TRAPDOOR;
@@ -878,6 +933,183 @@ public class BlockRegistry {
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.SNOW)));
         RED_PICKET_FENCE = registerBlock("red_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.COLOR_RED)));
+
+
+        OAK_HANGING_ARROW_SIGN = registerNoItemBlock("oak_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        OAK_ARROW_SIGN = registerNoItemBlock("oak_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+        OAK_WALL_ARROW_SIGN = registerNoItemBlock("oak_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_OAK_ARROW_SIGN = registerNoItemBlock("large_oak_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_OAK_WALL_ARROW_SIGN = registerNoItemBlock("large_oak_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        SPRUCE_HANGING_ARROW_SIGN = registerNoItemBlock("spruce_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        SPRUCE_ARROW_SIGN = registerNoItemBlock("spruce_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_SIGN).mapColor(MapColor.WOOD)));
+        SPRUCE_WALL_ARROW_SIGN = registerNoItemBlock("spruce_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_SPRUCE_ARROW_SIGN = registerNoItemBlock("large_spruce_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_SPRUCE_WALL_ARROW_SIGN = registerNoItemBlock("large_spruce_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        BIRCH_HANGING_ARROW_SIGN = registerNoItemBlock("birch_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        BIRCH_ARROW_SIGN = registerNoItemBlock("birch_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_SIGN).mapColor(MapColor.WOOD)));
+        BIRCH_WALL_ARROW_SIGN = registerNoItemBlock("birch_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_BIRCH_ARROW_SIGN = registerNoItemBlock("large_birch_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_BIRCH_WALL_ARROW_SIGN = registerNoItemBlock("large_birch_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        JUNGLE_HANGING_ARROW_SIGN = registerNoItemBlock("jungle_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        JUNGLE_ARROW_SIGN = registerNoItemBlock("jungle_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_SIGN).mapColor(MapColor.WOOD)));
+        JUNGLE_WALL_ARROW_SIGN = registerNoItemBlock("jungle_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_JUNGLE_ARROW_SIGN = registerNoItemBlock("large_jungle_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_JUNGLE_WALL_ARROW_SIGN = registerNoItemBlock("large_jungle_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        ACACIA_HANGING_ARROW_SIGN = registerNoItemBlock("acacia_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        ACACIA_ARROW_SIGN = registerNoItemBlock("acacia_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_SIGN).mapColor(MapColor.WOOD)));
+        ACACIA_WALL_ARROW_SIGN = registerNoItemBlock("acacia_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_ACACIA_ARROW_SIGN = registerNoItemBlock("large_acacia_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_ACACIA_WALL_ARROW_SIGN = registerNoItemBlock("large_acacia_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        DARK_OAK_HANGING_ARROW_SIGN = registerNoItemBlock("dark_oak_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        DARK_OAK_ARROW_SIGN = registerNoItemBlock("dark_oak_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_SIGN).mapColor(MapColor.WOOD)));
+        DARK_OAK_WALL_ARROW_SIGN = registerNoItemBlock("dark_oak_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_DARK_OAK_ARROW_SIGN = registerNoItemBlock("large_dark_oak_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_DARK_OAK_WALL_ARROW_SIGN = registerNoItemBlock("large_dark_oak_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        MANGROVE_HANGING_ARROW_SIGN = registerNoItemBlock("mangrove_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        MANGROVE_ARROW_SIGN = registerNoItemBlock("mangrove_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_SIGN).mapColor(MapColor.WOOD)));
+        MANGROVE_WALL_ARROW_SIGN = registerNoItemBlock("mangrove_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_MANGROVE_ARROW_SIGN = registerNoItemBlock("large_mangrove_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_MANGROVE_WALL_ARROW_SIGN = registerNoItemBlock("large_mangrove_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        CHERRY_HANGING_ARROW_SIGN = registerNoItemBlock("cherry_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        CHERRY_ARROW_SIGN = registerNoItemBlock("cherry_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SIGN).mapColor(MapColor.WOOD)));
+        CHERRY_WALL_ARROW_SIGN = registerNoItemBlock("cherry_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_CHERRY_ARROW_SIGN = registerNoItemBlock("large_cherry_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_CHERRY_WALL_ARROW_SIGN = registerNoItemBlock("large_cherry_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        BAMBOO_HANGING_ARROW_SIGN = registerNoItemBlock("bamboo_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        BAMBOO_ARROW_SIGN = registerNoItemBlock("bamboo_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_SIGN).mapColor(MapColor.WOOD)));
+        BAMBOO_WALL_ARROW_SIGN = registerNoItemBlock("bamboo_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_BAMBOO_ARROW_SIGN = registerNoItemBlock("large_bamboo_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_BAMBOO_WALL_ARROW_SIGN = registerNoItemBlock("large_bamboo_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        CRIMSON_HANGING_ARROW_SIGN = registerNoItemBlock("crimson_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        CRIMSON_ARROW_SIGN = registerNoItemBlock("crimson_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_SIGN).mapColor(MapColor.WOOD)));
+        CRIMSON_WALL_ARROW_SIGN = registerNoItemBlock("crimson_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_CRIMSON_ARROW_SIGN = registerNoItemBlock("large_crimson_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_CRIMSON_WALL_ARROW_SIGN = registerNoItemBlock("large_crimson_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        WARPED_HANGING_ARROW_SIGN = registerNoItemBlock("warped_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_HANGING_SIGN).mapColor(MapColor.WOOD)));
+        WARPED_ARROW_SIGN = registerNoItemBlock("warped_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_SIGN).mapColor(MapColor.WOOD)));
+        WARPED_WALL_ARROW_SIGN = registerNoItemBlock("warped_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_WALL_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_WARPED_ARROW_SIGN = registerNoItemBlock("large_warped_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_SIGN).mapColor(MapColor.WOOD)));
+        LARGE_WARPED_WALL_ARROW_SIGN = registerNoItemBlock("large_warped_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_WALL_SIGN).mapColor(MapColor.WOOD)));
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",

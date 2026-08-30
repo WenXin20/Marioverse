@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
@@ -11,9 +12,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,9 +25,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -44,10 +49,23 @@ public class ArrowSignItem extends BlockItem {
     @Override
     public Component getName(ItemStack stack) {
         ArrowDirection direction = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
-        if (direction == null)
+        if (direction == null || direction == ArrowDirection.NONE)
             return super.getName(stack);
 
-        String key = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(this)).toLanguageKey("item") + "." + direction.getSerializedName();
+        ResourceLocation itemId = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(this));
+        if (!itemId.getNamespace().equals(Marioverse.MOD_ID)) {
+            // Compat item: reuse EveryCompat's own block_type %s-templating for the direction name.
+            WoodType woodType = SignBlock.getWoodType(this.getBlock());
+            ResourceLocation woodTypeName = ResourceLocation.parse(woodType.name());
+            String woodNameKey = "wood_type." + woodTypeName.getNamespace() + "." + woodTypeName.getPath();
+
+            String blockTypeName = this instanceof LargeArrowSignItem ? "large_arrow_sign" : "arrow_sign";
+            String directionKey = "block_type.marioverse." + blockTypeName + "." + direction.getSerializedName();
+
+            return Component.translatable(directionKey, Component.translatable(woodNameKey));
+        }
+
+        String key = itemId.toLanguageKey("item") + "." + direction.getSerializedName();
         return Component.translatable(key);
     }
 
@@ -108,6 +126,7 @@ public class ArrowSignItem extends BlockItem {
         ItemStack stack = context.getItemInHand();
         Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
         ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
+        DyeColor savedDyeColor = stack.get(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get());
 
         InteractionResult result = super.place(context);
 
@@ -118,6 +137,8 @@ public class ArrowSignItem extends BlockItem {
             if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity) {
                 if (savedWaxed != null)
                     signBlockEntity.setWaxed(savedWaxed);
+                if (savedDyeColor != null)
+                    signBlockEntity.setArrowDyeColor(savedDyeColor);
 
                 if (savedDirection != null) {
                     signBlockEntity.setArrowDirection(savedDirection);

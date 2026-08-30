@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "marioverse:large_birch_wall_arrow_sign",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "bottom",
+                "side": "left"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "marioverse:arrow_sign_direction",
+                "marioverse:arrow_sign_dye_color",
+                "marioverse:waxed"
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "marioverse:large_birch_arrow_sign"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "marioverse:blocks/large_birch_wall_arrow_sign"
+}

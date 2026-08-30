@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "marioverse:arrow_sign_direction",
+                "marioverse:arrow_sign_dye_color",
+                "marioverse:waxed"
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "marioverse:oak_arrow_sign"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "marioverse:blocks/oak_arrow_sign"
+}

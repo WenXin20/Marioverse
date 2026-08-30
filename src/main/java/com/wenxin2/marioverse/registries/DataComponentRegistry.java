@@ -18,6 +18,7 @@ import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.DyeColor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DataComponentRegistry {
@@ -106,6 +107,12 @@ public class DataComponentRegistry {
             Marioverse.COMPONENTS.register("arrow_sign_direction", () -> DataComponentType.<ArrowDirection>builder()
                     .persistent(StringRepresentable.fromEnum(ArrowDirection::values))
                     .networkSynchronized(ByteBufCodecs.idMapper(i -> ArrowDirection.values()[i], ArrowDirection::ordinal))
+                    .build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<DyeColor>> ARROW_SIGN_DYE_COLOR =
+            Marioverse.COMPONENTS.register("arrow_sign_dye_color", () -> DataComponentType.<DyeColor>builder()
+                    .persistent(DyeColor.CODEC)
+                    .networkSynchronized(DyeColor.STREAM_CODEC)
                     .build());
 
     public static final Supplier<DataComponentType<Holder<PowerUpType>>> POWER_UP_TYPE =

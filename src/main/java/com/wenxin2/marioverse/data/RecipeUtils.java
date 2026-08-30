@@ -388,8 +388,11 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    // Not fed through SHAPE_BUILDERS/generateRecipes - the dye varies per wood type, so this is
+    // called manually per family instead (see RecipeGen.java). The EveryCompat compat path uses a
+    // single generic dye tag - see ArrowSignModule.
     public void arrowSignRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                                   Object planks, Object dye, Object chain, boolean uniqueFileName, RecipeOutput output) {
+                                 Object planks, Object dye, Object chain, boolean uniqueFileName, RecipeOutput output) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("C C")

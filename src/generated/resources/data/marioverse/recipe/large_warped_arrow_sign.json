@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "marioverse:large_arrow_signs",
+  "key": {
+    "#": {
+      "item": "marioverse:warped_arrow_sign"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:large_warped_arrow_sign"
+  }
+}
