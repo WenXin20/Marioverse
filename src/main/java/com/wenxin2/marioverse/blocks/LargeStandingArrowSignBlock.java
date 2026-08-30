@@ -289,7 +289,8 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
 
     @Override
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        return state.is(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS);
+        return level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBE && !signBE.isWaxed()
+                && state.is(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS);
     }
 
     @Override

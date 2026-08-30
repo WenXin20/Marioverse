@@ -130,7 +130,8 @@ public class WallArrowSignBlock extends WallSignBlock {
 
     @Override
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        return state.is(TagRegistry.FLAMMABLE_ARROW_SIGNS);
+        return level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBE && !signBE.isWaxed()
+                && state.is(TagRegistry.FLAMMABLE_ARROW_SIGNS);
     }
 
     @Override
