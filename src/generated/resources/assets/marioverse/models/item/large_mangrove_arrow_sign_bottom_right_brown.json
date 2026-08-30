@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:item/template_large_dropped_item",
+  "textures": {
+    "layer0": "marioverse:item/large_arrow_sign/large_mangrove_arrow_sign",
+    "layer1": "marioverse:item/large_arrow_sign/large_brown_arrow_bottom_right"
+  }
+}

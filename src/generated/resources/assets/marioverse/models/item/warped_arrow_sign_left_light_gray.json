@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/arrow_sign/warped_arrow_sign",
+    "layer1": "marioverse:item/arrow_sign/light_gray_arrow_left"
+  }
+}

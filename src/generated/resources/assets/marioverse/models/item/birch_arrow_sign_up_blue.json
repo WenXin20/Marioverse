@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/arrow_sign/birch_arrow_sign",
+    "layer1": "marioverse:item/arrow_sign/blue_arrow_up"
+  }
+}

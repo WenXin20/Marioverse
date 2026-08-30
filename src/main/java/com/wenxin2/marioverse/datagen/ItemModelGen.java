@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.items.LargeArrowSignItem;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -479,6 +479,8 @@ public class ItemModelGen extends ItemModelProvider {
                 new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"));
     }
 
+    // Layer1 is baked per dye color at datagen time via ArrowTextureGen, using the same pattern+palette
+    // method as the entity textures - every color always has generated art, so no fallback is needed.
     private void arrowOverlayItem(Item item, String textureFolder, String overlayPrefix, ModelFile parent) {
         ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
         String namespace = location.getNamespace();
@@ -489,40 +491,26 @@ public class ItemModelGen extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", boardTexture);
 
-        DyeColor[] dyeColors = DyeColor.values();
-
         for (ArrowDirection direction : ArrowDirection.values()) {
             if (direction == ArrowDirection.NONE)
                 continue;
 
-            // Red is always drawn - other colors fall back to it below when missing.
-            String redOverlayName = overlayPrefix + DyeColor.RED.getSerializedName() + "_arrow_" + direction.getSerializedName();
-            ResourceLocation redTexture = ResourceLocation.fromNamespaceAndPath(namespace, textureFolder + "/" + redOverlayName);
-            String redModelPath = baseName + "_" + direction.getSerializedName() + "_" + DyeColor.RED.getSerializedName();
-            this.getBuilder(redModelPath)
-                    .parent(parent)
-                    .texture("layer0", boardTexture)
-                    .texture("layer1", redTexture);
-            ResourceLocation redModel = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + redModelPath);
+            Map<DyeColor, ResourceLocation> colorModels = new EnumMap<>(DyeColor.class);
 
-            // dyeIndex: 0 = undyed, else dyeColor.ordinal() + 1 - must match ClientEventHandlers.
-            for (int dyeIndex = 0; dyeIndex <= dyeColors.length; dyeIndex++) {
-                DyeColor dyeColor = dyeIndex == 0 ? null : dyeColors[dyeIndex - 1];
-                ResourceLocation targetModel = redModel;
+            // dyeIndex: 0 = undyed (defaults to red), else dyeColor.ordinal() + 1 - must match ClientEventHandlers.
+            for (int dyeIndex = 0; dyeIndex <= DyeColor.values().length; dyeIndex++) {
+                DyeColor dyeColor = dyeIndex == 0 ? DyeColor.RED : DyeColor.values()[dyeIndex - 1];
 
-                if (dyeColor != null && dyeColor != DyeColor.RED) {
-                    String overlayName = overlayPrefix + dyeColor.getSerializedName() + "_arrow_" + direction.getSerializedName();
+                ResourceLocation targetModel = colorModels.computeIfAbsent(dyeColor, color -> {
+                    String overlayName = overlayPrefix + color.getSerializedName() + "_arrow_" + direction.getSerializedName();
                     ResourceLocation overlayTexture = ResourceLocation.fromNamespaceAndPath(namespace, textureFolder + "/" + overlayName);
-
-                    if (this.existingFileHelper.exists(overlayTexture, ModelProvider.TEXTURE)) {
-                        String modelPath = baseName + "_" + direction.getSerializedName() + "_" + dyeColor.getSerializedName();
-                        this.getBuilder(modelPath)
-                                .parent(parent)
-                                .texture("layer0", boardTexture)
-                                .texture("layer1", overlayTexture);
-                        targetModel = ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
-                    }
-                }
+                    String modelPath = baseName + "_" + direction.getSerializedName() + "_" + color.getSerializedName();
+                    this.getBuilder(modelPath)
+                            .parent(parent)
+                            .texture("layer0", boardTexture)
+                            .texture("layer1", overlayTexture);
+                    return ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
+                });
 
                 builder = builder.override()
                         .model(new ModelFile.UncheckedModelFile(targetModel))

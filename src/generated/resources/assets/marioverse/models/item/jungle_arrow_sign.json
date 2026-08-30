@@ -5,7 +5,224 @@
       "model": "marioverse:item/jungle_arrow_sign_up_red",
       "predicate": {
         "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_white",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_orange",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_magenta",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_light_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_yellow",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_lime",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_pink",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 8.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_light_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 9.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_cyan",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 10.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_purple",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 11.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 12.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_brown",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 13.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_green",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 14.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_red",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
         "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_up_black",
+      "predicate": {
+        "marioverse:arrow_direction": 0.0,
+        "marioverse:arrow_dye_color": 16.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_red",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_white",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_orange",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_magenta",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_light_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_yellow",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_lime",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_pink",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 8.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_light_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 9.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_cyan",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 10.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_purple",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 11.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 12.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_brown",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 13.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_green",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 14.0
       }
     },
     {
@@ -16,10 +233,234 @@
       }
     },
     {
+      "model": "marioverse:item/jungle_arrow_sign_top_right_black",
+      "predicate": {
+        "marioverse:arrow_direction": 1.0,
+        "marioverse:arrow_dye_color": 16.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_red",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_white",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_orange",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_magenta",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_light_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_yellow",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_lime",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_pink",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 8.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_light_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 9.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_cyan",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 10.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_purple",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 11.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 12.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_brown",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 13.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_green",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 14.0
+      }
+    },
+    {
       "model": "marioverse:item/jungle_arrow_sign_right_red",
       "predicate": {
         "marioverse:arrow_direction": 2.0,
         "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_right_black",
+      "predicate": {
+        "marioverse:arrow_direction": 2.0,
+        "marioverse:arrow_dye_color": 16.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_red",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_white",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_orange",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_magenta",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_light_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_yellow",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_lime",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_pink",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 8.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_light_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 9.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_cyan",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 10.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_purple",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 11.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 12.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_brown",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 13.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_green",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 14.0
       }
     },
     {
@@ -30,10 +471,234 @@
       }
     },
     {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_right_black",
+      "predicate": {
+        "marioverse:arrow_direction": 3.0,
+        "marioverse:arrow_dye_color": 16.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_red",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_white",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_orange",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_magenta",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_light_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_yellow",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_lime",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_pink",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 8.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_light_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 9.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_cyan",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 10.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_purple",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 11.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 12.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_brown",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 13.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_green",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 14.0
+      }
+    },
+    {
       "model": "marioverse:item/jungle_arrow_sign_down_red",
       "predicate": {
         "marioverse:arrow_direction": 4.0,
         "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_down_black",
+      "predicate": {
+        "marioverse:arrow_direction": 4.0,
+        "marioverse:arrow_dye_color": 16.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_red",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_white",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_orange",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_magenta",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_light_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_yellow",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_lime",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_pink",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 8.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_light_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 9.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_cyan",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 10.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_purple",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 11.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 12.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_brown",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 13.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_green",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 14.0
       }
     },
     {
@@ -44,6 +709,118 @@
       }
     },
     {
+      "model": "marioverse:item/jungle_arrow_sign_bottom_left_black",
+      "predicate": {
+        "marioverse:arrow_direction": 5.0,
+        "marioverse:arrow_dye_color": 16.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_red",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_white",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_orange",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_magenta",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_light_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_yellow",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_lime",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_pink",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 8.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_light_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 9.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_cyan",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 10.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_purple",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 11.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 12.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_brown",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 13.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_left_green",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 14.0
+      }
+    },
+    {
       "model": "marioverse:item/jungle_arrow_sign_left_red",
       "predicate": {
         "marioverse:arrow_direction": 6.0,
@@ -51,10 +828,129 @@
       }
     },
     {
+      "model": "marioverse:item/jungle_arrow_sign_left_black",
+      "predicate": {
+        "marioverse:arrow_direction": 6.0,
+        "marioverse:arrow_dye_color": 16.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_red",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 0.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_white",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 1.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_orange",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 2.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_magenta",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 3.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_light_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 4.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_yellow",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 5.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_lime",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 6.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_pink",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 7.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 8.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_light_gray",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 9.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_cyan",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 10.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_purple",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 11.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_blue",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 12.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_brown",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 13.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_green",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 14.0
+      }
+    },
+    {
       "model": "marioverse:item/jungle_arrow_sign_top_left_red",
       "predicate": {
         "marioverse:arrow_direction": 7.0,
         "marioverse:arrow_dye_color": 15.0
+      }
+    },
+    {
+      "model": "marioverse:item/jungle_arrow_sign_top_left_black",
+      "predicate": {
+        "marioverse:arrow_direction": 7.0,
+        "marioverse:arrow_dye_color": 16.0
       }
     },
     {

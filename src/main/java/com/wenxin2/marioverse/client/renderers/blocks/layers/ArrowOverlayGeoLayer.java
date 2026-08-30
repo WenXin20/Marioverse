@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +26,6 @@ import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
-    private static final Map<ResourceLocation, Boolean> TEXTURE_EXISTS_CACHE = new ConcurrentHashMap<>();
     private record BoneHideInfo(List<GeoBone> othersToHide, Set<GeoBone> arrowAncestors) {}
     private static final Map<GeoBone, BoneHideInfo> HIDE_INFO_CACHE = new IdentityHashMap<>();
 
@@ -58,19 +55,11 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
         String overlayPrefix = isLarge ? "large_" : "";
 
         DyeColor dyeColor = animatable.getArrowDyeColor();
-        String colorPrefix = dyeColor != null
-                ? dyeColor.getSerializedName() + "_" : "";
+        String colorPrefix = (dyeColor != null ? dyeColor : DyeColor.RED).getSerializedName() + "_";
 
         String overlayName = overlayPrefix + colorPrefix + "arrow_" + arrowDirection.getSerializedName();
         ResourceLocation arrowTexture = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
                 "textures/entity/signs/" + textureFolder + "/" + overlayName + ".png");
-
-        // Fall back to red if this color's overlay art doesn't exist yet.
-        if (dyeColor != DyeColor.RED && !textureExists(arrowTexture)) {
-            String fallbackName = overlayPrefix + DyeColor.RED.getSerializedName() + "_arrow_" + arrowDirection.getSerializedName();
-            arrowTexture = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                    "textures/entity/signs/" + textureFolder + "/" + fallbackName + ".png");
-        }
 
         RenderType arrowRenderType = RenderType.entityCutout(arrowTexture);
         VertexConsumer arrowBuffer = bufferSource.getBuffer(arrowRenderType);
@@ -120,10 +109,5 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
             out.add(bone);
             collectBones(bone.getChildBones(), out);
         }
-    }
-
-    private static boolean textureExists(ResourceLocation texture) {
-        return TEXTURE_EXISTS_CACHE.computeIfAbsent(texture,
-                location -> Minecraft.getInstance().getResourceManager().getResource(location).isPresent());
     }
 }

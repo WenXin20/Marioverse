@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.WarpTrapDoorBlock;
 import com.wenxin2.marioverse.blocks.behaviors.DispenserBehaviors;
 import com.wenxin2.marioverse.commands.PowerUpCommand;
 import com.wenxin2.marioverse.datagen.AdvancementDataGen;
+import com.wenxin2.marioverse.datagen.ArrowTextureGen;
 import com.wenxin2.marioverse.datagen.DataMapGen;
 import com.wenxin2.marioverse.datagen.BannerPatternTagsGen;
 import com.wenxin2.marioverse.datagen.BiomeTagsGen;
@@ -255,6 +256,7 @@ public class RegistryEventHandlers {
         CompletableFuture<HolderLookup.Provider> provider = event.getLookupProvider();
         BlockTagsGen blockTags = new BlockTagsGen(output, provider, existingFileHelper);
 
+        generator.addProvider(event.includeClient(), new ArrowTextureGen(output));
         generator.addProvider(event.includeClient(), new BlockStateGen(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModelGen(output, existingFileHelper));
 
