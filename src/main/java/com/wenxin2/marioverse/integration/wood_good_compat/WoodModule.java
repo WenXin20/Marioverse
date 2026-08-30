@@ -9,23 +9,38 @@ import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
+import com.wenxin2.marioverse.blocks.states.SideBlockStates;
 import com.wenxin2.marioverse.items.ArrowSignItem;
 import com.wenxin2.marioverse.items.LargeArrowSignItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.function.Consumer;
 import net.mehvahdjukaar.every_compat.EveryCompat;
 import net.mehvahdjukaar.every_compat.api.PaletteStrategies;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
 import net.mehvahdjukaar.every_compat.modules.EveryCompatModule;
+import net.mehvahdjukaar.moonlight.api.resources.pack.ResourceGenTask;
+import net.mehvahdjukaar.moonlight.api.resources.pack.ResourceSink;
 import net.mehvahdjukaar.moonlight.api.set.wood.VanillaWoodTypes;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
+import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -54,8 +69,9 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.WOODEN_BRIDGE_ITEMS, Registries.ITEM)
-                .defaultRecipe()
                 .setTab(buildingBlocksTab)
+                .copyParentDrop()
+                .defaultRecipe()
                 .build();
         this.addEntry(bridge);
 
@@ -68,8 +84,9 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.WOODEN_BRIDGE_ITEMS, Registries.ITEM)
                 .requiresChildren("stripped_log")
-                .defaultRecipe()
                 .setTab(buildingBlocksTab)
+                .copyParentDrop()
+                .defaultRecipe()
                 .build();
         this.addEntry(strippedBridge);
 
@@ -83,8 +100,9 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_STAIR_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS, Registries.ITEM)
                 .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
-                .defaultRecipe()
                 .setTab(buildingBlocksTab)
+                .copyParentDrop()
+                .defaultRecipe()
                 .build();
         this.addEntry(bridgeStairs);
 
@@ -99,8 +117,9 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS, Registries.ITEM)
                 .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
                 .requiresChildren("stripped_log")
-                .defaultRecipe()
                 .setTab(buildingBlocksTab)
+                .copyParentDrop()
+                .defaultRecipe()
                 .build();
         this.addEntry(strippedBridgeStairs);
 
@@ -119,6 +138,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(Tags.Blocks.FENCES_WOODEN, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTab(buildingBlocksTab)
+                .copyParentDrop()
                 .defaultRecipe()
                 .build();
         this.addEntry(picketFence);
@@ -127,11 +147,11 @@ public class WoodModule extends EveryCompatModule {
                         BlockRegistry.OAK_WALL_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
                         woodType -> new WallArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
-                .addTexture(modRes("item/arrow_sign/oak_arrow_sign"), PaletteStrategies.SIGN_LIKE)
                 .addModelTransform(transform -> transform.replaceItemType("oak"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .requiresChildren("planks")
                 .setTab(functionalBlocksTab)
+                .copyParentDrop()
                 .noItem()
                 .build();
         this.addEntry(wallArrowSign);
@@ -140,11 +160,11 @@ public class WoodModule extends EveryCompatModule {
                         BlockRegistry.OAK_HANGING_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
                         woodType -> new HangingArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
-                .addTexture(modRes("item/arrow_sign/oak_arrow_sign"), PaletteStrategies.SIGN_LIKE)
                 .addModelTransform(transform -> transform.replaceItemType("oak"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .requiresChildren("planks")
                 .setTab(functionalBlocksTab)
+                .copyParentDrop()
                 .noItem()
                 .build();
         this.addEntry(hangingArrowSign);
@@ -162,6 +182,7 @@ public class WoodModule extends EveryCompatModule {
                         block, this.wallArrowSign.blocks.get(woodType), this.hangingArrowSign.blocks.get(woodType)))
                 .requiresChildren("planks")
                 .setTab(functionalBlocksTab)
+                .copyParentDrop()
                 .defaultRecipe()
                 .build();
         this.addEntry(arrowSign);
@@ -170,11 +191,16 @@ public class WoodModule extends EveryCompatModule {
                         BlockRegistry.LARGE_OAK_WALL_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
                         woodType -> new LargeWallArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
-                .addTexture(modRes("item/large_arrow_sign/large_oak_arrow_sign"), PaletteStrategies.SIGN_LIKE)
                 .addModelTransform(transform -> transform.replaceItemType("oak"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .requiresChildren("planks")
                 .setTab(functionalBlocksTab)
+                // copyParentDrop() can't work here: our native loot table's "block" condition targets
+                // large_oak_wall_arrow_sign, which (unlike large_oak_arrow_sign) has no item of its
+                // own (.noItem()) - EveryCompat's copy only rewrites strings that resolve to a
+                // registered item, so that "block" reference is left pointing at our native oak block
+                // and never matches any compat block's state. Loot table is written explicitly below.
+                .noDrops()
                 .noItem()
                 .build();
         this.addEntry(largeWallArrowSign);
@@ -183,16 +209,43 @@ public class WoodModule extends EveryCompatModule {
                         BlockRegistry.LARGE_OAK_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
                         woodType -> new LargeStandingArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
+                .addCustomItem((woodType, block, properties) -> new LargeArrowSignItem(properties.stacksTo(16),
+                        block, this.largeWallArrowSign.blocks.get(woodType)))
                 .addTexture(modRes("entity/signs/large_arrow/large_oak_arrow_sign"), PaletteStrategies.SIGN_LIKE)
                 .addTexture(modRes("item/large_arrow_sign/large_oak_arrow_sign"), PaletteStrategies.SIGN_LIKE)
                 .addModelTransform(transform -> transform.replaceItemType("oak"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
-                .addCustomItem((woodType, block, properties) -> new LargeArrowSignItem(properties.stacksTo(16),
-                        block, this.largeWallArrowSign.blocks.get(woodType)))
                 .requiresChildren("planks")
                 .setTab(functionalBlocksTab)
+                .copyParentDrop()
                 .defaultRecipe()
                 .build();
         this.addEntry(largeArrowSign);
+    }
+
+    // largeWallArrowSign.noDrops() above - copyParentDrop() can't produce a working loot table for it
+    // (see the comment on that entry), so write it directly here instead.
+    @Override
+    public void addDynamicServerResources(Consumer<ResourceGenTask> executor) {
+        super.addDynamicServerResources(executor);
+        executor.accept((manager, sink) -> {
+            for (Block block : largeWallArrowSign.blocks.values()) {
+                StatePropertiesPredicate.Builder properties = StatePropertiesPredicate.Builder.properties()
+                        .hasProperty(BlockStatePropertyRegistry.HALF, HalfBlockStates.BOTTOM)
+                        .hasProperty(BlockStatePropertyRegistry.SIDE, SideBlockStates.LEFT);
+
+                LootTable.Builder table = LootTable.lootTable().withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(block)
+                                .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                        .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                        .include(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get())
+                                        .include(DataComponentRegistry.WAXED.get()))
+                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                        .setProperties(properties)))
+                        .when(ExplosionCondition.survivesExplosion()));
+                sink.addLootTable(block, table);
+            }
+        });
     }
 }
