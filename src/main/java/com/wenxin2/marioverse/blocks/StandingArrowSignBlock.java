@@ -134,7 +134,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!player.getMainHandItem().isEmpty())
             return InteractionResult.PASS;
-        return this.rotateArrow(level, state, pos)
+        return this.rotateArrow(level, state, pos, player.isSecondaryUseActive())
                 ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
@@ -157,7 +157,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             return ItemInteractionResult.SUCCESS;
 
         if (stack.is(TagRegistry.WRENCHES))
-            return this.rotateArrow(level, state, pos)
+            return this.rotateArrow(level, state, pos, false)
                     ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
@@ -245,7 +245,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         return true;
     }
 
-    protected boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
+    protected boolean rotateArrow(Level level, BlockState state, BlockPos pos, boolean isReverse) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -254,7 +254,9 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         if (level.isClientSide)
             return true;
 
-        var direction = state.getValue(ARROW_DIRECTION).next();
+        ArrowDirection currentDirection = state.getValue(ARROW_DIRECTION);
+        ArrowDirection direction = isReverse ? currentDirection.previous() : currentDirection.next();
+
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
         level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         level.playSound(null, pos, SoundRegistry.ARROW_ROTATES.get(), SoundSource.BLOCKS);

@@ -32,6 +32,20 @@ public enum ArrowDirection implements StringRepresentable {
         return DIRECTIONAL[(index + 1) % DIRECTIONAL.length];
     }
 
+    public ArrowDirection previous() {
+        if (this == NONE)
+            return TOP_LEFT;
+
+        int index = 0;
+        for (int i = 0; i < DIRECTIONAL.length; i++) {
+            if (DIRECTIONAL[i] == this) {
+                index = i;
+                break;
+            }
+        }
+        return DIRECTIONAL[(index - 1 + DIRECTIONAL.length) % DIRECTIONAL.length];
+    }
+
     @NotNull
     @Override
     public String getSerializedName() {

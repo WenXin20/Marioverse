@@ -234,7 +234,7 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
     }
 
     @Override
-    protected boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
+    protected boolean rotateArrow(Level level, BlockState state, BlockPos pos, boolean isReverse) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -243,7 +243,9 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
         if (level.isClientSide)
             return true;
 
-        ArrowDirection direction = state.getValue(ARROW_DIRECTION).next();
+        ArrowDirection currentDirection = state.getValue(ARROW_DIRECTION);
+        ArrowDirection direction = isReverse ? currentDirection.previous() : currentDirection.next();
+
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
         level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         signBlockEntity.setArrowDirection(direction);

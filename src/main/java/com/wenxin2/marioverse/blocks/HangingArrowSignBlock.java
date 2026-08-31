@@ -99,7 +99,7 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
                                                BlockHitResult hitResult) {
         if (!player.getMainHandItem().isEmpty())
             return InteractionResult.PASS;
-        return this.rotateArrow(level, state, pos)
+        return this.rotateArrow(level, state, pos, player.isSecondaryUseActive())
                 ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
@@ -123,7 +123,7 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
             if (player.isSecondaryUseActive() && state.getValue(ATTACHED))
                 return WrenchItem.rotateRotation16(level, state, pos)
                         ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-            return this.rotateArrow(level, state, pos)
+            return this.rotateArrow(level, state, pos, false)
                     ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -209,7 +209,7 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
         return true;
     }
 
-    private boolean rotateArrow(Level level, BlockState state, BlockPos pos) {
+    private boolean rotateArrow(Level level, BlockState state, BlockPos pos, boolean isReverse) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -218,7 +218,9 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
         if (level.isClientSide)
             return true;
 
-        var direction = state.getValue(ARROW_DIRECTION).next();
+        ArrowDirection currentDirection = state.getValue(ARROW_DIRECTION);
+        ArrowDirection direction = isReverse ? currentDirection.previous() : currentDirection.next();
+
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
         signBlockEntity.setArrowDirection(direction);
         level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS); // TODO New sound
