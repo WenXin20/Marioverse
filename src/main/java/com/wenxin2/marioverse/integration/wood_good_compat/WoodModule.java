@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.integration.wood_good_compat;
 
+import com.mojang.datafixers.util.Either;
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.BridgeStairBlock;
@@ -12,27 +14,41 @@ import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.blocks.states.SideBlockStates;
+import com.wenxin2.marioverse.data.ArrowColorShapedRecipe;
+import com.wenxin2.marioverse.data.ArrowColorShapelessRecipe;
+import com.wenxin2.marioverse.data.DyeColorIngredient;
 import com.wenxin2.marioverse.items.ArrowSignItem;
 import com.wenxin2.marioverse.items.LargeArrowSignItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import net.mehvahdjukaar.every_compat.EveryCompat;
 import net.mehvahdjukaar.every_compat.api.PaletteStrategies;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
 import net.mehvahdjukaar.every_compat.modules.EveryCompatModule;
+import net.mehvahdjukaar.moonlight.api.resources.RecipeTemplate;
 import net.mehvahdjukaar.moonlight.api.resources.pack.ResourceGenTask;
-import net.mehvahdjukaar.moonlight.api.resources.pack.ResourceSink;
+import net.mehvahdjukaar.moonlight.api.resources.recipe.BlockTypeSwapIngredient;
+import net.mehvahdjukaar.moonlight.api.set.BlockType;
 import net.mehvahdjukaar.moonlight.api.set.wood.VanillaWoodTypes;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -45,6 +61,41 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class WoodModule extends EveryCompatModule {
+    // EveryCompat's recipe copier (RecipeTemplate.makeSimilarRecipe) only knows how to remap recipe
+    // classes explicitly registered here - without this, compat wood types silently get no recipe at
+    // all for our custom recipe types (the failure is caught and logged, not thrown).
+    static {
+        RecipeTemplate.register(ArrowColorShapedRecipe.class, WoodModule::remapArrowColorShaped);
+        RecipeTemplate.register(ArrowColorShapelessRecipe.class, WoodModule::remapArrowColorShapeless);
+    }
+
+    private static ArrowColorShapedRecipe remapArrowColorShaped(ArrowColorShapedRecipe recipe, BlockType from, BlockType to) {
+        Map<String, Either<DyeColorIngredient, Ingredient>> newKey = new HashMap<>();
+        for (Map.Entry<String, Either<DyeColorIngredient, Ingredient>> entry : recipe.getKey().entrySet())
+            newKey.put(entry.getKey(), remapSlot(entry.getValue(), from, to));
+
+        ItemStack originalResult = recipe.getResultItem(RegistryAccess.EMPTY);
+        Item newResult = BlockType.changeItemType(originalResult.getItem(), from, to);
+        return new ArrowColorShapedRecipe(recipe.getGroup(), recipe.category(), recipe.getPattern(), newKey, newResult, originalResult.getCount());
+    }
+
+    private static ArrowColorShapelessRecipe remapArrowColorShapeless(ArrowColorShapelessRecipe recipe, BlockType from, BlockType to) {
+        List<Either<DyeColorIngredient, Ingredient>> newSlots = new ArrayList<>();
+        for (Either<DyeColorIngredient, Ingredient> slot : recipe.getSlots())
+            newSlots.add(remapSlot(slot, from, to));
+
+        ItemStack originalResult = recipe.getResultItem(RegistryAccess.EMPTY);
+        Item newResult = BlockType.changeItemType(originalResult.getItem(), from, to);
+        return new ArrowColorShapelessRecipe(recipe.getGroup(), recipe.category(), newSlots, newResult, originalResult.getCount());
+    }
+
+    // Dye slots aren't wood-specific and stay untouched; plain slots (planks, chains, the sign item
+    // itself for the recolor recipe) get the same ingredient-swap treatment vanilla shaped/shapeless
+    // compat recipes get.
+    private static Either<DyeColorIngredient, Ingredient> remapSlot(Either<DyeColorIngredient, Ingredient> slot, BlockType from, BlockType to) {
+        return slot.map(Either::left, ingredient -> Either.right(BlockTypeSwapIngredient.create(ingredient, from, to)));
+    }
+
     public final SimpleEntrySet<WoodType, Block> bridge;
     public final SimpleEntrySet<WoodType, Block> bridgeStairs;
     public final SimpleEntrySet<WoodType, Block> picketFence;
@@ -180,6 +231,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addCustomItem((woodType, block, properties) -> new ArrowSignItem(properties.stacksTo(16),
                         block, this.wallArrowSign.blocks.get(woodType), this.hangingArrowSign.blocks.get(woodType)))
+                .addRecipe(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "oak_arrow_sign_from_dye"))
                 .requiresChildren("planks")
                 .setTab(functionalBlocksTab)
                 .copyParentDrop()
@@ -195,11 +247,6 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .requiresChildren("planks")
                 .setTab(functionalBlocksTab)
-                // copyParentDrop() can't work here: our native loot table's "block" condition targets
-                // large_oak_wall_arrow_sign, which (unlike large_oak_arrow_sign) has no item of its
-                // own (.noItem()) - EveryCompat's copy only rewrites strings that resolve to a
-                // registered item, so that "block" reference is left pointing at our native oak block
-                // and never matches any compat block's state. Loot table is written explicitly below.
                 .noDrops()
                 .noItem()
                 .build();
@@ -214,6 +261,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTexture(modRes("entity/signs/large_arrow/large_oak_arrow_sign"), PaletteStrategies.SIGN_LIKE)
                 .addTexture(modRes("item/large_arrow_sign/large_oak_arrow_sign"), PaletteStrategies.SIGN_LIKE)
                 .addModelTransform(transform -> transform.replaceItemType("oak"))
+                .addRecipe(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "large_oak_arrow_sign_from_dye"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .requiresChildren("planks")
                 .setTab(functionalBlocksTab)
@@ -223,8 +271,6 @@ public class WoodModule extends EveryCompatModule {
         this.addEntry(largeArrowSign);
     }
 
-    // largeWallArrowSign.noDrops() above - copyParentDrop() can't produce a working loot table for it
-    // (see the comment on that entry), so write it directly here instead.
     @Override
     public void addDynamicServerResources(Consumer<ResourceGenTask> executor) {
         super.addDynamicServerResources(executor);
@@ -239,7 +285,8 @@ public class WoodModule extends EveryCompatModule {
                         .add(LootItem.lootTableItem(block)
                                 .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                         .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
-                                        .include(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get())
+                                        .include(DataComponentRegistry.DYE_COLOR.get())
+                                        .include(DataComponentRegistry.GLOWING.get())
                                         .include(DataComponentRegistry.WAXED.get()))
                                 .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                         .setProperties(properties)))

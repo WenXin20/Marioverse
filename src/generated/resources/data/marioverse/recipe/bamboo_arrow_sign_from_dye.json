@@ -1,0 +1,12 @@
+{
+  "type": "marioverse:arrow_color_shapeless",
+  "ingredients": [
+    {
+      "item": "marioverse:bamboo_arrow_sign"
+    },
+    {
+      "color_tag": "c:dyes"
+    }
+  ],
+  "result": "marioverse:bamboo_arrow_sign"
+}

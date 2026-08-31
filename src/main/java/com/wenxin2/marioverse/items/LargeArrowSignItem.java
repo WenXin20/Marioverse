@@ -85,7 +85,7 @@ public class LargeArrowSignItem extends ArrowSignItem {
         ItemStack stack = context.getItemInHand();
         Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
         ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
-        DyeColor savedDyeColor = stack.get(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get());
+        DyeColor savedDyeColor = stack.get(DataComponentRegistry.DYE_COLOR.get());
 
         InteractionResult result = super.place(context);
 

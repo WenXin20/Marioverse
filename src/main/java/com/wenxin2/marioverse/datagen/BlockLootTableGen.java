@@ -37,9 +37,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -196,7 +194,8 @@ public class BlockLootTableGen extends LootTableProvider {
                             .add(LootItem.lootTableItem(block)
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
-                                            .include(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get())
+                                            .include(DataComponentRegistry.DYE_COLOR.get())
+                                            .include(DataComponentRegistry.GLOWING.get())
                                             .include(DataComponentRegistry.WAXED.get()))))
             );
         }
@@ -212,7 +211,8 @@ public class BlockLootTableGen extends LootTableProvider {
                             .add(LootItem.lootTableItem(block)
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
-                                            .include(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get())
+                                            .include(DataComponentRegistry.DYE_COLOR.get())
+                                            .include(DataComponentRegistry.GLOWING.get())
                                             .include(DataComponentRegistry.WAXED.get()))
                                     .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                             .setProperties(properties))))

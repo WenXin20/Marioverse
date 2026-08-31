@@ -1633,31 +1633,42 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
                 addDyedBlocks(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.CALCITE_BRICK_PEDESTAL, false, false);
 
-                addAfter(event, Items.BAMBOO_HANGING_SIGN, ItemRegistry.MUSHROOT_SIGN);
+                addAfter(event, Items.OAK_HANGING_SIGN, ItemRegistry.OAK_ARROW_SIGN);
+                addAfter(event, ItemRegistry.OAK_ARROW_SIGN, ItemRegistry.LARGE_OAK_ARROW_SIGN);
+
+                addAfter(event, Items.SPRUCE_HANGING_SIGN, ItemRegistry.SPRUCE_ARROW_SIGN);
+                addAfter(event, ItemRegistry.SPRUCE_ARROW_SIGN, ItemRegistry.LARGE_SPRUCE_ARROW_SIGN);
+
+                addAfter(event, Items.BIRCH_HANGING_SIGN, ItemRegistry.BIRCH_ARROW_SIGN);
+                addAfter(event, ItemRegistry.BIRCH_ARROW_SIGN, ItemRegistry.LARGE_BIRCH_ARROW_SIGN);
+
+                addAfter(event, Items.JUNGLE_HANGING_SIGN, ItemRegistry.JUNGLE_ARROW_SIGN);
+                addAfter(event, ItemRegistry.JUNGLE_ARROW_SIGN, ItemRegistry.LARGE_JUNGLE_ARROW_SIGN);
+
+                addAfter(event, Items.ACACIA_HANGING_SIGN, ItemRegistry.ACACIA_ARROW_SIGN);
+                addAfter(event, ItemRegistry.ACACIA_ARROW_SIGN, ItemRegistry.LARGE_ACACIA_ARROW_SIGN);
+
+                addAfter(event, Items.DARK_OAK_HANGING_SIGN, ItemRegistry.DARK_OAK_ARROW_SIGN);
+                addAfter(event, ItemRegistry.DARK_OAK_ARROW_SIGN, ItemRegistry.LARGE_DARK_OAK_ARROW_SIGN);
+
+                addAfter(event, Items.MANGROVE_HANGING_SIGN, ItemRegistry.MANGROVE_ARROW_SIGN);
+                addAfter(event, ItemRegistry.MANGROVE_ARROW_SIGN, ItemRegistry.LARGE_MANGROVE_ARROW_SIGN);
+
+                addAfter(event, Items.CHERRY_HANGING_SIGN, ItemRegistry.CHERRY_ARROW_SIGN);
+                addAfter(event, ItemRegistry.CHERRY_ARROW_SIGN, ItemRegistry.LARGE_CHERRY_ARROW_SIGN);
+
+                addAfter(event, Items.BAMBOO_HANGING_SIGN, ItemRegistry.BAMBOO_ARROW_SIGN);
+                addAfter(event, ItemRegistry.BAMBOO_ARROW_SIGN, ItemRegistry.LARGE_BAMBOO_ARROW_SIGN);
+
+                addAfter(event, ItemRegistry.LARGE_BAMBOO_ARROW_SIGN, ItemRegistry.MUSHROOT_SIGN);
                 addAfter(event, ItemRegistry.MUSHROOT_SIGN, ItemRegistry.MUSHROOT_HANGING_SIGN);
                 addAfter(event, ItemRegistry.MUSHROOT_HANGING_SIGN, ItemRegistry.MUSHROOT_ARROW_SIGN);
                 addAfter(event, ItemRegistry.MUSHROOT_ARROW_SIGN, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, ItemRegistry.OAK_ARROW_SIGN);
-                addAfter(event, ItemRegistry.OAK_ARROW_SIGN, ItemRegistry.LARGE_OAK_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_OAK_ARROW_SIGN, ItemRegistry.SPRUCE_ARROW_SIGN);
-                addAfter(event, ItemRegistry.SPRUCE_ARROW_SIGN, ItemRegistry.LARGE_SPRUCE_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_SPRUCE_ARROW_SIGN, ItemRegistry.BIRCH_ARROW_SIGN);
-                addAfter(event, ItemRegistry.BIRCH_ARROW_SIGN, ItemRegistry.LARGE_BIRCH_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_BIRCH_ARROW_SIGN, ItemRegistry.JUNGLE_ARROW_SIGN);
-                addAfter(event, ItemRegistry.JUNGLE_ARROW_SIGN, ItemRegistry.LARGE_JUNGLE_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_JUNGLE_ARROW_SIGN, ItemRegistry.ACACIA_ARROW_SIGN);
-                addAfter(event, ItemRegistry.ACACIA_ARROW_SIGN, ItemRegistry.LARGE_ACACIA_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_ACACIA_ARROW_SIGN, ItemRegistry.DARK_OAK_ARROW_SIGN);
-                addAfter(event, ItemRegistry.DARK_OAK_ARROW_SIGN, ItemRegistry.LARGE_DARK_OAK_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_DARK_OAK_ARROW_SIGN, ItemRegistry.MANGROVE_ARROW_SIGN);
-                addAfter(event, ItemRegistry.MANGROVE_ARROW_SIGN, ItemRegistry.LARGE_MANGROVE_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_MANGROVE_ARROW_SIGN, ItemRegistry.CHERRY_ARROW_SIGN);
-                addAfter(event, ItemRegistry.CHERRY_ARROW_SIGN, ItemRegistry.LARGE_CHERRY_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_CHERRY_ARROW_SIGN, ItemRegistry.BAMBOO_ARROW_SIGN);
-                addAfter(event, ItemRegistry.BAMBOO_ARROW_SIGN, ItemRegistry.LARGE_BAMBOO_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_BAMBOO_ARROW_SIGN, ItemRegistry.CRIMSON_ARROW_SIGN);
+
+                addAfter(event, Items.CRIMSON_HANGING_SIGN, ItemRegistry.CRIMSON_ARROW_SIGN);
                 addAfter(event, ItemRegistry.CRIMSON_ARROW_SIGN, ItemRegistry.LARGE_CRIMSON_ARROW_SIGN);
-                addAfter(event, ItemRegistry.LARGE_CRIMSON_ARROW_SIGN, ItemRegistry.WARPED_ARROW_SIGN);
+
+                addAfter(event, Items.WARPED_HANGING_SIGN, ItemRegistry.WARPED_ARROW_SIGN);
                 addAfter(event, ItemRegistry.WARPED_ARROW_SIGN, ItemRegistry.LARGE_WARPED_ARROW_SIGN);
 
                 addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.IRON_SPIKE);

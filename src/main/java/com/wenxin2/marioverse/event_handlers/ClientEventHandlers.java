@@ -353,7 +353,7 @@ public class ClientEventHandlers {
     }
 
     private static float arrowSignDyeColor(ItemStack stack) {
-        DyeColor dyeColor = stack.get(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get());
+        DyeColor dyeColor = stack.get(DataComponentRegistry.DYE_COLOR.get());
         return (float) ((dyeColor != null ? dyeColor : DyeColor.RED).ordinal() + 1);
     }
 

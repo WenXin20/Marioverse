@@ -1,0 +1,12 @@
+{
+  "type": "marioverse:arrow_color_shapeless",
+  "ingredients": [
+    {
+      "item": "marioverse:large_acacia_arrow_sign"
+    },
+    {
+      "color_tag": "c:dyes"
+    }
+  ],
+  "result": "marioverse:large_acacia_arrow_sign"
+}

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -66,6 +67,7 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
 
         RenderType arrowRenderType = RenderType.entityCutout(ArrowAtlas.TEXTURE_LOCATION);
         VertexConsumer arrowBuffer = sprite.wrap(bufferSource.getBuffer(arrowRenderType));
+        int arrowPackedLight = animatable.hasGlowingArrow() ? LightTexture.FULL_BRIGHT : packedLight;
 
         // Hide every other bone so reRender only draws "arrow". setHidden(true) also hides children,
         // so ancestors of "arrow" need setChildrenHidden(false) after to keep it reachable.
@@ -87,7 +89,7 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
         arrowBone.get().setHidden(false);
 
         this.getRenderer().reRender(bakedModel, poseStack, bufferSource, animatable, arrowRenderType,
-                arrowBuffer, partialTick, packedLight, packedOverlay, -1);
+                arrowBuffer, partialTick, arrowPackedLight, packedOverlay, -1);
 
         arrowBone.get().setHidden(arrowWasHidden);
         for (GeoBone bone : temporarilyHidden) {

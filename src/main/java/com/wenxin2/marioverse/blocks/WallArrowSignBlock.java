@@ -9,14 +9,16 @@ import com.wenxin2.marioverse.items.WrenchItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -43,6 +45,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -116,6 +119,8 @@ public class WallArrowSignBlock extends WallSignBlock {
             return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         if (this.wax(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
+        if (this.glow(level, pos, stack, player))
+            return ItemInteractionResult.SUCCESS;
         if (this.dye(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
         if (this.removeArrow(level, state, pos, stack))
@@ -160,6 +165,36 @@ public class WallArrowSignBlock extends WallSignBlock {
         return true;
     }
 
+    protected boolean glow(Level level, BlockPos pos, ItemStack stack, Player player) {
+        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
+                || signBlockEntity.isWaxed())
+            return false;
+        if (!stack.is(Items.INK_SAC) && !stack.is(Items.GLOW_INK_SAC))
+            return false;
+
+        boolean newGlow = stack.is(Items.GLOW_INK_SAC);
+        if (signBlockEntity.hasGlowingArrow() == newGlow)
+            return false;
+
+        if (!level.isClientSide) {
+            signBlockEntity.setGlowingArrow(newGlow);
+            stack.consume(1, player);
+            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
+
+            Direction facing = level.getBlockState(pos).getValue(FACING).getOpposite();
+            if (newGlow) {
+                level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS);
+                ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.GLOW, (ServerLevel) level, pos, facing,
+                        UniformInt.of(3, 5), () -> Vec3.ZERO, 0.55);
+            } else {
+                level.playSound(null, pos, SoundEvents.INK_SAC_USE, SoundSource.BLOCKS);
+                ServerParticleUtils.spawnParticlesOnBlockFace(new DustParticleOptions(new Vector3f(0, 0, 0), 0.5F),
+                        (ServerLevel) level, pos, facing, UniformInt.of(8, 12), () -> Vec3.ZERO, 0.55);
+            }
+        }
+        return true;
+    }
+
     protected boolean dye(Level level, BlockPos pos, ItemStack stack, Player player) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
@@ -178,7 +213,9 @@ public class WallArrowSignBlock extends WallSignBlock {
             int textColor = dyeItem.getDyeColor().getTextColor();
             Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
                     (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
-            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new DustParticleOptions(colorVec, 1.0F), UniformInt.of(8, 12));
+            Direction facing = level.getBlockState(pos).getValue(FACING).getOpposite();
+            ServerParticleUtils.spawnParticlesOnBlockFace(new DustParticleOptions(colorVec, 0.5F), (ServerLevel) level, pos,
+                    facing, UniformInt.of(8, 12), () -> Vec3.ZERO, 0.55);
         }
         return true;
     }

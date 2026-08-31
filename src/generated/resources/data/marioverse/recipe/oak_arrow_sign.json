@@ -1,13 +1,13 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "type": "marioverse:arrow_color_shaped",
+  "count": 5,
   "group": "marioverse:arrow_signs",
   "key": {
     "C": {
       "tag": "c:chains"
     },
     "D": {
-      "tag": "c:dyes/red"
+      "color_tag": "c:dyes"
     },
     "P": {
       "item": "minecraft:oak_planks"
@@ -18,8 +18,5 @@
     "PDP",
     "PPP"
   ],
-  "result": {
-    "count": 5,
-    "id": "marioverse:oak_arrow_sign"
-  }
+  "result": "marioverse:oak_arrow_sign"
 }

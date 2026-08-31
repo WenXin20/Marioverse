@@ -16,7 +16,8 @@
               "function": "minecraft:copy_components",
               "include": [
                 "marioverse:arrow_sign_direction",
-                "marioverse:arrow_sign_dye_color",
+                "marioverse:dye_color",
+                "marioverse:glowing",
                 "marioverse:waxed"
               ],
               "source": "block_entity"

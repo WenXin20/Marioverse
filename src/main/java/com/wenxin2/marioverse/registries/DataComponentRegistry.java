@@ -49,6 +49,9 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> UNDYING_CHARM =
             Marioverse.COMPONENTS.register("undying_charm", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> GLOWING =
+            Marioverse.COMPONENTS.register("glowing", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> WAXED =
             Marioverse.COMPONENTS.register("waxed", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
@@ -109,10 +112,9 @@ public class DataComponentRegistry {
                     .networkSynchronized(ByteBufCodecs.idMapper(i -> ArrowDirection.values()[i], ArrowDirection::ordinal))
                     .build());
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<DyeColor>> ARROW_SIGN_DYE_COLOR =
-            Marioverse.COMPONENTS.register("arrow_sign_dye_color", () -> DataComponentType.<DyeColor>builder()
-                    .persistent(DyeColor.CODEC)
-                    .networkSynchronized(DyeColor.STREAM_CODEC)
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<DyeColor>> DYE_COLOR =
+            Marioverse.COMPONENTS.register("dye_color", () -> DataComponentType.<DyeColor>builder()
+                    .persistent(DyeColor.CODEC).networkSynchronized(DyeColor.STREAM_CODEC)
                     .build());
 
     public static final Supplier<DataComponentType<Holder<PowerUpType>>> POWER_UP_TYPE =

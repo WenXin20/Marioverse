@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +22,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -126,7 +124,7 @@ public class ArrowSignItem extends BlockItem {
         ItemStack stack = context.getItemInHand();
         Boolean savedWaxed = stack.get(DataComponentRegistry.WAXED.get());
         ArrowDirection savedDirection = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
-        DyeColor savedDyeColor = stack.get(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get());
+        DyeColor savedDyeColor = stack.get(DataComponentRegistry.DYE_COLOR.get());
 
         InteractionResult result = super.place(context);
 

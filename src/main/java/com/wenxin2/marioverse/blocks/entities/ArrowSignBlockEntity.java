@@ -25,6 +25,7 @@ public class ArrowSignBlockEntity extends BlockEntity implements GeoBlockEntity 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private ArrowDirection arrowDirection = ArrowDirection.UP;
     private boolean waxed = false;
+    private boolean glowingArrow = false;
     @Nullable
     private DyeColor arrowDyeColor = DyeColor.RED;
 
@@ -56,6 +57,7 @@ public class ArrowSignBlockEntity extends BlockEntity implements GeoBlockEntity 
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putBoolean("waxed", this.waxed);
+        tag.putBoolean("glowing_arrow", this.glowingArrow);
         tag.putString("arrow_direction", this.arrowDirection.getSerializedName());
         if (this.arrowDyeColor != null)
             tag.putString("arrow_dye_color", this.arrowDyeColor.getSerializedName());
@@ -65,6 +67,7 @@ public class ArrowSignBlockEntity extends BlockEntity implements GeoBlockEntity 
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         this.waxed = tag.getBoolean("waxed");
+        this.glowingArrow = tag.getBoolean("glowing_arrow");
 
         if (tag.contains("arrow_direction")) {
             for (ArrowDirection direction : ArrowDirection.values()) {
@@ -82,17 +85,19 @@ public class ArrowSignBlockEntity extends BlockEntity implements GeoBlockEntity 
     public void applyImplicitComponents(DataComponentInput input) {
         super.applyImplicitComponents(input);
         this.waxed = input.getOrDefault(DataComponentRegistry.WAXED.get(), false);
+        this.glowingArrow = input.getOrDefault(DataComponentRegistry.GLOWING.get(), false);
         this.arrowDirection = input.getOrDefault(DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.UP);
-        this.arrowDyeColor = input.getOrDefault(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get(), DyeColor.RED);
+        this.arrowDyeColor = input.getOrDefault(DataComponentRegistry.DYE_COLOR.get(), DyeColor.RED);
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder builder) {
         super.collectImplicitComponents(builder);
         builder.set(DataComponentRegistry.WAXED.get(), this.waxed);
+        builder.set(DataComponentRegistry.GLOWING.get(), this.glowingArrow);
         builder.set(DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), this.arrowDirection);
         if (this.arrowDyeColor != null)
-            builder.set(DataComponentRegistry.ARROW_SIGN_DYE_COLOR.get(), this.arrowDyeColor);
+            builder.set(DataComponentRegistry.DYE_COLOR.get(), this.arrowDyeColor);
     }
 
     public boolean isWaxed() {
@@ -101,6 +106,15 @@ public class ArrowSignBlockEntity extends BlockEntity implements GeoBlockEntity 
 
     public void setWaxed(boolean waxed) {
         this.waxed = waxed;
+        this.syncToClient();
+    }
+
+    public boolean hasGlowingArrow() {
+        return this.glowingArrow;
+    }
+
+    public void setGlowingArrow(boolean glowingArrow) {
+        this.glowingArrow = glowingArrow;
         this.syncToClient();
     }
 

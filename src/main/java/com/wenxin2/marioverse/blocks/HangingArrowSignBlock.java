@@ -8,13 +8,15 @@ import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.items.WrenchItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -110,6 +112,8 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (this.wax(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
+        if (this.glow(level, pos, stack, player))
+            return ItemInteractionResult.SUCCESS;
         if (this.dye(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
         if (this.removeArrow(level, state, pos, stack))
@@ -156,6 +160,33 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
         return true;
     }
 
+    private boolean glow(Level level, BlockPos pos, ItemStack stack, Player player) {
+        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
+                || signBlockEntity.isWaxed())
+            return false;
+        if (!stack.is(Items.INK_SAC) && !stack.is(Items.GLOW_INK_SAC))
+            return false;
+
+        boolean newGlow = stack.is(Items.GLOW_INK_SAC);
+        if (signBlockEntity.hasGlowingArrow() == newGlow)
+            return false;
+
+        if (!level.isClientSide) {
+            signBlockEntity.setGlowingArrow(newGlow);
+            stack.consume(1, player);
+
+            if (newGlow) {
+                level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS);
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.GLOW, (ServerLevel) level, pos, UniformInt.of(3, 5));
+            } else {
+                level.playSound(null, pos, SoundEvents.INK_SAC_USE, SoundSource.BLOCKS);
+                ServerParticleUtils.spawnParticlesOnBlockFaces(new DustParticleOptions(new Vector3f(0, 0, 0), 0.5F),
+                        (ServerLevel) level, pos, UniformInt.of(8, 12));
+            }
+        }
+        return true;
+    }
+
     private boolean dye(Level level, BlockPos pos, ItemStack stack, Player player) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
@@ -173,7 +204,7 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
             int textColor = dyeItem.getDyeColor().getTextColor();
             Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
                     (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
-            ParticleUtils.spawnParticlesOnBlockFaces(level, pos, new DustParticleOptions(colorVec, 1.0F), UniformInt.of(8, 12));
+            ServerParticleUtils.spawnParticlesOnBlockFaces(new DustParticleOptions(colorVec, 0.5F), (ServerLevel) level, pos, UniformInt.of(8, 12));
         }
         return true;
     }

@@ -8,15 +8,21 @@ import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BrushItem;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -40,6 +46,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 
 public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
     public static final EnumProperty<HalfBlockStates> HALF = BlockStatePropertyRegistry.HALF;
@@ -157,14 +164,41 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
     }
 
     @Override
+    protected boolean glow(Level level, BlockPos pos, ItemStack stack, Player player) {
+        boolean result = super.glow(level, pos, stack, player);
+
+        if (result && !level.isClientSide
+                && level.getBlockEntity(pos) instanceof ArrowSignBlockEntity thisEntity) {
+            BlockPos posOther = this.otherHalfPos(level.getBlockState(pos), pos);
+            if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity)
+                otherEntity.setGlowingArrow(thisEntity.hasGlowingArrow());
+
+            if (thisEntity.hasGlowingArrow())
+                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.GLOW, (ServerLevel) level, posOther, UniformInt.of(3, 5));
+            else
+                ServerParticleUtils.spawnParticlesOnBlockFaces(new DustParticleOptions(new Vector3f(0, 0, 0), 0.5F),
+                        (ServerLevel) level, posOther, UniformInt.of(8, 12));
+        }
+        return result;
+    }
+
+    @Override
     protected boolean dye(Level level, BlockPos pos, ItemStack stack, Player player) {
         boolean result = super.dye(level, pos, stack, player);
+        if (!(stack.getItem() instanceof DyeItem dyeItem))
+            return false;
 
         if (result && !level.isClientSide
                 && level.getBlockEntity(pos) instanceof ArrowSignBlockEntity thisEntity) {
             BlockPos posOther = this.otherHalfPos(level.getBlockState(pos), pos);
             if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity)
                 otherEntity.setArrowDyeColor(thisEntity.getArrowDyeColor());
+
+            int textColor = dyeItem.getDyeColor().getTextColor();
+            Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
+                    (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
+            ServerParticleUtils.spawnParticlesOnBlockFaces(new DustParticleOptions(colorVec, 0.5F),
+                    (ServerLevel) level, posOther, UniformInt.of(8, 12));
         }
         return result;
     }

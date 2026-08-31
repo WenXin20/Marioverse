@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.datagen.ArrowColorRecipeBuilder;
+import com.wenxin2.marioverse.datagen.ArrowColorShapelessRecipeBuilder;
 import com.wenxin2.marioverse.datagen.HexColorRecipeBuilder;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -388,12 +390,12 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
-    // Not fed through SHAPE_BUILDERS/generateRecipes - the dye varies per wood type, so this is
-    // called manually per family instead (see RecipeGen.java). The EveryCompat compat path uses a
-    // single generic dye tag - see ArrowSignModule.
-    public void arrowSignRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
-                                 Object planks, Object dye, Object chain, boolean uniqueFileName, RecipeOutput output) {
-        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+    // Not fed through SHAPE_BUILDERS/generateRecipes - called manually per family instead (see
+    // RecipeGen.java). Dye slot uses Tags.Items.DYES so the resulting arrow color matches whichever
+    // dye was used (ArrowColorShapedRecipe), instead of always defaulting to red.
+    public void arrowColorSignRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                                      Object planks, TagKey<Item> dyeTag, Object chain, boolean uniqueFileName, RecipeOutput output) {
+        ArrowColorRecipeBuilder builder = ArrowColorRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
                 .pattern("C C")
                 .pattern("PDP")
@@ -401,7 +403,7 @@ public class RecipeUtils extends RecipeProvider {
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
         defineIngredient(builder, 'C', chain);
-        defineIngredient(builder, 'D', dye);
+        builder.defineColorDye('D', dyeTag);
         defineIngredient(builder, 'P', planks);
 
         builder.unlockedBy(getUnlockName(planks), unlockCriterion(planks));
@@ -411,6 +413,16 @@ public class RecipeUtils extends RecipeProvider {
         else if (uniqueFileName && planks instanceof TagKey<?> tag)
             builder.save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getConversionRecipeTagName(outputItem, tag)));
         else builder.save(output);
+    }
+
+    // Shapeless "arrow sign + dye" recolor recipe - ArrowColorShapelessRecipe copies the existing
+    // sign's components (direction, waxed, etc.) and only overrides the dye color.
+    public void arrowSignFromDyeRecipe(ItemLike arrowSign, RecipeCategory category, TagKey<Item> dyeTag, RecipeOutput output) {
+        ArrowColorShapelessRecipeBuilder.shapeless(category, arrowSign, 1)
+                .requires(arrowSign)
+                .requiresColorDye(dyeTag)
+                .unlockedBy(getHasName(arrowSign), RecipeProvider.has(arrowSign))
+                .save(output, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, getItemName(arrowSign) + "_from_dye"));
     }
 
     public void boatRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
@@ -1365,6 +1377,15 @@ public class RecipeUtils extends RecipeProvider {
 
     @SuppressWarnings("unchecked")
     private void defineIngredient(ShapedRecipeBuilder builder, char symbol, Object ingredient) {
+        if (ingredient instanceof ItemLike item)
+            builder.define(symbol, item);
+        else if (ingredient instanceof TagKey<?> tag && tag.registry() == Registries.ITEM)
+            builder.define(symbol, (TagKey<Item>) tag);
+        else throw new IllegalArgumentException("Unsupported ingredient type: " + ingredient);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void defineIngredient(ArrowColorRecipeBuilder builder, char symbol, Object ingredient) {
         if (ingredient instanceof ItemLike item)
             builder.define(symbol, item);
         else if (ingredient instanceof TagKey<?> tag && tag.registry() == Registries.ITEM)
