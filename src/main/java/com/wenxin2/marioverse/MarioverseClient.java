@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.wenxin2.marioverse.blocks.client.BlockSpawnerScreen;
 import com.wenxin2.marioverse.blocks.client.QuestionBlockScreen;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.client.ArrowAtlas;
 import com.wenxin2.marioverse.client.particles.GlowingSuspendedTownParticle;
 import com.wenxin2.marioverse.client.particles.GravityParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
@@ -95,6 +96,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -196,6 +198,11 @@ public class MarioverseClient {
                 ItemRegistry.DRESS.get(),
                 ItemRegistry.HEELS.get()
         );
+    }
+
+    @SubscribeEvent
+    private static void registerReloadListeners(final RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(ArrowAtlas.get());
     }
 
     @SubscribeEvent

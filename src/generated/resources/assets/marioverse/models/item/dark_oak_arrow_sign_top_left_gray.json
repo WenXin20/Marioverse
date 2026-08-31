@@ -2,6 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "marioverse:item/arrow_sign/dark_oak_arrow_sign",
-    "layer1": "marioverse:item/arrow_sign/gray_arrow_top_left"
+    "layer1": "marioverse:item/arrow_sign/pattern/top_left_gray"
   }
 }

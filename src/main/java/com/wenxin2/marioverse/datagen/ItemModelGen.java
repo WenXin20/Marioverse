@@ -470,18 +470,17 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     public void arrowSignItem(Item item) {
-        this.arrowOverlayItem(item, "item/arrow_sign", "",
-                new ModelFile.UncheckedModelFile("item/generated"));
+        this.arrowOverlayItem(item, "item/arrow_sign", new ModelFile.UncheckedModelFile("item/generated"));
     }
 
     public void largeArrowSignItem(Item item) {
-        this.arrowOverlayItem(item, "item/large_arrow_sign", "large_",
+        this.arrowOverlayItem(item, "item/large_arrow_sign",
                 new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"));
     }
 
-    // Layer1 is baked per dye color at datagen time via ArrowTextureGen, using the same pattern+palette
-    // method as the entity textures - every color always has generated art, so no fallback is needed.
-    private void arrowOverlayItem(Item item, String textureFolder, String overlayPrefix, ModelFile parent) {
+    // Layer1 is a sprite baked in-game by the blocks atlas' paletted_permutations source (see
+    // ArrowItemSpriteSourceGen), recoloring the shared grayscale pattern per dye color - no per-color art.
+    private void arrowOverlayItem(Item item, String textureFolder, ModelFile parent) {
         ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
         String namespace = location.getNamespace();
         String baseName = location.getPath();
@@ -502,8 +501,8 @@ public class ItemModelGen extends ItemModelProvider {
                 DyeColor dyeColor = dyeIndex == 0 ? DyeColor.RED : DyeColor.values()[dyeIndex - 1];
 
                 ResourceLocation targetModel = colorModels.computeIfAbsent(dyeColor, color -> {
-                    String overlayName = overlayPrefix + color.getSerializedName() + "_arrow_" + direction.getSerializedName();
-                    ResourceLocation overlayTexture = ResourceLocation.fromNamespaceAndPath(namespace, textureFolder + "/" + overlayName);
+                    String overlaySprite = textureFolder + "/pattern/" + direction.getSerializedName() + "_" + color.getSerializedName();
+                    ResourceLocation overlayTexture = ResourceLocation.fromNamespaceAndPath(namespace, overlaySprite);
                     String modelPath = baseName + "_" + direction.getSerializedName() + "_" + color.getSerializedName();
                     this.getBuilder(modelPath)
                             .parent(parent)

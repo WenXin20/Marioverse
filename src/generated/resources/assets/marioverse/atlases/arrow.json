@@ -1,0 +1,44 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:paletted_permutations",
+      "palette_key": "marioverse:palettes/arrow/gray_key",
+      "permutations": {
+        "black": "marioverse:palettes/arrow/black",
+        "blue": "marioverse:palettes/arrow/blue",
+        "brown": "marioverse:palettes/arrow/brown",
+        "cyan": "marioverse:palettes/arrow/cyan",
+        "gray": "marioverse:palettes/arrow/gray",
+        "green": "marioverse:palettes/arrow/green",
+        "light_blue": "marioverse:palettes/arrow/light_blue",
+        "light_gray": "marioverse:palettes/arrow/light_gray",
+        "lime": "marioverse:palettes/arrow/lime",
+        "magenta": "marioverse:palettes/arrow/magenta",
+        "orange": "marioverse:palettes/arrow/orange",
+        "pink": "marioverse:palettes/arrow/pink",
+        "purple": "marioverse:palettes/arrow/purple",
+        "red": "marioverse:palettes/arrow/red",
+        "white": "marioverse:palettes/arrow/white",
+        "yellow": "marioverse:palettes/arrow/yellow"
+      },
+      "textures": [
+        "marioverse:entity/signs/arrow/pattern/up",
+        "marioverse:entity/signs/arrow/pattern/top_right",
+        "marioverse:entity/signs/arrow/pattern/right",
+        "marioverse:entity/signs/arrow/pattern/bottom_right",
+        "marioverse:entity/signs/arrow/pattern/down",
+        "marioverse:entity/signs/arrow/pattern/bottom_left",
+        "marioverse:entity/signs/arrow/pattern/left",
+        "marioverse:entity/signs/arrow/pattern/top_left",
+        "marioverse:entity/signs/large_arrow/pattern/up",
+        "marioverse:entity/signs/large_arrow/pattern/top_right",
+        "marioverse:entity/signs/large_arrow/pattern/right",
+        "marioverse:entity/signs/large_arrow/pattern/bottom_right",
+        "marioverse:entity/signs/large_arrow/pattern/down",
+        "marioverse:entity/signs/large_arrow/pattern/bottom_left",
+        "marioverse:entity/signs/large_arrow/pattern/left",
+        "marioverse:entity/signs/large_arrow/pattern/top_left"
+      ]
+    }
+  ]
+}

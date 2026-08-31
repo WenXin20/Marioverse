@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.client.ArrowAtlas;
 import com.wenxin2.marioverse.client.renderers.blocks.ArrowSignBlockEntityRenderer;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -52,17 +54,18 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
         boolean isLarge = state.getBlock() instanceof LargeStandingArrowSignBlock
                 || state.getBlock() instanceof LargeWallArrowSignBlock;
         String textureFolder = isLarge ? "large_arrow" : "arrow";
-        String overlayPrefix = isLarge ? "large_" : "";
 
         DyeColor dyeColor = animatable.getArrowDyeColor();
-        String colorPrefix = (dyeColor != null ? dyeColor : DyeColor.RED).getSerializedName() + "_";
+        String colorName = (dyeColor != null ? dyeColor : DyeColor.RED).getSerializedName();
 
-        String overlayName = overlayPrefix + colorPrefix + "arrow_" + arrowDirection.getSerializedName();
-        ResourceLocation arrowTexture = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                "textures/entity/signs/" + textureFolder + "/" + overlayName + ".png");
+        // Sprite baked in-game by the "arrow" atlas' paletted_permutations source (see ArrowAtlasGen),
+        // recoloring the shared grayscale pattern per dye color - no per-color art.
+        ResourceLocation spriteLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                "entity/signs/" + textureFolder + "/pattern/" + arrowDirection.getSerializedName() + "_" + colorName);
+        TextureAtlasSprite sprite = ArrowAtlas.get().getSprite(spriteLocation);
 
-        RenderType arrowRenderType = RenderType.entityCutout(arrowTexture);
-        VertexConsumer arrowBuffer = bufferSource.getBuffer(arrowRenderType);
+        RenderType arrowRenderType = RenderType.entityCutout(ArrowAtlas.TEXTURE_LOCATION);
+        VertexConsumer arrowBuffer = sprite.wrap(bufferSource.getBuffer(arrowRenderType));
 
         // Hide every other bone so reRender only draws "arrow". setHidden(true) also hides children,
         // so ancestors of "arrow" need setChildrenHidden(false) after to keep it reachable.

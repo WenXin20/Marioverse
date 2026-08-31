@@ -2,6 +2,6 @@
   "parent": "marioverse:item/template_large_dropped_item",
   "textures": {
     "layer0": "marioverse:item/large_arrow_sign/large_mangrove_arrow_sign",
-    "layer1": "marioverse:item/large_arrow_sign/large_lime_arrow_up"
+    "layer1": "marioverse:item/large_arrow_sign/pattern/up_lime"
   }
 }
