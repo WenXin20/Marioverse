@@ -45,6 +45,7 @@ public class LargeArrowSignItem extends ArrowSignItem {
             list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.right_click"));
             list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.right_click.axe"));
             list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.right_click.shears"));
+            list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.right_click.dyeable"));
             list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.shift_right_click"));
             list.add(Component.translatable("item.marioverse.large_arrow_signs.tooltip.shift_right_click.post"));
 

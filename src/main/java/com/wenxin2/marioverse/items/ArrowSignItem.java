@@ -52,7 +52,6 @@ public class ArrowSignItem extends BlockItem {
 
         ResourceLocation itemId = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(this));
         if (!itemId.getNamespace().equals(Marioverse.MOD_ID)) {
-            // Compat item: reuse EveryCompat's own block_type %s-templating for the direction name.
             WoodType woodType = SignBlock.getWoodType(this.getBlock());
             ResourceLocation woodTypeName = ResourceLocation.parse(woodType.name());
             String woodNameKey = "wood_type." + woodTypeName.getNamespace() + "." + woodTypeName.getPath();
@@ -77,6 +76,7 @@ public class ArrowSignItem extends BlockItem {
             list.add(Component.translatable("item.marioverse.arrow_signs.tooltip.right_click"));
             list.add(Component.translatable("item.marioverse.arrow_signs.tooltip.right_click.axe"));
             list.add(Component.translatable("item.marioverse.arrow_signs.tooltip.right_click.shears"));
+            list.add(Component.translatable("item.marioverse.arrow_signs.tooltip.right_click.dyeable"));
             list.add(Component.translatable("item.marioverse.arrow_signs.tooltip.shift_right_click"));
             list.add(Component.translatable("item.marioverse.arrow_signs.tooltip.shift_right_click.post"));
 

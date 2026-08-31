@@ -1273,8 +1273,9 @@
   "item.marioverse.arrow_signs.tooltip.instructions": "§9Instructions:",
   "item.marioverse.arrow_signs.tooltip.instructions.placement": " §7• Place on floors, walls, or ceilings",
   "item.marioverse.arrow_signs.tooltip.right_click": "§2Right-click:",
-  "item.marioverse.arrow_signs.tooltip.right_click.axe": " §7• Toggle the board/post on standing signs using an axe",
-  "item.marioverse.arrow_signs.tooltip.right_click.shears": " §7• Remove the arrow with Shears or a brush",
+  "item.marioverse.arrow_signs.tooltip.right_click.axe": " §7• Axes toggle the board/post on standing signs",
+  "item.marioverse.arrow_signs.tooltip.right_click.shears": " §7• Shears or brushes erases the arrow",
+  "item.marioverse.arrow_signs.tooltip.right_click.dyeable": " §7• Dyeable & glowable",
   "item.marioverse.arrow_signs.tooltip.shift_right_click": "§6Shift-right-click:",
   "item.marioverse.arrow_signs.tooltip.shift_right_click.post": " §7• Places the standing sign as a post only",
 
@@ -1377,8 +1378,9 @@
   "item.marioverse.large_arrow_signs.tooltip.instructions": "§9Instructions:",
   "item.marioverse.large_arrow_signs.tooltip.instructions.placement": " §7• Place on floors or walls",
   "item.marioverse.large_arrow_signs.tooltip.right_click": "§2Right-click:",
-  "item.marioverse.large_arrow_signs.tooltip.right_click.axe": " §7• Toggle the board/post on standing signs using an axe",
-  "item.marioverse.large_arrow_signs.tooltip.right_click.shears": " §7• Remove the arrow with Shears or a brush",
+  "item.marioverse.large_arrow_signs.tooltip.right_click.axe": " §7• Axes toggle the board/post on standing signs",
+  "item.marioverse.large_arrow_signs.tooltip.right_click.shears": " §7• Shears or brushes erases the arrow",
+  "item.marioverse.large_arrow_signs.tooltip.right_click.dyeable": " §7• Dyeable & glowable",
   "item.marioverse.large_arrow_signs.tooltip.shift_right_click": "§6Shift-right-click:",
   "item.marioverse.large_arrow_signs.tooltip.shift_right_click.post": " §7• Places the standing sign as a post only",
 
