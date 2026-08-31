@@ -351,7 +351,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             else ServerParticleUtils.spawnParticlesOnBlockFace(options, serverLevel, pos, particleFace, count,
                     () -> new Vec3(Mth.nextDouble(random, -0.005F, 0.005F),
                             Mth.nextDouble(random, -0.005F, 0.005F),
-                            Mth.nextDouble(random, -0.005F, 0.005F)), 0.5);
+                            Mth.nextDouble(random, -0.005F, 0.005F)), 0.45);
         }
     }
 }

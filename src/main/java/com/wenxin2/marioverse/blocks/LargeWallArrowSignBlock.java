@@ -242,6 +242,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
                 && level.getBlockEntity(pos) instanceof ArrowSignBlockEntity thisEntity) {
             BlockState state = level.getBlockState(pos);
             Direction facing = state.getValue(FACING).getOpposite();
+
             for (BlockPos posOther : this.siblingPositions(state, pos)) {
                 if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity)
                     otherEntity.setArrowDyeColor(thisEntity.getArrowDyeColor());
@@ -280,6 +281,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         if (result && !level.isClientSide) {
             for (BlockPos posOther : this.siblingPositions(state, pos)) {
                 BlockState stateOther = level.getBlockState(posOther);
+                Direction facing = state.getValue(FACING).getOpposite();
 
                 if (stateOther.is(this) && stateOther.getValue(ARROW_DIRECTION) != ArrowDirection.NONE)
                     level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
@@ -287,7 +289,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
                     otherSignBE.setArrowDirection(ArrowDirection.NONE);
                 if (stack.is(CompatRegistry.SOAP.get())) {
                     level.playSound(null, posOther, CompatRegistry.SOAP_WASH.get(), SoundSource.BLOCKS);
-                    StandingArrowSignBlock.spawnParticles(level, posOther, null,
+                    StandingArrowSignBlock.spawnParticles(level, posOther, facing,
                             (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(5, 8));
                 }
             }
