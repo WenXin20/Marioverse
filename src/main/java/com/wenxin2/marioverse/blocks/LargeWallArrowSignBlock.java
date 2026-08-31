@@ -251,7 +251,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
                 Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
                         (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
                 ServerParticleUtils.spawnParticlesOnBlockFace(new DustParticleOptions(colorVec, 0.5F),
-                        (ServerLevel) level, posOther, facing, UniformInt.of(8, 12), () -> Vec3.ZERO, 0.55);
+                        (ServerLevel) level, posOther, facing, UniformInt.of(8, 12), () -> Vec3.ZERO, 0.45);
             }
         }
         return result;
