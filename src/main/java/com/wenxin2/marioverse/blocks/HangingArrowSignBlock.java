@@ -8,29 +8,18 @@ import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.items.WrenchItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Vector3f;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -146,99 +135,22 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
     }
 
     private boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
-        if (!stack.is(Items.HONEYCOMB))
-            return false;
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-
-        if (!level.isClientSide) {
-            signBlockEntity.setWaxed(true);
-            stack.consume(1, player);
-            level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
-        }
-        return true;
+        return StandingArrowSignBlock.waxInteraction(level, pos, stack, player, null);
     }
 
     private boolean glow(Level level, BlockPos pos, ItemStack stack, Player player) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!stack.is(Items.INK_SAC) && !stack.is(Items.GLOW_INK_SAC))
-            return false;
-
-        boolean newGlow = stack.is(Items.GLOW_INK_SAC);
-        if (signBlockEntity.hasGlowingArrow() == newGlow)
-            return false;
-
-        if (!level.isClientSide) {
-            signBlockEntity.setGlowingArrow(newGlow);
-            stack.consume(1, player);
-
-            if (newGlow) {
-                level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS);
-                ServerParticleUtils.spawnParticlesOnBlockFaces(ParticleTypes.GLOW, (ServerLevel) level, pos, UniformInt.of(3, 5));
-            } else {
-                level.playSound(null, pos, SoundEvents.INK_SAC_USE, SoundSource.BLOCKS);
-                ServerParticleUtils.spawnParticlesOnBlockFaces(new DustParticleOptions(new Vector3f(0, 0, 0), 0.5F),
-                        (ServerLevel) level, pos, UniformInt.of(8, 12));
-            }
-        }
-        return true;
+        return StandingArrowSignBlock.glowInteraction(level, pos, stack, player, null);
     }
 
     private boolean dye(Level level, BlockPos pos, ItemStack stack, Player player) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!(stack.getItem() instanceof DyeItem dyeItem))
-            return false;
-        if (signBlockEntity.getArrowDyeColor() == dyeItem.getDyeColor())
-            return false;
-
-        if (!level.isClientSide) {
-            signBlockEntity.setArrowDyeColor(dyeItem.getDyeColor());
-            stack.consume(1, player);
-            level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS);
-
-            int textColor = dyeItem.getDyeColor().getTextColor();
-            Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
-                    (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
-            ServerParticleUtils.spawnParticlesOnBlockFaces(new DustParticleOptions(colorVec, 0.5F), (ServerLevel) level, pos, UniformInt.of(8, 12));
-        }
-        return true;
+        return StandingArrowSignBlock.dyeInteraction(level, pos, stack, player, null);
     }
 
     private boolean rotateArrow(Level level, BlockState state, BlockPos pos, boolean isReverse) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!state.getValue(BOARD))
-            return false;
-        if (level.isClientSide)
-            return true;
-
-        ArrowDirection currentDirection = state.getValue(ARROW_DIRECTION);
-        ArrowDirection direction = isReverse ? currentDirection.previous() : currentDirection.next();
-
-        level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
-        signBlockEntity.setArrowDirection(direction);
-        level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS); // TODO New sound
-        return true;
+        return StandingArrowSignBlock.rotateArrowInteraction(level, state, pos, isReverse);
     }
 
     private boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        if (!stack.is(TagRegistry.ARROW_ERASERS))
-            return false;
-        if (state.getValue(ARROW_DIRECTION) == ArrowDirection.NONE)
-            return false;
-
-        if (!level.isClientSide) {
-            level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE),
-                    Block.UPDATE_CLIENTS);
-            if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                signBlockEntity.setArrowDirection(ArrowDirection.NONE);
-        }
-        return true;
+        return StandingArrowSignBlock.removeArrowInteraction(level, state, pos, stack, null);
     }
 }

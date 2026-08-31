@@ -6,25 +6,22 @@ import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
-import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -39,7 +36,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -205,87 +201,52 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
 
     @Override
     protected boolean toggleBoard(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        if (!stack.is(ItemTags.AXES))
-            return false;
+        boolean result = super.toggleBoard(level, state, pos, stack);
 
-        if (!level.isClientSide) {
-            level.setBlock(pos, nextToggleBoardState(state), Block.UPDATE_CLIENTS);
-            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-
+        if (result && !level.isClientSide) {
             BlockPos otherPos = this.otherHalfPos(state, pos);
             BlockState otherState = level.getBlockState(otherPos);
             if (otherState.is(this))
                 level.setBlock(otherPos, nextToggleBoardState(otherState), Block.UPDATE_CLIENTS);
-
-            level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS);
         }
-        return true;
-    }
-
-    private static BlockState nextToggleBoardState(BlockState state) {
-        boolean hasBoard = state.getValue(BOARD);
-        boolean hasPost = state.getValue(POST);
-
-        if (hasBoard && hasPost)
-            return state.setValue(POST, false);
-        else if (hasBoard)
-            return state.setValue(BOARD, false).setValue(POST, true);
-        else return state.setValue(BOARD, true);
+        return result;
     }
 
     @Override
     protected boolean rotateArrow(Level level, BlockState state, BlockPos pos, boolean isReverse) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!state.getValue(BOARD))
-            return false;
-        if (level.isClientSide)
-            return true;
+        boolean result = super.rotateArrow(level, state, pos, isReverse);
 
-        ArrowDirection currentDirection = state.getValue(ARROW_DIRECTION);
-        ArrowDirection direction = isReverse ? currentDirection.previous() : currentDirection.next();
-
-        level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
-        level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-        signBlockEntity.setArrowDirection(direction);
-
-        BlockPos posOther = this.otherHalfPos(state, pos);
-        BlockState stateOther = level.getBlockState(posOther);
-        if (stateOther.is(this))
-            level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
-        if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
-            otherSignBE.setArrowDirection(direction);
-
-        level.playSound(null, pos, SoundRegistry.ARROW_ROTATES.get(), SoundSource.BLOCKS);
-        return true;
+        if (result && !level.isClientSide) {
+            ArrowDirection direction = level.getBlockState(pos).getValue(ARROW_DIRECTION);
+            BlockPos posOther = this.otherHalfPos(state, pos);
+            BlockState stateOther = level.getBlockState(posOther);
+            if (stateOther.is(this))
+                level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
+            if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
+                otherSignBE.setArrowDirection(direction);
+        }
+        return result;
     }
 
     @Override
     protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        if (!stack.is(TagRegistry.ARROW_ERASERS))
-            return false;
-        if (state.getValue(ARROW_DIRECTION) == ArrowDirection.NONE)
-            return false;
+        boolean result = super.removeArrow(level, state, pos, stack);
 
-        if (stack.getItem() instanceof BrushItem)
-            level.playSound(null, pos, SoundEvents.BRUSH_GENERIC, SoundSource.BLOCKS);
-        if (stack.getItem() instanceof ShearsItem)
-            level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS);
+        if (result && !level.isClientSide) {
+            BlockPos posOther = this.otherHalfPos(state, pos);
+            BlockState stateOther = level.getBlockState(posOther);
 
-        if (!level.isClientSide) {
-            level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
-            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-
-            if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                signBlockEntity.setArrowDirection(ArrowDirection.NONE);
-
-            BlockPos otherPos = this.otherHalfPos(state, pos);
-            BlockState otherState = level.getBlockState(otherPos);
-            if (otherState.is(this) && otherState.getValue(ARROW_DIRECTION) != ArrowDirection.NONE)
-                level.setBlock(otherPos, otherState.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
+            if (stateOther.is(this) && stateOther.getValue(ARROW_DIRECTION) != ArrowDirection.NONE)
+                level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
+            if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
+                otherSignBE.setArrowDirection(ArrowDirection.NONE);
+            if (stack.is(CompatRegistry.SOAP.get())) {
+                level.playSound(null, posOther, CompatRegistry.SOAP_WASH.get(), SoundSource.BLOCKS);
+                StandingArrowSignBlock.spawnParticles(level, posOther, null,
+                        (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(5, 8));
+            }
         }
-        return true;
+        return result;
     }
 
     @Override

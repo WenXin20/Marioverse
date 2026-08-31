@@ -5,35 +5,19 @@ import com.google.common.collect.Maps;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
-import com.wenxin2.marioverse.items.WrenchItem;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
-import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BrushItem;
-import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShearsItem;
-import org.joml.Vector3f;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -43,9 +27,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -150,114 +132,26 @@ public class WallArrowSignBlock extends WallSignBlock {
     }
 
     protected boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
-        if (!stack.is(Items.HONEYCOMB))
-            return false;
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-
-        if (!level.isClientSide) {
-            signBlockEntity.setWaxed(true);
-            stack.consume(1, player);
-            level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
-            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-        }
-        return true;
+        Direction facing = level.getBlockState(pos).getValue(FACING).getOpposite();
+        return StandingArrowSignBlock.waxInteraction(level, pos, stack, player, facing);
     }
 
     protected boolean glow(Level level, BlockPos pos, ItemStack stack, Player player) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!stack.is(Items.INK_SAC) && !stack.is(Items.GLOW_INK_SAC))
-            return false;
-
-        boolean newGlow = stack.is(Items.GLOW_INK_SAC);
-        if (signBlockEntity.hasGlowingArrow() == newGlow)
-            return false;
-
-        if (!level.isClientSide) {
-            signBlockEntity.setGlowingArrow(newGlow);
-            stack.consume(1, player);
-            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-
-            Direction facing = level.getBlockState(pos).getValue(FACING).getOpposite();
-            if (newGlow) {
-                level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS);
-                ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.GLOW, (ServerLevel) level, pos, facing,
-                        UniformInt.of(3, 5), () -> Vec3.ZERO, 0.55);
-            } else {
-                level.playSound(null, pos, SoundEvents.INK_SAC_USE, SoundSource.BLOCKS);
-                ServerParticleUtils.spawnParticlesOnBlockFace(new DustParticleOptions(new Vector3f(0, 0, 0), 0.5F),
-                        (ServerLevel) level, pos, facing, UniformInt.of(8, 12), () -> Vec3.ZERO, 0.55);
-            }
-        }
-        return true;
+        Direction facing = level.getBlockState(pos).getValue(FACING).getOpposite();
+        return StandingArrowSignBlock.glowInteraction(level, pos, stack, player, facing);
     }
 
     protected boolean dye(Level level, BlockPos pos, ItemStack stack, Player player) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!(stack.getItem() instanceof DyeItem dyeItem))
-            return false;
-        if (signBlockEntity.getArrowDyeColor() == dyeItem.getDyeColor())
-            return false;
-
-        if (!level.isClientSide) {
-            signBlockEntity.setArrowDyeColor(dyeItem.getDyeColor());
-            stack.consume(1, player);
-            level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS);
-            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-
-            int textColor = dyeItem.getDyeColor().getTextColor();
-            Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
-                    (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
-            Direction facing = level.getBlockState(pos).getValue(FACING).getOpposite();
-            ServerParticleUtils.spawnParticlesOnBlockFace(new DustParticleOptions(colorVec, 0.5F), (ServerLevel) level, pos,
-                    facing, UniformInt.of(8, 12), () -> Vec3.ZERO, 0.55);
-        }
-        return true;
+        Direction facing = level.getBlockState(pos).getValue(FACING).getOpposite();
+        return StandingArrowSignBlock.dyeInteraction(level, pos, stack, player, facing);
     }
 
     protected boolean rotateArrow(Level level, BlockState state, BlockPos pos, boolean isReverse) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!state.getValue(BOARD))
-            return false;
-        if (level.isClientSide)
-            return true;
-
-        ArrowDirection currentDirection = state.getValue(ARROW_DIRECTION);
-        ArrowDirection direction = isReverse ? currentDirection.previous() : currentDirection.next();
-
-        level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
-        level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-        level.playSound(null, pos, SoundRegistry.ARROW_ROTATES.get(), SoundSource.BLOCKS);
-        signBlockEntity.setArrowDirection(direction);
-        return true;
+        return StandingArrowSignBlock.rotateArrowInteraction(level, state, pos, isReverse);
     }
 
     protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                || signBlockEntity.isWaxed())
-            return false;
-        if (!stack.is(TagRegistry.ARROW_ERASERS))
-            return false;
-        if (state.getValue(ARROW_DIRECTION) == ArrowDirection.NONE)
-            return false;
-
-        if (stack.getItem() instanceof BrushItem)
-            level.playSound(null, pos, SoundEvents.BRUSH_GENERIC, SoundSource.BLOCKS);
-        if (stack.getItem() instanceof ShearsItem)
-            level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS);
-
-        if (!level.isClientSide) {
-            level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
-            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-            signBlockEntity.setArrowDirection(ArrowDirection.NONE);
-        }
-        return true;
+        Direction facing = level.getBlockState(pos).getValue(FACING).getOpposite();
+        return StandingArrowSignBlock.removeArrowInteraction(level, state, pos, stack, facing);
     }
 }

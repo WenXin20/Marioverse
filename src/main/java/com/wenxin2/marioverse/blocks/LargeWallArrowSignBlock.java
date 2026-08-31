@@ -7,7 +7,7 @@ import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.blocks.states.SideBlockStates;
-import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.Arrays;
@@ -15,6 +15,7 @@ import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -22,10 +23,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -43,7 +42,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -198,10 +196,13 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
         boolean result = super.wax(level, pos, stack, player);
         if (result && !level.isClientSide) {
             BlockState state = level.getBlockState(pos);
+            Direction facing = state.getValue(FACING).getOpposite();
+
             for (BlockPos posOther : this.siblingPositions(state, pos)) {
                 if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity) {
                     otherEntity.setWaxed(true);
-                    level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, posOther, 0);
+                    level.playSound(null, posOther, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS);
+                    StandingArrowSignBlock.spawnParticles(level, posOther, facing, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
                 }
             }
         }
@@ -216,6 +217,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
                 && level.getBlockEntity(pos) instanceof ArrowSignBlockEntity thisEntity) {
             BlockState state = level.getBlockState(pos);
             Direction facing = state.getValue(FACING).getOpposite();
+
             for (BlockPos posOther : this.siblingPositions(state, pos)) {
                 if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity)
                     otherEntity.setGlowingArrow(thisEntity.hasGlowingArrow());
@@ -223,8 +225,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
                 if (thisEntity.hasGlowingArrow())
                     ServerParticleUtils.spawnParticlesOnBlockFace(ParticleTypes.GLOW, (ServerLevel) level, posOther,
                             facing, UniformInt.of(3, 5), () -> Vec3.ZERO, 0.55);
-                else
-                    ServerParticleUtils.spawnParticlesOnBlockFace(new DustParticleOptions(new Vector3f(0, 0, 0), 0.5F),
+                else ServerParticleUtils.spawnParticlesOnBlockFace(new DustParticleOptions(new Vector3f(0, 0, 0), 0.5F),
                             (ServerLevel) level, posOther, facing, UniformInt.of(8, 12), () -> Vec3.ZERO, 0.55);
             }
         }
@@ -257,59 +258,41 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
 
     @Override
     protected boolean rotateArrow(Level level, BlockState state, BlockPos pos, boolean isReverse) {
-        if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBE)
-                || signBE.isWaxed())
-            return false;
-        if (!state.getValue(BOARD))
-            return false;
-        if (level.isClientSide)
-            return true;
+        boolean result = super.rotateArrow(level, state, pos, isReverse);
 
-        ArrowDirection currentDirection = state.getValue(ARROW_DIRECTION);
-        ArrowDirection direction = isReverse ? currentDirection.previous() : currentDirection.next();
-
-        level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
-        level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-        signBE.setArrowDirection(direction);
-
-        for (BlockPos posOther : this.siblingPositions(state, pos)) {
-            BlockState stateOther = level.getBlockState(posOther);
-            if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
-                otherSignBE.setArrowDirection(direction);
-            if (stateOther.is(this))
-                level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
+        if (result && !level.isClientSide) {
+            ArrowDirection direction = level.getBlockState(pos).getValue(ARROW_DIRECTION);
+            for (BlockPos posOther : this.siblingPositions(state, pos)) {
+                BlockState stateOther = level.getBlockState(posOther);
+                if (stateOther.is(this))
+                    level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
+                if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
+                    otherSignBE.setArrowDirection(direction);
+            }
         }
-
-        level.playSound(null, pos, SoundRegistry.ARROW_ROTATES.get(), SoundSource.BLOCKS);
-        return true;
+        return result;
     }
 
     @Override
     protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        if (!stack.is(TagRegistry.ARROW_ERASERS))
-            return false;
-        if (state.getValue(ARROW_DIRECTION) == ArrowDirection.NONE)
-            return false;
+        boolean result = super.removeArrow(level, state, pos, stack);
 
-        if (stack.getItem() instanceof BrushItem)
-            level.playSound(null, pos, SoundEvents.BRUSH_GENERIC, SoundSource.BLOCKS);
-        if (stack.getItem() instanceof ShearsItem)
-            level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS);
+        if (result && !level.isClientSide) {
+            for (BlockPos posOther : this.siblingPositions(state, pos)) {
+                BlockState stateOther = level.getBlockState(posOther);
 
-        if (!level.isClientSide) {
-            level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
-            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-
-            if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
-                signBlockEntity.setArrowDirection(ArrowDirection.NONE);
-
-            for (BlockPos otherPos : this.siblingPositions(state, pos)) {
-                BlockState otherState = level.getBlockState(otherPos);
-                if (otherState.is(this) && otherState.getValue(ARROW_DIRECTION) != ArrowDirection.NONE)
-                    level.setBlock(otherPos, otherState.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
+                if (stateOther.is(this) && stateOther.getValue(ARROW_DIRECTION) != ArrowDirection.NONE)
+                    level.setBlock(posOther, stateOther.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
+                if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
+                    otherSignBE.setArrowDirection(ArrowDirection.NONE);
+                if (stack.is(CompatRegistry.SOAP.get())) {
+                    level.playSound(null, posOther, CompatRegistry.SOAP_WASH.get(), SoundSource.BLOCKS);
+                    StandingArrowSignBlock.spawnParticles(level, posOther, null,
+                            (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(5, 8));
+                }
             }
         }
-        return true;
+        return result;
     }
 
     @Override
