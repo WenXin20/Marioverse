@@ -275,8 +275,17 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.CHRISTMAS_HAT.get());
 
         tag(ItemTags.HANGING_SIGNS)
+                .add(ItemRegistry.ACACIA_ARROW_SIGN.get())
+                .add(ItemRegistry.BAMBOO_ARROW_SIGN.get())
+                .add(ItemRegistry.BIRCH_ARROW_SIGN.get())
+                .add(ItemRegistry.CHERRY_ARROW_SIGN.get())
+                .add(ItemRegistry.DARK_OAK_ARROW_SIGN.get())
+                .add(ItemRegistry.JUNGLE_ARROW_SIGN.get())
+                .add(ItemRegistry.MANGROVE_ARROW_SIGN.get())
                 .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get())
-                .add(ItemRegistry.MUSHROOT_HANGING_SIGN.get());
+                .add(ItemRegistry.MUSHROOT_HANGING_SIGN.get())
+                .add(ItemRegistry.OAK_ARROW_SIGN.get())
+                .add(ItemRegistry.SPRUCE_ARROW_SIGN.get());
 
         tag(ItemTags.NON_FLAMMABLE_WOOD)
                 .add(BlockRegistry.CRIMSON_PICKET_FENCE.asItem())
@@ -284,7 +293,11 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.asItem())
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.asItem())
                 .add(BlockRegistry.WARPED_PICKET_FENCE.asItem())
-                .add(BlockRegistry.WARPED_STEM_BRIDGE.asItem());
+                .add(BlockRegistry.WARPED_STEM_BRIDGE.asItem())
+                .add(ItemRegistry.CRIMSON_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_CRIMSON_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_WARPED_ARROW_SIGN.get())
+                .add(ItemRegistry.WARPED_ARROW_SIGN.get());
 
         tag(ItemTags.OCELOT_FOOD)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
@@ -305,9 +318,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SUPER_STAR_SPAWN_EGG.get());
 
         tag(ItemTags.SIGNS)
-                .add(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
-                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get())
-                .add(ItemRegistry.MUSHROOT_SIGN.get());
+                .addTag(TagRegistry.WOODEN_ARROW_SIGN_ITEMS)
+                .addTag(TagRegistry.WOODEN_LARGE_ARROW_SIGN_ITEMS);
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS)
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.asItem())
@@ -454,10 +466,28 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .addTag(Tags.Items.ENDER_PEARLS);
 
         tag(TagRegistry.FLAMMABLE_ARROW_SIGN_ITEMS)
-                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get());
+                .add(ItemRegistry.ACACIA_ARROW_SIGN.get())
+                .add(ItemRegistry.BAMBOO_ARROW_SIGN.get())
+                .add(ItemRegistry.BIRCH_ARROW_SIGN.get())
+                .add(ItemRegistry.CHERRY_ARROW_SIGN.get())
+                .add(ItemRegistry.DARK_OAK_ARROW_SIGN.get())
+                .add(ItemRegistry.JUNGLE_ARROW_SIGN.get())
+                .add(ItemRegistry.MANGROVE_ARROW_SIGN.get())
+                .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(ItemRegistry.OAK_ARROW_SIGN.get())
+                .add(ItemRegistry.SPRUCE_ARROW_SIGN.get());
 
         tag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGN_ITEMS)
-                .add(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get());
+                .add(ItemRegistry.LARGE_ACACIA_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_BAMBOO_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_BIRCH_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_CHERRY_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_DARK_OAK_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_JUNGLE_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_MANGROVE_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_OAK_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_SPRUCE_ARROW_SIGN.get());
 
         tag(TagRegistry.HALLOWEEN_MASKS)
                 .addTag(Tags.Items.PUMPKINS_CARVED)
@@ -499,10 +529,14 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(Items.INK_SAC);
 
         tag(TagRegistry.WOODEN_ARROW_SIGN_ITEMS)
-                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGN_ITEMS);
+                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGN_ITEMS)
+                .add(ItemRegistry.CRIMSON_ARROW_SIGN.get())
+                .add(ItemRegistry.WARPED_ARROW_SIGN.get());
 
         tag(TagRegistry.WOODEN_LARGE_ARROW_SIGN_ITEMS)
-                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGN_ITEMS);
+                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGN_ITEMS)
+                .add(ItemRegistry.LARGE_CRIMSON_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_WARPED_ARROW_SIGN.get());
 
         tag(TagRegistry.WRENCHES)
                 .add(ItemRegistry.CREATIVE_WRENCH.get())

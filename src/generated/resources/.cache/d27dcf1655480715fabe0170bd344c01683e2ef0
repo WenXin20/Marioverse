@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-23T15:23:05.8509322	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-08-30T23:49:59.3048175	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -39,8 +39,8 @@ e31783925b31fdd1f8d79491031265d854c17543 data/c/tags/block/sands/red.json
 c53401f50b0f59c35d02f14d9dc888d401ed89dd data/framedblocks/tags/block/blockentity_whitelisted.json
 3eec7e612d82d83d6e4ea342be2749d52e801fa1 data/marioverse/tags/block/ability_blocks.json
 c2972e78c3590d864d7f12bcf2864ba863370b17 data/marioverse/tags/block/arrow_signs.json
-093ac6fea9196463b7dad2856c504039cee822ec data/marioverse/tags/block/arrow_signs/flammable.json
-abe84c578ae0c16c2f3b1efc12786cd205ce7b6c data/marioverse/tags/block/arrow_signs/wooden.json
+cf0d72b2fcd6c7bac22e248bf7e1180c9872f005 data/marioverse/tags/block/arrow_signs/flammable.json
+95482ee241f96a3126721ec1661acbd2d2b24f95 data/marioverse/tags/block/arrow_signs/wooden.json
 ca0305ff998bb91ee30dc4040f60ff99130ad6f9 data/marioverse/tags/block/bonkable_blocks.json
 7eaac583d66dabbfff1a436f536efd77ee40f87b data/marioverse/tags/block/bouncy_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/block/brick_pedestals.json
@@ -89,8 +89,8 @@ af8c6df02f0dfa05a8d77a96c10af86469880813 data/marioverse/tags/block/hard_walls/w
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_cube_extinguishes.json
 63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/block/invisible_question_blocks.json
 10669683856180bd5db365e41401f66ba04d8a02 data/marioverse/tags/block/large_arrow_signs.json
-64ba05a28aebbb11835bf71c67171fcc1f2eae39 data/marioverse/tags/block/large_arrow_signs/flammable.json
-021e4ca6f7e9d8e0cfbe91b1591da57833d30d94 data/marioverse/tags/block/large_arrow_signs/wooden.json
+6e28f805aa033f2f44b0ffddd36e5b88d4f2acd6 data/marioverse/tags/block/large_arrow_signs/flammable.json
+165e41bafa3202e0755615c93f024d2505e1e638 data/marioverse/tags/block/large_arrow_signs/wooden.json
 94a6ea364d801c0b3e4694b8d5355a82344abcdd data/marioverse/tags/block/mega_mushroom_can_break.json
 44fbb1dfa7779572aac31488b47a0d6a2dde5856 data/marioverse/tags/block/mega_mushroom_can_break/adventure_mode.json
 11bcfbe303c6dc312dda58598be28d186e443594 data/marioverse/tags/block/mega_mushroom_can_break/falling.json
@@ -171,7 +171,7 @@ a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficie
 a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
 c1d835760cafacd76917fdf79d03a50fa0969088 data/minecraft/tags/block/walls.json
 4881a523aa09b21de0da1daeb555706b989268a6 data/minecraft/tags/block/wall_hanging_signs.json
-b966c5e96401fb5d1c300a43909f04d595d98438 data/minecraft/tags/block/wall_post_override.json
+448f82f25c2e7dabdd10de5125d3d184f95686e4 data/minecraft/tags/block/wall_post_override.json
 d90cde624d3a35c0d13ed4fea71909d60a64878b data/minecraft/tags/block/wall_signs.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
 a7e1111b0a112941295c13c793d696ce6f478c40 data/minecraft/tags/block/wooden_fences.json

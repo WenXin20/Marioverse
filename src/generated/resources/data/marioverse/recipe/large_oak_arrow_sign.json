@@ -1,6 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "type": "marioverse:arrow_sign_upgrade",
   "group": "marioverse:large_arrow_signs",
   "key": {
     "#": {
@@ -11,8 +10,5 @@
     "##",
     "##"
   ],
-  "result": {
-    "count": 1,
-    "id": "marioverse:large_oak_arrow_sign"
-  }
+  "result": "marioverse:large_oak_arrow_sign"
 }

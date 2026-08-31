@@ -1,8 +1,30 @@
 {
   "values": [
     "#marioverse:question_panels",
+    "marioverse:acacia_arrow_sign",
+    "marioverse:bamboo_arrow_sign",
+    "marioverse:birch_arrow_sign",
+    "marioverse:cherry_arrow_sign",
+    "marioverse:crimson_arrow_sign",
+    "marioverse:dark_oak_arrow_sign",
+    "marioverse:jungle_arrow_sign",
+    "marioverse:large_acacia_arrow_sign",
+    "marioverse:large_bamboo_arrow_sign",
+    "marioverse:large_birch_arrow_sign",
+    "marioverse:large_cherry_arrow_sign",
+    "marioverse:large_crimson_arrow_sign",
+    "marioverse:large_dark_oak_arrow_sign",
+    "marioverse:large_jungle_arrow_sign",
+    "marioverse:large_mangrove_arrow_sign",
     "marioverse:large_mushroot_arrow_sign",
+    "marioverse:large_oak_arrow_sign",
+    "marioverse:large_spruce_arrow_sign",
+    "marioverse:large_warped_arrow_sign",
+    "marioverse:mangrove_arrow_sign",
     "marioverse:mushroot_arrow_sign",
+    "marioverse:oak_arrow_sign",
+    "marioverse:spruce_arrow_sign",
+    "marioverse:warped_arrow_sign",
     "marioverse:spike_panel"
   ]
 }

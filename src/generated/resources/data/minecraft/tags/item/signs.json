@@ -1,7 +1,6 @@
 {
   "values": [
-    "marioverse:large_mushroot_arrow_sign",
-    "marioverse:mushroot_arrow_sign",
-    "marioverse:mushroot_sign"
+    "#marioverse:arrow_signs/wooden",
+    "#marioverse:large_arrow_signs/wooden"
   ]
 }

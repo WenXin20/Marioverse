@@ -1,5 +1,14 @@
 {
   "values": [
-    "marioverse:large_mushroot_arrow_sign"
+    "marioverse:large_acacia_arrow_sign",
+    "marioverse:large_bamboo_arrow_sign",
+    "marioverse:large_birch_arrow_sign",
+    "marioverse:large_cherry_arrow_sign",
+    "marioverse:large_dark_oak_arrow_sign",
+    "marioverse:large_jungle_arrow_sign",
+    "marioverse:large_mangrove_arrow_sign",
+    "marioverse:large_mushroot_arrow_sign",
+    "marioverse:large_oak_arrow_sign",
+    "marioverse:large_spruce_arrow_sign"
   ]
 }

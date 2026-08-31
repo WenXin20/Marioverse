@@ -122,8 +122,8 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
             for (ArrowDirection direction : directions)
                 for (DyeColor color : colors)
                     table[f][direction.ordinal()][color.ordinal()] = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                            "entity/signs/" + SPRITE_FOLDERS[f] + "/pattern/" + direction.getSerializedName() + "_" + color.getSerializedName());
-
+                            "entity/signs/" + SPRITE_FOLDERS[f] + "/pattern/"
+                                    + direction.getSerializedName() + "_" + color.getSerializedName());
         return table;
     }
 }

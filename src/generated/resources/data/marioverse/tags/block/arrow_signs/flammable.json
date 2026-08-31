@@ -1,7 +1,34 @@
 {
   "values": [
+    "marioverse:acacia_arrow_sign",
+    "marioverse:acacia_hanging_arrow_sign",
+    "marioverse:acacia_wall_arrow_sign",
+    "marioverse:bamboo_arrow_sign",
+    "marioverse:bamboo_hanging_arrow_sign",
+    "marioverse:bamboo_wall_arrow_sign",
+    "marioverse:birch_arrow_sign",
+    "marioverse:birch_hanging_arrow_sign",
+    "marioverse:birch_wall_arrow_sign",
+    "marioverse:cherry_arrow_sign",
+    "marioverse:cherry_hanging_arrow_sign",
+    "marioverse:cherry_wall_arrow_sign",
+    "marioverse:dark_oak_arrow_sign",
+    "marioverse:dark_oak_hanging_arrow_sign",
+    "marioverse:dark_oak_wall_arrow_sign",
+    "marioverse:jungle_arrow_sign",
+    "marioverse:jungle_hanging_arrow_sign",
+    "marioverse:jungle_wall_arrow_sign",
+    "marioverse:mangrove_arrow_sign",
+    "marioverse:mangrove_hanging_arrow_sign",
+    "marioverse:mangrove_wall_arrow_sign",
     "marioverse:mushroot_arrow_sign",
     "marioverse:mushroot_hanging_arrow_sign",
-    "marioverse:mushroot_wall_arrow_sign"
+    "marioverse:mushroot_wall_arrow_sign",
+    "marioverse:oak_arrow_sign",
+    "marioverse:oak_hanging_arrow_sign",
+    "marioverse:oak_wall_arrow_sign",
+    "marioverse:spruce_arrow_sign",
+    "marioverse:spruce_hanging_arrow_sign",
+    "marioverse:spruce_wall_arrow_sign"
   ]
 }

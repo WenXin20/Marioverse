@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.datagen;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
@@ -311,9 +312,36 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.FLAMMABLE_ARROW_SIGNS)
+                .add(BlockRegistry.ACACIA_ARROW_SIGN.get())
+                .add(BlockRegistry.ACACIA_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.ACACIA_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.BAMBOO_ARROW_SIGN.get())
+                .add(BlockRegistry.BAMBOO_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.BAMBOO_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.BIRCH_ARROW_SIGN.get())
+                .add(BlockRegistry.BIRCH_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.BIRCH_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.CHERRY_ARROW_SIGN.get())
+                .add(BlockRegistry.CHERRY_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.CHERRY_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.DARK_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.DARK_OAK_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.DARK_OAK_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.JUNGLE_ARROW_SIGN.get())
+                .add(BlockRegistry.JUNGLE_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.JUNGLE_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.MANGROVE_ARROW_SIGN.get())
+                .add(BlockRegistry.MANGROVE_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.MANGROVE_WALL_ARROW_SIGN.get())
                 .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
                 .add(BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get())
-                .add(BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get());
+                .add(BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.OAK_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.OAK_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.SPRUCE_ARROW_SIGN.get())
+                .add(BlockRegistry.SPRUCE_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.SPRUCE_WALL_ARROW_SIGN.get());
 
         tag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .add(BlockRegistry.ACACIA_LOG_BRIDGE.get())
@@ -368,8 +396,26 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
 
         tag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS)
+                .add(BlockRegistry.LARGE_ACACIA_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_ACACIA_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BAMBOO_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BAMBOO_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BIRCH_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BIRCH_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CHERRY_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CHERRY_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_DARK_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_DARK_OAK_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_JUNGLE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_JUNGLE_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MANGROVE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MANGROVE_WALL_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
-                .add(BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get());
+                .add(BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_OAK_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPRUCE_WALL_ARROW_SIGN.get());
 
         tag(TagRegistry.FLAMMABLE_PLATFORMS)
                 .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
@@ -770,7 +816,13 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WOODEN_WINDOW_PANES);
 
         tag(TagRegistry.WOODEN_ARROW_SIGNS)
-                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS);
+                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS)
+                .add(BlockRegistry.CRIMSON_ARROW_SIGN.get())
+                .add(BlockRegistry.CRIMSON_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.CRIMSON_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.WARPED_ARROW_SIGN.get())
+                .add(BlockRegistry.WARPED_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.WARPED_WALL_ARROW_SIGN.get());
 
         tag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
@@ -799,7 +851,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.FLAMMABLE_HARD_WALLS);
 
         tag(TagRegistry.WOODEN_LARGE_ARROW_SIGNS)
-                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS);
+                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS)
+                .add(BlockRegistry.LARGE_CRIMSON_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CRIMSON_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_WARPED_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_WARPED_WALL_ARROW_SIGN.get());
 
         tag(TagRegistry.WOODEN_PICKET_FENCES)
                 .add(BlockRegistry.ACACIA_PICKET_FENCE.get())
@@ -1064,8 +1120,30 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.WALL_POST_OVERRIDE)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .add(BlockRegistry.ACACIA_ARROW_SIGN.get())
+                .add(BlockRegistry.BAMBOO_ARROW_SIGN.get())
+                .add(BlockRegistry.BIRCH_ARROW_SIGN.get())
+                .add(BlockRegistry.CHERRY_ARROW_SIGN.get())
+                .add(BlockRegistry.CRIMSON_ARROW_SIGN.get())
+                .add(BlockRegistry.DARK_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.JUNGLE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_ACACIA_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BAMBOO_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BIRCH_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CHERRY_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CRIMSON_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_DARK_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_JUNGLE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MANGROVE_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_WARPED_ARROW_SIGN.get())
+                .add(BlockRegistry.MANGROVE_ARROW_SIGN.get())
                 .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.SPRUCE_ARROW_SIGN.get())
+                .add(BlockRegistry.WARPED_ARROW_SIGN.get())
                 .add(BlockRegistry.SPIKE_PANEL.get());
 
         tag(BlockTags.WALL_HANGING_SIGNS)

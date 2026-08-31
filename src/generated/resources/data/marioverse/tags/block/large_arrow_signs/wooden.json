@@ -1,5 +1,9 @@
 {
   "values": [
-    "#marioverse:large_arrow_signs/flammable"
+    "#marioverse:large_arrow_signs/flammable",
+    "marioverse:large_crimson_arrow_sign",
+    "marioverse:large_crimson_wall_arrow_sign",
+    "marioverse:large_warped_arrow_sign",
+    "marioverse:large_warped_wall_arrow_sign"
   ]
 }

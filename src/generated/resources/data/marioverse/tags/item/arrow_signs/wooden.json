@@ -1,5 +1,7 @@
 {
   "values": [
-    "#marioverse:arrow_signs/flammable"
+    "#marioverse:arrow_signs/flammable",
+    "marioverse:crimson_arrow_sign",
+    "marioverse:warped_arrow_sign"
   ]
 }
