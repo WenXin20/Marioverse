@@ -26,12 +26,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Shapeless counterpart of ArrowColorShapedRecipe - unordered ingredients, one of which may be a dye-tag
- * color slot. If the input already contains a stack of the result item (e.g. an existing arrow sign),
- * that stack is copied (preserving direction/waxed/etc.) rather than building a fresh one, so this also
- * serves as the "sign + dye recolors the sign" recipe.
- */
 public class ArrowColorShapelessRecipe implements CraftingRecipe {
     private final String group;
     private final CraftingBookCategory category;

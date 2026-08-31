@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.blocks.states.SideBlockStates;
 import com.wenxin2.marioverse.data.ArrowColorShapedRecipe;
 import com.wenxin2.marioverse.data.ArrowColorShapelessRecipe;
+import com.wenxin2.marioverse.data.ArrowSignUpgradeRecipe;
 import com.wenxin2.marioverse.data.DyeColorIngredient;
 import com.wenxin2.marioverse.items.ArrowSignItem;
 import com.wenxin2.marioverse.items.LargeArrowSignItem;
@@ -61,41 +62,6 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class WoodModule extends EveryCompatModule {
-    // EveryCompat's recipe copier (RecipeTemplate.makeSimilarRecipe) only knows how to remap recipe
-    // classes explicitly registered here - without this, compat wood types silently get no recipe at
-    // all for our custom recipe types (the failure is caught and logged, not thrown).
-    static {
-        RecipeTemplate.register(ArrowColorShapedRecipe.class, WoodModule::remapArrowColorShaped);
-        RecipeTemplate.register(ArrowColorShapelessRecipe.class, WoodModule::remapArrowColorShapeless);
-    }
-
-    private static ArrowColorShapedRecipe remapArrowColorShaped(ArrowColorShapedRecipe recipe, BlockType from, BlockType to) {
-        Map<String, Either<DyeColorIngredient, Ingredient>> newKey = new HashMap<>();
-        for (Map.Entry<String, Either<DyeColorIngredient, Ingredient>> entry : recipe.getKey().entrySet())
-            newKey.put(entry.getKey(), remapSlot(entry.getValue(), from, to));
-
-        ItemStack originalResult = recipe.getResultItem(RegistryAccess.EMPTY);
-        Item newResult = BlockType.changeItemType(originalResult.getItem(), from, to);
-        return new ArrowColorShapedRecipe(recipe.getGroup(), recipe.category(), recipe.getPattern(), newKey, newResult, originalResult.getCount());
-    }
-
-    private static ArrowColorShapelessRecipe remapArrowColorShapeless(ArrowColorShapelessRecipe recipe, BlockType from, BlockType to) {
-        List<Either<DyeColorIngredient, Ingredient>> newSlots = new ArrayList<>();
-        for (Either<DyeColorIngredient, Ingredient> slot : recipe.getSlots())
-            newSlots.add(remapSlot(slot, from, to));
-
-        ItemStack originalResult = recipe.getResultItem(RegistryAccess.EMPTY);
-        Item newResult = BlockType.changeItemType(originalResult.getItem(), from, to);
-        return new ArrowColorShapelessRecipe(recipe.getGroup(), recipe.category(), newSlots, newResult, originalResult.getCount());
-    }
-
-    // Dye slots aren't wood-specific and stay untouched; plain slots (planks, chains, the sign item
-    // itself for the recolor recipe) get the same ingredient-swap treatment vanilla shaped/shapeless
-    // compat recipes get.
-    private static Either<DyeColorIngredient, Ingredient> remapSlot(Either<DyeColorIngredient, Ingredient> slot, BlockType from, BlockType to) {
-        return slot.map(Either::left, ingredient -> Either.right(BlockTypeSwapIngredient.create(ingredient, from, to)));
-    }
-
     public final SimpleEntrySet<WoodType, Block> bridge;
     public final SimpleEntrySet<WoodType, Block> bridgeStairs;
     public final SimpleEntrySet<WoodType, Block> picketFence;
@@ -294,5 +260,45 @@ public class WoodModule extends EveryCompatModule {
                 sink.addLootTable(block, table);
             }
         });
+    }
+
+    static {
+        RecipeTemplate.register(ArrowColorShapedRecipe.class, WoodModule::remapArrowColorShaped);
+        RecipeTemplate.register(ArrowColorShapelessRecipe.class, WoodModule::remapArrowColorShapeless);
+        RecipeTemplate.register(ArrowSignUpgradeRecipe.class, WoodModule::remapArrowSignUpgrade);
+    }
+
+    private static ArrowColorShapedRecipe remapArrowColorShaped(ArrowColorShapedRecipe recipe, BlockType from, BlockType to) {
+        Map<String, Either<DyeColorIngredient, Ingredient>> newKey = new HashMap<>();
+        for (Map.Entry<String, Either<DyeColorIngredient, Ingredient>> entry : recipe.getKey().entrySet())
+            newKey.put(entry.getKey(), remapSlot(entry.getValue(), from, to));
+
+        ItemStack originalResult = recipe.getResultItem(RegistryAccess.EMPTY);
+        Item newResult = BlockType.changeItemType(originalResult.getItem(), from, to);
+        return new ArrowColorShapedRecipe(recipe.getGroup(), recipe.category(), recipe.getPattern(), newKey, newResult, originalResult.getCount());
+    }
+
+    private static ArrowColorShapelessRecipe remapArrowColorShapeless(ArrowColorShapelessRecipe recipe, BlockType from, BlockType to) {
+        List<Either<DyeColorIngredient, Ingredient>> newSlots = new ArrayList<>();
+        for (Either<DyeColorIngredient, Ingredient> slot : recipe.getSlots())
+            newSlots.add(remapSlot(slot, from, to));
+
+        ItemStack originalResult = recipe.getResultItem(RegistryAccess.EMPTY);
+        Item newResult = BlockType.changeItemType(originalResult.getItem(), from, to);
+        return new ArrowColorShapelessRecipe(recipe.getGroup(), recipe.category(), newSlots, newResult, originalResult.getCount());
+    }
+
+    private static Either<DyeColorIngredient, Ingredient> remapSlot(Either<DyeColorIngredient, Ingredient> slot, BlockType from, BlockType to) {
+        return slot.map(Either::left, ingredient -> Either.right(BlockTypeSwapIngredient.create(ingredient, from, to)));
+    }
+
+    private static ArrowSignUpgradeRecipe remapArrowSignUpgrade(ArrowSignUpgradeRecipe recipe, BlockType from, BlockType to) {
+        Map<String, Ingredient> newKey = new HashMap<>();
+        for (Map.Entry<String, Ingredient> entry : recipe.getKey().entrySet())
+            newKey.put(entry.getKey(), BlockTypeSwapIngredient.create(entry.getValue(), from, to));
+
+        ItemStack originalResult = recipe.getResultItem(RegistryAccess.EMPTY);
+        Item newResult = BlockType.changeItemType(originalResult.getItem(), from, to);
+        return new ArrowSignUpgradeRecipe(recipe.getGroup(), recipe.category(), recipe.getPattern(), newKey, newResult, originalResult.getCount());
     }
 }

@@ -3,12 +3,14 @@ package com.wenxin2.marioverse.integration;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.ArrowColorShapedRecipe;
 import com.wenxin2.marioverse.data.ArrowColorShapelessRecipe;
+import com.wenxin2.marioverse.data.ArrowSignUpgradeRecipe;
 import com.wenxin2.marioverse.data.HexColorShapedRecipe;
 import com.wenxin2.marioverse.data.HexColorShapelessRecipe;
 import com.wenxin2.marioverse.data.WarpDoorRecipe;
 import com.wenxin2.marioverse.data.WarpTrapDoorRecipe;
 import com.wenxin2.marioverse.integration.jei_compat.ArrowColorShapedRecipeExtension;
 import com.wenxin2.marioverse.integration.jei_compat.ArrowColorShapelessRecipeExtension;
+import com.wenxin2.marioverse.integration.jei_compat.ArrowSignUpgradeRecipeExtension;
 import com.wenxin2.marioverse.integration.jei_compat.HexColorShapedRecipeExtension;
 import com.wenxin2.marioverse.integration.jei_compat.HexColorShapelessRecipeExtension;
 import com.wenxin2.marioverse.integration.jei_compat.WarpDoorCraftingExtension;
@@ -43,5 +45,7 @@ public class JEICompat implements IModPlugin {
                 new ArrowColorShapedRecipeExtension(registration.getJeiHelpers().getGuiHelper()));
         registration.getCraftingCategory().addExtension(ArrowColorShapelessRecipe.class,
                 new ArrowColorShapelessRecipeExtension(registration.getJeiHelpers().getGuiHelper()));
+        registration.getCraftingCategory().addExtension(ArrowSignUpgradeRecipe.class,
+                new ArrowSignUpgradeRecipeExtension(registration.getJeiHelpers().getGuiHelper()));
     }
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.datagen.ArrowColorRecipeBuilder;
 import com.wenxin2.marioverse.datagen.ArrowColorShapelessRecipeBuilder;
+import com.wenxin2.marioverse.datagen.ArrowSignUpgradeRecipeBuilder;
 import com.wenxin2.marioverse.datagen.HexColorRecipeBuilder;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -67,7 +68,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HANGING_SIGN, (outputItem, inputItem) -> hangingSignBuilder(6, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HARD_BLOCK, (outputItem, inputItem) -> hardBlockBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
-                    .put(BlockFamilyExtended.Variant.LARGE_ARROW_SIGN, (outputItem, inputItem) -> twoByTwoBuilder(1, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem), "large_arrow_signs"))
+                    .put(BlockFamilyExtended.Variant.LARGE_ARROW_SIGN, (outputItem, inputItem) -> arrowSignUpgradeBuilder(1, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem), "large_arrow_signs"))
                     .put(BlockFamilyExtended.Variant.LOG_PLATFORM, (outputItem, inputItem) -> logPlatformBuilder(6, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
                     .put(BlockFamilyExtended.Variant.PANELS, (outputItem, inputItem) -> panelsBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PANELS_FROM_BOARDS, (outputItem, inputItem) -> panelsFromBoardsBuilder(5, outputItem, Ingredient.of(inputItem)))
@@ -124,6 +125,16 @@ public class RecipeUtils extends RecipeProvider {
 
     public static RecipeBuilder twoByTwoBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, Ingredient inputItem, String groupName) {
         return ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("##")
+                .pattern("##")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+    }
+
+    // 2x2 assembly, but via ArrowSignUpgradeRecipe so the large sign's assemble() copies dye color/
+    // glow/direction off an input sign instead of building a blank ItemStack like plain ShapedRecipe would.
+    public static RecipeBuilder arrowSignUpgradeBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, Ingredient inputItem, String groupName) {
+        return ArrowSignUpgradeRecipeBuilder.shaped(category, outputItem, outputAmt)
                 .define('#', inputItem)
                 .pattern("##")
                 .pattern("##")
