@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.client.ArrowAtlas;
 import com.wenxin2.marioverse.client.renderers.blocks.ArrowSignBlockEntityRenderer;
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
     private record BoneHideInfo(List<GeoBone> othersToHide, Set<GeoBone> arrowAncestors) {}
     private static final Map<GeoBone, BoneHideInfo> HIDE_INFO_CACHE = new IdentityHashMap<>();
 
+    private static final String[] SPRITE_FOLDERS = {"arrow", "large_arrow"};
+    private static final ResourceLocation[][][] SPRITE_LOCATIONS = buildSpriteLocations();
+
     public ArrowOverlayGeoLayer(GeoRenderer<ArrowSignBlockEntity> renderer) {
         super(renderer);
     }
@@ -54,23 +58,17 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
 
         boolean isLarge = state.getBlock() instanceof LargeStandingArrowSignBlock
                 || state.getBlock() instanceof LargeWallArrowSignBlock;
-        String textureFolder = isLarge ? "large_arrow" : "arrow";
 
         DyeColor dyeColor = animatable.getArrowDyeColor();
-        String colorName = (dyeColor != null ? dyeColor : DyeColor.RED).getSerializedName();
+        DyeColor resolvedColor = dyeColor != null ? dyeColor : DyeColor.RED;
 
-        // Sprite baked in-game by the "arrow" atlas' paletted_permutations source (see ArrowAtlasGen),
-        // recoloring the shared grayscale pattern per dye color - no per-color art.
-        ResourceLocation spriteLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                "entity/signs/" + textureFolder + "/pattern/" + arrowDirection.getSerializedName() + "_" + colorName);
+        ResourceLocation spriteLocation = SPRITE_LOCATIONS[isLarge ? 1 : 0][arrowDirection.ordinal()][resolvedColor.ordinal()];
         TextureAtlasSprite sprite = ArrowAtlas.get().getSprite(spriteLocation);
 
         RenderType arrowRenderType = RenderType.entityCutout(ArrowAtlas.TEXTURE_LOCATION);
         VertexConsumer arrowBuffer = sprite.wrap(bufferSource.getBuffer(arrowRenderType));
         int arrowPackedLight = animatable.hasGlowingArrow() ? LightTexture.FULL_BRIGHT : packedLight;
 
-        // Hide every other bone so reRender only draws "arrow". setHidden(true) also hides children,
-        // so ancestors of "arrow" need setChildrenHidden(false) after to keep it reachable.
         BoneHideInfo hideInfo = HIDE_INFO_CACHE.computeIfAbsent(arrowBone.get(),
                 arrow -> computeHideInfo(bakedModel, arrow));
 
@@ -84,7 +82,6 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
             }
         }
 
-        // ArrowSignBlockModel keeps "arrow" hidden during the normal pass - reveal it just for this call.
         boolean arrowWasHidden = arrowBone.get().isHidden();
         arrowBone.get().setHidden(false);
 
@@ -114,5 +111,19 @@ public class ArrowOverlayGeoLayer extends GeoRenderLayer<ArrowSignBlockEntity> {
             out.add(bone);
             collectBones(bone.getChildBones(), out);
         }
+    }
+
+    private static ResourceLocation[][][] buildSpriteLocations() {
+        ArrowDirection[] directions = ArrowDirection.values();
+        DyeColor[] colors = DyeColor.values();
+        ResourceLocation[][][] table = new ResourceLocation[SPRITE_FOLDERS.length][directions.length][colors.length];
+
+        for (int f = 0; f < SPRITE_FOLDERS.length; f++)
+            for (ArrowDirection direction : directions)
+                for (DyeColor color : colors)
+                    table[f][direction.ordinal()][color.ordinal()] = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                            "entity/signs/" + SPRITE_FOLDERS[f] + "/pattern/" + direction.getSerializedName() + "_" + color.getSerializedName());
+
+        return table;
     }
 }
