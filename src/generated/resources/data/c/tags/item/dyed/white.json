@@ -1,6 +1,5 @@
 {
   "values": [
-    "minecraft:calcite",
     "marioverse:white_calcite_bricks",
     "marioverse:white_calcite_brick_pedestal",
     "marioverse:white_checkpoint_flag",
@@ -11,6 +10,7 @@
     "marioverse:polished_white_calcite",
     "marioverse:storage_white_calcite_bricks",
     "marioverse:white_warp_pipe",
+    "minecraft:calcite",
     {
       "id": "caverns_and_chasms:calcite_bricks",
       "required": false

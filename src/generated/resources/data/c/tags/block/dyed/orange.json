@@ -1,6 +1,5 @@
 {
   "values": [
-    "marioverse:orange_calcite",
     "marioverse:orange_calcite_bricks",
     "marioverse:orange_calcite_brick_pedestal",
     "marioverse:orange_checkpoint_flag",
@@ -10,6 +9,7 @@
     "marioverse:orange_pipe_junction",
     "marioverse:polished_orange_calcite",
     "marioverse:storage_orange_calcite_bricks",
-    "marioverse:orange_warp_pipe"
+    "marioverse:orange_warp_pipe",
+    "marioverse:orange_calcite"
   ]
 }

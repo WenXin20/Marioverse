@@ -1,5 +1,16 @@
 {
   "values": [
-    "marioverse:hard_mushroot_stairs"
+    "marioverse:hard_mushroot_stairs",
+    "marioverse:hard_oak_stairs",
+    "marioverse:hard_spruce_stairs",
+    "marioverse:hard_birch_stairs",
+    "marioverse:hard_jungle_stairs",
+    "marioverse:hard_acacia_stairs",
+    "marioverse:hard_dark_oak_stairs",
+    "marioverse:hard_mangrove_stairs",
+    "marioverse:hard_cherry_stairs",
+    "marioverse:hard_bamboo_stairs",
+    "marioverse:hard_crimson_stairs",
+    "marioverse:hard_warped_stairs"
   ]
 }

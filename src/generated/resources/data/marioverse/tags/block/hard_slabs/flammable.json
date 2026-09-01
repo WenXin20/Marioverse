@@ -1,5 +1,16 @@
 {
   "values": [
-    "marioverse:hard_mushroot_slab"
+    "marioverse:hard_mushroot_slab",
+    "marioverse:hard_oak_slab",
+    "marioverse:hard_spruce_slab",
+    "marioverse:hard_birch_slab",
+    "marioverse:hard_jungle_slab",
+    "marioverse:hard_acacia_slab",
+    "marioverse:hard_dark_oak_slab",
+    "marioverse:hard_mangrove_slab",
+    "marioverse:hard_cherry_slab",
+    "marioverse:hard_bamboo_slab",
+    "marioverse:hard_crimson_slab",
+    "marioverse:hard_warped_slab"
   ]
 }

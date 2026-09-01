@@ -51,6 +51,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -63,6 +66,10 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class WoodModule extends EveryCompatModule {
+    public final SimpleEntrySet<WoodType, Block> hardBlock;
+    public final SimpleEntrySet<WoodType, Block> hardStairs;
+    public final SimpleEntrySet<WoodType, Block> hardSlab;
+    public final SimpleEntrySet<WoodType, Block> hardWall;
     public final SimpleEntrySet<WoodType, Block> bridge;
     public final SimpleEntrySet<WoodType, Block> bridgeStairs;
     public final SimpleEntrySet<WoodType, Block> picketFence;
@@ -78,6 +85,64 @@ public class WoodModule extends EveryCompatModule {
         super(modId, "mv");
         DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_BLOCKS_TAB;
         DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB;
+
+        hardBlock = SimpleEntrySet.builder(WoodType.class, "block", "hard",
+                        BlockRegistry.HARD_OAK_BLOCK, () -> VanillaWoodTypes.OAK,
+                        woodType -> new Block(Utils.copyPropertySafe(woodType.planks).strength(4.0F, 8.0F)))
+                .addTexture(modRes("block/hard_oak_block"), PaletteStrategies.PLANKS_STANDARD)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .addTag(TagRegistry.FLAMMABLE_HARD_BLOCKS, Registries.BLOCK)
+                .addTag(TagRegistry.WOODEN_HARD_BLOCKS, Registries.BLOCK)
+                .requiresChildren("planks")
+                .setTab(buildingBlocksTab)
+                .copyParentDrop()
+                .defaultRecipe()
+                .build();
+        this.addEntry(hardBlock);
+
+        hardStairs = SimpleEntrySet.builder(WoodType.class, "stairs", "hard",
+                        BlockRegistry.HARD_OAK_STAIRS, () -> VanillaWoodTypes.OAK,
+                        woodType -> new StairBlock(this.hardBlock.blocks.get(woodType).defaultBlockState(),
+                                Utils.copyPropertySafe(this.hardBlock.blocks.get(woodType))))
+                .addTexture(modRes("block/hard_oak_block"), PaletteStrategies.PLANKS_STANDARD)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .addTag(BlockTags.WOODEN_STAIRS, Registries.BLOCK)
+                .addTag(TagRegistry.FLAMMABLE_HARD_STAIRS, Registries.BLOCK)
+                .addTag(TagRegistry.WOODEN_HARD_STAIRS, Registries.BLOCK)
+                .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
+                .setTab(buildingBlocksTab)
+                .copyParentDrop()
+                .defaultRecipe()
+                .build();
+        this.addEntry(hardStairs);
+
+        hardSlab = SimpleEntrySet.builder(WoodType.class, "slab", "hard",
+                        BlockRegistry.HARD_OAK_SLAB, () -> VanillaWoodTypes.OAK,
+                        woodType -> new SlabBlock(Utils.copyPropertySafe(this.hardBlock.blocks.get(woodType))))
+                .addTexture(modRes("block/hard_oak_slab"), PaletteStrategies.PLANKS_STANDARD)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .addTag(BlockTags.WOODEN_SLABS, Registries.BLOCK)
+                .addTag(TagRegistry.FLAMMABLE_HARD_SLABS, Registries.BLOCK)
+                .addTag(TagRegistry.WOODEN_HARD_SLABS, Registries.BLOCK)
+                .addTag(ItemTags.WOODEN_SLABS, Registries.ITEM)
+                .setTab(buildingBlocksTab)
+                .copyParentDrop()
+                .defaultRecipe()
+                .build();
+        this.addEntry(hardSlab);
+
+        hardWall = SimpleEntrySet.builder(WoodType.class, "wall", "hard",
+                        BlockRegistry.HARD_OAK_WALL, () -> VanillaWoodTypes.OAK,
+                        woodType -> new WallBlock(Utils.copyPropertySafe(this.hardBlock.blocks.get(woodType)).forceSolidOn()))
+                .addTexture(modRes("block/hard_oak_block"), PaletteStrategies.PLANKS_STANDARD)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .addTag(TagRegistry.FLAMMABLE_HARD_WALLS, Registries.BLOCK)
+                .addTag(TagRegistry.WOODEN_HARD_WALLS, Registries.BLOCK)
+                .setTab(buildingBlocksTab)
+                .copyParentDrop()
+                .defaultRecipe()
+                .build();
+        this.addEntry(hardWall);
 
         bridge = SimpleEntrySet.builder(WoodType.class, "log_bridge",
                         BlockRegistry.OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,

@@ -393,16 +393,60 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS.get());
 
         tag(TagRegistry.FLAMMABLE_HARD_BLOCKS)
-                .add(BlockRegistry.HARD_MUSHROOT_BLOCK.get());
+                .add(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
+                .add(BlockRegistry.HARD_OAK_BLOCK.get())
+                .add(BlockRegistry.HARD_SPRUCE_BLOCK.get())
+                .add(BlockRegistry.HARD_BIRCH_BLOCK.get())
+                .add(BlockRegistry.HARD_JUNGLE_BLOCK.get())
+                .add(BlockRegistry.HARD_ACACIA_BLOCK.get())
+                .add(BlockRegistry.HARD_DARK_OAK_BLOCK.get())
+                .add(BlockRegistry.HARD_MANGROVE_BLOCK.get())
+                .add(BlockRegistry.HARD_CHERRY_BLOCK.get())
+                .add(BlockRegistry.HARD_BAMBOO_BLOCK.get())
+                .add(BlockRegistry.HARD_CRIMSON_BLOCK.get())
+                .add(BlockRegistry.HARD_WARPED_BLOCK.get());
 
         tag(TagRegistry.FLAMMABLE_HARD_SLABS)
-                .add(BlockRegistry.HARD_MUSHROOT_SLAB.get());
+                .add(BlockRegistry.HARD_MUSHROOT_SLAB.get())
+                .add(BlockRegistry.HARD_OAK_SLAB.get())
+                .add(BlockRegistry.HARD_SPRUCE_SLAB.get())
+                .add(BlockRegistry.HARD_BIRCH_SLAB.get())
+                .add(BlockRegistry.HARD_JUNGLE_SLAB.get())
+                .add(BlockRegistry.HARD_ACACIA_SLAB.get())
+                .add(BlockRegistry.HARD_DARK_OAK_SLAB.get())
+                .add(BlockRegistry.HARD_MANGROVE_SLAB.get())
+                .add(BlockRegistry.HARD_CHERRY_SLAB.get())
+                .add(BlockRegistry.HARD_BAMBOO_SLAB.get())
+                .add(BlockRegistry.HARD_CRIMSON_SLAB.get())
+                .add(BlockRegistry.HARD_WARPED_SLAB.get());
 
         tag(TagRegistry.FLAMMABLE_HARD_STAIRS)
-                .add(BlockRegistry.HARD_MUSHROOT_STAIRS.get());
+                .add(BlockRegistry.HARD_MUSHROOT_STAIRS.get())
+                .add(BlockRegistry.HARD_OAK_STAIRS.get())
+                .add(BlockRegistry.HARD_SPRUCE_STAIRS.get())
+                .add(BlockRegistry.HARD_BIRCH_STAIRS.get())
+                .add(BlockRegistry.HARD_JUNGLE_STAIRS.get())
+                .add(BlockRegistry.HARD_ACACIA_STAIRS.get())
+                .add(BlockRegistry.HARD_DARK_OAK_STAIRS.get())
+                .add(BlockRegistry.HARD_MANGROVE_STAIRS.get())
+                .add(BlockRegistry.HARD_CHERRY_STAIRS.get())
+                .add(BlockRegistry.HARD_BAMBOO_STAIRS.get())
+                .add(BlockRegistry.HARD_CRIMSON_STAIRS.get())
+                .add(BlockRegistry.HARD_WARPED_STAIRS.get());
 
         tag(TagRegistry.FLAMMABLE_HARD_WALLS)
-                .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
+                .add(BlockRegistry.HARD_MUSHROOT_WALL.get())
+                .add(BlockRegistry.HARD_OAK_WALL.get())
+                .add(BlockRegistry.HARD_SPRUCE_WALL.get())
+                .add(BlockRegistry.HARD_BIRCH_WALL.get())
+                .add(BlockRegistry.HARD_JUNGLE_WALL.get())
+                .add(BlockRegistry.HARD_ACACIA_WALL.get())
+                .add(BlockRegistry.HARD_DARK_OAK_WALL.get())
+                .add(BlockRegistry.HARD_MANGROVE_WALL.get())
+                .add(BlockRegistry.HARD_CHERRY_WALL.get())
+                .add(BlockRegistry.HARD_BAMBOO_WALL.get())
+                .add(BlockRegistry.HARD_CRIMSON_WALL.get())
+                .add(BlockRegistry.HARD_WARPED_WALL.get());
 
         tag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS)
                 .add(BlockRegistry.LARGE_ACACIA_ARROW_SIGN.get())
@@ -433,7 +477,18 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.FLAMMABLE_WALLS)
                 .add(BlockRegistry.MUSHROOT_BOARD_WALL.get())
                 .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
-                .add(BlockRegistry.HARD_MUSHROOT_WALL.get());
+                .add(BlockRegistry.HARD_MUSHROOT_WALL.get())
+                .add(BlockRegistry.HARD_OAK_WALL.get())
+                .add(BlockRegistry.HARD_SPRUCE_WALL.get())
+                .add(BlockRegistry.HARD_BIRCH_WALL.get())
+                .add(BlockRegistry.HARD_JUNGLE_WALL.get())
+                .add(BlockRegistry.HARD_ACACIA_WALL.get())
+                .add(BlockRegistry.HARD_DARK_OAK_WALL.get())
+                .add(BlockRegistry.HARD_MANGROVE_WALL.get())
+                .add(BlockRegistry.HARD_CHERRY_WALL.get())
+                .add(BlockRegistry.HARD_BAMBOO_WALL.get())
+                .add(BlockRegistry.HARD_CRIMSON_WALL.get())
+                .add(BlockRegistry.HARD_WARPED_WALL.get());
 
         tag(TagRegistry.FLAMMABLE_WINDOWS)
                 .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get());

@@ -845,7 +845,18 @@ public class BlockStateGen extends BlockStateProvider {
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(slab)
-                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(slab)) {
+                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_OAK_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_SPRUCE_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_BIRCH_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_JUNGLE_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_ACACIA_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_DARK_OAK_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_MANGROVE_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_CHERRY_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_BAMBOO_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_CRIMSON_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_WARPED_BLOCK.get(slab)) {
                     texture = modLoc("block/" + blockName);
                     topTexture = modLoc("block/" + removeSlabName + "_block");
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
@@ -962,7 +973,18 @@ public class BlockStateGen extends BlockStateProvider {
                     this.itemModels().stairs(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(stairs)
-                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(stairs)) {
+                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_OAK_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_SPRUCE_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_BIRCH_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_JUNGLE_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_ACACIA_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_DARK_OAK_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_MANGROVE_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_CHERRY_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_BAMBOO_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_CRIMSON_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_WARPED_BLOCK.get(stairs)) {
                     texture = modLoc("block/" + removeStairName + "_block");
                     this.stairsBlock(stairBlock, removeStairName, texture);
                     this.itemModels().stairs(blockName, texture, texture, texture);
@@ -1111,7 +1133,18 @@ public class BlockStateGen extends BlockStateProvider {
                     this.wallMirroredNSModel(wallBlock, texture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(wall)
-                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(wall)) {
+                        || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_OAK_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_SPRUCE_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_BIRCH_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_JUNGLE_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_ACACIA_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_DARK_OAK_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_MANGROVE_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_CHERRY_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_BAMBOO_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_CRIMSON_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_WARPED_BLOCK.get(wall)) {
                     texture = modLoc("block/" + removeWallName + "_block");
                     this.wallBlock(wallBlock, removeWallName, texture);
                     this.itemModels().wallInventory(blockName, texture);

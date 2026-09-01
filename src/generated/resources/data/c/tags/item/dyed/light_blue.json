@@ -1,6 +1,5 @@
 {
   "values": [
-    "marioverse:light_blue_calcite",
     "marioverse:light_blue_calcite_bricks",
     "marioverse:light_blue_calcite_brick_pedestal",
     "marioverse:light_blue_checkpoint_flag",
@@ -10,6 +9,7 @@
     "marioverse:light_blue_pipe_junction",
     "marioverse:polished_light_blue_calcite",
     "marioverse:storage_light_blue_calcite_bricks",
-    "marioverse:light_blue_warp_pipe"
+    "marioverse:light_blue_warp_pipe",
+    "marioverse:light_blue_calcite"
   ]
 }

@@ -1,6 +1,5 @@
 {
   "values": [
-    "marioverse:magenta_calcite",
     "marioverse:magenta_calcite_bricks",
     "marioverse:magenta_calcite_brick_pedestal",
     "marioverse:magenta_checkpoint_flag",
@@ -10,6 +9,7 @@
     "marioverse:magenta_pipe_junction",
     "marioverse:polished_magenta_calcite",
     "marioverse:storage_magenta_calcite_bricks",
-    "marioverse:magenta_warp_pipe"
+    "marioverse:magenta_warp_pipe",
+    "marioverse:magenta_calcite"
   ]
 }

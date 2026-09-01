@@ -254,6 +254,30 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
+    public static final DeferredBlock<Block> HARD_ACACIA_BLOCK;
+    public static final DeferredBlock<Block> HARD_ACACIA_SLAB;
+    public static final DeferredBlock<Block> HARD_ACACIA_STAIRS;
+    public static final DeferredBlock<Block> HARD_ACACIA_WALL;
+    public static final DeferredBlock<Block> HARD_BAMBOO_BLOCK;
+    public static final DeferredBlock<Block> HARD_BAMBOO_SLAB;
+    public static final DeferredBlock<Block> HARD_BAMBOO_STAIRS;
+    public static final DeferredBlock<Block> HARD_BAMBOO_WALL;
+    public static final DeferredBlock<Block> HARD_BIRCH_BLOCK;
+    public static final DeferredBlock<Block> HARD_BIRCH_SLAB;
+    public static final DeferredBlock<Block> HARD_BIRCH_STAIRS;
+    public static final DeferredBlock<Block> HARD_BIRCH_WALL;
+    public static final DeferredBlock<Block> HARD_CHERRY_BLOCK;
+    public static final DeferredBlock<Block> HARD_CHERRY_SLAB;
+    public static final DeferredBlock<Block> HARD_CHERRY_STAIRS;
+    public static final DeferredBlock<Block> HARD_CHERRY_WALL;
+    public static final DeferredBlock<Block> HARD_CRIMSON_BLOCK;
+    public static final DeferredBlock<Block> HARD_CRIMSON_SLAB;
+    public static final DeferredBlock<Block> HARD_CRIMSON_STAIRS;
+    public static final DeferredBlock<Block> HARD_CRIMSON_WALL;
+    public static final DeferredBlock<Block> HARD_DARK_OAK_BLOCK;
+    public static final DeferredBlock<Block> HARD_DARK_OAK_SLAB;
+    public static final DeferredBlock<Block> HARD_DARK_OAK_STAIRS;
+    public static final DeferredBlock<Block> HARD_DARK_OAK_WALL;
     public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_BLOCK;
     public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_SLAB;
     public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_STAIRS;
@@ -262,10 +286,30 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> HARD_FUNGAL_SLAB;
     public static final DeferredBlock<Block> HARD_FUNGAL_STAIRS;
     public static final DeferredBlock<Block> HARD_FUNGAL_WALL;
+    public static final DeferredBlock<Block> HARD_JUNGLE_BLOCK;
+    public static final DeferredBlock<Block> HARD_JUNGLE_SLAB;
+    public static final DeferredBlock<Block> HARD_JUNGLE_STAIRS;
+    public static final DeferredBlock<Block> HARD_JUNGLE_WALL;
+    public static final DeferredBlock<Block> HARD_MANGROVE_BLOCK;
+    public static final DeferredBlock<Block> HARD_MANGROVE_SLAB;
+    public static final DeferredBlock<Block> HARD_MANGROVE_STAIRS;
+    public static final DeferredBlock<Block> HARD_MANGROVE_WALL;
     public static final DeferredBlock<Block> HARD_MUSHROOT_BLOCK;
     public static final DeferredBlock<Block> HARD_MUSHROOT_SLAB;
     public static final DeferredBlock<Block> HARD_MUSHROOT_STAIRS;
     public static final DeferredBlock<Block> HARD_MUSHROOT_WALL;
+    public static final DeferredBlock<Block> HARD_OAK_BLOCK;
+    public static final DeferredBlock<Block> HARD_OAK_SLAB;
+    public static final DeferredBlock<Block> HARD_OAK_STAIRS;
+    public static final DeferredBlock<Block> HARD_OAK_WALL;
+    public static final DeferredBlock<Block> HARD_SPRUCE_BLOCK;
+    public static final DeferredBlock<Block> HARD_SPRUCE_SLAB;
+    public static final DeferredBlock<Block> HARD_SPRUCE_STAIRS;
+    public static final DeferredBlock<Block> HARD_SPRUCE_WALL;
+    public static final DeferredBlock<Block> HARD_WARPED_BLOCK;
+    public static final DeferredBlock<Block> HARD_WARPED_SLAB;
+    public static final DeferredBlock<Block> HARD_WARPED_STAIRS;
+    public static final DeferredBlock<Block> HARD_WARPED_WALL;
     public static final DeferredBlock<Block> HORN_CORAL_TOWER;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
@@ -907,6 +951,72 @@ public class BlockRegistry {
                 () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.MUSHROOT_SAPLING,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
+
+        HARD_OAK_BLOCK = registerBlock("hard_oak_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(4.0F, 8.0F)));
+        HARD_OAK_STAIRS = registerBlock("hard_oak_stairs", () -> stair(HARD_OAK_BLOCK.get()));
+        HARD_OAK_SLAB = registerBlock("hard_oak_slab", () -> slab(HARD_OAK_BLOCK.get()));
+        HARD_OAK_WALL = registerBlock("hard_oak_wall", () -> wall(HARD_OAK_BLOCK.get()));
+
+        HARD_SPRUCE_BLOCK = registerBlock("hard_spruce_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS).strength(4.0F, 8.0F)));
+        HARD_SPRUCE_STAIRS = registerBlock("hard_spruce_stairs", () -> stair(HARD_SPRUCE_BLOCK.get()));
+        HARD_SPRUCE_SLAB = registerBlock("hard_spruce_slab", () -> slab(HARD_SPRUCE_BLOCK.get()));
+        HARD_SPRUCE_WALL = registerBlock("hard_spruce_wall", () -> wall(HARD_SPRUCE_BLOCK.get()));
+
+        HARD_BIRCH_BLOCK = registerBlock("hard_birch_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_PLANKS).strength(4.0F, 8.0F)));
+        HARD_BIRCH_STAIRS = registerBlock("hard_birch_stairs", () -> stair(HARD_BIRCH_BLOCK.get()));
+        HARD_BIRCH_SLAB = registerBlock("hard_birch_slab", () -> slab(HARD_BIRCH_BLOCK.get()));
+        HARD_BIRCH_WALL = registerBlock("hard_birch_wall", () -> wall(HARD_BIRCH_BLOCK.get()));
+
+        HARD_JUNGLE_BLOCK = registerBlock("hard_jungle_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_PLANKS).strength(4.0F, 8.0F)));
+        HARD_JUNGLE_STAIRS = registerBlock("hard_jungle_stairs", () -> stair(HARD_JUNGLE_BLOCK.get()));
+        HARD_JUNGLE_SLAB = registerBlock("hard_jungle_slab", () -> slab(HARD_JUNGLE_BLOCK.get()));
+        HARD_JUNGLE_WALL = registerBlock("hard_jungle_wall", () -> wall(HARD_JUNGLE_BLOCK.get()));
+
+        HARD_ACACIA_BLOCK = registerBlock("hard_acacia_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_PLANKS).strength(4.0F, 8.0F)));
+        HARD_ACACIA_STAIRS = registerBlock("hard_acacia_stairs", () -> stair(HARD_ACACIA_BLOCK.get()));
+        HARD_ACACIA_SLAB = registerBlock("hard_acacia_slab", () -> slab(HARD_ACACIA_BLOCK.get()));
+        HARD_ACACIA_WALL = registerBlock("hard_acacia_wall", () -> wall(HARD_ACACIA_BLOCK.get()));
+
+        HARD_DARK_OAK_BLOCK = registerBlock("hard_dark_oak_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_PLANKS).strength(4.0F, 8.0F)));
+        HARD_DARK_OAK_STAIRS = registerBlock("hard_dark_oak_stairs", () -> stair(HARD_DARK_OAK_BLOCK.get()));
+        HARD_DARK_OAK_SLAB = registerBlock("hard_dark_oak_slab", () -> slab(HARD_DARK_OAK_BLOCK.get()));
+        HARD_DARK_OAK_WALL = registerBlock("hard_dark_oak_wall", () -> wall(HARD_DARK_OAK_BLOCK.get()));
+
+        HARD_MANGROVE_BLOCK = registerBlock("hard_mangrove_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_PLANKS).strength(4.0F, 8.0F)));
+        HARD_MANGROVE_STAIRS = registerBlock("hard_mangrove_stairs", () -> stair(HARD_MANGROVE_BLOCK.get()));
+        HARD_MANGROVE_SLAB = registerBlock("hard_mangrove_slab", () -> slab(HARD_MANGROVE_BLOCK.get()));
+        HARD_MANGROVE_WALL = registerBlock("hard_mangrove_wall", () -> wall(HARD_MANGROVE_BLOCK.get()));
+
+        HARD_CHERRY_BLOCK = registerBlock("hard_cherry_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS).strength(4.0F, 8.0F)));
+        HARD_CHERRY_STAIRS = registerBlock("hard_cherry_stairs", () -> stair(HARD_CHERRY_BLOCK.get()));
+        HARD_CHERRY_SLAB = registerBlock("hard_cherry_slab", () -> slab(HARD_CHERRY_BLOCK.get()));
+        HARD_CHERRY_WALL = registerBlock("hard_cherry_wall", () -> wall(HARD_CHERRY_BLOCK.get()));
+
+        HARD_BAMBOO_BLOCK = registerBlock("hard_bamboo_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS).strength(4.0F, 8.0F)));
+        HARD_BAMBOO_STAIRS = registerBlock("hard_bamboo_stairs", () -> stair(HARD_BAMBOO_BLOCK.get()));
+        HARD_BAMBOO_SLAB = registerBlock("hard_bamboo_slab", () -> slab(HARD_BAMBOO_BLOCK.get()));
+        HARD_BAMBOO_WALL = registerBlock("hard_bamboo_wall", () -> wall(HARD_BAMBOO_BLOCK.get()));
+
+        HARD_CRIMSON_BLOCK = registerBlock("hard_crimson_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_PLANKS).strength(4.0F, 8.0F)));
+        HARD_CRIMSON_STAIRS = registerBlock("hard_crimson_stairs", () -> stair(HARD_CRIMSON_BLOCK.get()));
+        HARD_CRIMSON_SLAB = registerBlock("hard_crimson_slab", () -> slab(HARD_CRIMSON_BLOCK.get()));
+        HARD_CRIMSON_WALL = registerBlock("hard_crimson_wall", () -> wall(HARD_CRIMSON_BLOCK.get()));
+
+        HARD_WARPED_BLOCK = registerBlock("hard_warped_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_PLANKS).strength(4.0F, 8.0F)));
+        HARD_WARPED_STAIRS = registerBlock("hard_warped_stairs", () -> stair(HARD_WARPED_BLOCK.get()));
+        HARD_WARPED_SLAB = registerBlock("hard_warped_slab", () -> slab(HARD_WARPED_BLOCK.get()));
+        HARD_WARPED_WALL = registerBlock("hard_warped_wall", () -> wall(HARD_WARPED_BLOCK.get()));
 
         OAK_PICKET_FENCE = registerBlock("oak_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));

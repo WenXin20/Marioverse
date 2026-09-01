@@ -1,6 +1,5 @@
 {
   "values": [
-    "marioverse:green_calcite",
     "marioverse:green_calcite_bricks",
     "marioverse:green_calcite_brick_pedestal",
     "marioverse:green_checkpoint_flag",
@@ -10,6 +9,7 @@
     "marioverse:green_pipe_junction",
     "marioverse:polished_green_calcite",
     "marioverse:storage_green_calcite_bricks",
-    "marioverse:green_warp_pipe"
+    "marioverse:green_warp_pipe",
+    "marioverse:green_calcite"
   ]
 }

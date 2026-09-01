@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "marioverse:block/hard_bamboo_block",
+    "side": "marioverse:block/hard_bamboo_block",
+    "top": "marioverse:block/hard_bamboo_block"
+  }
+}

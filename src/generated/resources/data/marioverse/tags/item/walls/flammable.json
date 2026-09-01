@@ -2,6 +2,17 @@
   "values": [
     "marioverse:mushroot_board_wall",
     "marioverse:mushroot_panel_wall",
-    "marioverse:hard_mushroot_wall"
+    "marioverse:hard_mushroot_wall",
+    "marioverse:hard_oak_wall",
+    "marioverse:hard_spruce_wall",
+    "marioverse:hard_birch_wall",
+    "marioverse:hard_jungle_wall",
+    "marioverse:hard_acacia_wall",
+    "marioverse:hard_dark_oak_wall",
+    "marioverse:hard_mangrove_wall",
+    "marioverse:hard_cherry_wall",
+    "marioverse:hard_bamboo_wall",
+    "marioverse:hard_crimson_wall",
+    "marioverse:hard_warped_wall"
   ]
 }

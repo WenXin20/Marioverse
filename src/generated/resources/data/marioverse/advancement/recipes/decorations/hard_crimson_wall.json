@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hard_crimson_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:hard_crimson_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:hard_crimson_wall"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_hard_crimson_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:hard_crimson_wall"
+    ]
+  }
+}
