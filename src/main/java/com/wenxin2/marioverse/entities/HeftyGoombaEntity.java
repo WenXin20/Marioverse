@@ -101,7 +101,9 @@ public class HeftyGoombaEntity extends GoombaEntity implements GeoEntity {
                 Component component = this.getCustomName();
                 boolean flag = this.isNoAi();
                 float width = this.getDimensions(this.getPose()).width() / 2.0F;
-                int amtSpawned = ConfigRegistry.GOOMBA_SPLIT_COUNT.get() + this.random.nextInt(ConfigRegistry.GOOMBA_SPLIT_RANDOM_COUNT.get());
+                int splitCount = ConfigRegistry.GOOMBA_SPLIT_RANDOM_COUNT.get();
+                int amtSpawned = ConfigRegistry.GOOMBA_SPLIT_COUNT.get()
+                        + (splitCount == 0 ? 0 : this.random.nextInt(splitCount));
                 var spawnedGoombas = new ArrayList<Mob>();
 
                 for (int i = 0; i <= amtSpawned; i++) {

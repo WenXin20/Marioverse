@@ -1,5 +1,6 @@
 ## Update 1.11.2
-- Fix piranha plants spawning everywhere
+- Fixed crash with Hefty & Mega Goombas when split count is 0
+- Fixed piranha plants spawning everywhere
 
 ## Update 1.11.1
 **Now requires Curios instead of Accessories**
