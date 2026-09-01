@@ -1,6 +1,16 @@
 {
   "values": [
     "minecraft:calcite",
+    "marioverse:white_calcite_bricks",
+    "marioverse:white_calcite_brick_pedestal",
+    "marioverse:white_checkpoint_flag",
+    "marioverse:chiseled_white_calcite_bricks",
+    "marioverse:cracked_white_calcite_bricks",
+    "marioverse:white_goal_pole",
+    "marioverse:white_pipe_junction",
+    "marioverse:polished_white_calcite",
+    "marioverse:storage_white_calcite_bricks",
+    "marioverse:white_warp_pipe",
     {
       "id": "caverns_and_chasms:calcite_bricks",
       "required": false
@@ -16,16 +26,6 @@
     {
       "id": "create:polished_cut_calcite",
       "required": false
-    },
-    "marioverse:white_calcite_bricks",
-    "marioverse:white_calcite_brick_pedestal",
-    "marioverse:white_checkpoint_flag",
-    "marioverse:chiseled_white_calcite_bricks",
-    "marioverse:cracked_white_calcite_bricks",
-    "marioverse:white_goal_pole",
-    "marioverse:white_pipe_junction",
-    "marioverse:polished_white_calcite",
-    "marioverse:storage_white_calcite_bricks",
-    "marioverse:white_warp_pipe"
+    }
   ]
 }

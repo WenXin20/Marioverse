@@ -56,12 +56,6 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
         for (DyeColor color : DyeColor.values()) {
-            if (color == DyeColor.WHITE)
-                tag(TagRegistry.blockTags("c", "dyed/" + color))
-                        .add(Blocks.CALCITE);
-            else tag(TagRegistry.blockTags("c", "dyed/" + color))
-                    .add(BlockRegistry.CALCITE.get(color).get());
-
             tag(TagRegistry.blockTags("c", "dyed/" + color))
                     .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(color).get())
@@ -76,10 +70,13 @@ public class BlockTagsGen extends BlockTagsProvider {
 
             if (color == DyeColor.WHITE)
                 tag(TagRegistry.blockTags("c", "dyed/" + color))
+                        .add(Blocks.CALCITE)
                         .addOptional(CC_CALCITE_BRICKS)
                         .addOptional(CC_POLISHED_CALCITE)
                         .addOptional(CREATE_CALCITE_BRICKS)
                         .addOptional(CREATE_POLISHED_CALCITE);
+            else tag(TagRegistry.blockTags("c", "dyed/" + color))
+                    .add(BlockRegistry.CALCITE.get(color).get());
         }
 
         tag(CompatRegistry.CREATE_BRITTLE)
