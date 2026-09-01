@@ -1,5 +1,6 @@
 ## Update 1.11.2
 - Fixed crash with Hefty & Mega Goombas when split count is 0
+- Fixed crash with Caverns & Chasms also adding calcite to the creative tab
 - Fixed piranha plants spawning everywhere
 
 ## Update 1.11.1
