@@ -496,11 +496,18 @@ public class RegistryEventHandlers {
                     3, 30, 0.25F));
         }
     }
+    
+    /** (ItemCost cost, ItemCost secondCost, ItemStack result, int maxUses, int xp, float priceMultiplier) **/
 
     @SubscribeEvent
     public static void addWandererTrades(WandererTradesEvent event) {
         List<VillagerTrades.ItemListing> genericTrades = event.getGenericTrades();
         List<VillagerTrades.ItemListing> rareTrades = event.getRareTrades();
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 3),
+                new ItemStack(BlockRegistry.MUSHROOT_SAPLING, 5),
+                16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),

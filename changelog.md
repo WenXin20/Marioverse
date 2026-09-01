@@ -24,6 +24,7 @@
   - Large Arrow Signs
 - Added Arrow Signs for all wood types, with Every Compat support
 - Added tooltips to bridges
+- Wandering trader trades Mushroot Saplings
 - Fixed flammability of Log Stairs
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
