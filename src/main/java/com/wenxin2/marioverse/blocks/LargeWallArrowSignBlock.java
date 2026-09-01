@@ -33,7 +33,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -275,8 +274,8 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
     }
 
     @Override
-    protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        boolean result = super.removeArrow(level, state, pos, stack);
+    protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity) {
+        boolean result = super.removeArrow(level, state, pos, stack, entity);
 
         if (result && !level.isClientSide) {
             for (BlockPos posOther : this.siblingPositions(state, pos)) {
@@ -288,7 +287,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
                 if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
                     otherSignBE.setArrowDirection(ArrowDirection.NONE);
                 if (stack.is(CompatRegistry.SOAP.get())) {
-                    level.playSound(null, posOther, CompatRegistry.SOAP_WASH.get(), SoundSource.BLOCKS);
+                    level.playSound(null, posOther, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS);
                     StandingArrowSignBlock.spawnParticles(level, posOther, facing,
                             (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(5, 8));
                 }

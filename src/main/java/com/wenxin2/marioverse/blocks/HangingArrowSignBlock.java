@@ -14,6 +14,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -105,7 +106,7 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
             return ItemInteractionResult.SUCCESS;
         if (this.dye(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
-        if (this.removeArrow(level, state, pos, stack))
+        if (this.removeArrow(level, state, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
 
         if (stack.is(TagRegistry.WRENCHES)) {
@@ -150,7 +151,7 @@ public class HangingArrowSignBlock extends CeilingHangingSignBlock {
         return StandingArrowSignBlock.rotateArrowInteraction(level, state, pos, isReverse);
     }
 
-    private boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        return StandingArrowSignBlock.removeArrowInteraction(level, state, pos, stack, null);
+    private boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity) {
+        return StandingArrowSignBlock.removeArrowInteraction(level, state, pos, stack, entity, null);
     }
 }

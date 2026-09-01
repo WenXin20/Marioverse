@@ -27,6 +27,8 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.DyeItem;
@@ -155,9 +157,9 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             return ItemInteractionResult.SUCCESS;
         if (this.dye(level, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
-        if (this.removeArrow(level, state, pos, stack))
+        if (this.removeArrow(level, state, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
-        if (this.toggleBoard(level, state, pos, stack))
+        if (this.toggleBoard(level, state, pos, stack, player))
             return ItemInteractionResult.SUCCESS;
 
         if (stack.is(TagRegistry.WRENCHES))
@@ -198,11 +200,11 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         return rotateArrowInteraction(level, state, pos, isReverse);
     }
 
-    protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack) {
-        return removeArrowInteraction(level, state, pos, stack, null);
+    protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity) {
+        return removeArrowInteraction(level, state, pos, stack, entity, null);
     }
 
-    protected boolean toggleBoard(Level level, BlockState state, BlockPos pos, ItemStack stack) {
+    protected boolean toggleBoard(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -213,6 +215,10 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             level.setBlock(pos, nextToggleBoardState(state), Block.UPDATE_CLIENTS);
             level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS);
             level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
+
+            if (stack.isDamageableItem())
+                stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
+            else stack.consume(1, entity);
         }
         return true;
     }
@@ -316,7 +322,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         return true;
     }
 
-    static boolean removeArrowInteraction(Level level, BlockState state, BlockPos pos, ItemStack stack, @Nullable Direction particleFace) {
+    static boolean removeArrowInteraction(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity, @Nullable Direction particleFace) {
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -327,12 +333,16 @@ public class StandingArrowSignBlock extends StandingSignBlock {
 
         if (stack.getItem() instanceof BrushItem)
             level.playSound(null, pos, SoundEvents.BRUSH_GENERIC, SoundSource.BLOCKS);
-        if (stack.getItem() instanceof ShearsItem)
+        else if (stack.getItem() instanceof ShearsItem)
             level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS);
-        if (stack.is(CompatRegistry.SOAP.get())) {
-            level.playSound(null, pos, CompatRegistry.SOAP_WASH.get(), SoundSource.BLOCKS);
+        else if (stack.is(CompatRegistry.SOAP.get())) {
+            level.playSound(null, pos, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS);
             spawnParticles(level, pos, particleFace, (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(5, 8));
-        }
+        } else level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS);
+
+        if (stack.isDamageableItem())
+            stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
+        else stack.consume(1, entity);
 
         if (!level.isClientSide) {
             level.setBlock(pos, state.setValue(ARROW_DIRECTION, ArrowDirection.NONE), Block.UPDATE_CLIENTS);
