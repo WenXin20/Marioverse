@@ -218,7 +218,6 @@ public class StandingArrowSignBlock extends StandingSignBlock {
 
             if (stack.isDamageableItem())
                 stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
-            else stack.consume(1, entity);
         }
         return true;
     }

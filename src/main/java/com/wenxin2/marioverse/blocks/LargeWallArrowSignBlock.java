@@ -289,7 +289,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
                 if (stack.is(CompatRegistry.SOAP.get())) {
                     level.playSound(null, posOther, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS);
                     StandingArrowSignBlock.spawnParticles(level, posOther, facing,
-                            (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(5, 8));
+                            (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(8, 12));
                 }
             }
         }
