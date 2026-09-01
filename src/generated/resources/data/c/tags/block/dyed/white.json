@@ -10,6 +10,22 @@
     "marioverse:white_pipe_junction",
     "marioverse:polished_white_calcite",
     "marioverse:storage_white_calcite_bricks",
-    "marioverse:white_warp_pipe"
+    "marioverse:white_warp_pipe",
+    {
+      "id": "caverns_and_chasms:calcite_bricks",
+      "required": false
+    },
+    {
+      "id": "caverns_and_chasms:polished_calcite",
+      "required": false
+    },
+    {
+      "id": "create:cut_calcite_bricks",
+      "required": false
+    },
+    {
+      "id": "create:polished_cut_calcite",
+      "required": false
+    }
   ]
 }

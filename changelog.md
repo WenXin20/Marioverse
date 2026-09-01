@@ -29,7 +29,10 @@
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.11.2
-- Fix piranha plants spawning everywhere
+- Added Caverns & Chasms calcite to Marioverse calcite tags to craft calcite blocks
+- Fixed crash with Caverns & Chasms also adding calcite to the creative tab
+- Fixed crash with Hefty & Mega Goombas when split count is 0
+- Fixed piranha plants spawning everywhere
 
 ## Update 1.11.1
 **Now requires Curios instead of Accessories**

@@ -75,6 +75,7 @@ dependencies {
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7963363"
+    compileOnly "curse.maven:caverns-and-chasms-438005:8155745" // Requires Blueprint
     implementation "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
     compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
     compileOnly "curse.maven:framedblocks-441647:7584453"
@@ -104,6 +105,7 @@ dependencies {
     // Libraries
     implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib
     implementation "curse.maven:architectury-api-${architectury_api_version}"
+    compileOnly "curse.maven:blueprint-382216:8397829"
     implementation "curse.maven:cloth-config-${cloth_config_version}"
     compileOnly "curse.maven:embeddium-${embeddium_version}" // Incompatible w/ Sodium
     implementation "curse.maven:kotlin-for-forge-351264:7471280"

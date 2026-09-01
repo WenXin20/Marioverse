@@ -17,6 +17,10 @@
     "marioverse:red_calcite_bricks",
     "marioverse:black_calcite_bricks",
     {
+      "id": "caverns_and_chasms:calcite_bricks",
+      "required": false
+    },
+    {
       "id": "create:cut_calcite_bricks",
       "required": false
     }

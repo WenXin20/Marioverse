@@ -28,6 +28,8 @@ public class BlockTagsGen extends BlockTagsProvider {
     private static final ResourceLocation BB_PURPLE_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "purple_bigshroom_block");
     private static final ResourceLocation BB_RED_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "red_bigshroom_block");
     private static final ResourceLocation BB_YELLOW_BIGSHROOM = ResourceLocation.fromNamespaceAndPath("superbb", "yellow_bigshroom_block");
+    private static final ResourceLocation CC_CALCITE_BRICKS = ResourceLocation.fromNamespaceAndPath("caverns_and_chasms", "calcite_bricks");
+    private static final ResourceLocation CC_POLISHED_CALCITE = ResourceLocation.fromNamespaceAndPath("caverns_and_chasms", "polished_calcite");
     private static final ResourceLocation CHIPPED_BROWN_MUSHROOMS = ResourceLocation.fromNamespaceAndPath("chipped", "brown_mushroom_block");
     private static final ResourceLocation CHIPPED_RED_MUSHROOMS = ResourceLocation.fromNamespaceAndPath("chipped", "red_mushroom_block");
     private static final ResourceLocation CREATE_CALCITE_BRICKS = ResourceLocation.fromNamespaceAndPath("create", "cut_calcite_bricks");
@@ -55,11 +57,6 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
         for (DyeColor color : DyeColor.values()) {
-            if (color == DyeColor.WHITE)
-                tag(TagRegistry.blockTags("c", "dyed/" + color)).add(Blocks.CALCITE);
-            else tag(TagRegistry.blockTags("c", "dyed/" + color))
-                    .add(BlockRegistry.CALCITE.get(color).get());
-
             tag(TagRegistry.blockTags("c", "dyed/" + color))
                     .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(color).get())
@@ -71,6 +68,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.POLISHED_CALCITE.get(color).get())
                     .add(BlockRegistry.STORAGE_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
+
+            if (color == DyeColor.WHITE)
+                tag(TagRegistry.blockTags("c", "dyed/" + color))
+                        .add(Blocks.CALCITE)
+                        .addOptional(CC_CALCITE_BRICKS)
+                        .addOptional(CC_POLISHED_CALCITE)
+                        .addOptional(CREATE_CALCITE_BRICKS)
+                        .addOptional(CREATE_POLISHED_CALCITE);
+            else tag(TagRegistry.blockTags("c", "dyed/" + color))
+                    .add(BlockRegistry.CALCITE.get(color).get());
         }
 
         tag(CompatRegistry.CREATE_BRITTLE)
@@ -240,6 +247,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(Blocks.CALCITE);
 
         tag(TagRegistry.CALCITE_BRICK_BLOCKS)
+                .addOptional(CC_CALCITE_BRICKS)
                 .addOptional(CREATE_CALCITE_BRICKS);
 
         tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS);
@@ -253,6 +261,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS);
 
         tag(TagRegistry.POLISHED_CALCITE_BLOCKS)
+                .addOptional(CC_POLISHED_CALCITE)
                 .addOptional(CREATE_POLISHED_CALCITE);
 
         tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS);
