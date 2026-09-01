@@ -1,7 +1,10 @@
 ## Update 1.11.2
-- Fixed crash with Hefty & Mega Goombas when split count is 0
+- Added Caverns & Chasms calcite to Marioverse calcite tags to craft calcite blocks
 - Fixed crash with Caverns & Chasms also adding calcite to the creative tab
+- Fixed crash with Hefty & Mega Goombas when split count is 0
 - Fixed piranha plants spawning everywhere
+
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.11.1
 **Now requires Curios instead of Accessories**
@@ -18,8 +21,6 @@
   - All variants have spawn eggs
   - Added the "Chomper" name tag variant
 - Added spawn eggs for warm & cold Cheep Cheep variants
-
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.11.0
 - Added power up spawn eggs 

@@ -1,6 +1,22 @@
 {
   "values": [
     "minecraft:calcite",
+    {
+      "id": "caverns_and_chasms:calcite_bricks",
+      "required": false
+    },
+    {
+      "id": "caverns_and_chasms:polished_calcite",
+      "required": false
+    },
+    {
+      "id": "create:cut_calcite_bricks",
+      "required": false
+    },
+    {
+      "id": "create:polished_cut_calcite",
+      "required": false
+    },
     "marioverse:white_calcite_bricks",
     "marioverse:white_calcite_brick_pedestal",
     "marioverse:white_checkpoint_flag",

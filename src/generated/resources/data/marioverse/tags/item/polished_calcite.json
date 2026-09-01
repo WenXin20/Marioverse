@@ -17,6 +17,10 @@
     "marioverse:polished_red_calcite",
     "marioverse:polished_black_calcite",
     {
+      "id": "caverns_and_chasms:polished_calcite",
+      "required": false
+    },
+    {
       "id": "create:polished_cut_calcite",
       "required": false
     }
