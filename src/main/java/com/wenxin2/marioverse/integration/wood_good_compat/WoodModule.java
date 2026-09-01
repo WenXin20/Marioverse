@@ -51,6 +51,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -162,7 +163,10 @@ public class WoodModule extends EveryCompatModule {
 
         wallArrowSign = SimpleEntrySet.builder(WoodType.class, "wall_arrow_sign",
                         BlockRegistry.OAK_WALL_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
-                        woodType -> new WallArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
+                        woodType -> new WallArrowSignBlock(woodType.toVanillaOrOak(),
+                                Utils.copyPropertySafe(woodType.planks)
+                                        .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                        .forceSolidOn().noCollission()))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
                 .addModelTransform(transform -> transform.replaceItemType("oak"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
@@ -176,7 +180,10 @@ public class WoodModule extends EveryCompatModule {
 
         hangingArrowSign = SimpleEntrySet.builder(WoodType.class, "hanging_arrow_sign",
                         BlockRegistry.OAK_HANGING_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
-                        woodType -> new HangingArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
+                        woodType -> new HangingArrowSignBlock(woodType.toVanillaOrOak(),
+                                Utils.copyPropertySafe(woodType.planks)
+                                        .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                        .forceSolidOn().noCollission()))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
                 .addModelTransform(transform -> transform.replaceItemType("oak"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
@@ -190,7 +197,10 @@ public class WoodModule extends EveryCompatModule {
 
         arrowSign = SimpleEntrySet.builder(WoodType.class, "arrow_sign",
                         BlockRegistry.OAK_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
-                        woodType -> new StandingArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
+                        woodType -> new StandingArrowSignBlock(woodType.toVanillaOrOak(),
+                                Utils.copyPropertySafe(woodType.planks)
+                                        .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                        .forceSolidOn().noCollission()))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
                 .addTextureM(modRes("entity/signs/arrow/oak_arrow_sign"), EveryCompat.res("block/mv/oak_arrow_sign_mask"),
                         PaletteStrategies.SIGN_LIKE)
@@ -213,7 +223,10 @@ public class WoodModule extends EveryCompatModule {
 
         largeWallArrowSign = SimpleEntrySet.builder(WoodType.class, "wall_arrow_sign", "large",
                         BlockRegistry.LARGE_OAK_WALL_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
-                        woodType -> new LargeWallArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
+                        woodType -> new LargeWallArrowSignBlock(woodType.toVanillaOrOak(),
+                                Utils.copyPropertySafe(woodType.planks)
+                                        .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                        .forceSolidOn()))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
                 .addModelTransform(transform -> transform.replaceItemType("oak"))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
@@ -227,7 +240,10 @@ public class WoodModule extends EveryCompatModule {
 
         largeArrowSign = SimpleEntrySet.builder(WoodType.class, "arrow_sign", "large",
                         BlockRegistry.LARGE_OAK_ARROW_SIGN, () -> VanillaWoodTypes.OAK,
-                        woodType -> new LargeStandingArrowSignBlock(woodType.toVanillaOrOak(), Utils.copyPropertySafe(woodType.planks)))
+                        woodType -> new LargeStandingArrowSignBlock(woodType.toVanillaOrOak(),
+                                Utils.copyPropertySafe(woodType.planks)
+                                        .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                        .forceSolidOn()))
                 .addTile(BlockEntityRegistry.ARROW_SIGN)
                 .addCustomItem((woodType, block, properties) -> new LargeArrowSignItem(properties.stacksTo(16),
                         block, this.largeWallArrowSign.blocks.get(woodType)))
