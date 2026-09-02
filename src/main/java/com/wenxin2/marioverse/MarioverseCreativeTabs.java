@@ -794,6 +794,16 @@ public class MarioverseCreativeTabs {
         if (event.getTabKey() == MARIOVERSE_FUNCTIONAL_BLOCKS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
             add(event, BlockRegistry.IRON_SPIKE);
             add(event, BlockRegistry.SPIKE_PANEL);
+
+            add(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
+            addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);
+            add(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE), Component.literal("Wonder Flag"));
+            add(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE), Component.literal("America Flag"));
+            add(event, BlockRegistry.CLASSIC_GOAL_POLE);
+            addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
+            add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("Wonder Flag"));
+            add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("America Flag"));
+
             add(event, ItemRegistry.MUSHROOT_SIGN);
             add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
             add(event, ItemRegistry.MUSHROOT_ARROW_SIGN);
@@ -820,15 +830,6 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LARGE_CRIMSON_ARROW_SIGN);
             add(event, ItemRegistry.WARPED_ARROW_SIGN);
             add(event, ItemRegistry.LARGE_WARPED_ARROW_SIGN);
-
-            add(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
-            addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);
-            add(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE), Component.literal("Wonder Flag"));
-            add(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE), Component.literal("America Flag"));
-            add(event, BlockRegistry.CLASSIC_GOAL_POLE);
-            addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
-            add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("Wonder Flag"));
-            add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("America Flag"));
 
             add(event, BlockRegistry.GLOW_BLOCK);
             add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
