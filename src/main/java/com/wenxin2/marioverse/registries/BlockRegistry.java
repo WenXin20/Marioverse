@@ -2409,8 +2409,14 @@ public class BlockRegistry {
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_bridge"), MUSHROOT_LOG_PLATFORM.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_bridge"), MUSHROOT_LOG_PLATFORM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushdirt"), SHROOMSOIL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushdirt"), SHROOMSOIL.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_cube"), HARD_MUSHROOT_BLOCK.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
@@ -2457,6 +2463,10 @@ public class BlockRegistry {
                 .parse("superbb:mushroot_stairs"), MUSHROOT_BOARD_STAIRS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_stairs"), MUSHROOT_BOARD_STAIRS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:shroomgrass_block"), SHROOMGRASS_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:shroomgrass_block"), SHROOMGRASS_BLOCK.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:stripped_mushroot_log"), STRIPPED_MUSHROOT_LOG.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
