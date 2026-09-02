@@ -1218,54 +1218,99 @@ public class MarioverseCreativeTabs {
 
             if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
                 addAfter(event, Blocks.OAK_FENCE_GATE, BlockRegistry.OAK_PICKET_FENCE);
+                addAfter(event, BlockRegistry.OAK_PICKET_FENCE, BlockRegistry.HARD_OAK_BLOCK);
+                addAfter(event, BlockRegistry.HARD_OAK_BLOCK, BlockRegistry.HARD_OAK_STAIRS);
+                addAfter(event, BlockRegistry.HARD_OAK_STAIRS, BlockRegistry.HARD_OAK_SLAB);
+                addAfter(event, BlockRegistry.HARD_OAK_SLAB, BlockRegistry.HARD_OAK_WALL);
+
                 addAfter(event, Blocks.OAK_BUTTON, BlockRegistry.OAK_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.OAK_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS, BlockRegistry.OAK_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.OAK_LOG_BRIDGE, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
 
                 addAfter(event, Blocks.SPRUCE_FENCE_GATE, BlockRegistry.SPRUCE_PICKET_FENCE);
+                addAfter(event, BlockRegistry.SPRUCE_PICKET_FENCE, BlockRegistry.HARD_SPRUCE_BLOCK);
+                addAfter(event, BlockRegistry.HARD_SPRUCE_BLOCK, BlockRegistry.HARD_SPRUCE_STAIRS);
+                addAfter(event, BlockRegistry.HARD_SPRUCE_STAIRS, BlockRegistry.HARD_SPRUCE_SLAB);
+                addAfter(event, BlockRegistry.HARD_SPRUCE_SLAB, BlockRegistry.HARD_SPRUCE_WALL);
+
                 addAfter(event, Blocks.SPRUCE_BUTTON, BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.SPRUCE_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS, BlockRegistry.SPRUCE_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.SPRUCE_LOG_BRIDGE, BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE);
 
                 addAfter(event, Blocks.BIRCH_FENCE_GATE, BlockRegistry.BIRCH_PICKET_FENCE);
+                addAfter(event, BlockRegistry.BIRCH_PICKET_FENCE, BlockRegistry.HARD_BIRCH_BLOCK);
+                addAfter(event, BlockRegistry.HARD_BIRCH_BLOCK, BlockRegistry.HARD_BIRCH_STAIRS);
+                addAfter(event, BlockRegistry.HARD_BIRCH_STAIRS, BlockRegistry.HARD_BIRCH_SLAB);
+                addAfter(event, BlockRegistry.HARD_BIRCH_SLAB, BlockRegistry.HARD_BIRCH_WALL);
+
                 addAfter(event, Blocks.BIRCH_BUTTON, BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE_STAIRS, BlockRegistry.BIRCH_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.BIRCH_LOG_BRIDGE, BlockRegistry.STRIPPED_BIRCH_LOG_BRIDGE);
 
                 addAfter(event, Blocks.JUNGLE_FENCE_GATE, BlockRegistry.JUNGLE_PICKET_FENCE);
+                addAfter(event, BlockRegistry.JUNGLE_PICKET_FENCE, BlockRegistry.HARD_JUNGLE_BLOCK);
+                addAfter(event, BlockRegistry.HARD_JUNGLE_BLOCK, BlockRegistry.HARD_JUNGLE_STAIRS);
+                addAfter(event, BlockRegistry.HARD_JUNGLE_STAIRS, BlockRegistry.HARD_JUNGLE_SLAB);
+                addAfter(event, BlockRegistry.HARD_JUNGLE_SLAB, BlockRegistry.HARD_JUNGLE_WALL);
+
                 addAfter(event, Blocks.JUNGLE_BUTTON, BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.JUNGLE_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS, BlockRegistry.JUNGLE_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.JUNGLE_LOG_BRIDGE, BlockRegistry.STRIPPED_JUNGLE_LOG_BRIDGE);
 
                 addAfter(event, Blocks.ACACIA_FENCE_GATE, BlockRegistry.ACACIA_PICKET_FENCE);
+                addAfter(event, BlockRegistry.ACACIA_PICKET_FENCE, BlockRegistry.HARD_ACACIA_BLOCK);
+                addAfter(event, BlockRegistry.HARD_ACACIA_BLOCK, BlockRegistry.HARD_ACACIA_STAIRS);
+                addAfter(event, BlockRegistry.HARD_ACACIA_STAIRS, BlockRegistry.HARD_ACACIA_SLAB);
+                addAfter(event, BlockRegistry.HARD_ACACIA_SLAB, BlockRegistry.HARD_ACACIA_WALL);
+
                 addAfter(event, Blocks.ACACIA_BUTTON, BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE_STAIRS, BlockRegistry.ACACIA_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.ACACIA_LOG_BRIDGE, BlockRegistry.STRIPPED_ACACIA_LOG_BRIDGE);
 
                 addAfter(event, Blocks.DARK_OAK_FENCE_GATE, BlockRegistry.DARK_OAK_PICKET_FENCE);
+                addAfter(event, BlockRegistry.DARK_OAK_PICKET_FENCE, BlockRegistry.HARD_DARK_OAK_BLOCK);
+                addAfter(event, BlockRegistry.HARD_DARK_OAK_BLOCK, BlockRegistry.HARD_DARK_OAK_STAIRS);
+                addAfter(event, BlockRegistry.HARD_DARK_OAK_STAIRS, BlockRegistry.HARD_DARK_OAK_SLAB);
+                addAfter(event, BlockRegistry.HARD_DARK_OAK_SLAB, BlockRegistry.HARD_DARK_OAK_WALL);
+
                 addAfter(event, Blocks.DARK_OAK_BUTTON, BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS, BlockRegistry.DARK_OAK_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.DARK_OAK_LOG_BRIDGE, BlockRegistry.STRIPPED_DARK_OAK_LOG_BRIDGE);
 
                 addAfter(event, Blocks.MANGROVE_FENCE_GATE, BlockRegistry.MANGROVE_PICKET_FENCE);
+                addAfter(event, BlockRegistry.MANGROVE_PICKET_FENCE, BlockRegistry.HARD_MANGROVE_BLOCK);
+                addAfter(event, BlockRegistry.HARD_MANGROVE_BLOCK, BlockRegistry.HARD_MANGROVE_STAIRS);
+                addAfter(event, BlockRegistry.HARD_MANGROVE_STAIRS, BlockRegistry.HARD_MANGROVE_SLAB);
+                addAfter(event, BlockRegistry.HARD_MANGROVE_SLAB, BlockRegistry.HARD_MANGROVE_WALL);
+
                 addAfter(event, Blocks.MANGROVE_BUTTON, BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.MANGROVE_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS, BlockRegistry.MANGROVE_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.MANGROVE_LOG_BRIDGE, BlockRegistry.STRIPPED_MANGROVE_LOG_BRIDGE);
 
                 addAfter(event, Blocks.CHERRY_FENCE_GATE, BlockRegistry.CHERRY_PICKET_FENCE);
+                addAfter(event, BlockRegistry.CHERRY_PICKET_FENCE, BlockRegistry.HARD_CHERRY_BLOCK);
+                addAfter(event, BlockRegistry.HARD_CHERRY_BLOCK, BlockRegistry.HARD_CHERRY_STAIRS);
+                addAfter(event, BlockRegistry.HARD_CHERRY_STAIRS, BlockRegistry.HARD_CHERRY_SLAB);
+                addAfter(event, BlockRegistry.HARD_CHERRY_SLAB, BlockRegistry.HARD_CHERRY_WALL);
+
                 addAfter(event, Blocks.CHERRY_BUTTON, BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.CHERRY_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE_STAIRS, BlockRegistry.CHERRY_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.CHERRY_LOG_BRIDGE, BlockRegistry.STRIPPED_CHERRY_LOG_BRIDGE);
 
                 addAfter(event, Blocks.BAMBOO_FENCE_GATE, BlockRegistry.BAMBOO_PICKET_FENCE);
+                addAfter(event, BlockRegistry.BAMBOO_PICKET_FENCE, BlockRegistry.HARD_BAMBOO_BLOCK);
+                addAfter(event, BlockRegistry.HARD_BAMBOO_BLOCK, BlockRegistry.HARD_BAMBOO_STAIRS);
+                addAfter(event, BlockRegistry.HARD_BAMBOO_STAIRS, BlockRegistry.HARD_BAMBOO_SLAB);
+                addAfter(event, BlockRegistry.HARD_BAMBOO_SLAB, BlockRegistry.HARD_BAMBOO_WALL);
+
                 addAfter(event, Blocks.BAMBOO_BUTTON, BlockRegistry.BAMBOO_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.BAMBOO_BRIDGE_STAIRS, BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS, BlockRegistry.BAMBOO_BRIDGE);
@@ -1289,7 +1334,11 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MUSHROOT_PANELS, BlockRegistry.MUSHROOT_PANEL_STAIRS);
                 addAfter(event, BlockRegistry.MUSHROOT_PANEL_STAIRS, BlockRegistry.MUSHROOT_PANEL_SLAB);
                 addAfter(event, BlockRegistry.MUSHROOT_PANEL_SLAB, BlockRegistry.MUSHROOT_PANEL_WALL);
-                addAfter(event, BlockRegistry.MUSHROOT_PANEL_WALL, BlockRegistry.MUSHROOT_FRAMED_WINDOW);
+                addAfter(event, BlockRegistry.MUSHROOT_PANEL_WALL, BlockRegistry.HARD_MUSHROOT_BLOCK);
+                addAfter(event, BlockRegistry.HARD_MUSHROOT_BLOCK, BlockRegistry.HARD_MUSHROOT_STAIRS);
+                addAfter(event, BlockRegistry.HARD_MUSHROOT_STAIRS, BlockRegistry.HARD_MUSHROOT_SLAB);
+                addAfter(event, BlockRegistry.HARD_MUSHROOT_SLAB, BlockRegistry.HARD_MUSHROOT_WALL);
+                addAfter(event, BlockRegistry.HARD_MUSHROOT_WALL, BlockRegistry.MUSHROOT_FRAMED_WINDOW);
                 addAfter(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW, BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE);
                 addAfter(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE, BlockRegistry.MUSHROOT_DOOR);
                 addAfter(event, BlockRegistry.MUSHROOT_DOOR, BlockRegistry.MUSHROOT_TRAPDOOR);
@@ -1302,17 +1351,27 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS, BlockRegistry.MUSHROOT_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.MUSHROOT_LOG_BRIDGE, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE);
 
-                addAfter(event, Blocks.CRIMSON_SLAB, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
+                addAfter(event, Blocks.CRIMSON_FENCE_GATE, BlockRegistry.CRIMSON_PICKET_FENCE);
+                addAfter(event, BlockRegistry.CRIMSON_PICKET_FENCE, BlockRegistry.HARD_CRIMSON_BLOCK);
+                addAfter(event, BlockRegistry.HARD_CRIMSON_BLOCK, BlockRegistry.HARD_CRIMSON_STAIRS);
+                addAfter(event, BlockRegistry.HARD_CRIMSON_STAIRS, BlockRegistry.HARD_CRIMSON_SLAB);
+                addAfter(event, BlockRegistry.HARD_CRIMSON_SLAB, BlockRegistry.HARD_CRIMSON_WALL);
+
+                addAfter(event, Blocks.CRIMSON_BUTTON, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS, BlockRegistry.CRIMSON_STEM_BRIDGE);
                 addAfter(event, BlockRegistry.CRIMSON_STEM_BRIDGE, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE);
-                addAfter(event, Blocks.CRIMSON_FENCE_GATE, BlockRegistry.CRIMSON_PICKET_FENCE);
 
-                addAfter(event, Blocks.WARPED_SLAB, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS);
+                addAfter(event, Blocks.WARPED_FENCE_GATE, BlockRegistry.WARPED_PICKET_FENCE);
+                addAfter(event, BlockRegistry.WARPED_PICKET_FENCE, BlockRegistry.HARD_WARPED_BLOCK);
+                addAfter(event, BlockRegistry.HARD_WARPED_BLOCK, BlockRegistry.HARD_WARPED_STAIRS);
+                addAfter(event, BlockRegistry.HARD_WARPED_STAIRS, BlockRegistry.HARD_WARPED_SLAB);
+                addAfter(event, BlockRegistry.HARD_WARPED_SLAB, BlockRegistry.HARD_WARPED_WALL);
+
+                addAfter(event, Blocks.WARPED_BUTTON, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS, BlockRegistry.WARPED_STEM_BRIDGE);
                 addAfter(event, BlockRegistry.WARPED_STEM_BRIDGE, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE);
-                addAfter(event, Blocks.WARPED_FENCE_GATE, BlockRegistry.WARPED_PICKET_FENCE);
 
                 addAfter(event, Blocks.CHAIN, BlockRegistry.IRON_SPIKE);
                 addAfter(event, BlockRegistry.IRON_SPIKE, BlockRegistry.SPIKE_PANEL);
