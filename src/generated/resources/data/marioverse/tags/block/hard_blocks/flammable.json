@@ -1,16 +1,14 @@
 {
   "values": [
+    "marioverse:hard_acacia_block",
+    "marioverse:hard_bamboo_block",
+    "marioverse:hard_birch_block",
+    "marioverse:hard_cherry_block",
+    "marioverse:hard_dark_oak_block",
+    "marioverse:hard_jungle_block",
+    "marioverse:hard_mangrove_block",
     "marioverse:hard_mushroot_block",
     "marioverse:hard_oak_block",
-    "marioverse:hard_spruce_block",
-    "marioverse:hard_birch_block",
-    "marioverse:hard_jungle_block",
-    "marioverse:hard_acacia_block",
-    "marioverse:hard_dark_oak_block",
-    "marioverse:hard_mangrove_block",
-    "marioverse:hard_cherry_block",
-    "marioverse:hard_bamboo_block",
-    "marioverse:hard_crimson_block",
-    "marioverse:hard_warped_block"
+    "marioverse:hard_spruce_block"
   ]
 }

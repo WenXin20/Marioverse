@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-01T02:09:49.176581	Loot Tables
+// 1.21.1	2026-09-01T19:40:56.9348414	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -299,7 +299,7 @@ e85322289cd06a2a829ad463b744e4448449ad14 data/marioverse/loot_table/blocks/large
 451a8d92070dc0ef641efd6e5f67720268a79cd5 data/marioverse/loot_table/blocks/large_dark_oak_arrow_sign.json
 ab12ee8581220c5be01d624a4607806b4f8c96af data/marioverse/loot_table/blocks/large_jungle_arrow_sign.json
 fcb5cd421a68c3aebbab12f02d67ee3add5eed2f data/marioverse/loot_table/blocks/large_mangrove_arrow_sign.json
-1f48ca3577a0910d4472866dfef39ec02a324669 data/marioverse/loot_table/blocks/large_mushroot_arrow_sign.json
+dc4ee5a06ae1845465cc9c9a554465e66f9cc91a data/marioverse/loot_table/blocks/large_mushroot_arrow_sign.json
 cf79cec7fbc0945d799e25b2e747c40b54482477 data/marioverse/loot_table/blocks/large_oak_arrow_sign.json
 ac10315bc7f300f2ba94105e2beeceb7d9f2c0d8 data/marioverse/loot_table/blocks/large_spruce_arrow_sign.json
 c2071f41104bba9f47fc9c7094beef89e18aa2d6 data/marioverse/loot_table/blocks/large_warped_arrow_sign.json

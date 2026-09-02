@@ -91,8 +91,10 @@ public class WoodModule extends EveryCompatModule {
                         woodType -> new Block(Utils.copyPropertySafe(woodType.planks).strength(4.0F, 8.0F)))
                 .addTexture(modRes("block/hard_oak_block"), PaletteStrategies.PLANKS_STANDARD)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .addTag(TagRegistry.BONKABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_HARD_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.WOODEN_HARD_BLOCKS, Registries.BLOCK)
+                .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTab(buildingBlocksTab)
                 .copyParentDrop()
@@ -107,8 +109,10 @@ public class WoodModule extends EveryCompatModule {
                 .addTexture(modRes("block/hard_oak_block"), PaletteStrategies.PLANKS_STANDARD)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(BlockTags.WOODEN_STAIRS, Registries.BLOCK)
+                .addTag(TagRegistry.BONKABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_HARD_STAIRS, Registries.BLOCK)
                 .addTag(TagRegistry.WOODEN_HARD_STAIRS, Registries.BLOCK)
+                .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
                 .setTab(buildingBlocksTab)
                 .copyParentDrop()
@@ -122,8 +126,10 @@ public class WoodModule extends EveryCompatModule {
                 .addTexture(modRes("block/hard_oak_slab"), PaletteStrategies.PLANKS_STANDARD)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(BlockTags.WOODEN_SLABS, Registries.BLOCK)
+                .addTag(TagRegistry.BONKABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_HARD_SLABS, Registries.BLOCK)
                 .addTag(TagRegistry.WOODEN_HARD_SLABS, Registries.BLOCK)
+                .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(ItemTags.WOODEN_SLABS, Registries.ITEM)
                 .setTab(buildingBlocksTab)
                 .copyParentDrop()
@@ -136,8 +142,12 @@ public class WoodModule extends EveryCompatModule {
                         woodType -> new WallBlock(Utils.copyPropertySafe(this.hardBlock.blocks.get(woodType)).forceSolidOn()))
                 .addTexture(modRes("block/hard_oak_block"), PaletteStrategies.PLANKS_STANDARD)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .addTag(BlockTags.WALLS, Registries.BLOCK)
+                .addTag(TagRegistry.BONKABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_HARD_WALLS, Registries.BLOCK)
                 .addTag(TagRegistry.WOODEN_HARD_WALLS, Registries.BLOCK)
+                .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
+                .addTag(ItemTags.WALLS, Registries.ITEM)
                 .setTab(buildingBlocksTab)
                 .copyParentDrop()
                 .defaultRecipe()
@@ -237,8 +247,8 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS, Registries.BLOCK)
                 .requiresChildren("planks")
-                .setTab(functionalBlocksTab)
-                .copyParentDrop()
+                .setTab(buildingBlocksTab)
+                .noDrops()
                 .noItem()
                 .build();
         this.addEntry(wallArrowSign);
@@ -254,8 +264,8 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS, Registries.BLOCK)
                 .requiresChildren("planks")
-                .setTab(functionalBlocksTab)
-                .copyParentDrop()
+                .setTab(buildingBlocksTab)
+                .noDrops()
                 .noItem()
                 .build();
         this.addEntry(hangingArrowSign);
@@ -280,7 +290,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.FLAMMABLE_ARROW_SIGN_ITEMS, Registries.ITEM)
                 .addTag(ItemTags.SIGNS, Registries.ITEM)
                 .requiresChildren("planks")
-                .setTab(functionalBlocksTab)
+                .setTab(buildingBlocksTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -297,7 +307,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS, Registries.BLOCK)
                 .requiresChildren("planks")
-                .setTab(functionalBlocksTab)
+                .setTab(buildingBlocksTab)
                 .noDrops()
                 .noItem()
                 .build();
@@ -322,7 +332,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGN_ITEMS, Registries.ITEM)
                 .addTag(ItemTags.SIGNS, Registries.ITEM)
                 .requiresChildren("planks")
-                .setTab(functionalBlocksTab)
+                .setTab(buildingBlocksTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -333,6 +343,40 @@ public class WoodModule extends EveryCompatModule {
     public void addDynamicServerResources(Consumer<ResourceGenTask> executor) {
         super.addDynamicServerResources(executor);
         executor.accept((manager, sink) -> {
+            for (Map.Entry<WoodType, Block> entry : wallArrowSign.blocks.entrySet()) {
+                Item signItem = this.arrowSign.items.get(entry.getKey());
+                if (signItem == null)
+                    continue;
+
+                LootTable.Builder table = LootTable.lootTable().withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(signItem)
+                                .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                        .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                        .include(DataComponentRegistry.DYE_COLOR.get())
+                                        .include(DataComponentRegistry.GLOWING.get())
+                                        .include(DataComponentRegistry.WAXED.get())))
+                        .when(ExplosionCondition.survivesExplosion()));
+                sink.addLootTable(entry.getValue(), table);
+            }
+
+            for (Map.Entry<WoodType, Block> entry : hangingArrowSign.blocks.entrySet()) {
+                Item signItem = this.arrowSign.items.get(entry.getKey());
+                if (signItem == null)
+                    continue;
+
+                LootTable.Builder table = LootTable.lootTable().withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(signItem)
+                                .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                        .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                        .include(DataComponentRegistry.DYE_COLOR.get())
+                                        .include(DataComponentRegistry.GLOWING.get())
+                                        .include(DataComponentRegistry.WAXED.get())))
+                        .when(ExplosionCondition.survivesExplosion()));
+                sink.addLootTable(entry.getValue(), table);
+            }
+
             for (Block block : largeWallArrowSign.blocks.values()) {
                 StatePropertiesPredicate.Builder properties = StatePropertiesPredicate.Builder.properties()
                         .hasProperty(BlockStatePropertyRegistry.HALF, HalfBlockStates.BOTTOM)

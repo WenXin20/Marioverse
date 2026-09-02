@@ -1,5 +1,7 @@
 {
   "values": [
-    "#marioverse:hard_stairs/flammable"
+    "#marioverse:hard_stairs/flammable",
+    "marioverse:hard_crimson_stairs",
+    "marioverse:hard_warped_stairs"
   ]
 }

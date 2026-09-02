@@ -1,5 +1,7 @@
 {
   "values": [
-    "#marioverse:walls/flammable"
+    "#marioverse:walls/flammable",
+    "marioverse:hard_crimson_wall",
+    "marioverse:hard_warped_wall"
   ]
 }
