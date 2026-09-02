@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/shroomsoil_top",
+    "side": "marioverse:block/shroomgrass_block_1",
+    "top": "marioverse:block/shroomgrass_block_top"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" }
+  }
+}

@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.AbilityBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.ShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
@@ -522,6 +523,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SANDSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_WALL;
     public static final DeferredBlock<Block> SANDSTONE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> SHROOMGRASS_BLOCK;
+    public static final DeferredBlock<Block> SHROOMSOIL;
     public static final DeferredBlock<Block> SMASHABLE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_CUT_COPPER;
@@ -803,6 +806,13 @@ public class BlockRegistry {
         POTTED_PIRANHA_PLANT = registerNoItemBlock("potted_piranha_plant",
                 () -> new PottedPiranhaPlantBlock(null, () -> Blocks.AIR,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+
+        SHROOMGRASS_BLOCK = registerBlock("shroomgrass_block",
+                () -> new ShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).mapColor(MapColor.GRASS)));
+
+        SHROOMSOIL = registerBlock("shroomsoil",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
 
 
         MUSHROOT_LOG = registerBlock("mushroot_log", () -> log(MapColor.WOOD, MapColor.TERRACOTTA_ORANGE));

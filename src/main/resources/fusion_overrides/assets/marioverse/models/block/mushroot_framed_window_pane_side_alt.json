@@ -5,7 +5,8 @@
   "type": "connecting",
   "textures": {
     "edge": "marioverse:block/mushroot_framed_window_pane_top",
-    "pane": "marioverse:block/mushroot_framed_window_pane"
+    "pane": "marioverse:block/mushroot_framed_window_pane",
+    "particle": "#pane"
   },
   "connections": {
     "default": { "type": "is_same_block" }

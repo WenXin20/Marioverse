@@ -44,6 +44,7 @@ import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -187,6 +188,10 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.DEAD_TUBE_CORAL_TOWER.get());
         this.logBlocks(BlockRegistry.MUSHROOT_LOG.get(),
                 BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
+        this.shroomgrassBlockModel(BlockRegistry.SHROOMGRASS_BLOCK.get(), modLoc("block/shroomsoil_top"),
+                texture(BlockRegistry.SHROOMGRASS_BLOCK.get(), "_top"));
+        this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
+                blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
         this.picketFenceBlocks(BlockRegistry.ACACIA_PICKET_FENCE.get(),
                 BlockRegistry.BAMBOO_PICKET_FENCE.get(),
                 BlockRegistry.BIRCH_PICKET_FENCE.get(),
@@ -1452,6 +1457,31 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("top", topTexture);
 
         simpleBlockWithItem(block, model);
+    }
+
+    private void shroomgrassBlockModel(Block block, ResourceLocation bottomTexture, ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile[] sideVariants = new ModelFile[4];
+        for (int i = 0; i < sideVariants.length; i++) {
+            String variantName = i == 0 ? modelName : modelName + "_" + i;
+
+            sideVariants[i] = models()
+                    .withExistingParent(variantName, mcLoc("minecraft:block/cube_bottom_top"))
+                    .texture("bottom", bottomTexture)
+                    .texture("side", modLoc("block/" + variantName))
+                    .texture("top", topTexture);
+        }
+
+        ConfiguredModel[] configuredVariants = new ConfiguredModel[sideVariants.length];
+        for (int i = 0; i < sideVariants.length; i++)
+            configuredVariants[i] = new ConfiguredModel(sideVariants[i]);
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().with(GrassBlock.SNOWY, false).addModels(configuredVariants);
+        variantBuilder.partialState().with(GrassBlock.SNOWY, true).addModels(configuredVariants);
+
+        this.simpleBlockItem(block, sideVariants[0]);
     }
 
     private void cubeBottomTopInnerFacesCutoutModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,

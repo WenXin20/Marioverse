@@ -22,10 +22,14 @@
   - Log Platforms
   - Arrow Signs
   - Large Arrow Signs
-- Added Arrow Signs for all wood types, with Every Compat support
-- Added Hard Wooden Blocks for all wood types, with Every Compat support
+- Added Arrow Signs for all wood types
+  - Every Compat support
+- Added Hard Wooden Blocks for all wood types
+  - Every Compat support
+- Added Shroomsoil and Shroomgrass Block
 - Added tooltips to bridges
 - Wandering trader trades Mushroot Saplings
+- Wandering trader trades Shroomgrass Blocks
 - Fixed flammability of Log Stairs
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)

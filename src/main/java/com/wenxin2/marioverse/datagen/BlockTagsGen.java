@@ -984,14 +984,24 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_TILES.get());
 
+        tag(BlockTags.ANIMALS_SPAWNABLE_ON)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
         tag(BlockTags.BASE_STONE_OVERWORLD)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
 
+        tag(BlockTags.BIG_DRIPLEAF_PLACEABLE)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.SHROOMSOIL.get());
+
         tag(BlockTags.CEILING_HANGING_SIGNS)
                 .add(BlockRegistry.MUSHROOT_HANGING_SIGN.get());
+
+        tag(BlockTags.CONVERTABLE_TO_MUD)
+                .add(BlockRegistry.SHROOMSOIL.get());
 
         tag(BlockTags.CORALS);
 
@@ -1014,6 +1024,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
+
+        tag(BlockTags.DIRT)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.SHROOMSOIL.get());
 
         tag(BlockTags.DRAGON_IMMUNE)
                 .addTag(TagRegistry.DEATH_BLOCKS)
@@ -1044,6 +1058,12 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.FLOWERS)
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
+
+        tag(BlockTags.FOXES_SPAWNABLE_ON)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
+        tag(BlockTags.FROGS_SPAWNABLE_ON)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.GEODE_INVALID_BLOCKS)
                 .addTag(TagRegistry.DEATH_BLOCKS)
@@ -1079,10 +1099,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.HARD_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
 
+        tag(BlockTags.PARROTS_SPAWNABLE_ON)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
         tag(BlockTags.PLANKS)
                 .add(BlockRegistry.MUSHROOT_BOARDS.get())
                 .add(BlockRegistry.MUSHROOT_PANELS.get())
                 .add(BlockRegistry.MUSHROOT_PLANKS.get());
+
+        tag(BlockTags.RABBITS_SPAWNABLE_ON)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.SAND)
                 .add(BlockRegistry.QUICKSAND.get())
@@ -1121,6 +1147,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
+
+        tag(BlockTags.SNIFFER_DIGGABLE_BLOCK)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.SHROOMSOIL.get());
 
         tag(TagRegistry.SNOWBALL_EXTINGUISHES)
                 .addTag(BlockTags.FIRE)
@@ -1171,6 +1201,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
+
+        tag(BlockTags.VALID_SPAWN)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.WALL_POST_OVERRIDE)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
@@ -1233,6 +1266,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+
+        tag(BlockTags.WOLVES_SPAWNABLE_ON)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.WOODEN_FENCES)
                 .add(BlockRegistry.MUSHROOT_FENCE.get());
@@ -1414,7 +1450,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(BlockRegistry.QUICKSAND.get())
-                .add(BlockRegistry.RED_QUICKSAND.get());
+                .add(BlockRegistry.RED_QUICKSAND.get())
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.SHROOMSOIL.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())

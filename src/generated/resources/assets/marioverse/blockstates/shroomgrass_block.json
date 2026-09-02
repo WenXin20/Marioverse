@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "marioverse:block/shroomgrass_block"
+    },
+    "snowy=true": {
+      "model": "marioverse:block/shroomgrass_block"
+    }
+  }
+}
