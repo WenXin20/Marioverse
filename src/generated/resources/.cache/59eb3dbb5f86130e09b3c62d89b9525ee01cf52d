@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-02T19:13:53.1775017	Loot Tables
+// 1.21.1	2026-09-02T23:15:47.9053509	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -299,7 +299,7 @@ ffd06f8586b195ba8338de6b0ae16e88308829e4 data/marioverse/loot_table/blocks/large
 9be7b5db4e821dde6cd5dcaf5b63c88af2beef10 data/marioverse/loot_table/blocks/large_dark_oak_arrow_sign.json
 6a97b2653eced81df6f32a7e933b5cd3ec0cbd74 data/marioverse/loot_table/blocks/large_jungle_arrow_sign.json
 08962c7e6b39fe3cc4a9cf30855c500cc0935cea data/marioverse/loot_table/blocks/large_mangrove_arrow_sign.json
-dc4ee5a06ae1845465cc9c9a554465e66f9cc91a data/marioverse/loot_table/blocks/large_mushroot_arrow_sign.json
+1f48ca3577a0910d4472866dfef39ec02a324669 data/marioverse/loot_table/blocks/large_mushroot_arrow_sign.json
 a08a119ec14c7fa495fb17c3b808ff3fade73ac4 data/marioverse/loot_table/blocks/large_oak_arrow_sign.json
 4bcfb4a1cc2ba99671b8be48bd8e30607252d7dd data/marioverse/loot_table/blocks/large_spruce_arrow_sign.json
 4f03362f3fd1d2afcc6c4ef2d7694e5a8b045c04 data/marioverse/loot_table/blocks/large_warped_arrow_sign.json
@@ -605,7 +605,6 @@ cde245f75c546b0a35ac5644b8a9ec637545800a data/marioverse/loot_table/blocks/strip
 5dcc314d75380630edfafdb25b57ec507c9d88b1 data/marioverse/loot_table/blocks/tube_coral_tower.json
 3f0c9e24e319a0d42a0101307732b0c27f659718 data/marioverse/loot_table/blocks/tuff_brick_pedestal.json
 bcb7d03521af2f281f74d025c1c86328a8804aec data/marioverse/loot_table/blocks/tuff_question_bricks.json
-29262f8505fd518371cfabcab06fcd9359d8007a data/marioverse/loot_table/blocks/vibrant_shroomgrass_block.json
 33d48f939c4e7cc2f291620d6a6cc50eb4464b2a data/marioverse/loot_table/blocks/waluigi_ability_block.json
 43bca4d3ea296930d623a17d1e01655188823dda data/marioverse/loot_table/blocks/wario_ability_block.json
 5923c0f00f5ead072f690826749e8a3f6d2561db data/marioverse/loot_table/blocks/warped_arrow_sign.json

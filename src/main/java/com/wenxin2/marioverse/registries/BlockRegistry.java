@@ -618,7 +618,6 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
-    public static final DeferredBlock<Block> VIBRANT_SHROOMGRASS_BLOCK;
     public static final DeferredBlock<Block> WALUIGI_ABILITY_BLOCK;
     public static final DeferredBlock<Block> WARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> WARPED_PICKET_FENCE;
@@ -814,9 +813,6 @@ public class BlockRegistry {
 
         SHROOMSOIL = registerBlock("shroomsoil",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
-
-        VIBRANT_SHROOMGRASS_BLOCK = registerBlock("vibrant_shroomgrass_block",
-                () -> new ShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).mapColor(MapColor.GRASS)));
 
 
         MUSHROOT_LOG = registerBlock("mushroot_log", () -> log(MapColor.WOOD, MapColor.TERRACOTTA_ORANGE));
@@ -2409,6 +2405,8 @@ public class BlockRegistry {
     }
 
     public static void registerAliases() {
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("marioverse:vibrant_shroomgrass_block"), SHROOMGRASS_BLOCK.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation

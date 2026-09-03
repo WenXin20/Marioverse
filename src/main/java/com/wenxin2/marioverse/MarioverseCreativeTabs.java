@@ -223,7 +223,6 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.SHROOMSOIL);
             add(event, BlockRegistry.SHROOMGRASS_BLOCK);
-            add(event, BlockRegistry.VIBRANT_SHROOMGRASS_BLOCK);
 
             add(event, BlockRegistry.MUSHROOT_LEAVES);
             add(event, BlockRegistry.MUSHROOT_LOG);
@@ -991,7 +990,6 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Blocks.MYCELIUM, BlockRegistry.SHROOMSOIL);
                 addAfter(event, BlockRegistry.SHROOMSOIL, BlockRegistry.SHROOMGRASS_BLOCK);
-                addAfter(event, BlockRegistry.SHROOMGRASS_BLOCK, BlockRegistry.VIBRANT_SHROOMGRASS_BLOCK);
 
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE);

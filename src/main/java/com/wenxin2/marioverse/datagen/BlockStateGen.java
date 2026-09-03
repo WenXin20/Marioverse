@@ -190,8 +190,6 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
         this.shroomgrassBlockModel(BlockRegistry.SHROOMGRASS_BLOCK.get(), modLoc("block/shroomsoil_top"),
                 modLoc("block/shroomgrass_block_top"), "shroomgrass_block", "shroomgrass_block_overlay");
-        this.vibrantShroomgrassBlockModel(BlockRegistry.VIBRANT_SHROOMGRASS_BLOCK.get(), modLoc("block/shroomsoil_top"),
-                modLoc("block/vibrant_shroomgrass_block_top"), "vibrant_shroomgrass_block");
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
                 blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
         this.picketFenceBlocks(BlockRegistry.ACACIA_PICKET_FENCE.get(),
@@ -1478,25 +1476,6 @@ public class BlockStateGen extends BlockStateProvider {
                     .texture("top", topTexture)
                     .texture("overlay", overlayTexture)
                     .renderType("cutout_mipped");
-        }
-
-        this.grassLikeBlockState(block, sideVariants);
-    }
-
-    private void vibrantShroomgrassBlockModel(Block block, ResourceLocation bottomTexture, ResourceLocation topTexture,
-                                    String sideTextureBaseName) {
-        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-
-        ModelFile[] sideVariants = new ModelFile[4];
-        for (int i = 0; i < sideVariants.length; i++) {
-            String variantName = i == 0 ? modelName : modelName + "_" + i;
-            ResourceLocation sideTexture = modLoc("block/" + (i == 0 ? sideTextureBaseName : sideTextureBaseName + "_" + i));
-
-            sideVariants[i] = models()
-                    .withExistingParent(variantName, mcLoc("minecraft:block/cube_bottom_top"))
-                    .texture("bottom", bottomTexture)
-                    .texture("side", sideTexture)
-                    .texture("top", topTexture);
         }
 
         this.grassLikeBlockState(block, sideVariants);
