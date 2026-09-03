@@ -2406,8 +2406,6 @@ public class BlockRegistry {
 
     public static void registerAliases() {
         Marioverse.BLOCKS.addAlias(ResourceLocation
-                .parse("marioverse:vibrant_shroomgrass_block"), SHROOMGRASS_BLOCK.getId());
-        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());

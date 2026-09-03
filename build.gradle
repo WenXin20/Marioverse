@@ -114,7 +114,7 @@ dependencies {
     implementation "curse.maven:owo-lib-${owo_version}"
     implementation "curse.maven:sable-1312371:8263584" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
-    implementation "maven.modrinth:sodium:mc1.21.1-0.8.13-neoforge" // Incompatible w/ Embeddium
+    implementation "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"
 
     jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:1.6.0"))

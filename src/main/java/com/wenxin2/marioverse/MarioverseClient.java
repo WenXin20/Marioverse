@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.wenxin2.marioverse.blocks.client.BlockSpawnerScreen;
 import com.wenxin2.marioverse.blocks.client.QuestionBlockScreen;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.client.ArrowAtlas;
 import com.wenxin2.marioverse.client.particles.GlowingSuspendedTownParticle;
 import com.wenxin2.marioverse.client.particles.GravityParticle;
@@ -66,6 +67,8 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.BiomeColors;
@@ -89,7 +92,9 @@ import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -109,7 +114,6 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class MarioverseClient {
-
     public static void clientSetup(final FMLClientSetupEvent event) {
         CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
 
@@ -134,75 +138,84 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
-        event.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null
-                    ? BiomeColors.getAverageWaterColor(world, pos) | 0x0000cc : 0xFFFFFFFF;
-        }, BlockRegistry.WATER_SPOUT.get());
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                ? BiomeColors.getAverageGrassColor(level, pos)
+                : GrassColor.getDefaultColor(), BlockRegistry.SHROOMGRASS_BLOCK.get());
+
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                ? BiomeColors.getAverageFoliageColor(level, pos)
+                : FoliageColor.getDefaultColor(), BlockRegistry.MUSHROOT_LEAVES.get());
+
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                ? BiomeColors.getAverageWaterColor(level, pos) | 0x0000cc
+                : 0xFFFFFFFF, BlockRegistry.WATER_SPOUT.get());
+
+        event.register((state, level, pos, tintIndex) -> {
+            if (level != null && pos != null
+                    && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+                BlockState disguiseState = blockEntity.getDisguiseState();
+
+                if (disguiseState != null && !disguiseState.isAir() && !disguiseState.is(BlockRegistry.BLOCK_SPAWNER)) {
+                    BlockColors colors = Minecraft.getInstance().getBlockColors();
+                    return colors.getColor(disguiseState, level, pos, tintIndex);
+                }
+            }
+            return -1;
+        }, BlockRegistry.BLOCK_SPAWNER.get());
     }
 
     @SubscribeEvent
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tintIndex) -> tintIndex == 0 ? GrassColor.getDefaultColor() : -1,
+                BlockRegistry.SHROOMGRASS_BLOCK.get());
+
+        event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
+                BlockRegistry.MUSHROOT_LEAVES.get());
+
         event.register((stack, tintIndex) -> {
-                    if (tintIndex == 1)
-                        return 0x3F76E4;
-                    return -1;
-                }, ItemRegistry.PLASTIC_WATER_BUCKET.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xED0011);
-                    return -1;
-                },
-                ItemRegistry.CHRISTMAS_HAT.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xF6343A);
-                    return -1;
-                },
-                ItemRegistry.HAT.get(),
-                ItemRegistry.SHIRT.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0x325EFF);
-                    return -1;
-                },
-                ItemRegistry.PANTS.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xA94535);
-                    return -1;
-                },
-                ItemRegistry.SHOES.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xFF647D);
-                    return -1;
-                },
-                ItemRegistry.CROWN.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
+            if (tintIndex == 1)
+                return 0x3F76E4;
+            return -1;
+        }, ItemRegistry.PLASTIC_WATER_BUCKET.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0xED0011);
+            return -1;
+        }, ItemRegistry.CHRISTMAS_HAT.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0xF6343A);
+            return -1;
+        }, ItemRegistry.HAT.get(),
+        ItemRegistry.SHIRT.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0x325EFF);
+            return -1;
+        }, ItemRegistry.PANTS.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0xA94535);
+            return -1;
+        }, ItemRegistry.SHOES.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0xFF647D);
+            return -1;
+        }, ItemRegistry.CROWN.get());
+
+        event.register((stack, tintIndex) -> {
                     if (tintIndex == 0)
                         return DyedItemColor.getOrDefault(stack, 0xFFC1D7);
                     return -1;
-                },
-                ItemRegistry.BODICE.get(),
+                }, ItemRegistry.BODICE.get(),
                 ItemRegistry.DRESS.get(),
-                ItemRegistry.HEELS.get()
-        );
-        event.register(
-                (stack, tintIndex) -> tintIndex == 0 ? GrassColor.getDefaultColor() : -1,
-                BlockRegistry.SHROOMGRASS_BLOCK.get()
-        );
+                ItemRegistry.HEELS.get());
     }
 
     @SubscribeEvent

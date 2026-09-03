@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-02T23:15:47.8451315	Block States: marioverse
+// 1.21.1	2026-09-02T23:58:52.3117196	Block States: marioverse
 d00d3714b3e4b5ed4eb6d3325a538a623cb12b35 assets/marioverse/blockstates/acacia_arrow_sign.json
 265ca289dc5996911bd5c734cce1550006f8f70f assets/marioverse/blockstates/acacia_hanging_arrow_sign.json
 d1717a729a26a5dd7dafa52989ecc31e34effcd1 assets/marioverse/blockstates/acacia_log_bridge.json
@@ -1609,7 +1609,7 @@ f054236b557248a2253d8b22163146c787c97043 assets/marioverse/models/block/mushroot
 d2358d9e42e90331d3925bc009803461abe192c8 assets/marioverse/models/block/mushroot_framed_window_pane_side_alt.json
 676d8fb2f6739721d87d46226e95be3a46110e2c assets/marioverse/models/block/mushroot_hanging_arrow_sign.json
 dd2fb354303c82251612f96e36329f6c6a2690ae assets/marioverse/models/block/mushroot_hanging_sign.json
-f4466ae6ea42405da24e9fc9c20227952ac69eb5 assets/marioverse/models/block/mushroot_leaves.json
+29003ed805593aae57afa182e05a4fc56b9403a8 assets/marioverse/models/block/mushroot_leaves.json
 a52ab02f177f462091047810d6c2d5d8c334af95 assets/marioverse/models/block/mushroot_log.json
 cf03c2c88d0ebf8ad6b14aa1a16382e9f7a5a73a assets/marioverse/models/block/mushroot_log_bridge.json
 074901b021137b679ca8e61c6cc8a6f5b03c6df7 assets/marioverse/models/block/mushroot_log_bridge_stairs.json

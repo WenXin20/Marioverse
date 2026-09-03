@@ -74,6 +74,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -120,26 +121,6 @@ public class ClientEventHandlers {
     public static void registerLoader(ModelEvent.RegisterGeometryLoaders event) {
         event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "disguised_block"),
                 new DisguisedBlockModelLoader());
-    }
-
-    @SubscribeEvent
-    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.register((state, level, pos, tintIndex) -> {
-            if (level != null && pos != null
-                    && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
-                BlockState disguiseState = blockEntity.getDisguiseState();
-
-                if (disguiseState != null && !disguiseState.isAir() && !disguiseState.is(BlockRegistry.BLOCK_SPAWNER)) {
-                    BlockColors colors = Minecraft.getInstance().getBlockColors();
-                    return colors.getColor(disguiseState, level, pos, tintIndex);
-                }
-            }
-            return -1;
-        }, BlockRegistry.BLOCK_SPAWNER.get());
-
-        event.register((state, level, pos, tintIndex) -> level != null && pos != null
-                ? BiomeColors.getAverageGrassColor(level, pos)
-                : GrassColor.getDefaultColor(), BlockRegistry.SHROOMGRASS_BLOCK.get());
     }
 
     @SubscribeEvent

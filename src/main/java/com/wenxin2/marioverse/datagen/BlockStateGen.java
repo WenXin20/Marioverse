@@ -166,12 +166,13 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(),
                 BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
                 BlockRegistry.MARIO_ABILITY_BLOCK.get(),
-                BlockRegistry.MUSHROOT_LEAVES.get(),
                 BlockRegistry.PEACH_ABILITY_BLOCK.get(),
                 BlockRegistry.ROSALINA_ABILITY_BLOCK.get(),
                 BlockRegistry.STEVE_ABILITY_BLOCK.get(),
                 BlockRegistry.WALUIGI_ABILITY_BLOCK.get(),
                 BlockRegistry.WARIO_ABILITY_BLOCK.get());
+        this.tintedCubeBottomTopModel(BlockRegistry.MUSHROOT_LEAVES.get(), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_bottom"),
+                blockTexture(BlockRegistry.MUSHROOT_LEAVES.get()), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_top"));
         this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
@@ -1457,6 +1458,27 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("top", topTexture);
 
         simpleBlockWithItem(block, model);
+    }
+
+    private void tintedCubeBottomTopModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                    ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        var builder = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
+                .texture("bottom", bottomTexture)
+                .texture("side", sideTexture)
+                .texture("top", topTexture);
+
+        var element = builder.element().from(0, 0, 0).to(16, 16, 16);
+        element = element.face(Direction.UP).texture("#top").cullface(Direction.UP).tintindex(0).end();
+        element = element.face(Direction.DOWN).texture("#bottom").cullface(Direction.DOWN).tintindex(0).end();
+        element = element.face(Direction.NORTH).texture("#side").cullface(Direction.NORTH).tintindex(0).end();
+        element = element.face(Direction.SOUTH).texture("#side").cullface(Direction.SOUTH).tintindex(0).end();
+        element = element.face(Direction.WEST).texture("#side").cullface(Direction.WEST).tintindex(0).end();
+        element = element.face(Direction.EAST).texture("#side").cullface(Direction.EAST).tintindex(0).end();
+
+        simpleBlockWithItem(block, element.end());
     }
 
     private void shroomgrassBlockModel(Block block, ResourceLocation bottomTexture, ResourceLocation topTexture,
