@@ -49,6 +49,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -73,6 +74,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -134,6 +136,10 @@ public class ClientEventHandlers {
             }
             return -1;
         }, BlockRegistry.BLOCK_SPAWNER.get());
+
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                ? BiomeColors.getAverageGrassColor(level, pos)
+                : GrassColor.getDefaultColor(), BlockRegistry.SHROOMGRASS_BLOCK.get());
     }
 
     @SubscribeEvent

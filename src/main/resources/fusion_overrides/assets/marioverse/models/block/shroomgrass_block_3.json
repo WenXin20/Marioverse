@@ -1,11 +1,14 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/grass_block",
+  "render_type": "minecraft:cutout_mipped",
   "loader": "fusion:model",
   "type": "connecting",
   "textures": {
     "bottom": "marioverse:block/shroomsoil_top",
     "side": "marioverse:block/shroomgrass_block_3",
-    "top": "marioverse:block/shroomgrass_block_top"
+    "top": "marioverse:block/shroomgrass_block_top",
+    "overlay": "marioverse:block/shroomgrass_block_overlay_3",
+    "particle": "#side"
   },
   "connections": {
     "default": { "type": "is_same_block" }

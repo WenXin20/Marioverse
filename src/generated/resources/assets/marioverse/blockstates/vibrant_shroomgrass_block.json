@@ -1,0 +1,32 @@
+{
+  "variants": {
+    "snowy=false": [
+      {
+        "model": "marioverse:block/vibrant_shroomgrass_block"
+      },
+      {
+        "model": "marioverse:block/vibrant_shroomgrass_block_1"
+      },
+      {
+        "model": "marioverse:block/vibrant_shroomgrass_block_2"
+      },
+      {
+        "model": "marioverse:block/vibrant_shroomgrass_block_3"
+      }
+    ],
+    "snowy=true": [
+      {
+        "model": "marioverse:block/vibrant_shroomgrass_block"
+      },
+      {
+        "model": "marioverse:block/vibrant_shroomgrass_block_1"
+      },
+      {
+        "model": "marioverse:block/vibrant_shroomgrass_block_2"
+      },
+      {
+        "model": "marioverse:block/vibrant_shroomgrass_block_3"
+      }
+    ]
+  }
+}

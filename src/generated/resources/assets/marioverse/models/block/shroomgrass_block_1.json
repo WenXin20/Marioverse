@@ -1,7 +1,9 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/grass_block",
+  "render_type": "minecraft:cutout_mipped",
   "textures": {
     "bottom": "marioverse:block/shroomsoil_top",
+    "overlay": "marioverse:block/shroomgrass_block_overlay_1",
     "side": "marioverse:block/shroomgrass_block_1",
     "top": "marioverse:block/shroomgrass_block_top"
   }

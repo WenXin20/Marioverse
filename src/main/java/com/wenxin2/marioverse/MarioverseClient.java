@@ -89,6 +89,7 @@ import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.level.GrassColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -197,6 +198,10 @@ public class MarioverseClient {
                 ItemRegistry.BODICE.get(),
                 ItemRegistry.DRESS.get(),
                 ItemRegistry.HEELS.get()
+        );
+        event.register(
+                (stack, tintIndex) -> tintIndex == 0 ? GrassColor.getDefaultColor() : -1,
+                BlockRegistry.SHROOMGRASS_BLOCK.get()
         );
     }
 
