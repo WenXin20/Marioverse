@@ -42,6 +42,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.GrassBlock;
@@ -58,6 +59,7 @@ import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.SlabType;
@@ -87,6 +89,14 @@ public class BlockStateGen extends BlockStateProvider {
     private ResourceLocation texture(Block block, String suffix) {
         ResourceLocation texture = this.blockTexture(block);
         return texture.withPath(texture.getPath() + suffix);
+    }
+
+    private ResourceLocation texture(String prefix, Block block) {
+        ResourceLocation texture = this.blockTexture(block);
+        String path = texture.getPath();
+        int lastSlash = path.lastIndexOf('/');
+
+        return texture.withPath(path.substring(0, lastSlash + 1) + prefix + path.substring(lastSlash + 1));
     }
 
     private void cubeAllBlocks(Block... blocks) {
@@ -193,6 +203,14 @@ public class BlockStateGen extends BlockStateProvider {
                 modLoc("block/shroomgrass_block_top"), "shroomgrass_block", "shroomgrass_block_overlay");
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
                 blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
+        this.tintedCrossModel(BlockRegistry.SHORT_SHROOMGRASS.get(), blockTexture(BlockRegistry.SHORT_SHROOMGRASS.get()));
+        this.tintedCrossModel(BlockRegistry.SHROOMGRASS.get(), blockTexture(BlockRegistry.SHROOMGRASS.get()));
+        this.tallShroomgrassModel(BlockRegistry.TALL_SHROOMGRASS.get(), texture(BlockRegistry.TALL_SHROOMGRASS.get(), "_bottom"),
+                texture(BlockRegistry.TALL_SHROOMGRASS.get(), "_top"));
+        this.shrubroomModel(BlockRegistry.SHRUBROOM.get());
+        this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHORT_SHROOMGRASS.get()));
+        this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHROOMGRASS.get()));
+        this.pottedShrubroomModel(BlockRegistry.POTTED_SHRUBROOM.get());
         this.picketFenceBlocks(BlockRegistry.ACACIA_PICKET_FENCE.get(),
                 BlockRegistry.BAMBOO_PICKET_FENCE.get(),
                 BlockRegistry.BIRCH_PICKET_FENCE.get(),
@@ -1424,6 +1442,61 @@ public class BlockStateGen extends BlockStateProvider {
                 .renderType("cutout_mipped");
 
         simpleBlock(block, model);
+    }
+
+    private void tintedCrossModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/tinted_cross"))
+                .texture("cross", mainTexture)
+                .renderType("cutout_mipped");
+
+        simpleBlock(block, model);
+    }
+
+    private void tintedCrossFlowerPotModel(Block block, ResourceLocation mainTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/tinted_flower_pot_cross"))
+                .texture("plant", mainTexture)
+                .renderType("cutout_mipped");
+
+        simpleBlock(block, model);
+    }
+
+    private void shrubroomModel(Block block) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models().withExistingParent(modelName, modLoc("block/template_shrubroom"));
+
+        simpleBlock(block, model);
+    }
+
+    private void pottedShrubroomModel(Block block) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models().withExistingParent(modelName, modLoc("block/template_potted_shrubroom"));
+
+        simpleBlock(block, model);
+    }
+
+    private void tallShroomgrassModel(Block block, ResourceLocation bottomTexture, ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile bottomModel = models()
+                .withExistingParent(modelName + "_bottom", mcLoc("minecraft:block/tinted_cross"))
+                .texture("cross", bottomTexture)
+                .renderType("cutout_mipped");
+        ModelFile topModel = models()
+                .withExistingParent(modelName + "_top", mcLoc("minecraft:block/tinted_cross"))
+                .texture("cross", topTexture)
+                .renderType("cutout_mipped");
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER).addModels(new ConfiguredModel(bottomModel));
+        variantBuilder.partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER).addModels(new ConfiguredModel(topModel));
     }
 
     private void cubeAllModel(Block block, ResourceLocation mainTexture) {

@@ -5,7 +5,10 @@ import com.wenxin2.marioverse.blocks.AbilityBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.ShortShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.ShroomgrassBlock;
+import com.wenxin2.marioverse.blocks.ShroomgrassPlantBlock;
+import com.wenxin2.marioverse.blocks.ShrubroomBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
@@ -78,6 +81,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
@@ -91,6 +95,7 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
@@ -488,6 +493,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_MUSHROOT_SAPLING;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
     public static final DeferredBlock<Block> POTTED_RED_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> POTTED_SHORT_SHROOMGRASS;
+    public static final DeferredBlock<Block> POTTED_SHROOMGRASS;
+    public static final DeferredBlock<Block> POTTED_SHRUBROOM;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
@@ -523,8 +531,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SANDSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_WALL;
     public static final DeferredBlock<Block> SANDSTONE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> SHORT_SHROOMGRASS;
+    public static final DeferredBlock<Block> SHROOMGRASS;
     public static final DeferredBlock<Block> SHROOMGRASS_BLOCK;
     public static final DeferredBlock<Block> SHROOMSOIL;
+    public static final DeferredBlock<Block> SHRUBROOM;
     public static final DeferredBlock<Block> SMASHABLE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_CUT_COPPER;
@@ -615,6 +626,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> TALL_SHROOMGRASS;
     public static final DeferredBlock<Block> TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
@@ -807,6 +819,31 @@ public class BlockRegistry {
                 () -> new PottedPiranhaPlantBlock(null, () -> Blocks.AIR,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
+
+        SHRUBROOM = registerBlock("shrubroom",
+                () -> new ShrubroomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS)
+                        .mapColor(MapColor.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)));
+
+        SHROOMGRASS = registerBlock("shroomgrass",
+                () -> new ShroomgrassPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS).mapColor(MapColor.GRASS)));
+
+        SHORT_SHROOMGRASS = registerBlock("short_shroomgrass",
+                () -> new ShortShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS).mapColor(MapColor.GRASS)));
+
+        TALL_SHROOMGRASS = registerBlock("tall_shroomgrass",
+                () -> new DoublePlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TALL_GRASS).mapColor(MapColor.GRASS)));
+
+        POTTED_SHRUBROOM = registerNoItemBlock("potted_shrubroom",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHRUBROOM,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        POTTED_SHROOMGRASS = registerNoItemBlock("potted_shroomgrass",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHROOMGRASS,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        POTTED_SHORT_SHROOMGRASS = registerNoItemBlock("potted_short_shroomgrass",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHORT_SHROOMGRASS,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         SHROOMGRASS_BLOCK = registerBlock("shroomgrass_block",
                 () -> new ShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).mapColor(MapColor.GRASS)));
@@ -2320,6 +2357,9 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
         pot.addPlant(BlockRegistry.MUSHROOT_SAPLING.getId(), BlockRegistry.POTTED_MUSHROOT_SAPLING);
         pot.addPlant(BlockRegistry.RED_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_TRAMPOLINE_CAP);
+        pot.addPlant(BlockRegistry.SHORT_SHROOMGRASS.getId(), BlockRegistry.POTTED_SHORT_SHROOMGRASS);
+        pot.addPlant(BlockRegistry.SHROOMGRASS.getId(), BlockRegistry.POTTED_SHROOMGRASS);
+        pot.addPlant(BlockRegistry.SHRUBROOM.getId(), BlockRegistry.POTTED_SHRUBROOM);
     }
 
     private static Block log(MapColor colorTop, MapColor color) {

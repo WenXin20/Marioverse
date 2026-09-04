@@ -36,8 +36,11 @@ public class ItemModelGen extends ItemModelProvider {
         this.genInvisibleQuestionBlockVariants();
         this.genStorageBrickVariants();
 
-        this.basicBlockItem(BlockRegistry.MUSHROOT_SAPLING.asItem());
         this.basicBlockItem(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.asItem());
+        this.basicBlockItem(BlockRegistry.MUSHROOT_SAPLING.asItem());
+        this.basicBlockItem(BlockRegistry.SHORT_SHROOMGRASS.asItem());
+        this.basicBlockItem(BlockRegistry.SHROOMGRASS.asItem());
+        this.basicBlockItem(BlockRegistry.TALL_SHROOMGRASS.asItem(), "_bottom");
 
         this.basicItem(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.COIN.asItem());
@@ -45,6 +48,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
         this.basicItem(BlockRegistry.MUSHROOT_DOOR.asItem());
         this.basicItem(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
+        this.basicItem(BlockRegistry.SHRUBROOM.asItem());
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
@@ -410,13 +414,17 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     public ItemModelBuilder basicBlockItem(Item item) {
-        return basicBlockItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
+        return basicBlockItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), "");
     }
 
-    public ItemModelBuilder basicBlockItem(ResourceLocation item) {
+    public ItemModelBuilder basicBlockItem(Item item, String suffix) {
+        return basicBlockItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), suffix);
+    }
+
+    public ItemModelBuilder basicBlockItem(ResourceLocation item, String suffix) {
         String removeName = item.getPath().replace("_pane", "");
         return this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "block/" + removeName));
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "block/" + removeName + suffix));
     }
 
     public void largeItem(Item item) {

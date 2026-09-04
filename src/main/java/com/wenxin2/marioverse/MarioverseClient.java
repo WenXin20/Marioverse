@@ -140,7 +140,10 @@ public class MarioverseClient {
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
                 ? BiomeColors.getAverageGrassColor(level, pos)
-                : GrassColor.getDefaultColor(), BlockRegistry.SHROOMGRASS_BLOCK.get());
+                : GrassColor.getDefaultColor(), BlockRegistry.SHROOMGRASS_BLOCK.get(),
+                BlockRegistry.SHORT_SHROOMGRASS.get(), BlockRegistry.SHROOMGRASS.get(), BlockRegistry.TALL_SHROOMGRASS.get(),
+                BlockRegistry.SHRUBROOM.get(), BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(), BlockRegistry.POTTED_SHROOMGRASS.get(),
+                BlockRegistry.POTTED_SHRUBROOM.get());
 
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
                 ? BiomeColors.getAverageFoliageColor(level, pos)
@@ -167,7 +170,8 @@ public class MarioverseClient {
     @SubscribeEvent
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> tintIndex == 0 ? GrassColor.getDefaultColor() : -1,
-                BlockRegistry.SHROOMGRASS_BLOCK.get());
+                BlockRegistry.SHROOMGRASS_BLOCK.get(), BlockRegistry.SHORT_SHROOMGRASS.get(), BlockRegistry.SHROOMGRASS.get(),
+                BlockRegistry.TALL_SHROOMGRASS.get(), BlockRegistry.SHRUBROOM.get());
 
         event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
                 BlockRegistry.MUSHROOT_LEAVES.get());

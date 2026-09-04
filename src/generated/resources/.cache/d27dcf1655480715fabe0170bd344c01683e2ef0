@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-02T23:15:47.94276	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-03T23:04:37.2050559	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -167,6 +167,8 @@ b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.
 64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/parrots_spawnable_on.json
 1246002449a1e94e6f47058a9210307d8ff68423 data/minecraft/tags/block/planks.json
 64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/rabbits_spawnable_on.json
+cea4578062b58ff06be89568410942cf35b81470 data/minecraft/tags/block/replaceable.json
+cea4578062b58ff06be89568410942cf35b81470 data/minecraft/tags/block/replaceable_by_trees.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json
 13bf88fa0be995d43b5756ef502c4ff178735a1a data/minecraft/tags/block/saplings.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json

@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-30T18:48:07.7467919	Item Models: marioverse
+// 1.21.1	2026-09-03T23:04:37.1636137	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -3018,6 +3018,9 @@ fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa
 387c93ea223f8fb42fde90cf4a4cd6b19c440c5a assets/marioverse/models/item/red_trampoline_cap.json
 0ccf0f4051be73c4f81f3a164c37c2fbd140b682 assets/marioverse/models/item/shirt.json
 db864f3cb1c071facf85a4694a7e931c5f59dc12 assets/marioverse/models/item/shoes.json
+c043e5247b52c8c048f5cfa39128dd4f650c78c9 assets/marioverse/models/item/short_shroomgrass.json
+2a57aaa1a3e3a7ef323902f5fdd0dd1c6db50e18 assets/marioverse/models/item/shroomgrass.json
+23313bedefd88fd664b63a749c6b37bf61ee9de7 assets/marioverse/models/item/shrubroom.json
 9531b08e9ecae755def0a6d9a27bc747800f58fc assets/marioverse/models/item/snow_pokey_spawn_egg.json
 69da874887dd83827e13d267f33145b1d99a6d78 assets/marioverse/models/item/spike_panel.json
 8e47f8d9a031f6dece0675c602f828c3d8e2905e assets/marioverse/models/item/spiny_cheep_cheep.json
@@ -3204,6 +3207,7 @@ aadebea237963517b9aed338c780078359859180 assets/marioverse/models/item/storage_w
 0533d53921e812aa441cba354fe2c34d853d5636 assets/marioverse/models/item/super_mushroom_spawn_egg.json
 d149a63f68a8b5c5c0de44c13ab0483da101bb14 assets/marioverse/models/item/super_star.json
 0a2f7a3668f340208e18c3dba6e3f7520206a16e assets/marioverse/models/item/super_star_spawn_egg.json
+0189176562ac502b6a31c54dc37d613ab8a8cbdb assets/marioverse/models/item/tall_shroomgrass.json
 a100ec0d567d7bce7a0e279111c880a552572f51 assets/marioverse/models/item/tropical_piranha_plant_pod.json
 0a1aae071b5f0dd3775b3b2d9c99379a34bc5de8 assets/marioverse/models/item/tropical_piranha_plant_spawn_egg.json
 cddb5b5e6d0093c4099c571e8dcf7faa8816941e assets/marioverse/models/item/tube_coral_tower.json

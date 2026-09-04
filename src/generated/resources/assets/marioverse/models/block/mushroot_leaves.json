@@ -1,4 +1,5 @@
 {
+  "parent": "minecraft:block/cube_bottom_top",
   "elements": [
     {
       "faces": {
@@ -47,7 +48,6 @@
   ],
   "textures": {
     "bottom": "marioverse:block/mushroot_leaves_bottom",
-    "particle": "marioverse:block/mushroot_leaves",
     "side": "marioverse:block/mushroot_leaves",
     "top": "marioverse:block/mushroot_leaves_top"
   }

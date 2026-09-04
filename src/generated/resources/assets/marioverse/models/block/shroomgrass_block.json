@@ -4,32 +4,32 @@
 	"parent": "minecraft:block/grass_block",
 	"render_type": "minecraft:cutout_mipped",
 	"textures": {
-		"bottom": "marioverse:block/shroomsoil_top",
-		"overlay": "marioverse:block/shroomgrass_block_overlay",
-		"side": "marioverse:block/shroomgrass_block",
-		"top": "marioverse:block/shroomgrass_block_top"
+		"4": "marioverse:block/mushroot_leaves",
+		"5": "marioverse:block/mushroot_leaves_bottom",
+		"6": "marioverse:block/mushroot_leaves_top",
+		"particle": "marioverse:block/mushroot_leaves"
 	},
 	"elements": [
 		{
 			"from": [0, 0, 0],
 			"to": [16, 16, 16],
 			"faces": {
-				"north": {"uv": [0, 0, 16, 16], "texture": "#side"},
-				"east": {"uv": [0, 0, 16, 16], "texture": "#side"},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#side"},
-				"west": {"uv": [0, 0, 16, 16], "texture": "#side"},
-				"up": {"uv": [0, 0, 16, 16], "texture": "#top", "tintindex": 0},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom"}
+				"north": {"uv": [0, 0, 16, 16], "texture": "#missing"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#missing"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#missing"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#missing"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#6", "tintindex": 0},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#5", "tintindex": 0}
 			}
 		},
 		{
 			"from": [-0.04, -0.04, -0.04],
 			"to": [16.04, 16.04, 16.04],
 			"faces": {
-				"north": {"uv": [0, 0, 16, 16], "texture": "#overlay", "tintindex": 0},
-				"east": {"uv": [0, 0, 16, 16], "texture": "#overlay", "tintindex": 0},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#overlay", "tintindex": 0},
-				"west": {"uv": [0, 0, 16, 16], "texture": "#overlay", "tintindex": 0}
+				"north": {"uv": [0, 0, 16, 16], "texture": "#4", "tintindex": 0},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#4", "tintindex": 0},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#4", "tintindex": 0},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#4", "tintindex": 0}
 			}
 		}
 	]

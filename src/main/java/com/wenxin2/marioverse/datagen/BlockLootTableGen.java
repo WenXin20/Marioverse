@@ -104,6 +104,16 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (block == BlockRegistry.MUSHROOT_LEAVES.get())
                         this.add(block, this.createLeavesDrops(BlockRegistry.MUSHROOT_LEAVES.get(),
                                 BlockRegistry.MUSHROOT_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
+                    else if (block == BlockRegistry.SHORT_SHROOMGRASS.get() || block == BlockRegistry.SHROOMGRASS.get())
+                        this.add(block, this.createGrassDrops(block));
+                    else if (block == BlockRegistry.TALL_SHROOMGRASS.get())
+                        this.add(block, this.createDoublePlantWithSeedDrops(block, BlockRegistry.SHROOMGRASS.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHORT_SHROOMGRASS.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHORT_SHROOMGRASS.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHROOMGRASS.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHROOMGRASS.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHRUBROOM.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHRUBROOM.get()));
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPottedPiranhaPlantTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
@@ -176,6 +186,18 @@ public class BlockLootTableGen extends LootTableProvider {
             return LootTable.lootTable();
         }
 
+        protected LootTable.Builder createArrowSignBEDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                            .include(DataComponentRegistry.DYE_COLOR.get())
+                                            .include(DataComponentRegistry.GLOWING.get())
+                                            .include(DataComponentRegistry.WAXED.get()))))
+            );
+        }
+
         protected LootTable.Builder createCheckpointFlagDrop(Block block) {
             return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
                     LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
@@ -188,18 +210,6 @@ public class BlockLootTableGen extends LootTableProvider {
                             .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                     .setProperties(StatePropertiesPredicate.Builder.properties()
                                             .hasProperty(CheckpointFlagBlock.PART, TripleBlockStates.BOTTOM))))
-            );
-        }
-
-        protected LootTable.Builder createArrowSignBEDrop(Block block) {
-            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
-                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
-                            .add(LootItem.lootTableItem(block)
-                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
-                                            .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
-                                            .include(DataComponentRegistry.DYE_COLOR.get())
-                                            .include(DataComponentRegistry.GLOWING.get())
-                                            .include(DataComponentRegistry.WAXED.get()))))
             );
         }
 

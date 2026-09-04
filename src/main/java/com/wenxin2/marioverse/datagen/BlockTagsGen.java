@@ -1110,6 +1110,18 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.RABBITS_SPAWNABLE_ON)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
+        tag(BlockTags.REPLACEABLE)
+                .add(BlockRegistry.SHORT_SHROOMGRASS.get())
+                .add(BlockRegistry.SHROOMGRASS.get())
+                .add(BlockRegistry.TALL_SHROOMGRASS.get())
+                .add(BlockRegistry.SHRUBROOM.get());
+
+        tag(BlockTags.REPLACEABLE_BY_TREES)
+                .add(BlockRegistry.SHORT_SHROOMGRASS.get())
+                .add(BlockRegistry.SHROOMGRASS.get())
+                .add(BlockRegistry.TALL_SHROOMGRASS.get())
+                .add(BlockRegistry.SHRUBROOM.get());
+
         tag(BlockTags.SAND)
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get());

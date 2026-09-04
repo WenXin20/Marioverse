@@ -210,6 +210,10 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_SAPLING);
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
+            add(event, BlockRegistry.SHRUBROOM);
+            add(event, BlockRegistry.SHORT_SHROOMGRASS);
+            add(event, BlockRegistry.SHROOMGRASS);
+            add(event, BlockRegistry.TALL_SHROOMGRASS);
             add(event, BlockRegistry.TUBE_CORAL_TOWER);
             add(event, BlockRegistry.BRAIN_CORAL_TOWER);
             add(event, BlockRegistry.BUBBLE_CORAL_TOWER);
@@ -988,8 +992,12 @@ public class MarioverseCreativeTabs {
                 ItemStack deepCavePiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.DEEP_CAVE);
                 ItemStack tropicalPiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.TROPICAL);
 
-                addAfter(event, Blocks.MYCELIUM, BlockRegistry.SHROOMGRASS_BLOCK);
-                addAfter(event, Blocks.MUD, BlockRegistry.SHROOMGRASS_BLOCK);
+                addAfter(event, Blocks.MYCELIUM, BlockRegistry.SHROOMSOIL);
+                addAfter(event, BlockRegistry.SHROOMSOIL, BlockRegistry.SHROOMGRASS_BLOCK);
+                addAfter(event, BlockRegistry.SHROOMGRASS_BLOCK, BlockRegistry.SHORT_SHROOMGRASS);
+                addAfter(event, BlockRegistry.SHORT_SHROOMGRASS, BlockRegistry.SHROOMGRASS);
+                addAfter(event, BlockRegistry.SHROOMGRASS, BlockRegistry.TALL_SHROOMGRASS);
+                addAfter(event, BlockRegistry.TALL_SHROOMGRASS, BlockRegistry.SHRUBROOM);
 
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE);
