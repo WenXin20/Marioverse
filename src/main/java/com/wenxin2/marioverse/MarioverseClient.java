@@ -67,14 +67,18 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -89,7 +93,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.FoliageColor;
@@ -106,6 +112,9 @@ import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
@@ -134,6 +143,16 @@ public class MarioverseClient {
         CuriosRendererRegistry.register(ItemRegistry.RED_KOOPA_SHOES.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
         CuriosRendererRegistry.register(ItemRegistry.SHOES.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
         CuriosRendererRegistry.register(ItemRegistry.WHITE_KOOPA_SHOES.get(), () -> new CostumeCurioRenderer(EquipmentSlot.FEET));
+    }
+
+    @SubscribeEvent
+    public static void onClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerBlock(new IClientBlockExtensions() {
+            @Override
+            public boolean areBreakingParticlesTinted(BlockState state, ClientLevel level, BlockPos pos) {
+                return false;
+            }
+        }, BlockRegistry.SHROOMGRASS_BLOCK.get());
     }
 
     @SubscribeEvent
