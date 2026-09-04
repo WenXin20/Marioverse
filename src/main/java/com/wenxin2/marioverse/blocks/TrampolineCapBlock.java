@@ -32,9 +32,9 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        final Vec3 vec3 = state.getOffset(blockGetter, pos);
+        final Vec3 offset = state.getOffset(blockGetter, pos);
 
-        return SHAPE.move(vec3.x, vec3.y, vec3.z);
+        return SHAPE.move(offset.x, offset.y, offset.z);
     }
 
     @Override
