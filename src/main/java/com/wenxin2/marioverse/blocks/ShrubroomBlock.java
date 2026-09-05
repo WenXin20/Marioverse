@@ -5,12 +5,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 public class ShrubroomBlock extends TallGrassBlock {
     protected static final VoxelShape SHAPE = Block
@@ -21,11 +24,26 @@ public class ShrubroomBlock extends TallGrassBlock {
     }
 
     @Override
-    public void performBonemeal(ServerLevel serverLevel, RandomSource random, BlockPos pos, BlockState state) {
-        BlockPos targetPos = pos.relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+        return ShrubroomBlock.findSpreadPos(level, random, pos, state) != null;
+    }
 
-        if (serverLevel.isEmptyBlock(targetPos) && state.canSurvive(serverLevel, targetPos))
+    @Override
+    public void performBonemeal(ServerLevel serverLevel, RandomSource random, BlockPos pos, BlockState state) {
+        BlockPos targetPos = ShrubroomBlock.findSpreadPos(serverLevel, random, pos, state);
+        if (targetPos != null)
             serverLevel.setBlockAndUpdate(targetPos, state);
+    }
+
+    @Nullable
+    private static BlockPos findSpreadPos(LevelReader levelReader, RandomSource random, BlockPos pos, BlockState state) {
+        for (Direction direction : Direction.Plane.HORIZONTAL.shuffledCopy(random)) {
+            BlockPos targetPos = pos.relative(direction);
+            
+            if (levelReader.isEmptyBlock(targetPos) && state.canSurvive(levelReader, targetPos))
+                return targetPos;
+        }
+        return null;
     }
 
     @Override
