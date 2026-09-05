@@ -56,22 +56,19 @@ public class FungalStone extends Block implements BonemealableBlock {
                 pos.offset(1, 1, 1))) {
             BlockState stateOffset = serverLevel.getBlockState(posOffset);
 
-            if (stateOffset.is(BlockRegistry.GRASSY_FUNGAL_STONE))
+            if (stateOffset.is(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE))
                 isDeepFungalStone = true;
 
-            if (stateOffset.is(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE))
+            if (stateOffset.is(BlockRegistry.GRASSY_FUNGAL_STONE))
                 isFungalStone = true;
 
             if (isDeepFungalStone && isFungalStone)
                 break;
         }
 
-        if (isDeepFungalStone && isFungalStone)
-            serverLevel.setBlock(pos, random.nextBoolean() ? BlockRegistry.GRASSY_FUNGAL_STONE.get().defaultBlockState()
-                    : BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get().defaultBlockState(), 3);
-        else if (isDeepFungalStone)
+        if (isDeepFungalStone && state.is(BlockRegistry.DEEP_FUNGAL_STONE))
             serverLevel.setBlock(pos, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get().defaultBlockState(), 3);
-        else if (isFungalStone)
+        else if (isFungalStone && state.is(BlockRegistry.FUNGAL_STONE))
             serverLevel.setBlock(pos, BlockRegistry.GRASSY_FUNGAL_STONE.get().defaultBlockState(), 3);
     }
 
