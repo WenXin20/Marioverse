@@ -254,6 +254,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.CAVE_PIRANHA_PLANTS_SPAWNABLE_ON)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .addTag(BlockTags.BASE_STONE_OVERWORLD);
 
         tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS);
@@ -511,6 +512,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
+
+        tag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.GRASSY_FUNGAL_STONE.get());
 
         tag(TagRegistry.HARD_BLOCKS)
                 .addTag(TagRegistry.FLAMMABLE_HARD_BLOCKS)
@@ -973,6 +978,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(Tags.Blocks.STONES)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
@@ -985,15 +991,18 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_TILES.get());
 
         tag(BlockTags.ANIMALS_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.BASE_STONE_OVERWORLD)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
 
         tag(BlockTags.BIG_DRIPLEAF_PLACEABLE)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
                 .add(BlockRegistry.SHROOMSOIL.get());
 
@@ -1026,6 +1035,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
 
         tag(BlockTags.DIRT)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
                 .add(BlockRegistry.SHROOMSOIL.get());
 
@@ -1060,9 +1070,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
 
         tag(BlockTags.FOXES_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.FROGS_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.GEODE_INVALID_BLOCKS)
@@ -1100,6 +1112,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
 
         tag(BlockTags.PARROTS_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.PLANKS)
@@ -1108,6 +1121,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.MUSHROOT_PLANKS.get());
 
         tag(BlockTags.RABBITS_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.REPLACEABLE)
@@ -1215,6 +1229,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
 
         tag(BlockTags.VALID_SPAWN)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.WALL_POST_OVERRIDE)
@@ -1280,6 +1295,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
         tag(BlockTags.WOLVES_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.WOODEN_FENCES)
@@ -1332,6 +1348,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.DEAD_CORAL_TOWER_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)

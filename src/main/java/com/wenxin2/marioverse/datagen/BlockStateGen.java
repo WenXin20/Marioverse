@@ -199,18 +199,6 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.DEAD_TUBE_CORAL_TOWER.get());
         this.logBlocks(BlockRegistry.MUSHROOT_LOG.get(),
                 BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
-        this.shroomgrassBlockModel(BlockRegistry.SHROOMGRASS_BLOCK.get(), modLoc("block/shroomsoil_top"),
-                modLoc("block/shroomgrass_block_top"), "shroomgrass_block", "shroomgrass_block_overlay");
-        this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
-                blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
-        this.tintedCrossModel(BlockRegistry.SHORT_SHROOMGRASS.get(), blockTexture(BlockRegistry.SHORT_SHROOMGRASS.get()));
-        this.tintedCrossModel(BlockRegistry.SHROOMGRASS.get(), blockTexture(BlockRegistry.SHROOMGRASS.get()));
-        this.tallShroomgrassModel(BlockRegistry.TALL_SHROOMGRASS.get(), texture(BlockRegistry.TALL_SHROOMGRASS.get(), "_bottom"),
-                texture(BlockRegistry.TALL_SHROOMGRASS.get(), "_top"));
-        this.shrubroomModel(BlockRegistry.SHRUBROOM.get());
-        this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHORT_SHROOMGRASS.get()));
-        this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHROOMGRASS.get()));
-        this.pottedShrubroomModel(BlockRegistry.POTTED_SHRUBROOM.get());
         this.picketFenceBlocks(BlockRegistry.ACACIA_PICKET_FENCE.get(),
                 BlockRegistry.BAMBOO_PICKET_FENCE.get(),
                 BlockRegistry.BIRCH_PICKET_FENCE.get(),
@@ -226,6 +214,8 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.RED_PICKET_FENCE.get(),
                 BlockRegistry.WHITE_PICKET_FENCE.get());
 
+        this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
+                blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
         this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));
         this.blossomModel(blossom, blockTexture(blossom), texture(blossom, "_leaves"));
         this.crossModel(BlockRegistry.MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
@@ -249,11 +239,25 @@ public class BlockStateGen extends BlockStateProvider {
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
         this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/potted_dango_blossom"),
                 modLoc("block/potted_dango_blossom_leaves"));
+        this.pottedShrubroomModel(BlockRegistry.POTTED_SHRUBROOM.get());
         this.pottedTrampolineCapBlueModel(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
         this.pottedTrampolineCapRedModel(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
         this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), blockTexture(BlockRegistry.SPIKE_PANEL.get()));
+        this.shrubroomModel(BlockRegistry.SHRUBROOM.get());
+        this.shroomgrassBlockModel(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(), 1, blockTexture(BlockRegistry.DEEP_FUNGAL_STONE.get()),
+                modLoc("block/grassy_deep_fungal_stone_top"), "grassy_deep_fungal_stone", "grassy_deep_fungal_stone_overlay");
+        this.shroomgrassBlockModel(BlockRegistry.GRASSY_FUNGAL_STONE.get(), 1, blockTexture(BlockRegistry.FUNGAL_STONE.get()),
+                modLoc("block/grassy_fungal_stone_top"), "grassy_fungal_stone", "grassy_fungal_stone_overlay");
+        this.shroomgrassBlockModel(BlockRegistry.SHROOMGRASS_BLOCK.get(), 4, modLoc("block/shroomsoil_top"),
+                modLoc("block/shroomgrass_block_top"), "shroomgrass_block", "shroomgrass_block_overlay");
         this.splunkinOLanternModel(lantern, blockTexture(lantern), mcLoc("block/" + pumpkin + "_side"),
                 mcLoc("block/" + pumpkin + "_top"), texture(lantern, "_cracked"), texture(lantern, "_cracked_side"), texture(lantern, "_cracked_top"));
+        this.tallShroomgrassModel(BlockRegistry.TALL_SHROOMGRASS.get(), texture(BlockRegistry.TALL_SHROOMGRASS.get(), "_bottom"),
+                texture(BlockRegistry.TALL_SHROOMGRASS.get(), "_top"));
+        this.tintedCrossModel(BlockRegistry.SHORT_SHROOMGRASS.get(), blockTexture(BlockRegistry.SHORT_SHROOMGRASS.get()));
+        this.tintedCrossModel(BlockRegistry.SHROOMGRASS.get(), blockTexture(BlockRegistry.SHROOMGRASS.get()));
+        this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHORT_SHROOMGRASS.get()));
+        this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHROOMGRASS.get()));
         this.trampolineCapBlueModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
         this.trampolineCapRedModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
         this.waterSpoutModel(waterSpout, texture(waterSpout, "_flow"), texture(waterSpout, "_still"),
@@ -1554,22 +1558,22 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockWithItem(block, element.end());
     }
 
-    private void shroomgrassBlockModel(Block block, ResourceLocation bottomTexture, ResourceLocation topTexture,
-                                    String sideTextureBaseName, String overlayTextureBaseName) {
+    private void shroomgrassBlockModel(Block block, int sideTexturesCount, ResourceLocation bottomTexture, ResourceLocation topTexture,
+                                       String sideTexture, String overlayTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile[] sideVariants = new ModelFile[4];
+        ModelFile[] sideVariants = new ModelFile[sideTexturesCount];
         for (int i = 0; i < sideVariants.length; i++) {
             String variantName = i == 0 ? modelName : modelName + "_" + i;
-            ResourceLocation sideTexture = modLoc("block/" + (i == 0 ? sideTextureBaseName : sideTextureBaseName + "_" + i));
-            ResourceLocation overlayTexture = modLoc("block/" + (i == 0 ? overlayTextureBaseName : overlayTextureBaseName + "_" + i));
+            ResourceLocation sideTextureNum = modLoc("block/" + (i == 0 ? sideTexture : sideTexture + "_" + i));
+            ResourceLocation overlayTextureNum = modLoc("block/" + (i == 0 ? overlayTexture : overlayTexture + "_" + i));
 
             sideVariants[i] = models()
                     .withExistingParent(variantName, mcLoc("minecraft:block/grass_block"))
                     .texture("bottom", bottomTexture)
-                    .texture("side", sideTexture)
+                    .texture("side", sideTextureNum)
                     .texture("top", topTexture)
-                    .texture("overlay", overlayTexture)
+                    .texture("overlay", overlayTextureNum)
                     .renderType("cutout_mipped");
         }
 

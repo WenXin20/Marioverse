@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
+import com.wenxin2.marioverse.blocks.FungalStone;
+import com.wenxin2.marioverse.blocks.GrassyStoneBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
@@ -260,6 +262,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
+    public static final DeferredBlock<Block> GRASSY_DEEP_FUNGAL_STONE;
+    public static final DeferredBlock<Block> GRASSY_FUNGAL_STONE;
     public static final DeferredBlock<Block> HARD_ACACIA_BLOCK;
     public static final DeferredBlock<Block> HARD_ACACIA_SLAB;
     public static final DeferredBlock<Block> HARD_ACACIA_STAIRS;
@@ -845,11 +849,20 @@ public class BlockRegistry {
                 () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHORT_SHROOMGRASS,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
+        SHROOMSOIL = registerBlock("shroomsoil",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
+
         SHROOMGRASS_BLOCK = registerBlock("shroomgrass_block",
                 () -> new ShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).mapColor(MapColor.GRASS)));
 
-        SHROOMSOIL = registerBlock("shroomsoil",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
+        GRASSY_FUNGAL_STONE = registerBlock("grassy_fungal_stone",
+                () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)
+                        .mapColor(MapColor.GRASS).sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .requiresCorrectToolForDrops().randomTicks().strength(1.5F, 6.0F)));
+        GRASSY_DEEP_FUNGAL_STONE = registerBlock("grassy_deep_fungal_stone",
+                () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)
+                        .mapColor(MapColor.GRASS).sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .requiresCorrectToolForDrops().randomTicks().strength(3.0F, 6.5F)));
 
 
         MUSHROOT_LOG = registerBlock("mushroot_log", () -> log(MapColor.WOOD, MapColor.TERRACOTTA_ORANGE));
@@ -1473,7 +1486,7 @@ public class BlockRegistry {
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
+                () -> new FungalStone(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
@@ -1591,7 +1604,7 @@ public class BlockRegistry {
 
 
         DEEP_FUNGAL_STONE = registerBlock("deep_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
+                () -> new FungalStone(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(3.0F, 6.5F).requiresCorrectToolForDrops()));
 
@@ -2315,7 +2328,7 @@ public class BlockRegistry {
                 () -> new ClearWarpPipeBlock(null, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
                         .sound(MarioverseSoundTypes.CLEAR_PIPE).instrument(NoteBlockInstrument.CHIME)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
-                        .strength(3.0F, 500.0F).requiresCorrectToolForDrops().noOcclusion()));
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops().noOcclusion()));
 
         // Keep below CLEAR_WARP_PIPE to prevent crash
         Arrays.stream(DyeColor.values()).forEach(color ->

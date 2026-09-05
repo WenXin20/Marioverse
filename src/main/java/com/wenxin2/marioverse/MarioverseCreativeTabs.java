@@ -220,8 +220,10 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.SHROOMGRASS_BLOCK);
             add(event, BlockRegistry.SHROOMSOIL);
 
+            add(event, BlockRegistry.GRASSY_FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE);
             add(event, BlockRegistry.ROCKY_FUNGAL_STONE);
+            add(event, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
 

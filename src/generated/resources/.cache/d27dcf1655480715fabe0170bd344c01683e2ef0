@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-03T23:04:37.2050559	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-05T00:43:43.5438334	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -33,7 +33,7 @@ c7065018449d1318e71044df4526e528d11f4109 data/c/tags/block/glass_panes/wooden.js
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/block/pumpkins/jack_o_lanterns.json
 9c8496bbff0ae45f50e8bab3d81639e9e3d8e24c data/c/tags/block/sands/colorless.json
 e31783925b31fdd1f8d79491031265d854c17543 data/c/tags/block/sands/red.json
-9c91acf2d7212f4d9a7994ac5aa2aeb60d7dcc92 data/c/tags/block/stones.json
+aec5f9c77d2338470e0c5e36edc2a32d1b6e48bf data/c/tags/block/stones.json
 0ad9d824b4db2184ad3dde40c8c0fb4b4cc747a4 data/c/tags/block/stripped_logs.json
 6b4769067bf2d655eaa4e7f3501052b87ce26d17 data/c/tags/block/stripped_woods.json
 c53401f50b0f59c35d02f14d9dc888d401ed89dd data/framedblocks/tags/block/blockentity_whitelisted.json
@@ -55,7 +55,7 @@ cdd5677d57c05bb688c9072e4aae2f92ef91e18e data/marioverse/tags/block/calcite.json
 bb4959ffaa045a90d10ea001cf72be1d1aa2bf91 data/marioverse/tags/block/calcite_bricks.json
 72bdcfe08e01169a99721413f7b3125196d363e9 data/marioverse/tags/block/calcite_brick_pedestals.json
 4677a62f0d83bd3bb4d6f24178f69a7607086794 data/marioverse/tags/block/cannot_use_as_disguise.json
-dab85a98254d037b83ba34e00764caa7aba81ad2 data/marioverse/tags/block/cave_piranha_plants_spawnable_on.json
+768855efd219aaefcd32d4e3f1f53f1a1f091a3c data/marioverse/tags/block/cave_piranha_plants_spawnable_on.json
 c13d4bd523990d06f17b1303efa2da9b027cf3c8 data/marioverse/tags/block/checkpoint_flags.json
 8216809e2ce95f71085cc90bd77b7c41f0dae896 data/marioverse/tags/block/chiseled_calcite_bricks.json
 199eca6dc47a69842481034a1fccd44118fda48b data/marioverse/tags/block/coral_towers.json
@@ -69,6 +69,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_chec
 8079bf4b3192621a465f4f333abe04910aa4cd42 data/marioverse/tags/block/fireball_sets_on_fire.json
 619667c1b7332d180fa0737d335fc257a9549000 data/marioverse/tags/block/freezes_into_packed_ice.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/block/goal_poles.json
+3d4d888c0e545a23baafceb9e1f8ff61714b6694 data/marioverse/tags/block/grassy_stones.json
 997a52ff3478dd9eca0ec393d430955c84aadb02 data/marioverse/tags/block/hard_blocks.json
 3b9b040575d654df80ec1f65ce6be2108f30d99d data/marioverse/tags/block/hard_blocks/flammable.json
 2ccd3de4338565050f70c42565fd224b87d3b597 data/marioverse/tags/block/hard_blocks/stone.json
@@ -135,22 +136,22 @@ d5e972f693fa185801a5a13ff5d3a06d2e9c2875 data/marioverse/tags/block/walls/wooden
 5e4c2fc0fd9b9b60d7e3771a03b0ac2b7c20b44f data/marioverse/tags/block/window_panes/wooden.json
 d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_efficient.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/ancient_city_replaceable.json
-64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/animals_spawnable_on.json
-9c91acf2d7212f4d9a7994ac5aa2aeb60d7dcc92 data/minecraft/tags/block/base_stone_overworld.json
-f68d3daaf52cafc76c83ea0e5814e6cdfb4b1c7f data/minecraft/tags/block/big_dripleaf_placeable.json
+9f89c787a824aecb22f8622987aa0522eff1e32a data/minecraft/tags/block/animals_spawnable_on.json
+aec5f9c77d2338470e0c5e36edc2a32d1b6e48bf data/minecraft/tags/block/base_stone_overworld.json
+8b71b4673f3e865c24b2f943adecaf33da3cc128 data/minecraft/tags/block/big_dripleaf_placeable.json
 de585f23227d35ce53a4581f7b4eaf6048585b1d data/minecraft/tags/block/ceiling_hanging_signs.json
 4e2ef9b74a3cf54b4b01cbf660f5a09df3ac672c data/minecraft/tags/block/convertable_to_mud.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/corals.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
-f68d3daaf52cafc76c83ea0e5814e6cdfb4b1c7f data/minecraft/tags/block/dirt.json
+8b71b4673f3e865c24b2f943adecaf33da3cc128 data/minecraft/tags/block/dirt.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
 f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 386b81af7f837807d6299c2567d62a0fb8af568c data/minecraft/tags/block/fence_gates.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
 0cb094dee24c617bf248ca753c1a39c4b6750e4d data/minecraft/tags/block/flower_pots.json
-64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/foxes_spawnable_on.json
-64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/frogs_spawnable_on.json
+9f89c787a824aecb22f8622987aa0522eff1e32a data/minecraft/tags/block/foxes_spawnable_on.json
+9f89c787a824aecb22f8622987aa0522eff1e32a data/minecraft/tags/block/frogs_spawnable_on.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
@@ -160,13 +161,13 @@ e433af55e1c180aea3ccf78cdbf9c88644a14ae1 data/minecraft/tags/block/leaves.json
 db85174ac00eb7bab404efe489de6b734ecda2e4 data/minecraft/tags/block/logs_that_burn.json
 9513c3f5d9b90003a1781291139d7b97f1bf550c data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-1349e229511fa4b588124d0318c290dc9a09cc65 data/minecraft/tags/block/mineable/pickaxe.json
+2dca5fc52c85ec6e82e21ddf9922d525e22ed072 data/minecraft/tags/block/mineable/pickaxe.json
 379327e02d9414987e8c630372cb09a9d3168993 data/minecraft/tags/block/mineable/shovel.json
 11bf9914a37f97368e3320edbd090ecc24c07476 data/minecraft/tags/block/needs_iron_tool.json
 9d1c2fbbbbffc0bbc0ce1265f2be54dc26a8fb72 data/minecraft/tags/block/needs_stone_tool.json
-64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/parrots_spawnable_on.json
+9f89c787a824aecb22f8622987aa0522eff1e32a data/minecraft/tags/block/parrots_spawnable_on.json
 1246002449a1e94e6f47058a9210307d8ff68423 data/minecraft/tags/block/planks.json
-64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/rabbits_spawnable_on.json
+9f89c787a824aecb22f8622987aa0522eff1e32a data/minecraft/tags/block/rabbits_spawnable_on.json
 cea4578062b58ff06be89568410942cf35b81470 data/minecraft/tags/block/replaceable.json
 cea4578062b58ff06be89568410942cf35b81470 data/minecraft/tags/block/replaceable_by_trees.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json
@@ -180,13 +181,13 @@ ffc1d076cddd81e49e995e1874de5cb086d4eb40 data/minecraft/tags/block/standing_sign
 da1752a7380e31e15928af8271c46a5a50d66dd3 data/minecraft/tags/block/stone_pressure_plates.json
 a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficient.json
 a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
-64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/valid_spawn.json
+9f89c787a824aecb22f8622987aa0522eff1e32a data/minecraft/tags/block/valid_spawn.json
 c1d835760cafacd76917fdf79d03a50fa0969088 data/minecraft/tags/block/walls.json
 4881a523aa09b21de0da1daeb555706b989268a6 data/minecraft/tags/block/wall_hanging_signs.json
 448f82f25c2e7dabdd10de5125d3d184f95686e4 data/minecraft/tags/block/wall_post_override.json
 d90cde624d3a35c0d13ed4fea71909d60a64878b data/minecraft/tags/block/wall_signs.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/wither_immune.json
-64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/minecraft/tags/block/wolves_spawnable_on.json
+9f89c787a824aecb22f8622987aa0522eff1e32a data/minecraft/tags/block/wolves_spawnable_on.json
 a7e1111b0a112941295c13c793d696ce6f478c40 data/minecraft/tags/block/wooden_fences.json
 60e36229e51deb50214101fb4dfa04856351dd00 data/minecraft/tags/block/wooden_slabs.json
 3ae6e28950b39cc1e1f965450fe838908c2b7eef data/minecraft/tags/block/wooden_stairs.json

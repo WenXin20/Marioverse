@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:block/grass_block",
+  "render_type": "minecraft:cutout_mipped",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/fungal_stone_top",
+    "side": "marioverse:block/grassy_fungal_stone",
+    "top": "marioverse:block/grassy_fungal_stone_top",
+    "overlay": "marioverse:block/grassy_fungal_stone_overlay",
+    "particle": "#bottom"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" }
+  }
+}

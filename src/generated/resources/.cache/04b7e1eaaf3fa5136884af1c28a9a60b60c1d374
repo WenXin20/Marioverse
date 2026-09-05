@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-01T19:40:56.9603116	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-09-05T00:43:43.5478251	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -41,7 +41,7 @@ c7065018449d1318e71044df4526e528d11f4109 data/c/tags/item/glass_panes/wooden.jso
 94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/c/tags/item/mushrooms.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/pumpkins/carved.json
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/item/pumpkins/jack_o_lanterns.json
-9c91acf2d7212f4d9a7994ac5aa2aeb60d7dcc92 data/c/tags/item/stones.json
+aec5f9c77d2338470e0c5e36edc2a32d1b6e48bf data/c/tags/item/stones.json
 0ad9d824b4db2184ad3dde40c8c0fb4b4cc747a4 data/c/tags/item/stripped_logs.json
 6b4769067bf2d655eaa4e7f3501052b87ce26d17 data/c/tags/item/stripped_woods.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/c/tags/item/tools/melee_weapon.json
@@ -87,6 +87,7 @@ cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_check
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/item/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/item/dyeable_warp_pipes.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
+3d4d888c0e545a23baafceb9e1f8ff61714b6694 data/marioverse/tags/item/grassy_stones.json
 8e8620f9d08b6691c8d8ebd6d2024858f829f602 data/marioverse/tags/item/halloween_masks.json
 997a52ff3478dd9eca0ec393d430955c84aadb02 data/marioverse/tags/item/hard_blocks.json
 3b9b040575d654df80ec1f65ce6be2108f30d99d data/marioverse/tags/item/hard_blocks/flammable.json
@@ -183,8 +184,8 @@ e3f2cf34c2aea07a8c14e2e18a3e31b9d606d23e data/minecraft/tags/item/signs.json
 8bec1ef5bee8c3b635422f922cd1823b2a2c35f7 data/minecraft/tags/item/slabs.json
 835cd4c1c8f9ccf885590ced2b4a7a0c21080176 data/minecraft/tags/item/stairs.json
 5b63a05162ded9d339a678efed453b29d4ad89f2 data/minecraft/tags/item/stone_buttons.json
-9b52260544721b3a66786e479b920780ebb24e38 data/minecraft/tags/item/stone_crafting_materials.json
-9b52260544721b3a66786e479b920780ebb24e38 data/minecraft/tags/item/stone_tool_materials.json
+ac26721635434119f542ccb6ed76d5a328eb8c9d data/minecraft/tags/item/stone_crafting_materials.json
+ac26721635434119f542ccb6ed76d5a328eb8c9d data/minecraft/tags/item/stone_tool_materials.json
 2773255bbc15ac09478a13c0dbb75621136e2331 data/minecraft/tags/item/trimmable_armor.json
 df17fbdce9a0384cbb7b56e5d419d6094b844928 data/minecraft/tags/item/trim_templates.json
 c1d835760cafacd76917fdf79d03a50fa0969088 data/minecraft/tags/item/walls.json

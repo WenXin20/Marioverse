@@ -152,17 +152,25 @@ public class MarioverseClient {
             public boolean areBreakingParticlesTinted(BlockState state, ClientLevel level, BlockPos pos) {
                 return false;
             }
-        }, BlockRegistry.SHROOMGRASS_BLOCK.get());
+        }, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FUNGAL_STONE.get(),
+                BlockRegistry.SHROOMGRASS_BLOCK.get());
     }
 
     @SubscribeEvent
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
-                ? BiomeColors.getAverageGrassColor(level, pos)
-                : GrassColor.getDefaultColor(), BlockRegistry.SHROOMGRASS_BLOCK.get(),
-                BlockRegistry.SHORT_SHROOMGRASS.get(), BlockRegistry.SHROOMGRASS.get(), BlockRegistry.TALL_SHROOMGRASS.get(),
-                BlockRegistry.SHRUBROOM.get(), BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(), BlockRegistry.POTTED_SHROOMGRASS.get(),
-                BlockRegistry.POTTED_SHRUBROOM.get());
+                ? BiomeColors.getAverageGrassColor(level, pos) : GrassColor.getDefaultColor(),
+                BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FUNGAL_STONE.get(),
+                BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(),
+                BlockRegistry.POTTED_SHROOMGRASS.get(),
+                BlockRegistry.POTTED_SHRUBROOM.get(),
+                BlockRegistry.SHORT_SHROOMGRASS.get(),
+                BlockRegistry.SHROOMGRASS.get(),
+                BlockRegistry.SHROOMGRASS_BLOCK.get(),
+                BlockRegistry.SHRUBROOM.get(),
+                BlockRegistry.TALL_SHROOMGRASS.get());
 
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
                 ? BiomeColors.getAverageFoliageColor(level, pos)
@@ -189,8 +197,13 @@ public class MarioverseClient {
     @SubscribeEvent
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> tintIndex == 0 ? 0x12FC29 : -1,
-                BlockRegistry.SHROOMGRASS_BLOCK.get(), BlockRegistry.SHORT_SHROOMGRASS.get(), BlockRegistry.SHROOMGRASS.get(),
-                BlockRegistry.TALL_SHROOMGRASS.get(), BlockRegistry.SHRUBROOM.get());
+                BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FUNGAL_STONE.get(),
+                BlockRegistry.SHROOMGRASS_BLOCK.get(),
+                BlockRegistry.SHORT_SHROOMGRASS.get(),
+                BlockRegistry.SHROOMGRASS.get(),
+                BlockRegistry.TALL_SHROOMGRASS.get(),
+                BlockRegistry.SHRUBROOM.get());
 
         event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
                 BlockRegistry.MUSHROOT_LEAVES.get());

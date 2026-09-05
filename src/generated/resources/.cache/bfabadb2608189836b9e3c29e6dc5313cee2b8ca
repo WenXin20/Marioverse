@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-03T23:04:37.1636137	Item Models: marioverse
+// 1.21.1	2026-09-05T00:43:43.4933197	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -3207,7 +3207,7 @@ aadebea237963517b9aed338c780078359859180 assets/marioverse/models/item/storage_w
 0533d53921e812aa441cba354fe2c34d853d5636 assets/marioverse/models/item/super_mushroom_spawn_egg.json
 d149a63f68a8b5c5c0de44c13ab0483da101bb14 assets/marioverse/models/item/super_star.json
 0a2f7a3668f340208e18c3dba6e3f7520206a16e assets/marioverse/models/item/super_star_spawn_egg.json
-0189176562ac502b6a31c54dc37d613ab8a8cbdb assets/marioverse/models/item/tall_shroomgrass.json
+12f9312e8c30841abc669199911652fe8b1c861d assets/marioverse/models/item/tall_shroomgrass.json
 a100ec0d567d7bce7a0e279111c880a552572f51 assets/marioverse/models/item/tropical_piranha_plant_pod.json
 0a1aae071b5f0dd3775b3b2d9c99379a34bc5de8 assets/marioverse/models/item/tropical_piranha_plant_spawn_egg.json
 cddb5b5e6d0093c4099c571e8dcf7faa8816941e assets/marioverse/models/item/tube_coral_tower.json

@@ -90,6 +90,7 @@ public class TagRegistry {
     public static final TagKey<Block> FLOATY = blockTags("sable/floaty");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
+    public static final TagKey<Block> GRASSY_STONES = blockTags("grassy_stones");
     public static final TagKey<Block> HARD_BLOCKS = blockTags("hard_blocks");
     public static final TagKey<Block> HARD_SLABS = blockTags("hard_slabs");
     public static final TagKey<Block> HARD_STAIRS = blockTags("hard_stairs");
@@ -229,6 +230,7 @@ public class TagRegistry {
     public static final TagKey<Item> FLAMMABLE_WINDOW_ITEMS = itemTags("windows/flammable");
     public static final TagKey<Item> FLAMMABLE_WINDOW_PANE_ITEMS = itemTags("window_panes/flammable");
     public static final TagKey<Item> GOAL_POLE_ITEMS = itemTags("goal_poles");
+    public static final TagKey<Item> GRASSY_STONE_ITEMS = itemTags("grassy_stones");
     public static final TagKey<Item> HALLOWEEN_MASKS = itemTags("halloween_masks");
     public static final TagKey<Item> HARD_BLOCK_ITEMS = itemTags("hard_blocks");
     public static final TagKey<Item> HARD_SLAB_ITEMS = itemTags("hard_slabs");
