@@ -20,6 +20,7 @@ import com.wenxin2.marioverse.registries.GameEventRegistry;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.PlacedFeatureRegistry;
 import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.RecipeSerializerRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -132,6 +133,7 @@ public class Marioverse {
         ItemRegistry.init();
         MenuRegistry.init();
         ParticleRegistry.init();
+        PlacedFeatureRegistry.init();
         RecipeSerializerRegistry.init();
         SoundRegistry.init();
 

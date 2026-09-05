@@ -1,13 +1,12 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.registries.BlockRegistry;
-import java.util.List;
+import com.wenxin2.marioverse.registries.PlacedFeatureRegistry;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
@@ -17,8 +16,6 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LightEngine;
 
@@ -55,10 +52,9 @@ public class ShroomgrassBlock extends GrassBlock {
     @Override
     public void performBonemeal(ServerLevel serverLevel, RandomSource random, BlockPos pos, BlockState state) {
         BlockPos posAbove = pos.above();
-        BlockState stateShortGrass = Blocks.SHORT_GRASS.defaultBlockState(); //TODO: replace with short shroomgrass
         Optional<Holder.Reference<PlacedFeature>> placedFeature = serverLevel.registryAccess()
                 .registryOrThrow(Registries.PLACED_FEATURE)
-                .getHolder(VegetationPlacements.GRASS_BONEMEAL);
+                .getHolder(PlacedFeatureRegistry.SHROOMGRASS_BONEMEAL);
 
         label49:
         for (int i = 0; i < 128; i++) {
@@ -74,25 +70,14 @@ public class ShroomgrassBlock extends GrassBlock {
             }
 
             BlockState stateAbove = serverLevel.getBlockState(posAboveOffset);
-            if (stateAbove.is(stateShortGrass.getBlock()) && random.nextInt(10) == 0)
-                ((BonemealableBlock) stateShortGrass.getBlock())
-                        .performBonemeal(serverLevel, random, posAboveOffset, stateAbove);
+            if ((stateAbove.is(BlockRegistry.SHORT_SHROOMGRASS.get()) || stateAbove.is(BlockRegistry.SHROOMGRASS.get()))
+                    && random.nextInt(10) == 0)
+                ((BonemealableBlock) stateAbove.getBlock()).performBonemeal(serverLevel, random, posAboveOffset, stateAbove);
 
             if (stateAbove.isAir()) {
-                Holder<PlacedFeature> featureHolder;
-                if (random.nextInt(8) == 0) {
-                    List<ConfiguredFeature<?, ?>> list = serverLevel.getBiome(posAboveOffset).value()
-                            .getGenerationSettings().getFlowerFeatures();
-                    if (list.isEmpty())
-                        continue;
-
-                    featureHolder = ((RandomPatchConfiguration) list.get(0).config()).feature();
-                } else {
-                    if (placedFeature.isEmpty())
-                        continue;
-                    featureHolder = placedFeature.get();
-                }
-                featureHolder.value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, posAboveOffset);
+                if (placedFeature.isEmpty())
+                    continue;
+                placedFeature.get().value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, posAboveOffset);
             }
         }
     }

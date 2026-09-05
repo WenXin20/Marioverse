@@ -40,7 +40,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicBlockItem(BlockRegistry.MUSHROOT_SAPLING.asItem());
         this.basicBlockItem(BlockRegistry.SHORT_SHROOMGRASS.asItem());
         this.basicBlockItem(BlockRegistry.SHROOMGRASS.asItem());
-        this.basicBlockItem(BlockRegistry.TALL_SHROOMGRASS.asItem(), "_bottom");
+        this.basicBlockItem(BlockRegistry.TALL_SHROOMGRASS.asItem(), "_top");
 
         this.basicItem(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.COIN.asItem());
