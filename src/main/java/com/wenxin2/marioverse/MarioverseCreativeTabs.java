@@ -992,12 +992,8 @@ public class MarioverseCreativeTabs {
                 ItemStack deepCavePiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.DEEP_CAVE);
                 ItemStack tropicalPiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.TROPICAL);
 
-                addAfter(event, Blocks.MYCELIUM, BlockRegistry.SHROOMSOIL);
-                addAfter(event, BlockRegistry.SHROOMSOIL, BlockRegistry.SHROOMGRASS_BLOCK);
-                addAfter(event, BlockRegistry.SHROOMGRASS_BLOCK, BlockRegistry.SHORT_SHROOMGRASS);
-                addAfter(event, BlockRegistry.SHORT_SHROOMGRASS, BlockRegistry.SHROOMGRASS);
-                addAfter(event, BlockRegistry.SHROOMGRASS, BlockRegistry.TALL_SHROOMGRASS);
-                addAfter(event, BlockRegistry.TALL_SHROOMGRASS, BlockRegistry.SHRUBROOM);
+                addAfter(event, Blocks.MYCELIUM, BlockRegistry.SHROOMGRASS_BLOCK);
+                addAfter(event, Blocks.FARMLAND, BlockRegistry.SHROOMSOIL);
 
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE);
@@ -1012,7 +1008,14 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.RED_TRAMPOLINE_CAP, BlockRegistry.BLUE_TRAMPOLINE_CAP);
+
+                addAfter(event, Blocks.SHORT_GRASS, BlockRegistry.SHORT_SHROOMGRASS);
+                addAfter(event, BlockRegistry.SHORT_SHROOMGRASS, BlockRegistry.SHROOMGRASS);
+                addAfter(event, Blocks.LARGE_FERN, BlockRegistry.TALL_SHROOMGRASS);
+
                 addAfter(event, Blocks.SPORE_BLOSSOM, BlockRegistry.DANGO_BLOSSOM);
+                addAfter(event, BlockRegistry.DANGO_BLOSSOM, BlockRegistry.SHRUBROOM);
+                
                 addAfter(event, Items.PITCHER_POD, piranhaPlantPod);
                 addAfter(event, piranhaPlantPod, tropicalPiranhaPlantPod);
                 addAfter(event, tropicalPiranhaPlantPod, cavePiranhaPlantPod);

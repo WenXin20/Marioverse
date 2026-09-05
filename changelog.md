@@ -27,6 +27,8 @@
 - Added Hard Wooden Blocks for all wood types
   - Every Compat support
 - Added Shroomsoil and Shroomgrass Block
+- Added Short Shroomgrass, Shroomgrass, & Tall Shroomgrass
+- Added Shrubrooms
 - Added tooltips to bridges
 - Wandering trader trades Mushroot Saplings
 - Wandering trader trades Shroomgrass Blocks
