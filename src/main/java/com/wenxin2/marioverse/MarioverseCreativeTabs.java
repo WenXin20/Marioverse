@@ -293,6 +293,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_DOOR);
             add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
 
+            add(event, BlockRegistry.GRASSY_FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE_STAIRS);
             add(event, BlockRegistry.FUNGAL_STONE_SLAB);
@@ -334,6 +335,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.HARD_FUNGAL_SLAB);
             add(event, BlockRegistry.HARD_FUNGAL_WALL);
 
+            add(event, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_STAIRS);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_SLAB);
