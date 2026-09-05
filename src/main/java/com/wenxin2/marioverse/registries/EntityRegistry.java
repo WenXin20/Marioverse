@@ -41,17 +41,12 @@ import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.projectiles.BouncingFireballProjectile;
 import com.wenxin2.marioverse.entities.projectiles.BouncingIceBallProjectile;
 import com.wenxin2.marioverse.entities.projectiles.LargeSnowballProjectile;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -62,149 +57,211 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class EntityRegistry {
-    public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL =
-            register("bouncing_fireball", BouncingFireballProjectile::new, MobCategory.MISC, 0.3f, 0.3f);
-    public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL =
-            register("bouncing_ice_ball", BouncingIceBallProjectile::new, MobCategory.MISC, 0.5f, 0.5f);
-    public static final DeferredHolder<EntityType<?>, EntityType<LargeSnowballProjectile>> LARGE_SNOWBALL =
-            register("large_snowball", LargeSnowballProjectile::new, MobCategory.MISC, 0.75F, 0.75F);
-    public static final DeferredHolder<EntityType<?>, EntityType<IceCubeEntity>> ICE_CUBE =
-            Marioverse.ENTITIES.register("ice_cube", () -> EntityType.Builder.of(IceCubeEntity::new, MobCategory.MISC)
-                    .sized(1.0F, 1.0F).passengerAttachments(0.5F).build("ice_cube"));
+    public static final DeferredHolder<EntityType<?>, EntityType<BooEntity>> BOO;
+    public static final DeferredHolder<EntityType<?>, EntityType<BouncingFireballProjectile>> BOUNCING_FIREBALL;
+    public static final DeferredHolder<EntityType<?>, EntityType<BouncingIceBallProjectile>> BOUNCING_ICE_BALL;
+    public static final DeferredHolder<EntityType<?>, EntityType<CheepCheepEntity>> CHEEP_CHEEP;
+    public static final DeferredHolder<EntityType<?>, EntityType<DashMushroomEntity>> DASH_MUSHROOM;
+    public static final DeferredHolder<EntityType<?>, EntityType<DeepCheepEntity>> DEEP_CHEEP;
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesEntity>> DRY_BONES;
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_HEAD;
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_LEFT_ARM;
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_LEFT_LEG;
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_RIGHT_ARM;
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_RIGHT_LEG;
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_SHELL;
+    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_TAIL;
+    public static final DeferredHolder<EntityType<?>, EntityType<EepCheepEntity>> EEP_CHEEP;
+    public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER;
+    public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA;
+    public static final DeferredHolder<EntityType<?>, EntityType<GoldKoopaShellEntity>> GOLD_KOOPA_SHELL;
+    public static final DeferredHolder<EntityType<?>, EntityType<GoldKoopaTroopaEntity>> GOLD_KOOPA_TROOPA;
+    public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA;
+    public static final DeferredHolder<EntityType<?>, EntityType<KoopaShellEntity>> GREEN_KOOPA_SHELL;
+    public static final DeferredHolder<EntityType<?>, EntityType<GreenKoopaTroopaEntity>> GREEN_KOOPA_TROOPA;
+    public static final DeferredHolder<EntityType<?>, EntityType<HeftyGoombaEntity>> HEFTY_GOOMBA;
+    public static final DeferredHolder<EntityType<?>, EntityType<IceCubeEntity>> ICE_CUBE;
+    public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER;
+    public static final DeferredHolder<EntityType<?>, EntityType<LargeSnowballProjectile>> LARGE_SNOWBALL;
+    public static final DeferredHolder<EntityType<?>, EntityType<MegaGoombaEntity>> MEGA_GOOMBA;
+    public static final DeferredHolder<EntityType<?>, EntityType<MegaMushroomEntity>> MEGA_MUSHROOM;
+    public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA;
+    public static final DeferredHolder<EntityType<?>, EntityType<MiniMushroomEntity>> MINI_MUSHROOM;
+    public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeBoat>> MUSHROOT_BOAT;
+    public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeChestBoat>> MUSHROOT_CHEST_BOAT;
+    public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM;
+    public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT;
+    public static final DeferredHolder<EntityType<?>, EntityType<PokeyEntity>> POKEY;
+    public static final DeferredHolder<EntityType<?>, EntityType<PokeyBodyEntity>> POKEY_BODY;
+    public static final DeferredHolder<EntityType<?>, EntityType<PorcupufferEntity>> PORCUPUFFER;
+    public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaShellEntity>> RED_KOOPA_SHELL;
+    public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaTroopaEntity>> RED_KOOPA_TROOPA;
+    public static final DeferredHolder<EntityType<?>, EntityType<SnowPokeyEntity>> SNOW_POKEY;
+    public static final DeferredHolder<EntityType<?>, EntityType<SnowPokeyBodyEntity>> SNOW_POKEY_BODY;
+    public static final DeferredHolder<EntityType<?>, EntityType<SpinyCheepCheepEntity>> SPINY_CHEEP_CHEEP;
+    public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN;
+    public static final DeferredHolder<EntityType<?>, EntityType<SuperMushroomEntity>> SUPER_MUSHROOM;
+    public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR;
 
-    public static final DeferredHolder<EntityType<?>, EntityType<DashMushroomEntity>> DASH_MUSHROOM =
-            Marioverse.ENTITIES.register("dash_mushroom", () -> EntityType.Builder.of(DashMushroomEntity::new, MobCategory.AMBIENT)
-                    .sized(0.8F, 0.8F).build("dash_mushroom"));
-    public static final DeferredHolder<EntityType<?>, EntityType<FireFlowerEntity>> FIRE_FLOWER =
-            Marioverse.ENTITIES.register("fire_flower", () -> EntityType.Builder.of(FireFlowerEntity::new, MobCategory.AMBIENT)
-                    .sized(0.6F, 0.875F).build("fire_flower"));
-    public static final DeferredHolder<EntityType<?>, EntityType<IceFlowerEntity>> ICE_FLOWER =
-            Marioverse.ENTITIES.register("ice_flower", () -> EntityType.Builder.of(IceFlowerEntity::new, MobCategory.AMBIENT)
-                    .sized(0.6F, 0.875F).build("ice_flower"));
-    public static final DeferredHolder<EntityType<?>, EntityType<MegaMushroomEntity>> MEGA_MUSHROOM =
-            Marioverse.ENTITIES.register("mega_mushroom", () -> EntityType.Builder.of(MegaMushroomEntity::new, MobCategory.AMBIENT)
-                    .sized(1.875F, 1.75F).build("mega_mushroom"));
-    public static final DeferredHolder<EntityType<?>, EntityType<MiniMushroomEntity>> MINI_MUSHROOM =
-            Marioverse.ENTITIES.register("mini_mushroom", () -> EntityType.Builder.of(MiniMushroomEntity::new, MobCategory.AMBIENT)
-                    .sized(0.5F, 0.5F).build("mini_mushroom"));
-    public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM =
-            Marioverse.ENTITIES.register("one_up_mushroom", () -> EntityType.Builder.of(OneUpMushroomEntity::new, MobCategory.AMBIENT)
-                    .sized(0.8F, 0.8F).build("one_up_mushroom"));
-    public static final DeferredHolder<EntityType<?>, EntityType<SuperMushroomEntity>> SUPER_MUSHROOM =
-            Marioverse.ENTITIES.register("super_mushroom", () -> EntityType.Builder.of(SuperMushroomEntity::new, MobCategory.AMBIENT)
-                    .sized(0.8F, 0.8F).build("super_mushroom"));
-    public static final DeferredHolder<EntityType<?>, EntityType<SuperStarEntity>> SUPER_STAR =
-            Marioverse.ENTITIES.register("super_star", () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
-                    .sized(0.8F, 0.8F).eyeHeight(0.625F).fireImmune().build("super_star"));
+    static {
+        BOUNCING_FIREBALL = Marioverse.ENTITIES.register("bouncing_fireball",
+                () -> EntityType.Builder.of(BouncingFireballProjectile::new, MobCategory.MISC)
+                        .sized(0.3F, 0.3F).build("bouncing_fireball"));
+        BOUNCING_ICE_BALL = Marioverse.ENTITIES.register("bouncing_ice_ball",
+                () -> EntityType.Builder.of(BouncingIceBallProjectile::new, MobCategory.MISC)
+                        .sized(0.5F, 0.5F).build("bouncing_ice_ball"));
+        LARGE_SNOWBALL = Marioverse.ENTITIES.register("large_snowball",
+                () -> EntityType.Builder.<LargeSnowballProjectile>of(LargeSnowballProjectile::new, MobCategory.MISC)
+                        .sized(0.75F, 0.75F).passengerAttachments(0.5F)
+                        .build("large_snowball"));
+        ICE_CUBE = Marioverse.ENTITIES.register("ice_cube",
+                () -> EntityType.Builder.of(IceCubeEntity::new, MobCategory.MISC)
+                        .sized(1.0F, 1.0F).passengerAttachments(0.5F)
+                        .build("ice_cube"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_HEAD =
-            Marioverse.ENTITIES.register("dry_bones_head", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
-                    .sized(0.8125F, 0.5625F).fireImmune().build("dry_bones_head"));
-    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_SHELL =
-            Marioverse.ENTITIES.register("dry_bones_shell", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
-                    .sized(0.7F, 0.7F).fireImmune().build("dry_bones_shell"));
-    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_TAIL =
-            Marioverse.ENTITIES.register("dry_bones_tail", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
-                    .sized(0.3125F, 0.3125F).fireImmune().build("dry_bones_tail"));
-    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_LEFT_ARM =
-            Marioverse.ENTITIES.register("dry_bones_left_arm", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
-                    .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_left_arm"));
-    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_RIGHT_ARM =
-            Marioverse.ENTITIES.register("dry_bones_right_arm", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
-                    .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_right_arm"));
-    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_LEFT_LEG =
-            Marioverse.ENTITIES.register("dry_bones_left_leg", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
-                    .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_left_leg"));
-    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesPartEntity>> DRY_BONES_RIGHT_LEG =
-            Marioverse.ENTITIES.register("dry_bones_right_leg", () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
-                    .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_right_leg"));
+        DASH_MUSHROOM = Marioverse.ENTITIES.register("dash_mushroom",
+                () -> EntityType.Builder.of(DashMushroomEntity::new, MobCategory.AMBIENT)
+                        .sized(0.8F, 0.8F).build("dash_mushroom"));
+        FIRE_FLOWER = Marioverse.ENTITIES.register("fire_flower",
+                () -> EntityType.Builder.of(FireFlowerEntity::new, MobCategory.AMBIENT)
+                        .sized(0.6F, 0.875F).build("fire_flower"));
+        ICE_FLOWER = Marioverse.ENTITIES.register("ice_flower",
+                () -> EntityType.Builder.of(IceFlowerEntity::new, MobCategory.AMBIENT)
+                        .sized(0.6F, 0.875F).build("ice_flower"));
+        MEGA_MUSHROOM = Marioverse.ENTITIES.register("mega_mushroom",
+                () -> EntityType.Builder.of(MegaMushroomEntity::new, MobCategory.AMBIENT)
+                        .sized(1.875F, 1.75F).build("mega_mushroom"));
+        MINI_MUSHROOM = Marioverse.ENTITIES.register("mini_mushroom",
+                () -> EntityType.Builder.of(MiniMushroomEntity::new, MobCategory.AMBIENT)
+                        .sized(0.5F, 0.5F).build("mini_mushroom"));
+        ONE_UP_MUSHROOM = Marioverse.ENTITIES.register("one_up_mushroom",
+                () -> EntityType.Builder.of(OneUpMushroomEntity::new, MobCategory.AMBIENT)
+                        .sized(0.8F, 0.8F).build("one_up_mushroom"));
+        SUPER_MUSHROOM = Marioverse.ENTITIES.register("super_mushroom",
+                () -> EntityType.Builder.of(SuperMushroomEntity::new, MobCategory.AMBIENT)
+                        .sized(0.8F, 0.8F).build("super_mushroom"));
+        SUPER_STAR = Marioverse.ENTITIES.register("super_star",
+                () -> EntityType.Builder.of(SuperStarEntity::new, MobCategory.AMBIENT)
+                        .sized(0.8F, 0.8F).eyeHeight(0.625F)
+                        .fireImmune().build("super_star"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<BooEntity>> BOO =
-            Marioverse.ENTITIES.register("boo", () -> EntityType.Builder.of(BooEntity::new, MobCategory.MONSTER)
-                    .sized(0.6875F, 0.6875F).ridingOffset(0.1F).fireImmune().build("boo"));
-    public static final DeferredHolder<EntityType<?>, EntityType<CheepCheepEntity>> CHEEP_CHEEP =
-            Marioverse.ENTITIES.register("cheep_cheep", () -> EntityType.Builder.of(CheepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).eyeHeight(0.5F).build("cheep_cheep"));
-    public static final DeferredHolder<EntityType<?>, EntityType<DeepCheepEntity>> DEEP_CHEEP =
-            Marioverse.ENTITIES.register("deep_cheep", () -> EntityType.Builder.of(DeepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).eyeHeight(0.5F).build("deep_cheep"));
-    public static final DeferredHolder<EntityType<?>, EntityType<EepCheepEntity>> EEP_CHEEP =
-            Marioverse.ENTITIES.register("eep_cheep", () -> EntityType.Builder.of(EepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).eyeHeight(0.5F).build("eep_cheep"));
-    public static final DeferredHolder<EntityType<?>, EntityType<DryBonesEntity>> DRY_BONES =
-            Marioverse.ENTITIES.register("dry_bones", () -> EntityType.Builder.of(DryBonesEntity::new, MobCategory.MONSTER)
-                    .sized(0.8F, 1.65F).ridingOffset(0.1F).fireImmune().build("dry_bones"));
-    public static final DeferredHolder<EntityType<?>, EntityType<FireGoombaEntity>> FIRE_GOOMBA =
-            Marioverse.ENTITIES.register("fire_goomba", () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).fireImmune().build("fire_goomba"));
-    public static final DeferredHolder<EntityType<?>, EntityType<HeftyGoombaEntity>> HEFTY_GOOMBA =
-            Marioverse.ENTITIES.register("hefty_goomba", () -> EntityType.Builder.of(HeftyGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(1.4375F, 1.625F).eyeHeight(1.3F).ridingOffset(0.075F).build("hefty_goomba"));
-    public static final DeferredHolder<EntityType<?>, EntityType<GoombaEntity>> GOOMBA =
-            Marioverse.ENTITIES.register("goomba", () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.625F, 0.8F).eyeHeight(0.75F).ridingOffset(0.075F).build("goomba"));
-    public static final DeferredHolder<EntityType<?>, EntityType<GoldKoopaShellEntity>> GOLD_KOOPA_SHELL =
-            Marioverse.ENTITIES.register("gold_koopa_shell", () -> EntityType.Builder.of(GoldKoopaShellEntity::new, MobCategory.AMBIENT)
-                    .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("gold_koopa_shell"));
-    public static final DeferredHolder<EntityType<?>, EntityType<GoldKoopaTroopaEntity>> GOLD_KOOPA_TROOPA =
-            Marioverse.ENTITIES.register("gold_koopa_troopa", () -> EntityType.Builder.of(GoldKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(0.8F, 1.65F).eyeHeight(1.4F).build("gold_koopa_troopa"));
-    public static final DeferredHolder<EntityType<?>, EntityType<KoopaShellEntity>> GREEN_KOOPA_SHELL =
-            Marioverse.ENTITIES.register("green_koopa_shell", () -> EntityType.Builder.of(KoopaShellEntity::new, MobCategory.AMBIENT)
-                    .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("green_koopa_shell"));
-    public static final DeferredHolder<EntityType<?>, EntityType<GreenKoopaTroopaEntity>> GREEN_KOOPA_TROOPA =
-            Marioverse.ENTITIES.register("green_koopa_troopa", () -> EntityType.Builder.of(GreenKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(0.8F, 1.65F).eyeHeight(1.4F).build("green_koopa_troopa"));
-    public static final DeferredHolder<EntityType<?>, EntityType<MegaGoombaEntity>> MEGA_GOOMBA =
-            Marioverse.ENTITIES.register("mega_goomba", () -> EntityType.Builder.of(MegaGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(2.875F, 3.25F).eyeHeight(2.625F).ridingOffset(0.125F).build("mega_goomba"));
-    public static final DeferredHolder<EntityType<?>, EntityType<MiniGoombaEntity>> MINI_GOOMBA =
-            Marioverse.ENTITIES.register("mini_goomba", () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
-                    .sized(0.3125F, 0.375F).eyeHeight(0.3125F).ridingOffset(0.1F)
-                    .nameTagOffset(-0.05F).clientTrackingRange(20).build("mini_goomba"));
-    public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT =
-            Marioverse.ENTITIES.register("piranha_plant", () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
-                    .sized(1.0F, 2.3125F).eyeHeight(0.8F).ridingOffset(0.1F).build("piranha_plant"));
-    public static final DeferredHolder<EntityType<?>, EntityType<PokeyEntity>> POKEY =
-            Marioverse.ENTITIES.register("pokey", () -> EntityType.Builder.of(PokeyEntity::new, MobCategory.MONSTER)
-                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey"));
-    public static final DeferredHolder<EntityType<?>, EntityType<PokeyBodyEntity>> POKEY_BODY =
-            Marioverse.ENTITIES.register("pokey_body", () -> EntityType.Builder.of(PokeyBodyEntity::new, MobCategory.MONSTER)
-                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey_body"));
-    public static final DeferredHolder<EntityType<?>, EntityType<PorcupufferEntity>> PORCUPUFFER =
-            Marioverse.ENTITIES.register("porcupuffer", () -> EntityType.Builder.of(PorcupufferEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(2.0F, 2.0F).eyeHeight(1.75F).build("porcupuffer"));
-    public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaShellEntity>> RED_KOOPA_SHELL =
-            Marioverse.ENTITIES.register("red_koopa_shell", () -> EntityType.Builder.of(RedKoopaShellEntity::new, MobCategory.AMBIENT)
-                    .sized(0.7F, 0.7F).eyeHeight(0.6F).ridingOffset(-0.075F).build("red_koopa_shell"));
-    public static final DeferredHolder<EntityType<?>, EntityType<RedKoopaTroopaEntity>> RED_KOOPA_TROOPA =
-            Marioverse.ENTITIES.register("red_koopa_troopa", () -> EntityType.Builder.of(RedKoopaTroopaEntity::new, MobCategory.MONSTER)
-                    .sized(0.8F, 1.65F).eyeHeight(1.4F).build("red_koopa_troopa"));
-    public static final DeferredHolder<EntityType<?>, EntityType<SnowPokeyEntity>> SNOW_POKEY =
-            Marioverse.ENTITIES.register("snow_pokey", () -> EntityType.Builder.of(SnowPokeyEntity::new, MobCategory.MONSTER)
-                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("snow_pokey"));
-    public static final DeferredHolder<EntityType<?>, EntityType<SnowPokeyBodyEntity>> SNOW_POKEY_BODY =
-            Marioverse.ENTITIES.register("snow_pokey_body", () -> EntityType.Builder.of(SnowPokeyBodyEntity::new, MobCategory.MONSTER)
-                    .sized(0.75F, 0.75F).eyeHeight(0.5F).build("snow_pokey_body"));
-    public static final DeferredHolder<EntityType<?>, EntityType<SpinyCheepCheepEntity>> SPINY_CHEEP_CHEEP =
-            Marioverse.ENTITIES.register("spiny_cheep_cheep", () -> EntityType.Builder.of(SpinyCheepCheepEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.8F, 0.7F).eyeHeight(0.5F).build("spiny_cheep_cheep"));
-    public static final DeferredHolder<EntityType<?>, EntityType<SplunkinEntity>> SPLUNKIN =
-            Marioverse.ENTITIES.register("splunkin", () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
-                    .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
+        DRY_BONES_HEAD = Marioverse.ENTITIES.register("dry_bones_head",
+                () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                        .sized(0.8125F, 0.5625F).fireImmune().build("dry_bones_head"));
+        DRY_BONES_SHELL = Marioverse.ENTITIES.register("dry_bones_shell",
+                () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                        .sized(0.7F, 0.7F).fireImmune().build("dry_bones_shell"));
+        DRY_BONES_TAIL = Marioverse.ENTITIES.register("dry_bones_tail",
+                () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                        .sized(0.3125F, 0.3125F).fireImmune().build("dry_bones_tail"));
+        DRY_BONES_LEFT_ARM = Marioverse.ENTITIES.register("dry_bones_left_arm",
+                () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                        .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_left_arm"));
+        DRY_BONES_RIGHT_ARM = Marioverse.ENTITIES.register("dry_bones_right_arm",
+                () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                        .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_right_arm"));
+        DRY_BONES_LEFT_LEG = Marioverse.ENTITIES.register("dry_bones_left_leg",
+                () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                        .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_left_leg"));
+        DRY_BONES_RIGHT_LEG = Marioverse.ENTITIES.register("dry_bones_right_leg",
+                () -> EntityType.Builder.of(DryBonesPartEntity::new, MobCategory.MONSTER)
+                        .sized(0.5F, 0.3125F).fireImmune().build("dry_bones_right_leg"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeBoat>> MUSHROOT_BOAT =
-            Marioverse.ENTITIES.register("mushroot_boat", () -> EntityType.Builder.<WoodTypeBoat>of(
-                            (type, level) -> new WoodTypeBoat(type, level, ItemRegistry.MUSHROOT_BOAT.get()), MobCategory.MISC)
-                    .sized(1.375F, 0.5625F)
-                    .clientTrackingRange(10)
-                    .build("mushroot_boat"));
-    public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeChestBoat>> MUSHROOT_CHEST_BOAT =
-            Marioverse.ENTITIES.register("mushroot_chest_boat", () -> EntityType.Builder.<WoodTypeChestBoat>of(
-                            (type, level) -> new WoodTypeChestBoat(type, level, ItemRegistry.MUSHROOT_CHEST_BOAT.get()), MobCategory.MISC)
-                    .sized(1.375F, 0.5625F)
-                    .clientTrackingRange(10)
-                    .build("mushroot_chest_boat"));
+        BOO = Marioverse.ENTITIES.register("boo",
+                () -> EntityType.Builder.of(BooEntity::new, MobCategory.MONSTER)
+                        .sized(0.6875F, 0.6875F).ridingOffset(0.1F)
+                        .fireImmune().build("boo"));
+        CHEEP_CHEEP = Marioverse.ENTITIES.register("cheep_cheep",
+                () -> EntityType.Builder.of(CheepCheepEntity::new, MobCategory.WATER_CREATURE)
+                        .sized(0.8F, 0.7F).eyeHeight(0.5F).build("cheep_cheep"));
+        DEEP_CHEEP = Marioverse.ENTITIES.register("deep_cheep",
+                () -> EntityType.Builder.of(DeepCheepEntity::new, MobCategory.WATER_CREATURE)
+                        .sized(0.8F, 0.7F).eyeHeight(0.5F).build("deep_cheep"));
+        EEP_CHEEP = Marioverse.ENTITIES.register("eep_cheep",
+                () -> EntityType.Builder.of(EepCheepEntity::new, MobCategory.WATER_CREATURE)
+                        .sized(0.8F, 0.7F).eyeHeight(0.5F).build("eep_cheep"));
+        DRY_BONES = Marioverse.ENTITIES.register("dry_bones",
+                () -> EntityType.Builder.of(DryBonesEntity::new, MobCategory.MONSTER)
+                        .sized(0.8F, 1.65F).ridingOffset(0.1F)
+                        .fireImmune().build("dry_bones"));
+        FIRE_GOOMBA = Marioverse.ENTITIES.register("fire_goomba",
+                () -> EntityType.Builder.of(FireGoombaEntity::new, MobCategory.MONSTER)
+                        .sized(0.625F, 0.8F).eyeHeight(0.75F)
+                        .ridingOffset(0.075F).fireImmune().build("fire_goomba"));
+        HEFTY_GOOMBA = Marioverse.ENTITIES.register("hefty_goomba",
+                () -> EntityType.Builder.of(HeftyGoombaEntity::new, MobCategory.MONSTER)
+                        .sized(1.4375F, 1.625F).eyeHeight(1.3F)
+                        .ridingOffset(0.075F).build("hefty_goomba"));
+        GOOMBA = Marioverse.ENTITIES.register("goomba",
+                () -> EntityType.Builder.of(GoombaEntity::new, MobCategory.MONSTER)
+                        .sized(0.625F, 0.8F).eyeHeight(0.75F)
+                        .ridingOffset(0.075F).build("goomba"));
+        GOLD_KOOPA_SHELL = Marioverse.ENTITIES.register("gold_koopa_shell",
+                () -> EntityType.Builder.of(GoldKoopaShellEntity::new, MobCategory.AMBIENT)
+                        .sized(0.7F, 0.7F).eyeHeight(0.6F)
+                        .ridingOffset(-0.075F).build("gold_koopa_shell"));
+        GOLD_KOOPA_TROOPA = Marioverse.ENTITIES.register("gold_koopa_troopa",
+                () -> EntityType.Builder.of(GoldKoopaTroopaEntity::new, MobCategory.MONSTER)
+                        .sized(0.8F, 1.65F).eyeHeight(1.4F).build("gold_koopa_troopa"));
+        GREEN_KOOPA_SHELL = Marioverse.ENTITIES.register("green_koopa_shell",
+                () -> EntityType.Builder.of(KoopaShellEntity::new, MobCategory.AMBIENT)
+                        .sized(0.7F, 0.7F).eyeHeight(0.6F)
+                        .ridingOffset(-0.075F).build("green_koopa_shell"));
+        GREEN_KOOPA_TROOPA = Marioverse.ENTITIES.register("green_koopa_troopa",
+                () -> EntityType.Builder.of(GreenKoopaTroopaEntity::new, MobCategory.MONSTER)
+                        .sized(0.8F, 1.65F).eyeHeight(1.4F).build("green_koopa_troopa"));
+        MEGA_GOOMBA = Marioverse.ENTITIES.register("mega_goomba",
+                () -> EntityType.Builder.of(MegaGoombaEntity::new, MobCategory.MONSTER)
+                        .sized(2.875F, 3.25F).eyeHeight(2.625F)
+                        .ridingOffset(0.125F).build("mega_goomba"));
+        MINI_GOOMBA = Marioverse.ENTITIES.register("mini_goomba",
+                () -> EntityType.Builder.of(MiniGoombaEntity::new, MobCategory.MONSTER)
+                        .sized(0.3125F, 0.375F).eyeHeight(0.3125F).ridingOffset(0.1F)
+                        .nameTagOffset(-0.05F).clientTrackingRange(20).build("mini_goomba"));
+        PIRANHA_PLANT = Marioverse.ENTITIES.register("piranha_plant",
+                () -> EntityType.Builder.of(PiranhaPlantEntity::new, MobCategory.MONSTER)
+                        .sized(1.0F, 2.3125F).eyeHeight(0.8F)
+                        .ridingOffset(0.1F).build("piranha_plant"));
+        POKEY = Marioverse.ENTITIES.register("pokey",
+                () -> EntityType.Builder.of(PokeyEntity::new, MobCategory.MONSTER)
+                        .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey"));
+        POKEY_BODY = Marioverse.ENTITIES.register("pokey_body",
+                () -> EntityType.Builder.of(PokeyBodyEntity::new, MobCategory.MONSTER)
+                        .sized(0.75F, 0.75F).eyeHeight(0.5F).build("pokey_body"));
+        PORCUPUFFER = Marioverse.ENTITIES.register("porcupuffer",
+                () -> EntityType.Builder.of(PorcupufferEntity::new, MobCategory.WATER_CREATURE)
+                        .sized(2.0F, 2.0F).eyeHeight(1.75F).build("porcupuffer"));
+        RED_KOOPA_SHELL = Marioverse.ENTITIES.register("red_koopa_shell",
+                () -> EntityType.Builder.of(RedKoopaShellEntity::new, MobCategory.AMBIENT)
+                        .sized(0.7F, 0.7F).eyeHeight(0.6F)
+                        .ridingOffset(-0.075F).build("red_koopa_shell"));
+        RED_KOOPA_TROOPA = Marioverse.ENTITIES.register("red_koopa_troopa",
+                () -> EntityType.Builder.of(RedKoopaTroopaEntity::new, MobCategory.MONSTER)
+                        .sized(0.8F, 1.65F).eyeHeight(1.4F).build("red_koopa_troopa"));
+        SNOW_POKEY = Marioverse.ENTITIES.register("snow_pokey",
+                () -> EntityType.Builder.of(SnowPokeyEntity::new, MobCategory.MONSTER)
+                        .sized(0.75F, 0.75F).eyeHeight(0.5F).build("snow_pokey"));
+        SNOW_POKEY_BODY = Marioverse.ENTITIES.register("snow_pokey_body",
+                () -> EntityType.Builder.of(SnowPokeyBodyEntity::new, MobCategory.MONSTER)
+                        .sized(0.75F, 0.75F).eyeHeight(0.5F).build("snow_pokey_body"));
+        SPINY_CHEEP_CHEEP = Marioverse.ENTITIES.register("spiny_cheep_cheep",
+                () -> EntityType.Builder.of(SpinyCheepCheepEntity::new, MobCategory.WATER_CREATURE)
+                        .sized(0.8F, 0.7F).eyeHeight(0.5F).build("spiny_cheep_cheep"));
+        SPLUNKIN = Marioverse.ENTITIES.register("splunkin",
+                () -> EntityType.Builder.of(SplunkinEntity::new, MobCategory.MONSTER)
+                        .sized(0.875F, 0.875F).ridingOffset(0.075F).build("splunkin"));
+
+        MUSHROOT_BOAT = Marioverse.ENTITIES.register("mushroot_boat",
+                () -> EntityType.Builder.<WoodTypeBoat>of((type, level)
+                                -> new WoodTypeBoat(type, level, ItemRegistry.MUSHROOT_BOAT.get()), MobCategory.MISC)
+                        .sized(1.375F, 0.5625F).clientTrackingRange(10)
+                        .build("mushroot_boat"));
+        MUSHROOT_CHEST_BOAT = Marioverse.ENTITIES.register("mushroot_chest_boat",
+                () -> EntityType.Builder.<WoodTypeChestBoat>of((type, level)
+                                -> new WoodTypeChestBoat(type, level, ItemRegistry.MUSHROOT_CHEST_BOAT.get()), MobCategory.MISC)
+                        .sized(1.375F, 0.5625F).clientTrackingRange(10)
+                        .build("mushroot_chest_boat"));
+    }
 
     @SubscribeEvent
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
@@ -450,11 +507,6 @@ public class EntityRegistry {
                 .add(Attributes.ATTACK_SPEED, 1.2F)
                 .add(Attributes.MAX_HEALTH, 8)
                 .add(Attributes.MOVEMENT_SPEED, 0.6F).build());
-    }
-
-    private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> entity,
-            MobCategory category, float width, float height) {
-        return Marioverse.ENTITIES.register(name, () -> EntityType.Builder.of(entity, category).sized(width, height).build(name));
     }
 
     public static void init() {
