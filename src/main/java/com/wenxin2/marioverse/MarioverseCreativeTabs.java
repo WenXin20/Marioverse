@@ -464,7 +464,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL);
             add(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL);
             add(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
-            
+
             add(event, BlockRegistry.HARD_OAK_BLOCK);
             add(event, BlockRegistry.HARD_OAK_SLAB);
             add(event, BlockRegistry.HARD_OAK_STAIRS);

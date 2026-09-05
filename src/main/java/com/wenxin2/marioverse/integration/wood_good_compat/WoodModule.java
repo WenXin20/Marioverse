@@ -84,8 +84,8 @@ public class WoodModule extends EveryCompatModule {
 
     public WoodModule(String modId) {
         super(modId, "mv");
-        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_BLOCKS_TAB;
-        DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_TAB;
 
         hardBlock = SimpleEntrySet.builder(WoodType.class, "block", "hard",
                         BlockRegistry.HARD_OAK_BLOCK, () -> VanillaWoodTypes.OAK,

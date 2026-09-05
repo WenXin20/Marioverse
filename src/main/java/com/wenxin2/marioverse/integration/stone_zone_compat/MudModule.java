@@ -21,7 +21,6 @@ import net.mehvahdjukaar.stone_zone.api.set.mud.MudType;
 import net.mehvahdjukaar.stone_zone.api.set.mud.VanillaMudTypes;
 import net.mehvahdjukaar.stone_zone.api.set.stone.VanillaStoneChildKeys;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
@@ -64,8 +63,8 @@ public class MudModule extends StoneZoneModule {
 
     public MudModule(String modId, String shortId) {
         super(modId, shortId);
-        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_BLOCKS_TAB;
-        DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_TAB;
 
         brickPedestal = StoneZoneEntrySet.of(MudType.class, "brick_pedestal",
                         BlockRegistry.MUD_BRICK_PEDESTAL, () -> VanillaMudTypes.MUD,

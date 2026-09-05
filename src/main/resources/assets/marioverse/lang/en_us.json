@@ -1,7 +1,9 @@
 {
-  "creative_tab.marioverse_building_blocks": "Marioverse Building Blocks",
-  "creative_tab.marioverse_functional_blocks": "Marioverse Functional Blocks",
+  "creative_tab.marioverse_building": "Marioverse Building",
+  "creative_tab.marioverse_decorations": "Marioverse Decorations",
+  "creative_tab.marioverse_functional": "Marioverse Functional",
   "creative_tab.marioverse_items": "Marioverse Items",
+  "creative_tab.marioverse_natural": "Marioverse Natural",
 
   "accessories.slot_group.costume": "Costume",
   "accessories.slot.costume_hat": "Costume Hat",
