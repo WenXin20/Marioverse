@@ -291,6 +291,10 @@ public class RegistryEventHandlers {
 
             fireBlock.setFlammable(BlockRegistry.DANGO_BLOSSOM.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_SAPLING.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SHORT_SHROOMGRASS.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SHROOMGRASS.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SHRUBROOM.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.TALL_SHROOMGRASS.get(), 60, 100);
         });
     }
 
@@ -552,6 +556,11 @@ public class RegistryEventHandlers {
                 new ItemCost(Items.EMERALD, 3),
                 new ItemStack(BlockRegistry.MUSHROOT_SAPLING, 5),
                 16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.SHRUBROOM, 5),
+                16, 5, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),

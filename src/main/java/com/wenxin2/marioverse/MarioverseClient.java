@@ -188,7 +188,7 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
-        event.register((stack, tintIndex) -> tintIndex == 0 ? GrassColor.getDefaultColor() : -1,
+        event.register((stack, tintIndex) -> tintIndex == 0 ? 0x12FC29 : -1,
                 BlockRegistry.SHROOMGRASS_BLOCK.get(), BlockRegistry.SHORT_SHROOMGRASS.get(), BlockRegistry.SHROOMGRASS.get(),
                 BlockRegistry.TALL_SHROOMGRASS.get(), BlockRegistry.SHRUBROOM.get());
 

@@ -15,10 +15,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlock, ToggleableBlock {
-    protected static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 10.0, 12.0);
+    protected static final VoxelShape SHAPE = Shapes
+            .or(Block.box(7, 0, 7, 9, 8, 9),
+                    Block.box(4, 8, 4, 12, 10, 12)).optimize();
 
     public TrampolineCapBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
         super(configuredFeature, properties);
