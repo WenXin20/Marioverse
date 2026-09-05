@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.datagen;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
-import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.core.HolderLookup;
@@ -512,6 +511,13 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
+
+        tag(TagRegistry.GRASSY_BLOCKS)
+                .addTag(TagRegistry.GRASSY_DIRTS)
+                .addTag(TagRegistry.GRASSY_STONES);
+
+        tag(TagRegistry.GRASSY_DIRTS)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get())

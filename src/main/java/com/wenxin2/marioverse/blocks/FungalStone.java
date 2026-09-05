@@ -35,7 +35,7 @@ public class FungalStone extends Block implements BonemealableBlock {
         else {
             for (BlockPos posOffset : BlockPos.betweenClosed(pos.offset(-1, -1, -1),
                     pos.offset(1, 1, 1))) {
-                if (levelReader.getBlockState(posOffset).is(TagRegistry.GRASSY_STONES))
+                if (levelReader.getBlockState(posOffset).is(TagRegistry.GRASSY_BLOCKS))
                     return true;
             }
             return false;
@@ -49,26 +49,19 @@ public class FungalStone extends Block implements BonemealableBlock {
 
     @Override
     public void performBonemeal(ServerLevel serverLevel, RandomSource random, BlockPos pos, BlockState state) {
-        boolean isFungalStone = false;
-        boolean isDeepFungalStone = false;
+        boolean isGrassy = false;
 
         for (BlockPos posOffset : BlockPos.betweenClosed(pos.offset(-1, -1, -1),
                 pos.offset(1, 1, 1))) {
             BlockState stateOffset = serverLevel.getBlockState(posOffset);
 
-            if (stateOffset.is(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE))
-                isDeepFungalStone = true;
-
-            if (stateOffset.is(BlockRegistry.GRASSY_FUNGAL_STONE))
-                isFungalStone = true;
-
-            if (isDeepFungalStone && isFungalStone)
-                break;
+            if (stateOffset.is(TagRegistry.GRASSY_BLOCKS))
+                isGrassy = true;
         }
 
-        if (isDeepFungalStone && state.is(BlockRegistry.DEEP_FUNGAL_STONE))
+        if (isGrassy && state.is(BlockRegistry.DEEP_FUNGAL_STONE))
             serverLevel.setBlock(pos, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get().defaultBlockState(), 3);
-        else if (isFungalStone && state.is(BlockRegistry.FUNGAL_STONE))
+        else if (isGrassy && state.is(BlockRegistry.FUNGAL_STONE))
             serverLevel.setBlock(pos, BlockRegistry.GRASSY_FUNGAL_STONE.get().defaultBlockState(), 3);
     }
 

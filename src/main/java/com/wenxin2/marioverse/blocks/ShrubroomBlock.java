@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ShrubroomBlock extends TallGrassBlock {
@@ -24,8 +25,13 @@ public class ShrubroomBlock extends TallGrassBlock {
     }
 
     @Override
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos pos, BlockState state) {
+        return ShrubroomBlock.canSpread(levelReader, pos, state);
+    }
+
+    @Override
     public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
-        return ShrubroomBlock.findSpreadPos(level, random, pos, state) != null;
+        return ShrubroomBlock.canSpread(level, pos, state);
     }
 
     @Override
@@ -35,17 +41,28 @@ public class ShrubroomBlock extends TallGrassBlock {
             serverLevel.setBlockAndUpdate(targetPos, state);
     }
 
+    private static boolean canSpread(LevelReader levelReader, BlockPos pos, BlockState state) {
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BlockPos targetPos = pos.relative(direction);
+
+            if (levelReader.isEmptyBlock(targetPos) && state.canSurvive(levelReader, targetPos))
+                return true;
+        }
+        return false;
+    }
+
     @Nullable
     private static BlockPos findSpreadPos(LevelReader levelReader, RandomSource random, BlockPos pos, BlockState state) {
         for (Direction direction : Direction.Plane.HORIZONTAL.shuffledCopy(random)) {
             BlockPos targetPos = pos.relative(direction);
-            
+
             if (levelReader.isEmptyBlock(targetPos) && state.canSurvive(levelReader, targetPos))
                 return targetPos;
         }
         return null;
     }
 
+    @NotNull
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         final Vec3 offset = state.getOffset(blockGetter, pos);

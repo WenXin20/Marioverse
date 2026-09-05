@@ -67,6 +67,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.FLAMMABLE_WINDOWS, TagRegistry.FLAMMABLE_WINDOW_ITEMS);
         copy(TagRegistry.FLAMMABLE_WINDOW_PANES, TagRegistry.FLAMMABLE_WINDOW_PANE_ITEMS);
         copy(TagRegistry.GOAL_POLE_BLOCKS, TagRegistry.GOAL_POLE_ITEMS);
+        copy(TagRegistry.GRASSY_BLOCKS, TagRegistry.GRASSY_BLOCK_ITEMS);
+        copy(TagRegistry.GRASSY_DIRTS, TagRegistry.GRASSY_DIRT_ITEMS);
         copy(TagRegistry.GRASSY_STONES, TagRegistry.GRASSY_STONE_ITEMS);
         copy(TagRegistry.HARD_BLOCKS, TagRegistry.HARD_BLOCK_ITEMS);
         copy(TagRegistry.HARD_SLABS, TagRegistry.HARD_SLAB_ITEMS);
