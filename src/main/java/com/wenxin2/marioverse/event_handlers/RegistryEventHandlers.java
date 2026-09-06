@@ -563,6 +563,31 @@ public class RegistryEventHandlers {
                 16, 5, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.HEDGE, 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.SNOWY_HEDGE, 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.PINK_ROSE_HEDGE, 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.RED_ROSE_HEDGE, 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.WHITE_ROSE_HEDGE, 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
                 new ItemStack(BlockRegistry.SHROOMGRASS_BLOCK, 3),
                 16, 10, 0.2F));

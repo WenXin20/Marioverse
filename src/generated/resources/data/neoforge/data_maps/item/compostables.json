@@ -9,11 +9,17 @@
     "marioverse:dango_blossom": {
       "chance": 0.65
     },
+    "marioverse:hedge": {
+      "chance": 0.85
+    },
     "marioverse:mushroot_leaves": {
       "chance": 0.3
     },
     "marioverse:mushroot_sapling": {
       "chance": 0.3
+    },
+    "marioverse:pink_rose_hedge": {
+      "chance": 0.85
     },
     "marioverse:piranha_plant_pod": {
       "chance": 0.3
@@ -21,8 +27,26 @@
     "marioverse:red_mushroom_trampoline": {
       "chance": 0.85
     },
+    "marioverse:red_rose_hedge": {
+      "chance": 0.85
+    },
     "marioverse:red_trampoline_cap": {
       "chance": 0.65
+    },
+    "marioverse:short_shroomgrass": {
+      "chance": 0.3
+    },
+    "marioverse:shroomgrass": {
+      "chance": 0.3
+    },
+    "marioverse:snowy_hedge": {
+      "chance": 0.85
+    },
+    "marioverse:tall_shroomgrass": {
+      "chance": 0.5
+    },
+    "marioverse:white_rose_hedge": {
+      "chance": 0.85
     }
   }
 }

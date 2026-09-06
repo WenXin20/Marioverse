@@ -13,11 +13,10 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "marioverse:large_mushroot_wall_arrow_sign",
+              "block": "marioverse:large_mushroot_arrow_sign",
               "condition": "minecraft:block_state_property",
               "properties": {
-                "half": "bottom",
-                "side": "left"
+                "half": "bottom"
               }
             }
           ],

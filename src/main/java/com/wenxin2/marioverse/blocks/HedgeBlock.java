@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -26,6 +28,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -127,11 +130,11 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
         boolean snowy = state.getValue(SNOWY);
         Biome biome = level.getBiome(pos).value();
         boolean snowyBiome = biome.coldEnoughToSnow(pos);
-        boolean snowStorm = level.isRaining() && biome.getPrecipitationAt(pos) == Biome.Precipitation.SNOW;
+        boolean isSnowing = level.isRaining() && biome.getPrecipitationAt(pos) == Biome.Precipitation.SNOW;
 
-        if (!snowy && (snowStorm || this.alwaysSnowy()) && random.nextInt(16) == 0)
+        if (!snowy && isSnowing && random.nextInt(16) == 0)
             level.setBlockAndUpdate(pos, state.setValue(SNOWY, true));
-        else if (snowy && !this.alwaysSnowy() && !snowStorm && !snowyBiome)
+        else if (snowy && !this.alwaysSnowy() && !isSnowing && !snowyBiome)
             level.setBlockAndUpdate(pos, state.setValue(SNOWY, false));
     }
 
@@ -139,25 +142,30 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (!state.getValue(SNOWY) || !stack.is(ItemTags.SHOVELS))
-            return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        level.setBlockAndUpdate(pos, state.setValue(SNOWY, false));
-        level.playSound(player, pos, SoundEvents.SNOW_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
-        level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+        if (state.getValue(SNOWY) && stack.is(ItemTags.SHOVELS)) {
+            level.setBlockAndUpdate(pos, state.setValue(SNOWY, false));
+            level.playSound(player, pos, SoundEvents.SNOW_BREAK, SoundSource.BLOCKS, 1.0F, pitch);
+            level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
-        if (level instanceof ServerLevel serverLevel) {
-            LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(SNOW_LOOT_TABLE);
-            LootParams lootParams = new LootParams.Builder(serverLevel)
-                    .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
-                    .withParameter(LootContextParams.THIS_ENTITY, player)
-                    .withParameter(LootContextParams.BLOCK_STATE, state)
-                    .create(LootContextParamSets.BLOCK_USE);
+            if (level instanceof ServerLevel serverLevel) {
+                LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(SNOW_LOOT_TABLE);
+                LootParams lootParams = new LootParams.Builder(serverLevel)
+                        .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
+                        .withParameter(LootContextParams.THIS_ENTITY, player)
+                        .withParameter(LootContextParams.BLOCK_STATE, state)
+                        .create(LootContextParamSets.BLOCK_USE);
 
-            lootTable.getRandomItems(lootParams).forEach(drop -> Block.popResource(level, pos, drop));
+                lootTable.getRandomItems(lootParams).forEach(drop -> Block.popResource(level, pos, drop));
+            }
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        } else if (!state.getValue(SNOWY) && stack.getItem() instanceof BlockItem blockItem
+                && blockItem.getBlock() instanceof SnowLayerBlock) {
+            level.setBlockAndUpdate(pos, state.setValue(SNOWY, true));
+            level.playSound(player, pos, SoundEvents.SNOW_PLACE, SoundSource.BLOCKS, 1.0F, pitch);
         }
-
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     @Override
@@ -175,6 +183,21 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
         BlockPos targetPos = HedgeBlock.findSpreadPos(serverLevel, random, pos, state);
         if (targetPos != null)
             serverLevel.setBlockAndUpdate(targetPos, state.setValue(SNOWY, false));
+    }
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.HEDGE_BLOCKS);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 30;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 60;
     }
 
     protected boolean alwaysSnowy() {
