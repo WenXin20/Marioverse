@@ -11,11 +11,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -130,7 +132,8 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
         boolean snowy = state.getValue(SNOWY);
         Biome biome = level.getBiome(pos).value();
         boolean snowyBiome = biome.coldEnoughToSnow(pos);
-        boolean isSnowing = level.isRaining() && biome.getPrecipitationAt(pos) == Biome.Precipitation.SNOW;
+        boolean isSnowing = level.isRaining() && biome.getPrecipitationAt(pos) == Biome.Precipitation.SNOW
+                && HedgeBlock.isExposedToSky(level, pos);
 
         if (!snowy && isSnowing && random.nextInt(16) == 0)
             level.setBlockAndUpdate(pos, state.setValue(SNOWY, true));
@@ -215,11 +218,21 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
         return state;
     }
 
+    private static boolean isExposedToSky(LevelReader level, BlockPos pos) {
+        if (level.canSeeSky(pos))
+            return true;
+
+        BlockState aboveState = level.getBlockState(pos.above());
+        if (aboveState.getBlock() instanceof HedgeBlock || aboveState.is(BlockTags.LEAVES) || aboveState.canBeReplaced())
+            return HedgeBlock.isExposedToSky(level, pos.above());
+        return false;
+    }
+
     private static boolean canSpread(LevelReader levelReader, BlockPos pos, BlockState state) {
         for (Direction direction : SPREAD_DIRECTIONS) {
             BlockPos targetPos = pos.relative(direction);
 
-            if (levelReader.isEmptyBlock(targetPos) && state.canSurvive(levelReader, targetPos))
+            if (levelReader.getBlockState(targetPos).canBeReplaced() && state.canSurvive(levelReader, targetPos))
                 return true;
         }
         return false;
