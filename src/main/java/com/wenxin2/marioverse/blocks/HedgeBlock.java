@@ -145,6 +145,15 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
             level.setBlockAndUpdate(pos, state.setValue(SNOWY, false));
     }
 
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+        super.stepOn(level, pos, state, entity);
+
+        if (!level.isClientSide && !state.getValue(SNOWY) && (entity instanceof SnowGolem
+                || entity instanceof SnowPokeyEntity || entity instanceof SnowPokeyBodyEntity))
+            level.setBlockAndUpdate(pos, state.setValue(SNOWY, true));
+    }
+
     @NotNull
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
