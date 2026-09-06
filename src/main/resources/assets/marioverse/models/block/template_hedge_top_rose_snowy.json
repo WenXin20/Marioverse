@@ -3,7 +3,6 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"render_type": "cutout_mipped",
-	"ambientocclusion": false,
 	"textures": {
 		"particle": "marioverse:block/pink_rose_hedge_side_top",
 		"side": "marioverse:block/pink_rose_hedge_side_top",
@@ -368,8 +367,7 @@
 				"east": {"uv": [0, 6, 16, 16], "texture": "#side_snow", "cullface": "east"},
 				"south": {"uv": [0, 6, 16, 16], "texture": "#side_snow", "cullface": "south"},
 				"west": {"uv": [0, 6, 16, 16], "texture": "#side_snow", "cullface": "west"},
-				"up": {"uv": [0, 0, 16, 16], "texture": "#top_snow"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "down"}
+				"up": {"uv": [0, 0, 16, 16], "texture": "#top_snow"}
 			}
 		},
 		{
