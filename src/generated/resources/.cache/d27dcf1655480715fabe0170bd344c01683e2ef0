@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-05T13:07:19.4944758	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-06T02:43:11.1244961	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -88,6 +88,10 @@ e7ee86d1ee26bb1d33015c71a1038efde809d865 data/marioverse/tags/block/hard_stairs/
 35bdd98a2c51bec98d6de92becd01a7b1736e3c4 data/marioverse/tags/block/hard_walls/flammable.json
 51674e69e72b79f6e06d344e27eafdcea1aa086f data/marioverse/tags/block/hard_walls/stone.json
 aa9eca94ef2a11bffb099519f697c195c1edeb7e data/marioverse/tags/block/hard_walls/wooden.json
+cff3b85a7329a570e930a893c62f4003e8c9eb85 data/marioverse/tags/block/hedges.json
+9db65c8512c8362141ac618991085c306938b66b data/marioverse/tags/block/hedges/normal.json
+cecb5015ea6fbeced9a32ba2a86ed0937f637ba8 data/marioverse/tags/block/hedges/rose.json
+c9c0d5f98a850952e1add89566aa29e2b435214f data/marioverse/tags/block/hedges/snowy.json
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_ball_extinguishes.json
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_cube_extinguishes.json
 63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/block/invisible_question_blocks.json
@@ -147,7 +151,7 @@ de585f23227d35ce53a4581f7b4eaf6048585b1d data/minecraft/tags/block/ceiling_hangi
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
 aa51b369a68ee1bb17d8abd1bddea70695c7a890 data/minecraft/tags/block/dirt.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
-f881b50c39cbe0fbd12c097c80955d553082fdc7 data/minecraft/tags/block/enderman_holdable.json
+19506890947dbc2b1ca70228fb21d23540be979b data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 386b81af7f837807d6299c2567d62a0fb8af568c data/minecraft/tags/block/fence_gates.json
 97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json

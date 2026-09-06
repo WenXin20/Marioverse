@@ -44,6 +44,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.COIN.asItem());
         this.basicItem(BlockRegistry.DANGO_BLOSSOM.asItem());
+        this.basicItem(BlockRegistry.HEDGE.asItem());
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
         this.basicItem(BlockRegistry.MUSHROOT_DOOR.asItem());
         this.basicItem(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
@@ -54,6 +55,11 @@ public class ItemModelGen extends ItemModelProvider {
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
         this.basicTwoLayerItem(ItemRegistry.CHRISTMAS_HAT.get());
+
+        this.twoLayerItem(BlockRegistry.PINK_ROSE_HEDGE.asItem(), "_rose");
+        this.twoLayerItem(BlockRegistry.RED_ROSE_HEDGE.asItem(), "_rose");
+        this.twoLayerItem(BlockRegistry.SNOWY_HEDGE.asItem(), "_snow");
+        this.twoLayerItem(BlockRegistry.WHITE_ROSE_HEDGE.asItem(), "_rose");
 
         this.basicItem(ItemRegistry.BOO_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
@@ -412,6 +418,14 @@ public class ItemModelGen extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
                 .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + "_overlay"));
+    }
+
+    public ItemModelBuilder twoLayerItem(Item item, String overlaySuffix) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        return this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
+                .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + overlaySuffix));
     }
 
     public ItemModelBuilder basicBlockItem(Item item) {

@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-05T13:07:19.4292541	Item Models: marioverse
+// 1.21.1	2026-09-06T02:43:11.0697147	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -853,6 +853,7 @@ af89083561edc3b5740fd470750f17945ed4abd4 assets/marioverse/models/item/goombella
 db7eddc9d3eedb33abec0b85ea36926e77d1b849 assets/marioverse/models/item/green_koopa_shoes.json
 9fc422aaca5261358880e7468a3e7404b0947d0c assets/marioverse/models/item/green_koopa_troopa_spawn_egg.json
 4d0059d78f8ba669f62c25953c9dd8a4b285143a assets/marioverse/models/item/hat.json
+c6d7c80bbb1e514a753aa6545627edd7349df66e assets/marioverse/models/item/hedge.json
 cb771a116715daeedf4bec7a7e1e525cabcb9f66 assets/marioverse/models/item/heels.json
 2f7dede7ee4a7fb7d18854426898237c9adf418d assets/marioverse/models/item/hefty_goomba_spawn_egg.json
 dd60eb6bf7385bb995d7fc0486d6cc9edfd48be0 assets/marioverse/models/item/horn_coral_tower.json
@@ -2992,6 +2993,7 @@ d71e2369371eda26924578fbbc22e15b1f7c69ff assets/marioverse/models/item/orange_ch
 6e79c99c77b189071e1be6858142996de9b5178a assets/marioverse/models/item/pants.json
 e9aaedaf97e12fc16f42f324e01b8f10526b2525 assets/marioverse/models/item/pink_checkpoint_flag.json
 a7417a0c33a973cad7262a4d5af9185c04c4e80d assets/marioverse/models/item/pink_goal_pole.json
+5fc160fce44dae6f24831d211e8ac463b4698e7c assets/marioverse/models/item/pink_rose_hedge.json
 5d3b25f614934dc3622fa2eeb439e22942c1d144 assets/marioverse/models/item/piranha_plant_pod.json
 47e0bf860f1271d958d0ca0db32d7d835397cc14 assets/marioverse/models/item/piranha_plant_spawn_egg.json
 ec56f6c7cf68e41ccc4c585a476dbe28b7fbd6ef assets/marioverse/models/item/plastic_bucket.json
@@ -3015,12 +3017,14 @@ fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa
 1bb9296c4bad5253a71afcc87d5c146e2090a88d assets/marioverse/models/item/red_koopa_shoes.json
 2b32499357745ee1294ba49c0e0cfd9f01d4344c assets/marioverse/models/item/red_koopa_troopa_spawn_egg.json
 4a0a4e848187f29bee695a7f0281543b3c169b63 assets/marioverse/models/item/red_quicksand_bucket.json
+e81e0d5df67ab5671f2079342bb09b95fa7c1a6e assets/marioverse/models/item/red_rose_hedge.json
 387c93ea223f8fb42fde90cf4a4cd6b19c440c5a assets/marioverse/models/item/red_trampoline_cap.json
 0ccf0f4051be73c4f81f3a164c37c2fbd140b682 assets/marioverse/models/item/shirt.json
 db864f3cb1c071facf85a4694a7e931c5f59dc12 assets/marioverse/models/item/shoes.json
 c043e5247b52c8c048f5cfa39128dd4f650c78c9 assets/marioverse/models/item/short_shroomgrass.json
 2a57aaa1a3e3a7ef323902f5fdd0dd1c6db50e18 assets/marioverse/models/item/shroomgrass.json
 23313bedefd88fd664b63a749c6b37bf61ee9de7 assets/marioverse/models/item/shrubroom.json
+7d7e93348d635d42951006881e32de361110f539 assets/marioverse/models/item/snowy_hedge.json
 9531b08e9ecae755def0a6d9a27bc747800f58fc assets/marioverse/models/item/snow_pokey_spawn_egg.json
 69da874887dd83827e13d267f33145b1d99a6d78 assets/marioverse/models/item/spike_panel.json
 8e47f8d9a031f6dece0675c602f828c3d8e2905e assets/marioverse/models/item/spiny_cheep_cheep.json
@@ -3349,6 +3353,7 @@ f7357d5d04792f5a645cec4743479da4f31d7009 assets/marioverse/models/item/warped_ar
 d6616a1160f26eb40837a725de1afbb63f229bc2 assets/marioverse/models/item/white_checkpoint_flag.json
 c07e8c6eb277963a4684b00b746bc133da41bd41 assets/marioverse/models/item/white_goal_pole.json
 1a7a4d8d61474530b6d278735a0019260ca1b1aa assets/marioverse/models/item/white_koopa_shoes.json
+700b8461069603314f19ce0d71f7cdfc358685e7 assets/marioverse/models/item/white_rose_hedge.json
 5b14e65a7a583db804a7db815a2685896fd21a77 assets/marioverse/models/item/wonder_checkpoint_flag.json
 e9c98617c4a611ee8eee1a80c8badc369e3553cf assets/marioverse/models/item/wonder_classic_goal_pole.json
 eb71714e751516083d0a274f6381c2478d11af0d assets/marioverse/models/item/wonder_goal_pole.json

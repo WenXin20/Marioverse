@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "snowy=false,top=false": {
+      "model": "marioverse:block/red_rose_hedge"
+    },
+    "snowy=false,top=true": {
+      "model": "marioverse:block/red_rose_hedge_top"
+    },
+    "snowy=true,top=false": {
+      "model": "marioverse:block/red_rose_hedge_snowy"
+    },
+    "snowy=true,top=true": {
+      "model": "marioverse:block/red_rose_hedge_top_snowy"
+    }
+  }
+}

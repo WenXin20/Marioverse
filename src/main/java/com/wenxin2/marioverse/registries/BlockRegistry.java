@@ -40,10 +40,12 @@ import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.DangoBlossomBlock;
 import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
+import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.IronSpikeBlock;
 import com.wenxin2.marioverse.blocks.RosalinaAbilityBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
+import com.wenxin2.marioverse.blocks.SnowyHedgeBlock;
 import com.wenxin2.marioverse.blocks.TrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
@@ -320,6 +322,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> HARD_WARPED_SLAB;
     public static final DeferredBlock<Block> HARD_WARPED_STAIRS;
     public static final DeferredBlock<Block> HARD_WARPED_WALL;
+    public static final DeferredBlock<Block> HEDGE;
     public static final DeferredBlock<Block> HORN_CORAL_TOWER;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
@@ -465,6 +468,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
     public static final DeferredBlock<Block> PEACH_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> PINK_ROSE_HEDGE;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> PLAYER_DEATH_BLOCK;
     public static final DeferredBlock<Block> POLISHED_AMETHYST;
@@ -513,6 +517,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_QUICKSAND;
+    public static final DeferredBlock<Block> RED_ROSE_HEDGE;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_SLAB;
@@ -563,6 +568,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> SNOWY_HEDGE;
     public static final DeferredBlock<Block> SPIKE_PANEL;
     public static final DeferredBlock<Block> SPLUNKIN_CARVED_PUMPKIN;
     public static final DeferredBlock<Block> SPLUNKIN_O_LANTERN;
@@ -653,6 +659,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_SLAB;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
+    public static final DeferredBlock<Block> WHITE_ROSE_HEDGE;
 
     static {
         BLOCK_SPAWNER = registerBlock("block_spawner",
@@ -874,6 +881,22 @@ public class BlockRegistry {
         STRIPPED_MUSHROOT_WOOD = registerBlock("stripped_mushroot_wood", () -> log(MapColor.WOOD, MapColor.WOOD));
 
         MUSHROOT_LEAVES = registerBlock("mushroot_leaves", () -> leaves(SoundType.GRASS));
+
+        HEDGE = registerBlock("hedge",
+                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+
+        PINK_ROSE_HEDGE = registerBlock("pink_rose_hedge",
+                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+
+        RED_ROSE_HEDGE = registerBlock("red_rose_hedge",
+                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+
+        SNOWY_HEDGE = registerBlock("snowy_hedge",
+                () -> new SnowyHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())
+                        .mapColor(MapColor.SNOW)));
+
+        WHITE_ROSE_HEDGE = registerBlock("white_rose_hedge",
+                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
 
         MUSHROOT_PLANKS = registerBlock("mushroot_planks",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)

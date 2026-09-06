@@ -543,6 +543,22 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.STONE_HARD_WALLS)
                 .addTag(TagRegistry.WOODEN_HARD_WALLS);
 
+        tag(TagRegistry.HEDGE_BLOCKS)
+                .addTag(TagRegistry.HEDGE_NORMAL_BLOCKS)
+                .addTag(TagRegistry.HEDGE_ROSE_BLOCKS)
+                .addTag(TagRegistry.HEDGE_SNOWY_BLOCKS);
+
+        tag(TagRegistry.HEDGE_NORMAL_BLOCKS)
+                .add(BlockRegistry.HEDGE.get());
+
+        tag(TagRegistry.HEDGE_ROSE_BLOCKS)
+                .add(BlockRegistry.PINK_ROSE_HEDGE.get())
+                .add(BlockRegistry.RED_ROSE_HEDGE.get())
+                .add(BlockRegistry.WHITE_ROSE_HEDGE.get());
+
+        tag(TagRegistry.HEDGE_SNOWY_BLOCKS)
+                .add(BlockRegistry.SNOWY_HEDGE.get());
+
         tag(TagRegistry.ICE_BALL_EXTINGUISHES)
                 .addTag(BlockTags.FIRE)
                 .addTag(BlockTags.CANDLES)
@@ -1050,6 +1066,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.ENDERMAN_HOLDABLE)
+                .addTag(TagRegistry.HEDGE_BLOCKS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.GLOW_BLOCK.get())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/pink_rose_hedge",
+    "layer1": "marioverse:item/pink_rose_hedge_rose"
+  }
+}

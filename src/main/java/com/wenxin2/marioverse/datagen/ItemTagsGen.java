@@ -74,6 +74,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.HARD_SLABS, TagRegistry.HARD_SLAB_ITEMS);
         copy(TagRegistry.HARD_STAIRS, TagRegistry.HARD_STAIR_ITEMS);
         copy(TagRegistry.HARD_WALLS, TagRegistry.HARD_WALL_ITEMS);
+        copy(TagRegistry.HEDGE_BLOCKS, TagRegistry.HEDGE_ITEMS);
+        copy(TagRegistry.HEDGE_NORMAL_BLOCKS, TagRegistry.HEDGE_NORMAL_ITEMS);
+        copy(TagRegistry.HEDGE_ROSE_BLOCKS, TagRegistry.HEDGE_ROSE_ITEMS);
+        copy(TagRegistry.HEDGE_SNOWY_BLOCKS, TagRegistry.HEDGE_SNOWY_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.LARGE_ARROW_SIGNS, TagRegistry.LARGE_ARROW_SIGN_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);

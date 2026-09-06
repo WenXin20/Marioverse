@@ -22,6 +22,9 @@
   - Log Platforms
   - Arrow Signs
   - Large Arrow Signs
+- Added Hedges
+  - Snowy Hedges
+  - Pink, Red, & White Rose Hedges
 - Added Arrow Signs for all wood types
   - Every Compat support
 - Added Hard Wooden Blocks for all wood types

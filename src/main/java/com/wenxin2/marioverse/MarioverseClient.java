@@ -177,6 +177,15 @@ public class MarioverseClient {
                 : FoliageColor.getDefaultColor(), BlockRegistry.MUSHROOT_LEAVES.get());
 
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                ? BiomeColors.getAverageFoliageColor(level, pos)
+                : FoliageColor.getDefaultColor(),
+                BlockRegistry.HEDGE.get(),
+                BlockRegistry.PINK_ROSE_HEDGE.get(),
+                BlockRegistry.RED_ROSE_HEDGE.get(),
+                BlockRegistry.SNOWY_HEDGE.get(),
+                BlockRegistry.WHITE_ROSE_HEDGE.get());
+
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
                 ? BiomeColors.getAverageWaterColor(level, pos) | 0x0000cc
                 : 0xFFFFFFFF, BlockRegistry.WATER_SPOUT.get());
 
@@ -205,8 +214,18 @@ public class MarioverseClient {
                 BlockRegistry.TALL_SHROOMGRASS.get(),
                 BlockRegistry.SHRUBROOM.get());
 
+        event.register((stack, tintIndex) -> tintIndex == 0 ? 0x19593A : -1,
+                BlockRegistry.SNOWY_HEDGE.get());
+
         event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
                 BlockRegistry.MUSHROOT_LEAVES.get());
+
+        event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
+                BlockRegistry.HEDGE.get(),
+                BlockRegistry.PINK_ROSE_HEDGE.get(),
+                BlockRegistry.RED_ROSE_HEDGE.get(),
+                BlockRegistry.SNOWY_HEDGE.get(),
+                BlockRegistry.WHITE_ROSE_HEDGE.get());
 
         event.register((stack, tintIndex) -> {
             if (tintIndex == 1)

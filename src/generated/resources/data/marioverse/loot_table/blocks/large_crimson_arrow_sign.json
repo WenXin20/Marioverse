@@ -13,10 +13,11 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "marioverse:large_crimson_arrow_sign",
+              "block": "marioverse:large_crimson_wall_arrow_sign",
               "condition": "minecraft:block_state_property",
               "properties": {
-                "half": "bottom"
+                "half": "bottom",
+                "side": "left"
               }
             }
           ],

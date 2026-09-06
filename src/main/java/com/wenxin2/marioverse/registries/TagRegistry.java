@@ -97,6 +97,10 @@ public class TagRegistry {
     public static final TagKey<Block> HARD_SLABS = blockTags("hard_slabs");
     public static final TagKey<Block> HARD_STAIRS = blockTags("hard_stairs");
     public static final TagKey<Block> HARD_WALLS = blockTags("hard_walls");
+    public static final TagKey<Block> HEDGE_BLOCKS = blockTags("hedges");
+    public static final TagKey<Block> HEDGE_NORMAL_BLOCKS = blockTags("hedges/normal");
+    public static final TagKey<Block> HEDGE_ROSE_BLOCKS = blockTags("hedges/rose");
+    public static final TagKey<Block> HEDGE_SNOWY_BLOCKS = blockTags("hedges/snowy");
     public static final TagKey<Block> ICE_BALL_EXTINGUISHES = blockTags("ice_ball_extinguishes");
     public static final TagKey<Block> ICE_CUBE_EXTINGUISHES = blockTags("ice_cube_extinguishes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
@@ -241,6 +245,10 @@ public class TagRegistry {
     public static final TagKey<Item> HARD_STAIR_ITEMS = itemTags("hard_stairs");
     public static final TagKey<Item> HARD_WALL_ITEMS = itemTags("hard_walls");
     public static final TagKey<Item> HATS = itemTags("hats");
+    public static final TagKey<Item> HEDGE_ITEMS = itemTags("hedges");
+    public static final TagKey<Item> HEDGE_NORMAL_ITEMS = itemTags("hedges/normal");
+    public static final TagKey<Item> HEDGE_ROSE_ITEMS = itemTags("hedges/rose");
+    public static final TagKey<Item> HEDGE_SNOWY_ITEMS = itemTags("hedges/snowy");
     public static final TagKey<Item> INVISIBLE_QUESTION_BLOCK_ITEMS = itemTags("invisible_question_blocks");
     public static final TagKey<Item> KOOPA_SHELL_ITEMS = itemTags("koopa_shells");
     public static final TagKey<Item> KOOPA_SHOES = itemTags("koopa_shoes");
