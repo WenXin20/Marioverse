@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.google.common.collect.ImmutableList;
+import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.client.BlockSpawnerScreen;
 import com.wenxin2.marioverse.blocks.client.QuestionBlockScreen;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
@@ -79,6 +80,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -97,6 +99,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
@@ -214,9 +217,6 @@ public class MarioverseClient {
                 BlockRegistry.TALL_SHROOMGRASS.get(),
                 BlockRegistry.SHRUBROOM.get());
 
-        event.register((stack, tintIndex) -> tintIndex == 0 ? 0x19593A : -1,
-                BlockRegistry.SNOWY_HEDGE.get());
-
         event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
                 BlockRegistry.MUSHROOT_LEAVES.get());
 
@@ -224,8 +224,18 @@ public class MarioverseClient {
                 BlockRegistry.HEDGE.get(),
                 BlockRegistry.PINK_ROSE_HEDGE.get(),
                 BlockRegistry.RED_ROSE_HEDGE.get(),
-                BlockRegistry.SNOWY_HEDGE.get(),
                 BlockRegistry.WHITE_ROSE_HEDGE.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return FoliageColor.getDefaultColor();
+            if (tintIndex == 1) {
+                BlockItemStateProperties properties = stack.get(DataComponents.BLOCK_STATE);
+                if (properties != null && Boolean.FALSE.equals(properties.get(HedgeBlock.SNOWY)))
+                    return FoliageColor.getDefaultColor();
+            }
+            return -1;
+        }, BlockRegistry.SNOWY_HEDGE.get());
 
         event.register((stack, tintIndex) -> {
             if (tintIndex == 1)

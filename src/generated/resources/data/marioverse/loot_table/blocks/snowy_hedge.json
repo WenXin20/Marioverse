@@ -11,6 +11,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "block": "marioverse:snowy_hedge",
+              "function": "minecraft:copy_state",
+              "properties": [
+                "snowy"
+              ]
+            }
+          ],
           "name": "marioverse:snowy_hedge"
         }
       ],

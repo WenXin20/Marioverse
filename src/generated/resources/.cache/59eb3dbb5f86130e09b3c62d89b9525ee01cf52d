@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-06T13:48:48.6213915	Loot Tables
+// 1.21.1	2026-09-06T16:10:41.4538656	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -529,7 +529,7 @@ e94129e6bbca0147c8f6d174c2e9284edfbdf963 data/marioverse/loot_table/blocks/smash
 f0fb0b3f046a37eafd38a44d066f3dfb1e25f45c data/marioverse/loot_table/blocks/smashable_waxed_oxidized_cut_copper.json
 48b3d1c7c59b339afffcd19d80413f6e11f0fb19 data/marioverse/loot_table/blocks/smashable_waxed_weathered_cut_copper.json
 0536c4677dc3cf6d19c5f13cf96d842e78c28ed1 data/marioverse/loot_table/blocks/smashable_weathered_cut_copper.json
-fdd42c26c93a664402b432dd65402174a0a9e165 data/marioverse/loot_table/blocks/snowy_hedge.json
+b3b124d6af006e466a359ef626cf08dfba3e1997 data/marioverse/loot_table/blocks/snowy_hedge.json
 a272873bcfef28b6d756b6e2fdd1afa0ab94f399 data/marioverse/loot_table/blocks/spike_panel.json
 771106a7503d7e13109645a98593ce2306fbd456 data/marioverse/loot_table/blocks/splunkin_carved_pumpkin.json
 882715253b2389a19c138461127c1178d9ca41f2 data/marioverse/loot_table/blocks/splunkin_o_lantern.json

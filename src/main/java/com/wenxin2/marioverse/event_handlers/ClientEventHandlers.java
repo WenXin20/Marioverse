@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
@@ -70,6 +71,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -258,6 +260,10 @@ public class ClientEventHandlers {
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> porcupufferVariant(stack));
 
+            ItemProperties.register(BlockRegistry.SNOWY_HEDGE.asItem(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "snowy"),
+                    (stack, level, entity, seed) -> snowyHedgeSnowless(stack));
+
             ItemProperties.register(ItemRegistry.HAT.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
                     (stack, level, entity, seed) -> powerUpType(stack));
@@ -334,6 +340,14 @@ public class ClientEventHandlers {
     private static float arrowSignDyeColor(ItemStack stack) {
         DyeColor dyeColor = stack.get(DataComponentRegistry.DYE_COLOR.get());
         return (float) ((dyeColor != null ? dyeColor : DyeColor.RED).ordinal() + 1);
+    }
+
+    private static float snowyHedgeSnowless(ItemStack stack) {
+        BlockItemStateProperties properties = stack.get(DataComponents.BLOCK_STATE);
+
+        if (properties != null && Boolean.FALSE.equals(properties.get(HedgeBlock.SNOWY)))
+            return 1.0F;
+        return 0.0F;
     }
 
     private static float cheepCheepBucket(ItemStack stack) {

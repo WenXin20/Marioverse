@@ -58,7 +58,13 @@ public class ItemModelGen extends ItemModelProvider {
 
         this.twoLayerItem(BlockRegistry.PINK_ROSE_HEDGE.asItem(), "_rose");
         this.twoLayerItem(BlockRegistry.RED_ROSE_HEDGE.asItem(), "_rose");
-        this.twoLayerItem(BlockRegistry.SNOWY_HEDGE.asItem(), "_snow");
+        this.twoLayerItem(BlockRegistry.SNOWY_HEDGE.asItem(), "_snow").override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/snowy_hedge_snowless")))
+                .predicate(modLoc("snowy"), 1.0F).end();
+        this.getBuilder("snowy_hedge_snowless")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/snowy_hedge"))
+                .texture("layer1", modLoc("item/snowy_hedge_snowless"));
         this.twoLayerItem(BlockRegistry.WHITE_ROSE_HEDGE.asItem(), "_rose");
 
         this.basicItem(ItemRegistry.BOO_SPAWN_EGG.get());

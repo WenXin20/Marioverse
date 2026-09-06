@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.entities.SnowPokeyBodyEntity;
+import com.wenxin2.marioverse.entities.SnowPokeyEntity;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -17,7 +19,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -171,7 +175,7 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
             level.setBlockAndUpdate(pos, state.setValue(SNOWY, true));
             level.playSound(player, pos, SoundEvents.SNOW_PLACE, SoundSource.BLOCKS, 1.0F, pitch);
             stack.consume(1, player);
-            
+
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);

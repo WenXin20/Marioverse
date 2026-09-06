@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-06T02:43:11.0697147	Item Models: marioverse
+// 1.21.1	2026-09-06T16:10:41.4745631	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -3024,7 +3024,8 @@ db864f3cb1c071facf85a4694a7e931c5f59dc12 assets/marioverse/models/item/shoes.jso
 c043e5247b52c8c048f5cfa39128dd4f650c78c9 assets/marioverse/models/item/short_shroomgrass.json
 2a57aaa1a3e3a7ef323902f5fdd0dd1c6db50e18 assets/marioverse/models/item/shroomgrass.json
 23313bedefd88fd664b63a749c6b37bf61ee9de7 assets/marioverse/models/item/shrubroom.json
-7d7e93348d635d42951006881e32de361110f539 assets/marioverse/models/item/snowy_hedge.json
+74d444e88fcc53afeda39853be3b24db4a46a19f assets/marioverse/models/item/snowy_hedge.json
+96a7a13f54e30adb13634993e4f57ead7bf6f0af assets/marioverse/models/item/snowy_hedge_snowless.json
 9531b08e9ecae755def0a6d9a27bc747800f58fc assets/marioverse/models/item/snow_pokey_spawn_egg.json
 69da874887dd83827e13d267f33145b1d99a6d78 assets/marioverse/models/item/spike_panel.json
 8e47f8d9a031f6dece0675c602f828c3d8e2905e assets/marioverse/models/item/spiny_cheep_cheep.json

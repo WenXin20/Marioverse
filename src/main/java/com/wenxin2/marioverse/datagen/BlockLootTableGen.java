@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -37,6 +38,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -48,10 +50,12 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.CopyBlockState;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -133,6 +137,10 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (block == BlockRegistry.SHROOMGRASS_BLOCK.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.SHROOMSOIL.get()));
+                    else if (block == BlockRegistry.SNOWY_HEDGE.get())
+                        this.add(block, this.createSnowyHedgeDrop(block));
+                    else if (block instanceof HedgeBlock)
+                        this.add(block, this.createHedgeDrop(block));
                     else if (block == BlockRegistry.SHORT_SHROOMGRASS.get() || block == BlockRegistry.SHROOMGRASS.get())
                         this.add(block, this.createGrassDrops(block));
                     else if (block == BlockRegistry.TALL_SHROOMGRASS.get())
@@ -280,6 +288,29 @@ public class BlockLootTableGen extends LootTableProvider {
                             .add(LootItem.lootTableItem(itemLike)
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponentRegistry.VARIANT.get())))));
+        }
+
+        protected LootTable.Builder createHedgeDrop(Block block) {
+            return LootTable.lootTable()
+                    .withPool(this.applyExplosionCondition(block,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(block))))
+                    .withPool(this.applyExplosionCondition(Items.SNOWBALL,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(Items.SNOWBALL)
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))
+                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                            .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                    .hasProperty(HedgeBlock.SNOWY, true)))
+                                    .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.SHOVELS)))));
+        }
+
+        protected LootTable.Builder createSnowyHedgeDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyBlockState.copyState(block).copy(HedgeBlock.SNOWY))))
+            );
         }
 
         protected LootTable.Builder createStarCoinDrop(Block block) {
