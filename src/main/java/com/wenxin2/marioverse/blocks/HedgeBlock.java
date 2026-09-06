@@ -164,6 +164,9 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
                 && blockItem.getBlock() instanceof SnowLayerBlock) {
             level.setBlockAndUpdate(pos, state.setValue(SNOWY, true));
             level.playSound(player, pos, SoundEvents.SNOW_PLACE, SoundSource.BLOCKS, 1.0F, pitch);
+            stack.consume(1, player);
+            
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
