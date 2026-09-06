@@ -205,6 +205,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
     }
 
     protected boolean toggleBoard(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -213,7 +214,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
 
         if (!level.isClientSide) {
             level.setBlock(pos, nextToggleBoardState(state), Block.UPDATE_CLIENTS);
-            level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS);
+            level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, pitch);
             level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
 
             if (stack.isDamageableItem())
@@ -234,6 +235,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
     }
 
     static boolean waxInteraction(Level level, BlockPos pos, ItemStack stack, Player player, @Nullable Direction particleFace) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -245,7 +247,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             stack.consume(1, player);
             level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
             if (particleFace != null) {
-                level.playSound(null, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS);
+                level.playSound(null, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, pitch);
                 spawnParticles(level, pos, particleFace, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
             } else level.levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
         }
@@ -253,6 +255,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
     }
 
     static boolean glowInteraction(Level level, BlockPos pos, ItemStack stack, Player player, @Nullable Direction particleFace) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -269,10 +272,10 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
 
             if (newGlow) {
-                level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS);
+                level.playSound(null, pos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0F, pitch);
                 spawnParticles(level, pos, particleFace, ParticleTypes.GLOW, UniformInt.of(3, 5));
             } else {
-                level.playSound(null, pos, SoundEvents.INK_SAC_USE, SoundSource.BLOCKS);
+                level.playSound(null, pos, SoundEvents.INK_SAC_USE, SoundSource.BLOCKS, 1.0F, pitch);
                 spawnParticles(level, pos, particleFace, new DustParticleOptions(new Vector3f(0, 0, 0), 0.5F), UniformInt.of(8, 12));
             }
         }
@@ -280,6 +283,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
     }
 
     static boolean dyeInteraction(Level level, BlockPos pos, ItemStack stack, Player player, @Nullable Direction particleFace) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -291,7 +295,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         if (!level.isClientSide) {
             signBlockEntity.setArrowDyeColor(dyeItem.getDyeColor());
             stack.consume(1, player);
-            level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS);
+            level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, pitch);
             level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
 
             int textColor = dyeItem.getDyeColor().getTextColor();
@@ -303,6 +307,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
     }
 
     static boolean rotateArrowInteraction(Level level, BlockState state, BlockPos pos, boolean isReverse) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -316,12 +321,13 @@ public class StandingArrowSignBlock extends StandingSignBlock {
 
         level.setBlock(pos, state.setValue(ARROW_DIRECTION, direction), Block.UPDATE_CLIENTS);
         level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
-        level.playSound(null, pos, SoundRegistry.ARROW_ROTATES.get(), SoundSource.BLOCKS);
+        level.playSound(null, pos, SoundRegistry.ARROW_ROTATES.get(), SoundSource.BLOCKS, 1.0F, pitch);
         signBlockEntity.setArrowDirection(direction);
         return true;
     }
 
     static boolean removeArrowInteraction(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity, @Nullable Direction particleFace) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         if (!(level.getBlockEntity(pos) instanceof ArrowSignBlockEntity signBlockEntity)
                 || signBlockEntity.isWaxed())
             return false;
@@ -331,13 +337,13 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             return false;
 
         if (stack.getItem() instanceof BrushItem)
-            level.playSound(null, pos, SoundEvents.BRUSH_GENERIC, SoundSource.BLOCKS);
+            level.playSound(null, pos, SoundEvents.BRUSH_GENERIC, SoundSource.BLOCKS, 1.0F, pitch);
         else if (stack.getItem() instanceof ShearsItem)
-            level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS);
+            level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1.0F, pitch);
         else if (stack.is(CompatRegistry.SOAP.get())) {
-            level.playSound(null, pos, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS);
+            level.playSound(null, pos, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS, 1.0F, pitch);
             spawnParticles(level, pos, particleFace, (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(5, 8));
-        } else level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS);
+        } else level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1.0F, pitch);
 
         if (stack.isDamageableItem())
             stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);

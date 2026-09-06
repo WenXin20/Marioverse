@@ -192,6 +192,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
 
     @Override
     protected boolean wax(Level level, BlockPos pos, ItemStack stack, Player player) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         boolean result = super.wax(level, pos, stack, player);
         if (result && !level.isClientSide) {
             BlockState state = level.getBlockState(pos);
@@ -200,7 +201,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
             for (BlockPos posOther : this.siblingPositions(state, pos)) {
                 if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherEntity) {
                     otherEntity.setWaxed(true);
-                    level.playSound(null, posOther, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS);
+                    level.playSound(null, posOther, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, pitch);
                     StandingArrowSignBlock.spawnParticles(level, posOther, facing, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
                 }
             }
@@ -275,6 +276,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
 
     @Override
     protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         boolean result = super.removeArrow(level, state, pos, stack, entity);
 
         if (result && !level.isClientSide) {
@@ -287,7 +289,7 @@ public class LargeWallArrowSignBlock extends WallArrowSignBlock {
                 if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
                     otherSignBE.setArrowDirection(ArrowDirection.NONE);
                 if (stack.is(CompatRegistry.SOAP.get())) {
-                    level.playSound(null, posOther, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS);
+                    level.playSound(null, posOther, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS, 1.0F, pitch);
                     StandingArrowSignBlock.spawnParticles(level, posOther, facing,
                             (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(8, 12));
                 }

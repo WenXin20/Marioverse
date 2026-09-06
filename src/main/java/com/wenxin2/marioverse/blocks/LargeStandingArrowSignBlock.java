@@ -230,6 +230,7 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
 
     @Override
     protected boolean removeArrow(Level level, BlockState state, BlockPos pos, ItemStack stack, LivingEntity entity) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         boolean result = super.removeArrow(level, state, pos, stack, entity);
 
         if (result && !level.isClientSide) {
@@ -241,7 +242,7 @@ public class LargeStandingArrowSignBlock extends StandingArrowSignBlock {
             if (level.getBlockEntity(posOther) instanceof ArrowSignBlockEntity otherSignBE)
                 otherSignBE.setArrowDirection(ArrowDirection.NONE);
             if (stack.is(CompatRegistry.SOAP.get())) {
-                level.playSound(null, posOther, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS);
+                level.playSound(null, posOther, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS, 1.0F, pitch);
                 StandingArrowSignBlock.spawnParticles(level, posOther, null,
                         (ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(), UniformInt.of(5, 8));
             }
