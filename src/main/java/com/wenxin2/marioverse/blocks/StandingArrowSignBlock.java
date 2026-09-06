@@ -218,7 +218,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
             level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
 
             if (stack.isDamageableItem())
-                stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
+                stack.hurtAndBreak(1, entity, Player.getSlotForHand(entity.getUsedItemHand()));
         }
         return true;
     }
@@ -346,7 +346,7 @@ public class StandingArrowSignBlock extends StandingSignBlock {
         } else level.playSound(null, pos, SoundEvents.BEEHIVE_SHEAR, SoundSource.BLOCKS, 1.0F, pitch);
 
         if (stack.isDamageableItem())
-            stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
+            stack.hurtAndBreak(1, entity, Player.getSlotForHand(entity.getUsedItemHand()));
         else stack.consume(1, entity);
 
         if (!level.isClientSide) {

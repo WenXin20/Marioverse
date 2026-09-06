@@ -152,6 +152,9 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
             level.playSound(player, pos, SoundEvents.SNOW_BREAK, SoundSource.BLOCKS, 1.0F, pitch);
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
+            if (stack.isDamageableItem())
+                stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
+
             if (level instanceof ServerLevel serverLevel) {
                 LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(SNOW_LOOT_TABLE);
                 LootParams lootParams = new LootParams.Builder(serverLevel)
