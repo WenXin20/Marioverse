@@ -6,7 +6,7 @@
 	"textures": {
 		"particle": "marioverse:block/shrubroom",
 		"flower_pot": "block/flower_pot",
-		"dirt": "marioverse:block/shroomsoil_top",
+		"dirt": "block/dirt",
 		"plant": "marioverse:block/shrubroom"
 	},
 	"elements": [

@@ -20,7 +20,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -71,13 +70,13 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
     public HedgeBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(TOP, true).setValue(SNOWY, false).setValue(WATERLOGGED, false));
+                .setValue(SNOWY, false).setValue(TOP, true).setValue(WATERLOGGED, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(TOP, SNOWY, WATERLOGGED);
+        builder.add(SNOWY, TOP, WATERLOGGED);
     }
 
     @NotNull
@@ -227,7 +226,7 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
     }
 
     public BlockState calculateTop(BlockState state, LevelAccessor level, BlockPos pos) {
-        boolean shouldBeTop = !level.getBlockState(pos.above()).is(this);
+        boolean shouldBeTop = !(level.getBlockState(pos.above()).getBlock() instanceof HedgeBlock);
 
         if (state.getValue(TOP) != shouldBeTop)
             return state.setValue(TOP, shouldBeTop);
@@ -244,7 +243,7 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
         return false;
     }
 
-    private static boolean canSpread(LevelReader levelReader, BlockPos pos, BlockState state) {
+    public static boolean canSpread(LevelReader levelReader, BlockPos pos, BlockState state) {
         for (Direction direction : SPREAD_DIRECTIONS) {
             BlockPos targetPos = pos.relative(direction);
 
@@ -259,7 +258,7 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
         for (Direction direction : Util.shuffledCopy(SPREAD_DIRECTIONS, random)) {
             BlockPos targetPos = pos.relative(direction);
 
-            if (levelReader.isEmptyBlock(targetPos) && state.canSurvive(levelReader, targetPos))
+            if (levelReader.getBlockState(targetPos).canBeReplaced() && state.canSurvive(levelReader, targetPos))
                 return targetPos;
         }
         return null;

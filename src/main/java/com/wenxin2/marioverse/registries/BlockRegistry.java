@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.GrassyStoneBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.RoseHedgeBlock;
 import com.wenxin2.marioverse.blocks.ShortShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.ShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.ShroomgrassPlantBlock;
@@ -886,17 +887,17 @@ public class BlockRegistry {
                 () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
 
         PINK_ROSE_HEDGE = registerBlock("pink_rose_hedge",
-                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
 
         RED_ROSE_HEDGE = registerBlock("red_rose_hedge",
-                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
 
         SNOWY_HEDGE = registerBlock("snowy_hedge",
                 () -> new SnowyHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())
                         .mapColor(MapColor.SNOW)));
 
         WHITE_ROSE_HEDGE = registerBlock("white_rose_hedge",
-                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
 
         MUSHROOT_PLANKS = registerBlock("mushroot_planks",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)

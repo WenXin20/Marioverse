@@ -1,0 +1,12 @@
+{
+  "parent": "marioverse:block/template_hedge_top_snowy",
+  "textures": {
+    "bottom": "marioverse:block/hedge_bottom",
+    "leaves": "marioverse:block/hedge_leaves",
+    "leaves_snow": "marioverse:block/hedge_leaves_snow",
+    "side": "marioverse:block/hedge_side_top",
+    "side_snow": "marioverse:block/hedge_side_top_snow",
+    "top": "marioverse:block/hedge_top",
+    "top_snow": "marioverse:block/hedge_top_snow"
+  }
+}

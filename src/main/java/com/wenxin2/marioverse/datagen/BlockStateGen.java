@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
+import com.wenxin2.marioverse.blocks.RoseHedgeBlock;
 import com.wenxin2.marioverse.blocks.LogPlatformBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
@@ -1810,6 +1811,28 @@ public class BlockStateGen extends BlockStateProvider {
         this.hedgeBlockState(block, bottomModel, bottomSnowyModel, topModel, topSnowyModel);
     }
 
+    private void hedgeRoseBlockState(Block block, ModelFile flowersBottomModel, ModelFile flowersBottomSnowyModel,
+                                     ModelFile flowersTopModel, ModelFile flowersTopSnowyModel, ModelFile plainBottomModel,
+                                     ModelFile plainBottomSnowyModel, ModelFile plainTopModel, ModelFile plainTopSnowyModel) {
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().with(HedgeBlock.TOP, false).with(HedgeBlock.SNOWY, false).with(RoseHedgeBlock.FLOWERS, true)
+                .addModels(new ConfiguredModel(flowersBottomModel));
+        variantBuilder.partialState().with(HedgeBlock.TOP, false).with(HedgeBlock.SNOWY, true).with(RoseHedgeBlock.FLOWERS, true)
+                .addModels(new ConfiguredModel(flowersBottomSnowyModel));
+        variantBuilder.partialState().with(HedgeBlock.TOP, true).with(HedgeBlock.SNOWY, false).with(RoseHedgeBlock.FLOWERS, true)
+                .addModels(new ConfiguredModel(flowersTopModel));
+        variantBuilder.partialState().with(HedgeBlock.TOP, true).with(HedgeBlock.SNOWY, true).with(RoseHedgeBlock.FLOWERS, true)
+                .addModels(new ConfiguredModel(flowersTopSnowyModel));
+        variantBuilder.partialState().with(HedgeBlock.TOP, false).with(HedgeBlock.SNOWY, false).with(RoseHedgeBlock.FLOWERS, false)
+                .addModels(new ConfiguredModel(plainBottomModel));
+        variantBuilder.partialState().with(HedgeBlock.TOP, false).with(HedgeBlock.SNOWY, true).with(RoseHedgeBlock.FLOWERS, false)
+                .addModels(new ConfiguredModel(plainBottomSnowyModel));
+        variantBuilder.partialState().with(HedgeBlock.TOP, true).with(HedgeBlock.SNOWY, false).with(RoseHedgeBlock.FLOWERS, false)
+                .addModels(new ConfiguredModel(plainTopModel));
+        variantBuilder.partialState().with(HedgeBlock.TOP, true).with(HedgeBlock.SNOWY, true).with(RoseHedgeBlock.FLOWERS, false)
+                .addModels(new ConfiguredModel(plainTopSnowyModel));
+    }
+
     private void hedgeRoseModel(Block block) {
         String modelName = this.name(block);
         ResourceLocation side = texture(block, "_side"), sideTop = texture(block, "_side_top"),
@@ -1818,6 +1841,8 @@ public class BlockStateGen extends BlockStateProvider {
                 topRose = texture(block, "_top_rose");
         ResourceLocation leaves = modLoc("block/hedge_leaves"), leavesSnow = modLoc("block/hedge_leaves_snow"),
                 sideTopSnow = modLoc("block/hedge_side_top_snow"), topSnow = modLoc("block/hedge_top_snow");
+        ResourceLocation plainSide = modLoc("block/hedge_side"), plainSideTop = modLoc("block/hedge_side_top"),
+                plainBottom = modLoc("block/hedge_bottom"), plainTop = modLoc("block/hedge_top");
 
         ModelFile bottomModel = models().withExistingParent(modelName, modLoc("block/template_hedge_rose"))
                 .texture("side", side).texture("bottom", bottom).texture("leaves", leaves).texture("side_rose", sideRose);
@@ -1832,7 +1857,18 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("side_rose", sideTopRose).texture("top_rose", topRose)
                 .texture("side_snow", sideTopSnow).texture("top_snow", topSnow).texture("leaves_snow", leavesSnow);
 
-        this.hedgeBlockState(block, bottomModel, bottomSnowyModel, topModel, topSnowyModel);
+        ModelFile noFlowersBottomModel = models().withExistingParent(modelName + "_no_flowers", modLoc("block/template_hedge"))
+                .texture("side", plainSide).texture("bottom", plainBottom).texture("leaves", leaves);
+        ModelFile noFlowersBottomSnowyModel = models().withExistingParent(modelName + "_no_flowers_snowy", modLoc("block/template_hedge_snowy"))
+                .texture("side", plainSide).texture("bottom", plainBottom).texture("leaves", leaves).texture("leaves_snow", leavesSnow);
+        ModelFile noFlowersTopModel = models().withExistingParent(modelName + "_no_flowers_top", modLoc("block/template_hedge_top"))
+                .texture("side", plainSideTop).texture("bottom", plainBottom).texture("top", plainTop).texture("leaves", leaves);
+        ModelFile noFlowersTopSnowyModel = models().withExistingParent(modelName + "_no_flowers_top_snowy", modLoc("block/template_hedge_top_snowy"))
+                .texture("side", plainSideTop).texture("bottom", plainBottom).texture("top", plainTop).texture("leaves", leaves)
+                .texture("side_snow", sideTopSnow).texture("top_snow", topSnow).texture("leaves_snow", leavesSnow);
+
+        this.hedgeRoseBlockState(block, bottomModel, bottomSnowyModel, topModel, topSnowyModel,
+                noFlowersBottomModel, noFlowersBottomSnowyModel, noFlowersTopModel, noFlowersTopSnowyModel);
     }
 
     private void ironSpikeModel(Block block, ResourceLocation mainTexture) {
