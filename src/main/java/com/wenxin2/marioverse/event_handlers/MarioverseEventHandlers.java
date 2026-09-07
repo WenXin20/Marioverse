@@ -674,6 +674,9 @@ public class MarioverseEventHandlers {
                 level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
                 player.awardStat(Stats.POT_FLOWER);
                 heldItem.consume(1, player);
+
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                event.setCanceled(true);
             }
         }
 

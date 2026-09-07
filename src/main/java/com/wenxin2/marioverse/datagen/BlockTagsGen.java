@@ -1338,6 +1338,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.MUSHROOT_STAIRS.get());
 
         tag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(TagRegistry.HEDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_ARROW_SIGNS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)

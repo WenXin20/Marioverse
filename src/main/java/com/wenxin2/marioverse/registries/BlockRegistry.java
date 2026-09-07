@@ -922,7 +922,7 @@ public class BlockRegistry {
         RED_ROSE_HEDGE = registerBlock("red_rose_hedge",
                 () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
 
-        SNOWY_HEDGE = registerBlock("snowy_hedge",
+        SNOWY_HEDGE = registerNoItemBlock("snowy_hedge",
                 () -> new SnowyHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())
                         .mapColor(MapColor.SNOW)));
 

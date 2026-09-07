@@ -130,8 +130,8 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
     @Override
     protected boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
         BlockState stateBelow = levelReader.getBlockState(pos.below());
-        if (!stateBelow.canBeReplaced())
-            return true;
+        if (stateBelow.canBeReplaced())
+            return false;
         return super.canSurvive(state, levelReader, pos);
     }
 

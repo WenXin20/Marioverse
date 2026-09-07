@@ -25,6 +25,7 @@ import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.items.PokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
+import com.wenxin2.marioverse.items.SnowyHedgeItem;
 import com.wenxin2.marioverse.items.SolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.SuperMushroomItem;
@@ -167,6 +168,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> SHIRT;
     public static final DeferredItem<Item> SHOES;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
+    public static final DeferredItem<Item> SNOWY_HEDGE;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_SPAWN_EGG;
@@ -565,6 +567,8 @@ public class ItemRegistry {
         SNOW_POKEY_SPAWN_EGG = registerItem("snow_pokey_spawn_egg",
                 () -> new SnowPokeySpawnEggItem(EntityRegistry.SNOW_POKEY_BODY, 0xFFFFFF, 0xFFFFFF,
                         new Item.Properties()));
+        SNOWY_HEDGE = registerItem("snowy_hedge",
+                () -> new SnowyHedgeItem(new Item.Properties(), BlockRegistry.SNOWY_HEDGE.get()));
         SPINY_CHEEP_CHEEP_SPAWN_EGG = registerItem("spiny_cheep_cheep_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.SPINY_CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF,
                         new Item.Properties()));

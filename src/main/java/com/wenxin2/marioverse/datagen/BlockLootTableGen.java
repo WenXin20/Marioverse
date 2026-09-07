@@ -99,12 +99,12 @@ public class BlockLootTableGen extends LootTableProvider {
 
         @Override
         protected void generate() {
+            this.genBlockVariants();
+
             Marioverse.BLOCKS.getEntries().forEach(deferredHolder -> {
                 Block block = deferredHolder.get();
-                if (block.getLootTable() != BuiltInLootTables.EMPTY) {
-                    if (isBlockInVariants(block))
-                        this.genBlockVariants();
-                    else if (block instanceof CheckpointFlagBlock)
+                if (block.getLootTable() != BuiltInLootTables.EMPTY && !isBlockInVariants(block)) {
+                    if (block instanceof CheckpointFlagBlock)
                         this.add(block, this.createCheckpointFlagDrop(block));
                     else if (block instanceof CoralTowerBlock || block instanceof DeadCoralTowerBlock)
                         this.add(block, this.createSilkTouchOnlyTable(block));
@@ -203,9 +203,10 @@ public class BlockLootTableGen extends LootTableProvider {
                     BlockFamilyExtended.Variant storageBricks = BlockFamilyExtended.Variant.STORAGE_BRICKS;
                     BlockFamilyExtended.Variant wallArrowSign = BlockFamilyExtended.Variant.WALL_ARROW_SIGN;
 
-                    if (variant == arrowSign || variant == hangingArrowSign || variant == wallArrowSign)
+                    if (variant == wallArrowSign || variant == hangingArrowSign || variant == largeWallArrowSign) {
+                    } else if (variant == arrowSign)
                         this.add(variantBlock, this.createArrowSignBEDrop(variantBlock));
-                    else if (variant == largeArrowSign || variant == largeWallArrowSign)
+                    else if (variant == largeArrowSign)
                         this.add(variantBlock, this.createLargeArrowSignBEDrop(variantBlock));
                     else if (variant == door)
                         this.add(variantBlock, this.createDoorTable(variantBlock));
