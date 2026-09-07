@@ -222,6 +222,8 @@ public class MarioverseCreativeTabs {
         if (event.getTabKey() == MARIOVERSE_NATURAL_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
             add(event, BlockRegistry.SHROOMGRASS_BLOCK);
             add(event, BlockRegistry.SHROOMSOIL);
+            add(event, BlockRegistry.SHROOMSOIL_FARMLAND);
+            add(event, BlockRegistry.SHROOMSOIL_PATH);
 
             add(event, BlockRegistry.GRASSY_FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE);
@@ -1048,6 +1050,8 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Blocks.MYCELIUM, BlockRegistry.SHROOMGRASS_BLOCK);
                 addAfter(event, Blocks.FARMLAND, BlockRegistry.SHROOMSOIL);
+                addAfter(event, BlockRegistry.SHROOMSOIL, BlockRegistry.SHROOMSOIL_FARMLAND);
+                addAfter(event, BlockRegistry.SHROOMSOIL_FARMLAND, BlockRegistry.SHROOMSOIL_PATH);
 
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE);

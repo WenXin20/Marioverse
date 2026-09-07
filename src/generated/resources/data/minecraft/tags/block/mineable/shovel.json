@@ -3,6 +3,8 @@
     "marioverse:quicksand",
     "marioverse:red_quicksand",
     "marioverse:shroomgrass_block",
-    "marioverse:shroomsoil"
+    "marioverse:shroomsoil",
+    "marioverse:shroomsoil_farmland",
+    "marioverse:shroomsoil_path"
   ]
 }

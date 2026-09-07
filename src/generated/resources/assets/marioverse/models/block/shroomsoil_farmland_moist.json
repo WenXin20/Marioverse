@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#dirt"
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#dirt"
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#dirt"
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#dirt"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#dirt"
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        15,
+        16
+      ]
+    }
+  ],
+  "textures": {
+    "dirt": "marioverse:block/shroomsoil_top",
+    "particle": "marioverse:block/shroomsoil_top",
+    "top": "marioverse:block/shroomsoil_farmland_moist"
+  }
+}

@@ -1505,7 +1505,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get())
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
-                .add(BlockRegistry.SHROOMSOIL.get());
+                .add(BlockRegistry.SHROOMSOIL.get())
+                .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
+                .add(BlockRegistry.SHROOMSOIL_PATH.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())

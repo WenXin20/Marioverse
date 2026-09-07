@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-06T02:43:11.1244961	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-07T16:50:48.0677526	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -165,10 +165,10 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid
 e433af55e1c180aea3ccf78cdbf9c88644a14ae1 data/minecraft/tags/block/leaves.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/logs.json
 db85174ac00eb7bab404efe489de6b734ecda2e4 data/minecraft/tags/block/logs_that_burn.json
-9513c3f5d9b90003a1781291139d7b97f1bf550c data/minecraft/tags/block/mineable/axe.json
+6d2341000212c4222b588afe2467f671074bf6df data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 4b6fac1e5a69b9eae53b7ef332c1ed26dbda9fe8 data/minecraft/tags/block/mineable/pickaxe.json
-379327e02d9414987e8c630372cb09a9d3168993 data/minecraft/tags/block/mineable/shovel.json
+b153aa6c934e3c9320f6766ab09707bf737ad630 data/minecraft/tags/block/mineable/shovel.json
 11bf9914a37f97368e3320edbd090ecc24c07476 data/minecraft/tags/block/needs_iron_tool.json
 9d1c2fbbbbffc0bbc0ce1265f2be54dc26a8fb72 data/minecraft/tags/block/needs_stone_tool.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/parrots_spawnable_on.json

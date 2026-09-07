@@ -10,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -18,10 +19,26 @@ import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LightEngine;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
+import org.jetbrains.annotations.Nullable;
 
 public class ShroomgrassBlock extends GrassBlock {
     public ShroomgrassBlock(Properties properties) {
         super(properties);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
+        if (context.getClickedFace() != Direction.DOWN
+                && context.getLevel().getBlockState(context.getClickedPos().above()).isAir()) {
+            if (itemAbility.equals(ItemAbilities.HOE_TILL))
+                return BlockRegistry.SHROOMSOIL_FARMLAND.get().defaultBlockState();
+            else if (itemAbility.equals(ItemAbilities.SHOVEL_FLATTEN))
+                return BlockRegistry.SHROOMSOIL_PATH.get().defaultBlockState();
+        }
+        return super.getToolModifiedState(state, context, itemAbility, simulate);
     }
 
     @Override

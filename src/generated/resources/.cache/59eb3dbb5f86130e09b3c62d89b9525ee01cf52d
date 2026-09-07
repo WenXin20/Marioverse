@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-07T00:37:17.0897517	Loot Tables
+// 1.21.1	2026-09-07T16:50:48.0402872	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -510,6 +510,8 @@ d1323944ee41819199f594983a5aa666961810e2 data/marioverse/loot_table/blocks/short
 80e348a894eb20f710cadbeddf0a3993747d4ab2 data/marioverse/loot_table/blocks/shroomgrass.json
 d603a797361b96a957346a3b223a47f4258a98b3 data/marioverse/loot_table/blocks/shroomgrass_block.json
 376a1ebb6d002dd75b290450abad32054275f582 data/marioverse/loot_table/blocks/shroomsoil.json
+9a690ca56c0176c8a78e820e59b91a4ba73b6123 data/marioverse/loot_table/blocks/shroomsoil_farmland.json
+560bdc8a35792a8bb2637a4e6ccc4cd45e652395 data/marioverse/loot_table/blocks/shroomsoil_path.json
 a9895096228f0e37db594b4900f78ac1c192a20f data/marioverse/loot_table/blocks/shrubroom.json
 12f5d07a437abd3860d54bd05d49ea3d5cde186d data/marioverse/loot_table/blocks/smashable_blackstone_bricks.json
 349b170fb70f4bdbfc091fd156915f666888b65a data/marioverse/loot_table/blocks/smashable_bricks.json

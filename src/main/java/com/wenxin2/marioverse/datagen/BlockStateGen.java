@@ -45,6 +45,7 @@ import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.CeilingHangingSignBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.GrassBlock;
@@ -263,6 +264,10 @@ public class BlockStateGen extends BlockStateProvider {
                 modLoc("block/grassy_fungal_stone_top"), "grassy_fungal_stone", "grassy_fungal_stone_overlay");
         this.shroomgrassBlockModel(BlockRegistry.SHROOMGRASS_BLOCK.get(), 4, modLoc("block/shroomsoil_top"),
                 modLoc("block/shroomgrass_block_top"), "shroomgrass_block", "shroomgrass_block_overlay");
+        this.shroomsoilFarmlandModel(BlockRegistry.SHROOMSOIL_FARMLAND.get(), modLoc("block/shroomsoil_top"),
+                modLoc("block/shroomsoil_farmland"), modLoc("block/shroomsoil_farmland_moist"));
+        this.shroomsoilPathModel(BlockRegistry.SHROOMSOIL_PATH.get(), modLoc("block/shroomsoil_top"),
+                modLoc("block/shroomsoil_path_side"), modLoc("block/shroomsoil_path"));
         this.splunkinOLanternModel(lantern, blockTexture(lantern), mcLoc("block/" + pumpkin + "_side"),
                 mcLoc("block/" + pumpkin + "_top"), texture(lantern, "_cracked"), texture(lantern, "_cracked_side"), texture(lantern, "_cracked_top"));
         this.tallShroomgrassModel(BlockRegistry.TALL_SHROOMGRASS.get(), texture(BlockRegistry.TALL_SHROOMGRASS.get(), "_bottom"),
@@ -1603,6 +1608,69 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(GrassBlock.SNOWY, true).addModels(configuredVariants);
 
         this.simpleBlockItem(block, sideVariants[0]);
+    }
+
+    private void shroomsoilFarmlandModel(Block block, ResourceLocation dirtTexture, ResourceLocation dryTopTexture,
+                                          ResourceLocation moistTopTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile dryModel = this.farmlandLikeModel(modelName, dirtTexture, dryTopTexture);
+        ModelFile moistModel = this.farmlandLikeModel(modelName + "_moist", dirtTexture, moistTopTexture);
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        for (int moisture = 0; moisture < FarmBlock.MAX_MOISTURE; moisture++)
+            variantBuilder.partialState().with(FarmBlock.MOISTURE, moisture).addModels(new ConfiguredModel(dryModel));
+        variantBuilder.partialState().with(FarmBlock.MOISTURE, FarmBlock.MAX_MOISTURE).addModels(new ConfiguredModel(moistModel));
+
+        this.simpleBlockItem(block, dryModel);
+    }
+
+    private ModelFile farmlandLikeModel(String modelName, ResourceLocation dirtTexture, ResourceLocation topTexture) {
+        var builder = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/block"))
+                .texture("particle", dirtTexture)
+                .texture("dirt", dirtTexture)
+                .texture("top", topTexture);
+
+        var element = builder.element().from(0, 0, 0).to(16, 15, 16);
+        element = element.face(Direction.UP).texture("#top").end();
+        element = element.face(Direction.DOWN).texture("#dirt").cullface(Direction.DOWN).end();
+        element = element.face(Direction.NORTH).texture("#dirt").cullface(Direction.NORTH).end();
+        element = element.face(Direction.SOUTH).texture("#dirt").cullface(Direction.SOUTH).end();
+        element = element.face(Direction.WEST).texture("#dirt").cullface(Direction.WEST).end();
+        element = element.face(Direction.EAST).texture("#dirt").cullface(Direction.EAST).end();
+
+        return element.end();
+    }
+
+    private void shroomsoilPathModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        var builder = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/block"))
+                .texture("particle", topTexture)
+                .texture("bottom", bottomTexture)
+                .texture("side", sideTexture)
+                .texture("top", topTexture);
+
+        var element = builder.element().from(0, 0, 0).to(16, 15, 16);
+        element = element.face(Direction.UP).texture("#top").end();
+        element = element.face(Direction.DOWN).texture("#bottom").cullface(Direction.DOWN).end();
+        element = element.face(Direction.NORTH).texture("#side").cullface(Direction.NORTH).end();
+        element = element.face(Direction.SOUTH).texture("#side").cullface(Direction.SOUTH).end();
+        element = element.face(Direction.WEST).texture("#side").cullface(Direction.WEST).end();
+        element = element.face(Direction.EAST).texture("#side").cullface(Direction.EAST).end();
+
+        ModelFile model = element.end();
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().addModels(
+                new ConfiguredModel(model, 0, 0, false),
+                new ConfiguredModel(model, 0, 90, false),
+                new ConfiguredModel(model, 0, 180, false),
+                new ConfiguredModel(model, 0, 270, false));
+
+        this.simpleBlockItem(block, model);
     }
 
     private void cubeBottomTopInnerFacesCutoutModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,

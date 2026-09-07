@@ -137,6 +137,8 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (block == BlockRegistry.SHROOMGRASS_BLOCK.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.SHROOMSOIL.get()));
+                    else if (block == BlockRegistry.SHROOMSOIL_FARMLAND.get() || block == BlockRegistry.SHROOMSOIL_PATH.get())
+                        this.dropOther(block, BlockRegistry.SHROOMSOIL.get());
                     else if (block == BlockRegistry.SNOWY_HEDGE.get())
                         this.add(block, this.createSnowyHedgeDrop(block));
                     else if (block instanceof HedgeBlock)

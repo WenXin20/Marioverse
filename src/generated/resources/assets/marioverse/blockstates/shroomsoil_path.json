@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "marioverse:block/shroomsoil_path"
+      },
+      {
+        "model": "marioverse:block/shroomsoil_path",
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/shroomsoil_path",
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/shroomsoil_path",
+        "y": 270
+      }
+    ]
+  }
+}

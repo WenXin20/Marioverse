@@ -11,6 +11,9 @@ import com.wenxin2.marioverse.blocks.RoseHedgeBlock;
 import com.wenxin2.marioverse.blocks.ShortShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.ShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.ShroomgrassPlantBlock;
+import com.wenxin2.marioverse.blocks.ShroomsoilBlock;
+import com.wenxin2.marioverse.blocks.ShroomsoilFarmlandBlock;
+import com.wenxin2.marioverse.blocks.ShroomsoilPathBlock;
 import com.wenxin2.marioverse.blocks.ShrubroomBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
@@ -550,6 +553,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SHROOMGRASS;
     public static final DeferredBlock<Block> SHROOMGRASS_BLOCK;
     public static final DeferredBlock<Block> SHROOMSOIL;
+    public static final DeferredBlock<Block> SHROOMSOIL_FARMLAND;
+    public static final DeferredBlock<Block> SHROOMSOIL_PATH;
     public static final DeferredBlock<Block> SHRUBROOM;
     public static final DeferredBlock<Block> SMASHABLE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
@@ -888,7 +893,13 @@ public class BlockRegistry {
                         false, true));
 
         SHROOMSOIL = registerBlock("shroomsoil",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
+                () -> new ShroomsoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
+
+        SHROOMSOIL_FARMLAND = registerBlock("shroomsoil_farmland",
+                () -> new ShroomsoilFarmlandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND).mapColor(MapColor.SAND)));
+
+        SHROOMSOIL_PATH = registerBlock("shroomsoil_path",
+                () -> new ShroomsoilPathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH).mapColor(MapColor.SAND)));
 
         SHROOMGRASS_BLOCK = registerBlock("shroomgrass_block",
                 () -> new ShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).mapColor(MapColor.GRASS)));
