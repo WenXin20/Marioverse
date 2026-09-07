@@ -25,7 +25,7 @@ import com.wenxin2.marioverse.blocks.LogPlatformBlock;
 import com.wenxin2.marioverse.blocks.LuigiAbilityBlock;
 import com.wenxin2.marioverse.blocks.MarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
-import com.wenxin2.marioverse.blocks.MushrootLeavesBlock;
+import com.wenxin2.marioverse.blocks.CulledLeavesBlock;
 import com.wenxin2.marioverse.blocks.PassiveDeathBlock;
 import com.wenxin2.marioverse.blocks.PeachAbilityBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
@@ -101,7 +101,6 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
-import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
@@ -2450,7 +2449,7 @@ public class BlockRegistry {
     }
 
     private static Block leaves(SoundType soundType) {
-        return new MushrootLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+        return new CulledLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
                 .pushReaction(PushReaction.DESTROY).isValidSpawn(BlockRegistry::ocelotOrParrot)
                 .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                 .isRedstoneConductor(BlockRegistry::never).strength(0.2F)
