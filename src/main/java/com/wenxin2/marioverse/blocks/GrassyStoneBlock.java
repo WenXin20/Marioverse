@@ -11,7 +11,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrassBlock;
+import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.lighting.LightEngine;
@@ -74,9 +76,15 @@ public class GrassyStoneBlock extends GrassBlock {
     private static boolean canBeGrassy(BlockState state, LevelReader levelReader, BlockPos pos) {
         BlockPos posAbove = pos.above();
         BlockState stateAbove = levelReader.getBlockState(posAbove);
-        int i = LightEngine.getLightBlockInto(levelReader, state, pos, stateAbove, posAbove,
-                Direction.UP, stateAbove.getLightBlock(levelReader, posAbove));
 
-        return i < levelReader.getMaxLightLevel();
+        if (stateAbove.is(Blocks.SNOW) && stateAbove.getValue(SnowLayerBlock.LAYERS) == 1)
+            return true;
+        else if (stateAbove.getFluidState().getAmount() == 8)
+            return false;
+        else {
+            int lightLevel = LightEngine.getLightBlockInto(levelReader, state, pos, stateAbove, posAbove,
+                    Direction.UP, stateAbove.getLightBlock(levelReader, posAbove));
+            return lightLevel < levelReader.getMaxLightLevel();
+        }
     }
 }
