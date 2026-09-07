@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse;
 
+import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
@@ -30,11 +31,13 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -239,9 +242,10 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
             add(event, BlockRegistry.DANGO_BLOSSOM);
             add(event, BlockRegistry.HEDGE);
-            add(event, BlockRegistry.WHITE_ROSE_HEDGE);
             add(event, BlockRegistry.RED_ROSE_HEDGE);
             add(event, BlockRegistry.PINK_ROSE_HEDGE);
+            add(event, BlockRegistry.WHITE_ROSE_HEDGE);
+            add(event, BlockRegistry.SNOWY_HEDGE, DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY.with(BlockStateProperties.SNOWY, false));
             add(event, BlockRegistry.SNOWY_HEDGE);
             add(event, BlockRegistry.SHRUBROOM);
             add(event, BlockRegistry.SHORT_SHROOMGRASS);
@@ -1039,6 +1043,8 @@ public class MarioverseCreativeTabs {
                 ItemStack chomperPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.CHOMPER);
                 ItemStack deepCavePiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.DEEP_CAVE);
                 ItemStack tropicalPiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.TROPICAL);
+                ItemStack snowlessHedge = new ItemStack(BlockRegistry.SNOWY_HEDGE.asItem());
+                snowlessHedge.set(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY.with(HedgeBlock.SNOWY, false));
 
                 addAfter(event, Blocks.MYCELIUM, BlockRegistry.SHROOMGRASS_BLOCK);
                 addAfter(event, Blocks.FARMLAND, BlockRegistry.SHROOMSOIL);
@@ -1063,6 +1069,12 @@ public class MarioverseCreativeTabs {
                 
                 addAfter(event, Blocks.SPORE_BLOSSOM, BlockRegistry.DANGO_BLOSSOM);
                 addAfter(event, BlockRegistry.DANGO_BLOSSOM, BlockRegistry.SHRUBROOM);
+                addAfter(event, BlockRegistry.SHRUBROOM, BlockRegistry.HEDGE);
+                addAfter(event, BlockRegistry.HEDGE, BlockRegistry.RED_ROSE_HEDGE);
+                addAfter(event, BlockRegistry.RED_ROSE_HEDGE, BlockRegistry.PINK_ROSE_HEDGE);
+                addAfter(event, BlockRegistry.PINK_ROSE_HEDGE, BlockRegistry.WHITE_ROSE_HEDGE);
+                addAfter(event, BlockRegistry.WHITE_ROSE_HEDGE, snowlessHedge);
+                addAfter(event, snowlessHedge, BlockRegistry.SNOWY_HEDGE);
 
                 addAfter(event, Items.PITCHER_POD, piranhaPlantPod);
                 addAfter(event, piranhaPlantPod, tropicalPiranhaPlantPod);

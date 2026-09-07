@@ -13,7 +13,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.BlockItemStateProperties;
@@ -117,16 +116,18 @@ public class PottedHedgeBlock extends FlowerPotBlock implements BonemealableBloc
 
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         } else if (stack.is(Items.BONE_MEAL)) {
-            boolean applied = BoneMealItem.applyBonemeal(stack, level, pos, player);
+            if (!this.isValidBonemealTarget(level, pos, state))
+                return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
 
-            if (applied) {
-                if (!level.isClientSide) {
-                    player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
-                    level.levelEvent(1505, pos, 15);
-                }
-                return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            if (level instanceof ServerLevel serverLevel) {
+                if (this.isBonemealSuccess(level, serverLevel.random, pos, state))
+                    this.performBonemeal(serverLevel, serverLevel.random, pos, state);
+                stack.consume(1, player);
+
+                player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
+                level.levelEvent(1505, pos, 15);
             }
-            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
