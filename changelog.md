@@ -25,6 +25,9 @@
 - Added Hedges
   - Snowy Hedges
   - Pink, Red, & White Rose Hedges
+  - Shovels remove snow, snow layers make hedges snow
+  - Shears remove roses
+  - Bone Meal grows the hedge and regrows roses
 - Added Arrow Signs for all wood types
   - Every Compat support
 - Added Hard Wooden Blocks for all wood types
