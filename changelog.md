@@ -33,6 +33,7 @@
 - Added Hard Wooden Blocks for all wood types
   - Every Compat support
 - Added Shroomsoil and Shroomgrass Block
+- Added Shroomsoil Farmland & Path
 - Added Short Shroomgrass, Shroomgrass, & Tall Shroomgrass
 - Added Shrubrooms
 - Added tooltips to bridges
