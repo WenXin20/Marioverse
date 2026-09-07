@@ -2522,6 +2522,14 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:bushroom"), HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:bushroom"), HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:large_shroomgrass"), SHROOMGRASS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:large_shroomgrass"), SHROOMGRASS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_bridge"), MUSHROOT_LOG_PLATFORM.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_bridge"), MUSHROOT_LOG_PLATFORM.getId());
@@ -2576,13 +2584,37 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_stairs"), MUSHROOT_BOARD_STAIRS.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:pink_flowering_bushroom"), PINK_ROSE_HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:pink_flowering_bushroom"), PINK_ROSE_HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:red_flowering_bushroom"), RED_ROSE_HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:red_flowering_bushroom"), RED_ROSE_HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:shroomgrass"), SHORT_SHROOMGRASS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:shroomgrass"), SHORT_SHROOMGRASS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:shroomgrass_block"), SHROOMGRASS_BLOCK.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:shroomgrass_block"), SHROOMGRASS_BLOCK.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:shrubroom"), SHRUBROOM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:shrubroom"), SHRUBROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:snowy_bushroom"), SNOWY_HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:snowy_bushroom"), SNOWY_HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:stripped_mushroot_log"), STRIPPED_MUSHROOT_LOG.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:stripped_mushroot_log"), STRIPPED_MUSHROOT_LOG.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:white_flowering_bushroom"), WHITE_ROSE_HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:white_flowering_bushroom"), WHITE_ROSE_HEDGE.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:white_picket_fence"), WHITE_PICKET_FENCE.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
