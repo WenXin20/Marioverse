@@ -32,8 +32,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.DecoratedPotBlock;
-import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -64,7 +62,8 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
 
     private static final Direction[] SPREAD_DIRECTIONS =
             { Direction.UP, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST };
-    protected static final VoxelShape SHAPE = Shapes.block();
+    protected static final VoxelShape SHAPE = Block // Fixes leaf shading by using 15.99
+            .box(0, 0, 0, 16, 15.99, 16);
     protected static final VoxelShape SHAPE_TOP = Shapes
             .or(Block.box(0, 0, 0, 16, 10, 16),
                     Block.box(3, 10, 3, 13, 16, 13)).optimize();
