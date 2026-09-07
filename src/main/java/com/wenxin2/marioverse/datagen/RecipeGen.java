@@ -155,6 +155,9 @@ public class RecipeGen extends RecipeUtils {
         oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
         oneToOneRecipe(4, "planks", BlockRegistry.MUSHROOT_PLANKS, RecipeCategory.BUILDING_BLOCKS, TagRegistry.MUSHROOT_LOG_ITEMS, output);
         oneToOneRecipe(4, Marioverse.MOD_ID + ":" + "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
+        oneToOneRecipe(3, "dye", Items.PINK_DYE, RecipeCategory.MISC, BlockRegistry.PINK_ROSE_HEDGE, output);
+        oneToOneRecipe(3, "dye", Items.RED_DYE, RecipeCategory.MISC, BlockRegistry.RED_ROSE_HEDGE, output);
+        oneToOneRecipe(3, "dye", Items.WHITE_DYE, RecipeCategory.MISC, BlockRegistry.WHITE_ROSE_HEDGE, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, true, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, true, output);
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, true, output);

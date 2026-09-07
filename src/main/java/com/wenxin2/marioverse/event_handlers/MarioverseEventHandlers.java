@@ -59,6 +59,7 @@ import java.util.Set;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -91,6 +92,7 @@ import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -658,6 +660,21 @@ public class MarioverseEventHandlers {
             player.awardStat(Stats.POT_FLOWER);
             player.swing(InteractionHand.MAIN_HAND);
             heldItem.consume(1, player);
+        }
+
+        if (heldItem.getItem() == BlockRegistry.SNOWY_HEDGE.asItem()
+                && state.getBlock() instanceof FlowerPotBlock snowyHedgePot
+                && snowyHedgePot.getPotted() == Blocks.AIR) {
+            BlockItemStateProperties savedProperties = heldItem.get(DataComponents.BLOCK_STATE);
+
+            if (savedProperties != null && !savedProperties.isEmpty()) {
+                BlockState newHedgeState = savedProperties.apply(BlockRegistry.POTTED_SNOWY_HEDGE.get().defaultBlockState());
+
+                level.setBlock(pos, newHedgeState, 3);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                player.awardStat(Stats.POT_FLOWER);
+                heldItem.consume(1, player);
+            }
         }
 
         BlockEntity blockEntity = level.getBlockEntity(pos);

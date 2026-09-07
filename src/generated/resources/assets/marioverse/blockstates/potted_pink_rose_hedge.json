@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "flowers=false,snowy=false": {
+      "model": "marioverse:block/potted_pink_rose_hedge"
+    },
+    "flowers=false,snowy=true": {
+      "model": "marioverse:block/potted_pink_rose_hedge_snow"
+    },
+    "flowers=true,snowy=false": {
+      "model": "marioverse:block/potted_pink_rose_hedge_flowers"
+    },
+    "flowers=true,snowy=true": {
+      "model": "marioverse:block/potted_pink_rose_hedge_flowers_snow"
+    }
+  }
+}

@@ -186,7 +186,12 @@ public class MarioverseClient {
                 BlockRegistry.PINK_ROSE_HEDGE.get(),
                 BlockRegistry.RED_ROSE_HEDGE.get(),
                 BlockRegistry.SNOWY_HEDGE.get(),
-                BlockRegistry.WHITE_ROSE_HEDGE.get());
+                BlockRegistry.WHITE_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_HEDGE.get(),
+                BlockRegistry.POTTED_PINK_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_RED_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_SNOWY_HEDGE.get(),
+                BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get());
 
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
                 ? BiomeColors.getAverageWaterColor(level, pos) | 0x0000cc

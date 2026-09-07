@@ -1,0 +1,8 @@
+{
+  "parent": "marioverse:block/template_potted_hedge",
+  "textures": {
+    "flower": "marioverse:block/empty",
+    "hedge": "marioverse:block/potted_snowy_hedge",
+    "snow": "marioverse:block/potted_hedge_snow"
+  }
+}

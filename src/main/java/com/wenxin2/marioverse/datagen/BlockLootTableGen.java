@@ -151,6 +151,16 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHROOMGRASS.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHRUBROOM.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHRUBROOM.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.HEDGE.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.HEDGE.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SNOWY_HEDGE.get())
+                        this.add(block, this.createPottedSnowyHedgeDrop(block));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.PINK_ROSE_HEDGE.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.PINK_ROSE_HEDGE.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.RED_ROSE_HEDGE.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_ROSE_HEDGE.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.WHITE_ROSE_HEDGE.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_ROSE_HEDGE.get()));
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPottedPiranhaPlantTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
@@ -311,6 +321,17 @@ public class BlockLootTableGen extends LootTableProvider {
                             .add(LootItem.lootTableItem(block)
                                     .apply(CopyBlockState.copyState(block).copy(HedgeBlock.SNOWY))))
             );
+        }
+
+        protected LootTable.Builder createPottedSnowyHedgeDrop(Block block) {
+            return LootTable.lootTable()
+                    .withPool(this.applyExplosionCondition(Blocks.FLOWER_POT,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(Blocks.FLOWER_POT))))
+                    .withPool(this.applyExplosionCondition(BlockRegistry.SNOWY_HEDGE.get(), LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(BlockRegistry.SNOWY_HEDGE.get())
+                                    .apply(CopyBlockState.copyState(block).copy(HedgeBlock.SNOWY)))));
         }
 
         protected LootTable.Builder createStarCoinDrop(Block block) {

@@ -25,10 +25,12 @@ import com.wenxin2.marioverse.blocks.LogPlatformBlock;
 import com.wenxin2.marioverse.blocks.LuigiAbilityBlock;
 import com.wenxin2.marioverse.blocks.MarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
+import com.wenxin2.marioverse.blocks.MushrootLeavesBlock;
 import com.wenxin2.marioverse.blocks.PassiveDeathBlock;
 import com.wenxin2.marioverse.blocks.PeachAbilityBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.PlayerDeathBlock;
+import com.wenxin2.marioverse.blocks.PottedHedgeBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
@@ -92,7 +94,6 @@ import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
@@ -499,12 +500,17 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
     public static final DeferredBlock<Block> POTTED_BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
+    public static final DeferredBlock<Block> POTTED_HEDGE;
     public static final DeferredBlock<Block> POTTED_MUSHROOT_SAPLING;
+    public static final DeferredBlock<Block> POTTED_PINK_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
+    public static final DeferredBlock<Block> POTTED_RED_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_SHORT_SHROOMGRASS;
     public static final DeferredBlock<Block> POTTED_SHROOMGRASS;
     public static final DeferredBlock<Block> POTTED_SHRUBROOM;
+    public static final DeferredBlock<Block> POTTED_SNOWY_HEDGE;
+    public static final DeferredBlock<Block> POTTED_WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
@@ -856,6 +862,31 @@ public class BlockRegistry {
         POTTED_SHORT_SHROOMGRASS = registerNoItemBlock("potted_short_shroomgrass",
                 () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHORT_SHROOMGRASS,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        POTTED_HEDGE = registerNoItemBlock("potted_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        false, false));
+
+        POTTED_SNOWY_HEDGE = registerNoItemBlock("potted_snowy_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SNOWY_HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        true, false));
+
+        POTTED_PINK_ROSE_HEDGE = registerNoItemBlock("potted_pink_rose_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.PINK_ROSE_HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        false, true));
+
+        POTTED_RED_ROSE_HEDGE = registerNoItemBlock("potted_red_rose_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.RED_ROSE_HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        false, true));
+
+        POTTED_WHITE_ROSE_HEDGE = registerNoItemBlock("potted_white_rose_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.WHITE_ROSE_HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        false, true));
 
         SHROOMSOIL = registerBlock("shroomsoil",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
@@ -2392,11 +2423,16 @@ public class BlockRegistry {
         FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
         pot.addPlant(BlockRegistry.BLUE_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
+        pot.addPlant(BlockRegistry.HEDGE.getId(), BlockRegistry.POTTED_HEDGE);
         pot.addPlant(BlockRegistry.MUSHROOT_SAPLING.getId(), BlockRegistry.POTTED_MUSHROOT_SAPLING);
+        pot.addPlant(BlockRegistry.PINK_ROSE_HEDGE.getId(), BlockRegistry.POTTED_PINK_ROSE_HEDGE);
+        pot.addPlant(BlockRegistry.RED_ROSE_HEDGE.getId(), BlockRegistry.POTTED_RED_ROSE_HEDGE);
         pot.addPlant(BlockRegistry.RED_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.SHORT_SHROOMGRASS.getId(), BlockRegistry.POTTED_SHORT_SHROOMGRASS);
         pot.addPlant(BlockRegistry.SHROOMGRASS.getId(), BlockRegistry.POTTED_SHROOMGRASS);
         pot.addPlant(BlockRegistry.SHRUBROOM.getId(), BlockRegistry.POTTED_SHRUBROOM);
+        pot.addPlant(BlockRegistry.SNOWY_HEDGE.getId(), BlockRegistry.POTTED_SNOWY_HEDGE);
+        pot.addPlant(BlockRegistry.WHITE_ROSE_HEDGE.getId(), BlockRegistry.POTTED_WHITE_ROSE_HEDGE);
     }
 
     private static Block log(MapColor colorTop, MapColor color) {
@@ -2414,7 +2450,7 @@ public class BlockRegistry {
     }
 
     private static Block leaves(SoundType soundType) {
-        return new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+        return new MushrootLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
                 .pushReaction(PushReaction.DESTROY).isValidSpawn(BlockRegistry::ocelotOrParrot)
                 .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                 .isRedstoneConductor(BlockRegistry::never).strength(0.2F)

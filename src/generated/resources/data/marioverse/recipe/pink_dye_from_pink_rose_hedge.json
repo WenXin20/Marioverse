@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "dye",
+  "ingredients": [
+    {
+      "item": "marioverse:pink_rose_hedge"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "minecraft:pink_dye"
+  }
+}

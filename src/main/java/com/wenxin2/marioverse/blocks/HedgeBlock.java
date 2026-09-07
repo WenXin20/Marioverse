@@ -233,7 +233,7 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
         return state;
     }
 
-    private static boolean isExposedToSky(LevelReader level, BlockPos pos) {
+    public static boolean isExposedToSky(LevelReader level, BlockPos pos) {
         if (level.canSeeSky(pos))
             return true;
 

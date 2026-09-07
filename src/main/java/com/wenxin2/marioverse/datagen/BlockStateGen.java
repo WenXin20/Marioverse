@@ -76,6 +76,7 @@ import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockStateGen extends BlockStateProvider {
     private final Map<BlockFamilyExtended.Variant, Set<Block>> generatedBlocks = new EnumMap<>(BlockFamilyExtended.Variant.class);
@@ -246,6 +247,11 @@ public class BlockStateGen extends BlockStateProvider {
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
         this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/potted_dango_blossom"),
                 modLoc("block/potted_dango_blossom_leaves"));
+        this.pottedHedgeModel(BlockRegistry.POTTED_HEDGE.get(), modLoc("block/potted_hedge"), null);
+        this.pottedHedgeModel(BlockRegistry.POTTED_SNOWY_HEDGE.get(), modLoc("block/potted_snowy_hedge"), null);
+        this.pottedHedgeModel(BlockRegistry.POTTED_PINK_ROSE_HEDGE.get(), modLoc("block/potted_hedge"), modLoc("block/potted_hedge_pink_rose"));
+        this.pottedHedgeModel(BlockRegistry.POTTED_RED_ROSE_HEDGE.get(), modLoc("block/potted_hedge"), modLoc("block/potted_hedge_red_rose"));
+        this.pottedHedgeModel(BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(), modLoc("block/potted_hedge"), modLoc("block/potted_hedge_white_rose"));
         this.pottedShrubroomModel(BlockRegistry.POTTED_SHRUBROOM.get());
         this.pottedTrampolineCapBlueModel(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
         this.pottedTrampolineCapRedModel(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
@@ -1869,6 +1875,32 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.hedgeRoseBlockState(block, bottomModel, bottomSnowyModel, topModel, topSnowyModel,
                 noFlowersBottomModel, noFlowersBottomSnowyModel, noFlowersTopModel, noFlowersTopSnowyModel);
+    }
+
+    private void pottedHedgeModel(Block block, ResourceLocation hedgeTexture, @Nullable ResourceLocation flowersTexture) {
+        String modelName = this.name(block);
+        ResourceLocation empty = modLoc("block/empty"), snow = modLoc("block/potted_hedge_snow");
+
+        ModelFile plainModel = models().withExistingParent(modelName, modLoc("block/template_potted_hedge"))
+                .texture("hedge", hedgeTexture).texture("flower", empty).texture("snow", empty);
+        ModelFile snowModel = models().withExistingParent(modelName + "_snow", modLoc("block/template_potted_hedge"))
+                .texture("hedge", hedgeTexture).texture("flower", empty).texture("snow", snow);
+        ModelFile flowersModel = flowersTexture == null ? plainModel
+                : models().withExistingParent(modelName + "_flowers", modLoc("block/template_potted_hedge"))
+                        .texture("hedge", hedgeTexture).texture("flower", flowersTexture).texture("snow", empty);
+        ModelFile flowersSnowModel = flowersTexture == null ? snowModel
+                : models().withExistingParent(modelName + "_flowers_snow", modLoc("block/template_potted_hedge"))
+                        .texture("hedge", hedgeTexture).texture("flower", flowersTexture).texture("snow", snow);
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        variantBuilder.partialState().with(HedgeBlock.SNOWY, false).with(RoseHedgeBlock.FLOWERS, false)
+                .addModels(new ConfiguredModel(plainModel));
+        variantBuilder.partialState().with(HedgeBlock.SNOWY, false).with(RoseHedgeBlock.FLOWERS, true)
+                .addModels(new ConfiguredModel(flowersModel));
+        variantBuilder.partialState().with(HedgeBlock.SNOWY, true).with(RoseHedgeBlock.FLOWERS, false)
+                .addModels(new ConfiguredModel(snowModel));
+        variantBuilder.partialState().with(HedgeBlock.SNOWY, true).with(RoseHedgeBlock.FLOWERS, true)
+                .addModels(new ConfiguredModel(flowersSnowModel));
     }
 
     private void ironSpikeModel(Block block, ResourceLocation mainTexture) {
