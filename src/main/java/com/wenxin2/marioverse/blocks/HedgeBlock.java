@@ -32,6 +32,8 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.DecoratedPotBlock;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -88,6 +90,12 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
     }
 
     @Override
+    protected boolean skipRendering(@NotNull BlockState state, @NotNull BlockState neighborState, @NotNull Direction direction) {
+        return (neighborState.getBlock() instanceof HedgeBlock && !neighborState.getValue(TOP) && !state.getValue(TOP))
+                || super.skipRendering(state, neighborState, direction);
+    }
+
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         BlockState state = this.defaultBlockState()
@@ -117,6 +125,14 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
 
         if (newState != state)
             level.setBlock(pos, newState, 3);
+    }
+
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
+        BlockState stateBelow = levelReader.getBlockState(pos.below());
+        if (!stateBelow.canBeReplaced())
+            return true;
+        return super.canSurvive(state, levelReader, pos);
     }
 
     @NotNull
