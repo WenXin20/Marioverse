@@ -2567,6 +2567,10 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushdirt"), SHROOMSOIL.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushmud"), WET_MUD.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushmud"), WET_MUD.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_cube"), HARD_MUSHROOT_BLOCK.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushroot_cube"), HARD_MUSHROOT_BLOCK.getId());
