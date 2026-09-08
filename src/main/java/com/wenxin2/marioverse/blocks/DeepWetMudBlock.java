@@ -62,8 +62,8 @@ public class DeepWetMudBlock extends DirtPathBlock {
             RandomSource random = level.getRandom();
 
             for (int i = 0; i < TRAIL_PARTICLE_COUNT; i++) {
-                double x = entity.getX() + (random.nextDouble() - 0.5) * entity.getBbWidth();
-                double z = entity.getZ() + (random.nextDouble() - 0.5) * entity.getBbWidth();
+                double x = entity.getX() + (random.nextDouble() - 0.8) * entity.getBbWidth() * 1.1;
+                double z = entity.getZ() + (random.nextDouble() - 0.8) * entity.getBbWidth() * 1.1;
                 level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state),
                         x, pos.getY() + 1, z, 0.0, 0.0, 0.0);
             }
