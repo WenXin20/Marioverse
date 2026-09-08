@@ -155,8 +155,7 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
     public static final Supplier<AttachmentType<Integer>> AIRBORNE_DURATION = Marioverse.ATTACHMENT_TYPES
-            .register("airborne_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+            .register("airborne_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).build());
     public static final Supplier<AttachmentType<Integer>> ATTACK_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("attack_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
