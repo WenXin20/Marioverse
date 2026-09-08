@@ -15,7 +15,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -61,7 +60,7 @@ public class ShroomsoilFarmlandBlock extends FarmBlock {
                 BlockRegistry.SHROOMSOIL.get().defaultBlockState(), fallDistance, entity))
             ShroomsoilFarmlandBlock.turnToShroomsoil(entity, state, level, pos);
 
-        super.fallOn(level, state, pos, entity, fallDistance);
+        entity.causeFallDamage(fallDistance, 1.0F, level.damageSources().fall());
     }
 
     public static void turnToShroomsoil(@Nullable Entity entity, BlockState state, Level level, BlockPos pos) {

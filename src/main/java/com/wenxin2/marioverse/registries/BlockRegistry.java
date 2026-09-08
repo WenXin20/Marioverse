@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
+import com.wenxin2.marioverse.blocks.DeepWetMudBlock;
 import com.wenxin2.marioverse.blocks.FungalStone;
 import com.wenxin2.marioverse.blocks.GrassyStoneBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
@@ -72,6 +73,8 @@ import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperPedestalBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
+import com.wenxin2.marioverse.blocks.WetMudBlock;
+import com.wenxin2.marioverse.blocks.WetMudFarmlandBlock;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.world.grower.SuperTreeGrower;
 import java.util.Arrays;
@@ -146,9 +149,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_PICKET_FENCE;
     public static final DeferredBlock<Block> WHITE_PICKET_FENCE;
 
+    public static final DeferredBlock<Block> ACACIA_ARROW_SIGN;
+    public static final DeferredBlock<Block> ACACIA_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE;
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> ACACIA_PICKET_FENCE;
+    public static final DeferredBlock<Block> ACACIA_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
@@ -160,12 +166,18 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> AMETHYST_SLAB;
     public static final DeferredBlock<Block> AMETHYST_STAIRS;
     public static final DeferredBlock<Block> AMETHYST_WALL;
+    public static final DeferredBlock<Block> BAMBOO_ARROW_SIGN;
     public static final DeferredBlock<Block> BAMBOO_BRIDGE;
     public static final DeferredBlock<Block> BAMBOO_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> BAMBOO_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> BAMBOO_PICKET_FENCE;
+    public static final DeferredBlock<Block> BAMBOO_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> BIRCH_ARROW_SIGN;
+    public static final DeferredBlock<Block> BIRCH_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> BIRCH_PICKET_FENCE;
+    public static final DeferredBlock<Block> BIRCH_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BLOCK_SPAWNER;
@@ -185,9 +197,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CALCITE_SLAB;
     public static final DeferredBlock<Block> CALCITE_STAIRS;
     public static final DeferredBlock<Block> CALCITE_WALL;
+    public static final DeferredBlock<Block> CHERRY_ARROW_SIGN;
+    public static final DeferredBlock<Block> CHERRY_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE;
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CHERRY_PICKET_FENCE;
+    public static final DeferredBlock<Block> CHERRY_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_FUNGAL_BRICKS;
@@ -207,15 +222,21 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRACKED_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> CRIMSON_ARROW_SIGN;
+    public static final DeferredBlock<Block> CRIMSON_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> CRIMSON_PICKET_FENCE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> CRIMSON_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> DAISY_ABILITY_BLOCK;
     public static final DeferredBlock<Block> DANGO_BLOSSOM;
+    public static final DeferredBlock<Block> DARK_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> DARK_OAK_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE;
+    public static final DeferredBlock<Block> DARK_OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEAD_BRAIN_CORAL_TOWER;
@@ -245,6 +266,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> DEEP_WET_MUD;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
@@ -358,33 +380,63 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> IRON_SPIKE;
+    public static final DeferredBlock<Block> JUNGLE_ARROW_SIGN;
+    public static final DeferredBlock<Block> JUNGLE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> JUNGLE_PICKET_FENCE;
+    public static final DeferredBlock<Block> JUNGLE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_ACACIA_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_ACACIA_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BAMBOO_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BAMBOO_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BIRCH_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BIRCH_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CHERRY_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CHERRY_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CRIMSON_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CRIMSON_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_DARK_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_DARK_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_JUNGLE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_JUNGLE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MANGROVE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MANGROVE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MUSHROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MUSHROOT_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPRUCE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPRUCE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_WARPED_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_WARPED_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> LUIGI_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> MANGROVE_ARROW_SIGN;
+    public static final DeferredBlock<Block> MANGROVE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> MANGROVE_PICKET_FENCE;
+    public static final DeferredBlock<Block> MANGROVE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MONSTER_DEATH_BLOCK;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> MUSHROOT_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_BOARDS;
-    public static final DeferredBlock<Block> MUSHROOT_BOARD_WALL;
     public static final DeferredBlock<Block> MUSHROOT_BOARD_SLAB;
     public static final DeferredBlock<Block> MUSHROOT_BOARD_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_WALL;
     public static final DeferredBlock<Block> MUSHROOT_BUTTON;
     public static final DeferredBlock<Block> MUSHROOT_DOOR;
     public static final DeferredBlock<Block> MUSHROOT_FENCE;
     public static final DeferredBlock<Block> MUSHROOT_FENCE_GATE;
     public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW;
     public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW_PANE;
+    public static final DeferredBlock<Block> MUSHROOT_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_HANGING_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_LEAVES;
-    public static final DeferredBlock<Block> LARGE_MUSHROOT_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_MUSHROOT_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_LOG;
     public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE;
     public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE_STAIRS;
@@ -398,75 +450,21 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_PRESSURE_PLATE;
     public static final DeferredBlock<Block> MUSHROOT_SAPLING;
     public static final DeferredBlock<Block> MUSHROOT_SIGN;
-    public static final DeferredBlock<Block> MUSHROOT_ARROW_SIGN;
-    public static final DeferredBlock<Block> MUSHROOT_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> MUSHROOT_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> OAK_ARROW_SIGN;
-    public static final DeferredBlock<Block> OAK_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> OAK_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_OAK_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_OAK_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> SPRUCE_ARROW_SIGN;
-    public static final DeferredBlock<Block> SPRUCE_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> SPRUCE_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_SPRUCE_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_SPRUCE_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> BIRCH_ARROW_SIGN;
-    public static final DeferredBlock<Block> BIRCH_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> BIRCH_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_BIRCH_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_BIRCH_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> JUNGLE_ARROW_SIGN;
-    public static final DeferredBlock<Block> JUNGLE_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> JUNGLE_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_JUNGLE_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_JUNGLE_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> ACACIA_ARROW_SIGN;
-    public static final DeferredBlock<Block> ACACIA_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> ACACIA_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_ACACIA_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_ACACIA_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> DARK_OAK_ARROW_SIGN;
-    public static final DeferredBlock<Block> DARK_OAK_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> DARK_OAK_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_DARK_OAK_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_DARK_OAK_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> MANGROVE_ARROW_SIGN;
-    public static final DeferredBlock<Block> MANGROVE_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> MANGROVE_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_MANGROVE_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_MANGROVE_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> CHERRY_ARROW_SIGN;
-    public static final DeferredBlock<Block> CHERRY_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> CHERRY_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_CHERRY_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_CHERRY_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> BAMBOO_ARROW_SIGN;
-    public static final DeferredBlock<Block> BAMBOO_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> BAMBOO_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_BAMBOO_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_BAMBOO_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> CRIMSON_ARROW_SIGN;
-    public static final DeferredBlock<Block> CRIMSON_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> CRIMSON_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_CRIMSON_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_CRIMSON_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> WARPED_ARROW_SIGN;
-    public static final DeferredBlock<Block> WARPED_WALL_ARROW_SIGN;
-    public static final DeferredBlock<Block> WARPED_HANGING_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_WARPED_ARROW_SIGN;
-    public static final DeferredBlock<Block> LARGE_WARPED_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_SLAB;
     public static final DeferredBlock<Block> MUSHROOT_STAIRS;
     public static final DeferredBlock<Block> MUSHROOT_TRAPDOOR;
+    public static final DeferredBlock<Block> MUSHROOT_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WALL_HANGING_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WALL_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WOOD;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> OAK_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> OAK_PICKET_FENCE;
+    public static final DeferredBlock<Block> OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> ON_OFF_SWITCH;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
@@ -583,9 +581,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SPIKE_PANEL;
     public static final DeferredBlock<Block> SPLUNKIN_CARVED_PUMPKIN;
     public static final DeferredBlock<Block> SPLUNKIN_O_LANTERN;
+    public static final DeferredBlock<Block> SPRUCE_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPRUCE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> SPRUCE_PICKET_FENCE;
+    public static final DeferredBlock<Block> SPRUCE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STEVE_ABILITY_BLOCK;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
@@ -653,9 +654,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WALUIGI_ABILITY_BLOCK;
     public static final DeferredBlock<Block> WARIO_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> WARPED_ARROW_SIGN;
+    public static final DeferredBlock<Block> WARPED_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> WARPED_PICKET_FENCE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> WARPED_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
@@ -667,6 +671,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WET_MUD;
+    public static final DeferredBlock<Block> WET_MUD_FARMLAND;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_SLAB;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
@@ -772,6 +778,7 @@ public class BlockRegistry {
         BLUE_MUSHROOM_TRAMPOLINE = registerBlock("blue_mushroom_trampoline",
                 () -> new BlueMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
                         .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
+
         RED_TRAMPOLINE_CAP = registerBlock("red_trampoline_cap",
                 () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                         .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
@@ -903,6 +910,17 @@ public class BlockRegistry {
 
         SHROOMGRASS_BLOCK = registerBlock("shroomgrass_block",
                 () -> new ShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).mapColor(MapColor.GRASS)));
+
+        WET_MUD = registerBlock("wet_mud",
+                () -> new WetMudBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD).mapColor(MapColor.COLOR_BROWN)));
+
+        WET_MUD_FARMLAND = registerBlock("wet_mud_farmland",
+                () -> new WetMudFarmlandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND)
+                        .mapColor(MapColor.COLOR_BROWN).friction(0.98F)));
+
+        DEEP_WET_MUD = registerBlock("deep_wet_mud",
+                () -> new DeepWetMudBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH)
+                        .mapColor(MapColor.COLOR_BROWN).friction(0.95F)));
 
         GRASSY_FUNGAL_STONE = registerBlock("grassy_fungal_stone",
                 () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)

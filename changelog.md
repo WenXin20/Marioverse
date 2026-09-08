@@ -12,19 +12,14 @@
 - Added Picket Fences 
 - Added Mushroot block set
   - Mushroot tree & mega Mushroot tree
-  - Doors & Trapdoors
-  - Signs & Hanging Signs
-  - Boats & Chest Boats
-  - Framed Windows
-  - Boards & Panels
-  - Hard Blocks
+  - Doors, Trapdoors, Signs & Hanging Signs
+  - Arrow Signs & Large Arrow Signs
+  - Framed Windows, Boards, Panels, & Hard Blocks
   - Picket Fences
   - Log Platforms
-  - Arrow Signs
-  - Large Arrow Signs
+  - Boats & Chest Boats
 - Added Hedges
-  - Snowy Hedges
-  - Pink, Red, & White Rose Hedges
+  - Snowy Hedges, Pink, Red, & White Rose Hedges
   - Shovels remove snow, snow layers make hedges snow
   - Shears remove roses
   - Bone Meal grows the hedge and regrows roses
@@ -34,6 +29,9 @@
   - Every Compat support
 - Added Shroomsoil and Shroomgrass Block
 - Added Shroomsoil Farmland & Path
+- Added Wet Mud, smelts into vanilla mud
+- Deep Wet Mud, super slippery
+- Wet Mud Farmland, always moist
 - Added Short Shroomgrass, Shroomgrass, & Tall Shroomgrass
 - Added Shrubrooms
 - Added tooltips to bridges

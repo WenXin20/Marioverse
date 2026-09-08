@@ -56,6 +56,7 @@
   "block.marioverse.dead_tube_coral_tower": "Dead Tube Coral Tower",
   "block.marioverse.death_block": "Death Block",
   "block.marioverse.deep_fungal_question_panel": "Deep Fungal Question Panel",
+  "block.marioverse.deep_wet_mud": "Deep Wet Mud",
   "block.marioverse.fire_coral_tower": "Fire Coral Tower",
   "block.marioverse.fungal_question_panel": "Fungal Question Panel",
   "block.marioverse.glow_block": "Glow Block",
@@ -102,6 +103,8 @@
   "block.marioverse.warp_door": "Warp %1$s",
   "block.marioverse.warp_trapdoor": "Warp %1$s",
   "block.marioverse.water_spout": "Water Spout",
+  "block.marioverse.wet_mud": "Wet Mud",
+  "block.marioverse.wet_mud_farmland": "Wet Mud Farmland",
   "block.marioverse.white_rose_hedge": "White Rose Hedge",
 
   "block.marioverse.hard_mushroot_block": "Hard Mushroot Block",

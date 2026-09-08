@@ -1,13 +1,8 @@
 {
   "values": [
     "marioverse:deep_wet_mud",
-    "marioverse:quicksand",
-    "marioverse:red_quicksand",
-    "marioverse:shroomgrass_block",
-    "marioverse:shroomsoil",
     "marioverse:shroomsoil_farmland",
     "marioverse:shroomsoil_path",
-    "marioverse:wet_mud",
     "marioverse:wet_mud_farmland"
   ]
 }

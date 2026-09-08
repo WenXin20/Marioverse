@@ -58,6 +58,8 @@ public class RecipeGen extends RecipeUtils {
                 BlockRegistry.DEEP_FUNGAL_STONE, output);
         smeltingRecipe(200, 0.1F, BlockRegistry.FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
                 BlockRegistry.FUNGAL_COBBLESTONE, output);
+        smeltingRecipe(200, 0.1F, Blocks.MUD, RecipeCategory.BUILDING_BLOCKS,
+                BlockRegistry.WET_MUD, output);
         smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD,
                 TagRegistry.CHEEP_CHEEP_ITEMS, output);
         smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD,

@@ -278,6 +278,10 @@ public class BlockStateGen extends BlockStateProvider {
         this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHROOMGRASS.get()));
         this.trampolineCapBlueModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
         this.trampolineCapRedModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
+        this.cubeAllModel(BlockRegistry.WET_MUD.get(), blockTexture(BlockRegistry.WET_MUD.get()));
+        this.wetMudFarmlandModel(BlockRegistry.WET_MUD_FARMLAND.get(), modLoc("block/wet_mud"), modLoc("block/wet_mud_farmland"));
+        this.deepWetMudModel(BlockRegistry.DEEP_WET_MUD.get(), modLoc("block/wet_mud"),
+                modLoc("block/deep_wet_mud_side"), modLoc("block/deep_wet_mud"));
         this.waterSpoutModel(waterSpout, texture(waterSpout, "_flow"), texture(waterSpout, "_still"),
                 texture(waterSpout, "_splash"));
 
@@ -1643,7 +1647,27 @@ public class BlockStateGen extends BlockStateProvider {
         return element.end();
     }
 
+    private void wetMudFarmlandModel(Block block, ResourceLocation dirtTexture, ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        ModelFile model = this.farmlandLikeModel(modelName, dirtTexture, topTexture);
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        for (int moisture = 0; moisture <= FarmBlock.MAX_MOISTURE; moisture++)
+            variantBuilder.partialState().with(FarmBlock.MOISTURE, moisture).addModels(new ConfiguredModel(model));
+
+        this.simpleBlockItem(block, model);
+    }
+
     private void shroomsoilPathModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
+        this.pathLikeModel(block, 15, true, bottomTexture, sideTexture, topTexture);
+    }
+
+    private void deepWetMudModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
+        this.pathLikeModel(block, 14, false, bottomTexture, sideTexture, topTexture);
+    }
+
+    private void pathLikeModel(Block block, int height, boolean randomRotation, ResourceLocation bottomTexture,
+                                ResourceLocation sideTexture, ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         var builder = models()
@@ -1653,7 +1677,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("side", sideTexture)
                 .texture("top", topTexture);
 
-        var element = builder.element().from(0, 0, 0).to(16, 15, 16);
+        var element = builder.element().from(0, 0, 0).to(16, height, 16);
         element = element.face(Direction.UP).texture("#top").end();
         element = element.face(Direction.DOWN).texture("#bottom").cullface(Direction.DOWN).end();
         element = element.face(Direction.NORTH).texture("#side").cullface(Direction.NORTH).end();
@@ -1664,11 +1688,14 @@ public class BlockStateGen extends BlockStateProvider {
         ModelFile model = element.end();
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
-        variantBuilder.partialState().addModels(
-                new ConfiguredModel(model, 0, 0, false),
-                new ConfiguredModel(model, 0, 90, false),
-                new ConfiguredModel(model, 0, 180, false),
-                new ConfiguredModel(model, 0, 270, false));
+        if (randomRotation)
+            variantBuilder.partialState().addModels(
+                    new ConfiguredModel(model, 0, 0, false),
+                    new ConfiguredModel(model, 0, 90, false),
+                    new ConfiguredModel(model, 0, 180, false),
+                    new ConfiguredModel(model, 0, 270, false));
+        else
+            variantBuilder.partialState().addModels(new ConfiguredModel(model));
 
         this.simpleBlockItem(block, model);
     }

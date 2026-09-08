@@ -1007,7 +1007,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
 
         tag(Tags.Blocks.VILLAGER_FARMLANDS)
-                .add(BlockRegistry.SHROOMSOIL_FARMLAND.get());
+                .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
+                .add(BlockRegistry.WET_MUD_FARMLAND.get());
 
         tag(BlockTags.ANCIENT_CITY_REPLACEABLE)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
@@ -1029,7 +1030,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.BIG_DRIPLEAF_PLACEABLE)
                 .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
-                .add(BlockRegistry.SHROOMSOIL.get());
+                .add(BlockRegistry.SHROOMSOIL.get())
+                .add(BlockRegistry.WET_MUD.get());
 
         tag(BlockTags.CEILING_HANGING_SIGNS)
                 .add(BlockRegistry.MUSHROOT_HANGING_SIGN.get());
@@ -1062,7 +1064,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.DIRT)
                 .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
-                .add(BlockRegistry.SHROOMSOIL.get());
+                .add(BlockRegistry.SHROOMSOIL.get())
+                .add(BlockRegistry.WET_MUD.get());
 
         tag(BlockTags.DRAGON_IMMUNE)
                 .addTag(TagRegistry.DEATH_BLOCKS)
@@ -1101,7 +1104,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.FROGS_SPAWNABLE_ON)
                 .addTag(TagRegistry.GRASSY_STONES)
-                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.WET_MUD.get());
 
         tag(BlockTags.GEODE_INVALID_BLOCKS)
                 .addTag(TagRegistry.DEATH_BLOCKS)
@@ -1128,6 +1132,12 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.LOGS_THAT_BURN)
                 .addTag(TagRegistry.MUSHROOT_LOGS);
+
+        tag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH)
+                .add(BlockRegistry.WET_MUD.get());
+
+        tag(BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH)
+                .add(BlockRegistry.WET_MUD.get());
 
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .addTag(TagRegistry.ABILITY_BLOCKS);
@@ -1202,7 +1212,11 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.SNIFFER_DIGGABLE_BLOCK)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
-                .add(BlockRegistry.SHROOMSOIL.get());
+                .add(BlockRegistry.SHROOMSOIL.get())
+                .add(BlockRegistry.WET_MUD.get());
+
+        tag(BlockTags.SNOW_LAYER_CAN_SURVIVE_ON)
+                .add(BlockRegistry.WET_MUD.get());
 
         tag(TagRegistry.SNOWBALL_EXTINGUISHES)
                 .addTag(BlockTags.FIRE)
@@ -1505,12 +1519,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .add(BlockRegistry.DEEP_WET_MUD.get())
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get())
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
                 .add(BlockRegistry.SHROOMSOIL.get())
                 .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
-                .add(BlockRegistry.SHROOMSOIL_PATH.get());
+                .add(BlockRegistry.SHROOMSOIL_PATH.get())
+                .add(BlockRegistry.WET_MUD.get())
+                .add(BlockRegistry.WET_MUD_FARMLAND.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
@@ -1592,8 +1609,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
 
         tag(TagRegistry.blockTags("twilightforest", "portal/edge"))
+                .add(BlockRegistry.DEEP_WET_MUD.get())
                 .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
-                .add(BlockRegistry.SHROOMSOIL_PATH.get());
+                .add(BlockRegistry.SHROOMSOIL_PATH.get())
+                .add(BlockRegistry.WET_MUD_FARMLAND.get());
 
         tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())

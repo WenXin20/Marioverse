@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-07T16:50:48.0402872	Loot Tables
+// 1.21.1	2026-09-07T23:23:58.451753	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -163,6 +163,7 @@ f10bb9ca21489ee8816d78982dba5e1c58c1fd8a data/marioverse/loot_table/blocks/deep_
 393a00ec2017a4810599bc9aca354d40c1637bbc data/marioverse/loot_table/blocks/deep_fungal_stone_slab.json
 43c32f66ce8852b348b889e223b45ec5586cd7fa data/marioverse/loot_table/blocks/deep_fungal_stone_stairs.json
 687d8a5514e9f8b8f4df8f5b41ec51294f0b9048 data/marioverse/loot_table/blocks/deep_fungal_stone_wall.json
+d7afcc192ad6e18ff96911d4b72565dc100b975e data/marioverse/loot_table/blocks/deep_wet_mud.json
 a6757326055bd0c0fec27fb53093731e900b00a9 data/marioverse/loot_table/blocks/end_stone_brick_pedestal.json
 049deac135cc84e5663be0827e547196948e452e data/marioverse/loot_table/blocks/end_stone_question_bricks.json
 c57c12fc09f1b9a181b950f2c57f1dbb0cce9ef5 data/marioverse/loot_table/blocks/exposed_copper_question_block.json
@@ -641,6 +642,8 @@ dd96407547ce4830f998bebbd7704f88d79a42c7 data/marioverse/loot_table/blocks/waxed
 3a9a032ff404382a736ba74388fdb30dd2a1d80a data/marioverse/loot_table/blocks/waxed_weathered_cut_copper_pedestal.json
 5a8b754ac549978877a88953a068725f4e1d0c20 data/marioverse/loot_table/blocks/weathered_copper_question_block.json
 fa58d861480943e4192f1b9a98ac9b9ca868b9d8 data/marioverse/loot_table/blocks/weathered_cut_copper_pedestal.json
+b2c8ef5a83f2129a2aac6b2d6ccc964cb26c201e data/marioverse/loot_table/blocks/wet_mud.json
+8f9660ae3526de7a317213e57bb4fa4f5e753723 data/marioverse/loot_table/blocks/wet_mud_farmland.json
 a3faf413540027a32a3dcee6abe0a74e1788a64d data/marioverse/loot_table/blocks/white_calcite_bricks.json
 1d664efd999a06cc2e1fb4945db5ece601b5f98e data/marioverse/loot_table/blocks/white_calcite_brick_pedestal.json
 0577759b49d35583b7b767c0085fa7ef515d340b data/marioverse/loot_table/blocks/white_calcite_brick_slab.json

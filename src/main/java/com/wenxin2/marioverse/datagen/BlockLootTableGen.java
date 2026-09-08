@@ -147,6 +147,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createGrassDrops(block));
                     else if (block == BlockRegistry.TALL_SHROOMGRASS.get())
                         this.add(block, this.createDoublePlantWithSeedDrops(block, BlockRegistry.SHROOMGRASS.get()));
+                    else if (block == BlockRegistry.WET_MUD_FARMLAND.get() || block == BlockRegistry.DEEP_WET_MUD.get())
+                        this.dropOther(block, BlockRegistry.WET_MUD.get());
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHORT_SHROOMGRASS.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHORT_SHROOMGRASS.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHROOMGRASS.get())
