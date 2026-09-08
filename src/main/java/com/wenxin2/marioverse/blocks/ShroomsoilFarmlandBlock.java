@@ -15,9 +15,12 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.neoforged.neoforge.common.CommonHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ShroomsoilFarmlandBlock extends FarmBlock {
@@ -25,6 +28,7 @@ public class ShroomsoilFarmlandBlock extends FarmBlock {
         super(properties);
     }
 
+    @NotNull
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return !this.defaultBlockState().canSurvive(context.getLevel(), context.getClickedPos())
@@ -53,20 +57,17 @@ public class ShroomsoilFarmlandBlock extends FarmBlock {
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (!level.isClientSide
-                && level.random.nextFloat() < fallDistance - 0.5F
-                && entity instanceof LivingEntity
-                && (entity instanceof Player || level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING))
-                && entity.getBbWidth() * entity.getBbWidth() * entity.getBbHeight() > 0.512F)
+        if (!level.isClientSide && CommonHooks.onFarmlandTrample(level, pos,
+                BlockRegistry.SHROOMSOIL.get().defaultBlockState(), fallDistance, entity))
             ShroomsoilFarmlandBlock.turnToShroomsoil(entity, state, level, pos);
 
         super.fallOn(level, state, pos, entity, fallDistance);
     }
 
     public static void turnToShroomsoil(@Nullable Entity entity, BlockState state, Level level, BlockPos pos) {
-        BlockState shroomsoilState = Block.pushEntitiesUp(state, BlockRegistry.SHROOMSOIL.get().defaultBlockState(), level, pos);
-        level.setBlockAndUpdate(pos, shroomsoilState);
-        level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(entity, shroomsoilState));
+        BlockState dirtState = Block.pushEntitiesUp(state, BlockRegistry.SHROOMSOIL.get().defaultBlockState(), level, pos);
+        level.setBlockAndUpdate(pos, dirtState);
+        level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(entity, dirtState));
     }
 
     private static boolean shouldMaintainFarmland(BlockGetter level, BlockPos pos) {

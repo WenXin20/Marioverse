@@ -8,12 +8,14 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirtPathBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class ShroomsoilPathBlock extends DirtPathBlock {
     public ShroomsoilPathBlock(Properties properties) {
         super(properties);
     }
 
+    @NotNull
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return !this.defaultBlockState().canSurvive(context.getLevel(), context.getClickedPos())

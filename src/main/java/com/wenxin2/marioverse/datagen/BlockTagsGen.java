@@ -1006,6 +1006,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
 
+        tag(Tags.Blocks.VILLAGER_FARMLANDS)
+                .add(BlockRegistry.SHROOMSOIL_FARMLAND.get());
+
         tag(BlockTags.ANCIENT_CITY_REPLACEABLE)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.DEEPSLATE_TILE_PEDESTAL.get())
@@ -1587,6 +1590,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.blockTags("twilightforest", "portal/decoration"))
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
+
+        tag(TagRegistry.blockTags("twilightforest", "portal/edge"))
+                .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
+                .add(BlockRegistry.SHROOMSOIL_PATH.get());
 
         tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
