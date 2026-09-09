@@ -920,7 +920,7 @@ public class BlockRegistry {
 
         DEEP_WET_MUD = registerBlock("deep_wet_mud",
                 () -> new DeepWetMudBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH)
-                        .mapColor(MapColor.COLOR_BROWN).friction(0.95F)));
+                        .mapColor(MapColor.COLOR_BROWN).sound(MarioverseSoundTypes.DEEP_MUD).friction(0.95F)));
 
         GRASSY_FUNGAL_STONE = registerBlock("grassy_fungal_stone",
                 () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)

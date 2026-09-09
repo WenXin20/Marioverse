@@ -56,7 +56,7 @@ public class DeepWetMudBlock extends DirtPathBlock {
 
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
-        boolean isMoving = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
+        boolean isMoving = entity.getDeltaMovement().horizontalDistance() > 0.1;
 
         if (level.isClientSide && isMoving) {
             RandomSource random = level.getRandom();

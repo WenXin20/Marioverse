@@ -90,6 +90,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_STOMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_JUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> MUD_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PAINTING_WARPS;
     public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_BOO;
@@ -209,6 +210,9 @@ public class SoundRegistry {
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.item_spawns")));
         MOB_SPAWNS = Marioverse.SOUNDS.register("block.mob_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.mob_spawns")));
+
+        MUD_STEP = Marioverse.SOUNDS.register("block.mud_step",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.mud_step")));
 
         PIPE_CLOSES = Marioverse.SOUNDS.register("block.pipe_closes",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipe_closes")));
