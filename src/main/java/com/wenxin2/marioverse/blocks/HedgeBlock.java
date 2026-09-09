@@ -217,8 +217,12 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
     @Override
     public void performBonemeal(ServerLevel serverLevel, RandomSource random, BlockPos pos, BlockState state) {
         BlockPos targetPos = HedgeBlock.findSpreadPos(serverLevel, random, pos, state);
-        if (targetPos != null)
-            serverLevel.setBlockAndUpdate(targetPos, state.setValue(SNOWY, false));
+        if (targetPos != null) {
+            FluidState fluidState = serverLevel.getFluidState(targetPos);
+            boolean waterlogged = fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8;
+
+            serverLevel.setBlockAndUpdate(targetPos, state.setValue(SNOWY, false).setValue(WATERLOGGED, waterlogged));
+        }
     }
 
     @Override
