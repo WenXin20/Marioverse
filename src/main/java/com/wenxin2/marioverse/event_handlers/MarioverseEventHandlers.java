@@ -121,6 +121,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import org.jetbrains.annotations.Nullable;
@@ -130,6 +131,14 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
+    @SubscribeEvent
+    public static void onPlayLevelSound(PlayLevelSoundEvent.AtEntity event) {
+        if (event.getSound() != null && event.getSound().value() == SoundRegistry.MUD_STEP.get()) {
+            float pitch = 0.9F + event.getLevel().getRandom().nextFloat() * 0.2F;
+            event.setNewPitch(pitch);
+        }
+    }
+
     @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();

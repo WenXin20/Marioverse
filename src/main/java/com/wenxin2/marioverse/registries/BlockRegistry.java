@@ -916,7 +916,7 @@ public class BlockRegistry {
 
         WET_MUD_FARMLAND = registerBlock("wet_mud_farmland",
                 () -> new WetMudFarmlandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND)
-                        .mapColor(MapColor.COLOR_BROWN).friction(0.98F)));
+                        .mapColor(MapColor.COLOR_BROWN).sound(SoundType.MUD).friction(0.98F)));
 
         DEEP_WET_MUD = registerBlock("deep_wet_mud",
                 () -> new DeepWetMudBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH)
