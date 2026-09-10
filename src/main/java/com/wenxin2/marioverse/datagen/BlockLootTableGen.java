@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.CoralTowerBlock;
@@ -149,6 +150,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createDoublePlantWithSeedDrops(block, BlockRegistry.SHROOMGRASS.get()));
                     else if (block == BlockRegistry.WET_MUD_FARMLAND.get() || block == BlockRegistry.DEEP_WET_MUD.get())
                         this.dropOther(block, BlockRegistry.WET_MUD.get());
+                    else if (block == BlockRegistry.WHITE_BLOOMFLOWER.get())
+                        this.add(block, this.createBloomflowerDrop(block));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHORT_SHROOMGRASS.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHORT_SHROOMGRASS.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHROOMGRASS.get())
@@ -165,6 +168,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_ROSE_HEDGE.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.WHITE_ROSE_HEDGE.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_ROSE_HEDGE.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.WHITE_BLOOMFLOWER.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_BLOOMFLOWER.get()));
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPottedPiranhaPlantTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
@@ -303,6 +308,25 @@ public class BlockLootTableGen extends LootTableProvider {
                             .add(LootItem.lootTableItem(itemLike)
                                     .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                                             .include(DataComponentRegistry.VARIANT.get())))));
+        }
+
+        protected LootTable.Builder createBloomflowerDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))
+                                            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                            .hasProperty(BloomflowerBlock.AMOUNT, 1))))
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F))
+                                            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                            .hasProperty(BloomflowerBlock.AMOUNT, 2))))
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(3.0F))
+                                            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                            .hasProperty(BloomflowerBlock.AMOUNT, 3))))))
+            );
         }
 
         protected LootTable.Builder createHedgeDrop(Block block) {

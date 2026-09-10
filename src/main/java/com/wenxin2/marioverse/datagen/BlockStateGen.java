@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
@@ -17,6 +18,7 @@ import com.wenxin2.marioverse.blocks.LogPlatformBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
+import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
@@ -221,6 +223,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
                 blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
         this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));
+        this.bloomflowerModel(BlockRegistry.WHITE_BLOOMFLOWER.get());
         this.blossomModel(blossom, blockTexture(blossom), texture(blossom, "_leaves"));
         this.crossModel(BlockRegistry.MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
         this.crossFlowerPotModel(BlockRegistry.POTTED_MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
@@ -246,6 +249,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
+        this.pottedBloomflowerModel(BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get());
         this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/potted_dango_blossom"),
                 modLoc("block/potted_dango_blossom_leaves"));
         this.pottedHedgeModel(BlockRegistry.POTTED_HEDGE.get(), modLoc("block/potted_hedge"), null);
@@ -1877,6 +1881,33 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.MIDDLE).addModels(new ConfiguredModel(model));
         variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.TOP).addModels(new ConfiguredModel(modelTop));
         variantBuilder.partialState().with(GoalPoleBlock.COLUMN, ColumnBlockStates.NONE).addModels(new ConfiguredModel(modelNone));
+    }
+
+    private void bloomflowerModel(Block block) {
+        ModelFile amount1 = models().getExistingFile(modLoc("block/template_bloomflower_1"));
+        ModelFile amount2 = models().getExistingFile(modLoc("block/template_bloomflower_2"));
+        ModelFile amount3 = models().getExistingFile(modLoc("block/template_bloomflower_3"));
+
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+        for (Direction facing : Direction.Plane.HORIZONTAL) {
+            int yRot = (int) facing.toYRot();
+
+            variantBuilder.partialState().with(BloomflowerBlock.FACING, facing).with(BloomflowerBlock.AMOUNT, 1)
+                    .addModels(new ConfiguredModel(amount1, 0, yRot, false));
+            variantBuilder.partialState().with(BloomflowerBlock.FACING, facing).with(BloomflowerBlock.AMOUNT, 2)
+                    .addModels(new ConfiguredModel(amount2, 0, yRot, false));
+            variantBuilder.partialState().with(BloomflowerBlock.FACING, facing).with(BloomflowerBlock.AMOUNT, 3)
+                    .addModels(new ConfiguredModel(amount3, 0, yRot, false));
+        }
+    }
+
+    private void pottedBloomflowerModel(Block block) {
+        ModelFile model = models().getExistingFile(modLoc("block/template_potted_bloomflower"));
+        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
+
+        for (Direction facing : Direction.Plane.HORIZONTAL)
+            variantBuilder.partialState().with(PottedBloomflowerBlock.FACING, facing)
+                    .addModels(new ConfiguredModel(model, 0, (int) facing.toYRot(), false));
     }
 
     private void hedgeBlockState(Block block, ModelFile bottomModel, ModelFile bottomSnowyModel,

@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-06T02:43:11.1325078	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-09-09T21:00:00.855286	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -174,7 +174,7 @@ cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/va
 0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/minecraft/tags/item/fences.json
 386b81af7f837807d6299c2567d62a0fb8af568c data/minecraft/tags/item/fence_gates.json
 b28d2334ac91b76d29f622d51412d34b0f4f498a data/minecraft/tags/item/fishes.json
-97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/item/flowers.json
+308f2eca50276ab535704d708f689e17b2d31aea data/minecraft/tags/item/flowers.json
 120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/minecraft/tags/item/foot_armor.json
 4c456d4bf757fc541935bc1bea2a292bf5b9d495 data/minecraft/tags/item/freeze_immune_wearables.json
 e388218ef41614cefc35fc3b93d8246a29193962 data/minecraft/tags/item/hanging_signs.json

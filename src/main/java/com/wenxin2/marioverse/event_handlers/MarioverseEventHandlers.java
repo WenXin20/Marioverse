@@ -1,9 +1,11 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
@@ -60,6 +62,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -644,15 +647,14 @@ public class MarioverseEventHandlers {
         Player player = event.getEntity();
 
         Direction.Axis axis = event.getEntity().getDirection().getAxis();
-        BlockState newState = BlockRegistry.POTTED_PIRANHA_PLANT.get().defaultBlockState()
-                .setValue(BlockStateProperties.HORIZONTAL_AXIS, axis);
 
         if (heldItem.getItem() instanceof PiranhaPlantPodItem plantPodItem
                 && state.getBlock() instanceof FlowerPotBlock flowerPot
                 && !(state.getBlock() instanceof PottedPiranhaPlantBlock)
                 && flowerPot.getPotted() == Blocks.AIR
                 && !player.isShiftKeyDown()) {
-
+            BlockState newState = BlockRegistry.POTTED_PIRANHA_PLANT.get().defaultBlockState()
+                    .setValue(BlockStateProperties.HORIZONTAL_AXIS, axis);
             level.setBlock(pos, newState, 3);
             BlockEntity blockEntity = level.getBlockEntity(pos);
 
@@ -680,6 +682,27 @@ public class MarioverseEventHandlers {
                 BlockState newHedgeState = savedProperties.apply(BlockRegistry.POTTED_SNOWY_HEDGE.get().defaultBlockState());
 
                 level.setBlock(pos, newHedgeState, 3);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                player.awardStat(Stats.POT_FLOWER);
+                heldItem.consume(1, player);
+
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                event.setCanceled(true);
+            }
+        }
+
+        if (heldItem.getItem() instanceof BlockItem blockItem
+                && blockItem.getBlock() instanceof BloomflowerBlock
+                && state.getBlock() instanceof FlowerPotBlock bloomflowerPot
+                && bloomflowerPot.getPotted() == Blocks.AIR) {
+            Block pottedBlock = bloomflowerPot.getEmptyPot().getFullPotsView()
+                    .getOrDefault(BuiltInRegistries.BLOCK.getKey(blockItem.getBlock()), () -> Blocks.AIR).get();
+
+            if (pottedBlock instanceof PottedBloomflowerBlock) {
+                BlockState newState = pottedBlock.defaultBlockState()
+                        .setValue(BlockStateProperties.HORIZONTAL_FACING, player.getDirection());
+
+                level.setBlock(pos, newState, 3);
                 level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
                 player.awardStat(Stats.POT_FLOWER);
                 heldItem.consume(1, player);

@@ -72,6 +72,9 @@ public class ShroomgrassBlock extends GrassBlock {
         Optional<Holder.Reference<PlacedFeature>> placedFeature = serverLevel.registryAccess()
                 .registryOrThrow(Registries.PLACED_FEATURE)
                 .getHolder(PlacedFeatureRegistry.SHROOMGRASS_BONEMEAL);
+        Optional<Holder.Reference<PlacedFeature>> bloomflowerFeature = serverLevel.registryAccess()
+                .registryOrThrow(Registries.PLACED_FEATURE)
+                .getHolder(PlacedFeatureRegistry.BLOOMFLOWER_BONEMEAL);
 
         label49:
         for (int i = 0; i < 128; i++) {
@@ -81,7 +84,8 @@ public class ShroomgrassBlock extends GrassBlock {
                 posAboveOffset = posAboveOffset.offset(random.nextInt(3) - 1,
                         (random.nextInt(3) - 1) * random.nextInt(3) / 2,
                         random.nextInt(3) - 1);
-                if (!serverLevel.getBlockState(posAboveOffset.below()).is(this)
+                if (!(serverLevel.getBlockState(posAboveOffset.below()).getBlock() instanceof GrassyStoneBlock)
+                        || !(serverLevel.getBlockState(posAboveOffset.below()).getBlock() instanceof ShroomgrassBlock)
                         || serverLevel.getBlockState(posAboveOffset).isCollisionShapeFullBlock(serverLevel, posAboveOffset))
                     continue label49;
             }
@@ -92,9 +96,12 @@ public class ShroomgrassBlock extends GrassBlock {
                 ((BonemealableBlock) stateAbove.getBlock()).performBonemeal(serverLevel, random, posAboveOffset, stateAbove);
 
             if (stateAbove.isAir()) {
-                if (placedFeature.isEmpty())
+                Optional<Holder.Reference<PlacedFeature>> featureToPlace =
+                        random.nextInt(8) == 0 ? bloomflowerFeature : placedFeature;
+
+                if (featureToPlace.isEmpty())
                     continue;
-                placedFeature.get().value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, posAboveOffset);
+                featureToPlace.get().value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, posAboveOffset);
             }
         }
     }

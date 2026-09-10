@@ -6,10 +6,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class PlacedFeatureRegistry {
+    public static final ResourceKey<PlacedFeature> BLOOMFLOWER_BONEMEAL;
     public static final ResourceKey<PlacedFeature> MUSHROOT;
     public static final ResourceKey<PlacedFeature> SHROOMGRASS_BONEMEAL;
 
     static {
+        BLOOMFLOWER_BONEMEAL = ResourceKey.create(Marioverse.PLACED_FEATURES.getRegistryKey(),
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "bloomflower_bonemeal"));
         MUSHROOT = ResourceKey.create(Marioverse.PLACED_FEATURES.getRegistryKey(),
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mushroot"));
         SHROOMGRASS_BONEMEAL = ResourceKey.create(Marioverse.PLACED_FEATURES.getRegistryKey(),

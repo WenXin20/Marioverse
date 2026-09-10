@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
+import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.DeepWetMudBlock;
 import com.wenxin2.marioverse.blocks.FungalStone;
 import com.wenxin2.marioverse.blocks.GrassyStoneBlock;
@@ -34,6 +35,7 @@ import com.wenxin2.marioverse.blocks.PassiveDeathBlock;
 import com.wenxin2.marioverse.blocks.PeachAbilityBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.PlayerDeathBlock;
+import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedHedgeBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
@@ -510,6 +512,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_SHROOMGRASS;
     public static final DeferredBlock<Block> POTTED_SHRUBROOM;
     public static final DeferredBlock<Block> POTTED_SNOWY_HEDGE;
+    public static final DeferredBlock<Block> POTTED_WHITE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
@@ -673,6 +676,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WET_MUD;
     public static final DeferredBlock<Block> WET_MUD_FARMLAND;
+    public static final DeferredBlock<Block> WHITE_BLOOMFLOWER;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_SLAB;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
@@ -836,6 +840,13 @@ public class BlockRegistry {
                 () -> new DeadCoralTowerBlock(BlockRegistry.TUBE_CORAL_TOWER, BlockBehaviour.Properties.of()
                         .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_GRAY)
                         .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
+
+        WHITE_BLOOMFLOWER = registerBlock("white_bloomflower",
+                () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+
+        POTTED_WHITE_BLOOMFLOWER = registerNoItemBlock("potted_white_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.WHITE_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
                 () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));
@@ -2460,6 +2471,7 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.SHROOMGRASS.getId(), BlockRegistry.POTTED_SHROOMGRASS);
         pot.addPlant(BlockRegistry.SHRUBROOM.getId(), BlockRegistry.POTTED_SHRUBROOM);
         pot.addPlant(BlockRegistry.SNOWY_HEDGE.getId(), BlockRegistry.POTTED_SNOWY_HEDGE);
+        pot.addPlant(BlockRegistry.WHITE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_WHITE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.WHITE_ROSE_HEDGE.getId(), BlockRegistry.POTTED_WHITE_ROSE_HEDGE);
     }
 

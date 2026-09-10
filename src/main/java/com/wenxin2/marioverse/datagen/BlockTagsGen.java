@@ -1093,10 +1093,13 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_MUSHROOT_SAPLING.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
-                .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get());
+                .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get());
 
         tag(BlockTags.FLOWERS)
-                .add(BlockRegistry.DANGO_BLOSSOM.get());
+                .addTag(TagRegistry.HEDGE_ROSE_BLOCKS)
+                .add(BlockRegistry.DANGO_BLOSSOM.get())
+                .add(BlockRegistry.WHITE_BLOOMFLOWER.get());
 
         tag(BlockTags.FOXES_SPAWNABLE_ON)
                 .addTag(TagRegistry.GRASSY_STONES)

@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.blocks.states.SideBlockStates;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class BlockStatePropertyRegistry {
     public static final BooleanProperty BOARD = BooleanProperty.create("board");
@@ -20,4 +21,5 @@ public class BlockStatePropertyRegistry {
             .create("half", HalfBlockStates.class);
     public static final EnumProperty<SideBlockStates> SIDE = EnumProperty
             .create("side", SideBlockStates.class);
+    public static final IntegerProperty FLOWER_AMOUNT = IntegerProperty.create("flower_amount", 1, 3);
 }

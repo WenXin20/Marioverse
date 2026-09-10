@@ -1,0 +1,129 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"render_type": "cutout_mipped",
+	"textures": {
+		"back": "marioverse:block/white_bloomflower_back",
+		"particle": "marioverse:block/white_bloomflower_front",
+		"front": "marioverse:block/white_bloomflower_front",
+		"stem": "marioverse:block/white_bloomflower_stem"
+	},
+	"elements": [
+		{
+			"from": [-2, 5.8, -3],
+			"to": [14, 5.8, 13],
+			"shade": false,
+			"rotation": {"angle": -45, "axis": "x", "origin": [6, 5.8, 5]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#front"},
+				"down": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#back"}
+			}
+		},
+		{
+			"from": [2, 5.8, 1],
+			"to": [10, 5.8, 9],
+			"shade": false,
+			"rotation": {"angle": -45, "axis": "x", "origin": [6, 5.8, 5]},
+			"faces": {
+				"down": {"uv": [0, 0, 8, 8], "rotation": 180, "texture": "#stem", "tintindex": 0}
+			}
+		},
+		{
+			"from": [2, 0, 5],
+			"to": [10, 8, 5],
+			"shade": false,
+			"rotation": {"angle": -45, "axis": "y", "origin": [6, 0, 5]},
+			"faces": {
+				"north": {"uv": [0, 8, 8, 16], "texture": "#stem", "tintindex": 0},
+				"south": {"uv": [8, 8, 0, 16], "texture": "#stem", "tintindex": 0}
+			}
+		},
+		{
+			"from": [2, 0, 5],
+			"to": [10, 8, 5],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [6, 0, 5]},
+			"faces": {
+				"north": {"uv": [8, 8, 16, 16], "texture": "#stem", "tintindex": 0},
+				"south": {"uv": [16, 8, 8, 16], "texture": "#stem", "tintindex": 0}
+			}
+		},
+		{
+			"from": [2, 5.3, 3],
+			"to": [18, 5.3, 19],
+			"shade": false,
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [10, 5.3, 11]},
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#front"},
+				"down": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#back"}
+			}
+		},
+		{
+			"from": [6, 5.3, 7],
+			"to": [14, 5.3, 15],
+			"shade": false,
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [10, 5.3, 11]},
+			"faces": {
+				"down": {"uv": [0, 0, 8, 8], "rotation": 180, "texture": "#stem", "tintindex": 0}
+			}
+		},
+		{
+			"from": [6, 0, 11],
+			"to": [14, 8, 11],
+			"shade": false,
+			"rotation": {"angle": -45, "axis": "y", "origin": [10, 0, 11]},
+			"faces": {
+				"north": {"uv": [8, 8, 16, 16], "texture": "#stem", "tintindex": 0},
+				"south": {"uv": [16, 8, 8, 16], "texture": "#stem", "tintindex": 0}
+			}
+		},
+		{
+			"from": [6, 0, 11],
+			"to": [14, 8, 11],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [10, 0, 11]},
+			"faces": {
+				"north": {"uv": [0, 8, 8, 16], "texture": "#stem", "tintindex": 0},
+				"south": {"uv": [8, 8, 0, 16], "texture": "#stem", "tintindex": 0}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "flower1",
+			"origin": [8, 0, 8],
+			"scope": 0,
+			"color": 0,
+			"shade": false,
+			"children": [
+				0,
+				1,
+				{
+					"name": "stem1",
+					"origin": [8, 0, 8],
+					"scope": 0,
+					"color": 0,
+					"children": [2, 3]
+				}
+			]
+		},
+		{
+			"name": "flower2",
+			"origin": [10, 5.3, 11.5],
+			"scope": 0,
+			"color": 0,
+			"children": [
+				4,
+				5,
+				{
+					"name": "stem2",
+					"origin": [8, 0, 8],
+					"scope": 0,
+					"color": 0,
+					"children": [6, 7]
+				}
+			]
+		}
+	]
+}

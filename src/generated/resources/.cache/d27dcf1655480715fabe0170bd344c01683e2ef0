@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-08T00:07:09.0279598	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-09T21:00:00.8440476	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -154,8 +154,8 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune
 19506890947dbc2b1ca70228fb21d23540be979b data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 386b81af7f837807d6299c2567d62a0fb8af568c data/minecraft/tags/block/fence_gates.json
-97fa6660afa1714986f92195d903bbdd2c119f6c data/minecraft/tags/block/flowers.json
-0cb094dee24c617bf248ca753c1a39c4b6750e4d data/minecraft/tags/block/flower_pots.json
+308f2eca50276ab535704d708f689e17b2d31aea data/minecraft/tags/block/flowers.json
+8cb2d5eea29e9fedf9795c56c618f665e7981d9c data/minecraft/tags/block/flower_pots.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/foxes_spawnable_on.json
 4e1901ff6551710ff119e7d00134ac9eff353037 data/minecraft/tags/block/frogs_spawnable_on.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json

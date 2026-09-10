@@ -164,8 +164,10 @@ public class MarioverseClient {
                 BlockRegistry.POTTED_SHROOMGRASS.get(),
                 BlockRegistry.POTTED_SHRUBROOM.get(),
                 BlockRegistry.POTTED_SNOWY_HEDGE.get(),
+                BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(),
-                BlockRegistry.SHROOMGRASS_BLOCK.get());
+                BlockRegistry.SHROOMGRASS_BLOCK.get(),
+                BlockRegistry.WHITE_BLOOMFLOWER.get());
     }
 
     @SubscribeEvent
@@ -192,9 +194,11 @@ public class MarioverseClient {
                 BlockRegistry.POTTED_PINK_ROSE_HEDGE.get(),
                 BlockRegistry.POTTED_RED_ROSE_HEDGE.get(),
                 BlockRegistry.POTTED_SNOWY_HEDGE.get(),
+                BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(),
                 BlockRegistry.RED_ROSE_HEDGE.get(),
                 BlockRegistry.SNOWY_HEDGE.get(),
+                BlockRegistry.WHITE_BLOOMFLOWER.get(),
                 BlockRegistry.WHITE_ROSE_HEDGE.get());
 
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
