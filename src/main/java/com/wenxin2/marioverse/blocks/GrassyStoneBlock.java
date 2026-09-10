@@ -53,8 +53,9 @@ public class GrassyStoneBlock extends GrassBlock {
                         (random.nextInt(3) - 1) * random.nextInt(3) / 2,
                         random.nextInt(3) - 1);
                 if (!(serverLevel.getBlockState(posAboveOffset.below()).getBlock() instanceof GrassyStoneBlock)
-                        || !(serverLevel.getBlockState(posAboveOffset.below()).getBlock() instanceof ShroomgrassBlock)
-                        || serverLevel.getBlockState(posAboveOffset).isCollisionShapeFullBlock(serverLevel, posAboveOffset))
+                        && !(serverLevel.getBlockState(posAboveOffset.below()).getBlock() instanceof ShroomgrassBlock))
+                    continue label49;
+                if (serverLevel.getBlockState(posAboveOffset).isCollisionShapeFullBlock(serverLevel, posAboveOffset))
                     continue label49;
             }
 

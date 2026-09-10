@@ -41,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -238,6 +239,11 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
     @Override
     public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 60;
+    }
+
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType path) {
+        return false;
     }
 
     protected boolean alwaysSnowy() {
