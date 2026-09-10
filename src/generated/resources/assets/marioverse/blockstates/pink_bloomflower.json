@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=east,flower_amount=1": {
+      "model": "marioverse:block/pink_bloomflower_1",
+      "y": 270
+    },
+    "facing=east,flower_amount=2": {
+      "model": "marioverse:block/pink_bloomflower_2",
+      "y": 270
+    },
+    "facing=east,flower_amount=3": {
+      "model": "marioverse:block/pink_bloomflower_3",
+      "y": 270
+    },
+    "facing=north,flower_amount=1": {
+      "model": "marioverse:block/pink_bloomflower_1",
+      "y": 180
+    },
+    "facing=north,flower_amount=2": {
+      "model": "marioverse:block/pink_bloomflower_2",
+      "y": 180
+    },
+    "facing=north,flower_amount=3": {
+      "model": "marioverse:block/pink_bloomflower_3",
+      "y": 180
+    },
+    "facing=south,flower_amount=1": {
+      "model": "marioverse:block/pink_bloomflower_1"
+    },
+    "facing=south,flower_amount=2": {
+      "model": "marioverse:block/pink_bloomflower_2"
+    },
+    "facing=south,flower_amount=3": {
+      "model": "marioverse:block/pink_bloomflower_3"
+    },
+    "facing=west,flower_amount=1": {
+      "model": "marioverse:block/pink_bloomflower_1",
+      "y": 90
+    },
+    "facing=west,flower_amount=2": {
+      "model": "marioverse:block/pink_bloomflower_2",
+      "y": 90
+    },
+    "facing=west,flower_amount=3": {
+      "model": "marioverse:block/pink_bloomflower_3",
+      "y": 90
+    }
+  }
+}

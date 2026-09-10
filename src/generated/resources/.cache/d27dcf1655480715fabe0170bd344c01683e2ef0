@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-09T21:00:00.8440476	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-09T23:26:43.5439692	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -41,6 +41,7 @@ c53401f50b0f59c35d02f14d9dc888d401ed89dd data/framedblocks/tags/block/blockentit
 c2972e78c3590d864d7f12bcf2864ba863370b17 data/marioverse/tags/block/arrow_signs.json
 cf0d72b2fcd6c7bac22e248bf7e1180c9872f005 data/marioverse/tags/block/arrow_signs/flammable.json
 95482ee241f96a3126721ec1661acbd2d2b24f95 data/marioverse/tags/block/arrow_signs/wooden.json
+50f3a84dd4a447e9632b3aafa91cf7f2deb9bf0a data/marioverse/tags/block/bloomflowers.json
 ca0305ff998bb91ee30dc4040f60ff99130ad6f9 data/marioverse/tags/block/bonkable_blocks.json
 7eaac583d66dabbfff1a436f536efd77ee40f87b data/marioverse/tags/block/bouncy_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/block/brick_pedestals.json
@@ -154,8 +155,8 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune
 19506890947dbc2b1ca70228fb21d23540be979b data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 386b81af7f837807d6299c2567d62a0fb8af568c data/minecraft/tags/block/fence_gates.json
-308f2eca50276ab535704d708f689e17b2d31aea data/minecraft/tags/block/flowers.json
-8cb2d5eea29e9fedf9795c56c618f665e7981d9c data/minecraft/tags/block/flower_pots.json
+305bdda982aa85b7f9c014feff2f561b1ba8fb87 data/minecraft/tags/block/flowers.json
+a0f417c19715a9c7656366251fd2c8eb73bb4440 data/minecraft/tags/block/flower_pots.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/foxes_spawnable_on.json
 4e1901ff6551710ff119e7d00134ac9eff353037 data/minecraft/tags/block/frogs_spawnable_on.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json

@@ -246,6 +246,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
             add(event, BlockRegistry.WHITE_BLOOMFLOWER);
+            addDyedBlocks(event, BlockRegistry.WHITE_BLOOMFLOWER.get(), BlockRegistry.BLOOMFLOWER, false, true);
             add(event, BlockRegistry.DANGO_BLOSSOM);
             add(event, BlockRegistry.HEDGE);
             add(event, BlockRegistry.RED_ROSE_HEDGE);
@@ -1079,6 +1080,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.LARGE_FERN, BlockRegistry.TALL_SHROOMGRASS);
                 
                 addAfter(event, Blocks.PINK_PETALS, BlockRegistry.WHITE_BLOOMFLOWER);
+                addDyedBlocks(event, BlockRegistry.WHITE_BLOOMFLOWER.get(), BlockRegistry.BLOOMFLOWER, false, true);
 
                 addAfter(event, Blocks.SPORE_BLOSSOM, BlockRegistry.DANGO_BLOSSOM);
                 addAfter(event, BlockRegistry.DANGO_BLOSSOM, BlockRegistry.SHRUBROOM);

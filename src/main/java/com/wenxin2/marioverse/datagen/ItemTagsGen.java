@@ -36,6 +36,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         copy(TagRegistry.ABILITY_BLOCKS, TagRegistry.ABILITY_BLOCK_ITEMS);
         copy(TagRegistry.ARROW_SIGNS, TagRegistry.ARROW_SIGN_ITEMS);
+        copy(TagRegistry.BLOOMFLOWER_BLOCKS, TagRegistry.BLOOMFLOWER_ITEMS);
         copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.BRIDGE_BLOCKS, TagRegistry.BRIDGE_ITEMS);

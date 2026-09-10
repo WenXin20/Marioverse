@@ -1088,6 +1088,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.FENCE_GATES)
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get());
 
+        tag(TagRegistry.BLOOMFLOWER_BLOCKS)
+                .add(BlockRegistry.WHITE_BLOOMFLOWER.get());
+        BlockRegistry.BLOOMFLOWER.values().forEach(block -> tag(TagRegistry.BLOOMFLOWER_BLOCKS).add(block.get()));
+
         tag(BlockTags.FLOWER_POTS)
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
@@ -1095,11 +1099,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
                 .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get());
+        BlockRegistry.POTTED_BLOOMFLOWER.values().forEach(block -> tag(BlockTags.FLOWER_POTS).add(block.get()));
 
         tag(BlockTags.FLOWERS)
+                .addTag(TagRegistry.BLOOMFLOWER_BLOCKS)
                 .addTag(TagRegistry.HEDGE_ROSE_BLOCKS)
-                .add(BlockRegistry.DANGO_BLOSSOM.get())
-                .add(BlockRegistry.WHITE_BLOOMFLOWER.get());
+                .add(BlockRegistry.DANGO_BLOSSOM.get());
 
         tag(BlockTags.FOXES_SPAWNABLE_ON)
                 .addTag(TagRegistry.GRASSY_STONES)

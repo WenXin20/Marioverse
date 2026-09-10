@@ -51,6 +51,7 @@ public class TagRegistry {
 
     public static final TagKey<Block> ABILITY_BLOCKS = blockTags("ability_blocks");
     public static final TagKey<Block> ARROW_SIGNS = blockTags("arrow_signs");
+    public static final TagKey<Block> BLOOMFLOWER_BLOCKS = blockTags("bloomflowers");
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");
@@ -187,6 +188,7 @@ public class TagRegistry {
     public static final TagKey<Item> ARROW_ERASERS = itemTags("arrow_erasers");
     public static final TagKey<Item> ARROW_SIGN_ITEMS = itemTags("arrow_signs");
     public static final TagKey<Item> BLOCK_SPAWNER_CANNOT_DISPLAY = itemTags("block_spawner_cannot_display");
+    public static final TagKey<Item> BLOOMFLOWER_ITEMS = itemTags("bloomflowers");
     public static final TagKey<Item> BONKABLE_BLOCK_ITEMS = itemTags("bonkable_blocks");
     public static final TagKey<Item> BRICK_PEDESTAL_ITEMS = itemTags("brick_pedestals");
     public static final TagKey<Item> BRIDGE_ITEMS = itemTags("bridges");

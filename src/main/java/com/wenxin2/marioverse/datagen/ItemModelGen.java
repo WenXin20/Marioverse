@@ -52,6 +52,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.basicItem(BlockRegistry.TALL_SHROOMGRASS.asItem());
         this.basicItem(BlockRegistry.WHITE_BLOOMFLOWER.asItem());
+        BlockRegistry.BLOOMFLOWER.values().forEach(block -> this.basicItem(block.asItem()));
 
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 

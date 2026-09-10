@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "marioverse:block/template_potted_bloomflower",
+      "model": "marioverse:block/potted_white_bloomflower",
       "y": 270
     },
     "facing=north": {
-      "model": "marioverse:block/template_potted_bloomflower",
+      "model": "marioverse:block/potted_white_bloomflower",
       "y": 180
     },
     "facing=south": {
-      "model": "marioverse:block/template_potted_bloomflower"
+      "model": "marioverse:block/potted_white_bloomflower"
     },
     "facing=west": {
-      "model": "marioverse:block/template_potted_bloomflower",
+      "model": "marioverse:block/potted_white_bloomflower",
       "y": 90
     }
   }

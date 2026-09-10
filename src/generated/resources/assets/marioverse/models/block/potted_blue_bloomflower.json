@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_potted_bloomflower",
+  "textures": {
+    "back": "marioverse:block/blue_bloomflower_back",
+    "front": "marioverse:block/blue_bloomflower_front"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "marioverse:block/potted_orange_bloomflower",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "marioverse:block/potted_orange_bloomflower",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "marioverse:block/potted_orange_bloomflower"
+    },
+    "facing=west": {
+      "model": "marioverse:block/potted_orange_bloomflower",
+      "y": 90
+    }
+  }
+}

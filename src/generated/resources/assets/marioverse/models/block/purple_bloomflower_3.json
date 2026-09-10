@@ -1,0 +1,8 @@
+{
+  "parent": "marioverse:block/template_bloomflower_3",
+  "textures": {
+    "back": "marioverse:block/purple_bloomflower_back",
+    "front": "marioverse:block/purple_bloomflower_front",
+    "particle": "marioverse:block/purple_bloomflower_front"
+  }
+}

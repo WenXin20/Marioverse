@@ -68,6 +68,7 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
@@ -103,6 +104,7 @@ import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -168,6 +170,13 @@ public class MarioverseClient {
                 BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(),
                 BlockRegistry.SHROOMGRASS_BLOCK.get(),
                 BlockRegistry.WHITE_BLOOMFLOWER.get());
+
+        event.registerBlock(new IClientBlockExtensions() {
+            @Override
+            public boolean areBreakingParticlesTinted(BlockState state, ClientLevel level, BlockPos pos) {
+                return false;
+            }
+        }, BlockRegistry.POTTED_BLOOMFLOWER.values().stream().map(b -> b.get()).toArray(Block[]::new));
     }
 
     @SubscribeEvent
@@ -200,6 +209,11 @@ public class MarioverseClient {
                 BlockRegistry.SNOWY_HEDGE.get(),
                 BlockRegistry.WHITE_BLOOMFLOWER.get(),
                 BlockRegistry.WHITE_ROSE_HEDGE.get());
+
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                        ? BiomeColors.getAverageFoliageColor(level, pos) : FoliageColor.getDefaultColor(),
+                Stream.concat(BlockRegistry.BLOOMFLOWER.values().stream(), BlockRegistry.POTTED_BLOOMFLOWER.values().stream())
+                        .map(b -> b.get()).toArray(Block[]::new));
 
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
                         ? BiomeColors.getAverageWaterColor(level, pos) | 0x0000cc : 0xFFFFFFFF,

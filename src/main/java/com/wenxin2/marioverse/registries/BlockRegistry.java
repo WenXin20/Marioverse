@@ -81,6 +81,7 @@ import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.world.grower.SuperTreeGrower;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -126,6 +127,10 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRegistry {
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> BLOOMFLOWER =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POTTED_BLOOMFLOWER =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
@@ -847,6 +852,14 @@ public class BlockRegistry {
         POTTED_WHITE_BLOOMFLOWER = registerNoItemBlock("potted_white_bloomflower",
                 () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.WHITE_BLOOMFLOWER,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        EnumSet.of(DyeColor.BLUE, DyeColor.ORANGE, DyeColor.PINK, DyeColor.PURPLE, DyeColor.RED, DyeColor.YELLOW).forEach(color -> {
+            BLOOMFLOWER.put(color, registerBlock(color.getName() + "_bloomflower",
+                    () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS))));
+            POTTED_BLOOMFLOWER.put(color, registerNoItemBlock("potted_" + color.getName() + "_bloomflower",
+                    () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BLOOMFLOWER.get(color),
+                            BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY))));
+        });
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
                 () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));
@@ -2460,6 +2473,7 @@ public class BlockRegistry {
 
     public static void registerFlowerPots() {
         FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
+        BLOOMFLOWER.forEach((color, block) -> pot.addPlant(block.getId(), POTTED_BLOOMFLOWER.get(color)));
         pot.addPlant(BlockRegistry.BLUE_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
         pot.addPlant(BlockRegistry.HEDGE.getId(), BlockRegistry.POTTED_HEDGE);

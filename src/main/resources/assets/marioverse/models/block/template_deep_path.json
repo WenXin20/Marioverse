@@ -6,7 +6,8 @@
 	"textures": {
 		"particle": "marioverse:block/deep_wet_mud",
 		"top": "marioverse:block/deep_wet_mud",
-		"side": "marioverse:block/deep_wet_mud_side"
+		"side": "marioverse:block/deep_wet_mud_side",
+		"bottom": "marioverse:block/wet_mud"
 	},
 	"elements": [
 		{
@@ -18,7 +19,7 @@
 				"south": {"uv": [0, 2, 16, 16], "texture": "#side"},
 				"west": {"uv": [0, 2, 16, 16], "texture": "#side"},
 				"up": {"uv": [0, 0, 16, 16], "texture": "#top"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#side"}
+				"down": {"uv": [0, 0, 16, 16], "texture": "#bottom"}
 			}
 		}
 	],

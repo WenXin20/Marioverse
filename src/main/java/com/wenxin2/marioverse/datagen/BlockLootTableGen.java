@@ -150,7 +150,7 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createDoublePlantWithSeedDrops(block, BlockRegistry.SHROOMGRASS.get()));
                     else if (block == BlockRegistry.WET_MUD_FARMLAND.get() || block == BlockRegistry.DEEP_WET_MUD.get())
                         this.dropOther(block, BlockRegistry.WET_MUD.get());
-                    else if (block == BlockRegistry.WHITE_BLOOMFLOWER.get())
+                    else if (block instanceof BloomflowerBlock)
                         this.add(block, this.createBloomflowerDrop(block));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHORT_SHROOMGRASS.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHORT_SHROOMGRASS.get()));
@@ -168,8 +168,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_ROSE_HEDGE.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.WHITE_ROSE_HEDGE.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_ROSE_HEDGE.get()));
-                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.WHITE_BLOOMFLOWER.get())
-                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_BLOOMFLOWER.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() instanceof BloomflowerBlock)
+                        this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPottedPiranhaPlantTable(ItemRegistry.PIRANHA_PLANT_POD));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
