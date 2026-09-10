@@ -7,7 +7,7 @@
 		"back": "marioverse:block/white_bloomflower_back",
 		"particle": "marioverse:block/white_bloomflower_front",
 		"front": "marioverse:block/white_bloomflower_front",
-		"stem": "marioverse:block/white_bloomflower_stem"
+		"stem": "marioverse:block/bloomflower_stem"
 	},
 	"elements": [
 		{

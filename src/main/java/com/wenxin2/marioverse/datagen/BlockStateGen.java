@@ -268,9 +268,9 @@ public class BlockStateGen extends BlockStateProvider {
                 modLoc("block/grassy_fungal_stone_top"), "grassy_fungal_stone", "grassy_fungal_stone_overlay");
         this.shroomgrassBlockModel(BlockRegistry.SHROOMGRASS_BLOCK.get(), 4, modLoc("block/shroomsoil_top"),
                 modLoc("block/shroomgrass_block_top"), "shroomgrass_block", "shroomgrass_block_overlay");
-        this.shroomsoilFarmlandModel(BlockRegistry.SHROOMSOIL_FARMLAND.get(), modLoc("block/shroomsoil_top"),
+        this.farmlandModel(BlockRegistry.SHROOMSOIL_FARMLAND.get(), modLoc("block/shroomsoil_top"),
                 modLoc("block/shroomsoil_farmland"), modLoc("block/shroomsoil_farmland_moist"));
-        this.shroomsoilPathModel(BlockRegistry.SHROOMSOIL_PATH.get(), modLoc("block/shroomsoil_top"),
+        this.pathModel(BlockRegistry.SHROOMSOIL_PATH.get(), modLoc("block/shroomsoil_top"),
                 modLoc("block/shroomsoil_path_side"), modLoc("block/shroomsoil_path"));
         this.splunkinOLanternModel(lantern, blockTexture(lantern), mcLoc("block/" + pumpkin + "_side"),
                 mcLoc("block/" + pumpkin + "_top"), texture(lantern, "_cracked"), texture(lantern, "_cracked_side"), texture(lantern, "_cracked_top"));
@@ -283,9 +283,9 @@ public class BlockStateGen extends BlockStateProvider {
         this.trampolineCapBlueModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
         this.trampolineCapRedModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
         this.cubeAllModel(BlockRegistry.WET_MUD.get(), blockTexture(BlockRegistry.WET_MUD.get()));
-        this.wetMudFarmlandModel(BlockRegistry.WET_MUD_FARMLAND.get(), modLoc("block/wet_mud"), modLoc("block/wet_mud_farmland"));
-        this.deepWetMudModel(BlockRegistry.DEEP_WET_MUD.get(), modLoc("block/wet_mud"),
-                modLoc("block/deep_wet_mud_side"), modLoc("block/deep_wet_mud"));
+        this.dirtPathFarmlandModel(BlockRegistry.WET_MUD_FARMLAND.get(), modLoc("block/wet_mud"),
+                modLoc("block/deep_wet_mud_side"), modLoc("block/wet_mud_farmland"));
+        this.deepPathModel(BlockRegistry.DEEP_WET_MUD.get());
         this.waterSpoutModel(waterSpout, texture(waterSpout, "_flow"), texture(waterSpout, "_still"),
                 texture(waterSpout, "_splash"));
 
@@ -1618,12 +1618,14 @@ public class BlockStateGen extends BlockStateProvider {
         this.simpleBlockItem(block, sideVariants[0]);
     }
 
-    private void shroomsoilFarmlandModel(Block block, ResourceLocation dirtTexture, ResourceLocation dryTopTexture,
-                                          ResourceLocation moistTopTexture) {
+    private void farmlandModel(Block block, ResourceLocation dirtTexture, ResourceLocation dryTopTexture,
+                                ResourceLocation moistTopTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile dryModel = this.farmlandLikeModel(modelName, dirtTexture, dryTopTexture);
-        ModelFile moistModel = this.farmlandLikeModel(modelName + "_moist", dirtTexture, moistTopTexture);
+        ModelFile dryModel = models().withExistingParent(modelName, mcLoc("minecraft:block/template_farmland"))
+                .texture("dirt", dirtTexture).texture("top", dryTopTexture);
+        ModelFile moistModel = models().withExistingParent(modelName + "_moist", mcLoc("minecraft:block/template_farmland"))
+                .texture("dirt", dirtTexture).texture("top", moistTopTexture);
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         for (int moisture = 0; moisture < FarmBlock.MAX_MOISTURE; moisture++)
@@ -1633,27 +1635,16 @@ public class BlockStateGen extends BlockStateProvider {
         this.simpleBlockItem(block, dryModel);
     }
 
-    private ModelFile farmlandLikeModel(String modelName, ResourceLocation dirtTexture, ResourceLocation topTexture) {
-        var builder = models()
-                .withExistingParent(modelName, mcLoc("minecraft:block/block"))
-                .texture("particle", dirtTexture)
-                .texture("dirt", dirtTexture)
-                .texture("top", topTexture);
-
-        var element = builder.element().from(0, 0, 0).to(16, 15, 16);
-        element = element.face(Direction.UP).texture("#top").end();
-        element = element.face(Direction.DOWN).texture("#dirt").cullface(Direction.DOWN).end();
-        element = element.face(Direction.NORTH).texture("#dirt").cullface(Direction.NORTH).end();
-        element = element.face(Direction.SOUTH).texture("#dirt").cullface(Direction.SOUTH).end();
-        element = element.face(Direction.WEST).texture("#dirt").cullface(Direction.WEST).end();
-        element = element.face(Direction.EAST).texture("#dirt").cullface(Direction.EAST).end();
-
-        return element.end();
+    private ModelFile dirtPathParentModel(String modelName, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                           ResourceLocation topTexture) {
+        return models().withExistingParent(modelName, mcLoc("minecraft:block/dirt_path"))
+                .texture("bottom", bottomTexture).texture("side", sideTexture).texture("top", topTexture);
     }
 
-    private void wetMudFarmlandModel(Block block, ResourceLocation dirtTexture, ResourceLocation topTexture) {
+    private void dirtPathFarmlandModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                        ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-        ModelFile model = this.farmlandLikeModel(modelName, dirtTexture, topTexture);
+        ModelFile model = this.dirtPathParentModel(modelName, bottomTexture, sideTexture, topTexture);
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         for (int moisture = 0; moisture <= FarmBlock.MAX_MOISTURE; moisture++)
@@ -1662,44 +1653,24 @@ public class BlockStateGen extends BlockStateProvider {
         this.simpleBlockItem(block, model);
     }
 
-    private void shroomsoilPathModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
-        this.pathLikeModel(block, 15, true, bottomTexture, sideTexture, topTexture);
-    }
-
-    private void deepWetMudModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
-        this.pathLikeModel(block, 14, false, bottomTexture, sideTexture, topTexture);
-    }
-
-    private void pathLikeModel(Block block, int height, boolean randomRotation, ResourceLocation bottomTexture,
-                                ResourceLocation sideTexture, ResourceLocation topTexture) {
+    private void pathModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        ModelFile model = this.dirtPathParentModel(modelName, bottomTexture, sideTexture, topTexture);
 
-        var builder = models()
-                .withExistingParent(modelName, mcLoc("minecraft:block/block"))
-                .texture("particle", topTexture)
-                .texture("bottom", bottomTexture)
-                .texture("side", sideTexture)
-                .texture("top", topTexture);
+        this.getVariantBuilder(block).partialState().addModels(
+                new ConfiguredModel(model, 0, 0, false),
+                new ConfiguredModel(model, 0, 90, false),
+                new ConfiguredModel(model, 0, 180, false),
+                new ConfiguredModel(model, 0, 270, false));
 
-        var element = builder.element().from(0, 0, 0).to(16, height, 16);
-        element = element.face(Direction.UP).texture("#top").end();
-        element = element.face(Direction.DOWN).texture("#bottom").cullface(Direction.DOWN).end();
-        element = element.face(Direction.NORTH).texture("#side").cullface(Direction.NORTH).end();
-        element = element.face(Direction.SOUTH).texture("#side").cullface(Direction.SOUTH).end();
-        element = element.face(Direction.WEST).texture("#side").cullface(Direction.WEST).end();
-        element = element.face(Direction.EAST).texture("#side").cullface(Direction.EAST).end();
+        this.simpleBlockItem(block, model);
+    }
 
-        ModelFile model = element.end();
+    private void deepPathModel(Block block) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        ModelFile model = models().withExistingParent(modelName, modLoc("block/template_deep_path"));
 
-        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
-        if (randomRotation)
-            variantBuilder.partialState().addModels(
-                    new ConfiguredModel(model, 0, 0, false),
-                    new ConfiguredModel(model, 0, 90, false),
-                    new ConfiguredModel(model, 0, 180, false),
-                    new ConfiguredModel(model, 0, 270, false));
-        else
-            variantBuilder.partialState().addModels(new ConfiguredModel(model));
+        this.getVariantBuilder(block).partialState().addModels(new ConfiguredModel(model));
 
         this.simpleBlockItem(block, model);
     }

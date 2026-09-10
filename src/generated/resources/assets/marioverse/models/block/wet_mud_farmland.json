@@ -1,47 +1,8 @@
 {
-  "parent": "minecraft:block/block",
-  "elements": [
-    {
-      "faces": {
-        "down": {
-          "cullface": "down",
-          "texture": "#dirt"
-        },
-        "east": {
-          "cullface": "east",
-          "texture": "#dirt"
-        },
-        "north": {
-          "cullface": "north",
-          "texture": "#dirt"
-        },
-        "south": {
-          "cullface": "south",
-          "texture": "#dirt"
-        },
-        "up": {
-          "texture": "#top"
-        },
-        "west": {
-          "cullface": "west",
-          "texture": "#dirt"
-        }
-      },
-      "from": [
-        0,
-        0,
-        0
-      ],
-      "to": [
-        16,
-        15,
-        16
-      ]
-    }
-  ],
+  "parent": "minecraft:block/dirt_path",
   "textures": {
-    "dirt": "marioverse:block/wet_mud",
-    "particle": "marioverse:block/wet_mud",
+    "bottom": "marioverse:block/wet_mud",
+    "side": "marioverse:block/deep_wet_mud_side",
     "top": "marioverse:block/wet_mud_farmland"
   }
 }

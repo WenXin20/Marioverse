@@ -9,7 +9,7 @@
 		"dirt": "block/dirt",
 		"back": "marioverse:block/white_bloomflower_back",
 		"front": "marioverse:block/white_bloomflower_front",
-		"stem": "marioverse:block/white_bloomflower_stem"
+		"stem": "marioverse:block/bloomflower_stem"
 	},
 	"elements": [
 		{
