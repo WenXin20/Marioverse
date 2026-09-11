@@ -81,7 +81,6 @@ import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.world.grower.SuperTreeGrower;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -127,10 +126,6 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRegistry {
-    public static final EnumMap<DyeColor, DeferredBlock<Block>> BLOOMFLOWER =
-            new EnumMap<>(DyeColor.class);
-    public static final EnumMap<DyeColor, DeferredBlock<Block>> POTTED_BLOOMFLOWER =
-            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
@@ -188,6 +183,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BLOCK_SPAWNER;
+    public static final DeferredBlock<Block> BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
@@ -473,10 +469,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> OAK_PICKET_FENCE;
     public static final DeferredBlock<Block> OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> ON_OFF_SWITCH;
+    public static final DeferredBlock<Block> ORANGE_BLOOMFLOWER;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
     public static final DeferredBlock<Block> PEACH_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> PINK_BLOOMFLOWER;
     public static final DeferredBlock<Block> PINK_ROSE_HEDGE;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> PLAYER_DEATH_BLOCK;
@@ -505,12 +503,17 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_SLAB;
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
+    public static final DeferredBlock<Block> POTTED_BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
     public static final DeferredBlock<Block> POTTED_HEDGE;
     public static final DeferredBlock<Block> POTTED_MUSHROOT_SAPLING;
+    public static final DeferredBlock<Block> POTTED_ORANGE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_PINK_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_PINK_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
+    public static final DeferredBlock<Block> POTTED_PURPLE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_RED_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_RED_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_SHORT_SHROOMGRASS;
@@ -519,14 +522,17 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_SNOWY_HEDGE;
     public static final DeferredBlock<Block> POTTED_WHITE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_WHITE_ROSE_HEDGE;
+    public static final DeferredBlock<Block> POTTED_YELLOW_BLOOMFLOWER;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> PURPLE_BLOOMFLOWER;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> QUARTZ_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUICKSAND;
+    public static final DeferredBlock<Block> RED_BLOOMFLOWER;
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
@@ -686,6 +692,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
     public static final DeferredBlock<Block> WHITE_ROSE_HEDGE;
+    public static final DeferredBlock<Block> YELLOW_BLOOMFLOWER;
 
     static {
         BLOCK_SPAWNER = registerBlock("block_spawner",
@@ -853,13 +860,41 @@ public class BlockRegistry {
                 () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.WHITE_BLOOMFLOWER,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
-        EnumSet.of(DyeColor.BLUE, DyeColor.ORANGE, DyeColor.PINK, DyeColor.PURPLE, DyeColor.RED, DyeColor.YELLOW).forEach(color -> {
-            BLOOMFLOWER.put(color, registerBlock(color.getName() + "_bloomflower",
-                    () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS))));
-            POTTED_BLOOMFLOWER.put(color, registerNoItemBlock("potted_" + color.getName() + "_bloomflower",
-                    () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BLOOMFLOWER.get(color),
-                            BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY))));
-        });
+        BLUE_BLOOMFLOWER = registerBlock("blue_bloomflower",
+                () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_BLUE_BLOOMFLOWER = registerNoItemBlock("potted_blue_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.BLUE_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        ORANGE_BLOOMFLOWER = registerBlock("orange_bloomflower",
+                () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_ORANGE_BLOOMFLOWER = registerNoItemBlock("potted_orange_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.ORANGE_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        PINK_BLOOMFLOWER = registerBlock("pink_bloomflower",
+                () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_PINK_BLOOMFLOWER = registerNoItemBlock("potted_pink_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.PINK_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        PURPLE_BLOOMFLOWER = registerBlock("purple_bloomflower",
+                () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_PURPLE_BLOOMFLOWER = registerNoItemBlock("potted_purple_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.PURPLE_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        RED_BLOOMFLOWER = registerBlock("red_bloomflower",
+                () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_RED_BLOOMFLOWER = registerNoItemBlock("potted_red_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.RED_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        YELLOW_BLOOMFLOWER = registerBlock("yellow_bloomflower",
+                () -> new BloomflowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_YELLOW_BLOOMFLOWER = registerNoItemBlock("potted_yellow_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.YELLOW_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         DANGO_BLOSSOM = registerBlock("dango_blossom",
                 () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));
@@ -2473,12 +2508,16 @@ public class BlockRegistry {
 
     public static void registerFlowerPots() {
         FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
-        BLOOMFLOWER.forEach((color, block) -> pot.addPlant(block.getId(), POTTED_BLOOMFLOWER.get(color)));
+        pot.addPlant(BlockRegistry.BLUE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_BLUE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.BLUE_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
         pot.addPlant(BlockRegistry.HEDGE.getId(), BlockRegistry.POTTED_HEDGE);
         pot.addPlant(BlockRegistry.MUSHROOT_SAPLING.getId(), BlockRegistry.POTTED_MUSHROOT_SAPLING);
+        pot.addPlant(BlockRegistry.ORANGE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_ORANGE_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.PINK_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PINK_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.PINK_ROSE_HEDGE.getId(), BlockRegistry.POTTED_PINK_ROSE_HEDGE);
+        pot.addPlant(BlockRegistry.PURPLE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PURPLE_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.RED_BLOOMFLOWER.getId(), BlockRegistry.POTTED_RED_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.RED_ROSE_HEDGE.getId(), BlockRegistry.POTTED_RED_ROSE_HEDGE);
         pot.addPlant(BlockRegistry.RED_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.SHORT_SHROOMGRASS.getId(), BlockRegistry.POTTED_SHORT_SHROOMGRASS);
@@ -2487,6 +2526,7 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.SNOWY_HEDGE.getId(), BlockRegistry.POTTED_SNOWY_HEDGE);
         pot.addPlant(BlockRegistry.WHITE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_WHITE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.WHITE_ROSE_HEDGE.getId(), BlockRegistry.POTTED_WHITE_ROSE_HEDGE);
+        pot.addPlant(BlockRegistry.YELLOW_BLOOMFLOWER.getId(), BlockRegistry.POTTED_YELLOW_BLOOMFLOWER);
     }
 
     private static Block log(MapColor colorTop, MapColor color) {

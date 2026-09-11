@@ -223,10 +223,20 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
                 blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
         this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));
+        this.bloomflowerModel(BlockRegistry.BLUE_BLOOMFLOWER.get(),
+                modLoc("block/blue_bloomflower_back"), modLoc("block/blue_bloomflower_front"));
+        this.bloomflowerModel(BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                modLoc("block/orange_bloomflower_back"), modLoc("block/orange_bloomflower_front"));
+        this.bloomflowerModel(BlockRegistry.PINK_BLOOMFLOWER.get(),
+                modLoc("block/pink_bloomflower_back"), modLoc("block/pink_bloomflower_front"));
+        this.bloomflowerModel(BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                modLoc("block/purple_bloomflower_back"), modLoc("block/purple_bloomflower_front"));
+        this.bloomflowerModel(BlockRegistry.RED_BLOOMFLOWER.get(),
+                modLoc("block/red_bloomflower_back"), modLoc("block/red_bloomflower_front"));
         this.bloomflowerModel(BlockRegistry.WHITE_BLOOMFLOWER.get(),
                 modLoc("block/white_bloomflower_back"), modLoc("block/white_bloomflower_front"));
-        BlockRegistry.BLOOMFLOWER.forEach((color, colorBlock) -> this.bloomflowerModel(colorBlock.get(),
-                modLoc("block/" + color.getName() + "_bloomflower_back"), modLoc("block/" + color.getName() + "_bloomflower_front")));
+        this.bloomflowerModel(BlockRegistry.YELLOW_BLOOMFLOWER.get(),
+                modLoc("block/yellow_bloomflower_back"), modLoc("block/yellow_bloomflower_front"));
         this.blossomModel(blossom, blockTexture(blossom), texture(blossom, "_leaves"));
         this.crossModel(BlockRegistry.MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
         this.crossFlowerPotModel(BlockRegistry.POTTED_MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
@@ -252,10 +262,20 @@ public class BlockStateGen extends BlockStateProvider {
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
+        this.pottedBloomflowerModel(BlockRegistry.POTTED_BLUE_BLOOMFLOWER.get(),
+                modLoc("block/blue_bloomflower_back"), modLoc("block/blue_bloomflower_front"));
+        this.pottedBloomflowerModel(BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get(),
+                modLoc("block/orange_bloomflower_back"), modLoc("block/orange_bloomflower_front"));
+        this.pottedBloomflowerModel(BlockRegistry.POTTED_PINK_BLOOMFLOWER.get(),
+                modLoc("block/pink_bloomflower_back"), modLoc("block/pink_bloomflower_front"));
+        this.pottedBloomflowerModel(BlockRegistry.POTTED_PURPLE_BLOOMFLOWER.get(),
+                modLoc("block/purple_bloomflower_back"), modLoc("block/purple_bloomflower_front"));
+        this.pottedBloomflowerModel(BlockRegistry.POTTED_RED_BLOOMFLOWER.get(),
+                modLoc("block/red_bloomflower_back"), modLoc("block/red_bloomflower_front"));
         this.pottedBloomflowerModel(BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get(),
                 modLoc("block/white_bloomflower_back"), modLoc("block/white_bloomflower_front"));
-        BlockRegistry.POTTED_BLOOMFLOWER.forEach((color, colorBlock) -> this.pottedBloomflowerModel(colorBlock.get(),
-                modLoc("block/" + color.getName() + "_bloomflower_back"), modLoc("block/" + color.getName() + "_bloomflower_front")));
+        this.pottedBloomflowerModel(BlockRegistry.POTTED_YELLOW_BLOOMFLOWER.get(),
+                modLoc("block/yellow_bloomflower_back"), modLoc("block/yellow_bloomflower_front"));
         this.pottedBlossomModel(BlockRegistry.POTTED_DANGO_BLOSSOM.get(), modLoc("block/potted_dango_blossom"),
                 modLoc("block/potted_dango_blossom_leaves"));
         this.pottedHedgeModel(BlockRegistry.POTTED_HEDGE.get(), modLoc("block/potted_hedge"), null);
@@ -1641,16 +1661,11 @@ public class BlockStateGen extends BlockStateProvider {
         this.simpleBlockItem(block, dryModel);
     }
 
-    private ModelFile dirtPathParentModel(String modelName, ResourceLocation bottomTexture, ResourceLocation sideTexture,
-                                           ResourceLocation topTexture) {
-        return models().withExistingParent(modelName, mcLoc("minecraft:block/dirt_path")).texture("particle", topTexture)
-                .texture("bottom", bottomTexture).texture("side", sideTexture).texture("top", topTexture);
-    }
-
     private void dirtPathFarmlandModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
                                         ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-        ModelFile model = this.dirtPathParentModel(modelName, bottomTexture, sideTexture, topTexture);
+        ModelFile model = models().withExistingParent(modelName, mcLoc("minecraft:block/dirt_path")).texture("particle", topTexture)
+                .texture("bottom", bottomTexture).texture("side", sideTexture).texture("top", topTexture);
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         for (int moisture = 0; moisture <= FarmBlock.MAX_MOISTURE; moisture++)
@@ -1661,7 +1676,8 @@ public class BlockStateGen extends BlockStateProvider {
 
     private void pathModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture, ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
-        ModelFile model = this.dirtPathParentModel(modelName, bottomTexture, sideTexture, topTexture);
+        ModelFile model = models().withExistingParent(modelName, mcLoc("minecraft:block/dirt_path")).texture("particle", topTexture)
+                .texture("bottom", bottomTexture).texture("side", sideTexture).texture("top", topTexture);
 
         this.getVariantBuilder(block).partialState().addModels(
                 new ConfiguredModel(model, 0, 0, false),

@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-09T23:26:43.5489678	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-09-10T21:49:18.7770629	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -52,7 +52,7 @@ c2972e78c3590d864d7f12bcf2864ba863370b17 data/marioverse/tags/item/arrow_signs.j
 549fd92b09e6680d2b1266a860b4616e7735bef8 data/marioverse/tags/item/arrow_signs/flammable.json
 19f5dd5981bef5351c3ba80a0be5a03effdcb8eb data/marioverse/tags/item/arrow_signs/wooden.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/block_spawner_cannot_display.json
-50f3a84dd4a447e9632b3aafa91cf7f2deb9bf0a data/marioverse/tags/item/bloomflowers.json
+05bdcdb57b0d99293353e982cce65e296e478ae7 data/marioverse/tags/item/bloomflowers.json
 ca0305ff998bb91ee30dc4040f60ff99130ad6f9 data/marioverse/tags/item/bonkable_blocks.json
 0bd4915ab731db69ab615f3d97fc69469f174326 data/marioverse/tags/item/brick_pedestals.json
 49d762151070111af7b6448de7186560882a0d7b data/marioverse/tags/item/bridges.json

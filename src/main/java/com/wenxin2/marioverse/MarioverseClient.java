@@ -68,7 +68,6 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
@@ -104,7 +103,6 @@ import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -157,10 +155,18 @@ public class MarioverseClient {
             public boolean areBreakingParticlesTinted(BlockState state, ClientLevel level, BlockPos pos) {
                 return false;
             }
-        }, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+        }, BlockRegistry.BLUE_BLOOMFLOWER.get(),
+                BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.GRASSY_FUNGAL_STONE.get(),
+                BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_BLUE_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_HEDGE.get(),
+                BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_PINK_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_PINK_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_RED_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_RED_ROSE_HEDGE.get(),
                 BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(),
                 BlockRegistry.POTTED_SHROOMGRASS.get(),
@@ -168,15 +174,12 @@ public class MarioverseClient {
                 BlockRegistry.POTTED_SNOWY_HEDGE.get(),
                 BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_YELLOW_BLOOMFLOWER.get(),
+                BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.RED_BLOOMFLOWER.get(),
                 BlockRegistry.SHROOMGRASS_BLOCK.get(),
-                BlockRegistry.WHITE_BLOOMFLOWER.get());
-
-        event.registerBlock(new IClientBlockExtensions() {
-            @Override
-            public boolean areBreakingParticlesTinted(BlockState state, ClientLevel level, BlockPos pos) {
-                return false;
-            }
-        }, BlockRegistry.POTTED_BLOOMFLOWER.values().stream().map(b -> b.get()).toArray(Block[]::new));
+                BlockRegistry.WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.YELLOW_BLOOMFLOWER.get());
     }
 
     @SubscribeEvent
@@ -196,24 +199,31 @@ public class MarioverseClient {
 
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
                         ? BiomeColors.getAverageFoliageColor(level, pos) : FoliageColor.getDefaultColor(),
+                BlockRegistry.BLUE_BLOOMFLOWER.get(),
                 BlockRegistry.HEDGE.get(),
                 BlockRegistry.MUSHROOT_LEAVES.get(),
+                BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_BLOOMFLOWER.get(),
                 BlockRegistry.PINK_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_BLUE_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_HEDGE.get(),
+                BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_PINK_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_PINK_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_RED_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_RED_ROSE_HEDGE.get(),
                 BlockRegistry.POTTED_SNOWY_HEDGE.get(),
                 BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get(),
                 BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_YELLOW_BLOOMFLOWER.get(),
+                BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.RED_BLOOMFLOWER.get(),
                 BlockRegistry.RED_ROSE_HEDGE.get(),
                 BlockRegistry.SNOWY_HEDGE.get(),
                 BlockRegistry.WHITE_BLOOMFLOWER.get(),
-                BlockRegistry.WHITE_ROSE_HEDGE.get());
-
-        event.register((state, level, pos, tintIndex) -> level != null && pos != null
-                        ? BiomeColors.getAverageFoliageColor(level, pos) : FoliageColor.getDefaultColor(),
-                Stream.concat(BlockRegistry.BLOOMFLOWER.values().stream(), BlockRegistry.POTTED_BLOOMFLOWER.values().stream())
-                        .map(b -> b.get()).toArray(Block[]::new));
+                BlockRegistry.WHITE_ROSE_HEDGE.get(),
+                BlockRegistry.YELLOW_BLOOMFLOWER.get());
 
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
                         ? BiomeColors.getAverageWaterColor(level, pos) | 0x0000cc : 0xFFFFFFFF,

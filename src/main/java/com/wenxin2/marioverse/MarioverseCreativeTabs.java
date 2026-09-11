@@ -246,7 +246,12 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
             add(event, BlockRegistry.WHITE_BLOOMFLOWER);
-            addDyedBlocks(event, BlockRegistry.WHITE_BLOOMFLOWER.get(), BlockRegistry.BLOOMFLOWER, false, true);
+            add(event, BlockRegistry.BLUE_BLOOMFLOWER);
+            add(event, BlockRegistry.ORANGE_BLOOMFLOWER);
+            add(event, BlockRegistry.PINK_BLOOMFLOWER);
+            add(event, BlockRegistry.PURPLE_BLOOMFLOWER);
+            add(event, BlockRegistry.RED_BLOOMFLOWER);
+            add(event, BlockRegistry.YELLOW_BLOOMFLOWER);
             add(event, BlockRegistry.DANGO_BLOSSOM);
             add(event, BlockRegistry.HEDGE);
             add(event, BlockRegistry.RED_ROSE_HEDGE);
@@ -1080,7 +1085,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.LARGE_FERN, BlockRegistry.TALL_SHROOMGRASS);
                 
                 addAfter(event, Blocks.PINK_PETALS, BlockRegistry.WHITE_BLOOMFLOWER);
-                addDyedBlocks(event, BlockRegistry.WHITE_BLOOMFLOWER.get(), BlockRegistry.BLOOMFLOWER, false, true);
+                addAfter(event, BlockRegistry.WHITE_BLOOMFLOWER, BlockRegistry.BLUE_BLOOMFLOWER);
+                addAfter(event, BlockRegistry.BLUE_BLOOMFLOWER, BlockRegistry.ORANGE_BLOOMFLOWER);
+                addAfter(event, BlockRegistry.ORANGE_BLOOMFLOWER, BlockRegistry.PINK_BLOOMFLOWER);
+                addAfter(event, BlockRegistry.PINK_BLOOMFLOWER, BlockRegistry.PURPLE_BLOOMFLOWER);
+                addAfter(event, BlockRegistry.PURPLE_BLOOMFLOWER, BlockRegistry.RED_BLOOMFLOWER);
+                addAfter(event, BlockRegistry.RED_BLOOMFLOWER, BlockRegistry.YELLOW_BLOOMFLOWER);
 
                 addAfter(event, Blocks.SPORE_BLOSSOM, BlockRegistry.DANGO_BLOSSOM);
                 addAfter(event, BlockRegistry.DANGO_BLOSSOM, BlockRegistry.SHRUBROOM);

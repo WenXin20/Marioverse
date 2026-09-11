@@ -2,6 +2,7 @@
   "parent": "minecraft:block/dirt_path",
   "textures": {
     "bottom": "marioverse:block/wet_mud",
+    "particle": "marioverse:block/wet_mud_farmland",
     "side": "marioverse:block/deep_wet_mud_side",
     "top": "marioverse:block/wet_mud_farmland"
   }

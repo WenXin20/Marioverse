@@ -1,94 +1,14 @@
 {
-  "type": "minecraft:simple_block",
+  "type": "minecraft:simple_random_selector",
   "config": {
-    "to_place": {
-      "type": "minecraft:weighted_state_provider",
-      "entries": [
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "north", "flower_amount": "1"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "north", "flower_amount": "2"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "north", "flower_amount": "3"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "south", "flower_amount": "1"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "south", "flower_amount": "2"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "south", "flower_amount": "3"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "east", "flower_amount": "1"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "east", "flower_amount": "2"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "east", "flower_amount": "3"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "west", "flower_amount": "1"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "west", "flower_amount": "2"}
-          },
-          "weight": 1
-        },
-        {
-          "data": {
-            "Name": "marioverse:white_bloomflower",
-            "Properties": {"facing": "west", "flower_amount": "3"}
-          },
-          "weight": 1
-        }
-      ]
-    }
+    "features": [
+      "marioverse:bloomflower_bonemeal_white",
+      "marioverse:bloomflower_bonemeal_blue",
+      "marioverse:bloomflower_bonemeal_orange",
+      "marioverse:bloomflower_bonemeal_pink",
+      "marioverse:bloomflower_bonemeal_purple",
+      "marioverse:bloomflower_bonemeal_red",
+      "marioverse:bloomflower_bonemeal_yellow"
+    ]
   }
 }

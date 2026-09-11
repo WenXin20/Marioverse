@@ -51,8 +51,13 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.SHRUBROOM.asItem());
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.basicItem(BlockRegistry.TALL_SHROOMGRASS.asItem());
+        this.basicItem(BlockRegistry.BLUE_BLOOMFLOWER.asItem());
+        this.basicItem(BlockRegistry.ORANGE_BLOOMFLOWER.asItem());
+        this.basicItem(BlockRegistry.PINK_BLOOMFLOWER.asItem());
+        this.basicItem(BlockRegistry.PURPLE_BLOOMFLOWER.asItem());
+        this.basicItem(BlockRegistry.RED_BLOOMFLOWER.asItem());
         this.basicItem(BlockRegistry.WHITE_BLOOMFLOWER.asItem());
-        BlockRegistry.BLOOMFLOWER.values().forEach(block -> this.basicItem(block.asItem()));
+        this.basicItem(BlockRegistry.YELLOW_BLOOMFLOWER.asItem());
 
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 

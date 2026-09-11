@@ -1089,17 +1089,27 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get());
 
         tag(TagRegistry.BLOOMFLOWER_BLOCKS)
-                .add(BlockRegistry.WHITE_BLOOMFLOWER.get());
-        BlockRegistry.BLOOMFLOWER.values().forEach(block -> tag(TagRegistry.BLOOMFLOWER_BLOCKS).add(block.get()));
+                .add(BlockRegistry.BLUE_BLOOMFLOWER.get())
+                .add(BlockRegistry.ORANGE_BLOOMFLOWER.get())
+                .add(BlockRegistry.PINK_BLOOMFLOWER.get())
+                .add(BlockRegistry.PURPLE_BLOOMFLOWER.get())
+                .add(BlockRegistry.RED_BLOOMFLOWER.get())
+                .add(BlockRegistry.WHITE_BLOOMFLOWER.get())
+                .add(BlockRegistry.YELLOW_BLOOMFLOWER.get());
 
         tag(BlockTags.FLOWER_POTS)
+                .add(BlockRegistry.POTTED_BLUE_BLOOMFLOWER.get())
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_MUSHROOT_SAPLING.get())
+                .add(BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_PINK_BLOOMFLOWER.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
+                .add(BlockRegistry.POTTED_PURPLE_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_RED_BLOOMFLOWER.get())
                 .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get());
-        BlockRegistry.POTTED_BLOOMFLOWER.values().forEach(block -> tag(BlockTags.FLOWER_POTS).add(block.get()));
+                .add(BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_YELLOW_BLOOMFLOWER.get());
 
         tag(BlockTags.FLOWERS)
                 .addTag(TagRegistry.BLOOMFLOWER_BLOCKS)

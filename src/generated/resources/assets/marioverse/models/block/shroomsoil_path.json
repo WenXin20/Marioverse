@@ -2,6 +2,7 @@
   "parent": "minecraft:block/dirt_path",
   "textures": {
     "bottom": "marioverse:block/shroomsoil_top",
+    "particle": "marioverse:block/shroomsoil_path",
     "side": "marioverse:block/shroomsoil_path_side",
     "top": "marioverse:block/shroomsoil_path"
   }
