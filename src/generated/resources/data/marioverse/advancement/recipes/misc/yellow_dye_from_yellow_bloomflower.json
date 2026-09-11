@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:yellow_dye_from_yellow_bloomflower"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_bloomflower": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:yellow_bloomflower"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_yellow_bloomflower"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:yellow_dye_from_yellow_bloomflower"
+    ]
+  }
+}

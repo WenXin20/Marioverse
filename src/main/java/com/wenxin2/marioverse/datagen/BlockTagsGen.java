@@ -1088,7 +1088,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.FENCE_GATES)
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get());
 
-        tag(TagRegistry.BLOOMFLOWER_BLOCKS)
+        tag(TagRegistry.BLOOMFLOWERS)
                 .add(BlockRegistry.BLUE_BLOOMFLOWER.get())
                 .add(BlockRegistry.ORANGE_BLOOMFLOWER.get())
                 .add(BlockRegistry.PINK_BLOOMFLOWER.get())
@@ -1112,7 +1112,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POTTED_YELLOW_BLOOMFLOWER.get());
 
         tag(BlockTags.FLOWERS)
-                .addTag(TagRegistry.BLOOMFLOWER_BLOCKS)
                 .addTag(TagRegistry.HEDGE_ROSE_BLOCKS)
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
 
@@ -1227,6 +1226,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
+
+        tag(BlockTags.SMALL_FLOWERS)
+                .addTag(TagRegistry.BLOOMFLOWERS);
 
         tag(BlockTags.SNIFFER_DIGGABLE_BLOCK)
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())

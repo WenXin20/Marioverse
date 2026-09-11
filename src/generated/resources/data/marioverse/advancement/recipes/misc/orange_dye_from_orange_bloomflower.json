@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_orange_bloomflower": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:orange_bloomflower"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:orange_dye_from_orange_bloomflower"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_orange_bloomflower"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:orange_dye_from_orange_bloomflower"
+    ]
+  }
+}

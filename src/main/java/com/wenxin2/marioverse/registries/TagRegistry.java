@@ -51,7 +51,7 @@ public class TagRegistry {
 
     public static final TagKey<Block> ABILITY_BLOCKS = blockTags("ability_blocks");
     public static final TagKey<Block> ARROW_SIGNS = blockTags("arrow_signs");
-    public static final TagKey<Block> BLOOMFLOWER_BLOCKS = blockTags("bloomflowers");
+    public static final TagKey<Block> BLOOMFLOWERS = blockTags("bloomflowers");
     public static final TagKey<Block> BONKABLE_BLOCKS = blockTags("bonkable_blocks");
     public static final TagKey<Block> BOUNCY_BLOCKS = blockTags("bouncy_blocks");
     public static final TagKey<Block> BRICK_PEDESTAL_BLOCKS = blockTags("brick_pedestals");

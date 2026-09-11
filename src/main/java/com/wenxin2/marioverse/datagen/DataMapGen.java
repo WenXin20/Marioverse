@@ -27,13 +27,20 @@ public class DataMapGen extends DataMapProvider {
     @Override
     protected void gather(HolderLookup.Provider provider) {
         builder(NeoForgeDataMaps.COMPOSTABLES)
+                .add(BlockRegistry.BLUE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.MUSHROOT_LEAVES.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.MUSHROOT_SAPLING.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.ORANGE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.PINK_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.PURPLE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.RED_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.SHORT_SHROOMGRASS.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.SHROOMGRASS.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
-                .add(ItemRegistry.PIRANHA_PLANT_POD, new Compostable(0.3F), false)
+                .add(BlockRegistry.WHITE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.YELLOW_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
 
                 .add(BlockRegistry.TALL_SHROOMGRASS.asItem().builtInRegistryHolder(), new Compostable(0.5F), false)
+                .add(ItemRegistry.PIRANHA_PLANT_POD, new Compostable(0.5F), false)
 
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.DANGO_BLOSSOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)

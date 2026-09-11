@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "group": "dye",
+  "group": "white_dye",
   "ingredients": [
     {
       "item": "marioverse:white_rose_hedge"

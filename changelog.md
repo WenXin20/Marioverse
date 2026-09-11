@@ -34,7 +34,9 @@
 - Wet Mud Farmland, always moist
 - Added Short Shroomgrass, Shroomgrass, & Tall Shroomgrass
 - Added Shrubrooms
+- Added bloomflowers of various colors
 - Added tooltips to bridges
+- Add recipe to convert Dango Blossoms to dye
 - Wandering trader trades Mushroot Saplings
 - Wandering trader trades Shroomgrass Blocks
 - Fixed flammability of Log Stairs

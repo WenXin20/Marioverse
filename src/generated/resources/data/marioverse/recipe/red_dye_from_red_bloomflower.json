@@ -4,11 +4,11 @@
   "group": "red_dye",
   "ingredients": [
     {
-      "item": "marioverse:red_rose_hedge"
+      "item": "marioverse:red_bloomflower"
     }
   ],
   "result": {
-    "count": 3,
+    "count": 1,
     "id": "minecraft:red_dye"
   }
 }

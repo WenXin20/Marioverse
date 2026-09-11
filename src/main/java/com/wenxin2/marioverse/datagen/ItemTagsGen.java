@@ -36,7 +36,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         copy(TagRegistry.ABILITY_BLOCKS, TagRegistry.ABILITY_BLOCK_ITEMS);
         copy(TagRegistry.ARROW_SIGNS, TagRegistry.ARROW_SIGN_ITEMS);
-        copy(TagRegistry.BLOOMFLOWER_BLOCKS, TagRegistry.BLOOMFLOWER_ITEMS);
+        copy(TagRegistry.BLOOMFLOWERS, TagRegistry.BLOOMFLOWER_ITEMS);
         copy(TagRegistry.BONKABLE_BLOCKS, TagRegistry.BONKABLE_BLOCK_ITEMS);
         copy(TagRegistry.BRICK_PEDESTAL_BLOCKS, TagRegistry.BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.BRIDGE_BLOCKS, TagRegistry.BRIDGE_ITEMS);
@@ -129,6 +129,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(BlockTags.LOGS, ItemTags.LOGS);
         copy(BlockTags.PLANKS, ItemTags.PLANKS);
         copy(BlockTags.SLABS, ItemTags.SLABS);
+        copy(BlockTags.SMALL_FLOWERS, ItemTags.SMALL_FLOWERS);
         copy(BlockTags.STAIRS, ItemTags.STAIRS);
         copy(BlockTags.STONE_BUTTONS, ItemTags.STONE_BUTTONS);
         copy(BlockTags.WALLS, ItemTags.WALLS);

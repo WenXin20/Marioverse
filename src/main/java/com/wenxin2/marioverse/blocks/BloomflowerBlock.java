@@ -1,11 +1,13 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -13,7 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,8 +27,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class BloomflowerBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<BloomflowerBlock> CODEC = simpleCodec(BloomflowerBlock::new);
+public class BloomflowerBlock extends FlowerBlock implements BonemealableBlock {
     public static final int MAX_FLOWERS = 3;
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final IntegerProperty AMOUNT = BlockStatePropertyRegistry.FLOWER_AMOUNT;
@@ -36,14 +37,8 @@ public class BloomflowerBlock extends BushBlock implements BonemealableBlock {
             Block.box(1, 0, 1, 15, 10, 15)
     };
 
-    @NotNull
-    @Override
-    public MapCodec<BloomflowerBlock> codec() {
-        return CODEC;
-    }
-
-    public BloomflowerBlock(Properties properties) {
-        super(properties);
+    public BloomflowerBlock(Holder<MobEffect> effect, float seconds, Properties properties) {
+        super(effect, seconds, properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH).setValue(AMOUNT, 1));
     }
@@ -103,6 +98,22 @@ public class BloomflowerBlock extends BushBlock implements BonemealableBlock {
         int amount = state.getValue(AMOUNT);
         if (amount < MAX_FLOWERS)
             serverLevel.setBlock(pos, state.setValue(AMOUNT, amount + 1), 2);
-        else Block.popResource(serverLevel, pos, new ItemStack(this));
+        else
+            popResource(serverLevel, pos, new ItemStack(this));
+    }
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.BLOOMFLOWERS);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 60;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 100;
     }
 }
