@@ -51,13 +51,13 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.SHRUBROOM.asItem());
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
         this.basicItem(BlockRegistry.TALL_SHROOMGRASS.asItem());
-        this.basicItem(BlockRegistry.BLUE_BLOOMFLOWER.asItem());
-        this.basicItem(BlockRegistry.ORANGE_BLOOMFLOWER.asItem());
-        this.basicItem(BlockRegistry.PINK_BLOOMFLOWER.asItem());
-        this.basicItem(BlockRegistry.PURPLE_BLOOMFLOWER.asItem());
-        this.basicItem(BlockRegistry.RED_BLOOMFLOWER.asItem());
-        this.basicItem(BlockRegistry.WHITE_BLOOMFLOWER.asItem());
-        this.basicItem(BlockRegistry.YELLOW_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.BLUE_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.ORANGE_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.PINK_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.PURPLE_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.RED_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.WHITE_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.YELLOW_BLOOMFLOWER.asItem());
 
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
@@ -431,6 +431,14 @@ public class ItemModelGen extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
                 .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + "_overlay"));
+    }
+
+    public ItemModelBuilder bloomflowerItem(Item item) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        return this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
+                .texture("layer1", modLoc("item/bloomflower_stem"));
     }
 
     public ItemModelBuilder twoLayerItem(Item item, String overlaySuffix) {

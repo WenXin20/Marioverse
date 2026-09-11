@@ -263,6 +263,15 @@ public class MarioverseClient {
                 BlockRegistry.RED_ROSE_HEDGE.get(),
                 BlockRegistry.WHITE_ROSE_HEDGE.get());
 
+        event.register((stack, tintIndex) -> tintIndex == 1 ? FoliageColor.getDefaultColor() : -1,
+                BlockRegistry.BLUE_BLOOMFLOWER.get(),
+                BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_BLOOMFLOWER.get(),
+                BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.RED_BLOOMFLOWER.get(),
+                BlockRegistry.WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.YELLOW_BLOOMFLOWER.get());
+
         event.register((stack, tintIndex) -> {
             if (tintIndex == 0)
                 return FoliageColor.getDefaultColor();

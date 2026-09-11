@@ -129,7 +129,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRegistry {
-    private static final Holder<MobEffect> DIG_SPEED_EFFECT = MobEffects.DIG_SPEED;
+    private static final Holder<MobEffect> JUMP_EFFECT = MobEffects.JUMP;
 
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE =
             new EnumMap<>(DyeColor.class);
@@ -859,7 +859,7 @@ public class BlockRegistry {
                         .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
         WHITE_BLOOMFLOWER = registerBlock("white_bloomflower",
-                () -> new BloomflowerBlock(DIG_SPEED_EFFECT, 6.0F,
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
 
         POTTED_WHITE_BLOOMFLOWER = registerNoItemBlock("potted_white_bloomflower",
@@ -867,42 +867,42 @@ public class BlockRegistry {
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         BLUE_BLOOMFLOWER = registerBlock("blue_bloomflower",
-                () -> new BloomflowerBlock(DIG_SPEED_EFFECT, 6.0F,
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
         POTTED_BLUE_BLOOMFLOWER = registerNoItemBlock("potted_blue_bloomflower",
                 () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.BLUE_BLOOMFLOWER,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         ORANGE_BLOOMFLOWER = registerBlock("orange_bloomflower",
-                () -> new BloomflowerBlock(DIG_SPEED_EFFECT, 6.0F,
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
         POTTED_ORANGE_BLOOMFLOWER = registerNoItemBlock("potted_orange_bloomflower",
                 () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.ORANGE_BLOOMFLOWER,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         PINK_BLOOMFLOWER = registerBlock("pink_bloomflower",
-                () -> new BloomflowerBlock(DIG_SPEED_EFFECT, 6.0F,
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
         POTTED_PINK_BLOOMFLOWER = registerNoItemBlock("potted_pink_bloomflower",
                 () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.PINK_BLOOMFLOWER,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         PURPLE_BLOOMFLOWER = registerBlock("purple_bloomflower",
-                () -> new BloomflowerBlock(DIG_SPEED_EFFECT, 6.0F,
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
         POTTED_PURPLE_BLOOMFLOWER = registerNoItemBlock("potted_purple_bloomflower",
                 () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.PURPLE_BLOOMFLOWER,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         RED_BLOOMFLOWER = registerBlock("red_bloomflower",
-                () -> new BloomflowerBlock(DIG_SPEED_EFFECT, 6.0F,
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
         POTTED_RED_BLOOMFLOWER = registerNoItemBlock("potted_red_bloomflower",
                 () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.RED_BLOOMFLOWER,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
         YELLOW_BLOOMFLOWER = registerBlock("yellow_bloomflower",
-                () -> new BloomflowerBlock(DIG_SPEED_EFFECT, 6.0F,
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
         POTTED_YELLOW_BLOOMFLOWER = registerNoItemBlock("potted_yellow_bloomflower",
                 () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.YELLOW_BLOOMFLOWER,

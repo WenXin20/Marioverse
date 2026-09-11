@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "marioverse:item/orange_bloomflower"
+    "layer0": "marioverse:item/orange_bloomflower",
+    "layer1": "marioverse:item/bloomflower_stem"
   }
 }
