@@ -1,5 +1,8 @@
 {
   "values": {
+    "marioverse:blue_bloomflower": {
+      "chance": 0.3
+    },
     "marioverse:blue_mushroom_trampoline": {
       "chance": 0.85
     },
@@ -18,10 +21,22 @@
     "marioverse:mushroot_sapling": {
       "chance": 0.3
     },
+    "marioverse:orange_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:pink_bloomflower": {
+      "chance": 0.3
+    },
     "marioverse:pink_rose_hedge": {
       "chance": 0.85
     },
     "marioverse:piranha_plant_pod": {
+      "chance": 0.5
+    },
+    "marioverse:purple_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:red_bloomflower": {
       "chance": 0.3
     },
     "marioverse:red_mushroom_trampoline": {
@@ -45,8 +60,14 @@
     "marioverse:tall_shroomgrass": {
       "chance": 0.5
     },
+    "marioverse:white_bloomflower": {
+      "chance": 0.3
+    },
     "marioverse:white_rose_hedge": {
       "chance": 0.85
+    },
+    "marioverse:yellow_bloomflower": {
+      "chance": 0.3
     }
   }
 }

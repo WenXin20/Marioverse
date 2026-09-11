@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dango_blossom": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:dango_blossom"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:red_dye_from_dango_blossom"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dango_blossom"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:red_dye_from_dango_blossom"
+    ]
+  }
+}
