@@ -1,0 +1,6 @@
+{
+  "parent": "marioverse:block/cube_all",
+  "textures": {
+    "all": "marioverse:block/mushroot_panels"
+  }
+}

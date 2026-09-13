@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "wall": "marioverse:block/spookroot_panels"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" },
+    "wall": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:spookroot_panels" },
+        { "type": "match_block", "block": "marioverse:spookroot_panel_slab" },
+        { "type": "match_block", "block": "marioverse:spookroot_panel_stairs" }
+      ]
+    }
+  }
+}
