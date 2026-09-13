@@ -23,4 +23,6 @@ public class BlockSetTypeRegistry {
                     SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON));
 
     public static final BlockSetType MUSHROOT = BlockSetType.register(new BlockSetType(Marioverse.MOD_ID + ":mushroot"));
+
+    public static final BlockSetType SPOOKROOT = BlockSetType.register(new BlockSetType(Marioverse.MOD_ID + ":spookroot"));
 }

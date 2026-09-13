@@ -123,6 +123,12 @@ public class RegistryEventHandlers {
 
         event.modify(BlockEntityType.SIGN,
                 BlockRegistry.MUSHROOT_SIGN.get(), BlockRegistry.MUSHROOT_WALL_SIGN.get());
+
+        event.modify(BlockEntityType.HANGING_SIGN,
+                BlockRegistry.SPOOKROOT_HANGING_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_HANGING_SIGN.get());
+
+        event.modify(BlockEntityType.SIGN,
+                BlockRegistry.SPOOKROOT_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_SIGN.get());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -222,6 +228,10 @@ public class RegistryEventHandlers {
             fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_SLAB.get(), 5, 5);
             fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_STAIRS.get(), 5, 5);
             fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPOOKROOT_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPOOKROOT_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPOOKROOT_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPOOKROOT_WALL.get(), 5, 5);
             fireBlock.setFlammable(BlockRegistry.HARD_OAK_BLOCK.get(), 5, 5);
             fireBlock.setFlammable(BlockRegistry.HARD_OAK_SLAB.get(), 5, 5);
             fireBlock.setFlammable(BlockRegistry.HARD_OAK_STAIRS.get(), 5, 5);
@@ -270,6 +280,10 @@ public class RegistryEventHandlers {
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_WOOD.get(), 5, 5);
             fireBlock.setFlammable(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), 5, 5);
             fireBlock.setFlammable(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_LOG.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_WOOD.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get(), 5, 5);
 
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARDS.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARD_SLAB.get(), 5, 20);
@@ -287,10 +301,28 @@ public class RegistryEventHandlers {
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_SLAB.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_STAIRS.get(), 5, 20);
 
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARDS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARD_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARD_STAIRS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARD_WALL.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FENCE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FENCE_GATE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANELS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANEL_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANEL_STAIRS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANEL_WALL.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PLANKS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_STAIRS.get(), 5, 20);
+
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_LEAVES.get(), 30, 60);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_LEAVES.get(), 30, 60);
 
             fireBlock.setFlammable(BlockRegistry.DANGO_BLOSSOM.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_SAPLING.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_SAPLING.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.SHORT_SHROOMGRASS.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.SHROOMGRASS.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.SHRUBROOM.get(), 60, 100);
@@ -555,6 +587,11 @@ public class RegistryEventHandlers {
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
                 new ItemStack(BlockRegistry.MUSHROOT_SAPLING, 5),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 3),
+                new ItemStack(BlockRegistry.SPOOKROOT_SAPLING, 5),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(

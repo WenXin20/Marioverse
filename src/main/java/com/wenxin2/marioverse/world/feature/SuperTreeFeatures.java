@@ -31,6 +31,14 @@ public class SuperTreeFeatures {
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mega_mushroot"));
     public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_MUSHROOT_BEES_002 =
             ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mega_mushroot_bees_002"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SPOOKROOT = ResourceKey.create(Registries.CONFIGURED_FEATURE,
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spookroot"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SPOOKROOT_BEES_002 = ResourceKey.create(Registries.CONFIGURED_FEATURE,
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "spookroot_bees_002"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_SPOOKROOT =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mega_spookroot"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_SPOOKROOT_BEES_002 =
+            ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "mega_spookroot_bees_002"));
 
     private static TreeConfiguration.TreeConfigurationBuilder createMushroot() {
         return createMushrootTree().ignoreVines();
@@ -58,6 +66,32 @@ public class SuperTreeFeatures {
         ).ignoreVines();
     }
 
+    private static TreeConfiguration.TreeConfigurationBuilder createSpookroot() {
+        return createSpookrootTree().ignoreVines();
+    }
+
+    private static TreeConfiguration.TreeConfigurationBuilder createSpookrootTree() {
+        return new TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(BlockRegistry.SPOOKROOT_LOG.get()),
+                new StraightTrunkPlacer(4, 4, 0),
+                BlockStateProvider.simple(BlockRegistry.SPOOKROOT_LEAVES.get()),
+                new FancyFoliagePlacer(UniformInt.of(2, 3), ConstantInt.of(1), 4),
+                new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))
+        );
+    }
+
+    private static TreeConfiguration.TreeConfigurationBuilder createMegaSpookrootTree() {
+        return new TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(BlockRegistry.SPOOKROOT_LOG.get()),
+                new TaperingTrunkPlacer(true, 7, 5, 0, UniformInt.of(1, 2),
+                        new TaperingTrunkPlacer.BranchConfig(ConstantInt.of(2), UniformInt.of(3, 4),
+                                UniformInt.of(3, 6), UniformInt.of(4, 6))),
+                BlockStateProvider.simple(BlockRegistry.SPOOKROOT_LEAVES.get()),
+                new DomeFoliagePlacer(UniformInt.of(4, 5), ConstantInt.of(4), UniformInt.of(5, 8)),
+                new TwoLayersFeatureSize(1, 0, 2, OptionalInt.of(6))
+        ).ignoreVines();
+    }
+
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         BeehiveDecorator beehiveDecorator2 = new BeehiveDecorator(0.02F);
         FeatureUtils.register(context, MUSHROOT, Feature.TREE, createMushroot().build());
@@ -65,6 +99,12 @@ public class SuperTreeFeatures {
                 .decorators(List.of(beehiveDecorator2)).build());
         FeatureUtils.register(context, MEGA_MUSHROOT, Feature.TREE, createMegaMushrootTree().build());
         FeatureUtils.register(context, MEGA_MUSHROOT_BEES_002, Feature.TREE, createMegaMushrootTree()
+                .decorators(List.of(beehiveDecorator2)).build());
+        FeatureUtils.register(context, SPOOKROOT, Feature.TREE, createSpookroot().build());
+        FeatureUtils.register(context, SPOOKROOT_BEES_002, Feature.TREE, createSpookroot()
+                .decorators(List.of(beehiveDecorator2)).build());
+        FeatureUtils.register(context, MEGA_SPOOKROOT, Feature.TREE, createMegaSpookrootTree().build());
+        FeatureUtils.register(context, MEGA_SPOOKROOT_BEES_002, Feature.TREE, createMegaSpookrootTree()
                 .decorators(List.of(beehiveDecorator2)).build());
     }
 }

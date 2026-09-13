@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_glass": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:glass_blocks/colorless"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_spookroot_panels": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:spookroot_panels"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:spookroot_framed_window_from_spookroot_panels"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_glass",
+      "has_spookroot_panels"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:spookroot_framed_window_from_spookroot_panels"
+    ]
+  }
+}

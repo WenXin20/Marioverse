@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "marioverse:block/spookroot_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "marioverse:block/spookroot_log"
+    },
+    "axis=z": {
+      "model": "marioverse:block/spookroot_log_horizontal",
+      "x": 90
+    }
+  }
+}

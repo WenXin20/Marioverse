@@ -89,6 +89,8 @@ public class EntityRegistry {
     public static final DeferredHolder<EntityType<?>, EntityType<MiniMushroomEntity>> MINI_MUSHROOM;
     public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeBoat>> MUSHROOT_BOAT;
     public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeChestBoat>> MUSHROOT_CHEST_BOAT;
+    public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeBoat>> SPOOKROOT_BOAT;
+    public static final DeferredHolder<EntityType<?>, EntityType<WoodTypeChestBoat>> SPOOKROOT_CHEST_BOAT;
     public static final DeferredHolder<EntityType<?>, EntityType<OneUpMushroomEntity>> ONE_UP_MUSHROOM;
     public static final DeferredHolder<EntityType<?>, EntityType<PiranhaPlantEntity>> PIRANHA_PLANT;
     public static final DeferredHolder<EntityType<?>, EntityType<PokeyEntity>> POKEY;
@@ -261,6 +263,16 @@ public class EntityRegistry {
                                 -> new WoodTypeChestBoat(type, level, ItemRegistry.MUSHROOT_CHEST_BOAT.get()), MobCategory.MISC)
                         .sized(1.375F, 0.5625F).clientTrackingRange(10)
                         .build("mushroot_chest_boat"));
+        SPOOKROOT_BOAT = Marioverse.ENTITIES.register("spookroot_boat",
+                () -> EntityType.Builder.<WoodTypeBoat>of((type, level)
+                                -> new WoodTypeBoat(type, level, ItemRegistry.SPOOKROOT_BOAT.get()), MobCategory.MISC)
+                        .sized(1.375F, 0.5625F).clientTrackingRange(10)
+                        .build("spookroot_boat"));
+        SPOOKROOT_CHEST_BOAT = Marioverse.ENTITIES.register("spookroot_chest_boat",
+                () -> EntityType.Builder.<WoodTypeChestBoat>of((type, level)
+                                -> new WoodTypeChestBoat(type, level, ItemRegistry.SPOOKROOT_CHEST_BOAT.get()), MobCategory.MISC)
+                        .sized(1.375F, 0.5625F).clientTrackingRange(10)
+                        .build("spookroot_chest_boat"));
     }
 
     @SubscribeEvent

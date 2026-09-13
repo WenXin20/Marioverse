@@ -130,6 +130,8 @@ public class TagRegistry {
     public static final TagKey<Block> QUESTION_PANEL_BLOCKS = blockTags("question_panels");
     public static final TagKey<Block> SMASHABLE_BLOCKS = blockTags("smashable_blocks");
     public static final TagKey<Block> SNOWBALL_EXTINGUISHES = blockTags("snowball_extinguishes");
+    public static final TagKey<Block> SPOOKROOT_LOGS = blockTags("spookroot_logs");
+    public static final TagKey<Block> SPOOKROOT_PLANKS = blockTags("spookroot_planks");
     public static final TagKey<Block> STONE_HARD_BLOCKS = blockTags("hard_blocks/stone");
     public static final TagKey<Block> STONE_HARD_SLABS = blockTags("hard_slabs/stone");
     public static final TagKey<Block> STONE_HARD_STAIRS = blockTags("hard_stairs/stone");
@@ -279,6 +281,8 @@ public class TagRegistry {
     public static final TagKey<Item> SHIRTS = itemTags("shirts");
     public static final TagKey<Item> SHOES = itemTags("shoes");
     public static final TagKey<Item> SMASHABLE_BLOCK_ITEMS = itemTags("smashable_blocks");
+    public static final TagKey<Item> SPOOKROOT_LOG_ITEMS = itemTags("spookroot_logs");
+    public static final TagKey<Item> SPOOKROOT_PLANK_ITEMS = itemTags("spookroot_planks");
     public static final TagKey<Item> STONE_HARD_BLOCK_ITEMS = itemTags("hard_blocks/stone");
     public static final TagKey<Item> STONE_HARD_SLAB_ITEMS = itemTags("hard_slabs/stone");
     public static final TagKey<Item> STONE_HARD_STAIR_ITEMS = itemTags("hard_stairs/stone");

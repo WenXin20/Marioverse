@@ -14,4 +14,14 @@ public class SuperTreeGrower {
             Optional.empty(),
             Optional.empty()
     );
+
+    public static final TreeGrower SPOOKROOT = new TreeGrower(
+            "spookroot", 0.1F,
+            Optional.of(SuperTreeFeatures.MEGA_SPOOKROOT),
+            Optional.of(SuperTreeFeatures.MEGA_SPOOKROOT_BEES_002),
+            Optional.of(SuperTreeFeatures.SPOOKROOT),
+            Optional.of(SuperTreeFeatures.SPOOKROOT_BEES_002),
+            Optional.empty(),
+            Optional.empty()
+    );
 }

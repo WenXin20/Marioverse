@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "marioverse:block/stripped_spookroot_log_top",
+    "side": "marioverse:block/stripped_spookroot_log"
+  }
+}

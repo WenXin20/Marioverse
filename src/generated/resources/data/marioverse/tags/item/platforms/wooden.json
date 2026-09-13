@@ -1,6 +1,8 @@
 {
   "values": [
     "marioverse:mushroot_log_platform",
-    "marioverse:stripped_mushroot_log_platform"
+    "marioverse:stripped_mushroot_log_platform",
+    "marioverse:spookroot_log_platform",
+    "marioverse:stripped_spookroot_log_platform"
   ]
 }

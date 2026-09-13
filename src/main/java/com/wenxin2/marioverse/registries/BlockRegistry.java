@@ -348,6 +348,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> HARD_OAK_SLAB;
     public static final DeferredBlock<Block> HARD_OAK_STAIRS;
     public static final DeferredBlock<Block> HARD_OAK_WALL;
+    public static final DeferredBlock<Block> HARD_SPOOKROOT_BLOCK;
+    public static final DeferredBlock<Block> HARD_SPOOKROOT_SLAB;
+    public static final DeferredBlock<Block> HARD_SPOOKROOT_STAIRS;
+    public static final DeferredBlock<Block> HARD_SPOOKROOT_WALL;
     public static final DeferredBlock<Block> HARD_SPRUCE_BLOCK;
     public static final DeferredBlock<Block> HARD_SPRUCE_SLAB;
     public static final DeferredBlock<Block> HARD_SPRUCE_STAIRS;
@@ -414,6 +418,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> LARGE_MUSHROOT_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_OAK_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPOOKROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPOOKROOT_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_SPRUCE_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_SPRUCE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_WARPED_ARROW_SIGN;
@@ -525,6 +531,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_SHROOMGRASS;
     public static final DeferredBlock<Block> POTTED_SHRUBROOM;
     public static final DeferredBlock<Block> POTTED_SNOWY_HEDGE;
+    public static final DeferredBlock<Block> POTTED_SPOOKROOT_SAPLING;
     public static final DeferredBlock<Block> POTTED_WHITE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_YELLOW_BLOOMFLOWER;
@@ -600,6 +607,40 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SPIKE_PANEL;
     public static final DeferredBlock<Block> SPLUNKIN_CARVED_PUMPKIN;
     public static final DeferredBlock<Block> SPLUNKIN_O_LANTERN;
+    public static final DeferredBlock<Block> SPOOKROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_BOARDS;
+    public static final DeferredBlock<Block> SPOOKROOT_BOARD_SLAB;
+    public static final DeferredBlock<Block> SPOOKROOT_BOARD_STAIRS;
+    public static final DeferredBlock<Block> SPOOKROOT_BOARD_WALL;
+    public static final DeferredBlock<Block> SPOOKROOT_BUTTON;
+    public static final DeferredBlock<Block> SPOOKROOT_DOOR;
+    public static final DeferredBlock<Block> SPOOKROOT_FENCE;
+    public static final DeferredBlock<Block> SPOOKROOT_FENCE_GATE;
+    public static final DeferredBlock<Block> SPOOKROOT_FRAMED_WINDOW;
+    public static final DeferredBlock<Block> SPOOKROOT_FRAMED_WINDOW_PANE;
+    public static final DeferredBlock<Block> SPOOKROOT_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_HANGING_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_LEAVES;
+    public static final DeferredBlock<Block> SPOOKROOT_LOG;
+    public static final DeferredBlock<Block> SPOOKROOT_LOG_BRIDGE;
+    public static final DeferredBlock<Block> SPOOKROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> SPOOKROOT_LOG_PLATFORM;
+    public static final DeferredBlock<Block> SPOOKROOT_PANELS;
+    public static final DeferredBlock<Block> SPOOKROOT_PANEL_SLAB;
+    public static final DeferredBlock<Block> SPOOKROOT_PANEL_STAIRS;
+    public static final DeferredBlock<Block> SPOOKROOT_PANEL_WALL;
+    public static final DeferredBlock<Block> SPOOKROOT_PICKET_FENCE;
+    public static final DeferredBlock<Block> SPOOKROOT_PLANKS;
+    public static final DeferredBlock<Block> SPOOKROOT_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> SPOOKROOT_SAPLING;
+    public static final DeferredBlock<Block> SPOOKROOT_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_SLAB;
+    public static final DeferredBlock<Block> SPOOKROOT_STAIRS;
+    public static final DeferredBlock<Block> SPOOKROOT_TRAPDOOR;
+    public static final DeferredBlock<Block> SPOOKROOT_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_WALL_HANGING_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_WALL_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_WOOD;
     public static final DeferredBlock<Block> SPRUCE_ARROW_SIGN;
     public static final DeferredBlock<Block> SPRUCE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
@@ -663,6 +704,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_MUSHROOT_WOOD;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_LOG;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_LOG_PLATFORM;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_WOOD;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE;
@@ -1107,7 +1153,7 @@ public class BlockRegistry {
                         .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
 
         MUSHROOT_LOG_BRIDGE_STAIRS = registerBlock("mushroot_log_bridge_stairs",
-                () -> new BridgeStairBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                () -> new BridgeStairBlock(BlockRegistry.MUSHROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
                         .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.PODZOL)));
 
         STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS = registerBlock("stripped_mushroot_log_bridge_stairs",
@@ -1163,6 +1209,152 @@ public class BlockRegistry {
 
         POTTED_MUSHROOT_SAPLING = registerNoItemBlock("potted_mushroot_sapling",
                 () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.MUSHROOT_SAPLING,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        SPOOKROOT_LOG = registerBlock("spookroot_log", () -> log(MapColor.WOOD, MapColor.TERRACOTTA_ORANGE));
+
+        STRIPPED_SPOOKROOT_LOG = registerBlock("stripped_spookroot_log", () -> log(MapColor.WOOD, MapColor.WOOD));
+
+        SPOOKROOT_WOOD = registerBlock("spookroot_wood", () -> log(MapColor.TERRACOTTA_ORANGE, MapColor.TERRACOTTA_ORANGE));
+
+        STRIPPED_SPOOKROOT_WOOD = registerBlock("stripped_spookroot_wood", () -> log(MapColor.WOOD, MapColor.WOOD));
+
+        SPOOKROOT_LEAVES = registerBlock("spookroot_leaves", () -> leaves(SoundType.GRASS));
+
+        SPOOKROOT_PLANKS = registerBlock("spookroot_planks",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
+                        .instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD)
+                        .strength(2.0F, 3.0F).ignitedByLava()));
+
+        SPOOKROOT_STAIRS = registerBlock("spookroot_stairs", () -> stair(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_SLAB = registerBlock("spookroot_slab", () -> slab(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_FENCE = registerBlock("spookroot_fence", () -> fence(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_FENCE_GATE = registerBlock("spookroot_fence_gate",
+                () -> fenceGate(WoodTypeRegistry.SPOOKROOT, SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_DOOR = registerBlock("spookroot_door",
+                () -> new DoorBlock(BlockSetTypeRegistry.SPOOKROOT, BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())
+                        .pushReaction(PushReaction.DESTROY).strength(3.0F)
+                        .noOcclusion().ignitedByLava()));
+
+        SPOOKROOT_TRAPDOOR = registerBlock("spookroot_trapdoor",
+                () -> new TrapDoorBlock(BlockSetTypeRegistry.SPOOKROOT, BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())
+                        .pushReaction(PushReaction.DESTROY).isValidSpawn(Blocks::never).strength(3.0F)
+                        .noOcclusion().ignitedByLava()));
+
+        SPOOKROOT_BUTTON = registerBlock("spookroot_button", () -> button(SPOOKROOT_PLANKS.get(),
+                BlockSetTypeRegistry.SPOOKROOT, 10));
+
+        SPOOKROOT_PRESSURE_PLATE = registerBlock("spookroot_pressure_plate", () -> pressurePlate(SPOOKROOT_PLANKS.get(),
+                BlockSetTypeRegistry.SPOOKROOT));
+
+        SPOOKROOT_HANGING_SIGN = registerNoItemBlock("spookroot_hanging_sign",
+                () -> new CeilingHangingSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.WOOD)));
+
+        SPOOKROOT_WALL_HANGING_SIGN = registerNoItemBlock("spookroot_wall_hanging_sign",
+                () -> new WallHangingSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).mapColor(MapColor.WOOD)));
+
+        SPOOKROOT_SIGN = registerNoItemBlock("spookroot_sign",
+                () -> new StandingSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+
+        SPOOKROOT_WALL_SIGN = registerNoItemBlock("spookroot_wall_sign",
+                () -> new WallSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        SPOOKROOT_ARROW_SIGN = registerNoItemBlock("spookroot_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+
+        SPOOKROOT_WALL_ARROW_SIGN = registerNoItemBlock("spookroot_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)
+                                .lootFrom(SPOOKROOT_ARROW_SIGN)));
+
+        SPOOKROOT_HANGING_ARROW_SIGN = registerNoItemBlock("spookroot_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.WOOD)
+                                .lootFrom(SPOOKROOT_ARROW_SIGN)));
+
+        LARGE_SPOOKROOT_ARROW_SIGN = registerNoItemBlock("large_spookroot_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+
+        LARGE_SPOOKROOT_WALL_ARROW_SIGN = registerNoItemBlock("large_spookroot_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)
+                                .lootFrom(LARGE_SPOOKROOT_ARROW_SIGN)));
+
+        SPOOKROOT_LOG_BRIDGE = registerBlock("spookroot_log_bridge",
+                () -> new BridgeBlock(BlockRegistry.SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_SPOOKROOT_LOG_BRIDGE = registerBlock("stripped_spookroot_log_bridge",
+                () -> new BridgeBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        SPOOKROOT_LOG_BRIDGE_STAIRS = registerBlock("spookroot_log_bridge_stairs",
+                () -> new BridgeStairBlock(BlockRegistry.SPOOKROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                        .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS = registerBlock("stripped_spookroot_log_bridge_stairs",
+                () -> new BridgeStairBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        SPOOKROOT_LOG_PLATFORM = registerBlock("spookroot_log_platform",
+                () -> new LogPlatformBlock(BlockRegistry.SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        STRIPPED_SPOOKROOT_LOG_PLATFORM = registerBlock("stripped_spookroot_log_platform",
+                () -> new LogPlatformBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        SPOOKROOT_BOARDS = registerBlock("spookroot_boards",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())));
+
+        SPOOKROOT_BOARD_STAIRS = registerBlock("spookroot_board_stairs", () -> stair(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_BOARD_SLAB = registerBlock("spookroot_board_slab", () -> slab(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_BOARD_WALL = registerBlock("spookroot_board_wall", () -> wall(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_PANELS = registerBlock("spookroot_panels",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())));
+
+        SPOOKROOT_PANEL_STAIRS = registerBlock("spookroot_panel_stairs", () -> stair(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_PANEL_SLAB = registerBlock("spookroot_panel_slab", () -> slab(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_PANEL_WALL = registerBlock("spookroot_panel_wall", () -> wall(SPOOKROOT_PLANKS.get()));
+
+        HARD_SPOOKROOT_BLOCK = registerBlock("hard_spookroot_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())
+                        .strength(4.0F, 8.0F)));
+
+        HARD_SPOOKROOT_STAIRS = registerBlock("hard_spookroot_stairs", () -> stair(HARD_SPOOKROOT_BLOCK.get()));
+
+        HARD_SPOOKROOT_SLAB = registerBlock("hard_spookroot_slab", () -> slab(HARD_SPOOKROOT_BLOCK.get()));
+
+        HARD_SPOOKROOT_WALL = registerBlock("hard_spookroot_wall", () -> wall(HARD_SPOOKROOT_BLOCK.get()));
+
+        SPOOKROOT_FRAMED_WINDOW = registerBlock("spookroot_framed_window",
+                () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).ignitedByLava()));
+
+        SPOOKROOT_FRAMED_WINDOW_PANE = registerBlock("spookroot_framed_window_pane",
+                () -> new IronBarsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS_PANE).ignitedByLava()));
+
+        SPOOKROOT_SAPLING = registerBlock("spookroot_sapling",
+                () -> new SaplingBlock(SuperTreeGrower.SPOOKROOT, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                        .noCollission().randomTicks().instabreak()));
+
+        POTTED_SPOOKROOT_SAPLING = registerNoItemBlock("potted_spookroot_sapling",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SPOOKROOT_SAPLING,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
 
@@ -1255,6 +1447,8 @@ public class BlockRegistry {
         WARPED_PICKET_FENCE = registerBlock("warped_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE)));
         MUSHROOT_PICKET_FENCE = registerBlock("mushroot_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+        SPOOKROOT_PICKET_FENCE = registerBlock("spookroot_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
         WHITE_PICKET_FENCE = registerBlock("white_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.SNOW)));
@@ -2525,6 +2719,7 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
         pot.addPlant(BlockRegistry.HEDGE.getId(), BlockRegistry.POTTED_HEDGE);
         pot.addPlant(BlockRegistry.MUSHROOT_SAPLING.getId(), BlockRegistry.POTTED_MUSHROOT_SAPLING);
+        pot.addPlant(BlockRegistry.SPOOKROOT_SAPLING.getId(), BlockRegistry.POTTED_SPOOKROOT_SAPLING);
         pot.addPlant(BlockRegistry.ORANGE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_ORANGE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.PINK_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PINK_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.PINK_ROSE_HEDGE.getId(), BlockRegistry.POTTED_PINK_ROSE_HEDGE);

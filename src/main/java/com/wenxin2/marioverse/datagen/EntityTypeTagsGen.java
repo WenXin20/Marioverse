@@ -33,7 +33,9 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         tag(Tags.EntityTypes.BOATS)
                 .add(EntityRegistry.MUSHROOT_BOAT.get())
-                .add(EntityRegistry.MUSHROOT_CHEST_BOAT.get());
+                .add(EntityRegistry.MUSHROOT_CHEST_BOAT.get())
+                .add(EntityRegistry.SPOOKROOT_BOAT.get())
+                .add(EntityRegistry.SPOOKROOT_CHEST_BOAT.get());
 
         tag(EntityTypeTags.AQUATIC)
                 .addTag(TagRegistry.CHEEP_CHEEPS);

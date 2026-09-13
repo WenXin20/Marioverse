@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class WoodTypeRegistry {
     public static final WoodType MUSHROOT;
+    public static final WoodType SPOOKROOT;
 
     // Custom marioverse-namespaced WoodTypes for each vanilla wood, reusing the vanilla BlockSetType
     // (so sounds/interactions match vanilla) but with our own name so arrow sign texture resolution
@@ -25,6 +26,7 @@ public class WoodTypeRegistry {
 
     static {
         MUSHROOT = WoodType.register(new WoodType(Marioverse.MOD_ID + ":mushroot", BlockSetTypeRegistry.MUSHROOT));
+        SPOOKROOT = WoodType.register(new WoodType(Marioverse.MOD_ID + ":spookroot", BlockSetTypeRegistry.SPOOKROOT));
 
         OAK = WoodType.register(new WoodType(Marioverse.MOD_ID + ":oak", BlockSetType.OAK));
         SPRUCE = WoodType.register(new WoodType(Marioverse.MOD_ID + ":spruce", BlockSetType.SPRUCE));

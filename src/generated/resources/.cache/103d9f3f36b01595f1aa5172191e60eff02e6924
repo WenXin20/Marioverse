@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-30T18:18:25.4003102	Registries
+// 1.21.1	2026-09-12T22:55:42.8540604	Registries
 61b72938b4d73788d68c5721a35619b143f82eb2 data/marioverse/banner_pattern/bowser.json
 d4a73076526d03c9ff5d2be3525ff57d5d09ecaf data/marioverse/banner_pattern/plumber.json
 8ae0af93edd40ac1cb2f40b406efa8566285ffef data/marioverse/damage_type/bonked.json
@@ -27,5 +27,9 @@ db0aa45c0655ea8a0e111fc7e41f6ddf261a4a04 data/marioverse/damage_type/snow_pokey_
 616e93eae16b46ee49f2a4da6717f85c8b5570ce data/marioverse/damage_type/super_star.json
 d50df998cfbd4fc9cc2a868c91cc9c9b442edc7d data/marioverse/worldgen/configured_feature/mega_mushroot.json
 b3bae556ad61b6c52883a50edcfdcc6f31ce23fe data/marioverse/worldgen/configured_feature/mega_mushroot_bees_002.json
+de841762fea9d6e107671d45de1f8f6e40c03231 data/marioverse/worldgen/configured_feature/mega_spookroot.json
+ec04c2f045032e16794515f5cab88ddb23bd6885 data/marioverse/worldgen/configured_feature/mega_spookroot_bees_002.json
 a88a11f155057cc11dde43b57cdd5fa9712ce0e7 data/marioverse/worldgen/configured_feature/mushroot.json
 b2ddc4c975da93daf8ffe6ea9caba03f7c2ccc99 data/marioverse/worldgen/configured_feature/mushroot_bees_002.json
+6d1f0338e2f0dbcb15cbd0130d2e470c569ae892 data/marioverse/worldgen/configured_feature/spookroot.json
+49e7230bb6415ed7775c8c2f4061ff1238408317 data/marioverse/worldgen/configured_feature/spookroot_bees_002.json

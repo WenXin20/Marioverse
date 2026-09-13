@@ -1,0 +1,8 @@
+{
+  "parent": "marioverse:block/template_log_platform",
+  "textures": {
+    "end": "marioverse:block/stripped_spookroot_log_top",
+    "log": "marioverse:block/stripped_spookroot_log",
+    "top": "marioverse:block/stripped_spookroot_log_platform"
+  }
+}

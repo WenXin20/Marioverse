@@ -57,6 +57,12 @@
     "marioverse:snowy_hedge": {
       "chance": 0.85
     },
+    "marioverse:spookroot_leaves": {
+      "chance": 0.3
+    },
+    "marioverse:spookroot_sapling": {
+      "chance": 0.3
+    },
     "marioverse:tall_shroomgrass": {
       "chance": 0.5
     },

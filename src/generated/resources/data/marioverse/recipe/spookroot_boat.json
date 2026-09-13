@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "marioverse:boats",
+  "key": {
+    "P": {
+      "tag": "marioverse:spookroot_planks"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:spookroot_boat"
+  }
+}

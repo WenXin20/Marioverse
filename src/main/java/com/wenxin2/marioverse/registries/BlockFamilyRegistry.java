@@ -98,6 +98,30 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .planks(BlockRegistry.MUSHROOT_PLANKS.get())
             .getFamily();
 
+    public static final BlockFamilyExtended SPOOKROOT_LOG = familyBuilder(BlockRegistry.SPOOKROOT_LOG.get())
+            .bridge(BlockRegistry.SPOOKROOT_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.SPOOKROOT_LOG_BRIDGE_STAIRS.get())
+            .logPlatform(BlockRegistry.SPOOKROOT_LOG_PLATFORM.get())
+            .planks(BlockRegistry.SPOOKROOT_PLANKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_SPOOKROOT_LOG = familyBuilder(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get())
+            .bridge(BlockRegistry.STRIPPED_SPOOKROOT_LOG_BRIDGE.get())
+            .bridgeStairs(BlockRegistry.STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS.get())
+            .hangingSign(BlockRegistry.SPOOKROOT_HANGING_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_HANGING_SIGN.get())
+            .logPlatform(BlockRegistry.STRIPPED_SPOOKROOT_LOG_PLATFORM.get())
+            .planks(BlockRegistry.SPOOKROOT_PLANKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPOOKROOT_WOOD = familyBuilder(BlockRegistry.SPOOKROOT_WOOD.get())
+            .planks(BlockRegistry.SPOOKROOT_PLANKS.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended STRIPPED_SPOOKROOT_WOOD = familyBuilder(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get())
+            .hangingSign(BlockRegistry.SPOOKROOT_HANGING_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_HANGING_SIGN.get())
+            .planks(BlockRegistry.SPOOKROOT_PLANKS.get())
+            .getFamily();
+
     public static final BlockFamilyExtended DARK_OAK_LOG = familyBuilder(Blocks.DARK_OAK_LOG)
             .bridge(BlockRegistry.DARK_OAK_LOG_BRIDGE.get())
             .bridgeStairs(BlockRegistry.DARK_OAK_LOG_BRIDGE_STAIRS.get())
@@ -192,6 +216,18 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
             .getFamily();
 
+    public static final BlockFamilyExtended SPOOKROOT_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_SLAB.get())
+            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPOOKROOT_BOARD_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_BOARD_SLAB.get())
+            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPOOKROOT_PANEL_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_PANEL_SLAB.get())
+            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .getFamily();
+
     public static final BlockFamilyExtended OAK_SLAB = familyBuilder(Blocks.OAK_SLAB)
             .picketFence(BlockRegistry.OAK_PICKET_FENCE.get())
             .getFamily();
@@ -247,6 +283,51 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended MUSHROOT_FRAMED_WINDOW = familyBuilder(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
             .windowPane(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPOOKROOT_PLANKS = familyBuilder(BlockRegistry.SPOOKROOT_PLANKS.get())
+            .arrowSign(BlockRegistry.SPOOKROOT_ARROW_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_ARROW_SIGN.get(), BlockRegistry.SPOOKROOT_HANGING_ARROW_SIGN.get())
+            .boards(BlockRegistry.SPOOKROOT_BOARDS.get())
+            .button(BlockRegistry.SPOOKROOT_BUTTON.get())
+            .door(BlockRegistry.SPOOKROOT_DOOR.get())
+            .hardBlock(BlockRegistry.HARD_SPOOKROOT_BLOCK.get())
+            .fence(BlockRegistry.SPOOKROOT_FENCE.get())
+            .fenceGate(BlockRegistry.SPOOKROOT_FENCE_GATE.get())
+            .largeArrowSign(BlockRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_SPOOKROOT_WALL_ARROW_SIGN.get())
+            .panelsFromBoards(BlockRegistry.SPOOKROOT_PANELS.get())
+            .pressurePlate(BlockRegistry.SPOOKROOT_PRESSURE_PLATE.get())
+            .sign(BlockRegistry.SPOOKROOT_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_SIGN.get())
+            .slab(BlockRegistry.SPOOKROOT_SLAB.get())
+            .stairs(BlockRegistry.SPOOKROOT_STAIRS.get())
+            .trapdoor(BlockRegistry.SPOOKROOT_TRAPDOOR.get())
+            .window(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPOOKROOT_BOARDS = familyBuilder(BlockRegistry.SPOOKROOT_BOARDS.get())
+            .hardBlock(BlockRegistry.HARD_SPOOKROOT_BLOCK.get())
+            .panels(BlockRegistry.SPOOKROOT_PANELS.get())
+            .slab(BlockRegistry.SPOOKROOT_BOARD_SLAB.get())
+            .stairs(BlockRegistry.SPOOKROOT_BOARD_STAIRS.get())
+            .wall(BlockRegistry.SPOOKROOT_BOARD_WALL.get())
+            .window(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPOOKROOT_PANELS = familyBuilder(BlockRegistry.SPOOKROOT_PANELS.get())
+            .hardBlock(BlockRegistry.HARD_SPOOKROOT_BLOCK.get())
+            .slab(BlockRegistry.SPOOKROOT_PANEL_SLAB.get())
+            .stairs(BlockRegistry.SPOOKROOT_PANEL_STAIRS.get())
+            .wall(BlockRegistry.SPOOKROOT_PANEL_WALL.get())
+            .window(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended HARD_SPOOKROOT_BLOCK = familyBuilder(BlockRegistry.HARD_SPOOKROOT_BLOCK.get())
+            .slab(BlockRegistry.HARD_SPOOKROOT_SLAB.get())
+            .stairs(BlockRegistry.HARD_SPOOKROOT_STAIRS.get())
+            .wall(BlockRegistry.HARD_SPOOKROOT_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended SPOOKROOT_FRAMED_WINDOW = familyBuilder(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get())
+            .windowPane(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.get())
             .getFamily();
 
     public static final BlockFamilyExtended AMETHYST = familyBuilder(Blocks.AMETHYST_BLOCK)

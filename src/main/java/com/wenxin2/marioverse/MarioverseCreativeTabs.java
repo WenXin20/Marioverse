@@ -180,6 +180,8 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MUSHROOT_BOAT);
             add(event, ItemRegistry.MUSHROOT_CHEST_BOAT);
+            add(event, ItemRegistry.SPOOKROOT_BOAT);
+            add(event, ItemRegistry.SPOOKROOT_CHEST_BOAT);
 
             add(event, ItemRegistry.SUPER_MUSHROOM_SPAWN_EGG);
             add(event, ItemRegistry.DASH_MUSHROOM_SPAWN_EGG);
@@ -240,9 +242,14 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.SPLUNKIN_O_LANTERN);
 
             add(event, BlockRegistry.MUSHROOT_LOG);
+            add(event, BlockRegistry.SPOOKROOT_LOG);
+
             add(event, BlockRegistry.MUSHROOT_LEAVES);
+            add(event, BlockRegistry.SPOOKROOT_LEAVES);
 
             add(event, BlockRegistry.MUSHROOT_SAPLING);
+            add(event, BlockRegistry.SPOOKROOT_SAPLING);
+
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
             add(event, BlockRegistry.WHITE_BLOOMFLOWER);
@@ -313,6 +320,37 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.MUSHROOT_DOOR);
             add(event, BlockRegistry.MUSHROOT_TRAPDOOR);
+
+            add(event, BlockRegistry.SPOOKROOT_LOG);
+            add(event, BlockRegistry.SPOOKROOT_WOOD);
+            add(event, BlockRegistry.STRIPPED_SPOOKROOT_LOG);
+            add(event, BlockRegistry.STRIPPED_SPOOKROOT_WOOD);
+            add(event, BlockRegistry.SPOOKROOT_PLANKS);
+            add(event, BlockRegistry.SPOOKROOT_STAIRS);
+            add(event, BlockRegistry.SPOOKROOT_SLAB);
+            add(event, BlockRegistry.SPOOKROOT_FENCE);
+            add(event, BlockRegistry.SPOOKROOT_FENCE_GATE);
+            add(event, BlockRegistry.SPOOKROOT_PRESSURE_PLATE);
+            add(event, BlockRegistry.SPOOKROOT_BUTTON);
+            add(event, BlockRegistry.SPOOKROOT_BOARDS);
+            add(event, BlockRegistry.SPOOKROOT_BOARD_STAIRS);
+            add(event, BlockRegistry.SPOOKROOT_BOARD_SLAB);
+            add(event, BlockRegistry.SPOOKROOT_BOARD_WALL);
+            add(event, BlockRegistry.SPOOKROOT_PANELS);
+            add(event, BlockRegistry.SPOOKROOT_PANEL_SLAB);
+            add(event, BlockRegistry.SPOOKROOT_PANEL_STAIRS);
+            add(event, BlockRegistry.SPOOKROOT_PANEL_WALL);
+            add(event, BlockRegistry.HARD_SPOOKROOT_BLOCK);
+            add(event, BlockRegistry.HARD_SPOOKROOT_SLAB);
+            add(event, BlockRegistry.HARD_SPOOKROOT_STAIRS);
+            add(event, BlockRegistry.HARD_SPOOKROOT_WALL);
+            add(event, BlockRegistry.SPOOKROOT_FRAMED_WINDOW);
+            add(event, BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE);
+            add(event, ItemRegistry.SPOOKROOT_SIGN);
+            add(event, ItemRegistry.SPOOKROOT_HANGING_SIGN);
+
+            add(event, BlockRegistry.SPOOKROOT_DOOR);
+            add(event, BlockRegistry.SPOOKROOT_TRAPDOOR);
 
             add(event, BlockRegistry.GRASSY_FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE);
@@ -547,11 +585,14 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CRIMSON_PICKET_FENCE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE);
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
+            add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE);
             add(event, BlockRegistry.RED_PICKET_FENCE);
             add(event, BlockRegistry.WHITE_PICKET_FENCE);
 
             add(event, BlockRegistry.MUSHROOT_LOG_PLATFORM);
             add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM);
+            add(event, BlockRegistry.SPOOKROOT_LOG_PLATFORM);
+            add(event, BlockRegistry.STRIPPED_SPOOKROOT_LOG_PLATFORM);
 
             add(event, BlockRegistry.OAK_LOG_BRIDGE);
             add(event, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
@@ -573,6 +614,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_BAMBOO_BRIDGE);
             add(event, BlockRegistry.MUSHROOT_LOG_BRIDGE);
             add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE);
+            add(event, BlockRegistry.SPOOKROOT_LOG_BRIDGE);
+            add(event, BlockRegistry.STRIPPED_SPOOKROOT_LOG_BRIDGE);
             add(event, BlockRegistry.CRIMSON_STEM_BRIDGE);
             add(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE);
             add(event, BlockRegistry.WARPED_STEM_BRIDGE);
@@ -598,6 +641,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_BAMBOO_BRIDGE_STAIRS);
             add(event, BlockRegistry.MUSHROOT_LOG_BRIDGE_STAIRS);
             add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.SPOOKROOT_LOG_BRIDGE_STAIRS);
+            add(event, BlockRegistry.STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS);
             add(event, BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS);
             add(event, BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS);
             add(event, BlockRegistry.WARPED_STEM_BRIDGE_STAIRS);
@@ -605,6 +650,8 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MUSHROOT_ARROW_SIGN);
             add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN);
             add(event, ItemRegistry.OAK_ARROW_SIGN);
             add(event, ItemRegistry.LARGE_OAK_ARROW_SIGN);
             add(event, ItemRegistry.SPRUCE_ARROW_SIGN);
@@ -668,6 +715,8 @@ public class MarioverseCreativeTabs {
 
             add(event, ItemRegistry.MUSHROOT_SIGN);
             add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
+            add(event, ItemRegistry.SPOOKROOT_SIGN);
+            add(event, ItemRegistry.SPOOKROOT_HANGING_SIGN);
 
             add(event, BlockRegistry.GLOW_BLOCK);
             add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
@@ -828,6 +877,25 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.LEFT);
             add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_LEFT);
             add(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.NONE);
+
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.UP);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_RIGHT);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.RIGHT);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_RIGHT);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.DOWN);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_LEFT);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.LEFT);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_LEFT);
+            add(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.NONE);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.UP);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_RIGHT);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.RIGHT);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_RIGHT);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.DOWN);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.BOTTOM_LEFT);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.LEFT);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_LEFT);
+            add(event, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.NONE);
 
             add(event, ItemRegistry.OAK_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.UP);
             add(event, ItemRegistry.OAK_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_RIGHT);
@@ -1072,10 +1140,13 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
 
                 addAfter(event, Blocks.CHERRY_LOG, BlockRegistry.MUSHROOT_LOG);
+                addAfter(event, BlockRegistry.MUSHROOT_LOG, BlockRegistry.SPOOKROOT_LOG);
 
                 addAfter(event, Blocks.FLOWERING_AZALEA_LEAVES, BlockRegistry.MUSHROOT_LEAVES);
+                addAfter(event, BlockRegistry.MUSHROOT_LEAVES, BlockRegistry.SPOOKROOT_LEAVES);
 
                 addAfter(event, Blocks.CHERRY_SAPLING, BlockRegistry.MUSHROOT_SAPLING);
+                addAfter(event, BlockRegistry.MUSHROOT_SAPLING, BlockRegistry.SPOOKROOT_SAPLING);
 
                 addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.RED_TRAMPOLINE_CAP, BlockRegistry.BLUE_TRAMPOLINE_CAP);
@@ -1243,6 +1314,8 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Items.BAMBOO_CHEST_RAFT, ItemRegistry.MUSHROOT_BOAT);
                 addAfter(event, ItemRegistry.MUSHROOT_BOAT, ItemRegistry.MUSHROOT_CHEST_BOAT);
+                addAfter(event, ItemRegistry.MUSHROOT_CHEST_BOAT, ItemRegistry.SPOOKROOT_BOAT);
+                addAfter(event, ItemRegistry.SPOOKROOT_BOAT, ItemRegistry.SPOOKROOT_CHEST_BOAT);
             }
 
             if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
@@ -1453,6 +1526,41 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MUSHROOT_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS);
                 addAfter(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS, BlockRegistry.MUSHROOT_LOG_BRIDGE);
                 addAfter(event, BlockRegistry.MUSHROOT_LOG_BRIDGE, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE);
+
+                addAfter(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_BRIDGE, BlockRegistry.SPOOKROOT_LOG);
+                addAfter(event, BlockRegistry.SPOOKROOT_LOG, BlockRegistry.SPOOKROOT_WOOD);
+                addAfter(event, BlockRegistry.SPOOKROOT_WOOD, BlockRegistry.STRIPPED_SPOOKROOT_LOG);
+                addAfter(event, BlockRegistry.STRIPPED_SPOOKROOT_LOG, BlockRegistry.STRIPPED_SPOOKROOT_WOOD);
+                addAfter(event, BlockRegistry.STRIPPED_SPOOKROOT_WOOD, BlockRegistry.SPOOKROOT_PLANKS);
+                addAfter(event, BlockRegistry.SPOOKROOT_PLANKS, BlockRegistry.SPOOKROOT_STAIRS);
+                addAfter(event, BlockRegistry.SPOOKROOT_STAIRS, BlockRegistry.SPOOKROOT_SLAB);
+                addAfter(event, BlockRegistry.SPOOKROOT_SLAB, BlockRegistry.SPOOKROOT_FENCE);
+                addAfter(event, BlockRegistry.SPOOKROOT_FENCE, BlockRegistry.SPOOKROOT_FENCE_GATE);
+                addAfter(event, BlockRegistry.SPOOKROOT_FENCE_GATE, BlockRegistry.SPOOKROOT_PICKET_FENCE);
+                addAfter(event, BlockRegistry.SPOOKROOT_PICKET_FENCE, BlockRegistry.SPOOKROOT_BOARDS);
+                addAfter(event, BlockRegistry.SPOOKROOT_BOARDS, BlockRegistry.SPOOKROOT_BOARD_STAIRS);
+                addAfter(event, BlockRegistry.SPOOKROOT_BOARD_STAIRS, BlockRegistry.SPOOKROOT_BOARD_SLAB);
+                addAfter(event, BlockRegistry.SPOOKROOT_BOARD_SLAB, BlockRegistry.SPOOKROOT_BOARD_WALL);
+                addAfter(event, BlockRegistry.SPOOKROOT_BOARD_WALL, BlockRegistry.SPOOKROOT_PANELS);
+                addAfter(event, BlockRegistry.SPOOKROOT_PANELS, BlockRegistry.SPOOKROOT_PANEL_STAIRS);
+                addAfter(event, BlockRegistry.SPOOKROOT_PANEL_STAIRS, BlockRegistry.SPOOKROOT_PANEL_SLAB);
+                addAfter(event, BlockRegistry.SPOOKROOT_PANEL_SLAB, BlockRegistry.SPOOKROOT_PANEL_WALL);
+                addAfter(event, BlockRegistry.SPOOKROOT_PANEL_WALL, BlockRegistry.HARD_SPOOKROOT_BLOCK);
+                addAfter(event, BlockRegistry.HARD_SPOOKROOT_BLOCK, BlockRegistry.HARD_SPOOKROOT_STAIRS);
+                addAfter(event, BlockRegistry.HARD_SPOOKROOT_STAIRS, BlockRegistry.HARD_SPOOKROOT_SLAB);
+                addAfter(event, BlockRegistry.HARD_SPOOKROOT_SLAB, BlockRegistry.HARD_SPOOKROOT_WALL);
+                addAfter(event, BlockRegistry.HARD_SPOOKROOT_WALL, BlockRegistry.SPOOKROOT_FRAMED_WINDOW);
+                addAfter(event, BlockRegistry.SPOOKROOT_FRAMED_WINDOW, BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE);
+                addAfter(event, BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE, BlockRegistry.SPOOKROOT_DOOR);
+                addAfter(event, BlockRegistry.SPOOKROOT_DOOR, BlockRegistry.SPOOKROOT_TRAPDOOR);
+                addAfter(event, BlockRegistry.SPOOKROOT_TRAPDOOR, BlockRegistry.SPOOKROOT_PRESSURE_PLATE);
+                addAfter(event, BlockRegistry.SPOOKROOT_PRESSURE_PLATE, BlockRegistry.SPOOKROOT_BUTTON);
+                addAfter(event, BlockRegistry.SPOOKROOT_BUTTON, BlockRegistry.SPOOKROOT_LOG_PLATFORM);
+                addAfter(event, BlockRegistry.SPOOKROOT_LOG_PLATFORM, BlockRegistry.STRIPPED_SPOOKROOT_LOG_PLATFORM);
+                addAfter(event, BlockRegistry.STRIPPED_SPOOKROOT_LOG_PLATFORM, BlockRegistry.SPOOKROOT_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.SPOOKROOT_LOG_BRIDGE_STAIRS, BlockRegistry.STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS);
+                addAfter(event, BlockRegistry.STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS, BlockRegistry.SPOOKROOT_LOG_BRIDGE);
+                addAfter(event, BlockRegistry.SPOOKROOT_LOG_BRIDGE, BlockRegistry.STRIPPED_SPOOKROOT_LOG_BRIDGE);
 
                 addAfter(event, Blocks.CRIMSON_FENCE_GATE, BlockRegistry.CRIMSON_PICKET_FENCE);
                 addAfter(event, BlockRegistry.CRIMSON_PICKET_FENCE, BlockRegistry.HARD_CRIMSON_BLOCK);
@@ -1870,6 +1978,10 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.MUSHROOT_SIGN, ItemRegistry.MUSHROOT_HANGING_SIGN);
                 addAfter(event, ItemRegistry.MUSHROOT_HANGING_SIGN, ItemRegistry.MUSHROOT_ARROW_SIGN);
                 addAfter(event, ItemRegistry.MUSHROOT_ARROW_SIGN, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN);
+                addAfter(event, ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, ItemRegistry.SPOOKROOT_SIGN);
+                addAfter(event, ItemRegistry.SPOOKROOT_SIGN, ItemRegistry.SPOOKROOT_HANGING_SIGN);
+                addAfter(event, ItemRegistry.SPOOKROOT_HANGING_SIGN, ItemRegistry.SPOOKROOT_ARROW_SIGN);
+                addAfter(event, ItemRegistry.SPOOKROOT_ARROW_SIGN, ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN);
 
                 addAfter(event, Items.CRIMSON_HANGING_SIGN, ItemRegistry.CRIMSON_ARROW_SIGN);
                 addAfter(event, ItemRegistry.CRIMSON_ARROW_SIGN, ItemRegistry.LARGE_CRIMSON_ARROW_SIGN);

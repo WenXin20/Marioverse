@@ -202,6 +202,7 @@ public class MarioverseClient {
                 BlockRegistry.BLUE_BLOOMFLOWER.get(),
                 BlockRegistry.HEDGE.get(),
                 BlockRegistry.MUSHROOT_LEAVES.get(),
+                BlockRegistry.SPOOKROOT_LEAVES.get(),
                 BlockRegistry.ORANGE_BLOOMFLOWER.get(),
                 BlockRegistry.PINK_BLOOMFLOWER.get(),
                 BlockRegistry.PINK_ROSE_HEDGE.get(),
@@ -256,6 +257,9 @@ public class MarioverseClient {
 
         event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
                 BlockRegistry.MUSHROOT_LEAVES.get());
+
+        event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
+                BlockRegistry.SPOOKROOT_LEAVES.get());
 
         event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
                 BlockRegistry.HEDGE.get(),
@@ -357,6 +361,8 @@ public class MarioverseClient {
     private static void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(WoodTypeBoatRenderer.MUSHROOT_BOAT_LAYER, BoatModel::createBodyModel);
         event.registerLayerDefinition(WoodTypeBoatRenderer.MUSHROOT_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel);
+        event.registerLayerDefinition(WoodTypeBoatRenderer.SPOOKROOT_BOAT_LAYER, BoatModel::createBodyModel);
+        event.registerLayerDefinition(WoodTypeBoatRenderer.SPOOKROOT_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel);
     }
 
     @SubscribeEvent
@@ -367,6 +373,12 @@ public class MarioverseClient {
         event.registerEntityRenderer(EntityRegistry.MUSHROOT_CHEST_BOAT.get(),
                 context -> new WoodTypeBoatRenderer(context, true,
                         WoodTypeBoatRenderer.MUSHROOT_CHEST_BOAT_LAYER, Marioverse.id("textures/entity/chest_boat/mushroot.png")));
+        event.registerEntityRenderer(EntityRegistry.SPOOKROOT_BOAT.get(),
+                context -> new WoodTypeBoatRenderer(context, false,
+                        WoodTypeBoatRenderer.SPOOKROOT_BOAT_LAYER, Marioverse.id("textures/entity/boat/spookroot.png")));
+        event.registerEntityRenderer(EntityRegistry.SPOOKROOT_CHEST_BOAT.get(),
+                context -> new WoodTypeBoatRenderer(context, true,
+                        WoodTypeBoatRenderer.SPOOKROOT_CHEST_BOAT_LAYER, Marioverse.id("textures/entity/chest_boat/spookroot.png")));
 
         event.registerEntityRenderer(EntityRegistry.BOUNCING_FIREBALL.get(), BouncingFireballRenderer::new);
         event.registerEntityRenderer(EntityRegistry.BOUNCING_ICE_BALL.get(), BouncingIceBallRenderer::new);

@@ -38,6 +38,8 @@ public class ItemModelGen extends ItemModelProvider {
 
         this.basicBlockItem(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.asItem());
         this.basicBlockItem(BlockRegistry.MUSHROOT_SAPLING.asItem());
+        this.basicBlockItem(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.asItem());
+        this.basicBlockItem(BlockRegistry.SPOOKROOT_SAPLING.asItem());
         this.basicBlockItem(BlockRegistry.SHORT_SHROOMGRASS.asItem());
         this.basicBlockItem(BlockRegistry.SHROOMGRASS.asItem());
 
@@ -47,6 +49,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.HEDGE.asItem());
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
         this.basicItem(BlockRegistry.MUSHROOT_DOOR.asItem());
+        this.basicItem(BlockRegistry.SPOOKROOT_DOOR.asItem());
         this.basicItem(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.SHRUBROOM.asItem());
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
@@ -115,6 +118,10 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.MUSHROOT_CHEST_BOAT.get());
         this.basicItem(ItemRegistry.MUSHROOT_HANGING_SIGN.get());
         this.basicItem(ItemRegistry.MUSHROOT_SIGN.get());
+        this.basicItem(ItemRegistry.SPOOKROOT_BOAT.get());
+        this.basicItem(ItemRegistry.SPOOKROOT_CHEST_BOAT.get());
+        this.basicItem(ItemRegistry.SPOOKROOT_HANGING_SIGN.get());
+        this.basicItem(ItemRegistry.SPOOKROOT_SIGN.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.get());

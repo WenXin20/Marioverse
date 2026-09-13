@@ -172,11 +172,16 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.axisBlocks(modLoc("block/mushroot_log"), BlockRegistry.MUSHROOT_WOOD.get());
         this.axisBlocks(modLoc("block/stripped_mushroot_log"), BlockRegistry.STRIPPED_MUSHROOT_WOOD.get());
+        this.axisBlocks(modLoc("block/spookroot_log"), BlockRegistry.SPOOKROOT_WOOD.get());
+        this.axisBlocks(modLoc("block/stripped_spookroot_log"), BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get());
         this.cubeAllBlocks(BlockRegistry.DEATH_BLOCK.get(),
                 BlockRegistry.MONSTER_DEATH_BLOCK.get(),
                 BlockRegistry.MUSHROOT_BOARDS.get(),
                 BlockRegistry.MUSHROOT_PANELS.get(),
                 BlockRegistry.MUSHROOT_PLANKS.get(),
+                BlockRegistry.SPOOKROOT_BOARDS.get(),
+                BlockRegistry.SPOOKROOT_PANELS.get(),
+                BlockRegistry.SPOOKROOT_PLANKS.get(),
                 BlockRegistry.PASSIVE_DEATH_BLOCK.get(),
                 BlockRegistry.PLAYER_DEATH_BLOCK.get());
         this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(),
@@ -189,6 +194,8 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.WARIO_ABILITY_BLOCK.get());
         this.tintedCubeBottomTopModel(BlockRegistry.MUSHROOT_LEAVES.get(), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_bottom"),
                 blockTexture(BlockRegistry.MUSHROOT_LEAVES.get()), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_top"));
+        this.tintedCubeBottomTopModel(BlockRegistry.SPOOKROOT_LEAVES.get(), texture(BlockRegistry.SPOOKROOT_LEAVES.get(), "_top"),
+                blockTexture(BlockRegistry.SPOOKROOT_LEAVES.get()), texture(BlockRegistry.SPOOKROOT_LEAVES.get(), "_top"));
         this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
@@ -205,6 +212,8 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.DEAD_TUBE_CORAL_TOWER.get());
         this.logBlocks(BlockRegistry.MUSHROOT_LOG.get(),
                 BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
+        this.logBlocks(BlockRegistry.SPOOKROOT_LOG.get(),
+                BlockRegistry.STRIPPED_SPOOKROOT_LOG.get());
         this.picketFenceBlocks(BlockRegistry.ACACIA_PICKET_FENCE.get(),
                 BlockRegistry.BAMBOO_PICKET_FENCE.get(),
                 BlockRegistry.BIRCH_PICKET_FENCE.get(),
@@ -214,6 +223,7 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.JUNGLE_PICKET_FENCE.get(),
                 BlockRegistry.MANGROVE_PICKET_FENCE.get(),
                 BlockRegistry.MUSHROOT_PICKET_FENCE.get(),
+                BlockRegistry.SPOOKROOT_PICKET_FENCE.get(),
                 BlockRegistry.OAK_PICKET_FENCE.get(),
                 BlockRegistry.SPRUCE_PICKET_FENCE.get(),
                 BlockRegistry.WARPED_PICKET_FENCE.get(),
@@ -240,6 +250,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.blossomModel(blossom, blockTexture(blossom), texture(blossom, "_leaves"));
         this.crossModel(BlockRegistry.MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
         this.crossFlowerPotModel(BlockRegistry.POTTED_MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
+        this.crossModel(BlockRegistry.SPOOKROOT_SAPLING.get(), modLoc("block/spookroot_sapling"));
+        this.crossFlowerPotModel(BlockRegistry.POTTED_SPOOKROOT_SAPLING.get(), modLoc("block/spookroot_sapling"));
         this.cubeInnerOverlayModel(quicksand, texture(quicksand, "_top"), blockTexture(quicksand), texture(quicksand, "_top"));
         this.cubeInnerOverlayModel(redQuicksand, texture(redQuicksand, "_top"), blockTexture(redQuicksand), texture(redQuicksand, "_top"));
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), blockTexture(BlockRegistry.CALCITE_CHECKERED_TILES.get()));
@@ -442,7 +454,9 @@ public class BlockStateGen extends BlockStateProvider {
 
                     this.bambooBridgeModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture);
                 } else if (block == BlockFamilyRegistry.MUSHROOT_LOG.get(bridge)
-                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(bridge)) {
+                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(bridge)
+                        || block == BlockFamilyRegistry.SPOOKROOT_LOG.get(bridge)
+                        || block == BlockFamilyRegistry.STRIPPED_SPOOKROOT_LOG.get(bridge)) {
                     sideTexture = modLoc("block/" + removeBridgeName);
                     topTexture = modLoc("block/" + removeBridgeName + "_top");
 
@@ -475,7 +489,9 @@ public class BlockStateGen extends BlockStateProvider {
 
                     this.bambooBridgeStairsModel(block, sideTexture, topTexture, sideBridgeTexture, ropeTexture, ropeSideTexture, ropeKnotTexture);
                 } else if (block == BlockFamilyRegistry.MUSHROOT_LOG.get(bridgeStairs)
-                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(bridgeStairs)) {
+                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(bridgeStairs)
+                        || block == BlockFamilyRegistry.SPOOKROOT_LOG.get(bridgeStairs)
+                        || block == BlockFamilyRegistry.STRIPPED_SPOOKROOT_LOG.get(bridgeStairs)) {
                     removeBridgeName = blockName.replace("_bridge_stairs", "");
                     sideTexture = modLoc("block/" + removeBridgeName);
                     topTexture = modLoc("block/" + removeBridgeName + "_top");
@@ -503,7 +519,8 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removeButtonName);
                     this.buttonBlock(buttonBlock, texture);
                     this.itemModels().buttonInventory(blockName, texture);
-                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(button)) {
+                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(button)
+                        || block == BlockFamilyRegistry.SPOOKROOT_PLANKS.get(button)) {
                     texture = modLoc("block/" + removeButtonName + "_planks");
                     this.buttonBlock(buttonBlock, texture);
                     this.itemModels().buttonInventory(blockName, texture);
@@ -542,7 +559,8 @@ public class BlockStateGen extends BlockStateProvider {
                 String removeFenceName = blockName.replace("_fence", "_planks");
                 ResourceLocation texture;
 
-                if (block == BlockFamilyRegistry.MUSHROOT_BOARDS.get(fence)) {
+                if (block == BlockFamilyRegistry.MUSHROOT_BOARDS.get(fence)
+                        || block == BlockFamilyRegistry.SPOOKROOT_BOARDS.get(fence)) {
                     removeFenceName = blockName.replace("_fence", "s");
                     texture = modLoc("block/" + removeFenceName);
                     this.fenceBlock(fenceBlock, texture);
@@ -565,7 +583,8 @@ public class BlockStateGen extends BlockStateProvider {
                 String removeFenceGateName = blockName.replace("_fence_gate", "_planks");
                 ResourceLocation texture;
 
-                if (block == BlockFamilyRegistry.MUSHROOT_BOARDS.get(fenceGate)) {
+                if (block == BlockFamilyRegistry.MUSHROOT_BOARDS.get(fenceGate)
+                        || block == BlockFamilyRegistry.SPOOKROOT_BOARDS.get(fenceGate)) {
                     removeFenceGateName = blockName.replace("_fence_gate", "s");
                     texture = modLoc("block/" + removeFenceGateName);
                     this.fenceGateBlock(fenceGateBlock, texture);
@@ -676,7 +695,9 @@ public class BlockStateGen extends BlockStateProvider {
 
                     this.logPlatformModel(block, logTexture, endTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.MUSHROOT_LOG.get(platform)
-                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(platform)) {
+                        || block == BlockFamilyRegistry.STRIPPED_MUSHROOT_LOG.get(platform)
+                        || block == BlockFamilyRegistry.SPOOKROOT_LOG.get(platform)
+                        || block == BlockFamilyRegistry.STRIPPED_SPOOKROOT_LOG.get(platform)) {
                     logTexture = modLoc("block/" + removePlatformName);
                     endTexture = modLoc("block/" + removePlatformName + "_top");
 
@@ -762,7 +783,8 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = mcLoc("block/" + removePressurePlateName);
                     this.pressurePlateBlock(pressurePlateBlock, texture);
                     this.itemModels().pressurePlate(blockName, texture);
-                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(pressurePlate)) {
+                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(pressurePlate)
+                        || block == BlockFamilyRegistry.SPOOKROOT_PLANKS.get(pressurePlate)) {
                     texture = modLoc("block/" + removePressurePlateName + "_planks");
                     this.pressurePlateBlock(pressurePlateBlock, texture);
                     this.itemModels().pressurePlate(blockName, texture);
@@ -926,6 +948,7 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_SPOOKROOT_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_OAK_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_SPRUCE_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_BIRCH_BLOCK.get(slab)
@@ -949,7 +972,8 @@ public class BlockStateGen extends BlockStateProvider {
                     topTexture = modLoc("block/" + removeSlabName);
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
-                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(slab)) {
+                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(slab)
+                        || block == BlockFamilyRegistry.SPOOKROOT_PLANKS.get(slab)) {
                     texture = modLoc("block/" + removeSlabName + "_planks");
                     this.slabBlock(slabBlock, texture, texture);
                     this.itemModels().slab(blockName, texture, texture, texture);
@@ -1054,6 +1078,7 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_SPOOKROOT_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_OAK_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_SPRUCE_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_BIRCH_BLOCK.get(stairs)
@@ -1068,7 +1093,8 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = modLoc("block/" + removeStairName + "_block");
                     this.stairsBlock(stairBlock, removeStairName, texture);
                     this.itemModels().stairs(blockName, texture, texture, texture);
-                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(stairs)) {
+                } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(stairs)
+                        || block == BlockFamilyRegistry.SPOOKROOT_PLANKS.get(stairs)) {
                     texture = modLoc("block/" + removeStairName + "_planks");
                     this.stairsBlock(stairBlock, removeStairName, texture);
                     this.itemModels().stairs(blockName, texture, texture, texture);
@@ -1181,7 +1207,12 @@ public class BlockStateGen extends BlockStateProvider {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
                 ResourceLocation texture = modLoc("block/" + blockName);
 
-                this.trapdoorBlock(trapdoorBlock, texture, true);
+                if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(trapdoor)
+                        || block == BlockFamilyRegistry.SPOOKROOT_PLANKS.get(trapdoor)) {
+                    this.trapdoorBlockWithRenderType(trapdoorBlock, texture, true, "cutout_mipped");
+                } else {
+                    this.trapdoorBlock(trapdoorBlock, texture, true);
+                }
                 this.itemModels().trapdoorOrientableBottom(blockName, texture);
             }
         }));
@@ -1214,6 +1245,7 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_SPOOKROOT_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_OAK_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_SPRUCE_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_BIRCH_BLOCK.get(wall)

@@ -108,6 +108,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> ICE_FLOWER_SPAWN_EGG;
     public static final DeferredItem<Item> LARGE_MUSHROOT_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_SPOOKROOT_ARROW_SIGN;
     public static final DeferredItem<Item> LARGE_OAK_ARROW_SIGN;
     public static final DeferredItem<Item> LARGE_SPRUCE_ARROW_SIGN;
     public static final DeferredItem<Item> LARGE_BIRCH_ARROW_SIGN;
@@ -129,6 +130,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MINI_MUSHROOM;
     public static final DeferredItem<Item> MINI_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> MUSHROOT_ARROW_SIGN;
+    public static final DeferredItem<Item> SPOOKROOT_ARROW_SIGN;
     public static final DeferredItem<Item> OAK_ARROW_SIGN;
     public static final DeferredItem<Item> SPRUCE_ARROW_SIGN;
     public static final DeferredItem<Item> BIRCH_ARROW_SIGN;
@@ -144,6 +146,10 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MUSHROOT_CHEST_BOAT;
     public static final DeferredItem<Item> MUSHROOT_HANGING_SIGN;
     public static final DeferredItem<Item> MUSHROOT_SIGN;
+    public static final DeferredItem<Item> SPOOKROOT_BOAT;
+    public static final DeferredItem<Item> SPOOKROOT_CHEST_BOAT;
+    public static final DeferredItem<Item> SPOOKROOT_HANGING_SIGN;
+    public static final DeferredItem<Item> SPOOKROOT_SIGN;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> PANTS;
@@ -214,6 +220,31 @@ public class ItemRegistry {
         LARGE_MUSHROOT_ARROW_SIGN = registerItem("large_mushroot_arrow_sign",
                 () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
                         BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get()));
+
+        SPOOKROOT_BOAT = Marioverse.ITEMS.register("spookroot_boat",
+                () -> new WoodTypeBoatItem(false, EntityRegistry.SPOOKROOT_BOAT.get(),
+                        new Item.Properties().stacksTo(1)));
+        SPOOKROOT_CHEST_BOAT = Marioverse.ITEMS.register("spookroot_chest_boat",
+                () -> new WoodTypeBoatItem(true, EntityRegistry.SPOOKROOT_CHEST_BOAT.get(),
+                        new Item.Properties().stacksTo(1)));
+
+        SPOOKROOT_HANGING_SIGN = registerItem("spookroot_hanging_sign",
+                () -> new HangingSignItem(BlockRegistry.SPOOKROOT_HANGING_SIGN.get(),
+                        BlockRegistry.SPOOKROOT_WALL_HANGING_SIGN.get(),
+                        new Item.Properties().stacksTo(16)));
+
+        SPOOKROOT_SIGN = registerItem("spookroot_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.SPOOKROOT_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_SIGN.get()));
+
+        SPOOKROOT_ARROW_SIGN = registerItem("spookroot_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.SPOOKROOT_ARROW_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.SPOOKROOT_HANGING_ARROW_SIGN.get()));
+
+        LARGE_SPOOKROOT_ARROW_SIGN = registerItem("large_spookroot_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_SPOOKROOT_WALL_ARROW_SIGN.get()));
 
         OAK_ARROW_SIGN = registerItem("oak_arrow_sign",
                 () -> new ArrowSignItem(new Item.Properties().stacksTo(16),

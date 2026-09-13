@@ -135,6 +135,9 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (block == BlockRegistry.MUSHROOT_LEAVES.get())
                         this.add(block, this.createLeavesDrops(BlockRegistry.MUSHROOT_LEAVES.get(),
                                 BlockRegistry.MUSHROOT_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
+                    else if (block == BlockRegistry.SPOOKROOT_LEAVES.get())
+                        this.add(block, this.createLeavesDrops(BlockRegistry.SPOOKROOT_LEAVES.get(),
+                                BlockRegistry.SPOOKROOT_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
                     else if (block == BlockRegistry.SHROOMGRASS_BLOCK.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.SHROOMSOIL.get()));
@@ -178,6 +181,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.DANGO_BLOSSOM.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.MUSHROOT_SAPLING.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.MUSHROOT_SAPLING.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SPOOKROOT_SAPLING.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SPOOKROOT_SAPLING.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.RED_TRAMPOLINE_CAP.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
                     else this.dropSelf(block);

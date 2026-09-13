@@ -3,6 +3,9 @@
     "#marioverse:hard_slabs/wooden",
     "marioverse:mushroot_board_slab",
     "marioverse:mushroot_panel_slab",
-    "marioverse:mushroot_slab"
+    "marioverse:mushroot_slab",
+    "marioverse:spookroot_board_slab",
+    "marioverse:spookroot_panel_slab",
+    "marioverse:spookroot_slab"
   ]
 }

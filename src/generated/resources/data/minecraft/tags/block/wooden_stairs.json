@@ -4,6 +4,9 @@
     "#marioverse:bridge_stairs/wooden",
     "marioverse:mushroot_board_stairs",
     "marioverse:mushroot_panel_stairs",
-    "marioverse:mushroot_stairs"
+    "marioverse:mushroot_stairs",
+    "marioverse:spookroot_board_stairs",
+    "marioverse:spookroot_panel_stairs",
+    "marioverse:spookroot_stairs"
   ]
 }

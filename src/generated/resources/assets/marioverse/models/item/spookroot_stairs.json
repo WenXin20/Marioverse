@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "marioverse:block/spookroot_planks",
+    "side": "marioverse:block/spookroot_planks",
+    "top": "marioverse:block/spookroot_planks"
+  }
+}

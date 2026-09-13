@@ -30,6 +30,8 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.BLUE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.MUSHROOT_LEAVES.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.MUSHROOT_SAPLING.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.SPOOKROOT_LEAVES.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.SPOOKROOT_SAPLING.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.ORANGE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.PINK_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
                 .add(BlockRegistry.PURPLE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
@@ -101,7 +103,9 @@ public class DataMapGen extends DataMapProvider {
 
         builder(NeoForgeDataMaps.STRIPPABLES)
                 .add(BlockRegistry.MUSHROOT_LOG, new Strippable(BlockRegistry.STRIPPED_MUSHROOT_LOG.get()), false)
-                .add(BlockRegistry.MUSHROOT_WOOD, new Strippable(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get()), false);
+                .add(BlockRegistry.MUSHROOT_WOOD, new Strippable(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get()), false)
+                .add(BlockRegistry.SPOOKROOT_LOG, new Strippable(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get()), false)
+                .add(BlockRegistry.SPOOKROOT_WOOD, new Strippable(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get()), false);
 
         builder(NeoForgeDataMaps.WAXABLES)
                 .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get()), false)

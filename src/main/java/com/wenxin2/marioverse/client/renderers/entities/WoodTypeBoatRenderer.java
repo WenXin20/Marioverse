@@ -18,6 +18,10 @@ public class WoodTypeBoatRenderer extends BoatRenderer {
             new ModelLayerLocation(Marioverse.id("boat/mushroot"), "main");
     public static final ModelLayerLocation MUSHROOT_CHEST_BOAT_LAYER =
             new ModelLayerLocation(Marioverse.id("chest_boat/mushroot"), "main");
+    public static final ModelLayerLocation SPOOKROOT_BOAT_LAYER =
+            new ModelLayerLocation(Marioverse.id("boat/spookroot"), "main");
+    public static final ModelLayerLocation SPOOKROOT_CHEST_BOAT_LAYER =
+            new ModelLayerLocation(Marioverse.id("chest_boat/spookroot"), "main");
     private final Pair<ResourceLocation, ListModel<Boat>> boatResource;
 
     public WoodTypeBoatRenderer(EntityRendererProvider.Context context, boolean chestBoat, ModelLayerLocation modelLayer, ResourceLocation texture) {

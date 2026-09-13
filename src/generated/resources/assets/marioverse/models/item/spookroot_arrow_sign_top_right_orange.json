@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/arrow_sign/spookroot_arrow_sign",
+    "layer1": "marioverse:item/arrow_sign/pattern/top_right_orange"
+  }
+}

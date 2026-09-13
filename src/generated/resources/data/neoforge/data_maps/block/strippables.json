@@ -5,6 +5,12 @@
     },
     "marioverse:mushroot_wood": {
       "stripped_block": "marioverse:stripped_mushroot_wood"
+    },
+    "marioverse:spookroot_log": {
+      "stripped_block": "marioverse:stripped_spookroot_log"
+    },
+    "marioverse:spookroot_wood": {
+      "stripped_block": "marioverse:stripped_spookroot_wood"
     }
   }
 }

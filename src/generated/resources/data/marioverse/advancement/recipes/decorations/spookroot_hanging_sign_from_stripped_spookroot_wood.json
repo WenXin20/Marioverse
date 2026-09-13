@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_chain": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:chains"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_stripped_spookroot_wood": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:stripped_spookroot_wood"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:spookroot_hanging_sign_from_stripped_spookroot_wood"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_chain",
+      "has_stripped_spookroot_wood"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:spookroot_hanging_sign_from_stripped_spookroot_wood"
+    ]
+  }
+}

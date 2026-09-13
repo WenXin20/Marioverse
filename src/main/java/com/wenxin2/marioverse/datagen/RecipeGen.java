@@ -101,6 +101,7 @@ public class RecipeGen extends RecipeUtils {
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WALUIGI_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WARIO_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, TagRegistry.MUSHROOT_PLANK_ITEMS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.SPOOKROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, TagRegistry.SPOOKROOT_PLANK_ITEMS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
         arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.OAK_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
         arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.SPRUCE_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.SPRUCE_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
         arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.BIRCH_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.BIRCH_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
@@ -113,6 +114,7 @@ public class RecipeGen extends RecipeUtils {
         arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.CRIMSON_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.CRIMSON_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
         arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.WARPED_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.WARPED_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
         arrowSignFromDyeRecipe(ItemRegistry.MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.SPOOKROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         arrowSignFromDyeRecipe(ItemRegistry.OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         arrowSignFromDyeRecipe(ItemRegistry.SPRUCE_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         arrowSignFromDyeRecipe(ItemRegistry.BIRCH_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
@@ -125,6 +127,7 @@ public class RecipeGen extends RecipeUtils {
         arrowSignFromDyeRecipe(ItemRegistry.CRIMSON_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         arrowSignFromDyeRecipe(ItemRegistry.WARPED_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         arrowSignFromDyeRecipe(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         arrowSignFromDyeRecipe(ItemRegistry.LARGE_OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         arrowSignFromDyeRecipe(ItemRegistry.LARGE_SPRUCE_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         arrowSignFromDyeRecipe(ItemRegistry.LARGE_BIRCH_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
@@ -138,6 +141,8 @@ public class RecipeGen extends RecipeUtils {
         arrowSignFromDyeRecipe(ItemRegistry.LARGE_WARPED_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
         boatRecipe(1, "boats", ItemRegistry.MUSHROOT_BOAT, RecipeCategory.TRANSPORTATION, TagRegistry.MUSHROOT_PLANK_ITEMS, false, output);
         chestBoatRecipe(1, "chest_boats", ItemRegistry.MUSHROOT_CHEST_BOAT, RecipeCategory.TRANSPORTATION, Tags.Items.CHESTS_WOODEN, ItemRegistry.MUSHROOT_BOAT, false, output);
+        boatRecipe(1, "boats", ItemRegistry.SPOOKROOT_BOAT, RecipeCategory.TRANSPORTATION, TagRegistry.SPOOKROOT_PLANK_ITEMS, false, output);
+        chestBoatRecipe(1, "chest_boats", ItemRegistry.SPOOKROOT_CHEST_BOAT, RecipeCategory.TRANSPORTATION, Tags.Items.CHESTS_WOODEN, ItemRegistry.SPOOKROOT_BOAT, false, output);
         checkeredRecipe(4, "spike_panels", BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), false, output);
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.SUPER_MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
@@ -156,6 +161,7 @@ public class RecipeGen extends RecipeUtils {
         oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "wrenches", ItemRegistry.CREATIVE_WRENCH, RecipeCategory.MISC, ItemRegistry.CREATIVE_WRENCH, output);
         oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
         oneToOneRecipe(4, "planks", BlockRegistry.MUSHROOT_PLANKS, RecipeCategory.BUILDING_BLOCKS, TagRegistry.MUSHROOT_LOG_ITEMS, output);
+        oneToOneRecipe(4, "planks", BlockRegistry.SPOOKROOT_PLANKS, RecipeCategory.BUILDING_BLOCKS, TagRegistry.SPOOKROOT_LOG_ITEMS, output);
         oneToOneRecipe(4, Marioverse.MOD_ID + ":" + "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
         oneToOneRecipe(1, "blue_dye", Items.BLUE_DYE, RecipeCategory.MISC, BlockRegistry.BLUE_BLOOMFLOWER, output);
         oneToOneRecipe(1, "orange_dye", Items.ORANGE_DYE, RecipeCategory.MISC, BlockRegistry.ORANGE_BLOOMFLOWER, output);

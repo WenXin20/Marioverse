@@ -345,6 +345,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
                 .add(BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get())
                 .add(BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_WALL_ARROW_SIGN.get())
                 .add(BlockRegistry.OAK_ARROW_SIGN.get())
                 .add(BlockRegistry.OAK_HANGING_ARROW_SIGN.get())
                 .add(BlockRegistry.OAK_WALL_ARROW_SIGN.get())
@@ -401,6 +404,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_JUNGLE_BLOCK.get())
                 .add(BlockRegistry.HARD_MANGROVE_BLOCK.get())
                 .add(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_BLOCK.get())
                 .add(BlockRegistry.HARD_OAK_BLOCK.get())
                 .add(BlockRegistry.HARD_SPRUCE_BLOCK.get());
 
@@ -413,6 +417,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_JUNGLE_SLAB.get())
                 .add(BlockRegistry.HARD_MANGROVE_SLAB.get())
                 .add(BlockRegistry.HARD_MUSHROOT_SLAB.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_SLAB.get())
                 .add(BlockRegistry.HARD_OAK_SLAB.get())
                 .add(BlockRegistry.HARD_SPRUCE_SLAB.get());
 
@@ -425,6 +430,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_JUNGLE_STAIRS.get())
                 .add(BlockRegistry.HARD_MANGROVE_STAIRS.get())
                 .add(BlockRegistry.HARD_MUSHROOT_STAIRS.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_STAIRS.get())
                 .add(BlockRegistry.HARD_OAK_STAIRS.get())
                 .add(BlockRegistry.HARD_SPRUCE_STAIRS.get());
 
@@ -437,6 +443,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_JUNGLE_WALL.get())
                 .add(BlockRegistry.HARD_MANGROVE_WALL.get())
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_WALL.get())
                 .add(BlockRegistry.HARD_OAK_WALL.get())
                 .add(BlockRegistry.HARD_SPRUCE_WALL.get());
 
@@ -457,6 +464,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.LARGE_MANGROVE_WALL_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPOOKROOT_WALL_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_OAK_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_OAK_WALL_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get())
@@ -472,12 +481,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.JUNGLE_PICKET_FENCE.get())
                 .add(BlockRegistry.MANGROVE_PICKET_FENCE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+                .add(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
                 .add(BlockRegistry.OAK_PICKET_FENCE.get())
                 .add(BlockRegistry.SPRUCE_PICKET_FENCE.get());
 
         tag(TagRegistry.FLAMMABLE_PLATFORMS)
                 .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
-                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get());
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.SPOOKROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_LOG_PLATFORM.get());
 
         tag(TagRegistry.FLAMMABLE_WALLS)
                 .add(BlockRegistry.HARD_ACACIA_WALL.get())
@@ -488,16 +500,21 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_JUNGLE_WALL.get())
                 .add(BlockRegistry.HARD_MANGROVE_WALL.get())
                 .add(BlockRegistry.HARD_MUSHROOT_WALL.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_WALL.get())
                 .add(BlockRegistry.HARD_OAK_WALL.get())
                 .add(BlockRegistry.HARD_SPRUCE_WALL.get())
                 .add(BlockRegistry.MUSHROOT_BOARD_WALL.get())
-                .add(BlockRegistry.MUSHROOT_PANEL_WALL.get());
+                .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
+                .add(BlockRegistry.SPOOKROOT_BOARD_WALL.get())
+                .add(BlockRegistry.SPOOKROOT_PANEL_WALL.get());
 
         tag(TagRegistry.FLAMMABLE_WINDOWS)
-                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get());
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
+                .add(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get());
 
         tag(TagRegistry.FLAMMABLE_WINDOW_PANES)
-                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get());
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get())
+                .add(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.get());
 
         tag(TagRegistry.FLOATY)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
@@ -723,6 +740,17 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.MUSHROOT_BOARDS.get())
                 .add(BlockRegistry.MUSHROOT_PANELS.get())
                 .add(BlockRegistry.MUSHROOT_PLANKS.get());
+
+        tag(TagRegistry.SPOOKROOT_LOGS)
+                .add(BlockRegistry.SPOOKROOT_LOG.get())
+                .add(BlockRegistry.SPOOKROOT_WOOD.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get());
+
+        tag(TagRegistry.SPOOKROOT_PLANKS)
+                .add(BlockRegistry.SPOOKROOT_BOARDS.get())
+                .add(BlockRegistry.SPOOKROOT_PANELS.get())
+                .add(BlockRegistry.SPOOKROOT_PLANKS.get());
 
         tag(TagRegistry.PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES);
@@ -954,7 +982,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.WOODEN_PLATFORMS)
                 .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
-                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get());
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.SPOOKROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_LOG_PLATFORM.get());
 
         tag(TagRegistry.WOODEN_WALLS)
                 .addTag(TagRegistry.FLAMMABLE_WALLS)
@@ -962,10 +992,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_WARPED_WALL.get());
 
         tag(TagRegistry.WOODEN_WINDOWS)
-                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get());
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
+                .add(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get());
 
         tag(TagRegistry.WOODEN_WINDOW_PANES)
-                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get());
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get())
+                .add(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.get());
 
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
@@ -976,10 +1008,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.FUNGAL_COBBLESTONE.get());
 
         tag(Tags.Blocks.FENCES_WOODEN)
-                .add(BlockRegistry.MUSHROOT_FENCE.get());
+                .add(BlockRegistry.MUSHROOT_FENCE.get())
+                .add(BlockRegistry.SPOOKROOT_FENCE.get());
 
         tag(Tags.Blocks.FENCE_GATES_WOODEN)
-                .add(BlockRegistry.MUSHROOT_FENCE_GATE.get());
+                .add(BlockRegistry.MUSHROOT_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get());
 
         tag(Tags.Blocks.GLASS_BLOCKS_COLORLESS)
                 .addTag(TagRegistry.WOODEN_WINDOWS);
@@ -1034,7 +1068,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WET_MUD.get());
 
         tag(BlockTags.CEILING_HANGING_SIGNS)
-                .add(BlockRegistry.MUSHROOT_HANGING_SIGN.get());
+                .add(BlockRegistry.MUSHROOT_HANGING_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_HANGING_SIGN.get());
 
         tag(BlockTags.CONVERTABLE_TO_MUD)
                 .add(BlockRegistry.SHROOMSOIL.get());
@@ -1086,7 +1121,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.FENCE_GATES)
-                .add(BlockRegistry.MUSHROOT_FENCE_GATE.get());
+                .add(BlockRegistry.MUSHROOT_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get());
 
         tag(TagRegistry.BLOOMFLOWERS)
                 .add(BlockRegistry.BLUE_BLOOMFLOWER.get())
@@ -1102,6 +1138,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_MUSHROOT_SAPLING.get())
+                .add(BlockRegistry.POTTED_SPOOKROOT_SAPLING.get())
                 .add(BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get())
                 .add(BlockRegistry.POTTED_PINK_BLOOMFLOWER.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
@@ -1143,12 +1180,14 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(BlockTags.LEAVES)
-                .add(BlockRegistry.MUSHROOT_LEAVES.get());
+                .add(BlockRegistry.MUSHROOT_LEAVES.get())
+                .add(BlockRegistry.SPOOKROOT_LEAVES.get());
 
         tag(BlockTags.LOGS);
 
         tag(BlockTags.LOGS_THAT_BURN)
-                .addTag(TagRegistry.MUSHROOT_LOGS);
+                .addTag(TagRegistry.MUSHROOT_LOGS)
+                .addTag(TagRegistry.SPOOKROOT_LOGS);
 
         tag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH)
                 .add(BlockRegistry.WET_MUD.get());
@@ -1171,7 +1210,10 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.PLANKS)
                 .add(BlockRegistry.MUSHROOT_BOARDS.get())
                 .add(BlockRegistry.MUSHROOT_PANELS.get())
-                .add(BlockRegistry.MUSHROOT_PLANKS.get());
+                .add(BlockRegistry.MUSHROOT_PLANKS.get())
+                .add(BlockRegistry.SPOOKROOT_BOARDS.get())
+                .add(BlockRegistry.SPOOKROOT_PANELS.get())
+                .add(BlockRegistry.SPOOKROOT_PLANKS.get());
 
         tag(BlockTags.RABBITS_SPAWNABLE_ON)
                 .addTag(TagRegistry.GRASSY_STONES)
@@ -1194,7 +1236,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(BlockTags.SAPLINGS)
-                .add(BlockRegistry.MUSHROOT_SAPLING.get());
+                .add(BlockRegistry.MUSHROOT_SAPLING.get())
+                .add(BlockRegistry.SPOOKROOT_SAPLING.get());
 
         tag(BlockTags.SCULK_REPLACEABLE_WORLD_GEN)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
@@ -1274,7 +1317,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
 
         tag(BlockTags.STANDING_SIGNS)
-                .add(BlockRegistry.MUSHROOT_SIGN.get());
+                .add(BlockRegistry.MUSHROOT_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_SIGN.get());
 
         tag(BlockTags.STONE_BUTTONS)
                 .add(BlockRegistry.AMETHYST_BUTTON.get())
@@ -1310,21 +1354,25 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.LARGE_JUNGLE_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_MANGROVE_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_OAK_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get())
                 .add(BlockRegistry.LARGE_WARPED_ARROW_SIGN.get())
                 .add(BlockRegistry.MANGROVE_ARROW_SIGN.get())
                 .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_ARROW_SIGN.get())
                 .add(BlockRegistry.OAK_ARROW_SIGN.get())
                 .add(BlockRegistry.SPRUCE_ARROW_SIGN.get())
                 .add(BlockRegistry.WARPED_ARROW_SIGN.get())
                 .add(BlockRegistry.SPIKE_PANEL.get());
 
         tag(BlockTags.WALL_HANGING_SIGNS)
-                .add(BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get());
+                .add(BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_WALL_HANGING_SIGN.get());
 
         tag(BlockTags.WALL_SIGNS)
-                .add(BlockRegistry.MUSHROOT_WALL_SIGN.get());
+                .add(BlockRegistry.MUSHROOT_WALL_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_WALL_SIGN.get());
 
         tag(BlockTags.WALLS)
                 .addTag(TagRegistry.HARD_WALLS)
@@ -1342,6 +1390,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HARD_FUNGAL_WALL.get())
                 .add(BlockRegistry.MUSHROOT_BOARD_WALL.get())
                 .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
+                .add(BlockRegistry.SPOOKROOT_BOARD_WALL.get())
+                .add(BlockRegistry.SPOOKROOT_PANEL_WALL.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
@@ -1359,20 +1409,27 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.WOODEN_FENCES)
-                .add(BlockRegistry.MUSHROOT_FENCE.get());
+                .add(BlockRegistry.MUSHROOT_FENCE.get())
+                .add(BlockRegistry.SPOOKROOT_FENCE.get());
 
         tag(BlockTags.WOODEN_SLABS)
                 .addTag(TagRegistry.WOODEN_HARD_SLABS)
                 .add(BlockRegistry.MUSHROOT_BOARD_SLAB.get())
                 .add(BlockRegistry.MUSHROOT_PANEL_SLAB.get())
-                .add(BlockRegistry.MUSHROOT_SLAB.get());
+                .add(BlockRegistry.MUSHROOT_SLAB.get())
+                .add(BlockRegistry.SPOOKROOT_BOARD_SLAB.get())
+                .add(BlockRegistry.SPOOKROOT_PANEL_SLAB.get())
+                .add(BlockRegistry.SPOOKROOT_SLAB.get());
 
         tag(BlockTags.WOODEN_STAIRS)
                 .addTag(TagRegistry.WOODEN_HARD_STAIRS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
                 .add(BlockRegistry.MUSHROOT_BOARD_STAIRS.get())
                 .add(BlockRegistry.MUSHROOT_PANEL_STAIRS.get())
-                .add(BlockRegistry.MUSHROOT_STAIRS.get());
+                .add(BlockRegistry.MUSHROOT_STAIRS.get())
+                .add(BlockRegistry.SPOOKROOT_BOARD_STAIRS.get())
+                .add(BlockRegistry.SPOOKROOT_PANEL_STAIRS.get())
+                .add(BlockRegistry.SPOOKROOT_STAIRS.get());
 
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(TagRegistry.HEDGE_BLOCKS)
@@ -1564,10 +1621,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(Tags.Blocks.STRIPPED_LOGS)
-                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG.get());
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get());
 
         tag(Tags.Blocks.STRIPPED_WOODS)
-                .add(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get());
+                .add(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get());
 
         tag(TagRegistry.blockTags("c", "glass_blocks/wooden"))
                 .addTag(TagRegistry.WOODEN_WINDOWS);

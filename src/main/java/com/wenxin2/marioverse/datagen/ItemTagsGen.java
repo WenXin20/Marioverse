@@ -84,6 +84,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOT_LOGS, TagRegistry.MUSHROOT_LOG_ITEMS);
         copy(TagRegistry.MUSHROOT_PLANKS, TagRegistry.MUSHROOT_PLANK_ITEMS);
+        copy(TagRegistry.SPOOKROOT_LOGS, TagRegistry.SPOOKROOT_LOG_ITEMS);
+        copy(TagRegistry.SPOOKROOT_PLANKS, TagRegistry.SPOOKROOT_PLANK_ITEMS);
         copy(TagRegistry.PICKET_FENCES, TagRegistry.PICKET_FENCE_ITEMS);
         copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
         copy(TagRegistry.PLATFORMS, TagRegistry.PLATFORM_ITEMS);
@@ -207,7 +209,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SHOES.get());
 
         this.tag(ItemTags.BOATS)
-                .add(ItemRegistry.MUSHROOT_BOAT.get());
+                .add(ItemRegistry.MUSHROOT_BOAT.get())
+                .add(ItemRegistry.SPOOKROOT_BOAT.get());
 
         tag(ItemTags.CAT_FOOD)
                 .addTag(TagRegistry.CHEEP_CHEEP_ITEMS)
@@ -215,7 +218,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         this.tag(ItemTags.CHEST_BOATS)
-                .add(ItemRegistry.MUSHROOT_CHEST_BOAT.get());
+                .add(ItemRegistry.MUSHROOT_CHEST_BOAT.get())
+                .add(ItemRegistry.SPOOKROOT_CHEST_BOAT.get());
 
         tag(ItemTags.DECORATED_POT_SHERDS)
                 .add(ItemRegistry.BOWSER_POTTERY_SHERD.get())
@@ -293,6 +297,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.MANGROVE_ARROW_SIGN.get())
                 .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get())
                 .add(ItemRegistry.MUSHROOT_HANGING_SIGN.get())
+                .add(ItemRegistry.SPOOKROOT_ARROW_SIGN.get())
+                .add(ItemRegistry.SPOOKROOT_HANGING_SIGN.get())
                 .add(ItemRegistry.OAK_ARROW_SIGN.get())
                 .add(ItemRegistry.SPRUCE_ARROW_SIGN.get());
 
@@ -485,6 +491,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.JUNGLE_ARROW_SIGN.get())
                 .add(ItemRegistry.MANGROVE_ARROW_SIGN.get())
                 .add(ItemRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(ItemRegistry.SPOOKROOT_ARROW_SIGN.get())
                 .add(ItemRegistry.OAK_ARROW_SIGN.get())
                 .add(ItemRegistry.SPRUCE_ARROW_SIGN.get());
 
@@ -497,6 +504,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.LARGE_JUNGLE_ARROW_SIGN.get())
                 .add(ItemRegistry.LARGE_MANGROVE_ARROW_SIGN.get())
                 .add(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
+                .add(ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get())
                 .add(ItemRegistry.LARGE_OAK_ARROW_SIGN.get())
                 .add(ItemRegistry.LARGE_SPRUCE_ARROW_SIGN.get());
 
