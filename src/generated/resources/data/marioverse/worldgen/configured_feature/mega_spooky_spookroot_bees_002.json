@@ -3,9 +3,13 @@
   "config": {
     "decorators": [
       {
+        "type": "minecraft:beehive",
+        "probability": 0.02
+      },
+      {
         "type": "marioverse:spooky_face_decorator",
         "dark_leaves": "marioverse:dark_spookroot_leaves",
-        "probability": 0.05
+        "probability": 1.0
       },
       {
         "type": "marioverse:branch_growth_decorator",

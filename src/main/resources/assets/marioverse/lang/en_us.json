@@ -172,6 +172,7 @@
   "block.marioverse.stripped_mushroot_log_platform": "Stripped Mushroot Log Platform",
   "block.marioverse.stripped_mushroot_wood": "Stripped Mushroot Wood",
 
+  "block.marioverse.dark_spookroot_leaves": "Dark Spookroot Leaves",
   "block.marioverse.hard_spookroot_block": "Hard Spookroot Block",
   "block.marioverse.hard_spookroot_slab": "Hard Spookroot Slab",
   "block.marioverse.hard_spookroot_stairs": "Hard Spookroot Stairs",
@@ -212,6 +213,8 @@
   "block.marioverse.spookroot_wall_sign": "Spookroot Sign",
   "block.marioverse.spookroot_wood": "Spookroot Wood",
   "block.marioverse.potted_spookroot_sapling": "Potted Spookroot Sapling",
+  "block.marioverse.spooky_spookroot_sapling": "Spooky Spookroot Sapling",
+  "block.marioverse.potted_spooky_spookroot_sapling": "Potted Spooky Spookroot Sapling",
   "block.marioverse.stripped_spookroot_log": "Stripped Spookroot Log",
   "block.marioverse.stripped_spookroot_log_bridge": "Stripped Spookroot Log Bridge",
   "block.marioverse.stripped_spookroot_log_bridge_stairs": "Stripped Spookroot Log Bridge Stairs",

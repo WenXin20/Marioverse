@@ -12,6 +12,9 @@
     "marioverse:dango_blossom": {
       "chance": 0.65
     },
+    "marioverse:dark_spookroot_leaves": {
+      "chance": 0.3
+    },
     "marioverse:hedge": {
       "chance": 0.85
     },
@@ -61,6 +64,9 @@
       "chance": 0.3
     },
     "marioverse:spookroot_sapling": {
+      "chance": 0.3
+    },
+    "marioverse:spooky_spookroot_sapling": {
       "chance": 0.3
     },
     "marioverse:tall_shroomgrass": {

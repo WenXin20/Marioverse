@@ -46,6 +46,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.api.distmarker.Dist;
@@ -80,6 +81,7 @@ public class Marioverse {
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registries.PLACED_FEATURE, Marioverse.MOD_ID);
     public static final DeferredRegister<FoliagePlacerType<?>> FOLIAGE_PLACERS = DeferredRegister.create(BuiltInRegistries.FOLIAGE_PLACER_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_PLACERS = DeferredRegister.create(BuiltInRegistries.TRUNK_PLACER_TYPE, Marioverse.MOD_ID);
+    public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(BuiltInRegistries.TREE_DECORATOR_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<GameEvent> GAME_EVENTS = DeferredRegister.create(Registries.GAME_EVENT, Marioverse.MOD_ID);
     public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Marioverse.MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Marioverse.MOD_ID);
@@ -109,6 +111,7 @@ public class Marioverse {
         PLACED_FEATURES.register(bus);
         TRUNK_PLACERS.register(bus);
         FOLIAGE_PLACERS.register(bus);
+        TREE_DECORATORS.register(bus);
         ATTRIBUTES.register(bus);
         PARTICLES.register(bus);
         MENUS.register(bus);

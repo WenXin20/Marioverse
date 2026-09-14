@@ -5,13 +5,7 @@
       {
         "type": "marioverse:spooky_face_decorator",
         "dark_leaves": "marioverse:dark_spookroot_leaves",
-        "probability": 0.05
-      },
-      {
-        "type": "marioverse:branch_growth_decorator",
-        "branch_count": 4,
-        "branch_drop": 4,
-        "log": "marioverse:spookroot_log"
+        "probability": 1.0
       }
     ],
     "dirt_provider": {
@@ -21,17 +15,13 @@
       }
     },
     "foliage_placer": {
-      "type": "marioverse:dome_foliage_placer",
-      "height": {
-        "type": "minecraft:uniform",
-        "max_inclusive": 10,
-        "min_inclusive": 7
-      },
-      "offset": 6,
+      "type": "minecraft:fancy_foliage_placer",
+      "height": 4,
+      "offset": 1,
       "radius": {
         "type": "minecraft:uniform",
-        "max_inclusive": 10,
-        "min_inclusive": 6
+        "max_inclusive": 3,
+        "min_inclusive": 2
       }
     },
     "foliage_provider": {
@@ -49,16 +39,16 @@
     "ignore_vines": true,
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size",
-      "limit": 1,
+      "limit": 0,
       "lower_size": 0,
-      "min_clipped_height": 6,
-      "upper_size": 2
+      "min_clipped_height": 4,
+      "upper_size": 0
     },
     "trunk_placer": {
-      "type": "marioverse:two_by_two_trunk_placer",
-      "base_height": 5,
-      "height_rand_a": 3,
-      "height_rand_b": 2
+      "type": "minecraft:straight_trunk_placer",
+      "base_height": 4,
+      "height_rand_a": 4,
+      "height_rand_b": 0
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",

@@ -28,20 +28,45 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
             trunkPlacerParts(instance)
                     .and(IntProvider.codec(1, 8).fieldOf("taper_rate").forGetter(p -> p.taperRate))
                     .and(Codec.BOOL.fieldOf("square_base").forGetter(p -> p.squareBase))
-                    .and(BranchConfig.CODEC.fieldOf("branches").forGetter(p -> p.branchConfig))
-                    .apply(instance, (baseHeight1, heightRandA1, heightRandB1, taperRate1, squareBase1, branchConfig1)
-                            -> new TaperingTrunkPlacer(squareBase1, baseHeight1, heightRandA1, heightRandB1, taperRate1, branchConfig1)));
+                    .and(IntProvider.codec(1, 4).fieldOf("min_branch_radius").forGetter(p -> p.minBranchRadius))
+                    .and(IntProvider.codec(0, 4).fieldOf("branch_count").forGetter(p -> p.branchCount))
+                    .and(Overflow.CODEC.forGetter(p -> new Overflow(p.branchLength, p.branchDrop, p.branchesGrowLeaves, p.foliageRadius)))
+                    .apply(instance, (baseHeight1, heightRandA1, heightRandB1, taperRate1, squareBase1,
+                                      minBranchRadius1, branchCount1, overflow1)
+                            -> new TaperingTrunkPlacer(squareBase1, baseHeight1, heightRandA1, heightRandB1, taperRate1,
+                                    minBranchRadius1, branchCount1, overflow1.branchLength(), overflow1.branchDrop(),
+                                    overflow1.branchesGrowLeaves(), overflow1.foliageRadius())));
+
+    private record Overflow(IntProvider branchLength, IntProvider branchDrop, boolean branchesGrowLeaves, IntProvider foliageRadius) {
+        private static final MapCodec<Overflow> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                        IntProvider.codec(1, 10).fieldOf("branch_length").forGetter(Overflow::branchLength),
+                        IntProvider.codec(1, 10).fieldOf("branch_drop").forGetter(Overflow::branchDrop),
+                        Codec.BOOL.fieldOf("branches_grow_leaves").forGetter(Overflow::branchesGrowLeaves),
+                        IntProvider.codec(1, 16).fieldOf("foliage_radius").forGetter(Overflow::foliageRadius))
+                .apply(instance, Overflow::new));
+    }
 
     private final IntProvider taperRate;
     private final boolean squareBase;
-    private final BranchConfig branchConfig;
+    private final IntProvider minBranchRadius;
+    private final IntProvider branchCount;
+    private final IntProvider branchLength;
+    private final IntProvider branchDrop;
+    private final boolean branchesGrowLeaves;
+    private final IntProvider foliageRadius;
 
-    public TaperingTrunkPlacer(boolean squareBase, int baseHeight, int heightRandA, int heightRandB,
-                               IntProvider taperRate, BranchConfig branchConfig) {
+    public TaperingTrunkPlacer(boolean squareBase, int baseHeight, int heightRandA, int heightRandB, IntProvider taperRate,
+                               IntProvider minBranchRadius, IntProvider branchCount, IntProvider branchLength, IntProvider branchDrop,
+                               boolean branchesGrowLeaves, IntProvider foliageRadius) {
         super(baseHeight, heightRandA, heightRandB);
         this.taperRate = taperRate;
         this.squareBase = squareBase;
-        this.branchConfig = branchConfig;
+        this.minBranchRadius = minBranchRadius;
+        this.branchCount = branchCount;
+        this.branchLength = branchLength;
+        this.branchDrop = branchDrop;
+        this.branchesGrowLeaves = branchesGrowLeaves;
+        this.foliageRadius = foliageRadius;
     }
 
     @NotNull
@@ -64,7 +89,7 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         int flareStart = Math.max(taperEnd, freeTreeHeight - 2);
         BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
-        int minRadius = Math.max(1, this.branchConfig.minBranchRadius().sample(random));
+        int minRadius = Math.max(1, this.minBranchRadius.sample(random));
 
         for (int y = 0; y < freeTreeHeight; y++) {
             if (y < squareEnd)
@@ -81,7 +106,11 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
 
         List<FoliagePlacer.FoliageAttachment> attachments = new ArrayList<>();
         attachments.add(new FoliagePlacer.FoliageAttachment(pos.above(freeTreeHeight), 0, false));
-        attachments.addAll(this.placeBranches(level, blockSetter, random, config, pos, freeTreeHeight, squareEnd, taperEnd, flareStart, minRadius));
+
+        List<FoliagePlacer.FoliageAttachment> branchAttachments =
+                this.placeBranches(level, blockSetter, random, config, pos, freeTreeHeight, squareEnd, taperEnd, flareStart, minRadius);
+        if (this.branchesGrowLeaves)
+            attachments.addAll(branchAttachments);
 
         return attachments;
     }
@@ -151,17 +180,18 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
                                                                 int squareEnd, int taperEnd, int flareStart, int minRadius) {
         List<FoliagePlacer.FoliageAttachment> branchAttachments = new ArrayList<>();
 
-        int drop = Math.max(1, this.branchConfig.branchDrop().sample(random));
+        int drop = Math.max(1, this.branchDrop.sample(random));
         int splitY = Math.max(0, freeTreeHeight - drop);
         BlockPos trunkAttach = pos.above(splitY);
         int trunkReach = this.trunkReachAt(splitY, squareEnd, taperEnd, flareStart, minRadius);
+        int boundary = Math.max(1, this.foliageRadius.sample(random) - 1);
 
-        int centerRise = this.branchConfig.branchLength().sample(random) + 2 + random.nextInt(4);
+        int centerRise = Math.min(this.branchLength.sample(random) + 2 + random.nextInt(4), boundary + drop);
         BlockPos centerEnd = trunkAttach.above(centerRise);
         this.placeLimb(level, blockSetter, random, config, trunkAttach, centerEnd);
         branchAttachments.add(new FoliagePlacer.FoliageAttachment(centerEnd, 0, false));
 
-        int branches = this.branchConfig.branchCount().sample(random);
+        int branches = this.branchCount.sample(random);
         if (branches <= 0)
             return branchAttachments;
 
@@ -176,8 +206,8 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         int maxSideRise = Math.max(1, centerRise - 1);
         for (int i = 0; i < Math.min(branches, directions.length); i++) {
             Direction dir = directions[i];
-            int rise = Math.min(this.branchConfig.branchLength().sample(random), maxSideRise);
-            int reach = 2 + random.nextInt(2);
+            int rise = Math.min(this.branchLength.sample(random), maxSideRise);
+            int reach = Math.max(1, this.maxHorizontalReach(boundary, rise - drop) - (trunkReach + 1));
 
             BlockPos branchStart = trunkAttach.relative(dir, trunkReach + 1);
             BlockPos tip = this.placeStaircaseBranch(blockSetter, random, config, branchStart, dir, reach, rise);
@@ -185,6 +215,11 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
             branchAttachments.add(new FoliagePlacer.FoliageAttachment(tip, 0, false));
         }
         return branchAttachments;
+    }
+
+    private int maxHorizontalReach(int boundary, int verticalOffset) {
+        double remaining = (double) boundary * boundary - (double) verticalOffset * verticalOffset;
+        return (int) Math.floor(Math.sqrt(Math.max(0.0, remaining)));
     }
 
     private int trunkReachAt(int y, int squareEnd, int taperEnd, int flareStart, int minRadius) {
@@ -253,14 +288,5 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         if (horizontal == 0)
             return Direction.Axis.Y;
         return dx >= dz ? Direction.Axis.X : Direction.Axis.Z;
-    }
-
-    public record BranchConfig(IntProvider minBranchRadius, IntProvider branchCount, IntProvider branchLength, IntProvider branchDrop) {
-        public static final Codec<BranchConfig> CODEC = RecordCodecBuilder.create(instance -> instance
-                .group(IntProvider.codec(1, 4).fieldOf("min_branch_radius").forGetter(BranchConfig::minBranchRadius),
-                        IntProvider.codec(0, 4).fieldOf("branch_count").forGetter(BranchConfig::branchCount),
-                        IntProvider.codec(1, 10).fieldOf("branch_length").forGetter(BranchConfig::branchLength),
-                        IntProvider.codec(1, 10).fieldOf("branch_drop").forGetter(BranchConfig::branchDrop))
-                .apply(instance, BranchConfig::new));
     }
 }

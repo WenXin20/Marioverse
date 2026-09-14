@@ -247,6 +247,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DARK_OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> DARK_SPOOKROOT_LEAVES;
     public static final DeferredBlock<Block> DEAD_BRAIN_CORAL_TOWER;
     public static final DeferredBlock<Block> DEAD_BUBBLE_CORAL_TOWER;
     public static final DeferredBlock<Block> DEAD_FIRE_CORAL_TOWER;
@@ -532,6 +533,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_SHRUBROOM;
     public static final DeferredBlock<Block> POTTED_SNOWY_HEDGE;
     public static final DeferredBlock<Block> POTTED_SPOOKROOT_SAPLING;
+    public static final DeferredBlock<Block> POTTED_SPOOKY_SPOOKROOT_SAPLING;
     public static final DeferredBlock<Block> POTTED_WHITE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_YELLOW_BLOOMFLOWER;
@@ -641,6 +643,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SPOOKROOT_WALL_HANGING_SIGN;
     public static final DeferredBlock<Block> SPOOKROOT_WALL_SIGN;
     public static final DeferredBlock<Block> SPOOKROOT_WOOD;
+    public static final DeferredBlock<Block> SPOOKY_SPOOKROOT_SAPLING;
     public static final DeferredBlock<Block> SPRUCE_ARROW_SIGN;
     public static final DeferredBlock<Block> SPRUCE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
@@ -1221,6 +1224,8 @@ public class BlockRegistry {
 
         SPOOKROOT_LEAVES = registerBlock("spookroot_leaves", () -> leaves(SoundType.GRASS));
 
+        DARK_SPOOKROOT_LEAVES = registerBlock("dark_spookroot_leaves", () -> leaves(SoundType.GRASS));
+
         SPOOKROOT_PLANKS = registerBlock("spookroot_planks",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
                         .instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD)
@@ -1355,6 +1360,15 @@ public class BlockRegistry {
 
         POTTED_SPOOKROOT_SAPLING = registerNoItemBlock("potted_spookroot_sapling",
                 () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SPOOKROOT_SAPLING,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        SPOOKY_SPOOKROOT_SAPLING = registerBlock("spooky_spookroot_sapling",
+                () -> new SaplingBlock(SuperTreeGrower.SPOOKY_SPOOKROOT, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                        .noCollission().randomTicks().instabreak()));
+
+        POTTED_SPOOKY_SPOOKROOT_SAPLING = registerNoItemBlock("potted_spooky_spookroot_sapling",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SPOOKY_SPOOKROOT_SAPLING,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
 
@@ -2720,6 +2734,7 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.HEDGE.getId(), BlockRegistry.POTTED_HEDGE);
         pot.addPlant(BlockRegistry.MUSHROOT_SAPLING.getId(), BlockRegistry.POTTED_MUSHROOT_SAPLING);
         pot.addPlant(BlockRegistry.SPOOKROOT_SAPLING.getId(), BlockRegistry.POTTED_SPOOKROOT_SAPLING);
+        pot.addPlant(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.getId(), BlockRegistry.POTTED_SPOOKY_SPOOKROOT_SAPLING);
         pot.addPlant(BlockRegistry.ORANGE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_ORANGE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.PINK_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PINK_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.PINK_ROSE_HEDGE.getId(), BlockRegistry.POTTED_PINK_ROSE_HEDGE);

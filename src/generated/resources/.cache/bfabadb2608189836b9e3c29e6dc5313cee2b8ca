@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-12T22:55:42.7076711	Item Models: marioverse
+// 1.21.1	2026-09-13T15:37:43.3800356	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -3302,6 +3302,7 @@ f63f1411d5b07297315ba6db970aa19ef0c84a7a assets/marioverse/models/item/spookroot
 8d8cca6aa57bebe96f9fe131404d1062e364b9c8 assets/marioverse/models/item/spookroot_hanging_sign.json
 d9f3ad1309cdcb51734d58c5a225bcf210ea0d7b assets/marioverse/models/item/spookroot_sapling.json
 21af8c0663997109ed26530ab02b2a363b1cc594 assets/marioverse/models/item/spookroot_sign.json
+91511b8d6e565bf1195cc90bd174416e978fe8b3 assets/marioverse/models/item/spooky_spookroot_sapling.json
 5b54c2053cec8dbede44de59b47190d6f35c516e assets/marioverse/models/item/spruce_arrow_sign.json
 c0782ab8e0306543dbef6aca4fad569293dbdaf2 assets/marioverse/models/item/spruce_arrow_sign_bottom_left_black.json
 e60018d4268872075c16bc51c713753d596cf323 assets/marioverse/models/item/spruce_arrow_sign_bottom_left_blue.json

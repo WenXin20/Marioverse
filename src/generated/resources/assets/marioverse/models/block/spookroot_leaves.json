@@ -1,53 +1,7 @@
 {
   "parent": "minecraft:block/cube_bottom_top",
-  "elements": [
-    {
-      "faces": {
-        "down": {
-          "cullface": "down",
-          "texture": "#bottom",
-          "tintindex": 0
-        },
-        "east": {
-          "cullface": "east",
-          "texture": "#side",
-          "tintindex": 0
-        },
-        "north": {
-          "cullface": "north",
-          "texture": "#side",
-          "tintindex": 0
-        },
-        "south": {
-          "cullface": "south",
-          "texture": "#side",
-          "tintindex": 0
-        },
-        "up": {
-          "cullface": "up",
-          "texture": "#top",
-          "tintindex": 0
-        },
-        "west": {
-          "cullface": "west",
-          "texture": "#side",
-          "tintindex": 0
-        }
-      },
-      "from": [
-        0,
-        0,
-        0
-      ],
-      "to": [
-        16,
-        16,
-        16
-      ]
-    }
-  ],
   "textures": {
-    "bottom": "marioverse:block/spookroot_leaves_bottom",
+    "bottom": "marioverse:block/spookroot_leaves_top",
     "side": "marioverse:block/spookroot_leaves",
     "top": "marioverse:block/spookroot_leaves_top"
   }

@@ -1139,6 +1139,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_MUSHROOT_SAPLING.get())
                 .add(BlockRegistry.POTTED_SPOOKROOT_SAPLING.get())
+                .add(BlockRegistry.POTTED_SPOOKY_SPOOKROOT_SAPLING.get())
                 .add(BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get())
                 .add(BlockRegistry.POTTED_PINK_BLOOMFLOWER.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
@@ -1181,7 +1182,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.LEAVES)
                 .add(BlockRegistry.MUSHROOT_LEAVES.get())
-                .add(BlockRegistry.SPOOKROOT_LEAVES.get());
+                .add(BlockRegistry.SPOOKROOT_LEAVES.get())
+                .add(BlockRegistry.DARK_SPOOKROOT_LEAVES.get());
 
         tag(BlockTags.LOGS);
 
@@ -1237,7 +1239,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.SAPLINGS)
                 .add(BlockRegistry.MUSHROOT_SAPLING.get())
-                .add(BlockRegistry.SPOOKROOT_SAPLING.get());
+                .add(BlockRegistry.SPOOKROOT_SAPLING.get())
+                .add(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get());
 
         tag(BlockTags.SCULK_REPLACEABLE_WORLD_GEN)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())

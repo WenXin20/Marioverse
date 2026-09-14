@@ -319,10 +319,12 @@ public class RegistryEventHandlers {
 
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_LEAVES.get(), 30, 60);
             fireBlock.setFlammable(BlockRegistry.SPOOKROOT_LEAVES.get(), 30, 60);
+            fireBlock.setFlammable(BlockRegistry.DARK_SPOOKROOT_LEAVES.get(), 30, 60);
 
             fireBlock.setFlammable(BlockRegistry.DANGO_BLOSSOM.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_SAPLING.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.SPOOKROOT_SAPLING.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.SHORT_SHROOMGRASS.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.SHROOMGRASS.get(), 60, 100);
             fireBlock.setFlammable(BlockRegistry.SHRUBROOM.get(), 60, 100);

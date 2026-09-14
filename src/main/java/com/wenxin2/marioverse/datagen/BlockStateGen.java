@@ -179,11 +179,11 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.MUSHROOT_BOARDS.get(),
                 BlockRegistry.MUSHROOT_PANELS.get(),
                 BlockRegistry.MUSHROOT_PLANKS.get(),
+                BlockRegistry.PASSIVE_DEATH_BLOCK.get(),
+                BlockRegistry.PLAYER_DEATH_BLOCK.get(),
                 BlockRegistry.SPOOKROOT_BOARDS.get(),
                 BlockRegistry.SPOOKROOT_PANELS.get(),
-                BlockRegistry.SPOOKROOT_PLANKS.get(),
-                BlockRegistry.PASSIVE_DEATH_BLOCK.get(),
-                BlockRegistry.PLAYER_DEATH_BLOCK.get());
+                BlockRegistry.SPOOKROOT_PLANKS.get());
         this.cubeBottomTopBlocks(BlockRegistry.DAISY_ABILITY_BLOCK.get(),
                 BlockRegistry.LUIGI_ABILITY_BLOCK.get(),
                 BlockRegistry.MARIO_ABILITY_BLOCK.get(),
@@ -194,12 +194,12 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.WARIO_ABILITY_BLOCK.get());
         this.tintedCubeBottomTopModel(BlockRegistry.MUSHROOT_LEAVES.get(), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_bottom"),
                 blockTexture(BlockRegistry.MUSHROOT_LEAVES.get()), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_top"));
-        this.tintedCubeBottomTopModel(BlockRegistry.SPOOKROOT_LEAVES.get(), texture(BlockRegistry.SPOOKROOT_LEAVES.get(), "_top"),
-                blockTexture(BlockRegistry.SPOOKROOT_LEAVES.get()), texture(BlockRegistry.SPOOKROOT_LEAVES.get(), "_top"));
         this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
-                BlockRegistry.ROCKY_FUNGAL_STONE.get());
+                BlockRegistry.ROCKY_FUNGAL_STONE.get(),
+                BlockRegistry.SPOOKROOT_LEAVES.get(),
+                BlockRegistry.DARK_SPOOKROOT_LEAVES.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(),
                 BlockRegistry.BUBBLE_CORAL_TOWER.get(),
                 BlockRegistry.FIRE_CORAL_TOWER.get(),
@@ -252,6 +252,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.crossFlowerPotModel(BlockRegistry.POTTED_MUSHROOT_SAPLING.get(), modLoc("block/mushroot_sapling"));
         this.crossModel(BlockRegistry.SPOOKROOT_SAPLING.get(), modLoc("block/spookroot_sapling"));
         this.crossFlowerPotModel(BlockRegistry.POTTED_SPOOKROOT_SAPLING.get(), modLoc("block/spookroot_sapling"));
+        this.crossModel(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get(), modLoc("block/spooky_spookroot_sapling"));
+        this.crossFlowerPotModel(BlockRegistry.POTTED_SPOOKY_SPOOKROOT_SAPLING.get(), modLoc("block/spooky_spookroot_sapling"));
         this.cubeInnerOverlayModel(quicksand, texture(quicksand, "_top"), blockTexture(quicksand), texture(quicksand, "_top"));
         this.cubeInnerOverlayModel(redQuicksand, texture(redQuicksand, "_top"), blockTexture(redQuicksand), texture(redQuicksand, "_top"));
         this.cubeMirroredNSModel(BlockRegistry.CALCITE_CHECKERED_TILES.get(), blockTexture(BlockRegistry.CALCITE_CHECKERED_TILES.get()));

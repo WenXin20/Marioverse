@@ -40,6 +40,7 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicBlockItem(BlockRegistry.MUSHROOT_SAPLING.asItem());
         this.basicBlockItem(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.asItem());
         this.basicBlockItem(BlockRegistry.SPOOKROOT_SAPLING.asItem());
+        this.basicBlockItem(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.asItem());
         this.basicBlockItem(BlockRegistry.SHORT_SHROOMGRASS.asItem());
         this.basicBlockItem(BlockRegistry.SHROOMGRASS.asItem());
 

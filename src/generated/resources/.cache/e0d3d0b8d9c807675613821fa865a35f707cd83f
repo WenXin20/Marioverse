@@ -1,8 +1,8 @@
-// 1.21.1	2026-09-12T22:55:42.8213748	Data Maps
+// 1.21.1	2026-09-13T15:37:43.4256972	Data Maps
 d6e06f38c85a1524d934d91943e99ed072a89719 data/neoforge/data_maps/block/oxidizables.json
 8a33da4fe0293a826ae7c3aee0342a9cc2d84869 data/neoforge/data_maps/block/strippables.json
 fa28e192dec224b59c7b2a26f44dd7f0ac53d510 data/neoforge/data_maps/block/waxables.json
 a2775a75e6116515a49fce99cbad760fa8c9a20a data/neoforge/data_maps/entity_type/parrot_imitations.json
 3965fe85a149be68b62f736de2eeeaeb6ce8a824 data/neoforge/data_maps/game_event/vibration_frequencies.json
-2415723362810e18a30227da0f8822e7c97012da data/neoforge/data_maps/item/compostables.json
+17c2e249994b6f506ac6931db076d9b98f4374b9 data/neoforge/data_maps/item/compostables.json
 23229b66ae4e4ea5f808f337091c9003cca9ba7e data/neoforge/data_maps/item/furnace_fuels.json

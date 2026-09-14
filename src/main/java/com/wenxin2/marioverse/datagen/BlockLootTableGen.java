@@ -64,6 +64,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class BlockLootTableGen extends LootTableProvider {
     protected static final float[] NORMAL_LEAVES_SAPLING_CHANCES = new float[]{0.05F, 0.0625F, 0.083333336F, 0.1F};
+    protected static final float[] HALVED_LEAVES_SAPLING_CHANCES = new float[]{0.025F, 0.03125F, 0.041666668F, 0.05F};
+    protected static final float[] DOUBLED_LEAVES_SAPLING_CHANCES = new float[]{0.1F, 0.125F, 0.16666667F, 0.2F};
 
     public BlockLootTableGen(PackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, Set.of(), List.of(
@@ -137,7 +139,10 @@ public class BlockLootTableGen extends LootTableProvider {
                                 BlockRegistry.MUSHROOT_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
                     else if (block == BlockRegistry.SPOOKROOT_LEAVES.get())
                         this.add(block, this.createLeavesDrops(BlockRegistry.SPOOKROOT_LEAVES.get(),
-                                BlockRegistry.SPOOKROOT_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
+                                BlockRegistry.SPOOKROOT_SAPLING.get(), HALVED_LEAVES_SAPLING_CHANCES));
+                    else if (block == BlockRegistry.DARK_SPOOKROOT_LEAVES.get())
+                        this.add(block, this.createLeavesDrops(BlockRegistry.DARK_SPOOKROOT_LEAVES.get(),
+                                BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get(), DOUBLED_LEAVES_SAPLING_CHANCES));
                     else if (block == BlockRegistry.SHROOMGRASS_BLOCK.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.SHROOMSOIL.get()));
@@ -183,6 +188,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.MUSHROOT_SAPLING.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SPOOKROOT_SAPLING.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.SPOOKROOT_SAPLING.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.RED_TRAMPOLINE_CAP.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
                     else this.dropSelf(block);

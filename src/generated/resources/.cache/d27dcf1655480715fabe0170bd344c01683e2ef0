@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-12T22:55:42.8259275	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-13T15:37:43.4276944	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -158,14 +158,14 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 1c646cacdfa03d10ee3e81a015052f50abe2b8bb data/minecraft/tags/block/fence_gates.json
 14742b562ea2fa76e68930652cec7e858856c12e data/minecraft/tags/block/flowers.json
-00142946576d77423bf3d5737094d347f3c4d09f data/minecraft/tags/block/flower_pots.json
+c1ea22d95a092745a96947170aa4315c878085fd data/minecraft/tags/block/flower_pots.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/foxes_spawnable_on.json
 4e1901ff6551710ff119e7d00134ac9eff353037 data/minecraft/tags/block/frogs_spawnable_on.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json
 6ced7f01be3b2fccf297b161948a791715a46377 data/minecraft/tags/block/guarded_by_piglins.json
 2a199d1f52a68e0f1a5ba95fc6dd655307b6a6cb data/minecraft/tags/block/impermeable.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/inside_step_sound_blocks.json
-f23d840e82eaa732564a56273a41c252a82b58b7 data/minecraft/tags/block/leaves.json
+ede6c84e66ed40d9d5807ec9fa5605a6c9419655 data/minecraft/tags/block/leaves.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/logs.json
 d0937a0630d64be292b48a90c8c5b850a6278b66 data/minecraft/tags/block/logs_that_burn.json
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_logs_can_grow_through.json
@@ -182,7 +182,7 @@ dcc89d58c805878825fa8c866221f3185138daa3 data/minecraft/tags/block/planks.json
 cea4578062b58ff06be89568410942cf35b81470 data/minecraft/tags/block/replaceable.json
 cea4578062b58ff06be89568410942cf35b81470 data/minecraft/tags/block/replaceable_by_trees.json
 28914d9d3f9604605ac65ba526cb30a3ddc2757d data/minecraft/tags/block/sand.json
-3e39983dfd998037754e32cef77ec624e590775a data/minecraft/tags/block/saplings.json
+ed158f201be3d237816bcc1ec512d70bc456d951 data/minecraft/tags/block/saplings.json
 20627fd5b1adc28c1f6ca0c287efd7d8b104c65b data/minecraft/tags/block/sculk_replaceable_world_gen.json
 8bec1ef5bee8c3b635422f922cd1823b2a2c35f7 data/minecraft/tags/block/slabs.json
 89f0f43762bc29eae4e4568d5f3978ebad3f6297 data/minecraft/tags/block/small_flowers.json

@@ -37,7 +37,7 @@
                   ]
                 }
               ],
-              "name": "marioverse:spookroot_leaves"
+              "name": "marioverse:dark_spookroot_leaves"
             },
             {
               "type": "minecraft:item",
@@ -47,16 +47,16 @@
                 },
                 {
                   "chances": [
-                    0.025,
-                    0.03125,
-                    0.041666668,
-                    0.05
+                    0.1,
+                    0.125,
+                    0.16666667,
+                    0.2
                   ],
                   "condition": "minecraft:table_bonus",
                   "enchantment": "minecraft:fortune"
                 }
               ],
-              "name": "marioverse:spookroot_sapling"
+              "name": "marioverse:spooky_spookroot_sapling"
             }
           ]
         }
@@ -132,5 +132,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "marioverse:blocks/spookroot_leaves"
+  "random_sequence": "marioverse:blocks/dark_spookroot_leaves"
 }

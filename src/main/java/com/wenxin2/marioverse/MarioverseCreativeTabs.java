@@ -26,6 +26,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
@@ -76,7 +77,10 @@ public class MarioverseCreativeTabs {
 
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == MARIOVERSE_ITEMS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
+        ResourceKey<CreativeModeTab> tab = event.getTabKey();
+        Boolean disableModTabs = ConfigRegistry.DISABLE_MARIOVERSE_TABS.get();
+
+        if (tab == MARIOVERSE_ITEMS_TAB.getKey() && !disableModTabs) {
             add(event, ItemRegistry.WRENCH);
             add(event, ItemRegistry.CREATIVE_WRENCH);
             add(event, ItemRegistry.WARP_DISRUPTOR);
@@ -221,7 +225,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PORCUPUFFER_SPAWN_EGG, DataComponentRegistry.VARIANT.get(), PorcupufferVariants.QWILFISH);
         }
 
-        if (event.getTabKey() == MARIOVERSE_NATURAL_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
+        if (tab == MARIOVERSE_NATURAL_TAB.getKey() && !disableModTabs) {
             add(event, BlockRegistry.SHROOMGRASS_BLOCK);
             add(event, BlockRegistry.SHROOMSOIL);
             add(event, BlockRegistry.SHROOMSOIL_FARMLAND);
@@ -246,9 +250,11 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.MUSHROOT_LEAVES);
             add(event, BlockRegistry.SPOOKROOT_LEAVES);
+            add(event, BlockRegistry.DARK_SPOOKROOT_LEAVES);
 
             add(event, BlockRegistry.MUSHROOT_SAPLING);
             add(event, BlockRegistry.SPOOKROOT_SAPLING);
+            add(event, BlockRegistry.SPOOKY_SPOOKROOT_SAPLING);
 
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
@@ -289,7 +295,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DEAD_HORN_CORAL_TOWER);
         }
 
-        if (event.getTabKey() == MARIOVERSE_BUILDING_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
+        if (tab == MARIOVERSE_BUILDING_TAB.getKey() && !disableModTabs) {
             add(event, BlockRegistry.MUSHROOT_LOG);
             add(event, BlockRegistry.MUSHROOT_WOOD);
             add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG);
@@ -700,7 +706,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CALCITE_CHECKERED_TILE_WALL);
         }
 
-        if (event.getTabKey() == MARIOVERSE_FUNCTIONAL_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
+        if (tab == MARIOVERSE_FUNCTIONAL_TAB.getKey() && !disableModTabs) {
             add(event, BlockRegistry.IRON_SPIKE);
             add(event, BlockRegistry.SPIKE_PANEL);
 
@@ -855,7 +861,7 @@ public class MarioverseCreativeTabs {
                     });
         }
 
-        if (event.getTabKey() == MARIOVERSE_DECORATIONS_TAB.getKey() && !ConfigRegistry.DISABLE_MARIOVERSE_TABS.get()) {
+        if (tab == MARIOVERSE_DECORATIONS_TAB.getKey() && !disableModTabs) {
             add(event, BlockRegistry.STAR_COIN);
             add(event, BlockRegistry.COIN);
 
@@ -1108,7 +1114,7 @@ public class MarioverseCreativeTabs {
         }
 
         if (!ConfigRegistry.DISABLE_VANILLA_TABS.get()) {
-            if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS && event.hasPermissions()) {
+            if (tab == CreativeModeTabs.OP_BLOCKS && event.hasPermissions()) {
                 addAfter(event, Items.DEBUG_STICK, ItemRegistry.CREATIVE_WRENCH);
                 addAfter(event, Blocks.STRUCTURE_BLOCK, BlockRegistry.BLOCK_SPAWNER);
                 addAfter(event, BlockRegistry.BLOCK_SPAWNER, BlockRegistry.DEATH_BLOCK);
@@ -1117,7 +1123,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MONSTER_DEATH_BLOCK, BlockRegistry.PASSIVE_DEATH_BLOCK);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
+            if (tab == CreativeModeTabs.NATURAL_BLOCKS) {
                 ItemStack piranhaPlantPod = new ItemStack(ItemRegistry.PIRANHA_PLANT_POD.get());
                 ItemStack cavePiranhaPlantPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.CAVE);
                 ItemStack chomperPod = variant(ItemRegistry.PIRANHA_PLANT_POD.get(), PiranhaPlantVariants.CHOMPER);
@@ -1144,9 +1150,11 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Blocks.FLOWERING_AZALEA_LEAVES, BlockRegistry.MUSHROOT_LEAVES);
                 addAfter(event, BlockRegistry.MUSHROOT_LEAVES, BlockRegistry.SPOOKROOT_LEAVES);
+                addAfter(event, BlockRegistry.SPOOKROOT_LEAVES, BlockRegistry.DARK_SPOOKROOT_LEAVES);
 
                 addAfter(event, Blocks.CHERRY_SAPLING, BlockRegistry.MUSHROOT_SAPLING);
                 addAfter(event, BlockRegistry.MUSHROOT_SAPLING, BlockRegistry.SPOOKROOT_SAPLING);
+                addAfter(event, BlockRegistry.SPOOKROOT_SAPLING, BlockRegistry.SPOOKY_SPOOKROOT_SAPLING);
 
                 addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.RED_TRAMPOLINE_CAP, BlockRegistry.BLUE_TRAMPOLINE_CAP);
@@ -1195,7 +1203,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, BlockRegistry.SPLUNKIN_O_LANTERN);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
+            if (tab == CreativeModeTabs.COLORED_BLOCKS) {
                 addAfter(event, Blocks.PINK_GLAZED_TERRACOTTA, Blocks.CALCITE);
                 addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE, true, true);
                 addDyedBlocks(event, BlockRegistry.CALCITE.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE, true, true);
@@ -1216,7 +1224,7 @@ public class MarioverseCreativeTabs {
                 addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
+            if (tab == CreativeModeTabs.FOOD_AND_DRINKS) {
                 addAfter(event, Items.PUFFERFISH, ItemRegistry.CHEEP_CHEEP);
                 addAfter(event, ItemRegistry.CHEEP_CHEEP, ItemRegistry.COLD_CHEEP_CHEEP);
                 addAfter(event, ItemRegistry.COLD_CHEEP_CHEEP, ItemRegistry.WARM_CHEEP_CHEEP);
@@ -1229,7 +1237,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PORCUPUFFER, ItemRegistry.COOKED_PORCUPUFFER);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            if (tab == CreativeModeTabs.COMBAT) {
                 addBefore(event, Items.SHIELD, ItemRegistry.WRENCH);
                 addAfter(event, Items.SNOWBALL, ItemRegistry.LARGE_SNOWBALL);
 
@@ -1262,7 +1270,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.GOLDEN_KOOPA_SHOES, ItemRegistry.WHITE_KOOPA_SHOES);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS) {
+            if (tab == CreativeModeTabs.REDSTONE_BLOCKS) {
                 addAfter(event, Blocks.TARGET, BlockRegistry.ON_OFF_SWITCH);
                 addAfter(event, BlockRegistry.ON_OFF_SWITCH, BlockRegistry.RED_DOTTED_LINE_BLOCK);
                 addAfter(event, BlockRegistry.RED_DOTTED_LINE_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
@@ -1290,7 +1298,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.GOAL_POLES.get(DyeColor.RED), BlockRegistry.BRICK_PEDESTAL);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            if (tab == CreativeModeTabs.TOOLS_AND_UTILITIES) {
                 ItemStack normal = new ItemStack(ItemRegistry.CHEEP_CHEEP_BUCKET.get());
                 ItemStack cold = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), "cold");
                 ItemStack warm = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), "warm");
@@ -1318,7 +1326,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.SPOOKROOT_BOAT, ItemRegistry.SPOOKROOT_CHEST_BOAT);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            if (tab == CreativeModeTabs.INGREDIENTS) {
                 addAfter(event, Items.SNOWBALL, ItemRegistry.LARGE_SNOWBALL);
 
                 addAfter(event, Items.PUFFERFISH, ItemRegistry.SPINY_CHEEP_CHEEP);
@@ -1336,7 +1344,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, ItemRegistry.PRINCESS_ARMOR_TRIM_SMITHING_TEMPLATE);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            if (tab == CreativeModeTabs.SPAWN_EGGS) {
                 ItemStack cheepCheep = new ItemStack(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get());
                 ItemStack coldCheepCheep = variant(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get(), CheepCheepVariants.COLD);
                 ItemStack warmCheepCheep = variant(ItemRegistry.CHEEP_CHEEP_SPAWN_EGG.get(), CheepCheepVariants.WARM);
@@ -1392,7 +1400,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, mrsPuff, qwilfish);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+            if (tab == CreativeModeTabs.BUILDING_BLOCKS) {
                 addAfter(event, Blocks.OAK_FENCE_GATE, BlockRegistry.OAK_PICKET_FENCE);
                 addAfter(event, BlockRegistry.OAK_PICKET_FENCE, BlockRegistry.HARD_OAK_BLOCK);
                 addAfter(event, BlockRegistry.HARD_OAK_BLOCK, BlockRegistry.HARD_OAK_STAIRS);
@@ -1784,7 +1792,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER);
             }
 
-            if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+            if (tab == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
                 addAfter(event, Blocks.PEARLESCENT_FROGLIGHT, BlockRegistry.GLOW_BLOCK);
 
                 addBefore(event, Items.LIGHTNING_ROD, BlockRegistry.MARIO_ABILITY_BLOCK);
