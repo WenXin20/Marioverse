@@ -34,8 +34,8 @@
       "offset": 6,
       "radius": {
         "type": "minecraft:uniform",
-        "max_inclusive": 10,
-        "min_inclusive": 6
+        "max_inclusive": 9,
+        "min_inclusive": 5
       }
     },
     "foliage_provider": {
@@ -60,7 +60,7 @@
     },
     "trunk_placer": {
       "type": "marioverse:two_by_two_trunk_placer",
-      "base_height": 5,
+      "base_height": 6,
       "height_rand_a": 3,
       "height_rand_b": 2
     },

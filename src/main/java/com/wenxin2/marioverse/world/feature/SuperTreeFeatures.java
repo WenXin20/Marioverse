@@ -95,9 +95,9 @@ public class SuperTreeFeatures {
     private static TreeConfiguration.TreeConfigurationBuilder createMegaSpookrootTree() {
         return new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(BlockRegistry.SPOOKROOT_LOG.get()),
-                new TwoByTwoTrunkPlacer(5, 3, 2),
+                new TwoByTwoTrunkPlacer(6, 3, 2),
                 BlockStateProvider.simple(BlockRegistry.SPOOKROOT_LEAVES.get()),
-                new DomeFoliagePlacer(UniformInt.of(6, 10), ConstantInt.of(6), UniformInt.of(7, 10)),
+                new DomeFoliagePlacer(UniformInt.of(5, 9), ConstantInt.of(6), UniformInt.of(7, 10)),
                 new TwoLayersFeatureSize(1, 0, 2, OptionalInt.of(6))).ignoreVines();
     }
 

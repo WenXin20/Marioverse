@@ -207,9 +207,11 @@ public class TaperingTrunkPlacer extends TrunkPlacer {
         for (int i = 0; i < Math.min(branches, directions.length); i++) {
             Direction dir = directions[i];
             int rise = Math.min(this.branchLength.sample(random), maxSideRise);
-            int reach = Math.max(1, this.maxHorizontalReach(boundary, rise - drop) - (trunkReach + 1));
+            int reach = Math.max(1, this.maxHorizontalReach(boundary, rise - drop) - trunkReach);
 
-            BlockPos branchStart = trunkAttach.relative(dir, trunkReach + 1);
+            BlockPos trunkSurface = trunkAttach.relative(dir, trunkReach);
+            BlockPos branchStart = trunkAttach.relative(dir, trunkReach + 2);
+            this.placeLimb(level, blockSetter, random, config, trunkSurface, branchStart);
             BlockPos tip = this.placeStaircaseBranch(blockSetter, random, config, branchStart, dir, reach, rise);
 
             branchAttachments.add(new FoliagePlacer.FoliageAttachment(tip, 0, false));

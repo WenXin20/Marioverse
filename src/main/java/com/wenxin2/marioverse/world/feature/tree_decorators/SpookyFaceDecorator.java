@@ -64,12 +64,13 @@ public class SpookyFaceDecorator extends TreeDecorator {
         int centerZ = trunkBase.getZ();
         int minY = leaves.getFirst().getY();
         int maxY = leaves.getLast().getY();
-        int centerY = Math.round((minY + maxY) / 2.0F);
 
         int radius = this.canopyRadius(leaves);
         float scale = (float) radius / REFERENCE_RADIUS;
         boolean smallCanopy = radius < SMALL_CANOPY_RADIUS;
         int leafDepth = smallCanopy ? SMALL_LEAF_DEPTH : LEAF_DEPTH;
+
+        int centerY = Math.round((minY + maxY) / 2.0F) - (smallCanopy ? 0 : 1);
 
         Direction direction = HORIZONTAL_DIRECTIONS[random.nextInt(HORIZONTAL_DIRECTIONS.length)];
         Direction side = direction.getClockWise();

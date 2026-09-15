@@ -57,8 +57,8 @@
       },
       "branch_drop": {
         "type": "minecraft:uniform",
-        "max_inclusive": 6,
-        "min_inclusive": 4
+        "max_inclusive": 3,
+        "min_inclusive": 2
       },
       "branch_length": {
         "type": "minecraft:uniform",
