@@ -585,15 +585,21 @@ public class RegistryEventHandlers {
     public static void addWandererTrades(WandererTradesEvent event) {
         List<VillagerTrades.ItemListing> genericTrades = event.getGenericTrades();
         List<VillagerTrades.ItemListing> rareTrades = event.getRareTrades();
+        Block[] bloomflowers = {
+                BlockRegistry.BLUE_BLOOMFLOWER.get(), BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_BLOOMFLOWER.get(), BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.RED_BLOOMFLOWER.get(), BlockRegistry.WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.YELLOW_BLOOMFLOWER.get()
+        };
+
+        Block[] saplings = {
+                BlockRegistry.MUSHROOT_SAPLING.get(), BlockRegistry.SPOOKROOT_SAPLING.get(),
+                BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get()
+        };
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
-                new ItemStack(BlockRegistry.MUSHROOT_SAPLING, 5),
-                16, 10, 0.2F));
-
-        genericTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 3),
-                new ItemStack(BlockRegistry.SPOOKROOT_SAPLING, 5),
+                new ItemStack(saplings[random.nextInt(saplings.length)], 5),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
@@ -626,12 +632,6 @@ public class RegistryEventHandlers {
                 new ItemStack(BlockRegistry.WHITE_ROSE_HEDGE, 5),
                 16, 5, 0.2F));
 
-        Block[] bloomflowers = {
-                BlockRegistry.BLUE_BLOOMFLOWER.get(), BlockRegistry.ORANGE_BLOOMFLOWER.get(),
-                BlockRegistry.PINK_BLOOMFLOWER.get(), BlockRegistry.PURPLE_BLOOMFLOWER.get(),
-                BlockRegistry.RED_BLOOMFLOWER.get(), BlockRegistry.WHITE_BLOOMFLOWER.get(),
-                BlockRegistry.YELLOW_BLOOMFLOWER.get()
-        };
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),
                 new ItemStack(bloomflowers[random.nextInt(bloomflowers.length)], 5),
