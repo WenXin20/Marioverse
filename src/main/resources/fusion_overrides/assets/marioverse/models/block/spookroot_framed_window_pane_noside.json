@@ -4,8 +4,7 @@
   "loader": "fusion:model",
   "type": "connecting",
   "textures": {
-    "pane": "marioverse:block/spookroot_framed_window_pane",
-    "particle": "#pane"
+    "pane": "marioverse:block/spookroot_framed_window_pane"
   },
   "connections": {
     "default": { "type": "is_same_block" }

@@ -244,7 +244,6 @@ public class WoodModule extends EveryCompatModule {
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(decorationsTab)
-                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -263,7 +262,6 @@ public class WoodModule extends EveryCompatModule {
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(decorationsTab)
-                .setTab(buildingTab)
                 .noDrops()
                 .noItem()
                 .build();
@@ -282,7 +280,6 @@ public class WoodModule extends EveryCompatModule {
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(decorationsTab)
-                .setTab(buildingTab)
                 .noDrops()
                 .noItem()
                 .build();
@@ -310,7 +307,6 @@ public class WoodModule extends EveryCompatModule {
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(decorationsTab)
-                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -329,7 +325,6 @@ public class WoodModule extends EveryCompatModule {
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(decorationsTab)
-                .setTab(buildingTab)
                 .noDrops()
                 .noItem()
                 .build();
@@ -356,7 +351,6 @@ public class WoodModule extends EveryCompatModule {
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(decorationsTab)
-                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
