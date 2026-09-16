@@ -305,6 +305,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_SLAB);
             add(event, BlockRegistry.MUSHROOT_FENCE);
             add(event, BlockRegistry.MUSHROOT_FENCE_GATE);
+            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
             add(event, BlockRegistry.MUSHROOT_PRESSURE_PLATE);
             add(event, BlockRegistry.MUSHROOT_BUTTON);
             add(event, BlockRegistry.MUSHROOT_BOARDS);
@@ -336,6 +337,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.SPOOKROOT_SLAB);
             add(event, BlockRegistry.SPOOKROOT_FENCE);
             add(event, BlockRegistry.SPOOKROOT_FENCE_GATE);
+            add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE);
             add(event, BlockRegistry.SPOOKROOT_PRESSURE_PLATE);
             add(event, BlockRegistry.SPOOKROOT_BUTTON);
             add(event, BlockRegistry.SPOOKROOT_BOARDS);
@@ -590,8 +592,6 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BAMBOO_PICKET_FENCE);
             add(event, BlockRegistry.CRIMSON_PICKET_FENCE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE);
-            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
-            add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE);
             add(event, BlockRegistry.RED_PICKET_FENCE);
             add(event, BlockRegistry.WHITE_PICKET_FENCE);
 
@@ -864,6 +864,28 @@ public class MarioverseCreativeTabs {
         if (tab == MARIOVERSE_DECORATIONS_TAB.getKey() && !disableModTabs) {
             add(event, BlockRegistry.STAR_COIN);
             add(event, BlockRegistry.COIN);
+
+            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
+            add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE);
+            add(event, BlockRegistry.OAK_PICKET_FENCE);
+            add(event, BlockRegistry.SPRUCE_PICKET_FENCE);
+            add(event, BlockRegistry.BIRCH_PICKET_FENCE);
+            add(event, BlockRegistry.JUNGLE_PICKET_FENCE);
+            add(event, BlockRegistry.ACACIA_PICKET_FENCE);
+            add(event, BlockRegistry.CHERRY_PICKET_FENCE);
+            add(event, BlockRegistry.DARK_OAK_PICKET_FENCE);
+            add(event, BlockRegistry.MANGROVE_PICKET_FENCE);
+            add(event, BlockRegistry.BAMBOO_PICKET_FENCE);
+            add(event, BlockRegistry.CRIMSON_PICKET_FENCE);
+            add(event, BlockRegistry.WARPED_PICKET_FENCE);
+            add(event, BlockRegistry.RED_PICKET_FENCE);
+            add(event, BlockRegistry.WHITE_PICKET_FENCE);
+
+            add(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW);
+            add(event, BlockRegistry.SPOOKROOT_FRAMED_WINDOW);
+
+            add(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE);
+            add(event, BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE);
 
             add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.UP);
             add(event, ItemRegistry.MUSHROOT_ARROW_SIGN, DataComponentRegistry.ARROW_SIGN_DIRECTION.get(), ArrowDirection.TOP_RIGHT);

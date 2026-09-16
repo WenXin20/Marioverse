@@ -84,8 +84,8 @@ public class WoodModule extends EveryCompatModule {
 
     public WoodModule(String modId) {
         super(modId, "mv");
-        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_TAB;
-        DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> decorationsTab = MarioverseCreativeTabs.MARIOVERSE_DECORATIONS_TAB;
 
         hardBlock = SimpleEntrySet.builder(WoodType.class, "block", "hard",
                         BlockRegistry.HARD_OAK_BLOCK, () -> VanillaWoodTypes.OAK,
@@ -98,7 +98,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -118,7 +118,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -137,7 +137,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(ItemTags.WOODEN_SLABS, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -156,7 +156,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(ItemTags.WALLS, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -171,7 +171,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.WOODEN_BRIDGE_ITEMS, Registries.ITEM)
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -187,7 +187,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.WOODEN_BRIDGE_ITEMS, Registries.ITEM)
                 .requiresChildren("stripped_log")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -204,7 +204,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS, Registries.ITEM)
                 .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -222,7 +222,7 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(ItemTags.WOODEN_STAIRS, Registries.ITEM)
                 .requiresChildren("stripped_log")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -243,7 +243,8 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(Tags.Items.FENCES_WOODEN, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(decorationsTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -261,7 +262,8 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS, Registries.BLOCK)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(decorationsTab)
+                .setTab(buildingTab)
                 .noDrops()
                 .noItem()
                 .build();
@@ -279,7 +281,8 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS, Registries.BLOCK)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(decorationsTab)
+                .setTab(buildingTab)
                 .noDrops()
                 .noItem()
                 .build();
@@ -306,7 +309,8 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(ItemTags.SIGNS, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(decorationsTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
@@ -324,7 +328,8 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS, Registries.BLOCK)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(decorationsTab)
+                .setTab(buildingTab)
                 .noDrops()
                 .noItem()
                 .build();
@@ -350,7 +355,8 @@ public class WoodModule extends EveryCompatModule {
                 .addTag(ItemTags.SIGNS, Registries.ITEM)
                 .requiresChildren("planks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .setTab(buildingBlocksTab)
+                .setTab(decorationsTab)
+                .setTab(buildingTab)
                 .copyParentDrop()
                 .defaultRecipe()
                 .build();
