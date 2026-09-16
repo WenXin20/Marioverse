@@ -130,6 +130,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(BlockTags.LEAVES, ItemTags.LEAVES);
         copy(BlockTags.LOGS, ItemTags.LOGS);
         copy(BlockTags.PLANKS, ItemTags.PLANKS);
+        copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
         copy(BlockTags.SLABS, ItemTags.SLABS);
         copy(BlockTags.SMALL_FLOWERS, ItemTags.SMALL_FLOWERS);
         copy(BlockTags.STAIRS, ItemTags.STAIRS);

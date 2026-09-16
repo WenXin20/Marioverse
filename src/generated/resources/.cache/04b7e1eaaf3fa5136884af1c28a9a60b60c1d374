@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-13T02:45:36.8669234	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-09-15T20:39:56.4413335	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -189,6 +189,7 @@ c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/minecraft/tags/item/leg_armor.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/ocelot_food.json
 7a72c6a129d238f1304fe0899a4c5c215883cedb data/minecraft/tags/item/piglin_loved.json
 dcc89d58c805878825fa8c866221f3185138daa3 data/minecraft/tags/item/planks.json
+ed158f201be3d237816bcc1ec512d70bc456d951 data/minecraft/tags/item/saplings.json
 e3f2cf34c2aea07a8c14e2e18a3e31b9d606d23e data/minecraft/tags/item/signs.json
 8bec1ef5bee8c3b635422f922cd1823b2a2c35f7 data/minecraft/tags/item/slabs.json
 89f0f43762bc29eae4e4568d5f3978ebad3f6297 data/minecraft/tags/item/small_flowers.json
