@@ -4,7 +4,7 @@
 	"parent": "minecraft:block/flower_pot",
 	"render_type": "cutout_mipped",
 	"textures": {
-		"particle": "marioverse:block/shrubroom",
+		"particle": "#flower_pot",
 		"flower_pot": "block/flower_pot",
 		"dirt": "block/dirt",
 		"plant": "marioverse:block/shrubroom"

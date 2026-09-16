@@ -4,7 +4,7 @@
 	"parent": "minecraft:block/flower_pot",
 	"render_type": "cutout_mipped",
 	"textures": {
-		"particle": "block/flower_pot",
+		"particle": "#flower_pot",
 		"flower_pot": "block/flower_pot",
 		"hedge": "marioverse:block/potted_hedge",
 		"flower": "marioverse:block/potted_hedge_pink_rose",
