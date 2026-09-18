@@ -79,14 +79,16 @@ public class SpookyFaceDecorator extends TreeDecorator {
         int eyeOffset = Math.max(1, Math.round(1 * scale));
         int mouthOffset = Math.min(Math.max(1, Math.round(2 * scale)), Math.max(1, MAX_EYE_MOUTH_GAP - eyeOffset));
         int eyeY = centerY + eyeOffset;
-        int eyeGap = Math.min(2, Math.max(1, Math.round(2 * scale)));
+        int eyeGapBlocks = smallCanopy ? 1 : 2;
+        int leftEyeOffset = -1;
+        int rightEyeOffset = eyeGapBlocks;
 
         int searchDistance = radius + 2;
 
-        this.darkenColumnAtSurface(context, leafPositions, darkLeaves, new BlockPos(centerX, eyeY, centerZ).relative(side, eyeGap), direction, leafDepth, searchDistance);
-        this.darkenColumnAtSurface(context, leafPositions, darkLeaves, new BlockPos(centerX, eyeY + 1, centerZ).relative(side, eyeGap), direction, leafDepth, searchDistance);
-        this.darkenColumnAtSurface(context, leafPositions, darkLeaves, new BlockPos(centerX, eyeY, centerZ).relative(side, -eyeGap), direction, leafDepth, searchDistance);
-        this.darkenColumnAtSurface(context, leafPositions, darkLeaves, new BlockPos(centerX, eyeY + 1, centerZ).relative(side, -eyeGap), direction, leafDepth, searchDistance);
+        this.darkenColumnAtSurface(context, leafPositions, darkLeaves, new BlockPos(centerX, eyeY, centerZ).relative(side, rightEyeOffset), direction, leafDepth, searchDistance);
+        this.darkenColumnAtSurface(context, leafPositions, darkLeaves, new BlockPos(centerX, eyeY + 1, centerZ).relative(side, rightEyeOffset), direction, leafDepth, searchDistance);
+        this.darkenColumnAtSurface(context, leafPositions, darkLeaves, new BlockPos(centerX, eyeY, centerZ).relative(side, leftEyeOffset), direction, leafDepth, searchDistance);
+        this.darkenColumnAtSurface(context, leafPositions, darkLeaves, new BlockPos(centerX, eyeY + 1, centerZ).relative(side, leftEyeOffset), direction, leafDepth, searchDistance);
 
         int mouthY = centerY - mouthOffset;
         int mouthWidthMin = Math.max(3, Math.round(5 * scale));
