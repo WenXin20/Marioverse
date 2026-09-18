@@ -45,11 +45,12 @@ public class BlockTagsGen extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         BlockRegistry.CALCITE.values().forEach(block -> tag(TagRegistry.CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
-        BlockRegistry.CALCITE_BRICK_PEDESTAL.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_PEDESTALS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
         BlockRegistry.CHISELED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
+        BlockRegistry.PICKET_FENCES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCES).add(block.get()));
         BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
@@ -58,7 +59,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         for (DyeColor color : DyeColor.values()) {
             tag(TagRegistry.blockTags("c", "dyed/" + color))
                     .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
-                    .add(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(color).get())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
                     .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
@@ -301,10 +302,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS);
-
-        tag(TagRegistry.DYED_PICKET_FENCES)
-                .add(BlockRegistry.RED_PICKET_FENCE.get())
-                .add(BlockRegistry.WHITE_PICKET_FENCE.get());
 
         tag(TagRegistry.FIREBALL_SETS_ON_FIRE)
                 .addTag(BlockTags.INFINIBURN_END)

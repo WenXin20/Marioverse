@@ -30,6 +30,7 @@ import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -226,9 +227,10 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.SPOOKROOT_PICKET_FENCE.get(),
                 BlockRegistry.OAK_PICKET_FENCE.get(),
                 BlockRegistry.SPRUCE_PICKET_FENCE.get(),
-                BlockRegistry.WARPED_PICKET_FENCE.get(),
-                BlockRegistry.RED_PICKET_FENCE.get(),
-                BlockRegistry.WHITE_PICKET_FENCE.get());
+                BlockRegistry.WARPED_PICKET_FENCE.get());
+        this.picketFenceBlocks(Arrays.stream(DyeColor.values())
+                .map(color -> BlockRegistry.PICKET_FENCES.get(color).get())
+                .toArray(Block[]::new));
 
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
                 blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));

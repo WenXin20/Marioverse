@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:picket_fence_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/black"
+    },
+    {
+      "tag": "marioverse:picket_fences"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:black_picket_fence"
+  }
+}

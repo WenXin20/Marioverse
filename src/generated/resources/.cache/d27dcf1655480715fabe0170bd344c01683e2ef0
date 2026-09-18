@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-13T15:37:43.4276944	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-17T20:28:56.2825708	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -112,7 +112,7 @@ ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/block/mushroom_tra
 bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/block/mushroot_logs.json
 1246002449a1e94e6f47058a9210307d8ff68423 data/marioverse/tags/block/mushroot_planks.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/block/picket_fences.json
-25f0dd69ae90387c755ac6667543c6012ea7d4dc data/marioverse/tags/block/picket_fences/dyed.json
+254fc79490323d2acc833b1eed66097550f55b13 data/marioverse/tags/block/picket_fences/dyed.json
 4ba6e02432fc3dbae9ecbeb344e69a02a07e4b9d data/marioverse/tags/block/picket_fences/flammable.json
 f1f53f32264771db68a2813211ae60091abaf2fd data/marioverse/tags/block/picket_fences/wooden.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/block/pipe_junction_blocks.json

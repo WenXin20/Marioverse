@@ -135,7 +135,7 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
-    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_PEDESTAL =
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_PEDESTALS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHISELED_CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
@@ -145,6 +145,8 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PICKET_FENCES =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> PIPE_JUNCTION =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
@@ -153,8 +155,6 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
-    public static final DeferredBlock<Block> RED_PICKET_FENCE;
-    public static final DeferredBlock<Block> WHITE_PICKET_FENCE;
 
     public static final DeferredBlock<Block> ACACIA_ARROW_SIGN;
     public static final DeferredBlock<Block> ACACIA_HANGING_ARROW_SIGN;
@@ -1461,13 +1461,9 @@ public class BlockRegistry {
         WARPED_PICKET_FENCE = registerBlock("warped_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE)));
         MUSHROOT_PICKET_FENCE = registerBlock("mushroot_picket_fence",
-                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_FENCE.get())));
         SPOOKROOT_PICKET_FENCE = registerBlock("spookroot_picket_fence",
-                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
-        WHITE_PICKET_FENCE = registerBlock("white_picket_fence",
-                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.SNOW)));
-        RED_PICKET_FENCE = registerBlock("red_picket_fence",
-                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(MapColor.COLOR_RED)));
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.SPOOKROOT_FENCE.get())));
 
 
         OAK_ARROW_SIGN = registerNoItemBlock("oak_arrow_sign",
@@ -2653,7 +2649,7 @@ public class BlockRegistry {
                                 .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
-                CALCITE_BRICK_PEDESTAL.put(color, registerBlock(color.getName() + "_calcite_brick_pedestal",
+                CALCITE_BRICK_PEDESTALS.put(color, registerBlock(color.getName() + "_calcite_brick_pedestal",
                         () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
                                 .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
 
@@ -2699,6 +2695,10 @@ public class BlockRegistry {
                                 .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.BASS)
                                 .strength(3.5F, 1000.0F).isViewBlocking(BlockRegistry::always)
                                 .requiresCorrectToolForDrops()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                PICKET_FENCES.put(color, registerBlock(color.getName() + "_picket_fence",
+                        () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(color)))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",
@@ -2957,9 +2957,9 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:white_flowering_bushroom"), WHITE_ROSE_HEDGE.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
-                .parse("superbb:white_picket_fence"), WHITE_PICKET_FENCE.getId());
+                .parse("superbb:white_picket_fence"), PICKET_FENCES.get(DyeColor.WHITE).getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
-                .parse("superbb:white_picket_fence"), WHITE_PICKET_FENCE.getId());
+                .parse("superbb:white_picket_fence"), PICKET_FENCES.get(DyeColor.WHITE).getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:white_mushbloom"), WHITE_BLOOMFLOWER.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation

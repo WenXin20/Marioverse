@@ -2,13 +2,33 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -23,20 +43,27 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.StairsShape;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 public class PicketFenceBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
     public static final MapCodec<PicketFenceBlock> CODEC = simpleCodec(PicketFenceBlock::new);
     public static final EnumProperty<StairsShape> SHAPE = BlockStateProperties.STAIRS_SHAPE;
     public static final BooleanProperty TALL = BlockStatePropertyRegistry.TALL;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
+    private static final int DEFAULT_DYE_TOTAL = 3;
+    private static final int DYE_DELAY_TICKS = 2;
 
     private static final Rotation[] ROTATION_BY_STEPS =
             {Rotation.NONE, Rotation.CLOCKWISE_90, Rotation.CLOCKWISE_180, Rotation.COUNTERCLOCKWISE_90};
@@ -208,6 +235,120 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
     @Override
     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
+    }
+
+    @NotNull
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+                                              Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (!(stack.getItem() instanceof DyeItem dyeItem))
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+
+        DyeColor color = dyeItem.getDyeColor();
+        Block coloredBlock = BlockRegistry.PICKET_FENCES.get(color).get();
+
+        int remaining = Math.max(0, DEFAULT_DYE_TOTAL - 1);
+        int aboveBudget = (remaining + 1) / 2;
+        int belowBudget = remaining / 2;
+
+        List<BlockPos> above = this.collectFences(level, pos, Direction.UP, aboveBudget);
+        List<BlockPos> below = this.collectFences(level, pos, Direction.DOWN, belowBudget);
+
+        int aboveDeficit = aboveBudget - above.size();
+        int belowDeficit = belowBudget - below.size();
+        if (belowDeficit > 0)
+            above = this.collectFences(level, pos, Direction.UP, aboveBudget + belowDeficit);
+        if (aboveDeficit > 0)
+            below = this.collectFences(level, pos, Direction.DOWN, belowBudget + aboveDeficit);
+
+        boolean centerAlreadyDyed = state.is(coloredBlock);
+        boolean anythingToDye = !centerAlreadyDyed
+                || above.stream().anyMatch(target -> !level.getBlockState(target).is(coloredBlock))
+                || below.stream().anyMatch(target -> !level.getBlockState(target).is(coloredBlock));
+        if (!anythingToDye)
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+
+        if (level.isClientSide)
+            return ItemInteractionResult.SUCCESS;
+
+        Direction particleFace = hitResult.getDirection();
+        int textColor = color.getTextColor();
+        Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
+                (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
+        DustParticleOptions particleOptions = new DustParticleOptions(colorVec, 0.5F);
+
+        if (!centerAlreadyDyed)
+            this.dyeAndConsume(level, pos, coloredBlock, stack, player, particleFace, particleOptions);
+
+        for (int i = 0; i < above.size(); i++)
+            this.scheduleDye(level, above.get(i), coloredBlock, stack, player, particleFace, particleOptions, (i + 1) * DYE_DELAY_TICKS);
+        for (int i = 0; i < below.size(); i++)
+            this.scheduleDye(level, below.get(i), coloredBlock, stack, player, particleFace, particleOptions, (i + 1) * DYE_DELAY_TICKS);
+
+        return ItemInteractionResult.SUCCESS;
+    }
+
+    private void scheduleDye(Level level, BlockPos pos, Block coloredBlock, ItemStack dyeStack, Player player,
+                             Direction particleFace, DustParticleOptions particleOptions, int delayTicks) {
+        if (!(level instanceof ServerLevel serverLevel))
+            return;
+
+        MinecraftServer server = serverLevel.getServer();
+        server.tell(new TickTask(server.getTickCount() + delayTicks, () -> {
+            if (dyeStack.isEmpty())
+                return;
+
+            BlockState currentState = level.getBlockState(pos);
+            if (!(currentState.getBlock() instanceof PicketFenceBlock) || currentState.is(coloredBlock))
+                return;
+
+            this.dyeAndConsume(level, pos, coloredBlock, dyeStack, player, particleFace, particleOptions);
+        }));
+    }
+
+    private void dyeAndConsume(Level level, BlockPos pos, Block coloredBlock, ItemStack dyeStack, Player player,
+                               Direction particleFace, DustParticleOptions particleOptions) {
+        this.dye(level, pos, coloredBlock);
+        dyeStack.consume(1, player);
+
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+        level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, pitch);
+        level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
+        this.spawnDyeParticles(level, pos, particleFace, particleOptions);
+    }
+
+    private void spawnDyeParticles(Level level, BlockPos pos, Direction particleFace, DustParticleOptions particleOptions) {
+        if (!(level instanceof ServerLevel serverLevel))
+            return;
+
+        RandomSource random = level.getRandom();
+        ServerParticleUtils.spawnParticlesOnBlockFace(particleOptions, serverLevel, pos, particleFace, UniformInt.of(8, 12),
+                () -> new Vec3(Mth.nextDouble(random, -0.005F, 0.005F),
+                        Mth.nextDouble(random, -0.005F, 0.005F),
+                        Mth.nextDouble(random, -0.005F, 0.005F)), 0.45);
+    }
+
+    private List<BlockPos> collectFences(Level level, BlockPos origin, Direction direction, int maxSteps) {
+        List<BlockPos> found = new ArrayList<>();
+        BlockPos.MutableBlockPos current = origin.mutable();
+
+        for (int step = 0; step < maxSteps; step++) {
+            current.move(direction);
+            if (!(level.getBlockState(current).getBlock() instanceof PicketFenceBlock))
+                break;
+            found.add(current.immutable());
+        }
+        return found;
+    }
+
+    private void dye(Level level, BlockPos pos, Block coloredBlock) {
+        BlockState oldState = level.getBlockState(pos);
+        BlockState newState = coloredBlock.defaultBlockState()
+                .setValue(FACING, oldState.getValue(FACING))
+                .setValue(SHAPE, oldState.getValue(SHAPE))
+                .setValue(TALL, oldState.getValue(TALL))
+                .setValue(WATERLOGGED, oldState.getValue(WATERLOGGED));
+        level.setBlock(pos, newState, Block.UPDATE_ALL);
     }
 
     @Override

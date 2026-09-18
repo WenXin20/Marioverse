@@ -10,6 +10,8 @@
   - Added Hard Deep Fungal Block sets
   - Added Rocky Deep Fungal Stone sets
 - Added Picket Fences 
+  - Wood variants
+  - 16 dyed colors
 - Added Mushroot block set
   - Mushroot tree & mega Mushroot tree
   - Doors, Trapdoors, Signs & Hanging Signs
@@ -36,7 +38,7 @@
 - Added Shrubrooms
 - Added bloomflowers of various colors
 - Added tooltips to bridges
-- Add recipe to convert Dango Blossoms to dye
+- Added recipe to convert Dango Blossoms to dye
 - Wandering trader trades Mushroot Saplings
 - Wandering trader trades Shroomgrass Blocks
 - Fixed flammability of Log Stairs
