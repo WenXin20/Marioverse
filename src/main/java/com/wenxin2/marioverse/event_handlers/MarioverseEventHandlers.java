@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
@@ -91,6 +92,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
@@ -710,6 +712,13 @@ public class MarioverseEventHandlers {
                 event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
                 event.setCanceled(true);
             }
+        }
+
+        if (player.isShiftKeyDown() && heldItem.getItem() instanceof DyeItem
+                && state.getBlock() instanceof PicketFenceBlock picketFenceBlock
+                && picketFenceBlock.dyeSingleBlock(level, pos, state, heldItem, player, event.getFace())) {
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            event.setCanceled(true);
         }
 
         BlockEntity blockEntity = level.getBlockEntity(pos);

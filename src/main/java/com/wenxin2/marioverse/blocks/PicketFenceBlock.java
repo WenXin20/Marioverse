@@ -7,13 +7,14 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -63,7 +64,8 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final int DEFAULT_DYE_TOTAL = 3;
-    private static final int DYE_DELAY_TICKS = 2;
+    private static final int DYE_DELAY_TICKS = 5;
+    private static final Map<GlobalPos, PendingDye> PENDING_DYES = new HashMap<>();
 
     private static final Rotation[] ROTATION_BY_STEPS =
             {Rotation.NONE, Rotation.CLOCKWISE_90, Rotation.CLOCKWISE_180, Rotation.COUNTERCLOCKWISE_90};
@@ -272,10 +274,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
             return ItemInteractionResult.SUCCESS;
 
         Direction particleFace = hitResult.getDirection();
-        int textColor = color.getTextColor();
-        Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
-                (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
-        DustParticleOptions particleOptions = new DustParticleOptions(colorVec, 0.5F);
+        DustParticleOptions particleOptions = this.dustOptions(color);
 
         if (!centerAlreadyDyed)
             this.dyeAndConsume(level, pos, coloredBlock, stack, player, particleFace, particleOptions);
@@ -288,22 +287,54 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         return ItemInteractionResult.SUCCESS;
     }
 
+    public boolean dyeSingleBlock(Level level, BlockPos pos, BlockState state, ItemStack stack, Player player, Direction particleFace) {
+        if (!(stack.getItem() instanceof DyeItem dyeItem))
+            return false;
+
+        DyeColor color = dyeItem.getDyeColor();
+        Block coloredBlock = BlockRegistry.PICKET_FENCES.get(color).get();
+        if (level.isClientSide)
+            return true;
+
+        if (!state.is(coloredBlock))
+            this.dyeAndConsume(level, pos, coloredBlock, stack, player, particleFace, this.dustOptions(color));
+
+        return true;
+    }
+
+    private DustParticleOptions dustOptions(DyeColor color) {
+        int textColor = color.getTextColor();
+        Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
+                (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
+        return new DustParticleOptions(colorVec, 0.5F);
+    }
+
+    private record PendingDye(Block coloredBlock, ItemStack dyeStack, Player player,
+                              Direction particleFace, DustParticleOptions particleOptions) {
+    }
+
     private void scheduleDye(Level level, BlockPos pos, Block coloredBlock, ItemStack dyeStack, Player player,
                              Direction particleFace, DustParticleOptions particleOptions, int delayTicks) {
         if (!(level instanceof ServerLevel serverLevel))
             return;
 
-        MinecraftServer server = serverLevel.getServer();
-        server.tell(new TickTask(server.getTickCount() + delayTicks, () -> {
-            if (dyeStack.isEmpty())
-                return;
+        Block currentBlock = level.getBlockState(pos).getBlock();
+        if (!(currentBlock instanceof PicketFenceBlock))
+            return;
 
-            BlockState currentState = level.getBlockState(pos);
-            if (!(currentState.getBlock() instanceof PicketFenceBlock) || currentState.is(coloredBlock))
-                return;
+        PENDING_DYES.put(GlobalPos.of(serverLevel.dimension(), pos.immutable()),
+                new PendingDye(coloredBlock, dyeStack, player, particleFace, particleOptions));
+        serverLevel.scheduleTick(pos, currentBlock, delayTicks);
+    }
 
-            this.dyeAndConsume(level, pos, coloredBlock, dyeStack, player, particleFace, particleOptions);
-        }));
+    @Override
+    protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        PendingDye pending = PENDING_DYES.remove(GlobalPos.of(level.dimension(), pos.immutable()));
+        if (pending == null || pending.dyeStack().isEmpty() || state.is(pending.coloredBlock()))
+            return;
+
+        this.dyeAndConsume(level, pos, pending.coloredBlock(), pending.dyeStack(), pending.player(),
+                pending.particleFace(), pending.particleOptions());
     }
 
     private void dyeAndConsume(Level level, BlockPos pos, Block coloredBlock, ItemStack dyeStack, Player player,
