@@ -141,7 +141,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         if (state.getValue(WATERLOGGED))
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         if (direction == Direction.UP)
-            return state.setValue(TALL, neighborState.getBlock() instanceof PicketFenceBlock);
+            return state.setValue(TALL, !neighborState.isAir());
         if (direction.getAxis().isHorizontal())
             return state.setValue(SHAPE, this.computeShape(state, level, pos));
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
@@ -203,7 +203,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
 
         BlockState state = this.defaultBlockState().setValue(FACING, facing);
         state = state.setValue(SHAPE, this.computeShape(state, level, pos));
-        state = state.setValue(TALL, level.getBlockState(pos.above()).getBlock() instanceof PicketFenceBlock);
+        state = state.setValue(TALL, !level.getBlockState(pos.above()).isAir());
         return state.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
@@ -265,8 +265,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         if (pending == null || pending.dyeStack().isEmpty() || state.is(pending.coloredBlock()))
             return;
 
-        this.dyeAndConsume(level, pos, pending.coloredBlock(), pending.dyeStack(), pending.player(),
-                pending.particleFace(), pending.particleOptions());
+        this.dyeOnly(level, pos, pending.coloredBlock(), pending.particleFace(), pending.particleOptions());
     }
 
     @NotNull
@@ -308,8 +307,10 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         Direction particleFace = hitResult.getDirection();
         DustParticleOptions particleOptions = this.dustOptions(color);
 
+        stack.consume(1, player);
+
         if (!isCenterDyed)
-            this.dyeAndConsume(level, pos, coloredBlock, stack, player, particleFace, particleOptions);
+            this.dyeOnly(level, pos, coloredBlock, particleFace, particleOptions);
 
         for (int i = 0; i < abovePos.size(); i++)
             this.dyeColumn(level, abovePos.get(i), coloredBlock, stack, player, particleFace,
@@ -344,10 +345,10 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
 
         DyeColor color = dyeItem.getDyeColor();
         Block coloredBlock = BlockRegistry.PICKET_FENCES.get(color).get();
-        if (level.isClientSide)
-            return true;
+        if (state.is(coloredBlock))
+            return false;
 
-        if (!state.is(coloredBlock))
+        if (!level.isClientSide)
             this.dyeAndConsume(level, pos, coloredBlock, stack, player, particleFace, this.dustOptions(color));
 
         return true;
@@ -369,8 +370,12 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
 
     private void dyeAndConsume(Level level, BlockPos pos, Block coloredBlock, ItemStack dyeStack, Player player,
                                Direction particleFace, DustParticleOptions particleOptions) {
-        this.dye(level, pos, coloredBlock);
         dyeStack.consume(1, player);
+        this.dyeOnly(level, pos, coloredBlock, particleFace, particleOptions);
+    }
+
+    private void dyeOnly(Level level, BlockPos pos, Block coloredBlock, Direction particleFace, DustParticleOptions particleOptions) {
+        this.dye(level, pos, coloredBlock);
 
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, pitch);
