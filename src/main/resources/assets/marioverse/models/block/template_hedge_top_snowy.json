@@ -76,8 +76,7 @@
 				"east": {"uv": [3, 0, 13, 6], "texture": "#side_snow"},
 				"south": {"uv": [3, 0, 13, 6], "texture": "#side_snow"},
 				"west": {"uv": [3, 0, 13, 6], "texture": "#side_snow"},
-				"up": {"uv": [3, 3, 13, 13], "texture": "#top_snow", "cullface": "up"},
-				"down": {"uv": [0, 0, 0, 0], "texture": "#bottom"}
+				"up": {"uv": [3, 3, 13, 13], "texture": "#top_snow", "cullface": "up"}
 			}
 		},
 		{

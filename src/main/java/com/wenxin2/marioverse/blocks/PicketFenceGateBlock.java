@@ -87,10 +87,10 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
                     POST_RIGHT).optimize();
     private static final VoxelShape COLLISION_CLOSED = Shapes
             .or(Block.box(3, 0, 7, 13, 24, 9),
-                    POST_LEFT_COLLISION, POST_RIGHT_COLLISION).optimize();
+                    POST_LEFT, POST_RIGHT).optimize();
     private static final VoxelShape COLLISION_CLOSED_EXTENDED = Shapes
             .or(Block.box(0, 0, 7, 13, 24, 9),
-                    POST_RIGHT_COLLISION).optimize();
+                    POST_RIGHT).optimize();
     private static final VoxelShape COLLISION_OPEN = Shapes
             .or(POST_LEFT_COLLISION, POST_RIGHT_COLLISION).optimize();
     private static final VoxelShape COLLISION_OPEN_EXTENDED = POST_RIGHT_COLLISION;
