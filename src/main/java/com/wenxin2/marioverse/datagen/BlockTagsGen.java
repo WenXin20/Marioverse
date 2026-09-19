@@ -1011,7 +1011,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(Tags.Blocks.FENCE_GATES_WOODEN)
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
-                .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get());
+                .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
 
         tag(Tags.Blocks.GLASS_BLOCKS_COLORLESS)
                 .addTag(TagRegistry.WOODEN_WINDOWS);
@@ -1121,7 +1122,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.FENCE_GATES)
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
-                .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get());
+                .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
 
         tag(TagRegistry.BLOOMFLOWERS)
                 .add(BlockRegistry.BLUE_BLOOMFLOWER.get())

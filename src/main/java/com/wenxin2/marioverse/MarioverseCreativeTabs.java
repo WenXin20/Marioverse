@@ -339,6 +339,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.SPOOKROOT_FENCE);
             add(event, BlockRegistry.SPOOKROOT_FENCE_GATE);
             add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE);
+            add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE);
             add(event, BlockRegistry.SPOOKROOT_PRESSURE_PLATE);
             add(event, BlockRegistry.SPOOKROOT_BUTTON);
             add(event, BlockRegistry.SPOOKROOT_BOARDS);
@@ -868,6 +869,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE_GATE);
             add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE);
+            add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE);
             add(event, BlockRegistry.OAK_PICKET_FENCE);
             add(event, BlockRegistry.SPRUCE_PICKET_FENCE);
             add(event, BlockRegistry.BIRCH_PICKET_FENCE);
@@ -1569,7 +1571,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.SPOOKROOT_SLAB, BlockRegistry.SPOOKROOT_FENCE);
                 addAfter(event, BlockRegistry.SPOOKROOT_FENCE, BlockRegistry.SPOOKROOT_FENCE_GATE);
                 addAfter(event, BlockRegistry.SPOOKROOT_FENCE_GATE, BlockRegistry.SPOOKROOT_PICKET_FENCE);
-                addAfter(event, BlockRegistry.SPOOKROOT_PICKET_FENCE, BlockRegistry.SPOOKROOT_BOARDS);
+                addAfter(event, BlockRegistry.SPOOKROOT_PICKET_FENCE, BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE);
+                addAfter(event, BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE, BlockRegistry.SPOOKROOT_BOARDS);
                 addAfter(event, BlockRegistry.SPOOKROOT_BOARDS, BlockRegistry.SPOOKROOT_BOARD_STAIRS);
                 addAfter(event, BlockRegistry.SPOOKROOT_BOARD_STAIRS, BlockRegistry.SPOOKROOT_BOARD_SLAB);
                 addAfter(event, BlockRegistry.SPOOKROOT_BOARD_SLAB, BlockRegistry.SPOOKROOT_BOARD_WALL);

@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "marioverse:block/template_picket_fence",
 	"textures": {
-		"particle": "marioverse:block/white_picket_fence",
+		"particle": "#fence",
 		"fence": "marioverse:block/white_picket_fence",
 		"back": "marioverse:block/white_picket_fence_back"
 	},

@@ -634,6 +634,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SPOOKROOT_PANEL_STAIRS;
     public static final DeferredBlock<Block> SPOOKROOT_PANEL_WALL;
     public static final DeferredBlock<Block> SPOOKROOT_PICKET_FENCE;
+    public static final DeferredBlock<Block> SPOOKROOT_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> SPOOKROOT_PLANKS;
     public static final DeferredBlock<Block> SPOOKROOT_PRESSURE_PLATE;
     public static final DeferredBlock<Block> SPOOKROOT_SAPLING;
@@ -1470,6 +1471,9 @@ public class BlockRegistry {
         MUSHROOT_PICKET_FENCE_GATE = registerBlock("mushroot_picket_fence_gate",
                 () -> new PicketFenceGateBlock(WoodTypeRegistry.MUSHROOT,
                         BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_FENCE_GATE.get())));
+        SPOOKROOT_PICKET_FENCE_GATE = registerBlock("spookroot_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(BlockRegistry.SPOOKROOT_FENCE_GATE.get())));
 
 
         OAK_ARROW_SIGN = registerNoItemBlock("oak_arrow_sign",

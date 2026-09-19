@@ -2,7 +2,7 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "marioverse:block/mushroot_picket_fence_gate",
+		"particle": "#gate",
 		"gate": "marioverse:block/mushroot_picket_fence_gate",
 		"post": "marioverse:block/mushroot_picket_fence_gate_side"
 	},
@@ -27,7 +27,7 @@
 				"north": {"uv": [16, 2, 3, 16], "texture": "#gate"},
 				"east": {"uv": [2, 2, 0, 16], "texture": "#post"},
 				"south": {"uv": [3, 2, 16, 16], "texture": "#gate"},
-				"up": {"uv": [3, 2, 13, 0], "texture": "#gate"},
+				"up": {"uv": [16, 2, 3, 0], "texture": "#gate"},
 				"down": {"uv": [3, 14, 16, 16], "texture": "#gate", "cullface": "down"}
 			}
 		},

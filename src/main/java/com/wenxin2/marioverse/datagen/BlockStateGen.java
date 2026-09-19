@@ -238,7 +238,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.picketFenceBlocks(Arrays.stream(DyeColor.values())
                 .map(color -> BlockRegistry.PICKET_FENCES.get(color).get())
                 .toArray(Block[]::new));
-        this.picketFenceGateBlocks(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get());
+        this.picketFenceGateBlocks(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get(),
+                BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
 
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
                 blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
@@ -2192,7 +2193,7 @@ public class BlockStateGen extends BlockStateProvider {
                         ResourceLocation gate = tall ? gateTallTexture : gateTexture;
                         models.put(suffix, this.models()
                                 .withExistingParent(modelName + suffix, modLoc("block/template_picket_fence_gate" + suffix))
-                                .texture("particle", gate).texture("gate", gate).texture("post", postTexture));
+                                .texture("gate", gate).texture("post", postTexture));
                     }
                 }
             }

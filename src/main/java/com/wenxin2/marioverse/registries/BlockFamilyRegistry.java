@@ -221,14 +221,17 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended SPOOKROOT_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_SLAB.get())
             .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended SPOOKROOT_BOARD_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_BOARD_SLAB.get())
             .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended SPOOKROOT_PANEL_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_PANEL_SLAB.get())
             .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended OAK_SLAB = familyBuilder(Blocks.OAK_SLAB)

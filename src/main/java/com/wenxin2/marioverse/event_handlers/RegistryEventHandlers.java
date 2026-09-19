@@ -308,6 +308,7 @@ public class RegistryEventHandlers {
             fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARD_WALL.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FENCE.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FENCE_GATE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANELS.get(), 5, 20);

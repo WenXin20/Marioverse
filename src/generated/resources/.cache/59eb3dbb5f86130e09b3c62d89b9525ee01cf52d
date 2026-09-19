@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-18T23:03:56.8559674	Loot Tables
+// 1.21.1	2026-09-19T14:30:41.4101869	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -597,6 +597,7 @@ f61fae354367d7ed4b5bb573d5411f452e53d238 data/marioverse/loot_table/blocks/spook
 631ed6c96b932e2d7d2d9afb4b3234681a93b667 data/marioverse/loot_table/blocks/spookroot_panel_stairs.json
 734ca96861fc87c5ef806c8e6a80a96de5d82d49 data/marioverse/loot_table/blocks/spookroot_panel_wall.json
 cc0118cfdc85c8dfa75cde044c0ec9fd8f9f22ad data/marioverse/loot_table/blocks/spookroot_picket_fence.json
+ce00c30d25122658901505c6387b82a4b773a205 data/marioverse/loot_table/blocks/spookroot_picket_fence_gate.json
 e03b08a5ab89757dfe1ba997d650d5357cfdbdcd data/marioverse/loot_table/blocks/spookroot_planks.json
 ec27d39fa7e718c9280d11f61ff4c5a18358535c data/marioverse/loot_table/blocks/spookroot_pressure_plate.json
 060d900eb07b797b2d8e8e597f94c0d5590c46a2 data/marioverse/loot_table/blocks/spookroot_sapling.json
