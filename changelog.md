@@ -12,6 +12,8 @@
 - Added Picket Fences 
   - Wood variants
   - 16 dyed colors
+  - Right-click to dye a column
+  - Shift-right-click to dye one block
 - Added Mushroot block set
   - Mushroot tree & mega Mushroot tree
   - Doors, Trapdoors, Signs & Hanging Signs

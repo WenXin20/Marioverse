@@ -961,6 +961,11 @@
   "block.marioverse.passive_death_block.tooltip.no_loot": " §7• No loot or xp drops from mobs",
   "block.marioverse.passive_death_block.tooltip.unbreakable": " §7• §eUnbreakable",
 
+  "block.marioverse.picket_fence.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "block.marioverse.picket_fence.tooltip.instructions": "§9Instructions:",
+  "block.marioverse.picket_fence.tooltip.instructions.dye": " §7• Right-click to dye a column",
+  "block.marioverse.picket_fence.tooltip.instructions.dye_one": " §7• Shift-right-click to dye one block",
+
   "block.marioverse.platforms.tooltip": "§6§oSemi-solid Platform",
 
   "block.marioverse.player_death_block.tooltip": "§e§o[Shift for §9ℹ§e§o]",
