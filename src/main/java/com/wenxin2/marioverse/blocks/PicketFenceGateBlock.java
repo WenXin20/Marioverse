@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -250,6 +251,21 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
                 1.0F, level.getRandom().nextFloat() * 0.1F + 0.9F);
         level.gameEvent(player, open ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
         return InteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 20;
     }
 
     private VoxelShape orientShape(BlockState state, VoxelShape shape) {
