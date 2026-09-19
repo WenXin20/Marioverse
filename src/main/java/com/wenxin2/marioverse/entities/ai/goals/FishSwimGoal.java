@@ -71,10 +71,7 @@ public class FishSwimGoal extends RandomSwimmingGoal {
         }
 
         if (this.mob.getNavigation().isDone()) {
-            Path path = this.mob.getNavigation().getPath();
             Vec3 pos = this.getPosition();
-            System.out.println("Path = " + path);
-            System.out.println("Done = " + this.mob.getNavigation().isDone());
             if (pos != null)
                 this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, this.speedModifier);
         }
