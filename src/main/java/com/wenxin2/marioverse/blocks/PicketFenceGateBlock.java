@@ -153,6 +153,17 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
 
     @NotNull
     @Override
+    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+        boolean extended = state.getValue(EXTENDED);
+
+        VoxelShape base = state.getValue(OPEN)
+                ? (extended ? OCCLUSION_OPEN_EXTENDED : OCCLUSION_OPEN)
+                : (extended ? OCCLUSION_CLOSED_EXTENDED : OCCLUSION_CLOSED);
+        return this.orientShape(state, base);
+    }
+
+    @NotNull
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
 
@@ -184,17 +195,6 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
         if (direction == latch)
             state = state.setValue(EXTENDED, this.isPartner(neighborState, facing, latch));
         return state;
-    }
-
-    @NotNull
-    @Override
-    protected VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
-        boolean extended = state.getValue(EXTENDED);
-
-        VoxelShape base = state.getValue(OPEN)
-                ? (extended ? OCCLUSION_OPEN_EXTENDED : OCCLUSION_OPEN)
-                : (extended ? OCCLUSION_CLOSED_EXTENDED : OCCLUSION_CLOSED);
-        return this.orientShape(state, base);
     }
 
     @NotNull
