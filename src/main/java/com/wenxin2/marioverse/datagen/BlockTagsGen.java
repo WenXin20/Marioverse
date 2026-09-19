@@ -482,6 +482,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.OAK_PICKET_FENCE.get())
                 .add(BlockRegistry.SPRUCE_PICKET_FENCE.get());
 
+        tag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES)
+                .addTag(TagRegistry.DYED_PICKET_FENCE_GATES)
+                .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
+
         tag(TagRegistry.FLAMMABLE_PLATFORMS)
                 .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
                 .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get())
@@ -752,6 +757,9 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES);
 
+        tag(TagRegistry.PICKET_FENCE_GATES)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCE_GATES);
+
         tag(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)
                 .add(Blocks.DECORATED_POT);
@@ -976,6 +984,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.FLAMMABLE_PICKET_FENCES)
                 .add(BlockRegistry.CRIMSON_PICKET_FENCE.get())
                 .add(BlockRegistry.WARPED_PICKET_FENCE.get());
+
+        tag(TagRegistry.WOODEN_PICKET_FENCE_GATES)
+                .addTag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES);
 
         tag(TagRegistry.WOODEN_PLATFORMS)
                 .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
@@ -1444,6 +1455,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WOODEN_HARD_WALLS)
                 .addTag(TagRegistry.WOODEN_LARGE_ARROW_SIGNS)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCE_GATES)
                 .addTag(TagRegistry.WOODEN_PLATFORMS)
                 .addTag(TagRegistry.WOODEN_WALLS)
                 .addTag(TagRegistry.WOODEN_WINDOWS)

@@ -56,6 +56,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS, TagRegistry.DYEABLE_WARP_PIPE_ITEMS);
         copy(TagRegistry.DYED_CALCITE_BLOCKS, TagRegistry.DYED_CALCITE_ITEMS);
         copy(TagRegistry.DYED_PICKET_FENCES, TagRegistry.DYED_PICKET_FENCE_ITEMS);
+        copy(TagRegistry.DYED_PICKET_FENCE_GATES, TagRegistry.DYED_PICKET_FENCE_GATE_ITEMS);
         copy(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS, TagRegistry.FLAMMABLE_BRIDGE_ITEMS);
         copy(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS, TagRegistry.FLAMMABLE_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.FLAMMABLE_HARD_BLOCKS, TagRegistry.FLAMMABLE_HARD_BLOCK_ITEMS);
@@ -63,6 +64,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.FLAMMABLE_HARD_STAIRS, TagRegistry.FLAMMABLE_HARD_STAIR_ITEMS);
         copy(TagRegistry.FLAMMABLE_HARD_WALLS, TagRegistry.FLAMMABLE_HARD_WALL_ITEMS);
         copy(TagRegistry.FLAMMABLE_PICKET_FENCES, TagRegistry.FLAMMABLE_PICKET_FENCE_ITEMS);
+        copy(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES, TagRegistry.FLAMMABLE_PICKET_FENCE_GATE_ITEMS);
         copy(TagRegistry.FLAMMABLE_PLATFORMS, TagRegistry.FLAMMABLE_PLATFORM_ITEMS);
         copy(TagRegistry.FLAMMABLE_WALLS, TagRegistry.FLAMMABLE_WALL_ITEMS);
         copy(TagRegistry.FLAMMABLE_WINDOWS, TagRegistry.FLAMMABLE_WINDOW_ITEMS);
@@ -87,6 +89,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.SPOOKROOT_LOGS, TagRegistry.SPOOKROOT_LOG_ITEMS);
         copy(TagRegistry.SPOOKROOT_PLANKS, TagRegistry.SPOOKROOT_PLANK_ITEMS);
         copy(TagRegistry.PICKET_FENCES, TagRegistry.PICKET_FENCE_ITEMS);
+        copy(TagRegistry.PICKET_FENCE_GATES, TagRegistry.PICKET_FENCE_GATE_ITEMS);
         copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
         copy(TagRegistry.PLATFORMS, TagRegistry.PLATFORM_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
@@ -109,6 +112,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.WOODEN_HARD_STAIRS, TagRegistry.WOODEN_HARD_STAIR_ITEMS);
         copy(TagRegistry.WOODEN_HARD_WALLS, TagRegistry.WOODEN_HARD_WALL_ITEMS);
         copy(TagRegistry.WOODEN_PICKET_FENCES, TagRegistry.WOODEN_PICKET_FENCE_ITEMS);
+        copy(TagRegistry.WOODEN_PICKET_FENCE_GATES, TagRegistry.WOODEN_PICKET_FENCE_GATE_ITEMS);
         copy(TagRegistry.WOODEN_PLATFORMS, TagRegistry.WOODEN_PLATFORM_ITEMS);
         copy(TagRegistry.WOODEN_WALLS, TagRegistry.WOODEN_WALL_ITEMS);
         copy(TagRegistry.WOODEN_WINDOWS, TagRegistry.WOODEN_WINDOW_ITEMS);
