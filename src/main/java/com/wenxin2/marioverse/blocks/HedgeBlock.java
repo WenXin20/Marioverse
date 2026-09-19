@@ -91,8 +91,13 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
 
     @Override
     protected boolean skipRendering(@NotNull BlockState state, @NotNull BlockState neighborState, @NotNull Direction direction) {
-        return (neighborState.getBlock() instanceof HedgeBlock && !neighborState.getValue(TOP) && !state.getValue(TOP))
-                || super.skipRendering(state, neighborState, direction);
+        if (neighborState.getBlock() instanceof HedgeBlock) {
+            if (state.getValue(TOP))
+                return direction == Direction.DOWN;
+            if (direction.getAxis().isVertical() || !neighborState.getValue(TOP))
+                return true;
+        }
+        return super.skipRendering(state, neighborState, direction);
     }
 
     @Override
