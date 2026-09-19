@@ -206,14 +206,17 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended MUSHROOT_SLAB = familyBuilder(BlockRegistry.MUSHROOT_SLAB.get())
             .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_BOARD_SLAB = familyBuilder(BlockRegistry.MUSHROOT_BOARD_SLAB.get())
             .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_PANEL_SLAB = familyBuilder(BlockRegistry.MUSHROOT_PANEL_SLAB.get())
             .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended SPOOKROOT_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_SLAB.get())

@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/fence_side",
 	"textures": {
-		"particle": "#fence",
+		"particle": "marioverse:block/white_picket_fence",
 		"fence": "marioverse:block/white_picket_fence",
 		"back": "marioverse:block/white_picket_fence_back"
 	},
@@ -15,9 +15,9 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 9.5]},
 			"faces": {
 				"north": {"uv": [0, 6, 16, 10], "texture": "#fence"},
-				"east": {"uv": [0, 6, 1, 10], "texture": "#back"},
+				"east": {"uv": [0, 6, 1, 10], "texture": "#back", "cullface": "east"},
 				"south": {"uv": [0, 6, 16, 10], "texture": "#back"},
-				"west": {"uv": [15, 6, 16, 10], "texture": "#fence"},
+				"west": {"uv": [15, 6, 16, 10], "texture": "#fence", "cullface": "west"},
 				"up": {"uv": [0, 6, 16, 7], "texture": "#back"},
 				"down": {"uv": [0, 9, 16, 10], "texture": "#back"}
 			}
@@ -33,7 +33,7 @@
 				"south": {"uv": [9, 1, 15, 16], "texture": "#fence"},
 				"west": {"uv": [13, 1, 15, 16], "texture": "#fence"},
 				"up": {"uv": [9, 0, 15, 2], "texture": "#fence"},
-				"down": {"uv": [9, 14, 15, 16], "texture": "#fence"}
+				"down": {"uv": [9, 14, 15, 16], "texture": "#fence", "cullface": "down"}
 			}
 		},
 		{
@@ -46,8 +46,8 @@
 				"east": {"uv": [1, 0, 3, 16], "texture": "#fence"},
 				"south": {"uv": [1, 0, 7, 16], "texture": "#fence"},
 				"west": {"uv": [5, 0, 7, 16], "texture": "#fence"},
-				"up": {"uv": [1, 0, 7, 2], "texture": "#fence"},
-				"down": {"uv": [1, 14, 7, 16], "texture": "#fence"}
+				"up": {"uv": [1, 0, 7, 2], "texture": "#fence", "cullface": "up"},
+				"down": {"uv": [1, 14, 7, 16], "texture": "#fence", "cullface": "down"}
 			}
 		}
 	],

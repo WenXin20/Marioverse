@@ -291,6 +291,7 @@ public class RegistryEventHandlers {
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARD_WALL.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_FENCE.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_FENCE_GATE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get(), 5, 20);
             fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANELS.get(), 5, 20);

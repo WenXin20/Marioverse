@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-17T20:28:56.2825708	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-18T23:03:56.8770777	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -24,7 +24,7 @@ c0998eae7c238cde0f58c70ec6943f306e489a91 data/c/tags/block/dyed/pink.json
 d89ec4ee1f1de9ced05fb2371d3d6887c416f19c data/c/tags/block/dyed/white.json
 8f8fa95f11d2fc4f2ee200854044f93add14784a data/c/tags/block/dyed/yellow.json
 63510de95e1684c0dab9e23c0276eca535fe855c data/c/tags/block/fences/wooden.json
-1c646cacdfa03d10ee3e81a015052f50abe2b8bb data/c/tags/block/fence_gates/wooden.json
+60f2bd2916cbfa15ae959c89677038f61c751f5f data/c/tags/block/fence_gates/wooden.json
 789473b71265972c32eafed83385821b3ee84ed0 data/c/tags/block/glass_blocks/colorless.json
 789473b71265972c32eafed83385821b3ee84ed0 data/c/tags/block/glass_blocks/wooden.json
 c7065018449d1318e71044df4526e528d11f4109 data/c/tags/block/glass_panes/colorless.json
@@ -156,7 +156,7 @@ e9ed280a523a34d5da1a046244b1a0cd49645407 data/minecraft/tags/block/dirt.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
 19506890947dbc2b1ca70228fb21d23540be979b data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
-1c646cacdfa03d10ee3e81a015052f50abe2b8bb data/minecraft/tags/block/fence_gates.json
+60f2bd2916cbfa15ae959c89677038f61c751f5f data/minecraft/tags/block/fence_gates.json
 14742b562ea2fa76e68930652cec7e858856c12e data/minecraft/tags/block/flowers.json
 c1ea22d95a092745a96947170aa4315c878085fd data/minecraft/tags/block/flower_pots.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/foxes_spawnable_on.json

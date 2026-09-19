@@ -18,6 +18,7 @@ import com.wenxin2.marioverse.blocks.LogPlatformBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
+import com.wenxin2.marioverse.blocks.PicketFenceGateBlock;
 import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
@@ -65,6 +66,7 @@ import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -129,6 +131,11 @@ public class BlockStateGen extends BlockStateProvider {
     private void picketFenceBlocks(Block... blocks) {
         for (Block block : blocks)
             this.picketFenceModel(block, blockTexture(block), texture(block, "_back"));
+    }
+
+    private void picketFenceGateBlocks(Block... blocks) {
+        for (Block block : blocks)
+            this.picketFenceGateModel(block, blockTexture(block), texture(block, "_tall"), texture(block, "_side"));
     }
 
     private void axisBlocks(ResourceLocation texture, Block... blocks) {
@@ -231,6 +238,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.picketFenceBlocks(Arrays.stream(DyeColor.values())
                 .map(color -> BlockRegistry.PICKET_FENCES.get(color).get())
                 .toArray(Block[]::new));
+        this.picketFenceGateBlocks(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get());
 
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
                 blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
@@ -2170,6 +2178,39 @@ public class BlockStateGen extends BlockStateProvider {
             };
             return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
         });
+    }
+
+    private void picketFenceGateModel(Block block, ResourceLocation gateTexture, ResourceLocation gateTallTexture, ResourceLocation postTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        Map<String, ModelFile> models = new HashMap<>();
+
+        for (boolean tall : new boolean[]{false, true}) {
+            for (boolean open : new boolean[]{false, true}) {
+                for (boolean extended : new boolean[]{false, true}) {
+                    for (boolean mirrored : new boolean[]{false, true}) {
+                        String suffix = (tall ? "_tall" : "") + (open ? "_open" : "") + (extended ? "_extended" : "") + (mirrored ? "_mirrored" : "");
+                        ResourceLocation gate = tall ? gateTallTexture : gateTexture;
+                        models.put(suffix, this.models()
+                                .withExistingParent(modelName + suffix, modLoc("block/template_picket_fence_gate" + suffix))
+                                .texture("particle", gate).texture("gate", gate).texture("post", postTexture));
+                    }
+                }
+            }
+        }
+
+        this.simpleBlockItem(block, models.get(""));
+
+        this.getVariantBuilder(block).forAllStatesExcept(state -> {
+            boolean tall = state.getValue(PicketFenceGateBlock.TALL);
+            boolean open = state.getValue(PicketFenceGateBlock.OPEN);
+            boolean extended = state.getValue(PicketFenceGateBlock.EXTENDED);
+
+            boolean mirrored = state.getValue(PicketFenceGateBlock.HINGE) == DoorHingeSide.LEFT;
+
+            String suffix = (tall ? "_tall" : "") + (open ? "_open" : "") + (extended ? "_extended" : "") + (mirrored ? "_mirrored" : "");
+            int yRot = this.getYRotation(state.getValue(PicketFenceGateBlock.FACING));
+            return ConfiguredModel.builder().modelFile(models.get(suffix)).rotationY(yRot).uvLock(false).build();
+        }, PicketFenceGateBlock.POWERED, PicketFenceGateBlock.IN_WALL, PicketFenceGateBlock.WATERLOGGED);
     }
 
     private void pottedTrampolineCapRedModel(Block block, ResourceLocation activeTexture) {

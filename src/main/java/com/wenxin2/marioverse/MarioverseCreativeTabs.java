@@ -306,6 +306,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_FENCE);
             add(event, BlockRegistry.MUSHROOT_FENCE_GATE);
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
+            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE_GATE);
             add(event, BlockRegistry.MUSHROOT_PRESSURE_PLATE);
             add(event, BlockRegistry.MUSHROOT_BUTTON);
             add(event, BlockRegistry.MUSHROOT_BOARDS);
@@ -865,6 +866,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.COIN);
 
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
+            add(event, BlockRegistry.MUSHROOT_PICKET_FENCE_GATE);
             add(event, BlockRegistry.SPOOKROOT_PICKET_FENCE);
             add(event, BlockRegistry.OAK_PICKET_FENCE);
             add(event, BlockRegistry.SPRUCE_PICKET_FENCE);
@@ -1531,7 +1533,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MUSHROOT_SLAB, BlockRegistry.MUSHROOT_FENCE);
                 addAfter(event, BlockRegistry.MUSHROOT_FENCE, BlockRegistry.MUSHROOT_FENCE_GATE);
                 addAfter(event, BlockRegistry.MUSHROOT_FENCE_GATE, BlockRegistry.MUSHROOT_PICKET_FENCE);
-                addAfter(event, BlockRegistry.MUSHROOT_PICKET_FENCE, BlockRegistry.MUSHROOT_BOARDS);
+                addAfter(event, BlockRegistry.MUSHROOT_PICKET_FENCE, BlockRegistry.MUSHROOT_PICKET_FENCE_GATE);
+                addAfter(event, BlockRegistry.MUSHROOT_PICKET_FENCE_GATE, BlockRegistry.MUSHROOT_BOARDS);
                 addAfter(event, BlockRegistry.MUSHROOT_BOARDS, BlockRegistry.MUSHROOT_BOARD_STAIRS);
                 addAfter(event, BlockRegistry.MUSHROOT_BOARD_STAIRS, BlockRegistry.MUSHROOT_BOARD_SLAB);
                 addAfter(event, BlockRegistry.MUSHROOT_BOARD_SLAB, BlockRegistry.MUSHROOT_BOARD_WALL);

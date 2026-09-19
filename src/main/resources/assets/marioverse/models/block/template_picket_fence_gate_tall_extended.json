@@ -1,0 +1,82 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "marioverse:block/mushroot_picket_fence_gate_tall",
+		"gate": "marioverse:block/mushroot_picket_fence_gate_tall",
+		"post": "marioverse:block/mushroot_picket_fence_gate_side"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 7],
+			"to": [13, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 7]},
+			"faces": {
+				"north": {"uv": [3, 0, 16, 16], "texture": "#gate"},
+				"south": {"uv": [16, 0, 3, 16], "texture": "#gate"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#post"},
+				"up": {"uv": [16, 2, 3, 0], "texture": "#gate", "cullface": "up"},
+				"down": {"uv": [16, 14, 3, 16], "texture": "#gate", "cullface": "down"}
+			}
+		},
+		{
+			"from": [13, 0, 6],
+			"to": [16, 16, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13, 0, 6]},
+			"faces": {
+				"north": {"uv": [0, 0, 3, 16], "texture": "#gate"},
+				"east": {"uv": [6, 0, 10, 16], "texture": "#post", "cullface": "east"},
+				"south": {"uv": [0, 0, 3, 16], "texture": "#gate"},
+				"west": {"uv": [6, 0, 10, 16], "texture": "#post"},
+				"up": {"uv": [13, 5, 16, 9], "texture": "#post", "cullface": "up"},
+				"down": {"uv": [13, 5, 16, 9], "texture": "#post", "cullface": "down"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 1.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 135, 0],
+			"translation": [0, 1.5, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, -135, 0],
+			"scale": [0.8, 0.8, 0.8]
+		},
+		"head": {
+			"translation": [0, 0, -6.5]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"on_shelf": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 0, -2.5]
+		}
+	},
+	"groups": [
+		{
+			"name": "gate",
+			"origin": [9, 14, 7],
+			"scope": 0,
+			"color": 0,
+			"children": [0]
+		},
+		{
+			"name": "post",
+			"origin": [0, 0, 6],
+			"scope": 0,
+			"color": 0,
+			"children": [1]
+		}
+	]
+}

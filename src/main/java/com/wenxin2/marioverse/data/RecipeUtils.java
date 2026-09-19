@@ -74,6 +74,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.PANELS_FROM_BOARDS, (outputItem, inputItem) -> panelsFromBoardsBuilder(5, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PEDESTAL, (outputItem, inputItem) -> pedestalBuilder(5, outputItem, inputItem))
                     .put(BlockFamilyExtended.Variant.PICKET_FENCE, (outputItem, inputItem) -> picketFenceBuilder(2, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.PICKET_FENCE_GATE, (outputItem, inputItem) -> picketFenceGateBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.POLISHED, (outputItem, inputItem) -> polishedBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PRESSURE_PLATE, (outputItem, inputItem) -> pressurePlateBuilder(RecipeCategory.REDSTONE, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.QUESTION_BLOCK, (outputItem, inputItem) -> questionBlockBuilder(1, outputItem, Ingredient.of(inputItem)))
@@ -238,6 +239,16 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("#S#")
                 .unlockedBy("has_slabs", has(ItemTags.WOODEN_SLABS))
                 .group(Marioverse.MOD_ID + ":picket_fences");
+    }
+
+    public static RecipeBuilder picketFenceGateBuilder(ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, outputItem)
+                .define('#', Tags.Items.RODS_WOODEN)
+                .define('W', inputItem)
+                .pattern("#W#")
+                .pattern("#W#")
+                .unlockedBy("has_slabs", has(ItemTags.WOODEN_SLABS))
+                .group(Marioverse.MOD_ID + ":picket_fence_gates");
     }
 
     public static RecipeBuilder questionBlockBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {

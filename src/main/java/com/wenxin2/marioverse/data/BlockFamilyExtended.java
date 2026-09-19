@@ -189,6 +189,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder picketFenceGate(Block block) {
+            this.family.variants.put(Variant.PICKET_FENCE_GATE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder planks(Block block) {
             this.family.variants.put(Variant.PLANKS, block);
             return this;
@@ -324,6 +329,7 @@ public class BlockFamilyExtended {
         PANELS_FROM_BOARDS("panels_from_boards"),
         PEDESTAL("pedestal"),
         PICKET_FENCE("picket_fence"),
+        PICKET_FENCE_GATE("picket_fence_gate"),
         PLANKS("planks"),
         POLISHED("polished"),
         PRESSURE_PLATE("pressure_plate"),
