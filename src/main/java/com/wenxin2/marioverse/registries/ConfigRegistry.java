@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.registries;
 
-import net.minecraft.world.level.dimension.DimensionType;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -32,6 +31,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_LUIGI_ABILITY_BLOCK = "luigi_ability_block";
     public static final String CATEGORY_MARIO_ABILITY_BLOCK = "mario_ability_block";
     public static final String CATEGORY_PEACH_ABILITY_BLOCK = "peach_ability_block";
+    public static final String CATEGORY_PICKET_FENCES = "picket_fences";
     public static final String CATEGORY_QUESTION_BLOCKS = "question_blocks";
     public static final String CATEGORY_ROSALINA_ABILITY_BLOCK = "rosalina_ability_block";
     public static final String CATEGORY_SPIKE_PANELS = "spike_panels";
@@ -301,6 +301,8 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue MEGA_MUSHROOM_DURATION;
     public static ModConfigSpec.IntValue MEGA_MUSHROOM_MINING_RADIUS;
     public static ModConfigSpec.IntValue ONE_UP_COOLDOWN;
+    public static ModConfigSpec.IntValue PICKET_FENCE_PAINT_RATE;
+    public static ModConfigSpec.IntValue PICKET_FENCE_PAINT_RANGE;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_FREQUENCY;
@@ -668,6 +670,15 @@ public class ConfigRegistry {
                             .comment("Amount of damage iron spikes cause.")
                             .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("iron_spike_damage", 2.0, 0.0, 16.0);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_PICKET_FENCES);
+                    PICKET_FENCE_PAINT_RANGE = BUILDER.translation("configuration.marioverse.picket_fence_paint_range")
+                            .comment("The range a dye can paint in a column.")
+                            .defineInRange("picket_fence_paint_range", 3, 0, 8);
+                    PICKET_FENCE_PAINT_RATE = BUILDER.translation("configuration.marioverse.picket_fence_paint_rate")
+                            .comment("The rate a column of fences are painted in ticks.")
+                            .defineInRange("picket_fence_paint_rate", 3, 0, 20);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_QUESTION_BLOCKS);

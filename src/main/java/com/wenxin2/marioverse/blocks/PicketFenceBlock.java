@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -259,52 +259,83 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         return false;
     }
 
+    @Override
+    protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        PendingDye pending = PENDING_DYES.remove(GlobalPos.of(level.dimension(), pos.immutable()));
+        if (pending == null || pending.dyeStack().isEmpty() || state.is(pending.coloredBlock()))
+            return;
+
+        this.dyeAndConsume(level, pos, pending.coloredBlock(), pending.dyeStack(), pending.player(),
+                pending.particleFace(), pending.particleOptions());
+    }
+
     @NotNull
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!(stack.getItem() instanceof DyeItem dyeItem))
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (ConfigRegistry.PICKET_FENCE_PAINT_RANGE.get() == 0)
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
         DyeColor color = dyeItem.getDyeColor();
         Block coloredBlock = BlockRegistry.PICKET_FENCES.get(color).get();
 
-        int remaining = Math.max(0, DEFAULT_DYE_TOTAL - 1);
-        int aboveBudget = (remaining + 1) / 2;
-        int belowBudget = remaining / 2;
+        int remainingBlocks = Math.max(0, ConfigRegistry.PICKET_FENCE_PAINT_RANGE.get() - 1);
+        int aboveBlocks = (remainingBlocks + 1) / 2;
+        int belowBlocks = remainingBlocks / 2;
 
-        List<BlockPos> above = this.collectFences(level, pos, Direction.UP, aboveBudget);
-        List<BlockPos> below = this.collectFences(level, pos, Direction.DOWN, belowBudget);
+        List<BlockPos> abovePos = this.findFences(level, pos, Direction.UP, aboveBlocks);
+        List<BlockPos> belowPos = this.findFences(level, pos, Direction.DOWN, belowBlocks);
 
-        int aboveDeficit = aboveBudget - above.size();
-        int belowDeficit = belowBudget - below.size();
+        int aboveDeficit = aboveBlocks - abovePos.size();
+        int belowDeficit = belowBlocks - belowPos.size();
         if (belowDeficit > 0)
-            above = this.collectFences(level, pos, Direction.UP, aboveBudget + belowDeficit);
+            abovePos = this.findFences(level, pos, Direction.UP, aboveBlocks + belowDeficit);
         if (aboveDeficit > 0)
-            below = this.collectFences(level, pos, Direction.DOWN, belowBudget + aboveDeficit);
+            belowPos = this.findFences(level, pos, Direction.DOWN, belowBlocks + aboveDeficit);
 
-        boolean centerAlreadyDyed = state.is(coloredBlock);
-        boolean anythingToDye = !centerAlreadyDyed
-                || above.stream().anyMatch(target -> !level.getBlockState(target).is(coloredBlock))
-                || below.stream().anyMatch(target -> !level.getBlockState(target).is(coloredBlock));
-        if (!anythingToDye)
+        boolean isCenterDyed = state.is(coloredBlock);
+        boolean hasBlocksToDye = !isCenterDyed
+                || abovePos.stream().anyMatch(target -> !level.getBlockState(target).is(coloredBlock))
+                || belowPos.stream().anyMatch(target -> !level.getBlockState(target).is(coloredBlock));
+
+        if (!hasBlocksToDye)
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-
         if (level.isClientSide)
             return ItemInteractionResult.SUCCESS;
 
         Direction particleFace = hitResult.getDirection();
         DustParticleOptions particleOptions = this.dustOptions(color);
 
-        if (!centerAlreadyDyed)
+        if (!isCenterDyed)
             this.dyeAndConsume(level, pos, coloredBlock, stack, player, particleFace, particleOptions);
 
-        for (int i = 0; i < above.size(); i++)
-            this.scheduleDye(level, above.get(i), coloredBlock, stack, player, particleFace, particleOptions, (i + 1) * DYE_DELAY_TICKS);
-        for (int i = 0; i < below.size(); i++)
-            this.scheduleDye(level, below.get(i), coloredBlock, stack, player, particleFace, particleOptions, (i + 1) * DYE_DELAY_TICKS);
+        for (int i = 0; i < abovePos.size(); i++)
+            this.dyeColumn(level, abovePos.get(i), coloredBlock, stack, player, particleFace,
+                    particleOptions, (i + 1) * ConfigRegistry.PICKET_FENCE_PAINT_RATE.get());
+        for (int i = 0; i < belowPos.size(); i++)
+            this.dyeColumn(level, belowPos.get(i), coloredBlock, stack, player, particleFace,
+                    particleOptions, (i + 1) * ConfigRegistry.PICKET_FENCE_PAINT_RATE.get());
 
         return ItemInteractionResult.SUCCESS;
+    }
+
+    private record PendingDye(Block coloredBlock, ItemStack dyeStack, Player player,
+                              Direction particleFace, DustParticleOptions particleOptions) {
+    }
+
+    private List<BlockPos> findFences(Level level, BlockPos origin, Direction direction, int maxSteps) {
+        List<BlockPos> found = new ArrayList<>();
+        BlockPos.MutableBlockPos current = origin.mutable();
+
+        for (int step = 0; step < maxSteps; step++) {
+            current.move(direction);
+            if (!(level.getBlockState(current).getBlock() instanceof PicketFenceBlock))
+                break;
+            found.add(current.immutable());
+        }
+        return found;
     }
 
     public boolean dyeSingleBlock(Level level, BlockPos pos, BlockState state, ItemStack stack, Player player, Direction particleFace) {
@@ -322,19 +353,8 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         return true;
     }
 
-    private DustParticleOptions dustOptions(DyeColor color) {
-        int textColor = color.getTextColor();
-        Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
-                (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
-        return new DustParticleOptions(colorVec, 0.5F);
-    }
-
-    private record PendingDye(Block coloredBlock, ItemStack dyeStack, Player player,
-                              Direction particleFace, DustParticleOptions particleOptions) {
-    }
-
-    private void scheduleDye(Level level, BlockPos pos, Block coloredBlock, ItemStack dyeStack, Player player,
-                             Direction particleFace, DustParticleOptions particleOptions, int delayTicks) {
+    private void dyeColumn(Level level, BlockPos pos, Block coloredBlock, ItemStack dyeStack, Player player,
+                           Direction particleFace, DustParticleOptions particleOptions, int delayTicks) {
         if (!(level instanceof ServerLevel serverLevel))
             return;
 
@@ -345,16 +365,6 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         PENDING_DYES.put(GlobalPos.of(serverLevel.dimension(), pos.immutable()),
                 new PendingDye(coloredBlock, dyeStack, player, particleFace, particleOptions));
         serverLevel.scheduleTick(pos, currentBlock, delayTicks);
-    }
-
-    @Override
-    protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-        PendingDye pending = PENDING_DYES.remove(GlobalPos.of(level.dimension(), pos.immutable()));
-        if (pending == null || pending.dyeStack().isEmpty() || state.is(pending.coloredBlock()))
-            return;
-
-        this.dyeAndConsume(level, pos, pending.coloredBlock(), pending.dyeStack(), pending.player(),
-                pending.particleFace(), pending.particleOptions());
     }
 
     private void dyeAndConsume(Level level, BlockPos pos, Block coloredBlock, ItemStack dyeStack, Player player,
@@ -368,6 +378,16 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         this.spawnDyeParticles(level, pos, particleFace, particleOptions);
     }
 
+    private void dye(Level level, BlockPos pos, Block coloredBlock) {
+        BlockState oldState = level.getBlockState(pos);
+        BlockState newState = coloredBlock.defaultBlockState()
+                .setValue(FACING, oldState.getValue(FACING))
+                .setValue(SHAPE, oldState.getValue(SHAPE))
+                .setValue(TALL, oldState.getValue(TALL))
+                .setValue(WATERLOGGED, oldState.getValue(WATERLOGGED));
+        level.setBlock(pos, newState, Block.UPDATE_ALL);
+    }
+
     private void spawnDyeParticles(Level level, BlockPos pos, Direction particleFace, DustParticleOptions particleOptions) {
         if (!(level instanceof ServerLevel serverLevel))
             return;
@@ -379,27 +399,11 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
                         Mth.nextDouble(random, -0.005F, 0.005F)), 0.45);
     }
 
-    private List<BlockPos> collectFences(Level level, BlockPos origin, Direction direction, int maxSteps) {
-        List<BlockPos> found = new ArrayList<>();
-        BlockPos.MutableBlockPos current = origin.mutable();
-
-        for (int step = 0; step < maxSteps; step++) {
-            current.move(direction);
-            if (!(level.getBlockState(current).getBlock() instanceof PicketFenceBlock))
-                break;
-            found.add(current.immutable());
-        }
-        return found;
-    }
-
-    private void dye(Level level, BlockPos pos, Block coloredBlock) {
-        BlockState oldState = level.getBlockState(pos);
-        BlockState newState = coloredBlock.defaultBlockState()
-                .setValue(FACING, oldState.getValue(FACING))
-                .setValue(SHAPE, oldState.getValue(SHAPE))
-                .setValue(TALL, oldState.getValue(TALL))
-                .setValue(WATERLOGGED, oldState.getValue(WATERLOGGED));
-        level.setBlock(pos, newState, Block.UPDATE_ALL);
+    private DustParticleOptions dustOptions(DyeColor color) {
+        int textColor = color.getTextColor();
+        Vector3f colorVec = new Vector3f((float) (textColor >> 16 & 255) / 255.0F,
+                (float) (textColor >> 8 & 255) / 255.0F, (float) (textColor & 255) / 255.0F);
+        return new DustParticleOptions(colorVec, 0.5F);
     }
 
     @Override
