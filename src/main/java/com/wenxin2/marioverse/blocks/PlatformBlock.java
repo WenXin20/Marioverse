@@ -75,7 +75,7 @@ public class PlatformBlock extends SlabBlock {
             } else if (stateValue == SlabType.BOTTOM) {
                 if (!context.isAbove(TOP_COLLISION, pos.below(), false))
                     return Shapes.empty();
-            } else if (!context.isAbove(DOUBLE_COLLISION, pos, false))
+            } else if (!context.isAbove(TOP_COLLISION, pos, false) && !blockGetter.getBlockState(pos.above()).isSolid())
                 return Shapes.empty();
         }
         return super.getCollisionShape(state, blockGetter, pos, collisionContext);
