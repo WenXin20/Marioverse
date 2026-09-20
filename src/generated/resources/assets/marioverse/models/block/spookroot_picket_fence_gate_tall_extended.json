@@ -2,7 +2,6 @@
   "parent": "marioverse:block/template_picket_fence_gate_tall_extended",
   "textures": {
     "gate": "marioverse:block/spookroot_picket_fence_gate_tall",
-    "particle": "marioverse:block/spookroot_picket_fence_gate_tall",
     "post": "marioverse:block/spookroot_picket_fence_gate_side"
   }
 }

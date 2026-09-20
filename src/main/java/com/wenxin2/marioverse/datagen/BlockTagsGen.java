@@ -51,6 +51,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
         BlockRegistry.PICKET_FENCES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCES).add(block.get()));
+        tag(TagRegistry.DYED_PICKET_FENCE_GATES);
         BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
@@ -484,6 +485,15 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES)
                 .addTag(TagRegistry.DYED_PICKET_FENCE_GATES)
+                .add(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
 
@@ -986,7 +996,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WARPED_PICKET_FENCE.get());
 
         tag(TagRegistry.WOODEN_PICKET_FENCE_GATES)
-                .addTag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES);
+                .addTag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES)
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.WARPED_PICKET_FENCE_GATE.get());
 
         tag(TagRegistry.WOODEN_PLATFORMS)
                 .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
@@ -1020,6 +1032,17 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPOOKROOT_FENCE.get());
 
         tag(Tags.Blocks.FENCE_GATES_WOODEN)
+                .add(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.WARPED_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get())
@@ -1131,6 +1154,17 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.FENCE_GATES)
+                .add(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.WARPED_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_FENCE_GATE.get())
                 .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get())

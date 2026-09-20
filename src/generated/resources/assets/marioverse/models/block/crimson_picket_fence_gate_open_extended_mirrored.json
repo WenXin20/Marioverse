@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_picket_fence_gate_open_extended_mirrored",
+  "textures": {
+    "gate": "marioverse:block/crimson_picket_fence_gate",
+    "post": "marioverse:block/crimson_picket_fence_gate_side"
+  }
+}

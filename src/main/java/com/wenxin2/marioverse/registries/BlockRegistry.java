@@ -162,6 +162,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE;
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> ACACIA_PICKET_FENCE;
+    public static final DeferredBlock<Block> ACACIA_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> ACACIA_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
@@ -179,12 +180,14 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BAMBOO_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> BAMBOO_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> BAMBOO_PICKET_FENCE;
+    public static final DeferredBlock<Block> BAMBOO_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> BAMBOO_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> BIRCH_ARROW_SIGN;
     public static final DeferredBlock<Block> BIRCH_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> BIRCH_PICKET_FENCE;
+    public static final DeferredBlock<Block> BIRCH_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> BIRCH_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
@@ -211,6 +214,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE;
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CHERRY_PICKET_FENCE;
+    public static final DeferredBlock<Block> CHERRY_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> CHERRY_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
@@ -234,6 +238,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRIMSON_ARROW_SIGN;
     public static final DeferredBlock<Block> CRIMSON_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> CRIMSON_PICKET_FENCE;
+    public static final DeferredBlock<Block> CRIMSON_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CRIMSON_WALL_ARROW_SIGN;
@@ -245,6 +250,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE;
+    public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> DARK_OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
@@ -399,6 +405,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> JUNGLE_PICKET_FENCE;
+    public static final DeferredBlock<Block> JUNGLE_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> JUNGLE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_ACACIA_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_ACACIA_WALL_ARROW_SIGN;
@@ -432,6 +439,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> MANGROVE_PICKET_FENCE;
+    public static final DeferredBlock<Block> MANGROVE_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> MANGROVE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MONSTER_DEATH_BLOCK;
@@ -481,6 +489,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> OAK_PICKET_FENCE;
+    public static final DeferredBlock<Block> OAK_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> ON_OFF_SWITCH;
     public static final DeferredBlock<Block> ORANGE_BLOOMFLOWER;
@@ -652,6 +661,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> SPRUCE_PICKET_FENCE;
+    public static final DeferredBlock<Block> SPRUCE_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> SPRUCE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STEVE_ABILITY_BLOCK;
@@ -728,6 +738,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WARPED_ARROW_SIGN;
     public static final DeferredBlock<Block> WARPED_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> WARPED_PICKET_FENCE;
+    public static final DeferredBlock<Block> WARPED_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> WARPED_WALL_ARROW_SIGN;
@@ -1468,6 +1479,39 @@ public class BlockRegistry {
         SPOOKROOT_PICKET_FENCE = registerBlock("spookroot_picket_fence",
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.SPOOKROOT_FENCE.get())));
 
+        OAK_PICKET_FENCE_GATE = registerBlock("oak_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
+        SPRUCE_PICKET_FENCE_GATE = registerBlock("spruce_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_FENCE_GATE)));
+        BIRCH_PICKET_FENCE_GATE = registerBlock("birch_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_FENCE_GATE)));
+        ACACIA_PICKET_FENCE_GATE = registerBlock("acacia_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_FENCE_GATE)));
+        JUNGLE_PICKET_FENCE_GATE = registerBlock("jungle_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_FENCE_GATE)));
+        CHERRY_PICKET_FENCE_GATE = registerBlock("cherry_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_FENCE_GATE)));
+        DARK_OAK_PICKET_FENCE_GATE = registerBlock("dark_oak_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_FENCE_GATE)));
+        MANGROVE_PICKET_FENCE_GATE = registerBlock("mangrove_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_FENCE_GATE)));
+        BAMBOO_PICKET_FENCE_GATE = registerBlock("bamboo_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_FENCE_GATE)));
+        CRIMSON_PICKET_FENCE_GATE = registerBlock("crimson_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FENCE_GATE)));
+        WARPED_PICKET_FENCE_GATE = registerBlock("warped_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE_GATE)));
         MUSHROOT_PICKET_FENCE_GATE = registerBlock("mushroot_picket_fence_gate",
                 () -> new PicketFenceGateBlock(WoodTypeRegistry.MUSHROOT,
                         BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_FENCE_GATE.get())));

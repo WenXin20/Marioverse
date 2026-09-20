@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
+import com.wenxin2.marioverse.blocks.PicketFenceGateBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
@@ -53,6 +54,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -74,6 +76,7 @@ public class WoodModule extends EveryCompatModule {
     public final SimpleEntrySet<WoodType, Block> bridge;
     public final SimpleEntrySet<WoodType, Block> bridgeStairs;
     public final SimpleEntrySet<WoodType, Block> picketFence;
+    public final SimpleEntrySet<WoodType, Block> picketFenceGate;
     public final SimpleEntrySet<WoodType, Block> strippedBridge;
     public final SimpleEntrySet<WoodType, Block> strippedBridgeStairs;
     public final SimpleEntrySet<WoodType, Block> wallArrowSign;
@@ -230,10 +233,13 @@ public class WoodModule extends EveryCompatModule {
 
         picketFence = SimpleEntrySet.builder(WoodType.class, "picket_fence",
                         BlockRegistry.OAK_PICKET_FENCE, () -> VanillaWoodTypes.OAK,
-                        woodType -> new PicketFenceBlock(Utils.copyPropertySafe(woodType.planks)))
+                        woodType -> new PicketFenceBlock(Utils.copyPropertySafe(woodType.planks)
+                                .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)
+                                .strength(2.0F, 3.0F)
+                                .ignitedByLava().forceSolidOn()))
                 .addTexture(modRes("block/oak_picket_fence"), PaletteStrategies.PLANKS_STANDARD)
-                .addTextureM(modRes("block/oak_picket_fence_back"), EveryCompat.res("block/mv/oak_picket_fence_back_mask"),
-                        PaletteStrategies.PLANKS_STANDARD)
+                .addTextureM(modRes("block/oak_picket_fence_back"),
+                        EveryCompat.res("block/mv/oak_picket_fence_back_mask"), PaletteStrategies.PLANKS_STANDARD)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_PICKET_FENCES, Registries.BLOCK)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES, Registries.BLOCK)
@@ -248,6 +254,34 @@ public class WoodModule extends EveryCompatModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(picketFence);
+
+        picketFenceGate = SimpleEntrySet.builder(WoodType.class, "picket_fence_gate",
+                        BlockRegistry.OAK_PICKET_FENCE_GATE, () -> VanillaWoodTypes.OAK,
+                        woodType -> new PicketFenceGateBlock(woodType.toVanillaOrOak(),
+                                Utils.copyPropertySafe(woodType.planks)
+                                        .instrument(NoteBlockInstrument.BASS)
+                                        .strength(2.0F, 3.0F)
+                                        .ignitedByLava().forceSolidOn()))
+                .addTextureM(modRes("block/oak_picket_fence_gate"),
+                        EveryCompat.res("block/mv/oak_picket_fence_gate_mask"), PaletteStrategies.PLANKS_STANDARD)
+                .addTexture(modRes("block/oak_picket_fence_gate_tall"), PaletteStrategies.PLANKS_STANDARD)
+                .addTexture(modRes("block/oak_picket_fence_gate_side"), PaletteStrategies.PLANKS_STANDARD)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .addTag(BlockTags.FENCE_GATES, Registries.BLOCK)
+                .addTag(Tags.Blocks.FENCE_GATES_WOODEN, Registries.BLOCK)
+                .addTag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES, Registries.BLOCK)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCE_GATES, Registries.BLOCK)
+                .addTag(ItemTags.FENCE_GATES, Registries.ITEM)
+                .addTag(Tags.Items.FENCE_GATES_WOODEN, Registries.ITEM)
+                .addTag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATE_ITEMS, Registries.ITEM)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCE_GATE_ITEMS, Registries.ITEM)
+                .requiresChildren("planks")
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .setTab(decorationsTab)
+                .copyParentDrop()
+                .defaultRecipe()
+                .build();
+        this.addEntry(picketFenceGate);
 
         wallArrowSign = SimpleEntrySet.builder(WoodType.class, "wall_arrow_sign",
                         BlockRegistry.OAK_WALL_ARROW_SIGN, () -> VanillaWoodTypes.OAK,

@@ -174,34 +174,42 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended ACACIA_SLAB = familyBuilder(Blocks.ACACIA_SLAB)
             .picketFence(BlockRegistry.ACACIA_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended BAMBOO_SLAB = familyBuilder(Blocks.BAMBOO_SLAB)
             .picketFence(BlockRegistry.BAMBOO_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended BIRCH_SLAB = familyBuilder(Blocks.BIRCH_SLAB)
             .picketFence(BlockRegistry.BIRCH_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended CHERRY_SLAB = familyBuilder(Blocks.CHERRY_SLAB)
             .picketFence(BlockRegistry.CHERRY_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended CRIMSON_SLAB = familyBuilder(Blocks.CRIMSON_SLAB)
             .picketFence(BlockRegistry.CRIMSON_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended DARK_OAK_SLAB = familyBuilder(Blocks.DARK_OAK_SLAB)
             .picketFence(BlockRegistry.DARK_OAK_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended JUNGLE_SLAB = familyBuilder(Blocks.JUNGLE_SLAB)
             .picketFence(BlockRegistry.JUNGLE_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended MANGROVE_SLAB = familyBuilder(Blocks.MANGROVE_SLAB)
             .picketFence(BlockRegistry.MANGROVE_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_SLAB = familyBuilder(BlockRegistry.MUSHROOT_SLAB.get())
@@ -236,14 +244,17 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended OAK_SLAB = familyBuilder(Blocks.OAK_SLAB)
             .picketFence(BlockRegistry.OAK_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended SPRUCE_SLAB = familyBuilder(Blocks.SPRUCE_SLAB)
             .picketFence(BlockRegistry.SPRUCE_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended WARPED_SLAB = familyBuilder(Blocks.WARPED_SLAB)
             .picketFence(BlockRegistry.WARPED_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.WARPED_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended MUSHROOT_PLANKS = familyBuilder(BlockRegistry.MUSHROOT_PLANKS.get())

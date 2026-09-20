@@ -238,7 +238,18 @@ public class BlockStateGen extends BlockStateProvider {
         this.picketFenceBlocks(Arrays.stream(DyeColor.values())
                 .map(color -> BlockRegistry.PICKET_FENCES.get(color).get())
                 .toArray(Block[]::new));
-        this.picketFenceGateBlocks(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get(),
+        this.picketFenceGateBlocks(BlockRegistry.OAK_PICKET_FENCE_GATE.get(),
+                BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get(),
+                BlockRegistry.BIRCH_PICKET_FENCE_GATE.get(),
+                BlockRegistry.ACACIA_PICKET_FENCE_GATE.get(),
+                BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get(),
+                BlockRegistry.CHERRY_PICKET_FENCE_GATE.get(),
+                BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get(),
+                BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get(),
+                BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get(),
+                BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get(),
+                BlockRegistry.WARPED_PICKET_FENCE_GATE.get(),
+                BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get(),
                 BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
 
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
