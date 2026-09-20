@@ -175,8 +175,9 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
         Direction latch = this.latchSide(facing, hinge);
 
         state = state.setValue(HINGE, hinge);
-        state = state.setValue(EXTENDED, this.isPartner(level.getBlockState(pos.relative(latch)), facing, latch));
-        state = state.setValue(TALL, level.getBlockState(pos.above()).getBlock() instanceof PicketFenceGateBlock);
+        state = state.setValue(EXTENDED, this.isPartner(level.getBlockState(pos.relative(latch)), facing, latch)
+                || this.isExtendedBelow(level.getBlockState(pos.below()), facing, latch));
+        state = state.setValue(TALL, this.isTallWith(level.getBlockState(pos.above()), facing));
         return state.setValue(WATERLOGGED, level.getFluidState(pos).getType() == Fluids.WATER);
     }
 
@@ -187,14 +188,18 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
         if (state.getValue(WATERLOGGED))
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         if (direction == Direction.UP)
-            return state.setValue(TALL, neighborState.getBlock() instanceof PicketFenceGateBlock);
+            return state.setValue(TALL, this.isTallWith(neighborState, state.getValue(FACING)));
 
         state = super.updateShape(state, direction, neighborState, level, pos, neighborPos);
 
         Direction facing = state.getValue(FACING);
         Direction latch = this.latchSide(facing, state.getValue(HINGE));
-        if (direction == latch)
-            state = state.setValue(EXTENDED, this.isPartner(neighborState, facing, latch));
+        if (direction == latch || direction == Direction.DOWN) {
+            BlockState latchState = direction == latch ? neighborState : level.getBlockState(pos.relative(latch));
+            BlockState belowState = direction == Direction.DOWN ? neighborState : level.getBlockState(pos.below());
+            state = state.setValue(EXTENDED, this.isPartner(latchState, facing, latch)
+                    || this.isExtendedBelow(belowState, facing, latch));
+        }
         return state;
     }
 
@@ -350,6 +355,14 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
         if (!(neighbor.getBlock() instanceof PicketFenceGateBlock) || neighbor.getValue(FACING).getAxis() != facing.getAxis())
             return false;
         return this.latchSide(neighbor.getValue(FACING), neighbor.getValue(HINGE)) == directionToNeighbor.getOpposite();
+    }
+
+    private boolean isTallWith(BlockState above, Direction facing) {
+        return above.getBlock() instanceof PicketFenceGateBlock && above.getValue(FACING).getAxis() == facing.getAxis();
+    }
+
+    private boolean isExtendedBelow(BlockState below, Direction facing, Direction latch) {
+        return this.isStackedGate(below, facing, latch) && below.getValue(EXTENDED);
     }
 
     private boolean isStackedGate(BlockState neighbor, Direction facing, Direction latch) {

@@ -1480,37 +1480,37 @@ public class BlockRegistry {
                 () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.SPOOKROOT_FENCE.get())));
 
         OAK_PICKET_FENCE_GATE = registerBlock("oak_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.OAK,
+                () -> new PicketFenceGateBlock(WoodType.OAK,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
         SPRUCE_PICKET_FENCE_GATE = registerBlock("spruce_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.SPRUCE,
+                () -> new PicketFenceGateBlock(WoodType.SPRUCE,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_FENCE_GATE)));
         BIRCH_PICKET_FENCE_GATE = registerBlock("birch_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.BIRCH,
+                () -> new PicketFenceGateBlock(WoodType.BIRCH,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_FENCE_GATE)));
         ACACIA_PICKET_FENCE_GATE = registerBlock("acacia_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.ACACIA,
+                () -> new PicketFenceGateBlock(WoodType.ACACIA,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_FENCE_GATE)));
         JUNGLE_PICKET_FENCE_GATE = registerBlock("jungle_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.JUNGLE,
+                () -> new PicketFenceGateBlock(WoodType.JUNGLE,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_FENCE_GATE)));
         CHERRY_PICKET_FENCE_GATE = registerBlock("cherry_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.CHERRY,
+                () -> new PicketFenceGateBlock(WoodType.CHERRY,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_FENCE_GATE)));
         DARK_OAK_PICKET_FENCE_GATE = registerBlock("dark_oak_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.DARK_OAK,
+                () -> new PicketFenceGateBlock(WoodType.DARK_OAK,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_FENCE_GATE)));
         MANGROVE_PICKET_FENCE_GATE = registerBlock("mangrove_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.MANGROVE,
+                () -> new PicketFenceGateBlock(WoodType.MANGROVE,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_FENCE_GATE)));
         BAMBOO_PICKET_FENCE_GATE = registerBlock("bamboo_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.BAMBOO,
+                () -> new PicketFenceGateBlock(WoodType.BAMBOO,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_FENCE_GATE)));
         CRIMSON_PICKET_FENCE_GATE = registerBlock("crimson_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.CRIMSON,
+                () -> new PicketFenceGateBlock(WoodType.CRIMSON,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FENCE_GATE)));
         WARPED_PICKET_FENCE_GATE = registerBlock("warped_picket_fence_gate",
-                () -> new PicketFenceGateBlock(WoodTypeRegistry.WARPED,
+                () -> new PicketFenceGateBlock(WoodType.WARPED,
                         BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE_GATE)));
         MUSHROOT_PICKET_FENCE_GATE = registerBlock("mushroot_picket_fence_gate",
                 () -> new PicketFenceGateBlock(WoodTypeRegistry.MUSHROOT,

@@ -2,7 +2,7 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "marioverse:block/mushroot_picket_fence_gate",
+		"particle": "#gate",
 		"gate": "marioverse:block/mushroot_picket_fence_gate",
 		"post": "marioverse:block/mushroot_picket_fence_gate_side"
 	},
