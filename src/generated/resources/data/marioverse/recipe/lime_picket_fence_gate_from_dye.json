@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "marioverse:picket_fence_gate_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/lime"
+    },
+    {
+      "tag": "marioverse:picket_fence_gates"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:lime_picket_fence_gate"
+  }
+}

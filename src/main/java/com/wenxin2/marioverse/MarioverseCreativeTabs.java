@@ -605,7 +605,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CRIMSON_PICKET_FENCE_GATE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE_GATE);
-            addDyedBlocks(event, BlockRegistry.WARPED_PICKET_FENCE, BlockRegistry.PICKET_FENCES, true, true);
+            addDyedBlockPairs(event, BlockRegistry.WARPED_PICKET_FENCE_GATE, BlockRegistry.PICKET_FENCES, BlockRegistry.PICKET_FENCE_GATES);
 
             add(event, BlockRegistry.MUSHROOT_LOG_PLATFORM);
             add(event, BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM);
@@ -903,7 +903,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.CRIMSON_PICKET_FENCE_GATE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE);
             add(event, BlockRegistry.WARPED_PICKET_FENCE_GATE);
-            addDyedBlocks(event, BlockRegistry.WARPED_PICKET_FENCE_GATE, BlockRegistry.PICKET_FENCES, true, true);
+            addDyedBlockPairs(event, BlockRegistry.WARPED_PICKET_FENCE_GATE, BlockRegistry.PICKET_FENCES, BlockRegistry.PICKET_FENCE_GATES);
 
             add(event, BlockRegistry.MUSHROOT_FRAMED_WINDOW);
             add(event, BlockRegistry.SPOOKROOT_FRAMED_WINDOW);
@@ -1258,7 +1258,7 @@ public class MarioverseCreativeTabs {
                 addDyedBlocks(event, BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CHISELED_CALCITE_BRICKS, true, true);
                 addDyedBlocks(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.STORAGE_CALCITE_BRICKS, true, true);
                 addDyedBlocks(event, BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_PEDESTALS, true, true);
-                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PINK), BlockRegistry.PICKET_FENCES, true, true);
+                addDyedBlockPairs(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PINK), BlockRegistry.PICKET_FENCES, BlockRegistry.PICKET_FENCE_GATES);
 
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE);
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
@@ -2157,6 +2157,23 @@ public class MarioverseCreativeTabs {
         if (alreadyExists(event, beforeStack))
             event.insertBefore(beforeStack, stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         else add(event, stack);
+    }
+
+    private static void addDyedBlockPairs(BuildCreativeModeTabContentsEvent event, ItemLike existingItem,
+                                          EnumMap<DyeColor, DeferredBlock<Block>> firstBlocks,
+                                          EnumMap<DyeColor, DeferredBlock<Block>> secondBlocks) {
+        List<DyeColor> rainbowOrder = Arrays.asList(DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK,
+                DyeColor.BROWN, DyeColor.RED, DyeColor.ORANGE, DyeColor.YELLOW, DyeColor.LIME, DyeColor.GREEN, DyeColor.CYAN,
+                DyeColor.LIGHT_BLUE, DyeColor.BLUE, DyeColor.PURPLE, DyeColor.MAGENTA, DyeColor.PINK);
+
+        ItemLike previous = existingItem;
+        for (DyeColor color : rainbowOrder) {
+            Block first = firstBlocks.get(color).get();
+            Block second = secondBlocks.get(color).get();
+            addAfter(event, previous, first);
+            addAfter(event, first, second);
+            previous = second;
+        }
     }
 
     private static void addDyedBlocks(BuildCreativeModeTabContentsEvent event, ItemLike existingItem,

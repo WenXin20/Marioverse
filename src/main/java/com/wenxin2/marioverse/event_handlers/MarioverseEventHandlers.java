@@ -4,8 +4,8 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.DyeColumnBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
-import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
@@ -715,8 +715,8 @@ public class MarioverseEventHandlers {
         }
 
         if (player.isShiftKeyDown() && heldItem.getItem() instanceof DyeItem
-                && state.getBlock() instanceof PicketFenceBlock picketFenceBlock
-                && picketFenceBlock.dyeSingleBlock(level, pos, state, heldItem, player, event.getFace())) {
+                && state.getBlock() instanceof DyeColumnBlock dyeColumnBlock
+                && dyeColumnBlock.dyeSingleBlock(level, pos, state, heldItem, player, event.getFace())) {
             event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             event.setCanceled(true);
         }

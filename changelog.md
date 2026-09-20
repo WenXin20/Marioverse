@@ -12,6 +12,7 @@
 - Added Picket Fences 
   - Wood variants
   - 16 dyed colors
+  - Gates for all variants
   - Right-click to dye a column
   - Shift-right-click to dye one block
 - Added Mushroot block set
@@ -19,8 +20,7 @@
   - Doors, Trapdoors, Signs & Hanging Signs
   - Arrow Signs & Large Arrow Signs
   - Framed Windows, Boards, Panels, & Hard Blocks
-  - Picket Fences
-  - Log Platforms
+  - Picket Fences, Log Platforms
   - Boats & Chest Boats
 - Added Hedges
   - Snowy Hedges, Pink, Red, & White Rose Hedges
@@ -41,8 +41,10 @@
 - Added bloomflowers of various colors
 - Added tooltips to bridges
 - Added recipe to convert Dango Blossoms to dye
-- Wandering trader trades Mushroot Saplings
-- Wandering trader trades Shroomgrass Blocks
+- Added new Wandering trader trades
+  - Mushroot & Spookroot Saplings
+  - Shroomgrass Blocks
+- Added new creative tabs
 - Fixed flammability of Log Stairs
 - Fixed peaceful difficulty causing some blocks/enemies not doing damage
 

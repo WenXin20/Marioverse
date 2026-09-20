@@ -1,3 +1,20 @@
 {
-  "values": []
+  "values": [
+    "marioverse:white_picket_fence_gate",
+    "marioverse:orange_picket_fence_gate",
+    "marioverse:magenta_picket_fence_gate",
+    "marioverse:light_blue_picket_fence_gate",
+    "marioverse:yellow_picket_fence_gate",
+    "marioverse:lime_picket_fence_gate",
+    "marioverse:pink_picket_fence_gate",
+    "marioverse:gray_picket_fence_gate",
+    "marioverse:light_gray_picket_fence_gate",
+    "marioverse:cyan_picket_fence_gate",
+    "marioverse:purple_picket_fence_gate",
+    "marioverse:blue_picket_fence_gate",
+    "marioverse:brown_picket_fence_gate",
+    "marioverse:green_picket_fence_gate",
+    "marioverse:red_picket_fence_gate",
+    "marioverse:black_picket_fence_gate"
+  ]
 }

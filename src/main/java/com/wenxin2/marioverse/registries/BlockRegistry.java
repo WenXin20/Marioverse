@@ -148,6 +148,8 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> PICKET_FENCES =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PICKET_FENCE_GATES =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> PIPE_JUNCTION =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
@@ -2753,6 +2755,11 @@ public class BlockRegistry {
         Arrays.stream(DyeColor.values()).forEach(color ->
                 PICKET_FENCES.put(color, registerBlock(color.getName() + "_picket_fence",
                         () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                PICKET_FENCE_GATES.put(color, registerBlock(color.getName() + "_picket_fence_gate",
+                        () -> new PicketFenceGateBlock(WoodTypeRegistry.OAK,
+                                BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE).mapColor(color)))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",

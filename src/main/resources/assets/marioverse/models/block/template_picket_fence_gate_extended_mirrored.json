@@ -3,8 +3,8 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"particle": "#gate",
-		"gate": "marioverse:block/mushroot_picket_fence_gate",
-		"post": "marioverse:block/mushroot_picket_fence_gate_side"
+		"gate": "marioverse:block/white_picket_fence_gate",
+		"post": "marioverse:block/white_picket_fence_gate_side"
 	},
 	"elements": [
 		{
@@ -13,7 +13,7 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [12, 14, 7]},
 			"faces": {
 				"north": {"uv": [16, 1, 6, 2], "texture": "#gate"},
-				"east": {"uv": [2, 0, 0, 1], "texture": "#post"},
+				"east": {"uv": [0, 1, 2, 2], "texture": "#post"},
 				"south": {"uv": [6, 1, 16, 2], "texture": "#gate"},
 				"west": {"uv": [2, 0, 0, 1], "texture": "#post"},
 				"up": {"uv": [6, 2, 16, 0], "texture": "#gate"}
@@ -25,7 +25,7 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [16, 0, 7]},
 			"faces": {
 				"north": {"uv": [16, 2, 3, 16], "texture": "#gate"},
-				"east": {"uv": [2, 2, 0, 16], "texture": "#post"},
+				"east": {"uv": [0, 2, 2, 16], "texture": "#post"},
 				"south": {"uv": [3, 2, 16, 16], "texture": "#gate"},
 				"up": {"uv": [16, 2, 3, 0], "texture": "#gate"},
 				"down": {"uv": [3, 14, 16, 16], "texture": "#gate", "cullface": "down"}

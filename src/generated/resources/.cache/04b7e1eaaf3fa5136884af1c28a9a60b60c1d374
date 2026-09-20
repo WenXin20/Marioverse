@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-19T23:56:41.1545267	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-09-20T17:01:39.6202361	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -31,7 +31,7 @@ d89ec4ee1f1de9ced05fb2371d3d6887c416f19c data/c/tags/item/dyed/white.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/enchantables.json
 0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/c/tags/item/fences.json
 74491dda4282f7f2d96d10b16501df4d44ba3d7c data/c/tags/item/fences/wooden.json
-5ac1122ee6b8a632ab575be5ccb3fd836dda261e data/c/tags/item/fence_gates/wooden.json
+2bbd0fd34b17230eea47727565783149abeb82d8 data/c/tags/item/fence_gates/wooden.json
 5ba631e6e0d914f759a46e9551eb7db121a7cfde data/c/tags/item/foods/cooked_fish.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/c/tags/item/foods/raw_fish.json
 789473b71265972c32eafed83385821b3ee84ed0 data/c/tags/item/glass_blocks/colorless.json
@@ -128,7 +128,7 @@ bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/item/mushroot_logs
 4ba6e02432fc3dbae9ecbeb344e69a02a07e4b9d data/marioverse/tags/item/picket_fences/flammable.json
 f1f53f32264771db68a2813211ae60091abaf2fd data/marioverse/tags/item/picket_fences/wooden.json
 6cc1de97b0dcc93cc42ffa7df4b43165a3521a4c data/marioverse/tags/item/picket_fence_gates.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/item/picket_fence_gates/dyed.json
+211c10df2c9f4278fc919eae0269b9cc583bcf57 data/marioverse/tags/item/picket_fence_gates/dyed.json
 8230f4e848f9dba16d6ac075375376fa65447ec0 data/marioverse/tags/item/picket_fence_gates/flammable.json
 982a7eb4028d8a1e8af50b9f088b05740e61770d data/marioverse/tags/item/picket_fence_gates/wooden.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/item/pipe_junction_blocks.json
@@ -179,7 +179,7 @@ cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/eq
 cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/vanishing.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/weapon.json
 0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/minecraft/tags/item/fences.json
-5ac1122ee6b8a632ab575be5ccb3fd836dda261e data/minecraft/tags/item/fence_gates.json
+2bbd0fd34b17230eea47727565783149abeb82d8 data/minecraft/tags/item/fence_gates.json
 b28d2334ac91b76d29f622d51412d34b0f4f498a data/minecraft/tags/item/fishes.json
 14742b562ea2fa76e68930652cec7e858856c12e data/minecraft/tags/item/flowers.json
 120d08efd84b6eaba74e091dfc73b7e03ed69a02 data/minecraft/tags/item/foot_armor.json

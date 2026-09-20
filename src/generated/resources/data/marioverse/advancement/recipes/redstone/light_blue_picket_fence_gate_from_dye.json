@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dyes/light_blue": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/light_blue"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_picket_fence_gates": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:picket_fence_gates"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:light_blue_picket_fence_gate_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dyes/light_blue",
+      "has_picket_fence_gates"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:light_blue_picket_fence_gate_from_dye"
+    ]
+  }
+}

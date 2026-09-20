@@ -12,6 +12,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import net.mehvahdjukaar.every_compat.api.PaletteStrategies;
 import net.mehvahdjukaar.every_compat.api.PaletteStrategy;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
+import net.mehvahdjukaar.every_compat.api.TabAddMode;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.mehvahdjukaar.stone_zone.api.StonePaletteStrategies;
@@ -75,8 +76,9 @@ public class StoneModule extends StoneZoneModule {
                 .addRecipe(modRes("stone_brick_pedestal_from_stone_stonecutting"))
                 .addRecipe(modRes("stone_brick_pedestal_stonecutting"))
                 .requiresChildren("bricks")
-                .defaultRecipe()
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(buildingBlocksTab)
+                .defaultRecipe()
                 .build();
         this.addEntry(brickPedestal);
 
@@ -95,6 +97,7 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.INVISIBLE_QUESTION_BLOCK_ENTITY)
                 .requiresChildren("bricks")
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(functionalBlocksTab)
                 .build();
         this.addEntry(invisibleQuestionBlock);
@@ -115,8 +118,9 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.QUESTION_BLOCK_ENTITY)
                 .requiresChildren("bricks")
-                .defaultRecipe()
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(functionalBlocksTab)
+                .defaultRecipe()
                 .build();
         this.addEntry(questionBlock);
 
@@ -130,6 +134,7 @@ public class StoneModule extends StoneZoneModule {
                 .addRecipe(modRes("smashable_tuff_bricks_from_tuff_stonecutting"))
                 .addRecipe(modRes("smashable_tuff_bricks_stonecutting"))
                 .requiresChildren("bricks")
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(smashableBricks);
@@ -149,8 +154,9 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.STORAGE_BRICK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY)
                 .requiresChildren("bricks")
-                .defaultRecipe()
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(functionalBlocksTab)
+                .defaultRecipe()
                 .build();
         this.addEntry(storageBricks);
     }

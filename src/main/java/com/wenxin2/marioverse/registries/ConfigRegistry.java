@@ -303,6 +303,8 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue ONE_UP_COOLDOWN;
     public static ModConfigSpec.IntValue PICKET_FENCE_PAINT_RATE;
     public static ModConfigSpec.IntValue PICKET_FENCE_PAINT_RANGE;
+    public static ModConfigSpec.IntValue PICKET_FENCE_GATE_PAINT_RATE;
+    public static ModConfigSpec.IntValue PICKET_FENCE_GATE_PAINT_RANGE;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_FREQUENCY;
@@ -679,6 +681,12 @@ public class ConfigRegistry {
                     PICKET_FENCE_PAINT_RATE = BUILDER.translation("configuration.marioverse.picket_fence_paint_rate")
                             .comment("The rate a column of fences are painted in ticks.")
                             .defineInRange("picket_fence_paint_rate", 3, 0, 20);
+                    PICKET_FENCE_GATE_PAINT_RANGE = BUILDER.translation("configuration.marioverse.picket_fence_gate_paint_range")
+                            .comment("The range a dye can paint in a column.")
+                            .defineInRange("picket_fence_gate_paint_range", 3, 0, 8);
+                    PICKET_FENCE_GATE_PAINT_RATE = BUILDER.translation("configuration.marioverse.picket_fence_gate_paint_rate")
+                            .comment("The rate a column of gates are painted in ticks.")
+                            .defineInRange("picket_fence_gate_paint_rate", 3, 0, 20);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_QUESTION_BLOCKS);

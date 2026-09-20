@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-19T23:56:41.1499244	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-20T17:01:39.6129422	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -24,7 +24,7 @@ c0998eae7c238cde0f58c70ec6943f306e489a91 data/c/tags/block/dyed/pink.json
 d89ec4ee1f1de9ced05fb2371d3d6887c416f19c data/c/tags/block/dyed/white.json
 8f8fa95f11d2fc4f2ee200854044f93add14784a data/c/tags/block/dyed/yellow.json
 63510de95e1684c0dab9e23c0276eca535fe855c data/c/tags/block/fences/wooden.json
-5ac1122ee6b8a632ab575be5ccb3fd836dda261e data/c/tags/block/fence_gates/wooden.json
+2bbd0fd34b17230eea47727565783149abeb82d8 data/c/tags/block/fence_gates/wooden.json
 789473b71265972c32eafed83385821b3ee84ed0 data/c/tags/block/glass_blocks/colorless.json
 789473b71265972c32eafed83385821b3ee84ed0 data/c/tags/block/glass_blocks/wooden.json
 c7065018449d1318e71044df4526e528d11f4109 data/c/tags/block/glass_panes/colorless.json
@@ -116,7 +116,7 @@ bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/block/mushroot_log
 4ba6e02432fc3dbae9ecbeb344e69a02a07e4b9d data/marioverse/tags/block/picket_fences/flammable.json
 f1f53f32264771db68a2813211ae60091abaf2fd data/marioverse/tags/block/picket_fences/wooden.json
 6cc1de97b0dcc93cc42ffa7df4b43165a3521a4c data/marioverse/tags/block/picket_fence_gates.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/block/picket_fence_gates/dyed.json
+211c10df2c9f4278fc919eae0269b9cc583bcf57 data/marioverse/tags/block/picket_fence_gates/dyed.json
 8230f4e848f9dba16d6ac075375376fa65447ec0 data/marioverse/tags/block/picket_fence_gates/flammable.json
 982a7eb4028d8a1e8af50b9f088b05740e61770d data/marioverse/tags/block/picket_fence_gates/wooden.json
 9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/block/pipe_junction_blocks.json
@@ -160,7 +160,7 @@ e9ed280a523a34d5da1a046244b1a0cd49645407 data/minecraft/tags/block/dirt.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
 19506890947dbc2b1ca70228fb21d23540be979b data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
-5ac1122ee6b8a632ab575be5ccb3fd836dda261e data/minecraft/tags/block/fence_gates.json
+2bbd0fd34b17230eea47727565783149abeb82d8 data/minecraft/tags/block/fence_gates.json
 14742b562ea2fa76e68930652cec7e858856c12e data/minecraft/tags/block/flowers.json
 c1ea22d95a092745a96947170aa4315c878085fd data/minecraft/tags/block/flower_pots.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/foxes_spawnable_on.json

@@ -238,6 +238,9 @@ public class BlockStateGen extends BlockStateProvider {
         this.picketFenceBlocks(Arrays.stream(DyeColor.values())
                 .map(color -> BlockRegistry.PICKET_FENCES.get(color).get())
                 .toArray(Block[]::new));
+        this.picketFenceGateBlocks(Arrays.stream(DyeColor.values())
+                .map(color -> BlockRegistry.PICKET_FENCE_GATES.get(color).get())
+                .toArray(Block[]::new));
         this.picketFenceGateBlocks(BlockRegistry.OAK_PICKET_FENCE_GATE.get(),
                 BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get(),
                 BlockRegistry.BIRCH_PICKET_FENCE_GATE.get(),

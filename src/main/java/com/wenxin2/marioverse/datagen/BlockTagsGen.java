@@ -51,7 +51,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
         BlockRegistry.PICKET_FENCES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCES).add(block.get()));
-        tag(TagRegistry.DYED_PICKET_FENCE_GATES);
+        BlockRegistry.PICKET_FENCE_GATES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCE_GATES).add(block.get()));
         BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
@@ -1032,6 +1032,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPOOKROOT_FENCE.get());
 
         tag(Tags.Blocks.FENCE_GATES_WOODEN)
+                .addTag(TagRegistry.DYED_PICKET_FENCE_GATES)
                 .add(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
@@ -1154,6 +1155,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.FENCE_GATES)
+                .addTag(TagRegistry.DYED_PICKET_FENCE_GATES)
                 .add(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
                 .add(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
