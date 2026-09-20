@@ -71,12 +71,12 @@ dependencies {
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}" // Required Dependency
 
     implementation "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
-    compileOnly "curse.maven:amendments-896746:7461027" // Requires Moonlight
+    compileOnly "curse.maven:amendments-896746:8825641" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
-    implementation "curse.maven:copycats-968398:7251823" // Requires Create
+    implementation "curse.maven:copycats-968398:8822348" // Requires Create
     implementation "curse.maven:create-328085:7963363"
     compileOnly "curse.maven:caverns-and-chasms-438005:8155745" // Requires Blueprint
-    implementation "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
+    implementation "curse.maven:create-aeronautics-676721:8763471" // Requires Create, Sable, Incompatible w/ Embeddium
     compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
     compileOnly "curse.maven:framedblocks-441647:7584453"
     compileOnly "curse.maven:deep-aether-852465:6839619"
@@ -112,12 +112,12 @@ dependencies {
     implementation "curse.maven:framework-549225:7530361"
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    implementation "curse.maven:sable-1312371:8263584" // Requires Create
+    implementation "curse.maven:sable-${sable_version}" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     compileOnly "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
-    compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"
+    compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:[${sable_companion_version},)"
 
-    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:1.6.0"))
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:${sable_companion_version}"))
     implementation "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_spef_version}"
 
     // implementation "curse.maven:simple-clouds-${simple_clouds_version}"
