@@ -25,12 +25,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class IronSpikeBlock extends Block implements SimpleWaterloggedBlock {
+public class SpikeBallBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    protected static final VoxelShape SHAPE = Block.box(2, 2, 2, 14, 14, 14).optimize();
+    protected static final VoxelShape SHAPE = Block
+            .box(2, 2, 2, 14, 14, 14).optimize();
+    protected static final VoxelShape COLLISION_SHAPE = Block
+            .box(5, 5, 5, 11, 11, 11).optimize();
 
-    public IronSpikeBlock(Properties properties) {
+    public SpikeBallBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
     }
@@ -44,6 +47,12 @@ public class IronSpikeBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         return SHAPE;
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return COLLISION_SHAPE;
     }
 
     @Override

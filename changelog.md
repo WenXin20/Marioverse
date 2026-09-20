@@ -44,6 +44,7 @@
 - Wandering trader trades Mushroot Saplings
 - Wandering trader trades Shroomgrass Blocks
 - Fixed flammability of Log Stairs
+- Fixed peaceful difficulty causing some blocks/enemies not doing damage
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

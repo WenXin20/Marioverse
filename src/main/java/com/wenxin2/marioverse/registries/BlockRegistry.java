@@ -52,7 +52,7 @@ import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
-import com.wenxin2.marioverse.blocks.IronSpikeBlock;
+import com.wenxin2.marioverse.blocks.SpikeBallBlock;
 import com.wenxin2.marioverse.blocks.RosalinaAbilityBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.SnowyHedgeBlock;
@@ -818,7 +818,7 @@ public class BlockRegistry {
 
 
         IRON_SPIKE = registerBlock("iron_spike",
-                () -> new IronSpikeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                () -> new SpikeBallBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(25.0F, 1200.0F).requiresCorrectToolForDrops()));
