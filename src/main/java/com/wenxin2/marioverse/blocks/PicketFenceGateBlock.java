@@ -65,6 +65,7 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
     private static final VoxelShape SHAPE_TALL = Shapes
             .or(Block.box(3, 0, 7, 13, 16, 9),
                     POST_LEFT, POST_RIGHT).optimize();
+
     private static final VoxelShape SHAPE_EXTENDED = Shapes
             .or(Block.box(0, 14, 7, 10, 15, 9),
                     Block.box(0, 0, 7, 13, 14, 9),
@@ -72,6 +73,7 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
     private static final VoxelShape SHAPE_TALL_EXTENDED = Shapes
             .or(Block.box(0, 0, 7, 13, 16, 9),
                     POST_RIGHT).optimize();
+
     private static final VoxelShape SHAPE_OPEN = Shapes
             .or(Block.box(11, 0, -2, 13, 14, 8),
                     Block.box(11, 14, 0, 13, 15, 6),
@@ -86,15 +88,17 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
     private static final VoxelShape SHAPE_TALL_OPEN_EXTENDED = Shapes
             .or(Block.box(11, 0, -5, 13, 16, 8),
                     POST_RIGHT).optimize();
+
     private static final VoxelShape COLLISION_CLOSED = Shapes
             .or(Block.box(3, 0, 7, 13, 24, 9),
-                    POST_LEFT, POST_RIGHT).optimize();
+                    POST_LEFT_COLLISION, POST_RIGHT_COLLISION).optimize();
     private static final VoxelShape COLLISION_CLOSED_EXTENDED = Shapes
             .or(Block.box(0, 0, 7, 13, 24, 9),
-                    POST_RIGHT).optimize();
+                    POST_RIGHT_COLLISION).optimize();
     private static final VoxelShape COLLISION_OPEN = Shapes
             .or(POST_LEFT_COLLISION, POST_RIGHT_COLLISION).optimize();
     private static final VoxelShape COLLISION_OPEN_EXTENDED = POST_RIGHT_COLLISION;
+
     private static final VoxelShape OCCLUSION_CLOSED = Shapes
             .or(Block.box(3, 0, 7, 13, 14, 9),
                     POST_LEFT, POST_RIGHT).optimize();
