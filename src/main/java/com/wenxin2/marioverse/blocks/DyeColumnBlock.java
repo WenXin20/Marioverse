@@ -45,6 +45,7 @@ public interface DyeColumnBlock {
         if (pending == null || pending.dyeStack().isEmpty() || state.is(pending.coloredBlock()))
             return;
 
+        pending.dyeStack().consume(1, pending.player());
         this.dyeOnly(level, pos, pending.coloredBlock(), pending.particleFace(), pending.particleOptions());
     }
 
@@ -85,10 +86,10 @@ public interface DyeColumnBlock {
         Direction particleFace = hitResult.getDirection();
         DustParticleOptions particleOptions = this.dustOptions(color);
 
-        stack.consume(1, player);
-
-        if (!isCenterDyed)
+        if (!isCenterDyed) {
+            stack.consume(1, player);
             this.dyeOnly(level, pos, coloredBlock, particleFace, particleOptions);
+        }
 
         for (int i = 0; i < abovePos.size(); i++)
             this.dyeColumn(level, abovePos.get(i), coloredBlock, stack, player, particleFace,
