@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/huge_polished_fortstone_bricks",
+    "side": "marioverse:block/huge_polished_fortstone_bricks",
+    "top": "marioverse:block/huge_polished_fortstone_bricks"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" },
+    "bottom": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_bricks" },
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_slab" },
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_wall" }
+      ]
+    },
+    "side": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_bricks" },
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_slab" },
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_wall" }
+      ]
+    },
+    "top": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_bricks" },
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_slab" },
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_wall" }
+      ]
+    }
+  }
+}
