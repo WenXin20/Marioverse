@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -34,6 +35,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.NeutralMob;
@@ -53,6 +55,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -71,19 +74,18 @@ public class TickEventHandlers {
     public static void preEntityTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
         Level level = entity.level();
-        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.AMBIENT;
 
-        if (ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
-                && (entity.onGround() || entity.isInWaterOrBubble())
+        if (entity.hasData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES)
                 && entity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES) > 0
-                && !entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)
+                && ConfigRegistry.ENABLE_STOMPABLE_ENEMIES.get()
+                && (entity.onGround() || entity.isInWaterOrBubble())
+                && !TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_SUPER_STAR)
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
                     || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP)))
             entity.setData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES, 0);
 
         if (!level.isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
-                && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
+                && TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
             if (ConfigRegistry.MEGA_MUSHROOM_BREAKS_BLOCKS.get()
                     && (ConfigRegistry.MEGA_MOBS_BREAK_BLOCKS.get() || entity.getType().is(TagRegistry.CAN_BREAK_BLOCKS_AS_MEGA))
                     && (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
@@ -92,65 +94,21 @@ public class TickEventHandlers {
             TickEventHandlers.collideWithEntity(entity);
         }
 
-        if (entity.hasData(DataAttachmentRegistry.ATTACK_COOLDOWN) &&
-                entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.ATTACK_COOLDOWN, entity.getData(DataAttachmentRegistry.ATTACK_COOLDOWN) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) &&
-                entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN, entity.getData(DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) &&
-                entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) > 0)
-            entity.setData(DataAttachmentRegistry.FIRE_FLOWER_DURATION, entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.FIREBALL_COOLDOWN) &&
-                entity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.FIREBALL_COOLDOWN, entity.getData(DataAttachmentRegistry.FIREBALL_COOLDOWN) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION) &&
-                entity.getData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION) > 0)
-            entity.setData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION, entity.getData(DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.FROZEN_DURATION) &&
-                entity.getData(DataAttachmentRegistry.FROZEN_DURATION) > 0)
-            entity.setData(DataAttachmentRegistry.FROZEN_DURATION, entity.getData(DataAttachmentRegistry.FROZEN_DURATION) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get())
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) > 0)
-            entity.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get())
-                && entity.getData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get()) > 0)
-            entity.setData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get(), entity.getData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get()) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) &&
-                entity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.ICE_BALL_COOLDOWN, entity.getData(DataAttachmentRegistry.ICE_BALL_COOLDOWN) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.ICE_FLOWER_DURATION) &&
-                entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) > 0)
-            entity.setData(DataAttachmentRegistry.ICE_FLOWER_DURATION, entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) &&
-                entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) > 0)
-            entity.setData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION, entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) &&
-                entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.ONE_UPS_COOLDOWN, entity.getData(DataAttachmentRegistry.ONE_UPS_COOLDOWN) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN) &&
-                entity.getData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, entity.getData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.SUPER_STAR_DURATION) &&
-                entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) > 0)
-            entity.setData(DataAttachmentRegistry.SUPER_STAR_DURATION, entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) - 1);
-
-        if (entity.hasData(DataAttachmentRegistry.WARP_COOLDOWN) &&
-                entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0)
-            entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) - 1);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.ATTACK_COOLDOWN);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.CHECKPOINT_FLAG_COOLDOWN);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.FIRE_FLOWER_DURATION);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.FIREBALL_COOLDOWN);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.FREEZE_IMMUNITY_DURATION);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.FROZEN_DURATION);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.HIT_BLOCK_COOLDOWN);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.ICE_BALL_COOLDOWN);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.ICE_FLOWER_DURATION);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.MEGA_MUSHROOM_DURATION);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.ONE_UPS_COOLDOWN);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.SUPER_STAR_DURATION);
+        TickEventHandlers.tickDown(entity, DataAttachmentRegistry.WARP_COOLDOWN);
 
         if (entity.hasData(DataAttachmentRegistry.PREVENT_WARP_COOLDOWN)) {
             int preventWarpCooldown = entity.getData(DataAttachmentRegistry.PREVENT_WARP_COOLDOWN);
@@ -159,32 +117,30 @@ public class TickEventHandlers {
                 entity.setData(DataAttachmentRegistry.PREVENT_WARP_COOLDOWN, preventWarpCooldown - 1);
 
             if (preventWarpCooldown == 0
-                    && entity.getData(DataAttachmentRegistry.PREVENT_WARP))
+                    && TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.PREVENT_WARP))
                 entity.setData(DataAttachmentRegistry.PREVENT_WARP, false);
         }
 
-        if (entity.getData(DataAttachmentRegistry.FIRE_FLOWER_DURATION) == 0
-                && entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+        if (TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_FIRE_FLOWER)
+                && TickEventHandlers.counter(entity, DataAttachmentRegistry.FIRE_FLOWER_DURATION) == 0) {
             if (entity instanceof LivingEntity livingEntity)
                 MaleCostumeItem.resetCostumes(livingEntity);
             entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
             entity.removeData(DataAttachmentRegistry.FIRE_FLOWER_DURATION);
-            level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                    soundSource, 1.0F, pitch);
+            TickEventHandlers.playDamageTakenSound(level, entity);
         }
 
-        if (entity.getData(DataAttachmentRegistry.ICE_FLOWER_DURATION) == 0
-                && entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
+        if (TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_ICE_FLOWER)
+                && TickEventHandlers.counter(entity, DataAttachmentRegistry.ICE_FLOWER_DURATION) == 0) {
             if (entity instanceof LivingEntity livingEntity)
                 MaleCostumeItem.resetCostumes(livingEntity);
             entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
             entity.removeData(DataAttachmentRegistry.ICE_FLOWER_DURATION);
-            level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
-                    soundSource, 1.0F, pitch);
+            TickEventHandlers.playDamageTakenSound(level, entity);
         }
 
-        if (entity.getData(DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) == 0
-                && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
+        if (TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
+                && TickEventHandlers.counter(entity, DataAttachmentRegistry.MEGA_MUSHROOM_DURATION) == 0
                 && entity instanceof LivingEntity livingEntity) {
             AttributeInstance healthAttribute = livingEntity.getAttribute(Attributes.MAX_HEALTH);
             AttributeInstance stepAttribute = livingEntity.getAttribute(Attributes.STEP_HEIGHT);
@@ -195,11 +151,11 @@ public class TickEventHandlers {
 
             AttributesRegistry.updateAttributeModifiers(stepAttribute, AttributesRegistry.AUTO_STEP_HEIGHT, ConfigRegistry.MEGA_MUSHROOM_AUTO_STEP.get(), false, true);
             AttributesRegistry.updateAttributeModifiers(healthAttribute, AttributesRegistry.MAX_HEATH, ConfigRegistry.MEGA_MUSHROOM_HEALTH.get(),
-                    false, !entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM));
+                    false, !TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MINI_MUSHROOM));
         }
 
-        if (entity.getData(DataAttachmentRegistry.SUPER_STAR_DURATION) == 0
-                && entity.getData(DataAttachmentRegistry.HAS_SUPER_STAR)) {
+        if (TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_SUPER_STAR)
+                && TickEventHandlers.counter(entity, DataAttachmentRegistry.SUPER_STAR_DURATION) == 0) {
             entity.setData(DataAttachmentRegistry.HAS_SUPER_STAR, false);
             entity.setData(DataAttachmentRegistry.PLAYED_SUPER_STAR_THEME, false);
         }
@@ -210,7 +166,6 @@ public class TickEventHandlers {
         Entity entity = event.getEntity();
         Level level = entity.level();
         Vec3 motion = entity.getDeltaMovement();
-        int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
         BlockPos pos = entity.blockPosition();
 
         TickEventHandlers.collideWithBlocks(level, entity);
@@ -228,12 +183,16 @@ public class TickEventHandlers {
             }
         }
 
-        if (entity.isVehicle() && spinningTicks > 0) {
-            entity.setYRot(entity.getYRot() + 30);
-            entity.getPersistentData().putInt("marioverse:spinning_ticks", spinningTicks - 1);
+        if (entity.isVehicle()) {
+            int spinningTicks = entity.getPersistentData().getInt("marioverse:spinning_ticks");
 
-            for (Entity rider : entity.getPassengers())
-                rider.setYHeadRot(rider.getYHeadRot() + 30);
+            if (spinningTicks > 0) {
+                entity.setYRot(entity.getYRot() + 30);
+                entity.getPersistentData().putInt("marioverse:spinning_ticks", spinningTicks - 1);
+
+                for (Entity rider : entity.getPassengers())
+                    rider.setYHeadRot(rider.getYHeadRot() + 30);
+            }
         }
 
         if (entity instanceof ServerPlayer player && level instanceof ServerLevel
@@ -251,7 +210,7 @@ public class TickEventHandlers {
             }
         }
 
-        if (entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
+        if (TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                 && (entity.isSprinting() || entity.getDeltaMovement().horizontalDistance() >= 0.25D)
                 && level.getFluidState(pos).is(FluidTags.WATER) && !level.getFluidState(pos.above()).is(FluidTags.WATER)) {
             if (motion.y <= 0)
@@ -260,18 +219,60 @@ public class TickEventHandlers {
             entity.fallDistance = 0.0F;
         }
     }
+
+    public static boolean hasFlag(Entity entity, Supplier<AttachmentType<Boolean>> type) {
+        return entity.hasData(type) && entity.getData(type);
+    }
+
+    private static int counter(Entity entity, Supplier<AttachmentType<Integer>> type) {
+        return entity.hasData(type) ? entity.getData(type) : 0;
+    }
+
+    private static void tickDown(Entity entity, Supplier<AttachmentType<Integer>> type) {
+        if (!entity.hasData(type))
+            return;
+
+        int value = entity.getData(type);
+        if (value > 0)
+            entity.setData(type, value - 1);
+    }
+
+    private static void playDamageTakenSound(Level level, Entity entity) {
+        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
+        SoundSource soundSource = entity instanceof Player ? SoundSource.PLAYERS : SoundSource.AMBIENT;
+        level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, pitch);
+    }
+
+    private static Boolean sableLoaded;
+
+    private static boolean isSableLoaded() {
+        if (sableLoaded == null)
+            sableLoaded = ModList.get().isLoaded("sable");
+        return sableLoaded;
+    }
+
 //    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
 
     private static void collideWithBlocks(Level level, Entity entity) {
+        EntityType<?> type = entity.getType();
+        boolean canHitAbove = type.is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES) || type.is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
+                || type.is(TagRegistry.CAN_SMASH_BLOCKS) || type.is(TagRegistry.CAN_HIT_ABILITY_BLOCKS)
+                || type.is(TagRegistry.CAN_BONK_BLOCKS);
+        boolean canHitSide = type.is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE) || type.is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
+                || type.is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE) || type.is(TagRegistry.CAN_HIT_ABILITY_BLOCKS_FROM_SIDE)
+                || type.is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE);
+        if (!canHitAbove && !canHitSide)
+            return;
+
         Vec3 motion = entity.getDeltaMovement();
         float pitch = 0.8F + level.random.nextFloat() * 0.2F;
         boolean canGrief = EventHooks.canEntityGrief(level, entity)
                 || (entity instanceof Player player && !player.getAbilities().flying);
-        List<String> toRemove = new ArrayList<>();
         CompoundTag hitMap = TickEventHandlers.getHitMap(entity);
         CompoundTag data = entity.getPersistentData();
 
         if (hitMap != null) {
+            List<String> toRemove = new ArrayList<>();
             for (String key : hitMap.getAllKeys()) {
                 int time = hitMap.getInt(key) - 1;
 
@@ -290,13 +291,10 @@ public class TickEventHandlers {
             }
         }
 
-        Object object = null;
-        if (ModList.get().isLoaded("sable"))
-            object = SableProvider.getContext(entity.level(), entity);
-
         boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
 
-        if (canGrief && motion.y > 0 && !entity.isSpectator()) {
+        if (canHitAbove && canGrief && motion.y > 0 && !entity.isSpectator()) {
+            Object object = TickEventHandlers.isSableLoaded() ? SableProvider.getContext(entity.level(), entity) : null;
             AABB hitBox = entity.getBoundingBox().deflate(0.05, 0.0, 0.05)
                     .expandTowards(0, motion.y + 0.02, 0);
             BlockPos min = BlockPos.containing(hitBox.minX, hitBox.minY, hitBox.minZ);
@@ -453,7 +451,7 @@ public class TickEventHandlers {
             }
         }
 
-        if (!level.isClientSide && canGrief && isMovingHorizontal && !entity.isSpectator()) {
+        if (canHitSide && !level.isClientSide && canGrief && isMovingHorizontal && !entity.isSpectator()) {
             AABB box = entity.getBoundingBox()
                     .inflate(0.1, 0, 0.1);
             int minX = Mth.floor(box.minX);
@@ -465,6 +463,8 @@ public class TickEventHandlers {
             BlockPos min = new BlockPos(minX, minY, minZ);
             BlockPos max = new BlockPos(maxX, maxY, maxZ);
 
+            SableProvider.SableContext sableContext = TickEventHandlers.isSableLoaded() ? SableProvider.getContext(level, entity) : null;
+
             for (BlockPos posTarget : BlockPos.betweenClosed(min, max)) {
                 BlockState targetState = level.getBlockState(posTarget);
                 BlockEntity blockEntity = level.getBlockEntity(posTarget);
@@ -472,8 +472,8 @@ public class TickEventHandlers {
                 double diffZ = posTarget.getZ() + 0.5 - entity.getZ();
                 long posKey = posTarget.asLong();
 
-                if (ModList.get().isLoaded("sable")) {
-                    SableProvider.SableContext context = SableProvider.getContext(level, entity);
+                if (sableContext != null) {
+                    SableProvider.SableContext context = sableContext;
 
                     if (context != null) {
                         BlockPos entityBase = BlockPos.containing(entity.getX(), entity.getY(), entity.getZ());
@@ -726,31 +726,40 @@ public class TickEventHandlers {
     }
 
     public static void megaMushroomScale(LivingEntity entity) {
+        boolean hasMegaMushroom = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
+        boolean hasMiniMushroom = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MINI_MUSHROOM);
+        boolean hasSuperMushroom = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
+
+        boolean shouldScale = hasMegaMushroom;
+        boolean shouldReset = !hasMegaMushroom && !hasMiniMushroom && hasSuperMushroom;
+        if (!shouldScale && !shouldReset)
+            return;
+
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasMegaMushroom = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
-        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
-        boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
         float scalingSpeed = 0.1F;
 
         double targetEyeHeightScale = hasMegaMushroom ? ConfigRegistry.MEGA_MUSHROOM_HEIGHT_SCALE.get() : 1.0D;
         double targetHeightScale = hasMegaMushroom ? ConfigRegistry.MEGA_MUSHROOM_HEIGHT_SCALE.get() : 1.0D;
         double targetWidthScale = hasMegaMushroom ? ConfigRegistry.MEGA_MUSHROOM_WIDTH_SCALE.get() : 1.0D;
 
-        boolean shouldScale = hasMegaMushroom;
-        boolean shouldReset = !hasMegaMushroom && !hasMiniMushroom && hasSuperMushroom;
-
         TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
     public static void miniMushroomScale(LivingEntity entity) {
+        boolean hasMiniMushroom = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MINI_MUSHROOM);
+        boolean hasSuperMushroom = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
+
+        boolean shouldScale = !hasSuperMushroom && hasMiniMushroom;
+        boolean shouldReset = hasSuperMushroom && !hasMiniMushroom;
+        if (!shouldScale && !shouldReset)
+            return;
+
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
-        boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
         float scalingSpeed = 0.1F;
 
         double targetEyeHeightScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_HEIGHT_SCALE.get()
@@ -760,47 +769,50 @@ public class TickEventHandlers {
         double targetWidthScale = hasMiniMushroom ? ConfigRegistry.MINI_MUSHROOM_WIDTH_SCALE.get()
                 : hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_WIDTH_SCALE.get();
 
-        boolean shouldScale = !hasSuperMushroom && hasMiniMushroom;
-        boolean shouldReset = hasSuperMushroom && !hasMiniMushroom;
-
         TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);
     }
 
     public static void superMushroomScale(LivingEntity entity) {
+        boolean hasMegaMushroom = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
+        boolean hasMiniMushroom = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MINI_MUSHROOM);
+        if (hasMegaMushroom || hasMiniMushroom)
+            return;
+
         Level world = entity.level();
+        boolean hasSuperMushroom = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
+        boolean hasSuperMushroomOverride = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE);
+        boolean isPlayer = entity instanceof Player;
+        GameRules.Key<GameRules.BooleanValue> shrinkRule = isPlayer
+                ? Marioverse.DAMAGE_SHRINKS_PLAYERS : Marioverse.DAMAGE_SHRINKS_ALL_MOBS;
+
+        boolean shouldScale = false;
+        boolean shouldReset = false;
+
+        if (hasSuperMushroomOverride) {
+            shouldScale = !hasSuperMushroom && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK);
+            shouldReset = hasSuperMushroom;
+        } else if (world.getGameRules().getBoolean(shrinkRule)) {
+            float health = entity.getHealth();
+            double thresholdHealth = isPlayer ? ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get()
+                    : entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get();
+
+            if (hasSuperMushroom)
+                shouldReset = health > thresholdHealth;
+            else shouldScale = health <= thresholdHealth && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK);
+        }
+
+        if (!shouldScale && !shouldReset)
+            return;
+
         AttributeInstance eyeHeightScale = entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE);
         AttributeInstance heightScale = entity.getAttribute(AttributesRegistry.HEIGHT_SCALE);
         AttributeInstance widthScale = entity.getAttribute(AttributesRegistry.WIDTH_SCALE);
-        boolean hasMegaMushroom = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
-        boolean hasMiniMushroom = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
-        boolean hasSuperMushroom = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM);
-        boolean hasSuperMushroomOverride = entity.getData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM_OVERRIDE);
-        boolean isPlayer = entity instanceof Player;
-        float health = entity.getHealth();
-        double thresholdHealth = entity.getMaxHealth() * ConfigRegistry.SHRINK_MOBS_AT_HEALTH.get();
-        if (isPlayer)
-            thresholdHealth = ConfigRegistry.SHRINK_PLAYERS_AT_HEALTH.get();
-        boolean lowHealth = health <= thresholdHealth;
-        boolean healHealth = health > thresholdHealth;
         float scalingSpeed = 0.1F;
 
         double targetEyeHeightScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_HEIGHT_SCALE.get();
         double targetHeightScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_HEIGHT_SCALE.get();
         double targetWidthScale = hasSuperMushroom ? 1.0D : ConfigRegistry.SHRINK_WIDTH_SCALE.get();
-
-        boolean shouldScale = !hasSuperMushroom && !hasMegaMushroom && !hasMiniMushroom
-                && !entity.getType().is(TagRegistry.DAMAGE_CANNOT_SHRINK)
-                    && ((isPlayer && (hasSuperMushroomOverride
-                        || (lowHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS))))
-                    || (!isPlayer && (hasSuperMushroomOverride
-                        || (lowHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)))));
-
-        boolean shouldReset = hasSuperMushroom && !hasMegaMushroom && !hasMiniMushroom
-                && ((isPlayer && (hasSuperMushroomOverride
-                    || (healHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_PLAYERS))))
-                || (!isPlayer && (hasSuperMushroomOverride
-                    || (healHealth && world.getGameRules().getBoolean(Marioverse.DAMAGE_SHRINKS_ALL_MOBS)))));
 
         TickEventHandlers.updateScale(entity, AttributesRegistry.DAMAGED_SCALE, shouldScale, targetHeightScale, targetWidthScale, eyeHeightScale,
                 targetEyeHeightScale, scalingSpeed, heightScale, widthScale, shouldReset);

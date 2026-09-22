@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -190,6 +191,9 @@ public class AbilityBlock extends Block {
     }
 
     public static void characterAbility(LivingEntity entity) {
+        if (!AbilityBlock.hasCharacterAbility(entity) && !AbilityBlock.hasCharacterAbilityResidue(entity))
+            return;
+
         Block block;
 
         if (entity.getData(DataAttachmentRegistry.HAS_MARIO_ABILITY))
@@ -234,6 +238,34 @@ public class AbilityBlock extends Block {
                     entity.setData(DataAttachmentRegistry.HAS_DOUBLE_JUMP.get(), hasDoubleJump);
             }
         }
+    }
+
+    private static boolean hasCharacterAbility(LivingEntity entity) {
+        return TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MARIO_ABILITY)
+                || TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_LUIGI_ABILITY)
+                || TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_DAISY_ABILITY)
+                || TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_PEACH_ABILITY)
+                || TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_ROSALINA_ABILITY)
+                || TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_WALUIGI_ABILITY)
+                || TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_WARIO_ABILITY);
+    }
+
+    private static boolean hasCharacterAbilityResidue(LivingEntity entity) {
+        return AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.JUMP_STRENGTH),
+                    AttributesRegistry.CHARACTER_JUMP_BOOST, AttributesRegistry.CHARACTER_RUNNING_JUMP_BOOST)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.SAFE_FALL_DISTANCE),
+                    AttributesRegistry.CHARACTER_SAFE_FALL_DISTANCE, AttributesRegistry.CHARACTER_SAFE_FALL_DISTANCE)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(AttributesRegistry.HEIGHT_SCALE),
+                    AttributesRegistry.CHARACTER_SCALE, AttributesRegistry.CHARACTER_SCALE)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(AttributesRegistry.WIDTH_SCALE),
+                    AttributesRegistry.CHARACTER_SCALE, AttributesRegistry.CHARACTER_SCALE)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(AttributesRegistry.EYE_HEIGHT_SCALE),
+                    AttributesRegistry.CHARACTER_SCALE, AttributesRegistry.CHARACTER_SCALE)
+                || (entity.onGround() && TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_DOUBLE_JUMP));
+    }
+
+    public static boolean hasAnyModifier(AttributeInstance attribute, ResourceLocation first, ResourceLocation second) {
+        return attribute != null && (attribute.hasModifier(first) || attribute.hasModifier(second));
     }
 
     public static void applyJumpBoost(LivingEntity entity, AttributeInstance jumpAttribute, ResourceLocation normalId,
@@ -310,9 +342,10 @@ public class AbilityBlock extends Block {
 
     public static void setAirborneDuration(LivingEntity entity) {
         if (entity.onGround()) {
-            if (entity.getData(DataAttachmentRegistry.AIRBORNE_DURATION) != 0)
+            if (entity.hasData(DataAttachmentRegistry.AIRBORNE_DURATION)
+                    && entity.getData(DataAttachmentRegistry.AIRBORNE_DURATION) != 0)
                 entity.setData(DataAttachmentRegistry.AIRBORNE_DURATION.get(), 0);
-        } else {
+        } else if (entity instanceof Player) {
             int duration = entity.getData(DataAttachmentRegistry.AIRBORNE_DURATION);
             entity.setData(DataAttachmentRegistry.AIRBORNE_DURATION.get(), duration + 1);
         }
