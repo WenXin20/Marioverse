@@ -5,6 +5,6 @@
     "bottom": "marioverse:block/shroomsoil_top",
     "overlay": "marioverse:block/shroomgrass_block_overlay_1",
     "side": "marioverse:block/shroomgrass_block_1",
-    "top": "marioverse:block/shroomgrass_block_top"
+    "top": "marioverse:item/shroomgrass_block_top"
   }
 }
