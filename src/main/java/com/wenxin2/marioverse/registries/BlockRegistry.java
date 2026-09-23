@@ -220,20 +220,30 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CHERRY_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CHISELED_FORTSTONE_BRICKS;
     public static final DeferredBlock<Block> CHISELED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_POLISHED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CHISELED_POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> CHISELED_POLISHED_FORTSTONE_TILES;
     public static final DeferredBlock<Block> CHISELED_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CHISELED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
+    public static final DeferredBlock<Block> COBBLED_FORTSTONE;
+    public static final DeferredBlock<Block> COBBLED_FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> COBBLED_FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> COBBLED_FORTSTONE_WALL;
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CRACKED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_FORTSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_POLISHED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_POLISHED_FORTSTONE_TILES;
     public static final DeferredBlock<Block> CRACKED_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_SANDSTONE_BRICKS;
@@ -291,39 +301,13 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> FIRE_CORAL_TOWER;
     public static final DeferredBlock<Block> FORTSTONE;
-    public static final DeferredBlock<Block> FORTSTONE_STAIRS;
-    public static final DeferredBlock<Block> FORTSTONE_SLAB;
-    public static final DeferredBlock<Block> FORTSTONE_WALL;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_STAIRS;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_SLAB;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_WALL;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICKS;
-    public static final DeferredBlock<Block> CRACKED_POLISHED_FORTSTONE_BRICKS;
-    public static final DeferredBlock<Block> CHISELED_POLISHED_FORTSTONE_BRICKS;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_STAIRS;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_SLAB;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_WALL;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILES;
-    public static final DeferredBlock<Block> CRACKED_POLISHED_FORTSTONE_TILES;
-    public static final DeferredBlock<Block> CHISELED_POLISHED_FORTSTONE_TILES;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_STAIRS;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_SLAB;
-    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_WALL;
-    public static final DeferredBlock<Block> HARD_FORTSTONE_BLOCK;
-    public static final DeferredBlock<Block> HARD_FORTSTONE_STAIRS;
-    public static final DeferredBlock<Block> HARD_FORTSTONE_SLAB;
-    public static final DeferredBlock<Block> HARD_FORTSTONE_WALL;
     public static final DeferredBlock<Block> FORTSTONE_BRICKS;
-    public static final DeferredBlock<Block> CRACKED_FORTSTONE_BRICKS;
-    public static final DeferredBlock<Block> CHISELED_FORTSTONE_BRICKS;
-    public static final DeferredBlock<Block> FORTSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> FORTSTONE_BRICK_SLAB;
+    public static final DeferredBlock<Block> FORTSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> FORTSTONE_BRICK_WALL;
-    public static final DeferredBlock<Block> COBBLED_FORTSTONE;
-    public static final DeferredBlock<Block> COBBLED_FORTSTONE_STAIRS;
-    public static final DeferredBlock<Block> COBBLED_FORTSTONE_SLAB;
-    public static final DeferredBlock<Block> COBBLED_FORTSTONE_WALL;
+    public static final DeferredBlock<Block> FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> FORTSTONE_WALL;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICK_SLAB;
@@ -372,6 +356,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_SLAB;
     public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_STAIRS;
     public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_WALL;
+    public static final DeferredBlock<Block> HARD_FORTSTONE_BLOCK;
+    public static final DeferredBlock<Block> HARD_FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> HARD_FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> HARD_FORTSTONE_WALL;
     public static final DeferredBlock<Block> HARD_FUNGAL_BLOCK;
     public static final DeferredBlock<Block> HARD_FUNGAL_SLAB;
     public static final DeferredBlock<Block> HARD_FUNGAL_STAIRS;
@@ -406,6 +394,14 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> HARD_WARPED_WALL;
     public static final DeferredBlock<Block> HEDGE;
     public static final DeferredBlock<Block> HORN_CORAL_TOWER;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_BRICK_SLAB;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_TILES;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_TILE_SLAB;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_TILE_STAIRS;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_TILE_WALL;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_CALCITE_QUESTION_BLOCK;
@@ -550,6 +546,18 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_SLAB;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILES;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_SLAB;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_WALL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_WALL;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_SLAB;
@@ -2168,6 +2176,117 @@ public class BlockRegistry {
 
         STORAGE_POLISHED_DEEP_FUNGAL_BRICKS = registerBlock("storage_polished_deep_fungal_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_BRICKS.get())));
+
+
+        FORTSTONE = registerBlock("fortstone",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+
+        FORTSTONE_SLAB = registerBlock("fortstone_slab", () -> slab(FORTSTONE.get()));
+
+        FORTSTONE_STAIRS = registerBlock("fortstone_stairs", () -> stair(FORTSTONE.get()));
+
+        FORTSTONE_WALL = registerBlock("fortstone_wall", () -> wall(FORTSTONE.get()));
+
+
+        COBBLED_FORTSTONE = registerBlock("cobbled_fortstone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
+                        .strength(2.0F, 6.0F)));
+
+        COBBLED_FORTSTONE_SLAB = registerBlock("cobbled_fortstone_slab", () -> slab(COBBLED_FORTSTONE.get()));
+
+        COBBLED_FORTSTONE_STAIRS = registerBlock("cobbled_fortstone_stairs", () -> stair(COBBLED_FORTSTONE.get()));
+
+        COBBLED_FORTSTONE_WALL = registerBlock("cobbled_fortstone_wall", () -> wall(COBBLED_FORTSTONE.get()));
+
+
+        FORTSTONE_BRICKS = registerBlock("fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE.get())));
+
+        FORTSTONE_BRICK_SLAB = registerBlock("fortstone_brick_slab", () -> slab(FORTSTONE_BRICKS.get()));
+
+        FORTSTONE_BRICK_STAIRS = registerBlock("fortstone_brick_stairs", () -> stair(FORTSTONE_BRICKS.get()));
+
+        FORTSTONE_BRICK_WALL = registerBlock("fortstone_brick_wall", () -> wall(FORTSTONE_BRICKS.get()));
+
+        CHISELED_FORTSTONE_BRICKS = registerBlock("chiseled_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+        CRACKED_FORTSTONE_BRICKS = registerBlock("cracked_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+
+        POLISHED_FORTSTONE = registerBlock("polished_fortstone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE.get())));
+
+        POLISHED_FORTSTONE_STAIRS = registerBlock("polished_fortstone_stairs", () -> stair(POLISHED_FORTSTONE.get()));
+
+        POLISHED_FORTSTONE_SLAB = registerBlock("polished_fortstone_slab", () -> slab(POLISHED_FORTSTONE.get()));
+
+        POLISHED_FORTSTONE_WALL = registerBlock("polished_fortstone_wall", () -> wall(POLISHED_FORTSTONE.get()));
+
+
+        HARD_FORTSTONE_BLOCK = registerBlock("hard_fortstone_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get()).strength(2.5F, 8.0F)));
+
+        HARD_FORTSTONE_STAIRS = registerBlock("hard_fortstone_stairs", () -> stair(HARD_FORTSTONE_BLOCK.get()));
+
+        HARD_FORTSTONE_SLAB = registerBlock("hard_fortstone_slab", () -> slab(HARD_FORTSTONE_BLOCK.get()));
+
+        HARD_FORTSTONE_WALL = registerBlock("hard_fortstone_wall", () -> wall(HARD_FORTSTONE_BLOCK.get()));
+
+
+        POLISHED_FORTSTONE_BRICKS = registerBlock("polished_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())));
+
+        POLISHED_FORTSTONE_BRICK_SLAB = registerBlock("polished_fortstone_brick_slab", () -> slab(POLISHED_FORTSTONE_BRICKS.get()));
+
+        POLISHED_FORTSTONE_BRICK_STAIRS = registerBlock("polished_fortstone_brick_stairs", () -> stair(POLISHED_FORTSTONE_BRICKS.get()));
+
+        POLISHED_FORTSTONE_BRICK_WALL = registerBlock("polished_fortstone_brick_wall", () -> wall(POLISHED_FORTSTONE_BRICKS.get()));
+
+        CHISELED_POLISHED_FORTSTONE_BRICKS = registerBlock("chiseled_polished_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        CRACKED_POLISHED_FORTSTONE_BRICKS = registerBlock("cracked_polished_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+
+        HUGE_POLISHED_FORTSTONE_BRICKS = registerBlock("huge_polished_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        HUGE_POLISHED_FORTSTONE_BRICK_SLAB = registerBlock("huge_polished_fortstone_brick_slab", () -> slab(HUGE_POLISHED_FORTSTONE_BRICKS.get()));
+
+        HUGE_POLISHED_FORTSTONE_BRICK_STAIRS = registerBlock("huge_polished_fortstone_brick_stairs", () -> stair(HUGE_POLISHED_FORTSTONE_BRICKS.get()));
+
+        HUGE_POLISHED_FORTSTONE_BRICK_WALL = registerBlock("huge_polished_fortstone_brick_wall", () -> wall(HUGE_POLISHED_FORTSTONE_BRICKS.get()));
+
+
+        POLISHED_FORTSTONE_TILES = registerBlock("polished_fortstone_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        POLISHED_FORTSTONE_TILE_SLAB = registerBlock("polished_fortstone_tile_slab", () -> slab(POLISHED_FORTSTONE_TILES.get()));
+
+        POLISHED_FORTSTONE_TILE_STAIRS = registerBlock("polished_fortstone_tile_stairs", () -> stair(POLISHED_FORTSTONE_TILES.get()));
+
+        POLISHED_FORTSTONE_TILE_WALL = registerBlock("polished_fortstone_tile_wall", () -> wall(POLISHED_FORTSTONE_TILES.get()));
+
+        CHISELED_POLISHED_FORTSTONE_TILES = registerBlock("chiseled_polished_fortstone_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+        CRACKED_POLISHED_FORTSTONE_TILES = registerBlock("cracked_polished_fortstone_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+
+        HUGE_POLISHED_FORTSTONE_TILES = registerBlock("huge_polished_fortstone_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+        HUGE_POLISHED_FORTSTONE_TILE_SLAB = registerBlock("huge_polished_fortstone_tile_slab", () -> slab(HUGE_POLISHED_FORTSTONE_TILES.get()));
+
+        HUGE_POLISHED_FORTSTONE_TILE_STAIRS = registerBlock("huge_polished_fortstone_tile_stairs", () -> stair(HUGE_POLISHED_FORTSTONE_TILES.get()));
+
+        HUGE_POLISHED_FORTSTONE_TILE_WALL = registerBlock("huge_polished_fortstone_tile_wall", () -> wall(HUGE_POLISHED_FORTSTONE_TILES.get()));
 
 
         AMETHYST_BUTTON = registerBlock("amethyst_button", () -> button(Blocks.AMETHYST_BLOCK, BlockSetTypeRegistry.AMETHYST, 40));

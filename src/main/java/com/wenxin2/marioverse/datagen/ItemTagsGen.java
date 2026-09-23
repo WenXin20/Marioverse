@@ -343,6 +343,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.STONE_CRAFTING_MATERIALS)
                 .addTag(TagRegistry.GRASSY_STONE_ITEMS)
+                .add(BlockRegistry.COBBLED_FORTSTONE.asItem())
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.asItem())
                 .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem())
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.asItem())
@@ -350,6 +351,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(ItemTags.STONE_TOOL_MATERIALS)
                 .addTag(TagRegistry.GRASSY_STONE_ITEMS)
+                .add(BlockRegistry.COBBLED_FORTSTONE.asItem())
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.asItem())
                 .add(BlockRegistry.FUNGAL_COBBLESTONE.asItem())
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.asItem())

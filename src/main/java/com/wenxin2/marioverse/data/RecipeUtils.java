@@ -68,6 +68,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.FENCE_GATE, (outputItem, inputItem) -> fenceGateBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HANGING_SIGN, (outputItem, inputItem) -> hangingSignBuilder(6, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.HARD_BLOCK, (outputItem, inputItem) -> hardBlockBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
+                    .put(BlockFamilyExtended.Variant.HUGE, (outputItem, inputItem) -> hugeBlockBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
                     .put(BlockFamilyExtended.Variant.LARGE_ARROW_SIGN, (outputItem, inputItem) -> arrowSignUpgradeBuilder(1, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem), "large_arrow_signs"))
                     .put(BlockFamilyExtended.Variant.LOG_PLATFORM, (outputItem, inputItem) -> logPlatformBuilder(6, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
                     .put(BlockFamilyExtended.Variant.PANELS, (outputItem, inputItem) -> panelsBuilder(2, outputItem, Ingredient.of(inputItem)))
@@ -84,6 +85,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.SLAB, (outputItem, inputItem) -> slabBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.STAIRS, (outputItem, inputItem) -> stairBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.STORAGE_BRICKS, (outputItem, inputItem) -> storageBrickBuilder(4, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.TILES, (outputItem, inputItem) -> twoByTwoBuilder(4, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem), "tiles"))
                     .put(BlockFamilyExtended.Variant.TRAPDOOR, (outputItem, inputItem) -> trapdoorBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.WALL, (outputItem, inputItem) -> wallBuilder(RecipeCategory.DECORATIONS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.WINDOW, (outputItem, inputItem) -> windowBuilder(3, outputItem, Ingredient.of(inputItem)))
@@ -100,12 +102,14 @@ public class RecipeUtils extends RecipeProvider {
             Map.entry(BlockFamilyExtended.Variant.CHISELED, 1),
             Map.entry(BlockFamilyExtended.Variant.CUT, 1),
             Map.entry(BlockFamilyExtended.Variant.HARD_BLOCK, 1),
+            Map.entry(BlockFamilyExtended.Variant.HUGE, 1),
             Map.entry(BlockFamilyExtended.Variant.PEDESTAL, 1),
             Map.entry(BlockFamilyExtended.Variant.POLISHED, 1),
             Map.entry(BlockFamilyExtended.Variant.ROCKY, 1),
             Map.entry(BlockFamilyExtended.Variant.SLAB, 2),
             Map.entry(BlockFamilyExtended.Variant.SMASHABLE_BLOCKS, 1),
             Map.entry(BlockFamilyExtended.Variant.STAIRS, 1),
+            Map.entry(BlockFamilyExtended.Variant.TILES, 1),
             Map.entry(BlockFamilyExtended.Variant.WALL, 1)
     );
 
@@ -191,6 +195,15 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("###")
                 .unlockedBy("has_chain", has(inputItem))
                 .group(Marioverse.MOD_ID + ":hard_blocks");
+    }
+
+    public static RecipeBuilder hugeBlockBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, ItemLike inputItem) {
+        return ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .group(Marioverse.MOD_ID + ":huge_blocks");
     }
 
     public static RecipeBuilder logPlatformBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, ItemLike inputItem) {

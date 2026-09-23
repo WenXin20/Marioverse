@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.integration.SableCompat;
 import com.wenxin2.marioverse.integration.StoneZoneCompat;
 import com.wenxin2.marioverse.integration.WoodGoodCompat;
+import com.wenxin2.marioverse.integration.stone_zone_compat.StoneTypeCompat;
 import com.wenxin2.marioverse.loot.AddItemsModifier;
 import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -173,9 +174,10 @@ public class Marioverse {
 
     private static void stoneZoneModule() {
         try {
-            if (ModList.get().isLoaded("stonezone"))
+            if (ModList.get().isLoaded("stonezone")) {
                 StoneZoneCompat.init();
-            else LOGGER.info("Stone Zone module is not loaded");
+                StoneTypeCompat.init();
+            } else LOGGER.info("Stone Zone module is not loaded");
         } catch (Exception e) {
             LOGGER.error("Failed to start Stone Zone module", e);
         }

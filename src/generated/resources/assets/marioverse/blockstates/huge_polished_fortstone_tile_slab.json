@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/huge_polished_fortstone_tile_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/huge_polished_fortstone_tiles"
+    },
+    "type=top": {
+      "model": "marioverse:block/huge_polished_fortstone_tile_slab_top"
+    }
+  }
+}

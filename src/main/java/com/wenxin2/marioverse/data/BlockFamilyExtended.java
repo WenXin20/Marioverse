@@ -148,6 +148,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder huge(Block block) {
+            this.family.variants.put(Variant.HUGE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder invisibleQuestionBlock(Block block) {
             this.family.variants.put(Variant.INVISIBLE_QUESTION_BLOCK, block);
             return this;
@@ -260,6 +265,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder tiles(Block block) {
+            this.family.variants.put(Variant.TILES, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder trapdoor(Block block) {
             this.family.variants.put(Variant.TRAPDOOR, block);
             return this;
@@ -320,6 +330,7 @@ public class BlockFamilyExtended {
         HANGING_ARROW_SIGN("hanging_arrow_sign"),
         HANGING_SIGN("hanging_sign"),
         HARD_BLOCK("hard_block"),
+        HUGE("huge"),
         INVISIBLE_QUESTION_BLOCK("invisible_question_block"),
         LARGE_ARROW_SIGN("large_arrow_sign"),
         LARGE_WALL_ARROW_SIGN("large_wall_arrow_sign"),
@@ -343,6 +354,7 @@ public class BlockFamilyExtended {
         SMASHABLE_BLOCKS("smashable_blocks"),
         STAIRS("stairs"),
         STORAGE_BRICKS("storage_bricks"),
+        TILES("tiles"),
         TRAPDOOR("trapdoor"),
         WALL("wall"),
         WALL_ARROW_SIGN("wall_arrow_sign"),

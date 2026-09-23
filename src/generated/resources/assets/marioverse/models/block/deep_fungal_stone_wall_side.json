@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/template_wall_side",
+  "parent": "marioverse:block/template_wall_side_bottom_top",
   "textures": {
-    "wall": "marioverse:block/deep_fungal_stone"
+    "bottom": "marioverse:block/deep_fungal_stone_top",
+    "side": "marioverse:block/deep_fungal_stone",
+    "top": "marioverse:block/deep_fungal_stone_top"
   }
 }

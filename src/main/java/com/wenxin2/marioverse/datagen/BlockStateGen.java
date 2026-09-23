@@ -203,6 +203,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.tintedCubeBottomTopModel(BlockRegistry.MUSHROOT_LEAVES.get(), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_bottom"),
                 blockTexture(BlockRegistry.MUSHROOT_LEAVES.get()), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_top"));
         this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.FORTSTONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_FUNGAL_STONE.get(),
@@ -918,7 +919,9 @@ public class BlockStateGen extends BlockStateProvider {
             BlockFamilyExtended.Variant.COBBLE,
             BlockFamilyExtended.Variant.CRACKED,
             BlockFamilyExtended.Variant.HARD_BLOCK,
-            BlockFamilyExtended.Variant.POLISHED
+            BlockFamilyExtended.Variant.HUGE,
+            BlockFamilyExtended.Variant.POLISHED,
+            BlockFamilyExtended.Variant.TILES
     );
 
     private void genSimpleBlockWithItem() {
@@ -932,7 +935,8 @@ public class BlockStateGen extends BlockStateProvider {
             if (blockName.startsWith("chiseled_deep_fungal_bricks")
                     || blockName.startsWith("chiseled_fungal_bricks")
                     || blockName.startsWith("chiseled_polished_deep_fungal_bricks")
-                    || blockName.startsWith("chiseled_polished_fungal_bricks")) {
+                    || blockName.startsWith("chiseled_polished_fungal_bricks")
+                    || blockName.equals("polished_fortstone")) {
                 ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
                 this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
             } else this.cubeAllModel(block, mainTexture);
@@ -966,6 +970,7 @@ public class BlockStateGen extends BlockStateProvider {
                     this.slabMirroredNSModel(slabBlock, texture);
                 } else if (block == BlockFamilyRegistry.DEEP_FUNGAL_STONE.get(slab)
                         || block == BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE.get(slab)
+                        || block == BlockFamilyRegistry.FORTSTONE.get(slab)
                         || block == BlockFamilyRegistry.FUNGAL_STONE.get(slab)
                         || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(slab)) {
                     texture = modLoc("block/" + removeSlabName);
@@ -973,6 +978,7 @@ public class BlockStateGen extends BlockStateProvider {
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(slab)
+                        || block == BlockFamilyRegistry.HARD_FORTSTONE_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(slab)
                         || block == BlockFamilyRegistry.HARD_SPOOKROOT_BLOCK.get(slab)
@@ -994,9 +1000,16 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_CALCITE.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
+                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS.get(slab)
+                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE_TILES.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_FUNGAL_STONE.get(slab)) {
                     texture = modLoc("block/" + blockName);
                     topTexture = modLoc("block/" + removeSlabName);
+                    this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
+                    this.itemModels().slab(blockName, texture, topTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(slab)) {
+                    texture = modLoc("block/" + blockName);
+                    topTexture = modLoc("block/" + removeSlabName + "_top");
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(slab)
@@ -1096,13 +1109,16 @@ public class BlockStateGen extends BlockStateProvider {
                     this.stairsMirroredNSModel(stairBlock, texture);
                 } else if (block == BlockFamilyRegistry.DEEP_FUNGAL_STONE.get(stairs)
                         || block == BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE.get(stairs)
+                        || block == BlockFamilyRegistry.FORTSTONE.get(stairs)
                         || block == BlockFamilyRegistry.FUNGAL_STONE.get(stairs)
-                        || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(stairs)) {
+                        || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(stairs)
+                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(stairs)) {
                     texture = modLoc("block/" + removeStairName);
                     topTexture = modLoc("block/" + removeStairName + "_top");
                     this.stairsBlock(stairBlock, texture, topTexture, topTexture);
                     this.itemModels().stairs(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(stairs)
+                        || block == BlockFamilyRegistry.HARD_FORTSTONE_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(stairs)
                         || block == BlockFamilyRegistry.HARD_SPOOKROOT_BLOCK.get(stairs)
@@ -1269,7 +1285,15 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.CALCITE_CHECKERED_TILES.get(wall)) {
                     texture = modLoc("block/" + removeWallName);
                     this.wallMirroredNSModel(wallBlock, texture);
+                } else if (block == BlockFamilyRegistry.DEEP_FUNGAL_STONE.get(wall)
+                        || block == BlockFamilyRegistry.FORTSTONE.get(wall)
+                        || block == BlockFamilyRegistry.FUNGAL_STONE.get(wall)
+                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(wall)) {
+                    texture = modLoc("block/" + removeWallName);
+                    ResourceLocation topTexture = modLoc("block/" + removeWallName + "_top");
+                    this.wallBottomTopModel(wallBlock, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(wall)
+                        || block == BlockFamilyRegistry.HARD_FORTSTONE_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_MUSHROOT_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_SPOOKROOT_BLOCK.get(wall)
@@ -2639,6 +2663,35 @@ public class BlockStateGen extends BlockStateProvider {
         ModelFile modelInventory = models()
                 .withExistingParent(modelName + "_inventory", modLoc("block/wall_mirrored_ns_inventory"))
                 .texture("main", mainTexture).texture("mirrored", mainTexture + "_mirrored");
+
+        simpleBlockItem(block, modelInventory);
+
+        MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block)
+                .part().modelFile(model).addModel()
+                .condition(WallBlock.UP, true).end();
+        WALL_PROPS.entrySet().stream()
+                .filter(e -> e.getKey().getAxis().isHorizontal())
+                .forEach(e -> {
+                    wallSidePart(builder, modelSide, e, WallSide.LOW);
+                    wallSidePart(builder, modelSideTall, e, WallSide.TALL);
+                });
+    }
+
+    private void wallBottomTopModel(Block block, ResourceLocation sideTexture, ResourceLocation bottomTexture, ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName + "_post", modLoc("block/template_wall_post_bottom_top"))
+                .texture("side", sideTexture).texture("bottom", bottomTexture).texture("top", topTexture);
+        ModelFile modelSide = models()
+                .withExistingParent(modelName + "_side", modLoc("block/template_wall_side_bottom_top"))
+                .texture("side", sideTexture).texture("bottom", bottomTexture).texture("top", topTexture);
+        ModelFile modelSideTall = models()
+                .withExistingParent(modelName + "_side_tall", modLoc("block/template_wall_side_tall_bottom_top"))
+                .texture("side", sideTexture).texture("bottom", bottomTexture).texture("top", topTexture);
+        ModelFile modelInventory = models()
+                .withExistingParent(modelName + "_inventory", modLoc("block/wall_bottom_top_inventory"))
+                .texture("side", sideTexture).texture("bottom", bottomTexture).texture("top", topTexture);
 
         simpleBlockItem(block, modelInventory);
 

@@ -128,6 +128,9 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (block == BlockRegistry.FUNGAL_STONE.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.FUNGAL_COBBLESTONE.get()));
+                    else if (block == BlockRegistry.FORTSTONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.COBBLED_FORTSTONE.get()));
                     else if (block == BlockRegistry.GRASSY_FUNGAL_STONE.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.FUNGAL_STONE.get()));
