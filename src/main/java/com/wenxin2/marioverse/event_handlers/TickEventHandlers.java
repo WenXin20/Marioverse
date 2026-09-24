@@ -19,14 +19,15 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import java.util.ArrayList;
+import it.unimi.dsi.fastutil.longs.Long2LongMap;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -53,19 +54,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class TickEventHandlers {
-    private static final String HIT_BLOCKS_TAG = "marioverse:hit_blocks";
+    private static final int HIT_COOLDOWN_TICKS = 5;
+    private static final int HIT_MAP_PRUNE_THRESHOLD = 64;
     private static double currentEyeHeightScale = 1.0;
     private static double currentHeightScale = 1.0;
     private static double currentWidthScale = 1.0;
@@ -253,6 +255,18 @@ public class TickEventHandlers {
 
 //    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
 
+    private static boolean shapeIntersects(Level level, BlockPos pos, BlockState state, AABB box) {
+        VoxelShape shape = state.getCollisionShape(level, pos);
+        if (shape.isEmpty())
+            shape = state.getShape(level, pos);
+
+        for (AABB part : shape.toAabbs()) {
+            if (part.move(pos).intersects(box))
+                return true;
+        }
+        return false;
+    }
+
     private static void collideWithBlocks(Level level, Entity entity) {
         EntityType<?> type = entity.getType();
         boolean canHitAbove = type.is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES) || type.is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
@@ -268,35 +282,27 @@ public class TickEventHandlers {
         float pitch = 0.8F + level.random.nextFloat() * 0.2F;
         boolean canGrief = EventHooks.canEntityGrief(level, entity)
                 || (entity instanceof Player player && !player.getAbilities().flying);
-        CompoundTag hitMap = TickEventHandlers.getHitMap(entity);
-        CompoundTag data = entity.getPersistentData();
+        long currentTick = level.getGameTime();
+        Long2LongOpenHashMap hitMap = entity.getExistingDataOrNull(DataAttachmentRegistry.HIT_BLOCK_TIMESTAMPS);
 
-        if (hitMap != null) {
-            List<String> toRemove = new ArrayList<>();
-            for (String key : hitMap.getAllKeys()) {
-                int time = hitMap.getInt(key) - 1;
-
-                if (time <= 0)
-                    toRemove.add(key);
-                else hitMap.putInt(key, time);
-            }
-
-            for (String key : toRemove) {
-                hitMap.remove(key);
-            }
-
-            if (hitMap.isEmpty()) {
-                data.remove(HIT_BLOCKS_TAG);
-                hitMap = null;
+        if (hitMap != null && hitMap.size() > HIT_MAP_PRUNE_THRESHOLD) {
+            ObjectIterator<Long2LongMap.Entry> it = hitMap.long2LongEntrySet().fastIterator();
+            while (it.hasNext()) {
+                if (currentTick - it.next().getLongValue() >= HIT_COOLDOWN_TICKS)
+                    it.remove();
             }
         }
 
-        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01;
+        double moveX = entity.getX() - entity.xOld;
+        double moveZ = entity.getZ() - entity.zOld;
+        boolean isAscending = motion.y > 0 || entity.getY() > entity.yOld;
+        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01 || moveX * moveX + moveZ * moveZ > 1.0E-4;
 
-        if (canHitAbove && canGrief && motion.y > 0 && !entity.isSpectator()) {
+        if (canHitAbove && !level.isClientSide && canGrief && isAscending && !entity.isSpectator()) {
             Object object = TickEventHandlers.isSableLoaded() ? SableProvider.getContext(entity.level(), entity) : null;
-            AABB hitBox = entity.getBoundingBox().deflate(0.05, 0.0, 0.05)
-                    .expandTowards(0, motion.y + 0.02, 0);
+            AABB entityBox = entity.getBoundingBox();
+            AABB hitBox = new AABB(entityBox.minX, entityBox.maxY, entityBox.minZ,
+                    entityBox.maxX, entityBox.maxY + Math.max(motion.y, 0) + 0.02, entityBox.maxZ);
             BlockPos min = BlockPos.containing(hitBox.minX, hitBox.minY, hitBox.minZ);
             BlockPos max = BlockPos.containing(hitBox.maxX, hitBox.maxY, hitBox.maxZ);
 
@@ -359,8 +365,7 @@ public class TickEventHandlers {
                         blockEntityAbove = context.accessor.getServerBlockEntity(worldPos);
                     }
 
-                    String key = Long.toString(posKey);
-                    if (hitMap != null && hitMap.contains(key))
+                    if (hitMap != null && currentTick - hitMap.get(posKey) < HIT_COOLDOWN_TICKS)
                         continue;
                     boolean didHit = false;
 
@@ -391,18 +396,21 @@ public class TickEventHandlers {
                     }
 
                     if (didHit) {
-                        hitMap = getOrCreateHitMap(entity);
-                        hitMap.putInt(key, 5);
+                        if (hitMap == null)
+                            hitMap = entity.getData(DataAttachmentRegistry.HIT_BLOCK_TIMESTAMPS);
+                        hitMap.put(posKey, currentTick);
                     }
                 }
             } else {
                 for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
                     BlockState stateAbove = level.getBlockState(posAbove);
+                    if (stateAbove.isAir() || !TickEventHandlers.shapeIntersects(level, posAbove, stateAbove, hitBox))
+                        continue;
+
                     BlockEntity blockEntityAbove = level.getBlockEntity(posAbove);
                     long posKey = posAbove.asLong();
 
-                    String key = Long.toString(posKey);
-                    if (hitMap != null && hitMap.contains(key))
+                    if (hitMap != null && currentTick - hitMap.get(posKey) < HIT_COOLDOWN_TICKS)
                         continue;
                     boolean didHit = false;
 
@@ -444,8 +452,9 @@ public class TickEventHandlers {
                     }
 
                     if (didHit) {
-                        hitMap = getOrCreateHitMap(entity);
-                        hitMap.putInt(key, 5);
+                        if (hitMap == null)
+                            hitMap = entity.getData(DataAttachmentRegistry.HIT_BLOCK_TIMESTAMPS);
+                        hitMap.put(posKey, currentTick);
                     }
                 }
             }
@@ -500,8 +509,7 @@ public class TickEventHandlers {
                     }
                 }
 
-                String key = Long.toString(posKey);
-                if (hitMap != null && hitMap.contains(key))
+                if (hitMap != null && currentTick - hitMap.get(posKey) < HIT_COOLDOWN_TICKS)
                     continue;
                 boolean didHit = false;
 
@@ -553,8 +561,9 @@ public class TickEventHandlers {
                 }
 
                 if (didHit) {
-                    hitMap = getOrCreateHitMap(entity);
-                    hitMap.putInt(key, 5);
+                    if (hitMap == null)
+                        hitMap = entity.getData(DataAttachmentRegistry.HIT_BLOCK_TIMESTAMPS);
+                    hitMap.put(posKey, currentTick);
                 }
             }
         }
@@ -875,23 +884,5 @@ public class TickEventHandlers {
 
         AttributeModifier modifier = attribute.getModifier(modifierId);
         return modifier != null ? modifier.amount() + 1.0D : 1.0D;
-    }
-
-    @Nullable
-    private static CompoundTag getHitMap(Entity entity) {
-        CompoundTag data = entity.getPersistentData();
-        return data.contains(HIT_BLOCKS_TAG)
-                ? data.getCompound(HIT_BLOCKS_TAG)
-                : null;
-    }
-
-    private static CompoundTag getOrCreateHitMap(Entity entity) {
-        CompoundTag data = entity.getPersistentData();
-        if (!data.contains(HIT_BLOCKS_TAG)) {
-            CompoundTag tag = new CompoundTag();
-            data.put(HIT_BLOCKS_TAG, tag);
-            return tag;
-        }
-        return data.getCompound(HIT_BLOCKS_TAG);
     }
 }

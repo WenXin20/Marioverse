@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.core.UUIDUtil;
@@ -195,6 +196,12 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> HIT_BLOCK_SOUND_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("hit_block_sound_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Long2LongOpenHashMap>> HIT_BLOCK_TIMESTAMPS = Marioverse.ATTACHMENT_TYPES
+            .register("hit_block_timestamps", () -> AttachmentType.builder(() -> {
+                Long2LongOpenHashMap map = new Long2LongOpenHashMap();
+                map.defaultReturnValue(Long.MIN_VALUE / 2);
+                return map;
+            }).build());
     public static final Supplier<AttachmentType<Integer>> ICE_BALL_COUNT = Marioverse.ATTACHMENT_TYPES
             .register("ice_ball_count", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
