@@ -63,6 +63,8 @@ public class FungalStone extends Block implements BonemealableBlock {
             serverLevel.setBlock(pos, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get().defaultBlockState(), 3);
         else if (isGrassy && state.is(BlockRegistry.FUNGAL_STONE))
             serverLevel.setBlock(pos, BlockRegistry.GRASSY_FUNGAL_STONE.get().defaultBlockState(), 3);
+        else if (isGrassy && state.is(BlockRegistry.FORTSTONE))
+            serverLevel.setBlock(pos, BlockRegistry.GRASSY_FORTSTONE.get().defaultBlockState(), 3);
     }
 
     @NotNull

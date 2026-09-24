@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cobbled_fortstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:cobbled_fortstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:cobbled_fortstone_wall_from_rocky_fortstone_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cobbled_fortstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:cobbled_fortstone_wall_from_rocky_fortstone_stonecutting"
+    ]
+  }
+}

@@ -332,6 +332,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
     public static final DeferredBlock<Block> GRASSY_DEEP_FUNGAL_STONE;
+    public static final DeferredBlock<Block> GRASSY_FORTSTONE;
     public static final DeferredBlock<Block> GRASSY_FUNGAL_STONE;
     public static final DeferredBlock<Block> HARD_ACACIA_BLOCK;
     public static final DeferredBlock<Block> HARD_ACACIA_SLAB;
@@ -630,6 +631,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> ROCKY_FORTSTONE;
+    public static final DeferredBlock<Block> ROCKY_FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> ROCKY_FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> ROCKY_FORTSTONE_WALL;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_STAIRS;
@@ -1119,6 +1124,10 @@ public class BlockRegistry {
                 () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)
                         .mapColor(MapColor.GRASS).sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .requiresCorrectToolForDrops().randomTicks().strength(3.0F, 6.5F)));
+        GRASSY_FORTSTONE = registerBlock("grassy_fortstone",
+                () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)
+                        .mapColor(MapColor.GRASS).sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .requiresCorrectToolForDrops().randomTicks().strength(1.5F, 6.0F)));
 
 
         MUSHROOT_LOG = registerBlock("mushroot_log", () -> log(MapColor.WOOD, MapColor.TERRACOTTA_ORANGE));
@@ -1957,9 +1966,11 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
-        FUNGAL_STONE_BUTTON = registerBlock("fungal_stone_button", () -> button(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 25));
+        FUNGAL_STONE_BUTTON = registerBlock("fungal_stone_button",
+                () -> button(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 25));
 
-        FUNGAL_STONE_PRESSURE_PLATE = registerBlock("fungal_stone_pressure_plate", () -> pressurePlate(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
+        FUNGAL_STONE_PRESSURE_PLATE = registerBlock("fungal_stone_pressure_plate",
+                () -> pressurePlate(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
 
         FUNGAL_STONE_SLAB = registerBlock("fungal_stone_slab", () -> slab(FUNGAL_STONE.get()));
 
@@ -2015,15 +2026,19 @@ public class BlockRegistry {
         POLISHED_FUNGAL_STONE = registerBlock("polished_fungal_stone",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get())));
 
-        POLISHED_FUNGAL_STONE_STAIRS = registerBlock("polished_fungal_stone_stairs", () -> stair(POLISHED_FUNGAL_STONE.get()));
+        POLISHED_FUNGAL_STONE_STAIRS = registerBlock("polished_fungal_stone_stairs",
+                () -> stair(POLISHED_FUNGAL_STONE.get()));
 
-        POLISHED_FUNGAL_STONE_SLAB = registerBlock("polished_fungal_stone_slab", () -> slab(POLISHED_FUNGAL_STONE.get()));
+        POLISHED_FUNGAL_STONE_SLAB = registerBlock("polished_fungal_stone_slab",
+                () -> slab(POLISHED_FUNGAL_STONE.get()));
 
-        POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall", () -> wall(POLISHED_FUNGAL_STONE.get()));
+        POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall",
+                () -> wall(POLISHED_FUNGAL_STONE.get()));
 
 
         HARD_FUNGAL_BLOCK = registerBlock("hard_fungal_block",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get()).strength(2.5F, 8.0F)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
+                        .strength(2.5F, 8.0F)));
 
         HARD_FUNGAL_STAIRS = registerBlock("hard_fungal_stairs", () -> stair(HARD_FUNGAL_BLOCK.get()));
 
@@ -2050,11 +2065,14 @@ public class BlockRegistry {
         POLISHED_FUNGAL_BRICKS = registerBlock("polished_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
 
-        POLISHED_FUNGAL_BRICK_SLAB = registerBlock("polished_fungal_brick_slab", () -> slab(POLISHED_FUNGAL_BRICKS.get()));
+        POLISHED_FUNGAL_BRICK_SLAB = registerBlock("polished_fungal_brick_slab",
+                () -> slab(POLISHED_FUNGAL_BRICKS.get()));
 
-        POLISHED_FUNGAL_BRICK_STAIRS = registerBlock("polished_fungal_brick_stairs", () -> stair(POLISHED_FUNGAL_BRICKS.get()));
+        POLISHED_FUNGAL_BRICK_STAIRS = registerBlock("polished_fungal_brick_stairs",
+                () -> stair(POLISHED_FUNGAL_BRICKS.get()));
 
-        POLISHED_FUNGAL_BRICK_WALL = registerBlock("polished_fungal_brick_wall", () -> wall(POLISHED_FUNGAL_BRICKS.get()));
+        POLISHED_FUNGAL_BRICK_WALL = registerBlock("polished_fungal_brick_wall",
+                () -> wall(POLISHED_FUNGAL_BRICKS.get()));
 
         POLISHED_FUNGAL_BRICK_PEDESTAL = registerBlock("polished_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_BRICKS.get())));
@@ -2075,9 +2093,11 @@ public class BlockRegistry {
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(3.0F, 6.5F).requiresCorrectToolForDrops()));
 
-        DEEP_FUNGAL_STONE_BUTTON = registerBlock("deep_fungal_stone_button", () -> button(DEEP_FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 35));
+        DEEP_FUNGAL_STONE_BUTTON = registerBlock("deep_fungal_stone_button",
+                () -> button(DEEP_FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 35));
 
-        DEEP_FUNGAL_STONE_PRESSURE_PLATE = registerBlock("deep_fungal_stone_pressure_plate", () -> pressurePlate(DEEP_FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
+        DEEP_FUNGAL_STONE_PRESSURE_PLATE = registerBlock("deep_fungal_stone_pressure_plate",
+                () -> pressurePlate(DEEP_FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
 
         DEEP_FUNGAL_STONE_SLAB = registerBlock("deep_fungal_stone_slab", () -> slab(DEEP_FUNGAL_STONE.get()));
 
@@ -2190,7 +2210,7 @@ public class BlockRegistry {
 
 
         FORTSTONE = registerBlock("fortstone",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW)
+                () -> new FungalStone(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
                         .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
@@ -2200,14 +2220,27 @@ public class BlockRegistry {
 
         FORTSTONE_WALL = registerBlock("fortstone_wall", () -> wall(FORTSTONE.get()));
 
-        FORTSTONE_BUTTON = registerBlock("fortstone_button", () -> button(FORTSTONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 25));
+        FORTSTONE_BUTTON = registerBlock("fortstone_button",
+                () -> button(FORTSTONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 45));
 
-        FORTSTONE_PRESSURE_PLATE = registerBlock("fortstone_pressure_plate", () -> pressurePlate(FORTSTONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
+        FORTSTONE_PRESSURE_PLATE = registerBlock("fortstone_pressure_plate",
+                () -> pressurePlate(FORTSTONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
+
+
+        ROCKY_FORTSTONE = registerBlock("rocky_fortstone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
+                        .strength(2.0F, 6.0F)));
+
+        ROCKY_FORTSTONE_SLAB = registerBlock("rocky_fortstone_slab", () -> slab(ROCKY_FORTSTONE.get()));
+
+        ROCKY_FORTSTONE_STAIRS = registerBlock("rocky_fortstone_stairs", () -> stair(ROCKY_FORTSTONE.get()));
+
+        ROCKY_FORTSTONE_WALL = registerBlock("rocky_fortstone_wall", () -> wall(ROCKY_FORTSTONE.get()));
 
 
         COBBLED_FORTSTONE = registerBlock("cobbled_fortstone",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
-                        .strength(2.0F, 6.0F)));
+                        .mapColor(MapColor.COLOR_YELLOW).strength(2.0F, 6.0F)));
 
         COBBLED_FORTSTONE_SLAB = registerBlock("cobbled_fortstone_slab", () -> slab(COBBLED_FORTSTONE.get()));
 
@@ -2217,7 +2250,7 @@ public class BlockRegistry {
 
 
         FORTSTONE_BRICKS = registerBlock("fortstone_bricks",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE.get())));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE.get()).mapColor(MapColor.COLOR_YELLOW)));
 
         FORTSTONE_BRICK_SLAB = registerBlock("fortstone_brick_slab", () -> slab(FORTSTONE_BRICKS.get()));
 

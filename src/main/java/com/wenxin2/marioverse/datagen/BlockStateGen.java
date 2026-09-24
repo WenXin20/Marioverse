@@ -205,6 +205,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.FORTSTONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
+                BlockRegistry.ROCKY_FORTSTONE.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_FUNGAL_STONE.get(),
                 BlockRegistry.SPOOKROOT_LEAVES.get(),
@@ -330,6 +331,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.shrubroomModel(BlockRegistry.SHRUBROOM.get());
         this.shroomgrassBlockModel(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(), 1, blockTexture(BlockRegistry.DEEP_FUNGAL_STONE.get()),
                 modLoc("block/grassy_deep_fungal_stone_top"), "grassy_deep_fungal_stone", "grassy_deep_fungal_stone_overlay");
+        this.shroomgrassBlockModel(BlockRegistry.GRASSY_FORTSTONE.get(), 1, modLoc("block/fortstone_top"),
+                modLoc("block/grassy_fortstone_top"), "grassy_fortstone", "grassy_fortstone_overlay");
         this.shroomgrassBlockModel(BlockRegistry.GRASSY_FUNGAL_STONE.get(), 1, blockTexture(BlockRegistry.FUNGAL_STONE.get()),
                 modLoc("block/grassy_fungal_stone_top"), "grassy_fungal_stone", "grassy_fungal_stone_overlay");
         this.shroomgrassBlockModel(BlockRegistry.SHROOMGRASS_BLOCK.get(), 4, modLoc("block/shroomsoil_top"),
@@ -974,7 +977,6 @@ public class BlockStateGen extends BlockStateProvider {
                     this.slabMirroredNSModel(slabBlock, texture);
                 } else if (block == BlockFamilyRegistry.DEEP_FUNGAL_STONE.get(slab)
                         || block == BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE.get(slab)
-                        || block == BlockFamilyRegistry.FORTSTONE.get(slab)
                         || block == BlockFamilyRegistry.FUNGAL_STONE.get(slab)
                         || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(slab)) {
                     texture = modLoc("block/" + removeSlabName);
@@ -1011,7 +1013,9 @@ public class BlockStateGen extends BlockStateProvider {
                     topTexture = modLoc("block/" + removeSlabName);
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
-                } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(slab)) {
+                } else if (block == BlockFamilyRegistry.FORTSTONE.get(slab)
+                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(slab)
+                        || block == BlockFamilyRegistry.ROCKY_FORTSTONE.get(slab)) {
                     texture = modLoc("block/" + blockName);
                     topTexture = modLoc("block/" + removeSlabName + "_top");
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
@@ -1116,7 +1120,8 @@ public class BlockStateGen extends BlockStateProvider {
                         || block == BlockFamilyRegistry.FORTSTONE.get(stairs)
                         || block == BlockFamilyRegistry.FUNGAL_STONE.get(stairs)
                         || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(stairs)
-                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(stairs)) {
+                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(stairs)
+                        || block == BlockFamilyRegistry.ROCKY_FORTSTONE.get(stairs)) {
                     texture = modLoc("block/" + removeStairName);
                     topTexture = modLoc("block/" + removeStairName + "_top");
                     this.stairsBlock(stairBlock, texture, topTexture, topTexture);
@@ -1294,6 +1299,7 @@ public class BlockStateGen extends BlockStateProvider {
                         || block == BlockFamilyRegistry.FUNGAL_STONE.get(wall)
                         || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(wall)
                         || block == BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE.get(wall)
+                        || block == BlockFamilyRegistry.ROCKY_FORTSTONE.get(wall)
                         || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(wall)) {
                     texture = modLoc("block/" + removeWallName);
                     ResourceLocation topTexture = modLoc("block/" + removeWallName + "_top");

@@ -73,9 +73,7 @@ public class BrickPedestalBlock extends Block implements SimpleWaterloggedBlock 
                     || state.getBlock() == BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get()
                     || state.getBlock() == BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL.get()
                     || state.getBlock() == BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL.get()
-                    || state.getBlock() == BlockRegistry.FORTSTONE_BRICK_PEDESTAL.get()
-                    || state.getBlock() == BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL.get()
-                    || state.getBlock() == BlockRegistry.POLISHED_FORTSTONE_TILE_PEDESTAL.get())
+                    || state.getBlock() == BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL.get())
                 return FUNGAL_BRICK_PEDESTAL_TOP;
             else return BRICK_PEDESTAL_TOP;
         } else return BRICK_PEDESTAL_COLUMN;

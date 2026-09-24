@@ -240,7 +240,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
+            add(event, BlockRegistry.GRASSY_FORTSTONE);
             add(event, BlockRegistry.FORTSTONE);
+            add(event, BlockRegistry.ROCKY_FORTSTONE);
 
             add(event, BlockRegistry.GLOW_BLOCK);
             add(event, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN);
@@ -447,12 +449,18 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.HARD_DEEP_FUNGAL_SLAB);
             add(event, BlockRegistry.HARD_DEEP_FUNGAL_WALL);
 
+            add(event, BlockRegistry.GRASSY_FORTSTONE);
             add(event, BlockRegistry.FORTSTONE);
             add(event, BlockRegistry.FORTSTONE_STAIRS);
             add(event, BlockRegistry.FORTSTONE_SLAB);
             add(event, BlockRegistry.FORTSTONE_WALL);
             add(event, BlockRegistry.FORTSTONE_PRESSURE_PLATE);
             add(event, BlockRegistry.FORTSTONE_BUTTON);
+
+            add(event, BlockRegistry.ROCKY_FORTSTONE);
+            add(event, BlockRegistry.ROCKY_FORTSTONE_STAIRS);
+            add(event, BlockRegistry.ROCKY_FORTSTONE_SLAB);
+            add(event, BlockRegistry.ROCKY_FORTSTONE_WALL);
 
             add(event, BlockRegistry.COBBLED_FORTSTONE);
             add(event, BlockRegistry.COBBLED_FORTSTONE_STAIRS);
@@ -1250,11 +1258,15 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WET_MUD, BlockRegistry.WET_MUD_FARMLAND);
                 addAfter(event, BlockRegistry.WET_MUD_FARMLAND, BlockRegistry.DEEP_WET_MUD);
 
-                addAfter(event, Blocks.PRISMARINE, BlockRegistry.FUNGAL_STONE);
+                addAfter(event, Blocks.PRISMARINE, BlockRegistry.GRASSY_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.GRASSY_FUNGAL_STONE, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE);
-                addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
-                addAfter(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, BlockRegistry.FORTSTONE);
+                addAfter(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, BlockRegistry.GRASSY_FORTSTONE);
+                addAfter(event, BlockRegistry.GRASSY_FORTSTONE, BlockRegistry.FORTSTONE);
+                addAfter(event, BlockRegistry.FORTSTONE, BlockRegistry.ROCKY_FORTSTONE);
 
                 addAfter(event, Blocks.CHERRY_LOG, BlockRegistry.MUSHROOT_LOG);
                 addAfter(event, BlockRegistry.MUSHROOT_LOG, BlockRegistry.SPOOKROOT_LOG);
@@ -1770,7 +1782,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FORTSTONE_WALL, BlockRegistry.FORTSTONE_PRESSURE_PLATE);
                 addAfter(event, BlockRegistry.FORTSTONE_PRESSURE_PLATE, BlockRegistry.FORTSTONE_BUTTON);
 
-                addAfter(event, BlockRegistry.FORTSTONE_BUTTON, BlockRegistry.COBBLED_FORTSTONE);
+                addAfter(event, BlockRegistry.FORTSTONE_BUTTON, BlockRegistry.ROCKY_FORTSTONE);
+                addAfter(event, BlockRegistry.ROCKY_FORTSTONE, BlockRegistry.ROCKY_FORTSTONE_STAIRS);
+                addAfter(event, BlockRegistry.ROCKY_FORTSTONE_STAIRS, BlockRegistry.ROCKY_FORTSTONE_SLAB);
+                addAfter(event, BlockRegistry.ROCKY_FORTSTONE_SLAB, BlockRegistry.ROCKY_FORTSTONE_WALL);
+
+                addAfter(event, BlockRegistry.ROCKY_FORTSTONE_WALL, BlockRegistry.COBBLED_FORTSTONE);
                 addAfter(event, BlockRegistry.COBBLED_FORTSTONE, BlockRegistry.COBBLED_FORTSTONE_STAIRS);
                 addAfter(event, BlockRegistry.COBBLED_FORTSTONE_STAIRS, BlockRegistry.COBBLED_FORTSTONE_SLAB);
                 addAfter(event, BlockRegistry.COBBLED_FORTSTONE_SLAB, BlockRegistry.COBBLED_FORTSTONE_WALL);

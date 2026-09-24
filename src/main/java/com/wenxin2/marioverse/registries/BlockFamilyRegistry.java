@@ -765,9 +765,18 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .cobble(BlockRegistry.COBBLED_FORTSTONE.get())
             .polished(BlockRegistry.POLISHED_FORTSTONE.get())
             .pressurePlate(BlockRegistry.FORTSTONE_PRESSURE_PLATE.get())
+            .rocky(BlockRegistry.ROCKY_FORTSTONE.get())
             .slab(BlockRegistry.FORTSTONE_SLAB.get())
             .stairs(BlockRegistry.FORTSTONE_STAIRS.get())
             .wall(BlockRegistry.FORTSTONE_WALL.get())
+            .getFamily();
+
+    public static final BlockFamilyExtended ROCKY_FORTSTONE = familyBuilder(BlockRegistry.ROCKY_FORTSTONE.get())
+            .cobble(BlockRegistry.COBBLED_FORTSTONE.get())
+            .polished(BlockRegistry.POLISHED_FORTSTONE.get())
+            .slab(BlockRegistry.ROCKY_FORTSTONE_SLAB.get())
+            .stairs(BlockRegistry.ROCKY_FORTSTONE_STAIRS.get())
+            .wall(BlockRegistry.ROCKY_FORTSTONE_WALL.get())
             .getFamily();
 
     public static final BlockFamilyExtended COBBLED_FORTSTONE = familyBuilder(BlockRegistry.COBBLED_FORTSTONE.get())

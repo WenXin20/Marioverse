@@ -157,6 +157,7 @@ public class MarioverseClient {
             }
         }, BlockRegistry.BLUE_BLOOMFLOWER.get(),
                 BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FORTSTONE.get(),
                 BlockRegistry.GRASSY_FUNGAL_STONE.get(),
                 BlockRegistry.ORANGE_BLOOMFLOWER.get(),
                 BlockRegistry.PINK_BLOOMFLOWER.get(),
@@ -187,6 +188,7 @@ public class MarioverseClient {
         event.register((state, level, pos, tintIndex) -> level != null && pos != null
                         ? BiomeColors.getAverageGrassColor(level, pos) : GrassColor.getDefaultColor(),
                 BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FORTSTONE.get(),
                 BlockRegistry.GRASSY_FUNGAL_STONE.get(),
                 BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(),
                 BlockRegistry.POTTED_SHROOMGRASS.get(),
@@ -247,6 +249,7 @@ public class MarioverseClient {
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> tintIndex == 0 ? 0x12FC29 : -1,
                 BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FORTSTONE.get(),
                 BlockRegistry.GRASSY_FUNGAL_STONE.get(),
                 BlockRegistry.SHROOMGRASS_BLOCK.get(),
                 BlockRegistry.SHORT_SHROOMGRASS.get(),

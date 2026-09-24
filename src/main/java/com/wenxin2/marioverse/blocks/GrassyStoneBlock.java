@@ -31,6 +31,8 @@ public class GrassyStoneBlock extends GrassBlock {
                 serverLevel.setBlockAndUpdate(pos, BlockRegistry.DEEP_FUNGAL_STONE.get().defaultBlockState());
             else if (state.is(BlockRegistry.GRASSY_FUNGAL_STONE))
                 serverLevel.setBlockAndUpdate(pos, BlockRegistry.FUNGAL_STONE.get().defaultBlockState());
+            else if (state.is(BlockRegistry.GRASSY_FORTSTONE))
+                serverLevel.setBlockAndUpdate(pos, BlockRegistry.FORTSTONE.get().defaultBlockState());
         }
     }
 

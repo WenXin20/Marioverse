@@ -137,6 +137,9 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (block == BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get())
                         this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
                                 BlockRegistry.DEEP_FUNGAL_STONE.get()));
+                    else if (block == BlockRegistry.GRASSY_FORTSTONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.FORTSTONE.get()));
                     else if (block == BlockRegistry.MUSHROOT_LEAVES.get())
                         this.add(block, this.createLeavesDrops(BlockRegistry.MUSHROOT_LEAVES.get(),
                                 BlockRegistry.MUSHROOT_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
@@ -239,6 +242,8 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (variant == rocky) {
                         Block cobblestone = blockFamily == BlockFamilyRegistry.DEEP_FUNGAL_STONE
                                 ? BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get()
+                                : blockFamily == BlockFamilyRegistry.FORTSTONE
+                                ? BlockRegistry.COBBLED_FORTSTONE.get()
                                 : BlockRegistry.FUNGAL_COBBLESTONE.get();
                         this.add(variantBlock, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock, cobblestone));
                     } else if (variant == questionBlock)

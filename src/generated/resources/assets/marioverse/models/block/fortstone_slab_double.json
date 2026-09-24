@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "bottom": "marioverse:block/fortstone_top",
-    "side": "marioverse:block/fortstone",
+    "side": "marioverse:block/fortstone_slab",
     "top": "marioverse:block/fortstone_top"
   }
 }

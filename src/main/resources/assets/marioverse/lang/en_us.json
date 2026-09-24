@@ -834,6 +834,7 @@
   "block.marioverse.fortstone_slab": "Fortstone Slab",
   "block.marioverse.fortstone_stairs": "Fortstone Stairs",
   "block.marioverse.fortstone_wall": "Fortstone Wall",
+  "block.marioverse.grassy_fortstone": "Grassy Fortstone",
   "block.marioverse.hard_fortstone_block": "Hard Fortstone Block",
   "block.marioverse.hard_fortstone_slab": "Hard Fortstone Slab",
   "block.marioverse.hard_fortstone_stairs": "Hard Fortstone Stairs",
@@ -864,6 +865,10 @@
   "block.marioverse.polished_fortstone_tile_wall": "Polished Fortstone Tile Wall",
   "block.marioverse.polished_fortstone_tiles": "Polished Fortstone Tiles",
   "block.marioverse.polished_fortstone_wall": "Polished Fortstone Wall",
+  "block.marioverse.rocky_fortstone": "Rocky Fortstone",
+  "block.marioverse.rocky_fortstone_slab": "Rocky Fortstone Slab",
+  "block.marioverse.rocky_fortstone_stairs": "Rocky Fortstone Stairs",
+  "block.marioverse.rocky_fortstone_wall": "Rocky Fortstone Wall",
 
   "block.marioverse.sandstone_bricks": "Sandstone Bricks",
   "block.marioverse.sandstone_brick_slab": "Sandstone Brick Slab",
