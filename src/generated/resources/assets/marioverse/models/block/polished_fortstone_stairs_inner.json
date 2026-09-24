@@ -2,7 +2,7 @@
   "parent": "minecraft:block/inner_stairs",
   "textures": {
     "bottom": "marioverse:block/polished_fortstone_top",
-    "side": "marioverse:block/polished_fortstone",
+    "side": "marioverse:block/polished_fortstone_slab",
     "top": "marioverse:block/polished_fortstone_top"
   }
 }

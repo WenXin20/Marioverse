@@ -1120,10 +1120,20 @@ public class BlockStateGen extends BlockStateProvider {
                         || block == BlockFamilyRegistry.FORTSTONE.get(stairs)
                         || block == BlockFamilyRegistry.FUNGAL_STONE.get(stairs)
                         || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(stairs)
-                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(stairs)
                         || block == BlockFamilyRegistry.ROCKY_FORTSTONE.get(stairs)) {
                     texture = modLoc("block/" + removeStairName);
                     topTexture = modLoc("block/" + removeStairName + "_top");
+                    this.stairsBlock(stairBlock, texture, topTexture, topTexture);
+                    this.itemModels().stairs(blockName, texture, topTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(stairs)) {
+                    texture = modLoc("block/" + blockName.replace("_stairs", "_slab"));
+                    topTexture = modLoc("block/" + removeStairName + "_top");
+                    this.stairsBlock(stairBlock, texture, topTexture, topTexture);
+                    this.itemModels().stairs(blockName, texture, topTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS.get(stairs)
+                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE_TILES.get(stairs)) {
+                    texture = modLoc("block/" + blockName.replace("_stairs", "_slab"));
+                    topTexture = modLoc("block/" + removeStairName);
                     this.stairsBlock(stairBlock, texture, topTexture, topTexture);
                     this.itemModels().stairs(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(stairs)

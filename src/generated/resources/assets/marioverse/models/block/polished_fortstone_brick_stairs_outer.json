@@ -2,7 +2,7 @@
   "parent": "minecraft:block/outer_stairs",
   "textures": {
     "bottom": "marioverse:block/polished_fortstone_bricks",
-    "side": "marioverse:block/polished_fortstone_bricks",
+    "side": "marioverse:block/polished_fortstone_brick_slab",
     "top": "marioverse:block/polished_fortstone_bricks"
   }
 }
