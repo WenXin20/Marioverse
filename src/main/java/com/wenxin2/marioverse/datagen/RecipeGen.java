@@ -458,6 +458,11 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_TILES, BlockRegistry.POLISHED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_TILES, BlockRegistry.POLISHED_FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HUGE_FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_FORTSTONE_BRICKS, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_FORTSTONE_BRICKS, BlockRegistry.COBBLED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_FORTSTONE_BRICKS, BlockRegistry.FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_BRICKS, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_BRICKS, BlockRegistry.POLISHED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));

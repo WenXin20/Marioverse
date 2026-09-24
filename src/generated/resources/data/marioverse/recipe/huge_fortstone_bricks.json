@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:huge_blocks",
+  "key": {
+    "#": {
+      "item": "marioverse:fortstone_bricks"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 9,
+    "id": "marioverse:huge_fortstone_bricks"
+  }
+}

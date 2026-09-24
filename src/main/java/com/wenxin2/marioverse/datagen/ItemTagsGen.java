@@ -327,6 +327,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(ItemTags.PIGLIN_LOVED)
                 .add(BlockRegistry.COIN.asItem())
                 .add(ItemRegistry.CROWN.get())
+                .add(BlockRegistry.FORTSTONE_QUESTION_BLOCK.asItem())
+                .add(BlockRegistry.FORTSTONE_QUESTION_PANEL.asItem())
                 .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.asItem())
                 .add(BlockRegistry.FUNGAL_QUESTION_PANEL.asItem())
                 .add(ItemRegistry.GOLDEN_KOOPA_SHOES.get())
