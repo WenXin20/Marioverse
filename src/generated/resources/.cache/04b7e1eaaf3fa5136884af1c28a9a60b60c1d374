@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-23T23:07:36.4376391	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-09-25T01:00:37.6240866	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -113,7 +113,7 @@ cff3b85a7329a570e930a893c62f4003e8c9eb85 data/marioverse/tags/item/hedges.json
 9db65c8512c8362141ac618991085c306938b66b data/marioverse/tags/item/hedges/normal.json
 cecb5015ea6fbeced9a32ba2a86ed0937f637ba8 data/marioverse/tags/item/hedges/rose.json
 c9c0d5f98a850952e1add89566aa29e2b435214f data/marioverse/tags/item/hedges/snowy.json
-63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/item/invisible_question_blocks.json
+9dc91720090d1c1d92b89396df0e67209e7c488a data/marioverse/tags/item/invisible_question_blocks.json
 bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.json
 2bf71b8c33ad54da47f6204801153f8758427f38 data/marioverse/tags/item/koopa_shoes.json
 10669683856180bd5db365e41401f66ba04d8a02 data/marioverse/tags/item/large_arrow_signs.json
@@ -153,7 +153,7 @@ d2a3f2e8f80d46681c2ffc01e50c68cd17786e53 data/marioverse/tags/item/shoes.json
 3740d7f8ad0113b0b4e688892ce53e39b109636e data/marioverse/tags/item/spawn_eggs/koopa_troopa.json
 9af734d692177164b236b501f8ae8a5f38367709 data/marioverse/tags/item/spookroot_logs.json
 4102ce3a30ef5178d737ad0d8aed6a4c3a950f06 data/marioverse/tags/item/spookroot_planks.json
-129bdbfd56e1b77fb5044c8cd355398967f9819b data/marioverse/tags/item/storage_bricks.json
+3c805c1cbd7b539c7e427d303e5cea53cbd8ea08 data/marioverse/tags/item/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calcite_bricks.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/marioverse/tags/item/tools/wrenches.json
 d0f05827083f5b326c01ca1e68ce26cc0f4a4d20 data/marioverse/tags/item/walls/flammable.json
@@ -191,7 +191,7 @@ c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/minecraft/tags/item/leg_armor.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/item/logs.json
 6be9089376b9b1b1eaf56ded33a2e83029d32ade data/minecraft/tags/item/non_flammable_wood.json
 eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/ocelot_food.json
-d0e70d5413e586fc985e9fa145301ec662ac40bb data/minecraft/tags/item/piglin_loved.json
+b31253260364808cd13cbb769e7194aeadae6458 data/minecraft/tags/item/piglin_loved.json
 dcc89d58c805878825fa8c866221f3185138daa3 data/minecraft/tags/item/planks.json
 ed158f201be3d237816bcc1ec512d70bc456d951 data/minecraft/tags/item/saplings.json
 e3f2cf34c2aea07a8c14e2e18a3e31b9d606d23e data/minecraft/tags/item/signs.json

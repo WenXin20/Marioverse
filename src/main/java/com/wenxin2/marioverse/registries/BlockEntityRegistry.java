@@ -138,6 +138,7 @@ public class BlockEntityRegistry {
                         BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get(),
+                        BlockRegistry.INVISIBLE_FORTSTONE_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get(),
                         BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS.get(),
                         BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS.get(),

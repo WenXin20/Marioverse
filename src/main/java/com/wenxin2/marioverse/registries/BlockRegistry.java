@@ -422,6 +422,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_FORTSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_MUD_QUESTION_BRICKS;
@@ -737,12 +738,15 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_EXPOSED_CUT_COPPER;
+    public static final DeferredBlock<Block> STORAGE_FORTSTONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_MOSSY_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_MUD_BRICKS;
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_POLISHED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_POLISHED_FORTSTONE_TILES;
     public static final DeferredBlock<Block> STORAGE_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_PRISMARINE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_PURPUR_BLOCK;
@@ -2267,6 +2271,9 @@ public class BlockRegistry {
         CRACKED_FORTSTONE_BRICKS = registerBlock("cracked_fortstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
 
+        STORAGE_FORTSTONE_BRICKS = registerBlock("storage_fortstone_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
 
         HUGE_FORTSTONE_BRICKS = registerBlock("huge_fortstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
@@ -2302,6 +2309,11 @@ public class BlockRegistry {
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())
                         .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.STONE : MapColor.GOLD)));
 
+        INVISIBLE_FORTSTONE_QUESTION_BLOCK = registerBlock("invisible_fortstone_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())
+                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.STONE
+                                : state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.GOLD)));
+
         FORTSTONE_QUESTION_PANEL = registerBlock("fortstone_question_panel",
                 () -> new QuestionPanelBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())
                         .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.STONE : MapColor.GOLD)
@@ -2325,6 +2337,9 @@ public class BlockRegistry {
 
         CRACKED_POLISHED_FORTSTONE_BRICKS = registerBlock("cracked_polished_fortstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        STORAGE_POLISHED_FORTSTONE_BRICKS = registerBlock("storage_polished_fortstone_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
 
 
         HUGE_POLISHED_FORTSTONE_BRICKS = registerBlock("huge_polished_fortstone_bricks",
@@ -2354,6 +2369,9 @@ public class BlockRegistry {
 
         CRACKED_POLISHED_FORTSTONE_TILES = registerBlock("cracked_polished_fortstone_tiles",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+        STORAGE_POLISHED_FORTSTONE_TILES = registerBlock("storage_polished_fortstone_tiles",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
 
 
         HUGE_POLISHED_FORTSTONE_TILES = registerBlock("huge_polished_fortstone_tiles",

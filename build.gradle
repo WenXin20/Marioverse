@@ -91,16 +91,16 @@ dependencies {
     compileOnly "curse.maven:jei-${jei_version}"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
-    compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
+    implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    implementation "curse.maven:the-twilight-forest-227639:7797302"
+    compileOnly "curse.maven:the-twilight-forest-227639:7797302"
     implementation "curse.maven:treechop-421377:6254465"
     implementation "curse.maven:tree-physics-1522010:8448844"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
     implementation "curse.maven:worldedit-225608:5830452"
-    implementation "curse.maven:xaeros-minimap-263420:7598595"
-    implementation "curse.maven:xaeros-world-map-317780:7598481"
+    compileOnly "curse.maven:xaeros-minimap-263420:7598595"
+    compileOnly "curse.maven:xaeros-world-map-317780:7598481"
 
     // Libraries
     implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib

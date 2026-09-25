@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-23T23:07:36.4346295	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-25T01:00:37.617146	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -95,7 +95,7 @@ cecb5015ea6fbeced9a32ba2a86ed0937f637ba8 data/marioverse/tags/block/hedges/rose.
 c9c0d5f98a850952e1add89566aa29e2b435214f data/marioverse/tags/block/hedges/snowy.json
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_ball_extinguishes.json
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/ice_cube_extinguishes.json
-63ec323a48b8af2810700e117891c5cdd2555945 data/marioverse/tags/block/invisible_question_blocks.json
+9dc91720090d1c1d92b89396df0e67209e7c488a data/marioverse/tags/block/invisible_question_blocks.json
 10669683856180bd5db365e41401f66ba04d8a02 data/marioverse/tags/block/large_arrow_signs.json
 7994a1f2379ef5bf446ddc415f61b97fb95f3c2d data/marioverse/tags/block/large_arrow_signs/flammable.json
 165e41bafa3202e0755615c93f024d2505e1e638 data/marioverse/tags/block/large_arrow_signs/wooden.json
@@ -135,7 +135,7 @@ b5198f3739de7f61b4b40d9e39658a2b36218478 data/marioverse/tags/block/sable/floaty
 9fb6cd7811f403ea26737ea108993c71ca2bc5bd data/marioverse/tags/block/snowball_extinguishes.json
 9af734d692177164b236b501f8ae8a5f38367709 data/marioverse/tags/block/spookroot_logs.json
 4102ce3a30ef5178d737ad0d8aed6a4c3a950f06 data/marioverse/tags/block/spookroot_planks.json
-129bdbfd56e1b77fb5044c8cd355398967f9819b data/marioverse/tags/block/storage_bricks.json
+3c805c1cbd7b539c7e427d303e5cea53cbd8ea08 data/marioverse/tags/block/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calcite_bricks.json
 4b5f6cc96623ba793a76d27abb6723552869d67c data/marioverse/tags/block/supports_dango_blossom.json
 d0f05827083f5b326c01ca1e68ce26cc0f4a4d20 data/marioverse/tags/block/walls/flammable.json
