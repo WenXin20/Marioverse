@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.integration.stone_zone_compat;
 
 import com.wenxin2.marioverse.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
+import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
@@ -32,6 +33,7 @@ public class StoneModule extends StoneZoneModule {
     public final SimpleEntrySet<StoneType, Block> invisibleQuestionBlock;
     public final SimpleEntrySet<StoneType, Block> questionBlock;
     public final SimpleEntrySet<StoneType, Block> smashableBricks;
+    public final SimpleEntrySet<StoneType, Block> stoneBridge;
     public final SimpleEntrySet<StoneType, Block> storageBricks;
 
     public static final PaletteStrategy darkerPalette = PaletteStrategies.registerCached((blockType, resourceManager) -> {
@@ -139,6 +141,25 @@ public class StoneModule extends StoneZoneModule {
                 .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(smashableBricks);
+
+        stoneBridge = StoneZoneEntrySet.of(StoneType.class, "bridge",
+                        BlockRegistry.STONE_BRIDGE, () -> VanillaStoneTypes.STONE,
+                        stoneType -> new BridgeBlock(Utils.copyPropertySafe(stoneType.stone)))
+                .addTexture(modRes("block/stone_bridge"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/stone_bridge_bottom"), darkerPalette)
+                .addTexture(modRes("block/stone_bridge_side"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/stone_bridge_top"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
+                .addTag(TagRegistry.STONE_BRIDGES, Registries.BLOCK)
+                .addTag(TagRegistry.STONE_BRIDGE_ITEMS, Registries.ITEM)
+                .addRecipe(modRes("stone_bridge_from_stone_stonecutting"))
+                .addRecipe(modRes("stone_bridge_stonecutting"))
+                .requiresChildren("bricks")
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .setTab(buildingBlocksTab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(stoneBridge);
 
         storageBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "storage",
                         BlockRegistry.STORAGE_STONE_BRICKS, () -> VanillaStoneTypes.STONE,

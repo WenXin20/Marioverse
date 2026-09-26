@@ -593,6 +593,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
+            .stoneBridge(BlockRegistry.DEEP_FUNGAL_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get())
             .wall(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
             .getFamily();
@@ -656,6 +657,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
+            .stoneBridge(BlockRegistry.FUNGAL_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_FUNGAL_BRICKS.get())
             .wall(BlockRegistry.FUNGAL_BRICK_WALL.get())
             .getFamily();
@@ -740,6 +742,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .cracked(BlockRegistry.CRACKED_POLISHED_FORTSTONE_BRICKS.get())
             .huge(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICKS.get())
             .pedestal(BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL.get())
+            .stoneBridge(BlockRegistry.FORTSTONE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_POLISHED_FORTSTONE_BRICKS.get())
             .slab(BlockRegistry.POLISHED_FORTSTONE_BRICK_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FORTSTONE_BRICK_STAIRS.get())
@@ -752,6 +755,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .cracked(BlockRegistry.CRACKED_POLISHED_FORTSTONE_TILES.get())
             .huge(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILES.get())
             .pedestal(BlockRegistry.POLISHED_FORTSTONE_TILE_PEDESTAL.get())
+            .stoneBridge(BlockRegistry.FORTSTONE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_POLISHED_FORTSTONE_TILES.get())
             .slab(BlockRegistry.POLISHED_FORTSTONE_TILE_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FORTSTONE_TILE_STAIRS.get())
@@ -931,6 +935,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.STONE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.STONE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_STONE_BRICKS.get())
+            .stoneBridge(BlockRegistry.STONE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_STONE_BRICKS.get())
             .getFamily();
 

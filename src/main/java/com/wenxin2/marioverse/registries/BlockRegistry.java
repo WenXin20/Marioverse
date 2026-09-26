@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.registries;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
 import com.wenxin2.marioverse.blocks.BloomflowerBlock;
+import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.DeepWetMudBlock;
 import com.wenxin2.marioverse.blocks.FungalStone;
 import com.wenxin2.marioverse.blocks.GrassyStoneBlock;
@@ -42,7 +43,7 @@ import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
-import com.wenxin2.marioverse.blocks.BridgeBlock;
+import com.wenxin2.marioverse.blocks.LogBridgeBlock;
 import com.wenxin2.marioverse.blocks.BridgeStairBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
@@ -282,6 +283,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_WALL;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRIDGE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_SLAB;
     public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_STAIRS;
@@ -306,6 +308,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FORTSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> FORTSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> FORTSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> FORTSTONE_BRIDGE;
     public static final DeferredBlock<Block> FORTSTONE_BUTTON;
     public static final DeferredBlock<Block> FORTSTONE_PRESSURE_PLATE;
     public static final DeferredBlock<Block> FORTSTONE_QUESTION_BLOCK;
@@ -318,6 +321,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_WALL;
+    public static final DeferredBlock<Block> FUNGAL_BRIDGE;
     public static final DeferredBlock<Block> FUNGAL_COBBLESTONE;
     public static final DeferredBlock<Block> FUNGAL_COBBLESTONE_SLAB;
     public static final DeferredBlock<Block> FUNGAL_COBBLESTONE_STAIRS;
@@ -727,6 +731,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STEVE_ABILITY_BLOCK;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> STONE_BRIDGE;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BLACKSTONE_BRICKS;
@@ -1230,11 +1235,11 @@ public class BlockRegistry {
                                 .lootFrom(LARGE_MUSHROOT_ARROW_SIGN)));
 
         MUSHROOT_LOG_BRIDGE = registerBlock("mushroot_log_bridge",
-                () -> new BridgeBlock(BlockRegistry.MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                () -> new LogBridgeBlock(BlockRegistry.MUSHROOT_LOG.get(), BlockBehaviour.Properties
                         .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.PODZOL)));
 
         STRIPPED_MUSHROOT_LOG_BRIDGE = registerBlock("stripped_mushroot_log_bridge",
-                () -> new BridgeBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                () -> new LogBridgeBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), BlockBehaviour.Properties
                         .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
 
         MUSHROOT_LOG_BRIDGE_STAIRS = registerBlock("mushroot_log_bridge_stairs",
@@ -1378,11 +1383,11 @@ public class BlockRegistry {
                                 .lootFrom(LARGE_SPOOKROOT_ARROW_SIGN)));
 
         SPOOKROOT_LOG_BRIDGE = registerBlock("spookroot_log_bridge",
-                () -> new BridgeBlock(BlockRegistry.SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                () -> new LogBridgeBlock(BlockRegistry.SPOOKROOT_LOG.get(), BlockBehaviour.Properties
                         .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.PODZOL)));
 
         STRIPPED_SPOOKROOT_LOG_BRIDGE = registerBlock("stripped_spookroot_log_bridge",
-                () -> new BridgeBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                () -> new LogBridgeBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), BlockBehaviour.Properties
                         .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.WOOD)));
 
         SPOOKROOT_LOG_BRIDGE_STAIRS = registerBlock("spookroot_log_bridge_stairs",
@@ -1832,70 +1837,70 @@ public class BlockRegistry {
 
 
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",
-                () -> new BridgeBlock(Blocks.OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeBlock(Blocks.OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_OAK_LOG_BRIDGE = registerBlock("stripped_oak_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
 
         SPRUCE_LOG_BRIDGE = registerBlock("spruce_log_bridge",
-                () -> new BridgeBlock(Blocks.SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeBlock(Blocks.SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         STRIPPED_SPRUCE_LOG_BRIDGE = registerBlock("stripped_spruce_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
 
         BIRCH_LOG_BRIDGE = registerBlock("birch_log_bridge",
-                () -> new BridgeBlock(Blocks.BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
+                () -> new LogBridgeBlock(Blocks.BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
 
         STRIPPED_BIRCH_LOG_BRIDGE = registerBlock("stripped_birch_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BIRCH_LOG).mapColor(MapColor.SAND)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BIRCH_LOG).mapColor(MapColor.SAND)));
 
         JUNGLE_LOG_BRIDGE = registerBlock("jungle_log_bridge",
-                () -> new BridgeBlock(Blocks.JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeBlock(Blocks.JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_JUNGLE_LOG_BRIDGE = registerBlock("stripped_jungle_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
 
         ACACIA_LOG_BRIDGE = registerBlock("acacia_log_bridge",
-                () -> new BridgeBlock(Blocks.ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
+                () -> new LogBridgeBlock(Blocks.ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
 
         STRIPPED_ACACIA_LOG_BRIDGE = registerBlock("stripped_acacia_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
 
         DARK_OAK_LOG_BRIDGE = registerBlock("dark_oak_log_bridge",
-                () -> new BridgeBlock(Blocks.DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeBlock(Blocks.DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         STRIPPED_DARK_OAK_LOG_BRIDGE = registerBlock("stripped_dark_oak_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         MANGROVE_LOG_BRIDGE = registerBlock("mangrove_log_bridge",
-                () -> new BridgeBlock(Blocks.MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeBlock(Blocks.MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_MANGROVE_LOG_BRIDGE = registerBlock("stripped_mangrove_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
 
         CHERRY_LOG_BRIDGE = registerBlock("cherry_log_bridge",
-                () -> new BridgeBlock(Blocks.CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
+                () -> new LogBridgeBlock(Blocks.CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
 
         STRIPPED_CHERRY_LOG_BRIDGE = registerBlock("stripped_cherry_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
 
         BAMBOO_BRIDGE = registerBlock("bamboo_bridge",
-                () -> new BridgeBlock(Blocks.BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK).mapColor(MapColor.PLANT)));
+                () -> new LogBridgeBlock(Blocks.BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK).mapColor(MapColor.PLANT)));
 
         STRIPPED_BAMBOO_BRIDGE = registerBlock("stripped_bamboo_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
 
         CRIMSON_STEM_BRIDGE = registerBlock("crimson_stem_bridge",
-                () -> new BridgeBlock(Blocks.CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
+                () -> new LogBridgeBlock(Blocks.CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
 
         STRIPPED_CRIMSON_STEM_BRIDGE = registerBlock("stripped_crimson_stem_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
 
         WARPED_STEM_BRIDGE = registerBlock("warped_stem_bridge",
-                () -> new BridgeBlock(Blocks.WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
+                () -> new LogBridgeBlock(Blocks.WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
 
         STRIPPED_WARPED_STEM_BRIDGE = registerBlock("stripped_warped_stem_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
 
 
         OAK_LOG_BRIDGE_STAIRS = registerBlock("oak_log_bridge_stairs",
@@ -2065,6 +2070,9 @@ public class BlockRegistry {
                         .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.TERRACOTTA_RED : MapColor.GOLD)
                         .noCollission().forceSolidOn().strength(0.5F)));
 
+        FUNGAL_BRIDGE = registerBlock("fungal_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
+
 
         POLISHED_FUNGAL_BRICKS = registerBlock("polished_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
@@ -2189,6 +2197,9 @@ public class BlockRegistry {
                 () -> new QuestionPanelBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
                         .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.COLOR_CYAN : MapColor.COLOR_GREEN)
                         .noCollission().forceSolidOn().strength(0.5F)));
+
+        DEEP_FUNGAL_BRIDGE = registerBlock("deep_fungal_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
 
         POLISHED_DEEP_FUNGAL_BRICKS = registerBlock("polished_deep_fungal_bricks",
@@ -2318,6 +2329,9 @@ public class BlockRegistry {
                 () -> new QuestionPanelBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())
                         .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.STONE : MapColor.GOLD)
                         .noCollission().forceSolidOn().strength(0.5F)));
+
+        FORTSTONE_BRIDGE = registerBlock("fortstone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
 
 
         POLISHED_FORTSTONE_BRICKS = registerBlock("polished_fortstone_bricks",
@@ -2546,6 +2560,9 @@ public class BlockRegistry {
 
         STONE_BRICK_PEDESTAL = registerBlock("stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+
+        STONE_BRIDGE = registerBlock("stone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
 
         MOSSY_STONE_QUESTION_BRICKS = registerBlock("mossy_stone_question_bricks",

@@ -78,8 +78,9 @@ dependencies {
     compileOnly "curse.maven:caverns-and-chasms-438005:8155745" // Requires Blueprint
     implementation "curse.maven:create-aeronautics-676721:8763471" // Requires Create, Sable, Incompatible w/ Embeddium
     compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
+    implementation "curse.maven:far-view-1657090:8813248"
     compileOnly "curse.maven:framedblocks-441647:7584453"
-    compileOnly "curse.maven:deep-aether-852465:6839619"
+    implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     compileOnly "maven.modrinth:grassier-grass:1.4.5-neoforge"
     implementation "curse.maven:guard-villagers-360203:6066966"
@@ -92,10 +93,10 @@ dependencies {
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
     compileOnly "curse.maven:quark-243121:8895753" // Requires Zeta
-    implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
+    compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    compileOnly "curse.maven:the-twilight-forest-227639:7797302"
+    implementation "curse.maven:the-twilight-forest-227639:7797302"
     implementation "curse.maven:treechop-421377:6254465"
     implementation "curse.maven:tree-physics-1522010:8448844"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight

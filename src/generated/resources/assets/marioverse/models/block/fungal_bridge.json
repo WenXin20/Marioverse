@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_stone_bridge",
+  "textures": {
+    "bottom": "marioverse:block/fungal_bridge_bottom",
+    "front": "marioverse:block/fungal_bridge",
+    "side": "marioverse:block/fungal_bridge_side",
+    "top": "marioverse:block/fungal_bridge_top"
+  }
+}

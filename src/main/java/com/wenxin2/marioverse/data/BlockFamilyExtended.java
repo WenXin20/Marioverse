@@ -265,6 +265,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder stoneBridge(Block block) {
+            this.family.variants.put(Variant.STONE_BRIDGE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder tiles(Block block) {
             this.family.variants.put(Variant.TILES, block);
             return this;
@@ -353,6 +358,7 @@ public class BlockFamilyExtended {
         SLAB("slab"),
         SMASHABLE_BLOCKS("smashable_blocks"),
         STAIRS("stairs"),
+        STONE_BRIDGE("bridges"),
         STORAGE_BRICKS("storage_bricks"),
         TILES("tiles"),
         TRAPDOOR("trapdoor"),

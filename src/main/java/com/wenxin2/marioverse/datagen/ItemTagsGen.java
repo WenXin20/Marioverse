@@ -105,6 +105,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.WARP_PIPE_BLOCKS, TagRegistry.WARP_PIPE_ITEMS);
         copy(TagRegistry.WINDOWS, TagRegistry.WINDOW_ITEMS);
         copy(TagRegistry.WINDOW_PANES, TagRegistry.WINDOW_PANE_ITEMS);
+        copy(TagRegistry.STONE_BRIDGES, TagRegistry.STONE_BRIDGE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_BLOCKS, TagRegistry.WOODEN_BRIDGE_ITEMS);
         copy(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS, TagRegistry.WOODEN_BRIDGE_STAIR_ITEMS);
         copy(TagRegistry.WOODEN_HARD_BLOCKS, TagRegistry.WOODEN_HARD_BLOCK_ITEMS);

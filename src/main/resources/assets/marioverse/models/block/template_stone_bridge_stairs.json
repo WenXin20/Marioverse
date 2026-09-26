@@ -1,0 +1,65 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "marioverse:block/deep_fungal_bridge",
+		"front": "marioverse:block/deep_fungal_bridge",
+		"bottom": "marioverse:block/deep_fungal_bridge_bottom",
+		"side": "marioverse:block/deep_fungal_bridge_side",
+		"top": "marioverse:block/deep_fungal_bridge_top"
+	},
+	"elements": [
+		{
+			"from": [8, 7, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+			"faces": {
+				"north": {"uv": [0, 0, 8, 9], "texture": "#front"},
+				"east": {"uv": [0, 7, 16, 16], "texture": "#side"},
+				"south": {"uv": [0, 0, 8, 9], "texture": "#front"},
+				"west": {"uv": [0, 7, 16, 16], "texture": "#side"},
+				"up": {"uv": [8, 0, 0, 16], "texture": "#top"},
+				"down": {"uv": [8, 0, 0, 16], "texture": "#bottom"}
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [8, 9, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, -1, 14]},
+			"faces": {
+				"north": {"uv": [0, 0, 8, 9], "texture": "#front"},
+				"east": {"uv": [0, 7, 16, 16], "texture": "#side"},
+				"south": {"uv": [0, 0, 8, 9], "texture": "#front"},
+				"west": {"uv": [0, 7, 16, 16], "texture": "#side"},
+				"up": {"uv": [16, 0, 8, 16], "texture": "#top"},
+				"down": {"uv": [16, 0, 8, 16], "texture": "#bottom"}
+			}
+		},
+		{
+			"from": [16, 16, 0],
+			"to": [24, 25, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [16, 15, 14]},
+			"faces": {
+				"north": {"uv": [8, 0, 16, 7], "texture": "#front"},
+				"east": {"uv": [0, 0, 16, 7], "texture": "#side"},
+				"south": {"uv": [8, 0, 16, 7], "texture": "#front"},
+				"west": {"uv": [0, 7, 16, 16], "texture": "#side"},
+				"up": {"uv": [16, 0, 8, 16], "texture": "#top"},
+				"down": {"uv": [16, 0, 8, 16], "texture": "#bottom"}
+			}
+		},
+		{
+			"from": [24, 23, 0],
+			"to": [32, 32, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [24, 24, 14]},
+			"faces": {
+				"north": {"uv": [0, 0, 8, 9], "texture": "#front"},
+				"east": {"uv": [0, 7, 16, 16], "texture": "#side"},
+				"south": {"uv": [0, 0, 8, 9], "texture": "#front"},
+				"west": {"uv": [0, 7, 16, 16], "texture": "#side"},
+				"up": {"uv": [8, 0, 0, 16], "texture": "#top"},
+				"down": {"uv": [8, 0, 0, 16], "texture": "#bottom"}
+			}
+		}
+	]
+}

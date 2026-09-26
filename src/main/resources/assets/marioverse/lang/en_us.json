@@ -810,6 +810,10 @@
   "block.marioverse.rocky_fungal_stone_slab": "Rocky Fungal Stone Slab",
   "block.marioverse.rocky_fungal_stone_stairs": "Rocky Fungal Stone Stairs",
   "block.marioverse.rocky_fungal_stone_wall": "Rocky Fungal Stone Wall",
+  "block.marioverse.deep_fungal_bridge": "Deep Fungal Bridge",
+  "block.marioverse.fortstone_bridge": "Fortstone Bridge",
+  "block.marioverse.fungal_bridge": "Fungal Bridge",
+  "block.marioverse.stone_bridge": "Stone Bridge",
 
   "block.marioverse.chiseled_fortstone_bricks": "Chiseled Fortstone Bricks",
   "block.marioverse.chiseled_polished_fortstone_bricks": "Chiseled Polished Fortstone Bricks",
@@ -2755,6 +2759,7 @@
   "block_type.marioverse.arrow_sign.top_right": "%s Top Right Arrow Sign",
   "block_type.marioverse.arrow_sign.up": "%s Up Arrow Sign",
   "block_type.marioverse.brick_pedestal": "%s Brick Pedestal",
+  "block_type.marioverse.bridge": "%s Bridge",
   "block_type.marioverse.hard_block": "Hard %s Block",
   "block_type.marioverse.hard_slab": "Hard %s Slab",
   "block_type.marioverse.hard_stairs": "Hard %s Stairs",

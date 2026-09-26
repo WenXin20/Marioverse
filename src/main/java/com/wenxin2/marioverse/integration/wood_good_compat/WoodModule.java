@@ -3,11 +3,11 @@ package com.wenxin2.marioverse.integration.wood_good_compat;
 import com.mojang.datafixers.util.Either;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.MarioverseCreativeTabs;
-import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.BridgeStairBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LogBridgeBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceGateBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
@@ -167,7 +167,7 @@ public class WoodModule extends EveryCompatModule {
 
         bridge = SimpleEntrySet.builder(WoodType.class, "log_bridge",
                         BlockRegistry.OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,
-                        woodType -> new BridgeBlock(woodType.log, Utils.copyPropertySafe(woodType.log)))
+                        woodType -> new LogBridgeBlock(woodType.log, Utils.copyPropertySafe(woodType.log)))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS, Registries.BLOCK)
@@ -182,7 +182,7 @@ public class WoodModule extends EveryCompatModule {
 
         strippedBridge = SimpleEntrySet.builder(WoodType.class, "log_bridge", "stripped",
                         BlockRegistry.STRIPPED_OAK_LOG_BRIDGE, () -> VanillaWoodTypes.OAK,
-                        woodType -> new BridgeBlock(woodType.log, Utils.copyPropertySafe(woodType.log)))
+                        woodType -> new LogBridgeBlock(woodType.log, Utils.copyPropertySafe(woodType.log)))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS, Registries.BLOCK)

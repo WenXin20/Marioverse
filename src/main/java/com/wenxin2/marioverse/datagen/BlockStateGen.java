@@ -359,14 +359,14 @@ public class BlockStateGen extends BlockStateProvider {
                 texture(waterSpout, "_splash"));
 
         this.genArrowSigns();
-        this.genBridges();
-        this.genBridgeStairs();
         this.genButtons();
         this.genDoors();
-        this.genFences();
         this.genFenceGates();
+        this.genFences();
         this.genHangingSigns();
         this.genInvisibleQuestionBlocks();
+        this.genLogBridgeStairs();
+        this.genLogBridges();
         this.genLogPlatforms();
         this.genPedestals();
         this.genPressurePlates();
@@ -376,12 +376,13 @@ public class BlockStateGen extends BlockStateProvider {
         this.genSimpleBlockWithItem();
         this.genSlabs();
         this.genSmashableBlocks();
+        this.genStoneBridges();
         this.genStairs();
         this.genStorageBricks();
         this.genTrapdoors();
         this.genWalls();
-        this.genWindows();
         this.genWindowPanes();
+        this.genWindows();
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -464,7 +465,7 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void genBridges() {
+    private void genLogBridges() {
         BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
             BlockFamilyExtended.Variant bridge = BlockFamilyExtended.Variant.BRIDGE;
             String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
@@ -491,13 +492,13 @@ public class BlockStateGen extends BlockStateProvider {
                     sideTexture = modLoc("block/" + removeBridgeName);
                     topTexture = modLoc("block/" + removeBridgeName + "_top");
 
-                    this.bridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
-                } else this.bridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
+                    this.logBridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
+                } else this.logBridgeModel(block, sideTexture, topTexture, ropeTexture, ropeSideTexture);
             }
         }));
     }
 
-    private void genBridgeStairs() {
+    private void genLogBridgeStairs() {
         BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
             BlockFamilyExtended.Variant bridgeStairs = BlockFamilyExtended.Variant.BRIDGE_STAIRS;
             String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
@@ -1168,6 +1169,18 @@ public class BlockStateGen extends BlockStateProvider {
         }));
     }
 
+    private void genStoneBridges() {
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            BlockFamilyExtended.Variant stoneBridge = BlockFamilyExtended.Variant.STONE_BRIDGE;
+
+            if (variant == stoneBridge && !this.isBlockGenerated(variant, block)) {
+                ResourceLocation frontTexture = modLoc("block/" + BuiltInRegistries.BLOCK.getKey(block).getPath());
+
+                this.stoneBridgeModel(block, frontTexture, texture(block, "_side"), texture(block, "_top"), texture(block, "_bottom"));
+            }
+        }));
+    }
+
     private void genStorageBricks() {
         BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
             BlockFamilyExtended.Variant storageBrick = BlockFamilyExtended.Variant.STORAGE_BRICKS;
@@ -1459,7 +1472,33 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void bridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
+    private void stoneBridgeModel(Block block, ResourceLocation frontTexture, ResourceLocation sideTexture,
+                                  ResourceLocation topTexture, ResourceLocation bottomTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile modelBottom = models()
+                .withExistingParent(modelName, modLoc("block/template_stone_bridge"))
+                .texture("front", frontTexture).texture("side", sideTexture)
+                .texture("top", topTexture).texture("bottom", bottomTexture);
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_stone_bridge_top"))
+                .texture("front", frontTexture).texture("side", sideTexture)
+                .texture("top", topTexture).texture("bottom", bottomTexture);
+
+        this.simpleBlockItem(block, modelBottom);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction.Axis axis = state.getValue(BridgeBlock.AXIS);
+            HalfBlockStates half = state.getValue(BridgeBlock.HALF);
+            ModelFile model = (half == HalfBlockStates.TOP ? modelTop : modelBottom);
+
+            int yRot = (axis == Direction.Axis.X ? 90 : 0);
+
+            return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
+        });
+    }
+
+    private void logBridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile modelBottom = models()

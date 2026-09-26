@@ -39,6 +39,7 @@
 - Added Short Shroomgrass, Shroomgrass, & Tall Shroomgrass
 - Added Shrubrooms
 - Added bloomflowers of various colors
+- Added stone bridge variants, a new semi-solid platform
 - Added tooltips to bridges
 - Added recipe to convert Dango Blossoms to dye
 - Added new Wandering trader trades
