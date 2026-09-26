@@ -172,91 +172,6 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .bridgeStairs(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get())
             .getFamily();
 
-    public static final BlockFamilyExtended ACACIA_SLAB = familyBuilder(Blocks.ACACIA_SLAB)
-            .picketFence(BlockRegistry.ACACIA_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended BAMBOO_SLAB = familyBuilder(Blocks.BAMBOO_SLAB)
-            .picketFence(BlockRegistry.BAMBOO_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended BIRCH_SLAB = familyBuilder(Blocks.BIRCH_SLAB)
-            .picketFence(BlockRegistry.BIRCH_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended CHERRY_SLAB = familyBuilder(Blocks.CHERRY_SLAB)
-            .picketFence(BlockRegistry.CHERRY_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended CRIMSON_SLAB = familyBuilder(Blocks.CRIMSON_SLAB)
-            .picketFence(BlockRegistry.CRIMSON_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended DARK_OAK_SLAB = familyBuilder(Blocks.DARK_OAK_SLAB)
-            .picketFence(BlockRegistry.DARK_OAK_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended JUNGLE_SLAB = familyBuilder(Blocks.JUNGLE_SLAB)
-            .picketFence(BlockRegistry.JUNGLE_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended MANGROVE_SLAB = familyBuilder(Blocks.MANGROVE_SLAB)
-            .picketFence(BlockRegistry.MANGROVE_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended MUSHROOT_SLAB = familyBuilder(BlockRegistry.MUSHROOT_SLAB.get())
-            .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended MUSHROOT_BOARD_SLAB = familyBuilder(BlockRegistry.MUSHROOT_BOARD_SLAB.get())
-            .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended MUSHROOT_PANEL_SLAB = familyBuilder(BlockRegistry.MUSHROOT_PANEL_SLAB.get())
-            .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended SPOOKROOT_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_SLAB.get())
-            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended SPOOKROOT_BOARD_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_BOARD_SLAB.get())
-            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended SPOOKROOT_PANEL_SLAB = familyBuilder(BlockRegistry.SPOOKROOT_PANEL_SLAB.get())
-            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended OAK_SLAB = familyBuilder(Blocks.OAK_SLAB)
-            .picketFence(BlockRegistry.OAK_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended SPRUCE_SLAB = familyBuilder(Blocks.SPRUCE_SLAB)
-            .picketFence(BlockRegistry.SPRUCE_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
-            .getFamily();
-
-    public static final BlockFamilyExtended WARPED_SLAB = familyBuilder(Blocks.WARPED_SLAB)
-            .picketFence(BlockRegistry.WARPED_PICKET_FENCE.get())
-            .picketFenceGate(BlockRegistry.WARPED_PICKET_FENCE_GATE.get())
-            .getFamily();
-
     public static final BlockFamilyExtended MUSHROOT_PLANKS = familyBuilder(BlockRegistry.MUSHROOT_PLANKS.get())
             .arrowSign(BlockRegistry.MUSHROOT_ARROW_SIGN.get(), BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get(), BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get())
             .boards(BlockRegistry.MUSHROOT_BOARDS.get())
@@ -267,6 +182,8 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .fenceGate(BlockRegistry.MUSHROOT_FENCE_GATE.get())
             .largeArrowSign(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get())
             .panelsFromBoards(BlockRegistry.MUSHROOT_PANELS.get())
+            .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
             .pressurePlate(BlockRegistry.MUSHROOT_PRESSURE_PLATE.get())
             .sign(BlockRegistry.MUSHROOT_SIGN.get(), BlockRegistry.MUSHROOT_WALL_SIGN.get())
             .slab(BlockRegistry.MUSHROOT_SLAB.get())
@@ -278,6 +195,8 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended MUSHROOT_BOARDS = familyBuilder(BlockRegistry.MUSHROOT_BOARDS.get())
             .hardBlock(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
             .panels(BlockRegistry.MUSHROOT_PANELS.get())
+            .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
             .slab(BlockRegistry.MUSHROOT_BOARD_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_BOARD_STAIRS.get())
             .wall(BlockRegistry.MUSHROOT_BOARD_WALL.get())
@@ -286,6 +205,8 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended MUSHROOT_PANELS = familyBuilder(BlockRegistry.MUSHROOT_PANELS.get())
             .hardBlock(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
+            .picketFence(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
             .slab(BlockRegistry.MUSHROOT_PANEL_SLAB.get())
             .stairs(BlockRegistry.MUSHROOT_PANEL_STAIRS.get())
             .wall(BlockRegistry.MUSHROOT_PANEL_WALL.get())
@@ -312,6 +233,8 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .fenceGate(BlockRegistry.SPOOKROOT_FENCE_GATE.get())
             .largeArrowSign(BlockRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_SPOOKROOT_WALL_ARROW_SIGN.get())
             .panelsFromBoards(BlockRegistry.SPOOKROOT_PANELS.get())
+            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
             .pressurePlate(BlockRegistry.SPOOKROOT_PRESSURE_PLATE.get())
             .sign(BlockRegistry.SPOOKROOT_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_SIGN.get())
             .slab(BlockRegistry.SPOOKROOT_SLAB.get())
@@ -323,6 +246,8 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended SPOOKROOT_BOARDS = familyBuilder(BlockRegistry.SPOOKROOT_BOARDS.get())
             .hardBlock(BlockRegistry.HARD_SPOOKROOT_BLOCK.get())
             .panels(BlockRegistry.SPOOKROOT_PANELS.get())
+            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
             .slab(BlockRegistry.SPOOKROOT_BOARD_SLAB.get())
             .stairs(BlockRegistry.SPOOKROOT_BOARD_STAIRS.get())
             .wall(BlockRegistry.SPOOKROOT_BOARD_WALL.get())
@@ -331,6 +256,8 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended SPOOKROOT_PANELS = familyBuilder(BlockRegistry.SPOOKROOT_PANELS.get())
             .hardBlock(BlockRegistry.HARD_SPOOKROOT_BLOCK.get())
+            .picketFence(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get())
             .slab(BlockRegistry.SPOOKROOT_PANEL_SLAB.get())
             .stairs(BlockRegistry.SPOOKROOT_PANEL_STAIRS.get())
             .wall(BlockRegistry.SPOOKROOT_PANEL_WALL.get())
@@ -1108,66 +1035,88 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .arrowSign(BlockRegistry.OAK_ARROW_SIGN.get(), BlockRegistry.OAK_WALL_ARROW_SIGN.get(), BlockRegistry.OAK_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_OAK_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_OAK_ARROW_SIGN.get(), BlockRegistry.LARGE_OAK_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.OAK_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended SPRUCE_PLANKS = familyBuilder(Blocks.SPRUCE_PLANKS)
             .arrowSign(BlockRegistry.SPRUCE_ARROW_SIGN.get(), BlockRegistry.SPRUCE_WALL_ARROW_SIGN.get(), BlockRegistry.SPRUCE_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_SPRUCE_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get(), BlockRegistry.LARGE_SPRUCE_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.SPRUCE_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended BIRCH_PLANKS = familyBuilder(Blocks.BIRCH_PLANKS)
             .arrowSign(BlockRegistry.BIRCH_ARROW_SIGN.get(), BlockRegistry.BIRCH_WALL_ARROW_SIGN.get(), BlockRegistry.BIRCH_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_BIRCH_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_BIRCH_ARROW_SIGN.get(), BlockRegistry.LARGE_BIRCH_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.BIRCH_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended JUNGLE_PLANKS = familyBuilder(Blocks.JUNGLE_PLANKS)
             .arrowSign(BlockRegistry.JUNGLE_ARROW_SIGN.get(), BlockRegistry.JUNGLE_WALL_ARROW_SIGN.get(), BlockRegistry.JUNGLE_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_JUNGLE_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_JUNGLE_ARROW_SIGN.get(), BlockRegistry.LARGE_JUNGLE_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.JUNGLE_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended ACACIA_PLANKS = familyBuilder(Blocks.ACACIA_PLANKS)
             .arrowSign(BlockRegistry.ACACIA_ARROW_SIGN.get(), BlockRegistry.ACACIA_WALL_ARROW_SIGN.get(), BlockRegistry.ACACIA_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_ACACIA_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_ACACIA_ARROW_SIGN.get(), BlockRegistry.LARGE_ACACIA_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.ACACIA_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended DARK_OAK_PLANKS = familyBuilder(Blocks.DARK_OAK_PLANKS)
             .arrowSign(BlockRegistry.DARK_OAK_ARROW_SIGN.get(), BlockRegistry.DARK_OAK_WALL_ARROW_SIGN.get(), BlockRegistry.DARK_OAK_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_DARK_OAK_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_DARK_OAK_ARROW_SIGN.get(), BlockRegistry.LARGE_DARK_OAK_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.DARK_OAK_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended MANGROVE_PLANKS = familyBuilder(Blocks.MANGROVE_PLANKS)
             .arrowSign(BlockRegistry.MANGROVE_ARROW_SIGN.get(), BlockRegistry.MANGROVE_WALL_ARROW_SIGN.get(), BlockRegistry.MANGROVE_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_MANGROVE_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_MANGROVE_ARROW_SIGN.get(), BlockRegistry.LARGE_MANGROVE_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.MANGROVE_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended CHERRY_PLANKS = familyBuilder(Blocks.CHERRY_PLANKS)
             .arrowSign(BlockRegistry.CHERRY_ARROW_SIGN.get(), BlockRegistry.CHERRY_WALL_ARROW_SIGN.get(), BlockRegistry.CHERRY_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_CHERRY_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_CHERRY_ARROW_SIGN.get(), BlockRegistry.LARGE_CHERRY_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.CHERRY_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended BAMBOO_PLANKS = familyBuilder(Blocks.BAMBOO_PLANKS)
             .arrowSign(BlockRegistry.BAMBOO_ARROW_SIGN.get(), BlockRegistry.BAMBOO_WALL_ARROW_SIGN.get(), BlockRegistry.BAMBOO_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_BAMBOO_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_BAMBOO_ARROW_SIGN.get(), BlockRegistry.LARGE_BAMBOO_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.BAMBOO_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended CRIMSON_PLANKS = familyBuilder(Blocks.CRIMSON_PLANKS)
             .arrowSign(BlockRegistry.CRIMSON_ARROW_SIGN.get(), BlockRegistry.CRIMSON_WALL_ARROW_SIGN.get(), BlockRegistry.CRIMSON_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_CRIMSON_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_CRIMSON_ARROW_SIGN.get(), BlockRegistry.LARGE_CRIMSON_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.CRIMSON_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended WARPED_PLANKS = familyBuilder(Blocks.WARPED_PLANKS)
             .arrowSign(BlockRegistry.WARPED_ARROW_SIGN.get(), BlockRegistry.WARPED_WALL_ARROW_SIGN.get(), BlockRegistry.WARPED_HANGING_ARROW_SIGN.get())
             .hardBlock(BlockRegistry.HARD_WARPED_BLOCK.get())
             .largeArrowSign(BlockRegistry.LARGE_WARPED_ARROW_SIGN.get(), BlockRegistry.LARGE_WARPED_WALL_ARROW_SIGN.get())
+            .picketFence(BlockRegistry.WARPED_PICKET_FENCE.get())
+            .picketFenceGate(BlockRegistry.WARPED_PICKET_FENCE_GATE.get())
             .getFamily();
 
     public static final BlockFamilyExtended HARD_OAK_BLOCK = familyBuilder(BlockRegistry.HARD_OAK_BLOCK.get())

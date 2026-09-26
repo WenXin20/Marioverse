@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
@@ -18,6 +19,8 @@ import java.util.stream.Stream;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.BlockFamilies;
+import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -1333,6 +1336,16 @@ public class RecipeUtils extends RecipeProvider {
             if (!family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
                 return null;
             else return family.get(BlockFamilyExtended.Variant.SLAB);
+
+        } else if (variant == BlockFamilyExtended.Variant.PICKET_FENCE
+                || variant == BlockFamilyExtended.Variant.PICKET_FENCE_GATE) {
+            if (family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
+                return family.get(BlockFamilyExtended.Variant.SLAB);
+            return BlockFamilies.getAllFamilies()
+                    .filter(vanillaFamily -> vanillaFamily.getBaseBlock() == family.getBaseBlock())
+                    .map(vanillaFamily -> vanillaFamily.get(BlockFamily.Variant.SLAB))
+                    .filter(Objects::nonNull)
+                    .findFirst().orElse(null);
 
         } else if (variant == BlockFamilyExtended.Variant.LARGE_ARROW_SIGN
                 || variant == BlockFamilyExtended.Variant.LARGE_WALL_ARROW_SIGN) {
