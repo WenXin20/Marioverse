@@ -28,7 +28,7 @@
 				"north": {"uv": [0, 0, 3, 16], "texture": "#gate"},
 				"east": {"uv": [6, 0, 10, 16], "texture": "#post"},
 				"south": {"uv": [0, 0, 3, 16], "texture": "#gate"},
-				"west": {"uv": [6, 0, 10, 16], "texture": "#post", "cullface": "west"},
+				"west": {"uv": [6, 0, 10, 16], "texture": "#post"},
 				"up": {"uv": [13, 5, 16, 9], "texture": "#post", "cullface": "up"},
 				"down": {"uv": [13, 5, 16, 9], "texture": "#post", "cullface": "down"}
 			}

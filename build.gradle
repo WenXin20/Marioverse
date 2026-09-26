@@ -91,8 +91,8 @@ dependencies {
     compileOnly "curse.maven:jei-${jei_version}"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
-    implementation "curse.maven:quark-243121:8895753" // Requires Zeta
-    compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
+    compileOnly "curse.maven:quark-243121:8895753" // Requires Zeta
+    implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     compileOnly "curse.maven:the-twilight-forest-227639:7797302"
@@ -116,7 +116,7 @@ dependencies {
     implementation "curse.maven:sable-${sable_version}" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     compileOnly "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
-    implementation "curse.maven:zeta-968868:7980010"
+    compileOnly "curse.maven:zeta-968868:7980010"
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:[${sable_companion_version},)"
 
     jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:${sable_companion_version}"))

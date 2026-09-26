@@ -121,6 +121,10 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
             .or(POST_LEFT, POST_RIGHT).optimize();
     private static final VoxelShape OCCLUSION_OPEN_EXTENDED = POST_RIGHT;
 
+    private static final VoxelShape SUPPORT_LEFT = Block.box(0, 0, 0, 1, 16, 16);
+    private static final VoxelShape SUPPORT_RIGHT = Block.box(15, 0, 0, 16, 16, 16);
+    private static final VoxelShape SUPPORT = Shapes.or(SUPPORT_LEFT, SUPPORT_RIGHT).optimize();
+
     private final WoodType woodType;
 
     public PicketFenceGateBlock(WoodType woodType, BlockBehaviour.Properties properties) {
@@ -160,7 +164,7 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
     @NotNull
     @Override
     protected VoxelShape getBlockSupportShape(BlockState state, BlockGetter level, BlockPos pos) {
-        return this.getShape(state, level, pos, CollisionContext.empty());
+        return this.orientShape(state, state.getValue(EXTENDED) ? SUPPORT_RIGHT : SUPPORT);
     }
 
     @NotNull
