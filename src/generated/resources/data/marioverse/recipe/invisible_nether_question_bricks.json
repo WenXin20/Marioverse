@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:invisible_question_blocks",
+  "key": {
+    "#": {
+      "item": "minecraft:nether_bricks"
+    },
+    "I": {
+      "tag": "marioverse:invisible_question_blocks"
+    }
+  },
+  "pattern": [
+    "###",
+    "#I#",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:invisible_nether_question_bricks"
+  }
+}

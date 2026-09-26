@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:invisible_question_blocks",
+  "key": {
+    "#": {
+      "item": "minecraft:deepslate_bricks"
+    },
+    "I": {
+      "tag": "marioverse:invisible_question_blocks"
+    }
+  },
+  "pattern": [
+    "###",
+    "#I#",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:invisible_deepslate_question_bricks"
+  }
+}

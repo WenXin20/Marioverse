@@ -280,6 +280,17 @@ public class RecipeUtils extends RecipeProvider {
                 .group(Marioverse.MOD_ID + ":question_blocks");
     }
 
+    public static RecipeBuilder invisibleQuestionBlockBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
+        return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .define('#', inputItem)
+                .define('I', TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS)
+                .pattern("###")
+                .pattern("#I#")
+                .pattern("###")
+                .unlockedBy("has_invisible_question_block", has(TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS))
+                .group(Marioverse.MOD_ID + ":invisible_question_blocks");
+    }
+
     public static RecipeBuilder questionPanelBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
         return ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .requires(inputItem)
@@ -425,9 +436,6 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
-    // Not fed through SHAPE_BUILDERS/generateRecipes - called manually per family instead (see
-    // RecipeGen.java). Dye slot uses Tags.Items.DYES so the resulting arrow color matches whichever
-    // dye was used (ArrowColorShapedRecipe), instead of always defaulting to red.
     public void arrowColorSignRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                                       Object planks, TagKey<Item> dyeTag, Object chain, boolean uniqueFileName, RecipeOutput output) {
         ArrowColorRecipeBuilder builder = ArrowColorRecipeBuilder
@@ -450,8 +458,6 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
-    // Shapeless "arrow sign + dye" recolor recipe - ArrowColorShapelessRecipe copies the existing
-    // sign's components (direction, waxed, etc.) and only overrides the dye color.
     public void arrowSignFromDyeRecipe(ItemLike arrowSign, RecipeCategory category, TagKey<Item> dyeTag, RecipeOutput output) {
         ArrowColorShapelessRecipeBuilder.shapeless(category, arrowSign, 1)
                 .requires(arrowSign)
@@ -1306,6 +1312,20 @@ public class RecipeUtils extends RecipeProvider {
                             RecipeUtils.smeltingResultFromBase(output, block, itemlike);
                     }
                 });
+    }
+
+    protected static void generateInvisibleQuestionBlockRecipes(RecipeOutput output, Stream<BlockFamilyExtended> families) {
+        families.forEach(family -> {
+            Block invisibleBlock = family.get(BlockFamilyExtended.Variant.INVISIBLE_QUESTION_BLOCK);
+            if (invisibleBlock == null)
+                return;
+
+            Ingredient surroundingItem = family.getVariants().containsKey(BlockFamilyExtended.Variant.QUESTION_BLOCK_TAG)
+                    ? Ingredient.of(TagRegistry.POLISHED_CALCITE_ITEMS)
+                    : Ingredient.of(family.getBaseBlock());
+
+            invisibleQuestionBlockBuilder(1, invisibleBlock, surroundingItem).save(output);
+        });
     }
 
     protected static Block getBaseBlock(BlockFamilyExtended family, BlockFamilyExtended.Variant variant) {

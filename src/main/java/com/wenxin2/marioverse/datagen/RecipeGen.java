@@ -45,6 +45,8 @@ public class RecipeGen extends RecipeUtils {
     @Override
     protected void buildRecipes(RecipeOutput output) {
         this.generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        RecipeGen.generateInvisibleQuestionBlockRecipes(output, BlockFamilyRegistry.getAllExtendedFamilies()
+                .sorted(Comparator.comparing(family -> BuiltInRegistries.BLOCK.getKey(family.getBaseBlock()).toString())));
         RecipeGen.waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
         RecipeGen.smithingTrims().forEach(item -> trimSmithing(output, item.template(), item.id()));
 

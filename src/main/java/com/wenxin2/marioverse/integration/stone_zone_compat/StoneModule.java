@@ -99,6 +99,7 @@ public class StoneModule extends StoneZoneModule {
                 .requiresChildren("bricks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .setTab(functionalBlocksTab)
+                .defaultRecipe()
                 .build();
         this.addEntry(invisibleQuestionBlock);
 

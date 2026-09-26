@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:invisible_question_blocks",
+  "key": {
+    "#": {
+      "tag": "marioverse:polished_calcite"
+    },
+    "I": {
+      "tag": "marioverse:invisible_question_blocks"
+    }
+  },
+  "pattern": [
+    "###",
+    "#I#",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:invisible_calcite_question_block"
+  }
+}
