@@ -3156,6 +3156,42 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:bushroom"), HEDGE.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_bricks"), POLISHED_FORTSTONE_BRICKS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_bricks"), POLISHED_FORTSTONE_BRICKS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_slab"), POLISHED_FORTSTONE_BRICK_SLAB.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_slab"), POLISHED_FORTSTONE_BRICK_SLAB.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_stairs"), POLISHED_FORTSTONE_BRICK_STAIRS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_stairs"), POLISHED_FORTSTONE_BRICK_STAIRS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_wall"), POLISHED_FORTSTONE_BRICK_WALL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_wall"), POLISHED_FORTSTONE_BRICK_WALL.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_cube"), HARD_FORTSTONE_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_cube"), HARD_FORTSTONE_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tiles"), POLISHED_FORTSTONE_TILES.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tiles"), POLISHED_FORTSTONE_TILES.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_slab"), POLISHED_FORTSTONE_TILE_SLAB.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_slab"), POLISHED_FORTSTONE_TILE_SLAB.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_stairs"), POLISHED_FORTSTONE_TILE_STAIRS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_stairs"), POLISHED_FORTSTONE_TILE_STAIRS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_wall"), POLISHED_FORTSTONE_TILE_WALL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_wall"), POLISHED_FORTSTONE_TILE_WALL.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:large_shroomgrass"), SHROOMGRASS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:large_shroomgrass"), SHROOMGRASS.getId());
@@ -3167,6 +3203,10 @@ public class BlockRegistry {
                 .parse("superbb:mushdirt"), SHROOMSOIL.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:mushdirt"), SHROOMSOIL.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushdirt_path"), SHROOMSOIL_PATH.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushdirt_path"), SHROOMSOIL_PATH.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:mushmud"), WET_MUD.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
@@ -3229,6 +3269,18 @@ public class BlockRegistry {
                 .parse("superbb:pink_mushbloom"), PINK_BLOOMFLOWER.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:pink_mushbloom"), PINK_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone"), POLISHED_FORTSTONE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone"), POLISHED_FORTSTONE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone_slab"), POLISHED_FORTSTONE_SLAB.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone_slab"), POLISHED_FORTSTONE_SLAB.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone_stairs"), POLISHED_FORTSTONE_STAIRS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone_stairs"), POLISHED_FORTSTONE_STAIRS.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:purple_mushbloom"), PURPLE_BLOOMFLOWER.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
