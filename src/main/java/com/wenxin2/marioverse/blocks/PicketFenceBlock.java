@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.VoxelShapeUtils;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -145,7 +146,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         };
         Direction target = (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
                 ? state.getValue(FACING).getCounterClockWise() : state.getValue(FACING);
-        return this.rotateShape(Direction.NORTH, target, base);
+        return VoxelShapeUtils.rotateShape(Direction.NORTH, target, base);
     }
 
     @NotNull
@@ -160,7 +161,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
         };
         Direction target = (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
                 ? state.getValue(FACING).getCounterClockWise() : state.getValue(FACING);
-        return this.rotateShape(Direction.NORTH, target, base);
+        return VoxelShapeUtils.rotateShape(Direction.NORTH, target, base);
     }
 
     @Override
@@ -284,18 +285,6 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
     @Override
     public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 20;
-    }
-
-    private VoxelShape rotateShape(Direction from, Direction to, VoxelShape shape) {
-        VoxelShape[] buffer = new VoxelShape[]{shape, Shapes.empty()};
-        int rotations = (to.get2DDataValue() - from.get2DDataValue() + 4) % 4;
-        for (int i = 0; i < rotations; i++) {
-            buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
-                    buffer[1] = Shapes.or(buffer[1], Shapes.box(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX)));
-            buffer[0] = buffer[1];
-            buffer[1] = Shapes.empty();
-        }
-        return buffer[0];
     }
 
     private StairsShape computeShape(BlockState state, LevelReader level, BlockPos pos) {
