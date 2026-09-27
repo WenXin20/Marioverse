@@ -70,28 +70,6 @@ public class MudModule extends StoneZoneModule {
         DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_TAB;
         DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_TAB;
 
-        brickBridge = StoneZoneEntrySet.of(MudType.class, "brick_bridge",
-                        BlockRegistry.MUD_BRICK_BRIDGE, () -> VanillaMudTypes.MUD,
-                        mudType -> {
-                            Block block = mudType.getBlockOfThis(VanillaRockChildKeys.BRICKS);
-                            return new BridgeBlock(Utils.copyPropertySafe(block != null ? block : mudType.mud));
-                        })
-                .addTexture(modRes("block/mud_brick_bridge"), StonePaletteStrategies.BRICKS_STANDARD)
-                .addTexture(modRes("block/mud_brick_bridge_bottom"), darkerPalette)
-                .addTexture(modRes("block/mud_brick_bridge_side"), StonePaletteStrategies.BRICKS_STANDARD)
-                .addTexture(modRes("block/mud_brick_bridge_top"), StonePaletteStrategies.BRICKS_STANDARD)
-                .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
-                .addTag(TagRegistry.STONE_BRIDGES, Registries.BLOCK)
-                .addTag(TagRegistry.STONE_BRIDGE_ITEMS, Registries.ITEM)
-                .addRecipe(modRes("mud_brick_bridge_from_packed_mud_stonecutting"))
-                .addRecipe(modRes("mud_brick_bridge_stonecutting"))
-                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
-                .requiresChildren("bricks")
-                .setTab(buildingBlocksTab)
-                .defaultRecipe()
-                .build();
-        this.addEntry(brickBridge);
-
         brickPedestal = StoneZoneEntrySet.of(MudType.class, "brick_pedestal",
                         BlockRegistry.MUD_BRICK_PEDESTAL, () -> VanillaMudTypes.MUD,
                         mudType -> {
@@ -199,5 +177,27 @@ public class MudModule extends StoneZoneModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(storageBricks);
+
+        brickBridge = StoneZoneEntrySet.of(MudType.class, "brick_bridge",
+                        BlockRegistry.MUD_BRICK_BRIDGE, () -> VanillaMudTypes.MUD,
+                        mudType -> {
+                            Block block = mudType.getBlockOfThis(VanillaRockChildKeys.BRICKS);
+                            return new BridgeBlock(Utils.copyPropertySafe(block != null ? block : mudType.mud));
+                        })
+                .addTexture(modRes("block/mud_brick_bridge"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/mud_brick_bridge_bottom"), darkerPalette)
+                .addTexture(modRes("block/mud_brick_bridge_side"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/mud_brick_bridge_top"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
+                .addTag(TagRegistry.STONE_BRIDGES, Registries.BLOCK)
+                .addTag(TagRegistry.STONE_BRIDGE_ITEMS, Registries.ITEM)
+                .addRecipe(modRes("mud_brick_bridge_from_packed_mud_stonecutting"))
+                .addRecipe(modRes("mud_brick_bridge_stonecutting"))
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
+                .setTab(buildingBlocksTab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(brickBridge);
     }
 }
