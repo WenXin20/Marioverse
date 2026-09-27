@@ -541,6 +541,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_WALL_HANGING_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WALL_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WOOD;
+    public static final DeferredBlock<Block> NETHER_BRICK_BRIDGE;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> OAK_ARROW_SIGN;
@@ -635,6 +636,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_BLOOMFLOWER;
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> RED_NETHER_BRICK_BRIDGE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_QUICKSAND;
@@ -2759,6 +2761,9 @@ public class BlockRegistry {
         NETHER_BRICK_PEDESTAL = registerBlock("nether_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
+        NETHER_BRICK_BRIDGE = registerBlock("nether_brick_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
+
 
         RED_NETHER_QUESTION_BRICKS = registerBlock("red_nether_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
@@ -2775,6 +2780,9 @@ public class BlockRegistry {
 
         RED_NETHER_BRICK_PEDESTAL = registerBlock("red_nether_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
+
+        RED_NETHER_BRICK_BRIDGE = registerBlock("red_nether_brick_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
 
         BLACKSTONE_QUESTION_BRICKS = registerBlock("blackstone_question_bricks",

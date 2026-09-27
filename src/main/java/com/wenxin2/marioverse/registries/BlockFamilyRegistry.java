@@ -930,6 +930,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.NETHER_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.NETHER_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_NETHER_BRICKS.get())
+            .stoneBridge(BlockRegistry.NETHER_BRICK_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_NETHER_BRICKS.get())
             .getFamily();
 
@@ -964,6 +965,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.RED_NETHER_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.RED_NETHER_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get())
+            .stoneBridge(BlockRegistry.RED_NETHER_BRICK_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_RED_NETHER_BRICKS.get())
             .getFamily();
 

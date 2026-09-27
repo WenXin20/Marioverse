@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_stone_bridge",
+  "textures": {
+    "bottom": "marioverse:block/red_nether_brick_bridge_bottom",
+    "front": "marioverse:block/red_nether_brick_bridge",
+    "side": "marioverse:block/red_nether_brick_bridge_side",
+    "top": "marioverse:block/red_nether_brick_bridge_top"
+  }
+}

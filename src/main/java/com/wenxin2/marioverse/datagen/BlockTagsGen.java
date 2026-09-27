@@ -935,8 +935,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.GRANITE_BRIDGE.get())
                 .add(BlockRegistry.MOSSY_STONE_BRIDGE.get())
                 .add(BlockRegistry.MUD_BRICK_BRIDGE.get())
+                .add(BlockRegistry.NETHER_BRICK_BRIDGE.get())
                 .add(BlockRegistry.PURPUR_BRIDGE.get())
                 .add(BlockRegistry.QUARTZ_BRIDGE.get())
+                .add(BlockRegistry.RED_NETHER_BRICK_BRIDGE.get())
                 .add(BlockRegistry.STONE_BRIDGE.get())
                 .add(BlockRegistry.TUFF_BRIDGE.get());
 
@@ -1762,6 +1764,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.IRON_SPIKE.get())
                 .add(BlockRegistry.MOSSY_STONE_BRIDGE.get())
                 .add(BlockRegistry.MUD_BRICK_BRIDGE.get())
+                .add(BlockRegistry.NETHER_BRICK_BRIDGE.get())
                 .add(BlockRegistry.ON_OFF_SWITCH.get())
                 .add(BlockRegistry.POLISHED_AMETHYST.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
@@ -1801,6 +1804,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.PURPUR_BRIDGE.get())
                 .add(BlockRegistry.QUARTZ_BRIDGE.get())
                 .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get())
+                .add(BlockRegistry.RED_NETHER_BRICK_BRIDGE.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())

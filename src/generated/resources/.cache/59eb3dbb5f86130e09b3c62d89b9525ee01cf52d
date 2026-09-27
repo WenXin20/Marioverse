@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-27T16:40:30.5874104	Loot Tables
+// 1.21.1	2026-09-27T17:37:36.9155145	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -477,6 +477,7 @@ f236338643148a4c7d4066ef182ebaea1d4fa9f8 data/marioverse/loot_table/blocks/mushr
 6d967b43271e0ebf0ff4c947b419804ce311a1d7 data/marioverse/loot_table/blocks/mushroot_wall_hanging_sign.json
 2dde25f1e30a2c75e62ca5b1e857b5b642c41918 data/marioverse/loot_table/blocks/mushroot_wall_sign.json
 78ff392c77dbe2c12805c267af2a734f34021764 data/marioverse/loot_table/blocks/mushroot_wood.json
+14d253b42b35067dcdd77d742aae9eeae5766ef9 data/marioverse/loot_table/blocks/nether_brick_bridge.json
 c00cfbf5009d08ba5755f2db67201390f688a8ea data/marioverse/loot_table/blocks/nether_brick_pedestal.json
 052249c89490368837222ce7cff3b7d96522652c data/marioverse/loot_table/blocks/nether_question_bricks.json
 6c8ee7d0551f5bc2b70890317cbc629fe2ad1d7f data/marioverse/loot_table/blocks/oak_arrow_sign.json
@@ -618,6 +619,7 @@ fb59c512a2e22f10acf4deac1c89733c4427cead data/marioverse/loot_table/blocks/red_c
 ca678fa3ec46799f2d26d0547ac86ca70e3fa32d data/marioverse/loot_table/blocks/red_dotted_line_block.json
 ecad661a56521cdd4d2257d23bb1f7150cb85c4c data/marioverse/loot_table/blocks/red_goal_pole.json
 5e74818feda745c703925eb81c8fdf51a923bbde data/marioverse/loot_table/blocks/red_mushroom_trampoline.json
+098c86e61e96983a6346c9846ff81a15a432b632 data/marioverse/loot_table/blocks/red_nether_brick_bridge.json
 00a288f2a82a2eb61eecc7e09e9d26db873d5f52 data/marioverse/loot_table/blocks/red_nether_brick_pedestal.json
 5bb1f71f7ee414d1ccd263917d29507713af55cb data/marioverse/loot_table/blocks/red_nether_question_bricks.json
 704ebfaaf64feb418579d3cf26538685b4a2ac50 data/marioverse/loot_table/blocks/red_picket_fence.json

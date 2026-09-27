@@ -703,6 +703,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.TUFF_BRIDGE);
             add(event, BlockRegistry.BRICK_BRIDGE);
             add(event, BlockRegistry.MUD_BRICK_BRIDGE);
+            add(event, BlockRegistry.NETHER_BRICK_BRIDGE);
+            add(event, BlockRegistry.RED_NETHER_BRICK_BRIDGE);
             add(event, BlockRegistry.BLACKSTONE_BRIDGE);
             add(event, BlockRegistry.QUARTZ_BRIDGE);
             add(event, BlockRegistry.END_STONE_BRIDGE);
@@ -982,6 +984,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.TUFF_BRIDGE);
             add(event, BlockRegistry.BRICK_BRIDGE);
             add(event, BlockRegistry.MUD_BRICK_BRIDGE);
+            add(event, BlockRegistry.NETHER_BRICK_BRIDGE);
+            add(event, BlockRegistry.RED_NETHER_BRICK_BRIDGE);
             add(event, BlockRegistry.BLACKSTONE_BRIDGE);
             add(event, BlockRegistry.QUARTZ_BRIDGE);
             add(event, BlockRegistry.END_STONE_BRIDGE);
@@ -2024,10 +2028,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.AMETHYST_BRIDGE, BlockRegistry.CHISELED_AMETHYST_BRICKS);
 
                 addAfter(event, Blocks.NETHER_BRICK_FENCE, BlockRegistry.NETHER_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.NETHER_BRICK_PEDESTAL, BlockRegistry.SMASHABLE_NETHER_BRICKS);
+                addAfter(event, BlockRegistry.NETHER_BRICK_PEDESTAL, BlockRegistry.NETHER_BRICK_BRIDGE);
+                addAfter(event, BlockRegistry.NETHER_BRICK_BRIDGE, BlockRegistry.SMASHABLE_NETHER_BRICKS);
 
                 addAfter(event, Blocks.RED_NETHER_BRICK_WALL, BlockRegistry.RED_NETHER_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.RED_NETHER_BRICK_PEDESTAL, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS);
+                addAfter(event, BlockRegistry.RED_NETHER_BRICK_PEDESTAL, BlockRegistry.RED_NETHER_BRICK_BRIDGE);
+                addAfter(event, BlockRegistry.RED_NETHER_BRICK_BRIDGE, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS);
 
                 addAfter(event, Blocks.POLISHED_BLACKSTONE_BRICK_WALL, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL);
                 addAfter(event, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, BlockRegistry.BLACKSTONE_BRIDGE);

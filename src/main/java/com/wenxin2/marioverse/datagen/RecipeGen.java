@@ -181,6 +181,7 @@ public class RecipeGen extends RecipeUtils {
         oneToOneRecipe(3, "red_dye", Items.RED_DYE, RecipeCategory.MISC, BlockRegistry.RED_ROSE_HEDGE, output);
         oneToOneRecipe(3, "white_dye", Items.WHITE_DYE, RecipeCategory.MISC, BlockRegistry.WHITE_ROSE_HEDGE, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, true, output);
+        plusRecipe(1, "bridges", BlockRegistry.RED_NETHER_BRICK_BRIDGE, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_BRIDGE, true, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, true, output);
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, true, output);
         plusRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.SMASHABLE_NETHER_BRICKS, true, output);
