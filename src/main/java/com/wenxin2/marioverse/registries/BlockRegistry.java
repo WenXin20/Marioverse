@@ -205,6 +205,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> BRAIN_CORAL_TOWER;
+    public static final DeferredBlock<Block> BRICK_BRIDGE;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BUBBLE_CORAL_TOWER;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
@@ -501,6 +502,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_BRIDGE;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> MUD_BRICK_BRIDGE;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUSHROOT_ARROW_SIGN;
@@ -810,6 +812,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> TALL_SHROOMGRASS;
     public static final DeferredBlock<Block> TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> TUFF_BRIDGE;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WALUIGI_ABILITY_BLOCK;
     public static final DeferredBlock<Block> WARIO_ABILITY_BLOCK;
@@ -2622,6 +2625,9 @@ public class BlockRegistry {
         TUFF_BRICK_PEDESTAL = registerBlock("tuff_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
 
+        TUFF_BRIDGE = registerBlock("tuff_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
+
 
         DEEPSLATE_QUESTION_BRICKS = registerBlock("deepslate_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
@@ -2676,6 +2682,9 @@ public class BlockRegistry {
         BRICK_PEDESTAL = registerBlock("brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
+        BRICK_BRIDGE = registerBlock("brick_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
+
 
         MUD_QUESTION_BRICKS = registerBlock("mud_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
@@ -2692,6 +2701,9 @@ public class BlockRegistry {
 
         MUD_BRICK_PEDESTAL = registerBlock("mud_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
+
+        MUD_BRICK_BRIDGE = registerBlock("mud_brick_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
 
 
         PRISMARINE_QUESTION_BRICKS = registerBlock("prismarine_question_bricks",

@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-27T01:24:01.9210906	Loot Tables
+// 1.21.1	2026-09-27T14:30:15.4710445	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -56,6 +56,7 @@ a5d148a95931a64dd39a3f33c8131c303b55f4d8 data/marioverse/loot_table/blocks/blue_
 b0043deaaa2f91570e10df80cd2b4d2dc593215f data/marioverse/loot_table/blocks/blue_trampoline_cap.json
 cc3658065432c08845b5e46d29c7d68b7c9e5753 data/marioverse/loot_table/blocks/blue_warp_pipe.json
 019ad7e2057e16c7b3fe3ac1cac93b6bc2edfa9e data/marioverse/loot_table/blocks/brain_coral_tower.json
+604f2dd737c2435939a75b9c56da9e4eebd3f47a data/marioverse/loot_table/blocks/brick_bridge.json
 8c0fca3b1be1d1abab25832d2aefede17a1bec0d data/marioverse/loot_table/blocks/brick_pedestal.json
 629a4e9a5115749ecd114df823fd40116e5ed33f data/marioverse/loot_table/blocks/brown_calcite.json
 7fb605b64d5955502e70f0d7d58b1616acb5a0d3 data/marioverse/loot_table/blocks/brown_calcite_bricks.json
@@ -439,6 +440,7 @@ b18339d7dedd6b4749531110ca35e1aecf7ea1ee data/marioverse/loot_table/blocks/mario
 32695962608e6dc0684dbdf03bc02a4954c5f44a data/marioverse/loot_table/blocks/mossy_stone_brick_pedestal.json
 63e2c98f7c2d71b0e93a54bf5d6330590c6fa6ac data/marioverse/loot_table/blocks/mossy_stone_bridge.json
 b55793337d7bc96bc83038957bd5f5b763082c80 data/marioverse/loot_table/blocks/mossy_stone_question_bricks.json
+926e18fe79148dfbed4569abe97b686658eb934c data/marioverse/loot_table/blocks/mud_brick_bridge.json
 c914523db3faf06e8be3e1766c6d459e3e73a6e5 data/marioverse/loot_table/blocks/mud_brick_pedestal.json
 440de862d35acca7898b8c1176af1497d2caf9bf data/marioverse/loot_table/blocks/mud_question_bricks.json
 2fc7f7e92c8adff176ae5312185af123da607e27 data/marioverse/loot_table/blocks/mushroot_arrow_sign.json
@@ -809,6 +811,7 @@ cde245f75c546b0a35ac5644b8a9ec637545800a data/marioverse/loot_table/blocks/strip
 84f3b867095532a113002ddf7a5a8ab9054b0114 data/marioverse/loot_table/blocks/tall_shroomgrass.json
 5dcc314d75380630edfafdb25b57ec507c9d88b1 data/marioverse/loot_table/blocks/tube_coral_tower.json
 3f0c9e24e319a0d42a0101307732b0c27f659718 data/marioverse/loot_table/blocks/tuff_brick_pedestal.json
+38c7d0e376ed9068137df55cb34c497a3e3a18f5 data/marioverse/loot_table/blocks/tuff_bridge.json
 bcb7d03521af2f281f74d025c1c86328a8804aec data/marioverse/loot_table/blocks/tuff_question_bricks.json
 33d48f939c4e7cc2f291620d6a6cc50eb4464b2a data/marioverse/loot_table/blocks/waluigi_ability_block.json
 43bca4d3ea296930d623a17d1e01655188823dda data/marioverse/loot_table/blocks/wario_ability_block.json

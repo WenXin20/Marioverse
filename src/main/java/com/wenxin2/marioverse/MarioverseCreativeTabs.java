@@ -696,10 +696,13 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.STONE_BRIDGE);
             add(event, BlockRegistry.MOSSY_STONE_BRIDGE);
-            add(event, BlockRegistry.DEEPSLATE_BRIDGE);
             add(event, BlockRegistry.GRANITE_BRIDGE);
             add(event, BlockRegistry.DIORITE_BRIDGE);
             add(event, BlockRegistry.ANDESITE_BRIDGE);
+            add(event, BlockRegistry.DEEPSLATE_BRIDGE);
+            add(event, BlockRegistry.TUFF_BRIDGE);
+            add(event, BlockRegistry.BRICK_BRIDGE);
+            add(event, BlockRegistry.MUD_BRICK_BRIDGE);
             add(event, BlockRegistry.BLACKSTONE_BRIDGE);
 
             add(event, BlockRegistry.OAK_LOG_BRIDGE);
@@ -794,11 +797,12 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.WHITE_CALCITE_BRICK_STAIRS);
             add(event, BlockRegistry.WHITE_CALCITE_BRICK_SLAB);
             add(event, BlockRegistry.WHITE_CALCITE_BRICK_WALL);
+            addDyedBlocks(event, BlockRegistry.WHITE_CALCITE_BRICK_WALL, BlockRegistry.CALCITE_BRIDGES, true, true);
+
             add(event, BlockRegistry.CALCITE_CHECKERED_TILES);
             add(event, BlockRegistry.CALCITE_CHECKERED_TILE_SLAB);
             add(event, BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS);
             add(event, BlockRegistry.CALCITE_CHECKERED_TILE_WALL);
-            addDyedBlocks(event, BlockRegistry.CALCITE_CHECKERED_TILE_WALL, BlockRegistry.CALCITE_BRIDGES, true, true);
         }
 
         if (tab == MARIOVERSE_FUNCTIONAL_TAB.getKey() && !disableModTabs) {
@@ -965,6 +969,17 @@ public class MarioverseCreativeTabs {
         if (tab == MARIOVERSE_DECORATIONS_TAB.getKey() && !disableModTabs) {
             add(event, BlockRegistry.STAR_COIN);
             add(event, BlockRegistry.COIN);
+
+            add(event, BlockRegistry.STONE_BRIDGE);
+            add(event, BlockRegistry.MOSSY_STONE_BRIDGE);
+            add(event, BlockRegistry.GRANITE_BRIDGE);
+            add(event, BlockRegistry.DIORITE_BRIDGE);
+            add(event, BlockRegistry.ANDESITE_BRIDGE);
+            add(event, BlockRegistry.DEEPSLATE_BRIDGE);
+            add(event, BlockRegistry.TUFF_BRIDGE);
+            add(event, BlockRegistry.BRICK_BRIDGE);
+            add(event, BlockRegistry.MUD_BRICK_BRIDGE);
+            add(event, BlockRegistry.BLACKSTONE_BRIDGE);
 
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE_GATE);
@@ -1951,13 +1966,16 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.DEEPSLATE_TILE_PEDESTAL, BlockRegistry.SMASHABLE_DEEPSLATE_TILES);
 
                 addAfter(event, Blocks.TUFF_BRICK_WALL, BlockRegistry.TUFF_BRICK_PEDESTAL);
+                addAfter(event, BlockRegistry.TUFF_BRICK_PEDESTAL, BlockRegistry.TUFF_BRIDGE);
                 addAfter(event, Blocks.CHISELED_TUFF_BRICKS, BlockRegistry.SMASHABLE_TUFF_BRICKS);
 
                 addAfter(event, Blocks.BRICK_WALL, BlockRegistry.BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.BRICK_PEDESTAL, BlockRegistry.SMASHABLE_BRICKS);
+                addAfter(event, BlockRegistry.BRICK_PEDESTAL, BlockRegistry.BRICK_BRIDGE);
+                addAfter(event, BlockRegistry.BRICK_BRIDGE, BlockRegistry.SMASHABLE_BRICKS);
 
                 addAfter(event, Blocks.MUD_BRICK_WALL, BlockRegistry.MUD_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.MUD_BRICK_PEDESTAL, BlockRegistry.SMASHABLE_MUD_BRICKS);
+                addAfter(event, BlockRegistry.MUD_BRICK_PEDESTAL, BlockRegistry.MUD_BRICK_BRIDGE);
+                addAfter(event, BlockRegistry.MUD_BRICK_BRIDGE, BlockRegistry.SMASHABLE_MUD_BRICKS);
 
                 addAfter(event, Blocks.CUT_SANDSTONE_SLAB, BlockRegistry.SANDSTONE_BRICKS);
                 addAfter(event, BlockRegistry.SANDSTONE_BRICKS, BlockRegistry.CRACKED_SANDSTONE_BRICKS);

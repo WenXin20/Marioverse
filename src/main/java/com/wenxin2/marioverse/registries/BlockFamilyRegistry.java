@@ -857,6 +857,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_BRICKS.get())
+            .stoneBridge(BlockRegistry.BRICK_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_BRICKS.get())
             .getFamily();
 
@@ -919,6 +920,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.MUD_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.MUD_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_MUD_BRICKS.get())
+            .stoneBridge(BlockRegistry.MUD_BRICK_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_MUD_BRICKS.get())
             .getFamily();
 
@@ -976,6 +978,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.TUFF_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.TUFF_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_TUFF_BRICKS.get())
+            .stoneBridge(BlockRegistry.TUFF_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_TUFF_BRICKS.get())
             .getFamily();
     

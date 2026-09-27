@@ -19,6 +19,7 @@
     "marioverse:amethyst_bridge",
     "marioverse:andesite_bridge",
     "marioverse:blackstone_bridge",
+    "marioverse:brick_bridge",
     "marioverse:deepslate_bridge",
     "marioverse:deep_fungal_bridge",
     "marioverse:diorite_bridge",
@@ -26,6 +27,8 @@
     "marioverse:fungal_bridge",
     "marioverse:granite_bridge",
     "marioverse:mossy_stone_bridge",
-    "marioverse:stone_bridge"
+    "marioverse:mud_brick_bridge",
+    "marioverse:stone_bridge",
+    "marioverse:tuff_bridge"
   ]
 }

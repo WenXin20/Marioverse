@@ -49,6 +49,7 @@
     "marioverse:blackstone_bridge",
     "marioverse:block_spawner",
     "marioverse:blue_dotted_line_block",
+    "marioverse:brick_bridge",
     "marioverse:calcite_button",
     "marioverse:calcite_checkered_tiles",
     "marioverse:calcite_checkered_tile_slab",
@@ -155,6 +156,7 @@
     "marioverse:huge_polished_fortstone_tile_wall",
     "marioverse:iron_spike",
     "marioverse:mossy_stone_bridge",
+    "marioverse:mud_brick_bridge",
     "marioverse:on_off_switch",
     "marioverse:polished_amethyst",
     "marioverse:polished_amethyst_slab",
@@ -215,6 +217,7 @@
     "marioverse:spike_panel",
     "marioverse:star_coin",
     "marioverse:stone_bridge",
+    "marioverse:tuff_bridge",
     "marioverse:white_calcite_brick_slab",
     "marioverse:white_calcite_brick_stairs",
     "marioverse:white_calcite_brick_wall"
