@@ -4,14 +4,14 @@
   "group": "marioverse:bridges",
   "key": {
     "#": {
-      "item": "marioverse:deep_fungal_brick_slab"
+      "item": "marioverse:deep_fungal_bricks"
     }
   },
   "pattern": [
-    "###"
+    "##"
   ],
   "result": {
-    "count": 3,
+    "count": 4,
     "id": "marioverse:deep_fungal_bridge"
   }
 }

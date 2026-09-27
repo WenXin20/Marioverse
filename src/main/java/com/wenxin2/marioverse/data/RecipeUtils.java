@@ -87,7 +87,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.SIGN, (outputItem, inputItem) -> signBuilder(outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.SLAB, (outputItem, inputItem) -> slabBuilder(RecipeCategory.BUILDING_BLOCKS, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.STAIRS, (outputItem, inputItem) -> stairBuilder(outputItem, Ingredient.of(inputItem)))
-                    .put(BlockFamilyExtended.Variant.STONE_BRIDGE, (outputItem, inputItem) -> stoneBridgeBuilder(3, outputItem, Ingredient.of(inputItem)))
+                    .put(BlockFamilyExtended.Variant.STONE_BRIDGE, (outputItem, inputItem) -> stoneBridgeBuilder(4, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.STORAGE_BRICKS, (outputItem, inputItem) -> storageBrickBuilder(4, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.TILES, (outputItem, inputItem) -> twoByTwoBuilder(4, outputItem, RecipeCategory.BUILDING_BLOCKS, Ingredient.of(inputItem), "tiles"))
                     .put(BlockFamilyExtended.Variant.TRAPDOOR, (outputItem, inputItem) -> trapdoorBuilder(outputItem, Ingredient.of(inputItem)))
@@ -173,7 +173,7 @@ public class RecipeUtils extends RecipeProvider {
     public static RecipeBuilder stoneBridgeBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {
         return ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('#', inputItem)
-                .pattern("###")
+                .pattern("##")
                 .group(Marioverse.MOD_ID + ":bridges");
     }
 
@@ -1347,8 +1347,7 @@ public class RecipeUtils extends RecipeProvider {
             else return family.get(BlockFamilyExtended.Variant.SLAB);
 
         } else if (variant == BlockFamilyExtended.Variant.PICKET_FENCE
-                || variant == BlockFamilyExtended.Variant.PICKET_FENCE_GATE
-                || variant == BlockFamilyExtended.Variant.STONE_BRIDGE) {
+                || variant == BlockFamilyExtended.Variant.PICKET_FENCE_GATE) {
             if (family.getVariants().containsKey(BlockFamilyExtended.Variant.SLAB))
                 return family.get(BlockFamilyExtended.Variant.SLAB);
             return BlockFamilies.getAllFamilies()

@@ -4,14 +4,14 @@
   "group": "marioverse:bridges",
   "key": {
     "#": {
-      "item": "minecraft:stone_brick_slab"
+      "item": "minecraft:stone_bricks"
     }
   },
   "pattern": [
-    "###"
+    "##"
   ],
   "result": {
-    "count": 3,
+    "count": 4,
     "id": "marioverse:stone_bridge"
   }
 }

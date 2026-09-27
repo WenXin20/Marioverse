@@ -77,8 +77,8 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
                 .addRecipe(modRes("stone_brick_pedestal_from_stone_stonecutting"))
                 .addRecipe(modRes("stone_brick_pedestal_stonecutting"))
-                .requiresChildren("bricks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
                 .setTab(buildingBlocksTab)
                 .defaultRecipe()
                 .build();
@@ -98,8 +98,8 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.INVISIBLE_QUESTION_BLOCK_ENTITY)
-                .requiresChildren("bricks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
                 .setTab(functionalBlocksTab)
                 .defaultRecipe()
                 .build();
@@ -120,8 +120,8 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.QUESTION_BLOCK_ENTITY)
-                .requiresChildren("bricks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
                 .setTab(functionalBlocksTab)
                 .defaultRecipe()
                 .build();
@@ -136,8 +136,8 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.SMASHABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addRecipe(modRes("smashable_tuff_bricks_from_tuff_stonecutting"))
                 .addRecipe(modRes("smashable_tuff_bricks_stonecutting"))
-                .requiresChildren("bricks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
                 .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(smashableBricks);
@@ -154,8 +154,8 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.STONE_BRIDGE_ITEMS, Registries.ITEM)
                 .addRecipe(modRes("stone_bridge_from_stone_stonecutting"))
                 .addRecipe(modRes("stone_bridge_stonecutting"))
-                .requiresChildren("bricks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
                 .setTab(buildingBlocksTab)
                 .defaultRecipe()
                 .build();
@@ -175,8 +175,8 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.STORAGE_BRICK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY)
-                .requiresChildren("bricks")
                 .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
                 .setTab(functionalBlocksTab)
                 .defaultRecipe()
                 .build();

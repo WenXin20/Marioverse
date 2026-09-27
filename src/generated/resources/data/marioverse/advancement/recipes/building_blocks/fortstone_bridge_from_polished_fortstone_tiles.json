@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_polished_fortstone_tile_slab": {
+    "has_polished_fortstone_tiles": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:polished_fortstone_tile_slab"
+            "items": "marioverse:polished_fortstone_tiles"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "marioverse:fortstone_bridge_from_polished_fortstone_tile_slab"
+        "recipe": "marioverse:fortstone_bridge_from_polished_fortstone_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_polished_fortstone_tile_slab"
+      "has_polished_fortstone_tiles"
     ]
   ],
   "rewards": {
     "recipes": [
-      "marioverse:fortstone_bridge_from_polished_fortstone_tile_slab"
+      "marioverse:fortstone_bridge_from_polished_fortstone_tiles"
     ]
   }
 }

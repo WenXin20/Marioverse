@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_fungal_brick_slab": {
+    "has_fungal_bricks": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:fungal_brick_slab"
+            "items": "marioverse:fungal_bricks"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_fungal_brick_slab"
+      "has_fungal_bricks"
     ]
   ],
   "rewards": {
