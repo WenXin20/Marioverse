@@ -78,7 +78,6 @@ dependencies {
     compileOnly "curse.maven:caverns-and-chasms-438005:8155745" // Requires Blueprint
     implementation "curse.maven:create-aeronautics-676721:8763471" // Requires Create, Sable, Incompatible w/ Embeddium
     compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
-    implementation "curse.maven:far-view-1657090:8813248"
     compileOnly "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
