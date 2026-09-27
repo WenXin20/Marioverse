@@ -704,6 +704,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BRICK_BRIDGE);
             add(event, BlockRegistry.MUD_BRICK_BRIDGE);
             add(event, BlockRegistry.BLACKSTONE_BRIDGE);
+            add(event, BlockRegistry.QUARTZ_BRIDGE);
+            add(event, BlockRegistry.END_STONE_BRIDGE);
+            add(event, BlockRegistry.PURPUR_BRIDGE);
 
             add(event, BlockRegistry.OAK_LOG_BRIDGE);
             add(event, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
@@ -980,6 +983,9 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BRICK_BRIDGE);
             add(event, BlockRegistry.MUD_BRICK_BRIDGE);
             add(event, BlockRegistry.BLACKSTONE_BRIDGE);
+            add(event, BlockRegistry.QUARTZ_BRIDGE);
+            add(event, BlockRegistry.END_STONE_BRIDGE);
+            add(event, BlockRegistry.PURPUR_BRIDGE);
 
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE_GATE);
@@ -2028,13 +2034,16 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.BLACKSTONE_BRIDGE, BlockRegistry.SMASHABLE_BLACKSTONE_BRICKS);
 
                 addAfter(event, Blocks.END_STONE_BRICK_WALL, BlockRegistry.END_STONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.END_STONE_BRICK_PEDESTAL, BlockRegistry.SMASHABLE_END_STONE_BRICKS);
+                addAfter(event, BlockRegistry.END_STONE_BRICK_PEDESTAL, BlockRegistry.END_STONE_BRIDGE);
+                addAfter(event, BlockRegistry.END_STONE_BRIDGE, BlockRegistry.SMASHABLE_END_STONE_BRICKS);
 
                 addAfter(event, Blocks.PURPUR_SLAB, BlockRegistry.PURPUR_BLOCK_PEDESTAL);
-                addAfter(event, BlockRegistry.PURPUR_BLOCK_PEDESTAL, BlockRegistry.SMASHABLE_PURPUR_BLOCK);
+                addAfter(event, BlockRegistry.PURPUR_BLOCK_PEDESTAL, BlockRegistry.PURPUR_BRIDGE);
+                addAfter(event, BlockRegistry.PURPUR_BRIDGE, BlockRegistry.SMASHABLE_PURPUR_BLOCK);
 
                 addAfter(event, Blocks.QUARTZ_BRICKS, BlockRegistry.SMASHABLE_QUARTZ_BRICKS);
                 addAfter(event, BlockRegistry.SMASHABLE_QUARTZ_BRICKS, BlockRegistry.QUARTZ_BRICK_PEDESTAL);
+                addAfter(event, BlockRegistry.QUARTZ_BRICK_PEDESTAL, BlockRegistry.QUARTZ_BRIDGE);
 
                 addAfter(event, Blocks.CUT_COPPER_SLAB, BlockRegistry.CUT_COPPER_PEDESTAL);
                 addAfter(event, BlockRegistry.CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_CUT_COPPER);

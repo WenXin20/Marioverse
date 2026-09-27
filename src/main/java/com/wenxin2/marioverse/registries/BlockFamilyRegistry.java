@@ -891,6 +891,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.END_STONE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.END_STONE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_END_STONE_BRICKS.get())
+            .stoneBridge(BlockRegistry.END_STONE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_END_STONE_BRICKS.get())
             .getFamily();
 
@@ -945,6 +946,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.PURPUR_BLOCK_PEDESTAL.get())
             .questionBlock(BlockRegistry.PURPUR_QUESTION_BLOCK.get())
             .smashableBlock(BlockRegistry.SMASHABLE_PURPUR_BLOCK.get())
+            .stoneBridge(BlockRegistry.PURPUR_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_PURPUR_BLOCK.get())
             .getFamily();
 
@@ -953,6 +955,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.QUARTZ_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.QUARTZ_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_QUARTZ_BRICKS.get())
+            .stoneBridge(BlockRegistry.QUARTZ_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_QUARTZ_BRICKS.get())
             .getFamily();
 

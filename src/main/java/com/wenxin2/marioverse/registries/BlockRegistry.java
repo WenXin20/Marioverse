@@ -306,6 +306,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_WET_MUD;
     public static final DeferredBlock<Block> DIORITE_BRIDGE;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> END_STONE_BRIDGE;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
@@ -624,8 +625,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPLE_BLOOMFLOWER;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
+    public static final DeferredBlock<Block> PURPUR_BRIDGE;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
     public static final DeferredBlock<Block> QUARTZ_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> QUARTZ_BRIDGE;
     public static final DeferredBlock<Block> QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUICKSAND;
@@ -2810,6 +2813,9 @@ public class BlockRegistry {
         END_STONE_BRICK_PEDESTAL = registerBlock("end_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
+        END_STONE_BRIDGE = registerBlock("end_stone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
+
 
         PURPUR_QUESTION_BLOCK = registerBlock("purpur_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
@@ -2827,6 +2833,9 @@ public class BlockRegistry {
         PURPUR_BLOCK_PEDESTAL = registerBlock("purpur_block_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
+        PURPUR_BRIDGE = registerBlock("purpur_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
+
 
         QUARTZ_QUESTION_BRICKS = registerBlock("quartz_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
@@ -2843,6 +2852,9 @@ public class BlockRegistry {
 
         QUARTZ_BRICK_PEDESTAL = registerBlock("quartz_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+
+        QUARTZ_BRIDGE = registerBlock("quartz_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
 
 
         COPPER_QUESTION_BLOCK = registerBlock("copper_question_block",
