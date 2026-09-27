@@ -196,6 +196,8 @@ public class RecipeGen extends RecipeUtils {
         twoByOneRecipe(1, "splunkin_o_lantern", BlockRegistry.SPLUNKIN_O_LANTERN, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, Blocks.TORCH, false, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.VINE, output);
+        twoItemRecipe(1, "bridges", BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRIDGE, Blocks.MOSS_BLOCK, output);
+        twoItemRecipe(1, "bridges", BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRIDGE, Blocks.VINE, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.VINE, output);
         twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
@@ -233,6 +235,12 @@ public class RecipeGen extends RecipeUtils {
         waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK, BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
+
+        stonecuttingFromBase(2, BlockRegistry.DEEP_FUNGAL_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_COBBLESTONE, output);
+        stonecuttingFromBase(2, BlockRegistry.FORTSTONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.COBBLED_FORTSTONE, output);
+        stonecuttingFromBase(2, BlockRegistry.FUNGAL_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_COBBLESTONE, output);
+        stonecuttingFromBase(2, BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.MOSSY_COBBLESTONE, output);
+        stonecuttingFromBase(2, BlockRegistry.STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.COBBLESTONE, output);
 
         stonecutting(1, BlockRegistry.CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
         stonecutting(1, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
@@ -514,6 +522,12 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.END_STONE_BRICKS, Blocks.END_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.MOSSY_STONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_GRANITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_GRANITE, Blocks.GRANITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_DIORITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DIORITE, Blocks.DIORITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_ANDESITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_ANDESITE, Blocks.ANDESITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.MUD_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.MUD_BRICKS, Blocks.PACKED_MUD, FeatureFlagSet.of(FeatureFlags.VANILLA));

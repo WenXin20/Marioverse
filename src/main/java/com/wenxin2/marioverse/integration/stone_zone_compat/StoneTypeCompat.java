@@ -33,6 +33,35 @@ public class StoneTypeCompat {
                 .childBlock("tile_wall", "polished_fortstone_tile_wall")
                 .childBlock("tiles", "polished_fortstone_tiles");
 
+        registry.addSimpleFinder("minecraft", "calcite")
+                .childBlock("brick_slab", "white_calcite_brick_slab")
+                .childBlock("brick_stairs", "white_calcite_brick_stairs")
+                .childBlock("brick_wall", "white_calcite_brick_wall")
+                .childBlock("bricks", "white_calcite_bricks")
+                .childBlock("button", "white_calcite_button")
+                .childBlock("cracked_bricks", "cracked_white_calcite_bricks")
+                .childBlock("polished", "polished_white_calcite")
+                .childBlock("slab", "white_calcite_slab")
+                .childBlock("stairs", "white_calcite_stairs")
+                .childBlock("pressure_plate", "white_calcite_pressure_plate")
+                .childBlock("wall", "white_calcite_wall");
+
+        registry.addSimpleFinder("marioverse", "light_gray_calcite");
+        registry.addSimpleFinder("marioverse", "gray_calcite");
+        registry.addSimpleFinder("marioverse", "black_calcite");
+        registry.addSimpleFinder("marioverse", "brown_calcite");
+        registry.addSimpleFinder("marioverse", "red_calcite");
+        registry.addSimpleFinder("marioverse", "orange_calcite");
+        registry.addSimpleFinder("marioverse", "yellow_calcite");
+        registry.addSimpleFinder("marioverse", "lime_calcite");
+        registry.addSimpleFinder("marioverse", "green_calcite");
+        registry.addSimpleFinder("marioverse", "cyan_calcite");
+        registry.addSimpleFinder("marioverse", "blue_calcite");
+        registry.addSimpleFinder("marioverse", "light_blue_calcite");
+        registry.addSimpleFinder("marioverse", "purple_calcite");
+        registry.addSimpleFinder("marioverse", "magenta_calcite");
+        registry.addSimpleFinder("marioverse", "pink_calcite");
+
         if (!PlatHelper.isModLoaded("gemsrealm"))
             registry.addSimpleFinder("marioverse", "amethyst")
                     .stone("minecraft:amethyst_block");

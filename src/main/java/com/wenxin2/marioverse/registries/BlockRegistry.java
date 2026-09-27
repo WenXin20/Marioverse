@@ -137,6 +137,8 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRIDGES =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_PEDESTALS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHISELED_CALCITE_BRICKS =
@@ -172,12 +174,14 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
     public static final DeferredBlock<Block> AMETHYST_BRICK_STAIRS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_WALL;
+    public static final DeferredBlock<Block> AMETHYST_BRIDGE;
     public static final DeferredBlock<Block> AMETHYST_BUTTON;
     public static final DeferredBlock<Block> AMETHYST_PRESSURE_PLATE;
     public static final DeferredBlock<Block> AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> AMETHYST_SLAB;
     public static final DeferredBlock<Block> AMETHYST_STAIRS;
     public static final DeferredBlock<Block> AMETHYST_WALL;
+    public static final DeferredBlock<Block> ANDESITE_BRIDGE;
     public static final DeferredBlock<Block> BAMBOO_ARROW_SIGN;
     public static final DeferredBlock<Block> BAMBOO_BRIDGE;
     public static final DeferredBlock<Block> BAMBOO_BRIDGE_STAIRS;
@@ -193,6 +197,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BIRCH_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> BIRCH_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> BLACKSTONE_BRIDGE;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BLOCK_SPAWNER;
     public static final DeferredBlock<Block> BLUE_BLOOMFLOWER;
@@ -275,6 +280,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEAD_TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> DEATH_BLOCK;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> DEEPSLATE_BRIDGE;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_TILES;
     public static final DeferredBlock<Block> DEEPSLATE_TILE_PEDESTAL;
@@ -297,6 +303,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> DEEP_WET_MUD;
+    public static final DeferredBlock<Block> DIORITE_BRIDGE;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
@@ -335,6 +342,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
+    public static final DeferredBlock<Block> GRANITE_BRIDGE;
     public static final DeferredBlock<Block> GRASSY_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> GRASSY_FORTSTONE;
     public static final DeferredBlock<Block> GRASSY_FUNGAL_STONE;
@@ -491,6 +499,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MONSTER_DEATH_BLOCK;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> MOSSY_STONE_BRIDGE;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
@@ -2435,6 +2444,9 @@ public class BlockRegistry {
         AMETHYST_BRICK_PEDESTAL = registerBlock("amethyst_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
 
+        AMETHYST_BRIDGE = registerBlock("amethyst_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
+
 
         AMETHYST_QUESTION_BLOCK = registerBlock("amethyst_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
@@ -2564,6 +2576,15 @@ public class BlockRegistry {
         STONE_BRIDGE = registerBlock("stone_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
+        GRANITE_BRIDGE = registerBlock("granite_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_GRANITE)));
+
+        DIORITE_BRIDGE = registerBlock("diorite_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_DIORITE)));
+
+        ANDESITE_BRIDGE = registerBlock("andesite_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+
 
         MOSSY_STONE_QUESTION_BRICKS = registerBlock("mossy_stone_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
@@ -2580,6 +2601,9 @@ public class BlockRegistry {
 
         MOSSY_STONE_BRICK_PEDESTAL = registerBlock("mossy_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
+
+        MOSSY_STONE_BRIDGE = registerBlock("mossy_stone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
 
 
         TUFF_QUESTION_BRICKS = registerBlock("tuff_question_bricks",
@@ -2614,6 +2638,9 @@ public class BlockRegistry {
 
         DEEPSLATE_BRICK_PEDESTAL = registerBlock("deepslate_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
+
+        DEEPSLATE_BRIDGE = registerBlock("deepslate_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
 
 
         DEEPSLATE_QUESTION_TILES = registerBlock("deepslate_question_tiles",
@@ -2750,6 +2777,9 @@ public class BlockRegistry {
 
         BLACKSTONE_BRICK_PEDESTAL = registerBlock("blackstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
+
+        BLACKSTONE_BRIDGE = registerBlock("blackstone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
 
 
         END_STONE_QUESTION_BRICKS = registerBlock("end_stone_question_bricks",
@@ -2978,6 +3008,10 @@ public class BlockRegistry {
                 STORAGE_CALCITE_BRICKS.put(color, registerBlock("storage_" + color.getName() + "_calcite_bricks",
                         () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
                                 .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRIDGES.put(color, registerBlock(color.getName() + "_calcite_bridge",
+                        () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(CALCITE_BRICKS.get(color).get())))));
 
         CLASSIC_CHECKPOINT_FLAG = registerNoItemBlock("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlock(3, null, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_stone_bridge_top",
+  "textures": {
+    "bottom": "marioverse:block/granite_bridge_bottom",
+    "front": "marioverse:block/granite_bridge",
+    "side": "marioverse:block/granite_bridge_side",
+    "top": "marioverse:block/granite_bridge_top"
+  }
+}

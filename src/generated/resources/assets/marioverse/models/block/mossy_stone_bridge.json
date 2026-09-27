@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_stone_bridge",
+  "textures": {
+    "bottom": "marioverse:block/mossy_stone_bridge_bottom",
+    "front": "marioverse:block/mossy_stone_bridge",
+    "side": "marioverse:block/mossy_stone_bridge_side",
+    "top": "marioverse:block/mossy_stone_bridge_top"
+  }
+}

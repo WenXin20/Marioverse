@@ -1,8 +1,31 @@
 {
   "values": [
+    "marioverse:white_calcite_bridge",
+    "marioverse:orange_calcite_bridge",
+    "marioverse:magenta_calcite_bridge",
+    "marioverse:light_blue_calcite_bridge",
+    "marioverse:yellow_calcite_bridge",
+    "marioverse:lime_calcite_bridge",
+    "marioverse:pink_calcite_bridge",
+    "marioverse:gray_calcite_bridge",
+    "marioverse:light_gray_calcite_bridge",
+    "marioverse:cyan_calcite_bridge",
+    "marioverse:purple_calcite_bridge",
+    "marioverse:blue_calcite_bridge",
+    "marioverse:brown_calcite_bridge",
+    "marioverse:green_calcite_bridge",
+    "marioverse:red_calcite_bridge",
+    "marioverse:black_calcite_bridge",
+    "marioverse:amethyst_bridge",
+    "marioverse:andesite_bridge",
+    "marioverse:blackstone_bridge",
+    "marioverse:deepslate_bridge",
     "marioverse:deep_fungal_bridge",
+    "marioverse:diorite_bridge",
     "marioverse:fortstone_bridge",
     "marioverse:fungal_bridge",
+    "marioverse:granite_bridge",
+    "marioverse:mossy_stone_bridge",
     "marioverse:stone_bridge"
   ]
 }
