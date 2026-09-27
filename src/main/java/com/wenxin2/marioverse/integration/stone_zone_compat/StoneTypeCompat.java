@@ -1,11 +1,22 @@
 package com.wenxin2.marioverse.integration.stone_zone_compat;
 
+import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
+import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
+import net.mehvahdjukaar.stone_zone.api.set.mud.MudTypeRegistry;
+import net.mehvahdjukaar.stone_zone.api.set.stone.StoneType;
 import net.mehvahdjukaar.stone_zone.api.set.stone.StoneTypeRegistry;
+import net.mehvahdjukaar.stone_zone.api.set.stone.VanillaStoneTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.DyeColor;
 
 public class StoneTypeCompat {
     public static void init() {
         StoneTypeRegistry registry = StoneTypeRegistry.INSTANCE;
+        MudTypeRegistry mudRegistry = MudTypeRegistry.INSTANCE;
+        mudRegistry.addSimpleFinder("marioverse", "wet_mud");
+
         registry.addSimpleFinder("marioverse", "deep_fungal")
                 .childBlock("button", "deep_fungal_stone_button")
                 .childBlock("cobblestone", "deep_fungal_cobblestone")
@@ -15,13 +26,13 @@ public class StoneTypeCompat {
                 .childBlock("stairs", "deep_fungal_stone_stairs")
                 .childBlock("wall", "deep_fungal_stone_wall");
         registry.addSimpleFinder("marioverse", "fungal_stone")
-                .childBlock("brick_slab", "fungal_stone_brick_slab")
-                .childBlock("brick_stairs", "fungal_stone_brick_stairs")
-                .childBlock("brick_wall", "fungal_stone_brick_wall")
-                .childBlock("bricks", "fungal_stone_bricks")
+                .childBlock("brick_slab", "fungal_brick_slab")
+                .childBlock("brick_stairs", "fungal_brick_stairs")
+                .childBlock("brick_wall", "fungal_brick_wall")
+                .childBlock("bricks", "fungal_bricks")
                 .childBlock("button", "fungal_stone_button")
                 .childBlock("cobblestone", "fungal_cobblestone")
-                .childBlock("cracked_bricks", "cracked_fungal_stone_bricks")
+                .childBlock("cracked_bricks", "cracked_fungal_bricks")
                 .childBlock("polished", "polished_fungal_stone")
                 .childBlock("slab", "fungal_stone_slab")
                 .childBlock("stairs", "fungal_stone_stairs")
@@ -33,18 +44,23 @@ public class StoneTypeCompat {
                 .childBlock("tile_wall", "polished_fortstone_tile_wall")
                 .childBlock("tiles", "polished_fortstone_tiles");
 
-        registry.addSimpleFinder("minecraft", "calcite")
-                .childBlock("brick_slab", "white_calcite_brick_slab")
-                .childBlock("brick_stairs", "white_calcite_brick_stairs")
-                .childBlock("brick_wall", "white_calcite_brick_wall")
-                .childBlock("bricks", "white_calcite_bricks")
-                .childBlock("button", "white_calcite_button")
-                .childBlock("cracked_bricks", "cracked_white_calcite_bricks")
-                .childBlock("polished", "polished_white_calcite")
-                .childBlock("slab", "white_calcite_slab")
-                .childBlock("stairs", "white_calcite_stairs")
-                .childBlock("pressure_plate", "white_calcite_pressure_plate")
-                .childBlock("wall", "white_calcite_wall");
+        BlockSetAPI.addDynamicRegistration(Marioverse.MOD_ID, registrator -> {
+            StoneType calcite = VanillaStoneTypes.CALCITE;
+            calcite.addChild("brick_slab", BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
+            calcite.addChild("brick_stairs", BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
+            calcite.addChild("brick_wall", BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+            calcite.addChild("bricks", BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get());
+            calcite.addChild("button", BlockRegistry.CALCITE_BUTTON.get());
+            calcite.addChild("cracked_bricks", BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.WHITE).get());
+            calcite.addChild("polished", BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE).get());
+            calcite.addChild("polished_slab", BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get());
+            calcite.addChild("polished_stairs", BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get());
+            calcite.addChild("polished_wall", BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get());
+            calcite.addChild("pressure_plate", BlockRegistry.CALCITE_PRESSURE_PLATE.get());
+            calcite.addChild("slab", BlockRegistry.CALCITE_SLAB.get());
+            calcite.addChild("stairs", BlockRegistry.CALCITE_STAIRS.get());
+            calcite.addChild("wall", BlockRegistry.CALCITE_WALL.get());
+        }, BuiltInRegistries.BLOCK);
 
         registry.addSimpleFinder("marioverse", "light_gray_calcite");
         registry.addSimpleFinder("marioverse", "gray_calcite");
