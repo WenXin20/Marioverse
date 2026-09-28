@@ -20,6 +20,7 @@
     "marioverse:andesite_bridge",
     "marioverse:blackstone_bridge",
     "marioverse:brick_bridge",
+    "marioverse:dark_prismarine_bridge",
     "marioverse:deepslate_bridge",
     "marioverse:deep_fungal_bridge",
     "marioverse:diorite_bridge",
@@ -30,9 +31,12 @@
     "marioverse:mossy_stone_bridge",
     "marioverse:mud_brick_bridge",
     "marioverse:nether_brick_bridge",
+    "marioverse:prismarine_bridge",
     "marioverse:purpur_bridge",
     "marioverse:quartz_bridge",
     "marioverse:red_nether_brick_bridge",
+    "marioverse:red_sandstone_bridge",
+    "marioverse:sandstone_bridge",
     "marioverse:stone_bridge",
     "marioverse:tuff_bridge"
   ]

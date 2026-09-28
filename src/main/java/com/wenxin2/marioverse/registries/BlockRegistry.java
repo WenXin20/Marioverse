@@ -271,6 +271,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE;
     public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> DARK_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> DARK_PRISMARINE_BRIDGE;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DARK_SPOOKROOT_LEAVES;
@@ -623,6 +624,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_YELLOW_BLOOMFLOWER;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> PRISMARINE_BRIDGE;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPLE_BLOOMFLOWER;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
@@ -646,6 +648,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> RED_SANDSTONE_BRIDGE;
     public static final DeferredBlock<Block> RED_SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE;
@@ -666,6 +669,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SANDSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> SANDSTONE_BRIDGE;
     public static final DeferredBlock<Block> SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> SHORT_SHROOMGRASS;
     public static final DeferredBlock<Block> SHROOMGRASS;
@@ -2513,6 +2517,9 @@ public class BlockRegistry {
         SANDSTONE_BRICK_PEDESTAL = registerBlock("sandstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
 
+        SANDSTONE_BRIDGE = registerBlock("sandstone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
+
         CHISELED_SANDSTONE_BRICKS = registerBlock("chiseled_sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
 
@@ -2546,6 +2553,9 @@ public class BlockRegistry {
 
         RED_SANDSTONE_BRICK_PEDESTAL = registerBlock("red_sandstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
+
+        RED_SANDSTONE_BRIDGE = registerBlock("red_sandstone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
 
         CHISELED_RED_SANDSTONE_BRICKS = registerBlock("chiseled_red_sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
@@ -2727,6 +2737,9 @@ public class BlockRegistry {
         PRISMARINE_BRICK_PEDESTAL = registerBlock("prismarine_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
 
+        PRISMARINE_BRIDGE = registerBlock("prismarine_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
+
 
         DARK_PRISMARINE_QUESTION_BLOCK = registerBlock("dark_prismarine_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
@@ -2743,6 +2756,9 @@ public class BlockRegistry {
 
         DARK_PRISMARINE_PEDESTAL = registerBlock("dark_prismarine_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+
+        DARK_PRISMARINE_BRIDGE = registerBlock("dark_prismarine_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
 
 
         NETHER_QUESTION_BRICKS = registerBlock("nether_question_bricks",

@@ -819,6 +819,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.SANDSTONE_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
             .stairs(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
+            .stoneBridge(BlockRegistry.SANDSTONE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_SANDSTONE_BRICKS.get())
             .wall(BlockRegistry.SANDSTONE_BRICK_WALL.get())
             .getFamily();
@@ -839,6 +840,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.RED_SANDSTONE_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
             .stairs(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
+            .stoneBridge(BlockRegistry.RED_SANDSTONE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_RED_SANDSTONE_BRICKS.get())
             .wall(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
             .getFamily();
@@ -866,6 +868,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.DARK_PRISMARINE_PEDESTAL.get())
             .questionBlock(BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get())
             .smashableBlock(BlockRegistry.SMASHABLE_DARK_PRISMARINE.get())
+            .stoneBridge(BlockRegistry.DARK_PRISMARINE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_DARK_PRISMARINE.get())
             .getFamily();
 
@@ -939,6 +942,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .pedestal(BlockRegistry.PRISMARINE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.PRISMARINE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_PRISMARINE_BRICKS.get())
+            .stoneBridge(BlockRegistry.PRISMARINE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_PRISMARINE_BRICKS.get())
             .getFamily();
 

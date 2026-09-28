@@ -19,7 +19,7 @@ import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.mehvahdjukaar.stone_zone.api.StonePaletteStrategies;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneEntrySet;
 import net.mehvahdjukaar.stone_zone.api.StoneZoneModule;
-import net.mehvahdjukaar.stone_zone.api.set.VanillaRockChildKeys;
+import net.mehvahdjukaar.stone_zone.api.set.RockType;
 import net.mehvahdjukaar.stone_zone.api.set.mud.MudType;
 import net.mehvahdjukaar.stone_zone.api.set.mud.VanillaMudTypes;
 import net.mehvahdjukaar.stone_zone.api.set.stone.VanillaStoneChildKeys;
@@ -72,10 +72,7 @@ public class MudModule extends StoneZoneModule {
 
         brickPedestal = StoneZoneEntrySet.of(MudType.class, "brick_pedestal",
                         BlockRegistry.MUD_BRICK_PEDESTAL, () -> VanillaMudTypes.MUD,
-                        mudType -> {
-                            Block block = mudType.getBlockOfThis(VanillaRockChildKeys.BRICKS);
-                            return new BrickPedestalBlock(Utils.copyPropertySafe(block != null ? block : mudType.mud));
-                        })
+                        mudType -> new BrickPedestalBlock(Utils.copyPropertySafe(mudType.bricksOrStone())))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
@@ -90,10 +87,7 @@ public class MudModule extends StoneZoneModule {
 
         invisibleQuestionBlock = StoneZoneEntrySet.of(MudType.class, "question_bricks", "invisible",
                         BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS, () -> VanillaMudTypes.MUD,
-                        mudType -> {
-                            Block block = mudType.getBlockOfThis(VanillaRockChildKeys.BRICKS);
-                            return new InvisibleQuestionBlock(Utils.copyPropertySafe(block != null ? block : mudType.mud));
-                        })
+                        mudType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(mudType.bricksOrStone())))
                 .addTexture(modRes("block/invisible_mud_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
                 .addTag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
@@ -113,10 +107,7 @@ public class MudModule extends StoneZoneModule {
 
         questionBlock = StoneZoneEntrySet.of(MudType.class, "question_bricks",
                         BlockRegistry.MUD_QUESTION_BRICKS, () -> VanillaMudTypes.MUD,
-                        mudType -> {
-                            Block block = mudType.getBlockOfThis(VanillaRockChildKeys.BRICKS);
-                            return new QuestionBlock(Utils.copyPropertySafe(block != null ? block : mudType.mud));
-                        })
+                        mudType -> new QuestionBlock(Utils.copyPropertySafe(mudType.bricksOrStone())))
                 .addTexture(modRes("block/empty_mud_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTexture(modRes("block/mud_question_bricks"), questionPalette)
                 .addTag(CompatRegistry.CREATE_COPYCAT_ALLOW, Registries.BLOCK)
@@ -138,10 +129,7 @@ public class MudModule extends StoneZoneModule {
 
         smashableBricks = StoneZoneEntrySet.of(MudType.class, "bricks", "smashable",
                         BlockRegistry.SMASHABLE_MUD_BRICKS, () -> VanillaMudTypes.MUD,
-                        mudType -> {
-                            Block block = mudType.getBlockOfThis(VanillaRockChildKeys.BRICKS);
-                            return new Block(Utils.copyPropertySafe(block != null ? block : mudType.mud));
-                        })
+                        mudType -> new Block(Utils.copyPropertySafe(mudType.bricksOrStone())))
                 .addTexture(modRes("block/smashable_mud_bricks_overlay"), darkerPalette)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
@@ -156,10 +144,7 @@ public class MudModule extends StoneZoneModule {
 
         storageBricks = StoneZoneEntrySet.of(MudType.class, "bricks", "storage",
                         BlockRegistry.STORAGE_MUD_BRICKS, () -> VanillaMudTypes.MUD,
-                        mudType -> {
-                            Block block = mudType.getBlockOfThis(VanillaRockChildKeys.BRICKS);
-                            return new StorageBrickBlock(Utils.copyPropertySafe(block != null ? block : mudType.mud));
-                        })
+                        mudType -> new StorageBrickBlock(Utils.copyPropertySafe(mudType.bricksOrStone())))
                 .addTexture(modRes("block/mud_question_bricks_overlay"), lighterPalette)
                 .addTag(CompatRegistry.CREATE_COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
@@ -180,10 +165,7 @@ public class MudModule extends StoneZoneModule {
 
         brickBridge = StoneZoneEntrySet.of(MudType.class, "brick_bridge",
                         BlockRegistry.MUD_BRICK_BRIDGE, () -> VanillaMudTypes.MUD,
-                        mudType -> {
-                            Block block = mudType.getBlockOfThis(VanillaRockChildKeys.BRICKS);
-                            return new BridgeBlock(Utils.copyPropertySafe(block != null ? block : mudType.mud));
-                        })
+                        mudType -> new BridgeBlock(Utils.copyPropertySafe(mudType.bricksOrStone())))
                 .addTexture(modRes("block/mud_brick_bridge"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTexture(modRes("block/mud_brick_bridge_bottom"), darkerPalette)
                 .addTexture(modRes("block/mud_brick_bridge_side"), StonePaletteStrategies.BRICKS_STANDARD)
