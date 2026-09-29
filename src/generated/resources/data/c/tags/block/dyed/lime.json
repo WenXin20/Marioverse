@@ -2,10 +2,13 @@
   "values": [
     "marioverse:lime_calcite_bricks",
     "marioverse:lime_calcite_brick_pedestal",
+    "marioverse:lime_calcite_bridge",
     "marioverse:lime_checkpoint_flag",
     "marioverse:chiseled_lime_calcite_bricks",
     "marioverse:cracked_lime_calcite_bricks",
     "marioverse:lime_goal_pole",
+    "marioverse:lime_picket_fence",
+    "marioverse:lime_picket_fence_gate",
     "marioverse:lime_pipe_junction",
     "marioverse:polished_lime_calcite",
     "marioverse:storage_lime_calcite_bricks",

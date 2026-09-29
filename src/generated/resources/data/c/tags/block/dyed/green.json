@@ -2,10 +2,13 @@
   "values": [
     "marioverse:green_calcite_bricks",
     "marioverse:green_calcite_brick_pedestal",
+    "marioverse:green_calcite_bridge",
     "marioverse:green_checkpoint_flag",
     "marioverse:chiseled_green_calcite_bricks",
     "marioverse:cracked_green_calcite_bricks",
     "marioverse:green_goal_pole",
+    "marioverse:green_picket_fence",
+    "marioverse:green_picket_fence_gate",
     "marioverse:green_pipe_junction",
     "marioverse:polished_green_calcite",
     "marioverse:storage_green_calcite_bricks",
