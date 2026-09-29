@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "marioverse:block/polished_fortstone_top",
+    "bottom": "marioverse:block/polished_fortstone_bottom",
     "side": "marioverse:block/polished_fortstone_slab",
     "top": "marioverse:block/polished_fortstone_top"
   }
