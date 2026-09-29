@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
+import com.wenxin2.marioverse.integration.stone_zone_compat.StoneTypeCompat;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -31,6 +32,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -38,11 +40,18 @@ import org.slf4j.Logger;
 public final class DynamicServerResources implements PackResources {
     private static final Logger LOGGER = LogUtils.getLogger();
     private final Map<ResourceLocation, byte[]> lootTables = new HashMap<>();
+    private final Map<ResourceLocation, byte[]> colorSets = new HashMap<>();
     private final PackLocationInfo location;
 
     public DynamicServerResources(PackLocationInfo location) {
         this.location = location;
         this.generateLootTables();
+        this.generateColorSets();
+    }
+
+    private void generateColorSets() {
+        if (ModList.get().isLoaded("stonezone"))
+            colorSets.putAll(StoneTypeCompat.createCalciteColorSets());
     }
 
     private static final Set<TagKey<Block>> DOOR_BLOCK_TAGS = Set.of(
@@ -143,6 +152,10 @@ public final class DynamicServerResources implements PackResources {
         if (data != null)
             return () -> new ByteArrayInputStream(data);
 
+        byte[] colorSet = colorSets.get(location);
+        if (colorSet != null)
+            return () -> new ByteArrayInputStream(colorSet);
+
         return null;
     }
 
@@ -198,6 +211,13 @@ public final class DynamicServerResources implements PackResources {
                         .fromNamespaceAndPath(namespace, "tags/item/" + id.getPath() + ".json");
 
                 output.accept(out, () -> buildTrapDoorItemTag(tag).get());
+            }
+        }
+
+        if (path.equals("color_sets")) {
+            for (Map.Entry<ResourceLocation, byte[]> entry : colorSets.entrySet()) {
+                if (entry.getKey().getNamespace().equals(namespace))
+                    output.accept(entry.getKey(), () -> new ByteArrayInputStream(entry.getValue()));
             }
         }
 

@@ -1,7 +1,23 @@
 {
   "id": "marioverse:calcite",
   "colors": {
-    "default": "minecraft:calcite"
+    "default": "minecraft:calcite",
+    "white": "minecraft:calcite",
+    "orange": "marioverse:orange_calcite",
+    "magenta": "marioverse:magenta_calcite",
+    "light_blue": "marioverse:light_blue_calcite",
+    "yellow": "marioverse:yellow_calcite",
+    "lime": "marioverse:lime_calcite",
+    "pink": "marioverse:pink_calcite",
+    "gray": "marioverse:gray_calcite",
+    "light_gray": "marioverse:light_gray_calcite",
+    "cyan": "marioverse:cyan_calcite",
+    "purple": "marioverse:purple_calcite",
+    "blue": "marioverse:blue_calcite",
+    "brown": "marioverse:brown_calcite",
+    "green": "marioverse:green_calcite",
+    "red": "marioverse:red_calcite",
+    "black": "marioverse:black_calcite"
   },
-  "replace": false
+  "replace": true
 }

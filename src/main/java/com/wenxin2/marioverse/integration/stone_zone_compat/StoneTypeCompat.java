@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.integration.stone_zone_compat;
 
+import com.google.gson.JsonObject;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -9,8 +10,14 @@ import net.mehvahdjukaar.stone_zone.api.set.mud.MudTypeRegistry;
 import net.mehvahdjukaar.stone_zone.api.set.stone.StoneType;
 import net.mehvahdjukaar.stone_zone.api.set.stone.StoneTypeRegistry;
 import net.mehvahdjukaar.stone_zone.api.set.stone.VanillaStoneTypes;
+import java.nio.charset.StandardCharsets;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.Block;
 
 public class StoneTypeCompat {
     public static void init() {
@@ -85,5 +92,57 @@ public class StoneTypeCompat {
             calcite.addChild("stairs", BlockRegistry.CALCITE_STAIRS.get());
             calcite.addChild("wall", BlockRegistry.CALCITE_WALL.get());
         }, BuiltInRegistries.BLOCK);
+    }
+
+    public static Map<ResourceLocation, byte[]> createCalciteColorSets() {
+        Map<ResourceLocation, byte[]> colorSets = new HashMap<>();
+        if (!ConfigRegistry.ENABLE_DYED_CALCITE_STONE_ZONE.get())
+            return colorSets;
+
+        Map<String, EnumMap<DyeColor, Block>> childrenByKey = new HashMap<>();
+        for (DyeColor color : DyeColor.values()) {
+            if (color == DyeColor.WHITE)
+                continue;
+
+            StoneType stoneType = StoneTypeRegistry.INSTANCE.get(ResourceLocation
+                    .fromNamespaceAndPath(Marioverse.MOD_ID, color.getName() + "_calcite"));
+            if (stoneType == null)
+                continue;
+
+            for (Map.Entry<String, Object> child : stoneType.getChildren()) {
+                if (child.getValue() instanceof Block block
+                        && !BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals(Marioverse.MOD_ID))
+                    childrenByKey.computeIfAbsent(child.getKey(), key -> new EnumMap<>(DyeColor.class)).put(color, block);
+            }
+        }
+
+        childrenByKey.forEach((key, blocks) -> {
+            Block whiteBlock = VanillaStoneTypes.CALCITE.getBlockOfThis(key);
+            if (whiteBlock == null) {
+                Marioverse.LOGGER.debug("No calcite counterpart for Stone Zone child {}, skipping color set", key);
+                return;
+            }
+            blocks.put(DyeColor.WHITE, whiteBlock);
+
+            JsonObject colors = new JsonObject();
+            colors.addProperty("default", BuiltInRegistries.BLOCK.getKey(whiteBlock).toString());
+            blocks.forEach((color, block) -> colors.addProperty(color.getName(), BuiltInRegistries.BLOCK.getKey(block).toString()));
+
+            Map.Entry<DyeColor, Block> dyed = blocks.entrySet().stream()
+                    .filter(entry -> entry.getKey() != DyeColor.WHITE).findFirst().orElseThrow();
+            ResourceLocation dyedId = BuiltInRegistries.BLOCK.getKey(dyed.getValue());
+            ResourceLocation setId = dyedId.withPath(dyedId.getPath()
+                    .replaceFirst(dyed.getKey().getName() + "_calcite", "calcite"));
+
+            JsonObject json = new JsonObject();
+            json.addProperty("id", setId.toString());
+            json.add("colors", colors);
+            json.addProperty("replace", true);
+
+            colorSets.put(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                            "color_sets/" + setId.getNamespace() + "/" + setId.getPath() + ".json"),
+                    json.toString().getBytes(StandardCharsets.UTF_8));
+        });
+        return colorSets;
     }
 }
