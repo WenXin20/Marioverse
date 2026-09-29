@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -34,6 +35,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -447,6 +450,12 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         ItemStack heldItem = player.getItemInHand(hand);
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
+        if (this.color != null && heldItem.is(CompatRegistry.SOAP.get())) {
+            if (!level.isClientSide)
+                this.washFlag(level, pos, state, player, heldItem);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        }
+
         if (blockEntity instanceof CheckpointFlagBlockEntity flagBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS)) {
             ItemStack blockStack = flagBE.getTheItem();
 
@@ -800,5 +809,42 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
                 stack.copyWithCount(1);
             } else QuestionBlock.spawnItem(level, pos, stack, true);
         }
+    }
+
+    private void washFlag(Level level, BlockPos pos, BlockState state, Player player, ItemStack soap) {
+        BlockPos bottomPos = switch (state.getValue(PART)) {
+            case TOP -> pos.below(2);
+            case MIDDLE -> pos.below();
+            default -> pos;
+        };
+        Block classicFlag = BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get();
+
+        for (int i = 0; i < 3; i++) {
+            BlockPos partPos = bottomPos.above(i);
+            BlockState partState = level.getBlockState(partPos);
+            if (!(partState.getBlock() instanceof CheckpointFlagBlock) || partState.is(classicFlag))
+                continue;
+
+            CompoundTag data = level.getBlockEntity(partPos) instanceof CheckpointFlagBlockEntity partBE
+                    ? partBE.saveCustomOnly(level.registryAccess()) : null;
+            level.setBlock(partPos, classicFlag.withPropertiesOf(partState), Block.UPDATE_ALL | Block.UPDATE_KNOWN_SHAPE);
+
+            if (data != null && level.getBlockEntity(partPos) instanceof CheckpointFlagBlockEntity newPartBE) {
+                newPartBE.loadCustomOnly(data, level.registryAccess());
+                newPartBE.markUpdated();
+            }
+
+            if (level instanceof ServerLevel serverLevel)
+                ServerParticleUtils.spawnParticlesOnBlockFaces((ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(),
+                        serverLevel, partPos, UniformInt.of(3, 5));
+        }
+
+        level.playSound(null, pos, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS, 1.0F,
+                0.9F + level.random.nextFloat() * 0.2F);
+        player.awardStat(Stats.ITEM_USED.get(soap.getItem()));
+        if (soap.isDamageableItem())
+            soap.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+        else soap.consume(1, player);
+        level.gameEvent(player, GameEvent.BLOCK_CHANGE, bottomPos);
     }
 }

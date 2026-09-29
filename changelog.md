@@ -47,7 +47,8 @@
   - Shroomgrass Blocks
 - Added new creative tabs
 - Fixed flammability of Log Stairs
-- Fixed peaceful difficulty causing some blocks/enemies not doing damage
+- Fixed Supplementaries soap not working with some dyed blocks
+- Fixed peaceful difficulty causing some blocks/enemies to not do damage
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
