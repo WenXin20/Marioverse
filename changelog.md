@@ -49,6 +49,7 @@
 - Fixed flammability of Log Stairs
 - Fixed Supplementaries soap not working with some dyed blocks
 - Fixed peaceful difficulty causing some blocks/enemies to not do damage
+- Fixed Question Blocks state not updating correctly
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

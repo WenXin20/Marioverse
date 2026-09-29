@@ -349,14 +349,7 @@ public class QuestionBlock extends BaseEntityBlock {
     }
 
     public static void hitQuestionBlock(Level level, BlockPos pos, Entity entity, QuestionBlockEntity questionBE) {
-        BlockState state = level.getBlockState(pos);
-
-        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
-            SableProvider.SableContext context = SableProvider.getContext(level, entity);
-            state = context.accessor.getBlockState(pos);
-            if (level instanceof ServerLevel)
-                state = context.accessor.getServerBlockState(pos);
-        }
+        BlockState state = QuestionBlock.getHitState(level, pos, entity);
 
         if (state.getBlock() instanceof QuestionBlock) {
             ItemStack storedItem = questionBE.getTheItem();
@@ -391,15 +384,18 @@ public class QuestionBlock extends BaseEntityBlock {
                 questionBE.setChanged();
             }
 
-            if (storedItem.isEmpty() && !state.getValue(QuestionBlock.EMPTY)) {
-                if (state.getBlock() instanceof QuestionBlock)
-                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
-            }
+            BlockState currentState = QuestionBlock.getHitState(level, pos, entity);
+            if (!(currentState.getBlock() instanceof QuestionBlock))
+                return;
 
-            if (state.getBlock() instanceof InvisibleQuestionBlock
-                    && state.getValue(InvisibleQuestionBlock.INVISIBLE)) {
-                level.setBlock(pos, state.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+            BlockState newState = currentState;
+            if (storedItem.isEmpty() && !state.getValue(QuestionBlock.EMPTY))
+                newState = newState.setValue(QuestionBlock.EMPTY, Boolean.TRUE);
+            if (newState.getBlock() instanceof InvisibleQuestionBlock && newState.getValue(InvisibleQuestionBlock.INVISIBLE))
+                newState = newState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE);
+
+            if (newState != currentState) {
+                level.setBlock(pos, newState, 3);
                 level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
         }
@@ -785,5 +781,13 @@ public class QuestionBlock extends BaseEntityBlock {
             }
         }
         return false;
+    }
+
+    private static BlockState getHitState(Level level, BlockPos pos, Entity entity) {
+        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+            SableProvider.SableContext context = SableProvider.getContext(level, entity);
+            return level instanceof ServerLevel ? context.accessor.getServerBlockState(pos) : context.accessor.getBlockState(pos);
+        }
+        return level.getBlockState(pos);
     }
 }
