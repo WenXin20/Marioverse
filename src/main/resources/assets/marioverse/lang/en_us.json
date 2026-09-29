@@ -2411,6 +2411,7 @@
   "marioverse.configuration.coins": "Coins",
   "marioverse.configuration.daisy_ability_block": "Daisy Ability Block",
   "marioverse.configuration.decorated_pots": "Decorated Pots",
+  "marioverse.configuration.dyed_calcite": "Dyed Calcite",
   "marioverse.configuration.iron_spikes": "Iron Spikes",
   "marioverse.configuration.luigi_ability_block": "Luigi Ability Block",
   "marioverse.configuration.mario_ability_block": "Mario Ability Block",
@@ -2528,6 +2529,7 @@
   "configuration.marioverse.dry_bones_death_duration": "Death Duration",
   "configuration.marioverse.dry_bones_reassemble_duration": "Reassemble Duration",
   "configuration.marioverse.eep_cheep_lure_radius": "Lure Radius",
+  "configuration.marioverse.enable_dyed_calcite_stone_zone": "Stone Zone Compat",
   "configuration.marioverse.enable_stompable_enemies": "Enable Stompable Enemies",
   "configuration.marioverse.equip_costumes_mobs": "Equips Costumes on Mobs",
   "configuration.marioverse.equip_costumes_players": "Equips Costumes on Players",
@@ -2826,5 +2828,7 @@
   "block_type.marioverse.smashable_bricks": "Smashable %s Bricks",
   "block_type.marioverse.storage_bricks": "Storage %s Bricks",
   "block_type.marioverse.stripped_log_bridge": "Stripped %s Log Bridge",
-  "block_type.marioverse.stripped_log_bridge_stairs": "Stripped %s Log Bridge Stairs"
+  "block_type.marioverse.stripped_log_bridge_stairs": "Stripped %s Log Bridge Stairs",
+
+  "stone_type.marioverse.deep_fungal": "Deep Fungal Stone"
 }

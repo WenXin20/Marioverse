@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.integration.stone_zone_compat;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
 import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
 import net.mehvahdjukaar.stone_zone.api.set.mud.MudTypeRegistry;
@@ -15,7 +16,12 @@ public class StoneTypeCompat {
     public static void init() {
         StoneTypeRegistry registry = StoneTypeRegistry.INSTANCE;
         MudTypeRegistry mudRegistry = MudTypeRegistry.INSTANCE;
+
         mudRegistry.addSimpleFinder("marioverse", "wet_mud");
+
+        if (!PlatHelper.isModLoaded("gemsrealm"))
+            registry.addSimpleFinder("marioverse", "amethyst")
+                    .stone("minecraft:amethyst_block");
 
         registry.addSimpleFinder("marioverse", "deep_fungal")
                 .childBlock("button", "deep_fungal_stone_button")
@@ -44,6 +50,24 @@ public class StoneTypeCompat {
                 .childBlock("tile_wall", "polished_fortstone_tile_wall")
                 .childBlock("tiles", "polished_fortstone_tiles");
 
+        if (ConfigRegistry.ENABLE_DYED_CALCITE_STONE_ZONE.get()) {
+            registry.addSimpleFinder("marioverse", "light_gray_calcite");
+            registry.addSimpleFinder("marioverse", "gray_calcite");
+            registry.addSimpleFinder("marioverse", "black_calcite");
+            registry.addSimpleFinder("marioverse", "brown_calcite");
+            registry.addSimpleFinder("marioverse", "red_calcite");
+            registry.addSimpleFinder("marioverse", "orange_calcite");
+            registry.addSimpleFinder("marioverse", "yellow_calcite");
+            registry.addSimpleFinder("marioverse", "lime_calcite");
+            registry.addSimpleFinder("marioverse", "green_calcite");
+            registry.addSimpleFinder("marioverse", "cyan_calcite");
+            registry.addSimpleFinder("marioverse", "blue_calcite");
+            registry.addSimpleFinder("marioverse", "light_blue_calcite");
+            registry.addSimpleFinder("marioverse", "purple_calcite");
+            registry.addSimpleFinder("marioverse", "magenta_calcite");
+            registry.addSimpleFinder("marioverse", "pink_calcite");
+        }
+
         BlockSetAPI.addDynamicRegistration(Marioverse.MOD_ID, registrator -> {
             StoneType calcite = VanillaStoneTypes.CALCITE;
             calcite.addChild("brick_slab", BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
@@ -61,25 +85,5 @@ public class StoneTypeCompat {
             calcite.addChild("stairs", BlockRegistry.CALCITE_STAIRS.get());
             calcite.addChild("wall", BlockRegistry.CALCITE_WALL.get());
         }, BuiltInRegistries.BLOCK);
-
-        registry.addSimpleFinder("marioverse", "light_gray_calcite");
-        registry.addSimpleFinder("marioverse", "gray_calcite");
-        registry.addSimpleFinder("marioverse", "black_calcite");
-        registry.addSimpleFinder("marioverse", "brown_calcite");
-        registry.addSimpleFinder("marioverse", "red_calcite");
-        registry.addSimpleFinder("marioverse", "orange_calcite");
-        registry.addSimpleFinder("marioverse", "yellow_calcite");
-        registry.addSimpleFinder("marioverse", "lime_calcite");
-        registry.addSimpleFinder("marioverse", "green_calcite");
-        registry.addSimpleFinder("marioverse", "cyan_calcite");
-        registry.addSimpleFinder("marioverse", "blue_calcite");
-        registry.addSimpleFinder("marioverse", "light_blue_calcite");
-        registry.addSimpleFinder("marioverse", "purple_calcite");
-        registry.addSimpleFinder("marioverse", "magenta_calcite");
-        registry.addSimpleFinder("marioverse", "pink_calcite");
-
-        if (!PlatHelper.isModLoaded("gemsrealm"))
-            registry.addSimpleFinder("marioverse", "amethyst")
-                    .stone("minecraft:amethyst_block");
     }
 }

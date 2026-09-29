@@ -12,6 +12,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_CLIENT = "client";
     public static final String CATEGORY_COMMON = "common";
     public static final String CATEGORY_DEBUG = "debug";
+    public static final String CATEGORY_STARTUP = "startup";
 
     public static final String CATEGORY_BLOCKS = "blocks";
     public static final String CATEGORY_GAMEPLAY = "gameplay";
@@ -27,6 +28,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_COINS = "coins";
     public static final String CATEGORY_DAISY_ABILITY_BLOCK = "daisy_ability_block";
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
+    public static final String CATEGORY_DYED_CALCITE = "dyed_calcite";
     public static final String CATEGORY_IRON_SPIKES = "iron_spikes";
     public static final String CATEGORY_LUIGI_ABILITY_BLOCK = "luigi_ability_block";
     public static final String CATEGORY_MARIO_ABILITY_BLOCK = "mario_ability_block";
@@ -85,6 +87,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_HALLOWEEN = "halloween";
 
     private final ModConfigSpec COMMON_SPEC;
+    private final ModConfigSpec STARTUP_SPEC;
 
     public static ModConfigSpec.BooleanValue ALLOW_FAST_TRAVEL;
     public static ModConfigSpec.BooleanValue ALLOW_WARP_UNWAXING;
@@ -129,6 +132,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue DISABLE_WARP_TRAPDOORS;
     public static ModConfigSpec.BooleanValue DISPLAY_BUTTON_TOOLTIP;
     public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
+    public static ModConfigSpec.BooleanValue ENABLE_DYED_CALCITE_STONE_ZONE;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
@@ -324,6 +328,26 @@ public class ConfigRegistry {
 
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+
+        ModConfigSpec.Builder STARTUP_BUILDER = new ModConfigSpec.Builder();
+
+        STARTUP_BUILDER.push(CATEGORY_STARTUP);
+
+            STARTUP_BUILDER.push(CATEGORY_BLOCKS);
+
+                STARTUP_BUILDER.push(CATEGORY_DYED_CALCITE);
+                    ENABLE_DYED_CALCITE_STONE_ZONE = STARTUP_BUILDER.translation("configuration.marioverse.enable_dyed_calcite_stone_zone")
+                            .comment("Enable Stone Zone compat for dyed Calcite.")
+                            .comment("§cRequires game restart")
+                            .comment("§9[Default: false]")
+                            .define("enable_dyed_calcite_stone_zone", false);
+                STARTUP_BUILDER.pop();
+
+            STARTUP_BUILDER.pop();
+
+        STARTUP_BUILDER.pop();
+
+        STARTUP_SPEC = STARTUP_BUILDER.build();
 
         BUILDER.push(CATEGORY_CLIENT);
             DANGO_BLOSSOM_PARTICLES = BUILDER.translation("configuration.marioverse.dango_blossom_particles")
@@ -1464,6 +1488,7 @@ public class ConfigRegistry {
 
     public static void register(ModContainer container) {
         container.registerConfig(ModConfig.Type.COMMON, INSTANCE.COMMON_SPEC, "marioverse-common.toml");
+        container.registerConfig(ModConfig.Type.STARTUP, INSTANCE.STARTUP_SPEC, "marioverse-startup.toml");
     }
 
     public static void registerClient(ModContainer container) {
