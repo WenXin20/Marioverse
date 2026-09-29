@@ -228,6 +228,10 @@ public class RecipeGen extends RecipeUtils {
         waxedBlockRecipe(1, BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER, BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER, BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER, BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_COPPER_BRIDGE, BlockRegistry.COPPER_BRIDGE, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, BlockRegistry.EXPOSED_COPPER_BRIDGE, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, BlockRegistry.WEATHERED_COPPER_BRIDGE, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, BlockRegistry.OXIDIZED_COPPER_BRIDGE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_COPPER_QUESTION_BLOCK, BlockRegistry.COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, BlockRegistry.CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK, BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
@@ -242,6 +246,23 @@ public class RecipeGen extends RecipeUtils {
         stonecuttingFromBase(2, BlockRegistry.FUNGAL_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_COBBLESTONE, output);
         stonecuttingFromBase(2, BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.MOSSY_COBBLESTONE, output);
         stonecuttingFromBase(2, BlockRegistry.STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.COBBLESTONE, output);
+
+        stonecutting(2, BlockRegistry.COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.COPPER_BLOCK, output);
+        stonecutting(2, BlockRegistry.EXPOSED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.EXPOSED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_COPPER, output);
+        stonecutting(2, BlockRegistry.OXIDIZED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.OXIDIZED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_COPPER, output);
+        stonecutting(2, BlockRegistry.WAXED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WAXED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_COPPER_BLOCK, output);
+        stonecutting(2, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_EXPOSED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_EXPOSED_COPPER, output);
+        stonecutting(2, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_COPPER, output);
+        stonecutting(2, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_COPPER, output);
+        stonecutting(2, BlockRegistry.WEATHERED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WEATHERED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_COPPER, output);
 
         stonecutting(1, BlockRegistry.CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
         stonecutting(1, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);

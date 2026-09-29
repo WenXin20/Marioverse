@@ -85,13 +85,12 @@ dependencies {
     implementation "curse.maven:guard-villagers-360203:6066966"
     implementation "curse.maven:hole-filler-mod-440585:6583948"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
-    compileOnly "curse.maven:inspectability-1312917:6805145"
+    implementation "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
     compileOnly "curse.maven:jei-${jei_version}"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
-    compileOnly "curse.maven:quark-243121:8895753" // Requires Zeta
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
@@ -99,16 +98,9 @@ dependencies {
     implementation "curse.maven:treechop-421377:6254465"
     implementation "curse.maven:tree-physics-1522010:8448844"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
-    compileOnly "curse.maven:worldedit-225608:5830452"
+    implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:7598595"
     implementation "curse.maven:xaeros-world-map-317780:7598481"
-
-    implementation "curse.maven:twigs-496913:8191595"
-//    implementation "curse.maven:handcrafted-538214:6330030"
-//    implementation "curse.maven:resourceful-lib-570073:5973188"
-//    implementation "curse.maven:macaws-paths-and-pavings-629153:7029451"
-    implementation "curse.maven:macaws-fences-and-walls-453925:7308338"
-//    implementation "curse.maven:puzzles-lib-495476:8829114"
 
     // Libraries
     implementation "curse.maven:accessories-${accessories_version}" // Requires Owo Lib
@@ -123,7 +115,6 @@ dependencies {
     implementation "curse.maven:sable-${sable_version}" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     compileOnly "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
-    compileOnly "curse.maven:zeta-968868:7980010"
     compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:[${sable_companion_version},)"
 
     jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:${sable_companion_version}"))

@@ -71,7 +71,7 @@ public class StoneModule extends StoneZoneModule {
 
         brickPedestal = StoneZoneEntrySet.of(StoneType.class, "brick_pedestal",
                         BlockRegistry.STONE_BRICK_PEDESTAL, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new BrickPedestalBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new BrickPedestalBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
@@ -86,7 +86,7 @@ public class StoneModule extends StoneZoneModule {
 
         invisibleQuestionBlock = StoneZoneEntrySet.of(StoneType.class, "question_bricks", "invisible",
                         BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/invisible_stone_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
                 .addTag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
@@ -107,7 +107,7 @@ public class StoneModule extends StoneZoneModule {
 
         questionBlock = StoneZoneEntrySet.of(StoneType.class, "question_bricks",
                         BlockRegistry.STONE_QUESTION_BRICKS, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/empty_stone_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTexture(modRes("block/stone_question_bricks"), questionPalette)
                 .addTag(CompatRegistry.CREATE_COPYCAT_ALLOW, Registries.BLOCK)
@@ -129,7 +129,7 @@ public class StoneModule extends StoneZoneModule {
 
         smashableBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "smashable",
                         BlockRegistry.SMASHABLE_TUFF_BRICKS, () -> VanillaStoneTypes.TUFF,
-                        stoneType -> new Block(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new Block(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/smashable_tuff_bricks_overlay"), darkerPalette)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
@@ -144,7 +144,7 @@ public class StoneModule extends StoneZoneModule {
 
         stoneBridge = StoneZoneEntrySet.of(StoneType.class, "bridge",
                         BlockRegistry.STONE_BRIDGE, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new BridgeBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new BridgeBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/stone_bridge"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTexture(modRes("block/stone_bridge_bottom"), darkerPalette)
                 .addTexture(modRes("block/stone_bridge_side"), StonePaletteStrategies.BRICKS_STANDARD)
@@ -163,7 +163,7 @@ public class StoneModule extends StoneZoneModule {
 
         storageBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "storage",
                         BlockRegistry.STORAGE_STONE_BRICKS, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/stone_question_bricks_overlay"), lighterPalette)
                 .addTag(CompatRegistry.CREATE_COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)

@@ -1,4 +1,4 @@
-// 1.21.1	2026-09-27T18:13:46.5172211	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-09-27T22:40:15.3302454	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -47,7 +47,7 @@ b9eccc4dd51c45d3d6ffc98bc9eab64ee0b4feb0 data/marioverse/tags/block/bonkable_blo
 c9a1fd7463e5cb0a43406515ed2278f6b92ddbe2 data/marioverse/tags/block/brick_pedestals.json
 13ca5d0ca5e118f14963ee9e5e495d4c81bd4eef data/marioverse/tags/block/bridges.json
 4e489ee8399ae028ecdcd84b1976b52e327c2862 data/marioverse/tags/block/bridges/flammable.json
-b520aea48c9d5f087b8afb92b1a5f9e14bc97e23 data/marioverse/tags/block/bridges/stone.json
+c3027ea43ed50ca45d3307d8b2b9ac8c599e0bfd data/marioverse/tags/block/bridges/stone.json
 f1c6204b036eee515b52e81487c9e33936b4fd08 data/marioverse/tags/block/bridges/wooden.json
 410dd643364e87f3bfddfa5ae48508c8da2a8382 data/marioverse/tags/block/bridge_stairs.json
 eb4ebb5298cba71b7044bac77b20478314402026 data/marioverse/tags/block/bridge_stairs/flammable.json
@@ -177,7 +177,7 @@ f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_logs
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_roots_can_grow_through.json
 ebbd8e6a1ca91ad053d96cd989a997f199bce170 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-d3811861333c44f7b691f63e1a52bbbfac4b6244 data/minecraft/tags/block/mineable/pickaxe.json
+ef960a4c27dbd9bef744f7fe4837b808020aa5cb data/minecraft/tags/block/mineable/pickaxe.json
 95e4c25615d95838082475b740d03652b99843ab data/minecraft/tags/block/mineable/shovel.json
 11bf9914a37f97368e3320edbd090ecc24c07476 data/minecraft/tags/block/needs_iron_tool.json
 9d1c2fbbbbffc0bbc0ce1265f2be54dc26a8fb72 data/minecraft/tags/block/needs_stone_tool.json

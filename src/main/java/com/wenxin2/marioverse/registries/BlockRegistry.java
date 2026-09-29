@@ -73,6 +73,7 @@ import com.wenxin2.marioverse.blocks.WaluigiAbilityBlock;
 import com.wenxin2.marioverse.blocks.WarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperBridgeBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperPedestalBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
@@ -243,6 +244,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> COBBLED_FORTSTONE_STAIRS;
     public static final DeferredBlock<Block> COBBLED_FORTSTONE_WALL;
     public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> COPPER_BRIDGE;
     public static final DeferredBlock<Block> COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CRACKED_DEEP_FUNGAL_BRICKS;
@@ -309,6 +311,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> END_STONE_BRIDGE;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> EXPOSED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> FIRE_CORAL_TOWER;
@@ -554,6 +557,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> ON_OFF_SWITCH;
     public static final DeferredBlock<Block> ORANGE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> OXIDIZED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
@@ -833,14 +837,19 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> WARPED_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> WATER_SPOUT;
+    public static final DeferredBlock<Block> WAXED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WEATHERED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WET_MUD;
@@ -2897,6 +2906,9 @@ public class BlockRegistry {
         CUT_COPPER_PEDESTAL = registerBlock("cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
+        COPPER_BRIDGE = registerBlock("copper_bridge",
+                () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+
 
         EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("exposed_copper_question_block",
                 () -> new WeatheringCopperQuestionBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
@@ -2913,6 +2925,9 @@ public class BlockRegistry {
 
         EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("exposed_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
+
+        EXPOSED_COPPER_BRIDGE = registerBlock("exposed_copper_bridge",
+                () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_CUT_COPPER)));
 
 
         WEATHERED_COPPER_QUESTION_BLOCK = registerBlock("weathered_copper_question_block",
@@ -2931,6 +2946,9 @@ public class BlockRegistry {
         WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("weathered_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
 
+        WEATHERED_COPPER_BRIDGE = registerBlock("weathered_copper_bridge",
+                () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_CUT_COPPER)));
+
 
         OXIDIZED_COPPER_QUESTION_BLOCK = registerBlock("oxidized_copper_question_block",
                 () -> new WeatheringCopperQuestionBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
@@ -2947,6 +2965,9 @@ public class BlockRegistry {
 
         OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("oxidized_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+
+        OXIDIZED_COPPER_BRIDGE = registerBlock("oxidized_copper_bridge",
+                () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_CUT_COPPER)));
 
 
         WAXED_COPPER_QUESTION_BLOCK = registerBlock("waxed_copper_question_block",
@@ -2965,6 +2986,9 @@ public class BlockRegistry {
         WAXED_CUT_COPPER_PEDESTAL = registerBlock("waxed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
 
+        WAXED_COPPER_BRIDGE = registerBlock("waxed_copper_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
+
 
         WAXED_EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("waxed_exposed_copper_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
@@ -2981,6 +3005,9 @@ public class BlockRegistry {
 
         WAXED_EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("waxed_exposed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+
+        WAXED_EXPOSED_COPPER_BRIDGE = registerBlock("waxed_exposed_copper_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_CUT_COPPER)));
 
 
         WAXED_WEATHERED_COPPER_QUESTION_BLOCK = registerBlock("waxed_weathered_copper_question_block",
@@ -2999,6 +3026,9 @@ public class BlockRegistry {
         WAXED_WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("waxed_weathered_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
 
+        WAXED_WEATHERED_COPPER_BRIDGE = registerBlock("waxed_weathered_copper_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_CUT_COPPER)));
+
 
         WAXED_OXIDIZED_COPPER_QUESTION_BLOCK = registerBlock("waxed_oxidized_copper_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
@@ -3015,6 +3045,9 @@ public class BlockRegistry {
 
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        WAXED_OXIDIZED_COPPER_BRIDGE = registerBlock("waxed_oxidized_copper_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_CUT_COPPER)));
 
 
         CALCITE_CHECKERED_TILES = registerBlock("calcite_checkered_tiles",

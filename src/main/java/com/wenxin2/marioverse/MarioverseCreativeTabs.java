@@ -713,6 +713,14 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.QUARTZ_BRIDGE);
             add(event, BlockRegistry.END_STONE_BRIDGE);
             add(event, BlockRegistry.PURPUR_BRIDGE);
+            add(event, BlockRegistry.COPPER_BRIDGE);
+            add(event, BlockRegistry.EXPOSED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WEATHERED_COPPER_BRIDGE);
+            add(event, BlockRegistry.OXIDIZED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WAXED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE);
 
             add(event, BlockRegistry.OAK_LOG_BRIDGE);
             add(event, BlockRegistry.STRIPPED_OAK_LOG_BRIDGE);
@@ -998,6 +1006,14 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.QUARTZ_BRIDGE);
             add(event, BlockRegistry.END_STONE_BRIDGE);
             add(event, BlockRegistry.PURPUR_BRIDGE);
+            add(event, BlockRegistry.COPPER_BRIDGE);
+            add(event, BlockRegistry.EXPOSED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WEATHERED_COPPER_BRIDGE);
+            add(event, BlockRegistry.OXIDIZED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WAXED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE);
+            add(event, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE);
 
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE);
             add(event, BlockRegistry.MUSHROOT_PICKET_FENCE_GATE);
@@ -2064,28 +2080,36 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.QUARTZ_BRICK_PEDESTAL, BlockRegistry.QUARTZ_BRIDGE);
 
                 addAfter(event, Blocks.CUT_COPPER_SLAB, BlockRegistry.CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_CUT_COPPER);
+                addAfter(event, BlockRegistry.CUT_COPPER_PEDESTAL, BlockRegistry.COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.COPPER_BRIDGE, BlockRegistry.SMASHABLE_CUT_COPPER);
 
                 addAfter(event, Blocks.EXPOSED_CUT_COPPER_SLAB, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER);
+                addAfter(event, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.EXPOSED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.EXPOSED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER);
 
                 addAfter(event, Blocks.WEATHERED_CUT_COPPER_SLAB, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER);
+                addAfter(event, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WEATHERED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WEATHERED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER);
 
                 addAfter(event, Blocks.OXIDIZED_CUT_COPPER_SLAB, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER);
+                addAfter(event, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.OXIDIZED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.OXIDIZED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER);
 
                 addAfter(event, Blocks.WAXED_CUT_COPPER_SLAB, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_WAXED_CUT_COPPER);
+                addAfter(event, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WAXED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WAXED_CUT_COPPER);
 
                 addAfter(event, Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER);
+                addAfter(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER);
 
                 addAfter(event, Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER);
+                addAfter(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER);
 
                 addAfter(event, Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER);
+                addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER);
             }
 
             if (tab == CreativeModeTabs.FUNCTIONAL_BLOCKS) {

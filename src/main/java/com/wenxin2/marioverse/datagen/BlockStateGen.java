@@ -942,10 +942,11 @@ public class BlockStateGen extends BlockStateProvider {
             if (blockName.startsWith("chiseled_deep_fungal_bricks")
                     || blockName.startsWith("chiseled_fungal_bricks")
                     || blockName.startsWith("chiseled_polished_deep_fungal_bricks")
-                    || blockName.startsWith("chiseled_polished_fungal_bricks")
-                    || blockName.equals("polished_fortstone")) {
+                    || blockName.startsWith("chiseled_polished_fungal_bricks")) {
                 ResourceLocation topTexture = modLoc("block/" + blockName + "_top");
                 this.cubeBottomTopModel(block, topTexture, mainTexture, topTexture);
+            } else if (blockName.equals("polished_fortstone")) {
+                this.cubeBottomTopModel(block, modLoc("block/" + blockName + "_bottom"), mainTexture, modLoc("block/" + blockName + "_top"));
             } else this.cubeAllModel(block, mainTexture);
         }));
     }
@@ -1014,12 +1015,17 @@ public class BlockStateGen extends BlockStateProvider {
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.FORTSTONE.get(slab)
-                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(slab)
                         || block == BlockFamilyRegistry.ROCKY_FORTSTONE.get(slab)) {
                     texture = modLoc("block/" + blockName);
                     topTexture = modLoc("block/" + removeSlabName + "_top");
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(slab)) {
+                    texture = modLoc("block/" + blockName);
+                    ResourceLocation bottomTexture = modLoc("block/" + removeSlabName + "_bottom");
+                    topTexture = modLoc("block/" + removeSlabName + "_top");
+                    this.slabDoubleBlock(slabBlock, texture, bottomTexture, topTexture);
+                    this.itemModels().slab(blockName, texture, bottomTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.MUSHROOT_PLANKS.get(slab)
                         || block == BlockFamilyRegistry.SPOOKROOT_PLANKS.get(slab)) {
                     texture = modLoc("block/" + removeSlabName + "_planks");
@@ -1127,9 +1133,10 @@ public class BlockStateGen extends BlockStateProvider {
                     this.itemModels().stairs(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(stairs)) {
                     texture = modLoc("block/" + blockName.replace("_stairs", "_slab"));
+                    ResourceLocation bottomTexture = modLoc("block/" + removeStairName + "_bottom");
                     topTexture = modLoc("block/" + removeStairName + "_top");
-                    this.stairsBlock(stairBlock, texture, topTexture, topTexture);
-                    this.itemModels().stairs(blockName, texture, topTexture, topTexture);
+                    this.stairsBlock(stairBlock, texture, bottomTexture, topTexture);
+                    this.itemModels().stairs(blockName, texture, bottomTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS.get(stairs)
                         || block == BlockFamilyRegistry.POLISHED_FORTSTONE_TILES.get(stairs)) {
                     texture = modLoc("block/" + blockName.replace("_stairs", "_slab"));
@@ -1174,9 +1181,11 @@ public class BlockStateGen extends BlockStateProvider {
             BlockFamilyExtended.Variant stoneBridge = BlockFamilyExtended.Variant.STONE_BRIDGE;
 
             if (variant == stoneBridge && !this.isBlockGenerated(variant, block)) {
-                ResourceLocation frontTexture = modLoc("block/" + BuiltInRegistries.BLOCK.getKey(block).getPath());
+                String textureName = BuiltInRegistries.BLOCK.getKey(block).getPath().replace("waxed_", "");
+                ResourceLocation frontTexture = modLoc("block/" + textureName);
 
-                this.stoneBridgeModel(block, frontTexture, texture(block, "_side"), texture(block, "_top"), texture(block, "_bottom"));
+                this.stoneBridgeModel(block, frontTexture, modLoc("block/" + textureName + "_side"),
+                        modLoc("block/" + textureName + "_top"), modLoc("block/" + textureName + "_bottom"));
             }
         }));
     }
@@ -1321,13 +1330,16 @@ public class BlockStateGen extends BlockStateProvider {
                 } else if (block == BlockFamilyRegistry.DEEP_FUNGAL_STONE.get(wall)
                         || block == BlockFamilyRegistry.FORTSTONE.get(wall)
                         || block == BlockFamilyRegistry.FUNGAL_STONE.get(wall)
-                        || block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(wall)
                         || block == BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE.get(wall)
                         || block == BlockFamilyRegistry.ROCKY_FORTSTONE.get(wall)
                         || block == BlockFamilyRegistry.ROCKY_FUNGAL_STONE.get(wall)) {
                     texture = modLoc("block/" + removeWallName);
                     ResourceLocation topTexture = modLoc("block/" + removeWallName + "_top");
                     this.wallBottomTopModel(wallBlock, texture, topTexture, topTexture);
+                } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE.get(wall)) {
+                    texture = modLoc("block/" + removeWallName);
+                    this.wallBottomTopModel(wallBlock, texture, modLoc("block/" + removeWallName + "_bottom"),
+                            modLoc("block/" + removeWallName + "_top"));
                 } else if (block == BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_FORTSTONE_BLOCK.get(wall)
                         || block == BlockFamilyRegistry.HARD_FUNGAL_BLOCK.get(wall)

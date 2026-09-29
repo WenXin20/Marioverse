@@ -1,10 +1,16 @@
 {
   "values": {
+    "marioverse:copper_bridge": {
+      "next_oxidation_stage": "marioverse:exposed_copper_bridge"
+    },
     "marioverse:copper_question_block": {
       "next_oxidation_stage": "marioverse:exposed_copper_question_block"
     },
     "marioverse:cut_copper_pedestal": {
       "next_oxidation_stage": "marioverse:exposed_cut_copper_pedestal"
+    },
+    "marioverse:exposed_copper_bridge": {
+      "next_oxidation_stage": "marioverse:weathered_copper_bridge"
     },
     "marioverse:exposed_copper_question_block": {
       "next_oxidation_stage": "marioverse:weathered_copper_question_block"
@@ -38,6 +44,9 @@
     },
     "marioverse:storage_weathered_cut_copper": {
       "next_oxidation_stage": "marioverse:storage_oxidized_cut_copper"
+    },
+    "marioverse:weathered_copper_bridge": {
+      "next_oxidation_stage": "marioverse:oxidized_copper_bridge"
     },
     "marioverse:weathered_copper_question_block": {
       "next_oxidation_stage": "marioverse:oxidized_copper_question_block"

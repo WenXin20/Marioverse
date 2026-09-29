@@ -999,6 +999,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended CUT_COPPER = familyBuilder(Blocks.CUT_COPPER)
             .pedestal(BlockRegistry.CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_CUT_COPPER.get())
+            .stoneBridge(BlockRegistry.COPPER_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_CUT_COPPER.get())
             .getFamily();
     
@@ -1010,6 +1011,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended WAXED_CUT_COPPER = familyBuilder(Blocks.WAXED_CUT_COPPER)
             .pedestal(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WAXED_CUT_COPPER.get())
+            .stoneBridge(BlockRegistry.WAXED_COPPER_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_WAXED_CUT_COPPER.get())
             .getFamily();
 
@@ -1021,6 +1023,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended EXPOSED_CUT_COPPER = familyBuilder(Blocks.EXPOSED_CUT_COPPER)
             .pedestal(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get())
+            .stoneBridge(BlockRegistry.EXPOSED_COPPER_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get())
             .getFamily();
 
@@ -1032,6 +1035,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended WAXED_EXPOSED_CUT_COPPER = familyBuilder(Blocks.WAXED_EXPOSED_CUT_COPPER)
             .pedestal(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get())
+            .stoneBridge(BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get())
             .getFamily();
 
@@ -1043,6 +1047,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended WEATHERED_CUT_COPPER = familyBuilder(Blocks.WEATHERED_CUT_COPPER)
             .pedestal(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get())
+            .stoneBridge(BlockRegistry.WEATHERED_COPPER_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get())
             .getFamily();
 
@@ -1054,6 +1059,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended WAXED_WEATHERED_CUT_COPPER = familyBuilder(Blocks.WAXED_WEATHERED_CUT_COPPER)
             .pedestal(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get())
+            .stoneBridge(BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get())
             .getFamily();
 
@@ -1065,6 +1071,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended OXIDIZED_CUT_COPPER = familyBuilder(Blocks.OXIDIZED_CUT_COPPER)
             .pedestal(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER.get())
+            .stoneBridge(BlockRegistry.OXIDIZED_COPPER_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get())
             .getFamily();
 
@@ -1076,6 +1083,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended WAXED_OXIDIZED_CUT_COPPER = familyBuilder(Blocks.WAXED_OXIDIZED_CUT_COPPER)
             .pedestal(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get())
+            .stoneBridge(BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get())
             .getFamily();
 

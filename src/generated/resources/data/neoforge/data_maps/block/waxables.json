@@ -1,10 +1,16 @@
 {
   "values": {
+    "marioverse:copper_bridge": {
+      "waxed": "marioverse:waxed_copper_bridge"
+    },
     "marioverse:copper_question_block": {
       "waxed": "marioverse:waxed_copper_question_block"
     },
     "marioverse:cut_copper_pedestal": {
       "waxed": "marioverse:waxed_cut_copper_pedestal"
+    },
+    "marioverse:exposed_copper_bridge": {
+      "waxed": "marioverse:waxed_exposed_copper_bridge"
     },
     "marioverse:exposed_copper_question_block": {
       "waxed": "marioverse:waxed_exposed_copper_question_block"
@@ -23,6 +29,9 @@
     },
     "marioverse:invisible_weathered_copper_question_block": {
       "waxed": "marioverse:invisible_waxed_weathered_copper_question_block"
+    },
+    "marioverse:oxidized_copper_bridge": {
+      "waxed": "marioverse:waxed_oxidized_copper_bridge"
     },
     "marioverse:oxidized_copper_question_block": {
       "waxed": "marioverse:waxed_oxidized_copper_question_block"
@@ -53,6 +62,9 @@
     },
     "marioverse:storage_weathered_cut_copper": {
       "waxed": "marioverse:storage_waxed_weathered_cut_copper"
+    },
+    "marioverse:weathered_copper_bridge": {
+      "waxed": "marioverse:waxed_weathered_copper_bridge"
     },
     "marioverse:weathered_copper_question_block": {
       "waxed": "marioverse:waxed_weathered_copper_question_block"
