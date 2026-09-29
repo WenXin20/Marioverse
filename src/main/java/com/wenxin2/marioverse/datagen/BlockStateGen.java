@@ -1135,7 +1135,7 @@ public class BlockStateGen extends BlockStateProvider {
                     texture = modLoc("block/" + blockName.replace("_stairs", "_slab"));
                     ResourceLocation bottomTexture = modLoc("block/" + removeStairName + "_bottom");
                     topTexture = modLoc("block/" + removeStairName + "_top");
-                    this.stairsBlock(stairBlock, texture, bottomTexture, topTexture);
+                    this.stairsBottomTopBlock(stairBlock, texture, bottomTexture, topTexture);
                     this.itemModels().stairs(blockName, texture, bottomTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS.get(stairs)
                         || block == BlockFamilyRegistry.POLISHED_FORTSTONE_TILES.get(stairs)) {
@@ -2751,6 +2751,39 @@ public class BlockStateGen extends BlockStateProvider {
                 });
     }
 
+    private void stairsBottomTopBlock(StairBlock block, ResourceLocation side, ResourceLocation bottom, ResourceLocation top) {
+        String name = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile stairs = models().stairs(name, side, bottom, top);
+        ModelFile inner = models().stairsInner(name + "_inner", side, bottom, top);
+        ModelFile outer = models().stairsOuter(name + "_outer", side, bottom, top);
+        ModelFile stairsTop = models().stairs(name + "_top", side, top, bottom);
+        ModelFile innerTop = models().stairsInner(name + "_inner_top", side, top, bottom);
+        ModelFile outerTop = models().stairsOuter(name + "_outer_top", side, top, bottom);
+
+        getVariantBuilder(block).forAllStatesExcept(state -> {
+            Direction facing = state.getValue(StairBlock.FACING);
+            Half half = state.getValue(StairBlock.HALF);
+            StairsShape shape = state.getValue(StairBlock.SHAPE);
+            boolean upper = half == Half.TOP;
+
+            int yRot = (int) facing.getClockWise().toYRot();
+            if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT) yRot += 270;
+            if (shape != StairsShape.STRAIGHT && upper) yRot += 90;
+            yRot %= 360;
+
+            ModelFile model = switch (shape) {
+                case STRAIGHT -> upper ? stairsTop : stairs;
+                case INNER_LEFT, INNER_RIGHT -> upper ? innerTop : inner;
+                default -> upper ? outerTop : outer;
+            };
+
+            return ConfiguredModel.builder().modelFile(model)
+                    .rotationX(upper ? 180 : 0).rotationY(yRot)
+                    .uvLock(yRot != 0 || upper).build();
+        }, StairBlock.WATERLOGGED);
+    }
+
     private void wallBottomTopModel(Block block, ResourceLocation sideTexture, ResourceLocation bottomTexture, ResourceLocation topTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
@@ -2784,7 +2817,7 @@ public class BlockStateGen extends BlockStateProvider {
         builder.part()
                 .modelFile(model)
                 .rotationY((((int) entry.getKey().toYRot()) + 180) % 360)
-                .uvLock(false)
+                .uvLock(true)
                 .addModel()
                 .condition(entry.getValue(), height);
     }

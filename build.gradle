@@ -95,6 +95,7 @@ dependencies {
     implementation "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:7797302"
+    implementation "curse.maven:the-undergarden-379849:7862546"
     implementation "curse.maven:treechop-421377:6254465"
     implementation "curse.maven:tree-physics-1522010:8448844"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
@@ -148,6 +149,7 @@ runs {
         gameTest false
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         programArguments.addAll '--username', 'WenXin2'
+        jvmArgument '-Xmx6G'
     }
 
     server {

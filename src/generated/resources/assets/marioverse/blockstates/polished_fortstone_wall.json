@@ -11,6 +11,7 @@
     {
       "apply": {
         "model": "marioverse:block/polished_fortstone_wall_side",
+        "uvlock": true,
         "y": 90
       },
       "when": {
@@ -20,6 +21,7 @@
     {
       "apply": {
         "model": "marioverse:block/polished_fortstone_wall_side_tall",
+        "uvlock": true,
         "y": 90
       },
       "when": {
@@ -28,7 +30,8 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/polished_fortstone_wall_side"
+        "model": "marioverse:block/polished_fortstone_wall_side",
+        "uvlock": true
       },
       "when": {
         "north": "low"
@@ -36,7 +39,8 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/polished_fortstone_wall_side_tall"
+        "model": "marioverse:block/polished_fortstone_wall_side_tall",
+        "uvlock": true
       },
       "when": {
         "north": "tall"
@@ -45,6 +49,7 @@
     {
       "apply": {
         "model": "marioverse:block/polished_fortstone_wall_side",
+        "uvlock": true,
         "y": 180
       },
       "when": {
@@ -54,6 +59,7 @@
     {
       "apply": {
         "model": "marioverse:block/polished_fortstone_wall_side_tall",
+        "uvlock": true,
         "y": 180
       },
       "when": {
@@ -63,6 +69,7 @@
     {
       "apply": {
         "model": "marioverse:block/polished_fortstone_wall_side",
+        "uvlock": true,
         "y": 270
       },
       "when": {
@@ -72,6 +79,7 @@
     {
       "apply": {
         "model": "marioverse:block/polished_fortstone_wall_side_tall",
+        "uvlock": true,
         "y": 270
       },
       "when": {
