@@ -594,9 +594,20 @@ public class RegistryEventHandlers {
                 BlockRegistry.YELLOW_BLOOMFLOWER.get()
         };
 
+        Block[] hedges = {
+                BlockRegistry.HEDGE.get(), BlockRegistry.SNOWY_HEDGE.get(),
+                BlockRegistry.PINK_ROSE_HEDGE.get(), BlockRegistry.RED_ROSE_HEDGE.get(),
+                BlockRegistry.WHITE_ROSE_HEDGE.get()
+        };
+
         Block[] saplings = {
                 BlockRegistry.MUSHROOT_SAPLING.get(), BlockRegistry.SPOOKROOT_SAPLING.get(),
                 BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get()
+        };
+
+        Block[] soils = {
+                BlockRegistry.SHROOMGRASS_BLOCK.get(), BlockRegistry.SHROOMSOIL.get(),
+                BlockRegistry.WET_MUD.get()
         };
 
         genericTrades.add((entity, random) -> new MerchantOffer(
@@ -611,27 +622,7 @@ public class RegistryEventHandlers {
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.HEDGE, 5),
-                16, 5, 0.2F));
-
-        genericTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.SNOWY_HEDGE, 5),
-                16, 5, 0.2F));
-
-        genericTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.PINK_ROSE_HEDGE, 5),
-                16, 5, 0.2F));
-
-        genericTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.RED_ROSE_HEDGE, 5),
-                16, 5, 0.2F));
-
-        genericTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.WHITE_ROSE_HEDGE, 5),
+                new ItemStack(hedges[random.nextInt(hedges.length)], 5),
                 16, 5, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
@@ -641,7 +632,7 @@ public class RegistryEventHandlers {
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
-                new ItemStack(BlockRegistry.SHROOMGRASS_BLOCK, 3),
+                new ItemStack(soils[random.nextInt(soils.length)], 16),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
@@ -705,12 +696,12 @@ public class RegistryEventHandlers {
                 1, 30, 0.1F));
 
         rareTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 32),
+                new ItemCost(Items.EMERALD, 48),
                 new ItemStack(ItemRegistry.MEGA_MUSHROOM.get(), 1),
                 1, 30, 0.2F));
 
         rareTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 32),
+                new ItemCost(Items.EMERALD, 64),
                 new ItemStack(ItemRegistry.SUPER_STAR.get(), 1),
                 1, 30, 0.2F));
     }
