@@ -450,12 +450,6 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         ItemStack heldItem = player.getItemInHand(hand);
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (this.color != null && heldItem.is(CompatRegistry.SOAP.get())) {
-            if (!level.isClientSide)
-                this.washFlag(level, pos, state, player, heldItem);
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
-        }
-
         if (blockEntity instanceof CheckpointFlagBlockEntity flagBE && !heldItem.is(TagRegistry.CANNOT_PLACE_IN_CHECKPOINT_FLAGS)) {
             ItemStack blockStack = flagBE.getTheItem();
 
@@ -811,23 +805,27 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         }
     }
 
-    private void washFlag(Level level, BlockPos pos, BlockState state, Player player, ItemStack soap) {
+    public static boolean canWash(BlockState state) {
+        return state.getBlock() instanceof CheckpointFlagBlock flag && flag.getColor() != null && flag.getColor() != DyeColor.WHITE;
+    }
+
+    public static void washFlag(Level level, BlockPos pos, BlockState state, Player player, ItemStack soap) {
         BlockPos bottomPos = switch (state.getValue(PART)) {
             case TOP -> pos.below(2);
             case MIDDLE -> pos.below();
             default -> pos;
         };
-        Block classicFlag = BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get();
+        Block whiteFlag = BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE).get();
 
         for (int i = 0; i < 3; i++) {
             BlockPos partPos = bottomPos.above(i);
             BlockState partState = level.getBlockState(partPos);
-            if (!(partState.getBlock() instanceof CheckpointFlagBlock) || partState.is(classicFlag))
+            if (!CheckpointFlagBlock.canWash(partState))
                 continue;
 
             CompoundTag data = level.getBlockEntity(partPos) instanceof CheckpointFlagBlockEntity partBE
                     ? partBE.saveCustomOnly(level.registryAccess()) : null;
-            level.setBlock(partPos, classicFlag.withPropertiesOf(partState), Block.UPDATE_ALL | Block.UPDATE_KNOWN_SHAPE);
+            level.setBlock(partPos, whiteFlag.withPropertiesOf(partState), Block.UPDATE_ALL | Block.UPDATE_KNOWN_SHAPE);
 
             if (data != null && level.getBlockEntity(partPos) instanceof CheckpointFlagBlockEntity newPartBE) {
                 newPartBE.loadCustomOnly(data, level.registryAccess());
