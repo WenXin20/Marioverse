@@ -162,6 +162,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
 
         this.lastPowered = tag.getBoolean("lastPowered");
         if (!this.tryLoadLootTable(tag)) {
+            this.lootTable = null;
             if (tag.contains("item", 10))
                 this.item = ItemStack.parse(provider, tag.getCompound("item")).orElse(ItemStack.EMPTY);
             else this.item = ItemStack.EMPTY;
@@ -170,7 +171,7 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         if (tag.contains(CUSTOM_NAME, 8))
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
 
-        if (tag.contains("activeRefillCountdown", 10))
+        if (tag.contains("activeRefillCountdown", 3))
             this.activeRefillCountdown = tag.getInt("activeRefillCountdown");
 
         if (tag.contains("refillTemplate", 10))
@@ -226,9 +227,10 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
         else if (blockEntity.activeRefillCountdown == 0) {
             blockEntity.refill();
             blockEntity.activeRefillCountdown = -1;
-            if (state.hasProperty(InvisibleQuestionBlock.INVISIBLE))
-                level.setBlock(pos, state.setValue(InvisibleQuestionBlock.INVISIBLE, true)
-                        .setValue(QuestionBlock.EMPTY, false), 3);
+            BlockState currentState = level.getBlockState(pos);
+            if (currentState.hasProperty(InvisibleQuestionBlock.INVISIBLE))
+                level.setBlock(pos, currentState.setValue(InvisibleQuestionBlock.INVISIBLE, true)
+                        .setValue(QuestionBlock.EMPTY, !blockEntity.hasItems()), 3);
         }
     }
 
@@ -319,7 +321,8 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
 
     @Override
     public void setChanged() {
-        if (this.level != null && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
+        if (this.level != null && !this.level.isClientSide
+                && this.level.getBlockState(this.getBlockPos()).getBlock() instanceof QuestionBlock) {
             Level world = this.level;
             BlockState state = world.getBlockState(this.getBlockPos());
 
@@ -329,10 +332,8 @@ public class QuestionBlockEntity extends BlockEntity implements MenuProvider, Na
                 world.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.FALSE), 3);
             else world.setBlock(this.getBlockPos(), this.getBlockState().setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
 
-            if (!world.isClientSide()) {
-                world.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
-                world.updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
-            }
+            world.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+            world.updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
         }
         super.setChanged();
     }
