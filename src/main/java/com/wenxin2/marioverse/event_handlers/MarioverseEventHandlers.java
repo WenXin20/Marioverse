@@ -113,6 +113,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -640,14 +641,29 @@ public class MarioverseEventHandlers {
         }
     }
 
-    @SubscribeEvent
-    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onRightClickCheckpointFlag(PlayerInteractEvent.RightClickBlock event) {
         Level level = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = level.getBlockState(pos);
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
+        if (heldItem.is(CompatRegistry.SOAP.get()) && CheckpointFlagBlock.canWash(state)) {
+            if (!level.isClientSide)
+                CheckpointFlagBlock.washFlag(level, pos, state, player, heldItem);
+
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            event.setCanceled(true);
+        }
+    }
+
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        Level level = event.getLevel();
+        BlockPos pos = event.getPos();
+        BlockState state = level.getBlockState(pos);
+        ItemStack heldItem = event.getItemStack();
+        Player player = event.getEntity();
         Direction.Axis axis = event.getEntity().getDirection().getAxis();
 
         if (heldItem.getItem() instanceof PiranhaPlantPodItem plantPodItem
