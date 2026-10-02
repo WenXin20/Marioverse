@@ -777,7 +777,7 @@ public class MarioverseEventHandlers {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
                         new QuestionBlockMenu(id, playerInventory, questionBE,
                                 questionBE.getDataAccess(), ContainerLevelAccess.create(level, pos)),
-                        ((QuestionBlockEntity) blockEntity).getDisplayName()));
+                        questionBE.getDisplayName()));
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, heldItem);
                     player.awardStat(Stats.ITEM_USED.get(heldItem.getItem()));
