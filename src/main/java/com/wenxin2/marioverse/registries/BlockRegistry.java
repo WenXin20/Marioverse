@@ -253,7 +253,6 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> COBBLED_FORTSTONE_WALL;
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> COPPER_BRIDGE;
-    public static final DeferredBlock<Block> COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CRACKED_DEEP_FUNGAL_BRICKS;
@@ -272,6 +271,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> CRIMSON_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> DAISY_ABILITY_BLOCK;
     public static final DeferredBlock<Block> DANGO_BLOSSOM;
@@ -326,8 +326,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> END_STONE_BRIDGE;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> EXPOSED_COPPER_BRIDGE;
-    public static final DeferredBlock<Block> EXPOSED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> FIRE_CORAL_TOWER;
     public static final DeferredBlock<Block> FORTSTONE;
@@ -578,8 +578,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> ON_OFF_SWITCH;
     public static final DeferredBlock<Block> ORANGE_BLOOMFLOWER;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_BRIDGE;
-    public static final DeferredBlock<Block> OXIDIZED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
     public static final DeferredBlock<Block> PEACH_ABILITY_BLOCK;
@@ -870,24 +870,24 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WARPED_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> WAXED_COPPER_BRIDGE;
-    public static final DeferredBlock<Block> WAXED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_BRIDGE;
-    public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_BRIDGE;
-    public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_BRIDGE;
-    public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WEATHERED_COPPER_BRIDGE;
-    public static final DeferredBlock<Block> WEATHERED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WET_MUD;
     public static final DeferredBlock<Block> WET_MUD_FARMLAND;
@@ -3015,7 +3015,7 @@ public class BlockRegistry {
         CUT_COPPER_PEDESTAL = registerBlock("cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
-        COPPER_LOOPHOLE = registerBlock("copper_loophole",
+        CUT_COPPER_LOOPHOLE = registerBlock("cut_copper_loophole",
                 () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
         COPPER_BRIDGE = registerBlock("copper_bridge",
@@ -3038,7 +3038,7 @@ public class BlockRegistry {
         EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("exposed_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
 
-        EXPOSED_COPPER_LOOPHOLE = registerBlock("exposed_copper_loophole",
+        EXPOSED_CUT_COPPER_LOOPHOLE = registerBlock("exposed_cut_copper_loophole",
                 () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
 
         EXPOSED_COPPER_BRIDGE = registerBlock("exposed_copper_bridge",
@@ -3061,7 +3061,7 @@ public class BlockRegistry {
         WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("weathered_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
 
-        WEATHERED_COPPER_LOOPHOLE = registerBlock("weathered_copper_loophole",
+        WEATHERED_CUT_COPPER_LOOPHOLE = registerBlock("weathered_cut_copper_loophole",
                 () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
 
         WEATHERED_COPPER_BRIDGE = registerBlock("weathered_copper_bridge",
@@ -3084,7 +3084,7 @@ public class BlockRegistry {
         OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("oxidized_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
 
-        OXIDIZED_COPPER_LOOPHOLE = registerBlock("oxidized_copper_loophole",
+        OXIDIZED_CUT_COPPER_LOOPHOLE = registerBlock("oxidized_cut_copper_loophole",
                 () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
 
         OXIDIZED_COPPER_BRIDGE = registerBlock("oxidized_copper_bridge",
@@ -3107,7 +3107,7 @@ public class BlockRegistry {
         WAXED_CUT_COPPER_PEDESTAL = registerBlock("waxed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
 
-        WAXED_COPPER_LOOPHOLE = registerBlock("waxed_copper_loophole",
+        WAXED_CUT_COPPER_LOOPHOLE = registerBlock("waxed_cut_copper_loophole",
                 () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
 
         WAXED_COPPER_BRIDGE = registerBlock("waxed_copper_bridge",
@@ -3130,7 +3130,7 @@ public class BlockRegistry {
         WAXED_EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("waxed_exposed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
 
-        WAXED_EXPOSED_COPPER_LOOPHOLE = registerBlock("waxed_exposed_copper_loophole",
+        WAXED_EXPOSED_CUT_COPPER_LOOPHOLE = registerBlock("waxed_exposed_cut_copper_loophole",
                 () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
 
         WAXED_EXPOSED_COPPER_BRIDGE = registerBlock("waxed_exposed_copper_bridge",
@@ -3153,7 +3153,7 @@ public class BlockRegistry {
         WAXED_WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("waxed_weathered_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
 
-        WAXED_WEATHERED_COPPER_LOOPHOLE = registerBlock("waxed_weathered_copper_loophole",
+        WAXED_WEATHERED_CUT_COPPER_LOOPHOLE = registerBlock("waxed_weathered_cut_copper_loophole",
                 () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
 
         WAXED_WEATHERED_COPPER_BRIDGE = registerBlock("waxed_weathered_copper_bridge",
@@ -3176,7 +3176,7 @@ public class BlockRegistry {
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
-        WAXED_OXIDIZED_COPPER_LOOPHOLE = registerBlock("waxed_oxidized_copper_loophole",
+        WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE = registerBlock("waxed_oxidized_cut_copper_loophole",
                 () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
         WAXED_OXIDIZED_COPPER_BRIDGE = registerBlock("waxed_oxidized_copper_bridge",

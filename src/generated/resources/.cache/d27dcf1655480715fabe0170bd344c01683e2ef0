@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-03T00:30:29.1070167	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-10-03T14:13:14.6942667	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -101,7 +101,7 @@ c9c0d5f98a850952e1add89566aa29e2b435214f data/marioverse/tags/block/hedges/snowy
 10669683856180bd5db365e41401f66ba04d8a02 data/marioverse/tags/block/large_arrow_signs.json
 7994a1f2379ef5bf446ddc415f61b97fb95f3c2d data/marioverse/tags/block/large_arrow_signs/flammable.json
 165e41bafa3202e0755615c93f024d2505e1e638 data/marioverse/tags/block/large_arrow_signs/wooden.json
-20f6f90f4388024a207e189c183e6d9032b374f1 data/marioverse/tags/block/loopholes.json
+fdee9523679ade0cb634851cbec5187425399208 data/marioverse/tags/block/loopholes.json
 94a6ea364d801c0b3e4694b8d5355a82344abcdd data/marioverse/tags/block/mega_mushroom_can_break.json
 44fbb1dfa7779572aac31488b47a0d6a2dde5856 data/marioverse/tags/block/mega_mushroom_can_break/adventure_mode.json
 11bcfbe303c6dc312dda58598be28d186e443594 data/marioverse/tags/block/mega_mushroom_can_break/falling.json

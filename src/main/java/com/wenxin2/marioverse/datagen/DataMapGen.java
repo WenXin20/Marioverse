@@ -77,11 +77,11 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.WEATHERED_COPPER_BRIDGE, new Oxidizable(BlockRegistry.OXIDIZED_COPPER_BRIDGE.get()), false)
 
                 .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Oxidizable(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.EXPOSED_COPPER_LOOPHOLE.get()), false)
+                .add(BlockRegistry.CUT_COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, new Oxidizable(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.EXPOSED_COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.WEATHERED_COPPER_LOOPHOLE.get()), false)
+                .add(BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, new Oxidizable(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.WEATHERED_COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.OXIDIZED_COPPER_LOOPHOLE.get()), false)
+                .add(BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE.get()), false)
 
                 .add(BlockRegistry.COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
@@ -127,13 +127,13 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.OXIDIZED_COPPER_BRIDGE, new Waxable(BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE.get()), false)
 
                 .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_COPPER_LOOPHOLE.get()), false)
+                .add(BlockRegistry.CUT_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.EXPOSED_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE.get()), false)
+                .add(BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.WEATHERED_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE.get()), false)
+                .add(BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.OXIDIZED_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE.get()), false)
+                .add(BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE.get()), false)
 
                 .add(BlockRegistry.COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)

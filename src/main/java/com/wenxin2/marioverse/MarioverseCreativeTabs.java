@@ -648,14 +648,14 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.QUARTZ_BRICK_LOOPHOLE);
             add(event, BlockRegistry.END_STONE_BRICK_LOOPHOLE);
             add(event, BlockRegistry.PURPUR_LOOPHOLE);
-            add(event, BlockRegistry.COPPER_LOOPHOLE);
-            add(event, BlockRegistry.EXPOSED_COPPER_LOOPHOLE);
-            add(event, BlockRegistry.WEATHERED_COPPER_LOOPHOLE);
-            add(event, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE);
-            add(event, BlockRegistry.WAXED_COPPER_LOOPHOLE);
-            add(event, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE);
-            add(event, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE);
-            add(event, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.CUT_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WAXED_CUT_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE);
 
             add(event, BlockRegistry.HARD_OAK_BLOCK);
             add(event, BlockRegistry.HARD_OAK_SLAB);

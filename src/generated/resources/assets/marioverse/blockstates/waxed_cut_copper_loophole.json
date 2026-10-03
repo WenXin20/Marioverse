@@ -1,0 +1,32 @@
+{
+  "variants": {
+    "axis=x,column=bottom": {
+      "model": "marioverse:block/waxed_cut_copper_loophole_bottom",
+      "y": 90
+    },
+    "axis=x,column=middle": {
+      "model": "marioverse:block/waxed_cut_copper_loophole_middle",
+      "y": 90
+    },
+    "axis=x,column=none": {
+      "model": "marioverse:block/waxed_cut_copper_loophole",
+      "y": 90
+    },
+    "axis=x,column=top": {
+      "model": "marioverse:block/waxed_cut_copper_loophole_top",
+      "y": 90
+    },
+    "axis=z,column=bottom": {
+      "model": "marioverse:block/waxed_cut_copper_loophole_bottom"
+    },
+    "axis=z,column=middle": {
+      "model": "marioverse:block/waxed_cut_copper_loophole_middle"
+    },
+    "axis=z,column=none": {
+      "model": "marioverse:block/waxed_cut_copper_loophole"
+    },
+    "axis=z,column=top": {
+      "model": "marioverse:block/waxed_cut_copper_loophole_top"
+    }
+  }
+}
