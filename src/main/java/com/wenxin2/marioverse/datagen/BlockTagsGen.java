@@ -46,6 +46,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CALCITE.values().forEach(block -> tag(TagRegistry.CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRICK_PEDESTALS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_LOOPHOLES.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRIDGES.values().forEach(block -> tag(TagRegistry.STONE_BRIDGES).add(block.get()));
         BlockRegistry.CALCITE_BRIDGES.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
@@ -64,6 +65,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(color).get())
                     .add(BlockRegistry.CALCITE_BRIDGES.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(color).get())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
                     .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
@@ -181,6 +183,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL.get())
@@ -191,6 +194,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FORTSTONE.get())
                 .add(BlockRegistry.POLISHED_FORTSTONE_BRICKS.get())
                 .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE.get())
                 .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_WALL.get())
@@ -204,6 +208,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FORTSTONE_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_WALL.get())
@@ -275,6 +280,41 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
 
+        tag(TagRegistry.LOOPHOLE_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS)
+                .add(BlockRegistry.AMETHYST_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.BLACKSTONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.DARK_PRISMARINE_LOOPHOLE.get())
+                .add(BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.DEEPSLATE_TILE_LOOPHOLE.get())
+                .add(BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.END_STONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.EXPOSED_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.FUNGAL_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.MUD_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.NETHER_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.OXIDIZED_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.PRISMARINE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.PURPUR_LOOPHOLE.get())
+                .add(BlockRegistry.QUARTZ_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.RED_NETHER_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.RED_SANDSTONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.SANDSTONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.STONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.TUFF_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.WAXED_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.WEATHERED_COPPER_LOOPHOLE.get());
+
         tag(TagRegistry.BRIDGE_BLOCKS)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.STONE_BRIDGES)
@@ -292,6 +332,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptional(CREATE_CALCITE_BRICKS);
 
         tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS);
+        tag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS);
 
         tag(TagRegistry.CAVE_PIRANHA_PLANTS_SPAWNABLE_ON)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
@@ -340,6 +381,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS)
                 .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS);
@@ -872,6 +914,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.AMETHYST_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_BRICK_WALL.get())
@@ -886,12 +929,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CRACKED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.FORTSTONE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.FUNGAL_BRICKS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.FUNGAL_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
@@ -1173,7 +1219,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.ANCIENT_CITY_REPLACEABLE)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.DEEPSLATE_TILE_PEDESTAL.get())
+                .add(BlockRegistry.DEEPSLATE_TILE_LOOPHOLE.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_TILES.get());
 
@@ -1387,7 +1435,9 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.SCULK_REPLACEABLE_WORLD_GEN)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.DEEPSLATE_TILE_PEDESTAL.get())
+                .add(BlockRegistry.DEEPSLATE_TILE_LOOPHOLE.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_TILES.get());
 
@@ -1639,6 +1689,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(TagRegistry.ABILITY_BLOCKS)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.LOOPHOLE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
@@ -1914,6 +1965,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.blockTags("sable", "end_stones"))
                 .add(BlockRegistry.END_STONE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.END_STONE_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.END_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_END_STONE_BRICKS.get())

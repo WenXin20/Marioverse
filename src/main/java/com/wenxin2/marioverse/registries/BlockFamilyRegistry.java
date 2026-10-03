@@ -286,6 +286,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended AMETHYST_BRICKS = familyBuilder(BlockRegistry.AMETHYST_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_AMETHYST_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_AMETHYST_BRICKS.get())
+            .loophole(BlockRegistry.AMETHYST_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.AMETHYST_BRICK_SLAB.get())
             .stairs(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
@@ -450,6 +451,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.WHITE).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.WHITE).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.WHITE).get())
             .slab(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
             .stairs(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
@@ -461,6 +463,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended LIGHT_GRAY_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.LIGHT_GRAY).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.LIGHT_GRAY).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.LIGHT_GRAY).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.LIGHT_GRAY).get())
@@ -469,6 +472,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended GRAY_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.GRAY).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.GRAY).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.GRAY).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.GRAY).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.GRAY).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.GRAY).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.GRAY).get())
@@ -477,6 +481,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended BLACK_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BLACK).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.BLACK).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.BLACK).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.BLACK).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.BLACK).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.BLACK).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.BLACK).get())
@@ -485,6 +490,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended BROWN_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BROWN).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.BROWN).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.BROWN).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.BROWN).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.BROWN).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.BROWN).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.BROWN).get())
@@ -493,6 +499,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended RED_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.RED).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.RED).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.RED).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.RED).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.RED).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.RED).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.RED).get())
@@ -501,6 +508,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended ORANGE_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.ORANGE).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.ORANGE).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.ORANGE).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.ORANGE).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.ORANGE).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.ORANGE).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.ORANGE).get())
@@ -509,6 +517,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended YELLOW_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.YELLOW).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.YELLOW).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.YELLOW).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.YELLOW).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.YELLOW).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.YELLOW).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.YELLOW).get())
@@ -517,6 +526,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended LIME_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIME).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.LIME).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.LIME).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.LIME).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.LIME).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.LIME).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.LIME).get())
@@ -525,6 +535,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended GREEN_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.GREEN).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.GREEN).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.GREEN).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.GREEN).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.GREEN).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.GREEN).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.GREEN).get())
@@ -533,6 +544,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended CYAN_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.CYAN).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.CYAN).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.CYAN).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.CYAN).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.CYAN).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.CYAN).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.CYAN).get())
@@ -541,6 +553,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended LIGHT_BLUE_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.LIGHT_BLUE).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.LIGHT_BLUE).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.LIGHT_BLUE).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.LIGHT_BLUE).get())
@@ -549,6 +562,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended BLUE_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.BLUE).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.BLUE).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.BLUE).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.BLUE).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.BLUE).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.BLUE).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.BLUE).get())
@@ -557,6 +571,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended PURPLE_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.PURPLE).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PURPLE).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PURPLE).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.PURPLE).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PURPLE).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.PURPLE).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.PURPLE).get())
@@ -565,6 +580,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended MAGENTA_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.MAGENTA).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.MAGENTA).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.MAGENTA).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.MAGENTA).get())
@@ -573,6 +589,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended PINK_CALCITE_BRICKS = familyBuilder(BlockRegistry.CALCITE_BRICKS.get(DyeColor.PINK).get())
             .chiseled(BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PINK).get())
             .cracked(BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PINK).get())
+            .loophole(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.PINK).get())
             .pedestal(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PINK).get())
             .stoneBridge(BlockRegistry.CALCITE_BRIDGES.get(DyeColor.PINK).get())
             .storageBricks(BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.PINK).get())
@@ -607,6 +624,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended DEEP_FUNGAL_BRICKS = familyBuilder(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_DEEP_FUNGAL_BRICKS.get())
+            .loophole(BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
@@ -629,6 +647,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended POLISHED_DEEP_FUNGAL_BRICKS = familyBuilder(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+            .loophole(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS.get())
@@ -671,6 +690,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended FUNGAL_BRICKS = familyBuilder(BlockRegistry.FUNGAL_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_FUNGAL_BRICKS.get())
+            .loophole(BlockRegistry.FUNGAL_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
@@ -693,6 +713,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended POLISHED_FUNGAL_BRICKS = familyBuilder(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_POLISHED_FUNGAL_BRICKS.get())
+            .loophole(BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
             .stairs(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
@@ -736,6 +757,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .chiseled(BlockRegistry.CHISELED_FORTSTONE_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_FORTSTONE_BRICKS.get())
             .huge(BlockRegistry.HUGE_FORTSTONE_BRICKS.get())
+            .loophole(BlockRegistry.FORTSTONE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.FORTSTONE_BRICK_PEDESTAL.get())
             .storageBricks(BlockRegistry.STORAGE_FORTSTONE_BRICKS.get())
             .slab(BlockRegistry.FORTSTONE_BRICK_SLAB.get())
@@ -758,6 +780,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .chiseled(BlockRegistry.CHISELED_POLISHED_FORTSTONE_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_POLISHED_FORTSTONE_BRICKS.get())
             .huge(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICKS.get())
+            .loophole(BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE.get())
             .pedestal(BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL.get())
             .stoneBridge(BlockRegistry.FORTSTONE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_POLISHED_FORTSTONE_BRICKS.get())
@@ -771,6 +794,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .chiseled(BlockRegistry.CHISELED_POLISHED_FORTSTONE_TILES.get())
             .cracked(BlockRegistry.CRACKED_POLISHED_FORTSTONE_TILES.get())
             .huge(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILES.get())
+            .loophole(BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE.get())
             .pedestal(BlockRegistry.POLISHED_FORTSTONE_TILE_PEDESTAL.get())
             .stoneBridge(BlockRegistry.FORTSTONE_BRIDGE.get())
             .storageBricks(BlockRegistry.STORAGE_POLISHED_FORTSTONE_TILES.get())
@@ -816,6 +840,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended SANDSTONE_BRICKS = familyBuilder(BlockRegistry.SANDSTONE_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_SANDSTONE_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_SANDSTONE_BRICKS.get())
+            .loophole(BlockRegistry.SANDSTONE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.SANDSTONE_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
             .stairs(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
@@ -837,6 +862,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
     public static final BlockFamilyExtended RED_SANDSTONE_BRICKS = familyBuilder(BlockRegistry.RED_SANDSTONE_BRICKS.get())
             .chiseled(BlockRegistry.CHISELED_RED_SANDSTONE_BRICKS.get())
             .cracked(BlockRegistry.CRACKED_RED_SANDSTONE_BRICKS.get())
+            .loophole(BlockRegistry.RED_SANDSTONE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.RED_SANDSTONE_BRICK_PEDESTAL.get())
             .slab(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
             .stairs(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
@@ -847,6 +873,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended BLACKSTONE_BRICKS = familyBuilder(Blocks.POLISHED_BLACKSTONE_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_BLACKSTONE_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.BLACKSTONE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.BLACKSTONE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_BLACKSTONE_BRICKS.get())
@@ -856,6 +883,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended BRICKS = familyBuilder(Blocks.BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_BRICKS.get())
@@ -865,6 +893,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended DARK_PRISMARINE = familyBuilder(Blocks.DARK_PRISMARINE)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DARK_PRISMARINE_QUESTION_BLOCK.get())
+            .loophole(BlockRegistry.DARK_PRISMARINE_LOOPHOLE.get())
             .pedestal(BlockRegistry.DARK_PRISMARINE_PEDESTAL.get())
             .questionBlock(BlockRegistry.DARK_PRISMARINE_QUESTION_BLOCK.get())
             .smashableBlock(BlockRegistry.SMASHABLE_DARK_PRISMARINE.get())
@@ -874,6 +903,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended DEEPSLATE_BRICKS = familyBuilder(Blocks.DEEPSLATE_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.DEEPSLATE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS.get())
@@ -883,6 +913,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended DEEPSLATE_TILES = familyBuilder(Blocks.DEEPSLATE_TILES)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_DEEPSLATE_QUESTION_TILES.get())
+            .loophole(BlockRegistry.DEEPSLATE_TILE_LOOPHOLE.get())
             .pedestal(BlockRegistry.DEEPSLATE_TILE_PEDESTAL.get())
             .questionBlock(BlockRegistry.DEEPSLATE_QUESTION_TILES.get())
             .smashableBlock(BlockRegistry.SMASHABLE_DEEPSLATE_TILES.get())
@@ -891,6 +922,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended END_STONE_BRICKS = familyBuilder(Blocks.END_STONE_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.END_STONE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.END_STONE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.END_STONE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_END_STONE_BRICKS.get())
@@ -912,6 +944,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended MOSSY_STONE_BRICKS = familyBuilder(Blocks.MOSSY_STONE_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.MOSSY_STONE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS.get())
@@ -921,6 +954,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended MUD_BRICKS = familyBuilder(Blocks.MUD_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.MUD_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.MUD_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.MUD_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_MUD_BRICKS.get())
@@ -930,6 +964,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended NETHER_BRICKS = familyBuilder(Blocks.NETHER_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.NETHER_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.NETHER_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.NETHER_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_NETHER_BRICKS.get())
@@ -939,6 +974,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended PRISMARINE_BRICKS = familyBuilder(Blocks.PRISMARINE_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_PRISMARINE_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.PRISMARINE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.PRISMARINE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.PRISMARINE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_PRISMARINE_BRICKS.get())
@@ -948,6 +984,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended PURPUR_BLOCK = familyBuilder(Blocks.PURPUR_BLOCK)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_PURPUR_QUESTION_BLOCK.get())
+            .loophole(BlockRegistry.PURPUR_LOOPHOLE.get())
             .pedestal(BlockRegistry.PURPUR_BLOCK_PEDESTAL.get())
             .questionBlock(BlockRegistry.PURPUR_QUESTION_BLOCK.get())
             .smashableBlock(BlockRegistry.SMASHABLE_PURPUR_BLOCK.get())
@@ -957,6 +994,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended QUARTZ_BRICKS = familyBuilder(Blocks.QUARTZ_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_QUARTZ_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.QUARTZ_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.QUARTZ_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.QUARTZ_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_QUARTZ_BRICKS.get())
@@ -966,6 +1004,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended RED_NETHER_BRICKS = familyBuilder(Blocks.RED_NETHER_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.RED_NETHER_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.RED_NETHER_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.RED_NETHER_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_RED_NETHER_BRICKS.get())
@@ -975,6 +1014,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended STONE_BRICKS = familyBuilder(Blocks.STONE_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.STONE_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.STONE_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.STONE_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_STONE_BRICKS.get())
@@ -984,6 +1024,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
 
     public static final BlockFamilyExtended TUFF_BRICKS = familyBuilder(Blocks.TUFF_BRICKS)
             .invisibleQuestionBlock(BlockRegistry.INVISIBLE_TUFF_QUESTION_BRICKS.get())
+            .loophole(BlockRegistry.TUFF_BRICK_LOOPHOLE.get())
             .pedestal(BlockRegistry.TUFF_BRICK_PEDESTAL.get())
             .questionBlock(BlockRegistry.TUFF_QUESTION_BRICKS.get())
             .smashableBlock(BlockRegistry.SMASHABLE_TUFF_BRICKS.get())
@@ -997,6 +1038,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
     
     public static final BlockFamilyExtended CUT_COPPER = familyBuilder(Blocks.CUT_COPPER)
+            .loophole(BlockRegistry.COPPER_LOOPHOLE.get())
             .pedestal(BlockRegistry.CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_CUT_COPPER.get())
             .stoneBridge(BlockRegistry.COPPER_BRIDGE.get())
@@ -1009,6 +1051,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended WAXED_CUT_COPPER = familyBuilder(Blocks.WAXED_CUT_COPPER)
+            .loophole(BlockRegistry.WAXED_COPPER_LOOPHOLE.get())
             .pedestal(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WAXED_CUT_COPPER.get())
             .stoneBridge(BlockRegistry.WAXED_COPPER_BRIDGE.get())
@@ -1021,6 +1064,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended EXPOSED_CUT_COPPER = familyBuilder(Blocks.EXPOSED_CUT_COPPER)
+            .loophole(BlockRegistry.EXPOSED_COPPER_LOOPHOLE.get())
             .pedestal(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get())
             .stoneBridge(BlockRegistry.EXPOSED_COPPER_BRIDGE.get())
@@ -1033,6 +1077,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended WAXED_EXPOSED_CUT_COPPER = familyBuilder(Blocks.WAXED_EXPOSED_CUT_COPPER)
+            .loophole(BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE.get())
             .pedestal(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get())
             .stoneBridge(BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE.get())
@@ -1045,6 +1090,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended WEATHERED_CUT_COPPER = familyBuilder(Blocks.WEATHERED_CUT_COPPER)
+            .loophole(BlockRegistry.WEATHERED_COPPER_LOOPHOLE.get())
             .pedestal(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get())
             .stoneBridge(BlockRegistry.WEATHERED_COPPER_BRIDGE.get())
@@ -1057,6 +1103,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended WAXED_WEATHERED_CUT_COPPER = familyBuilder(Blocks.WAXED_WEATHERED_CUT_COPPER)
+            .loophole(BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE.get())
             .pedestal(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get())
             .stoneBridge(BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE.get())
@@ -1069,6 +1116,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended OXIDIZED_CUT_COPPER = familyBuilder(Blocks.OXIDIZED_CUT_COPPER)
+            .loophole(BlockRegistry.OXIDIZED_COPPER_LOOPHOLE.get())
             .pedestal(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER.get())
             .stoneBridge(BlockRegistry.OXIDIZED_COPPER_BRIDGE.get())
@@ -1081,6 +1129,7 @@ public class BlockFamilyRegistry extends BlockFamilies {
             .getFamily();
 
     public static final BlockFamilyExtended WAXED_OXIDIZED_CUT_COPPER = familyBuilder(Blocks.WAXED_OXIDIZED_CUT_COPPER)
+            .loophole(BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE.get())
             .pedestal(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get())
             .smashableBlock(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get())
             .stoneBridge(BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE.get())

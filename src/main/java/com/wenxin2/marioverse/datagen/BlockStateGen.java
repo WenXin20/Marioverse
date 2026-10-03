@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LoopholeBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BloomflowerBlock;
@@ -42,6 +43,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -368,6 +370,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.genLogBridgeStairs();
         this.genLogBridges();
         this.genLogPlatforms();
+        this.genLoopholes();
         this.genPedestals();
         this.genPressurePlates();
         this.genQuestionBlocks();
@@ -736,6 +739,30 @@ public class BlockStateGen extends BlockStateProvider {
 
                     this.logPlatformModel(block, logTexture, endTexture, topTexture);
                 } else this.logPlatformModel(block, logTexture, endTexture, topTexture);
+            }
+        }));
+    }
+
+    private void genLoopholes() {
+        Set<Block> generatedLoopholes = new HashSet<>();
+        BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> blockFamily.getVariants().forEach((variant, block) -> {
+            if (variant == BlockFamilyExtended.Variant.LOOPHOLE && generatedLoopholes.add(block)) {
+                String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+                if (blockName.equals("polished_fortstone_loophole")) {
+                    this.loopholeModel(block, modLoc("block/" + blockName + "_front"), modLoc("block/" + blockName + "_bottom"),
+                            modLoc("block/" + blockName + "_middle"), modLoc("block/" + blockName + "_top"),
+                            modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_inside"),
+                            modLoc("block/polished_fortstone_top"), modLoc("block/polished_fortstone_bottom"));
+                } else {
+                    ResourceLocation baseBlock = BuiltInRegistries.BLOCK.getKey(blockFamily.getBaseBlock());
+                    ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(baseBlock.getNamespace(),
+                            "block/" + baseBlock.getPath().replace("waxed_", ""));
+                    ResourceLocation topTexture = this.textureOrDefault(texture.withSuffix("_top"), texture);
+                    ResourceLocation bottomTexture = this.textureOrDefault(texture.withSuffix("_bottom"), topTexture);
+
+                    this.loopholeModel(block, texture, texture, texture, texture, texture, texture, topTexture, bottomTexture);
+                }
             }
         }));
     }
@@ -2231,6 +2258,43 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
+    private void loopholeModel(Block block, ResourceLocation frontTexture, ResourceLocation frontBottomTexture,
+                               ResourceLocation frontMiddleTexture, ResourceLocation frontTopTexture, ResourceLocation sideTexture,
+                               ResourceLocation insideTexture, ResourceLocation topTexture, ResourceLocation bottomTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, modLoc("block/template_loophole"))
+                .texture("particle", sideTexture).texture("front", frontTexture).texture("side", sideTexture)
+                .texture("top", topTexture).texture("bottom", bottomTexture);
+        ModelFile modelBottom = models()
+                .withExistingParent(modelName + "_bottom", modLoc("block/template_loophole_bottom"))
+                .texture("particle", sideTexture).texture("front", frontBottomTexture).texture("side", sideTexture)
+                .texture("top", topTexture).texture("bottom", bottomTexture);
+        ModelFile modelMiddle = models()
+                .withExistingParent(modelName + "_middle", modLoc("block/template_loophole_middle"))
+                .texture("particle", sideTexture).texture("front", frontMiddleTexture).texture("side", sideTexture)
+                .texture("top", topTexture).texture("bottom", bottomTexture);
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", modLoc("block/template_loophole_top"))
+                .texture("particle", sideTexture).texture("front", frontTopTexture).texture("side", sideTexture)
+                .texture("inside", insideTexture).texture("top", topTexture).texture("bottom", bottomTexture);
+
+        this.simpleBlockItem(block, model);
+
+        this.getVariantBuilder(block).forAllStatesExcept(state -> {
+            ModelFile columnModel = switch (state.getValue(LoopholeBlock.COLUMN)) {
+                case BOTTOM -> modelBottom;
+                case MIDDLE -> modelMiddle;
+                case TOP -> modelTop;
+                default -> model;
+            };
+            int yRot = state.getValue(LoopholeBlock.AXIS) == Direction.Axis.X ? 90 : 0;
+
+            return ConfiguredModel.builder().modelFile(columnModel).rotationY(yRot).uvLock(false).build();
+        }, LoopholeBlock.WATERLOGGED);
+    }
+
     private void pedestalModel(Block block, ResourceLocation mainTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
@@ -3115,5 +3179,10 @@ public class BlockStateGen extends BlockStateProvider {
     private float getV2(Direction blockDir, Direction faceDir) {
         Direction rotated = rotateFace(faceDir, blockDir);
         return flipV(rotated, getFlipAxis(blockDir, rotated)) ? 0f : 16f;
+    }
+
+    private ResourceLocation textureOrDefault(ResourceLocation texture, ResourceLocation defaultTexture) {
+        return this.models().existingFileHelper.exists(texture, PackType.CLIENT_RESOURCES, ".png", "textures")
+                ? texture : defaultTexture;
     }
 }

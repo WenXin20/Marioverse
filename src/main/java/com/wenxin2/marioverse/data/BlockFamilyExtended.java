@@ -169,6 +169,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder loophole(Block block) {
+            this.family.variants.put(Variant.LOOPHOLE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder mosaic(Block block) {
             this.family.variants.put(Variant.MOSAIC, block);
             return this;
@@ -340,6 +345,7 @@ public class BlockFamilyExtended {
         LARGE_ARROW_SIGN("large_arrow_sign"),
         LARGE_WALL_ARROW_SIGN("large_wall_arrow_sign"),
         LOG_PLATFORM("log_platform"),
+        LOOPHOLE("loophole"),
         MOSAIC("mosaic"),
         PANELS("panels"),
         PANELS_FROM_BOARDS("panels_from_boards"),

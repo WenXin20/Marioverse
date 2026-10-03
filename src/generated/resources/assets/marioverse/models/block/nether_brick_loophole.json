@@ -1,0 +1,10 @@
+{
+  "parent": "marioverse:block/template_loophole",
+  "textures": {
+    "bottom": "minecraft:block/nether_bricks",
+    "front": "minecraft:block/nether_bricks",
+    "particle": "minecraft:block/nether_bricks",
+    "side": "minecraft:block/nether_bricks",
+    "top": "minecraft:block/nether_bricks"
+  }
+}

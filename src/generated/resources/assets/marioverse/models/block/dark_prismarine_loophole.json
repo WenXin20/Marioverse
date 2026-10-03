@@ -1,0 +1,10 @@
+{
+  "parent": "marioverse:block/template_loophole",
+  "textures": {
+    "bottom": "minecraft:block/dark_prismarine",
+    "front": "minecraft:block/dark_prismarine",
+    "particle": "minecraft:block/dark_prismarine",
+    "side": "minecraft:block/dark_prismarine",
+    "top": "minecraft:block/dark_prismarine"
+  }
+}

@@ -3,6 +3,9 @@
     "marioverse:copper_bridge": {
       "next_oxidation_stage": "marioverse:exposed_copper_bridge"
     },
+    "marioverse:copper_loophole": {
+      "next_oxidation_stage": "marioverse:exposed_copper_loophole"
+    },
     "marioverse:copper_question_block": {
       "next_oxidation_stage": "marioverse:exposed_copper_question_block"
     },
@@ -11,6 +14,9 @@
     },
     "marioverse:exposed_copper_bridge": {
       "next_oxidation_stage": "marioverse:weathered_copper_bridge"
+    },
+    "marioverse:exposed_copper_loophole": {
+      "next_oxidation_stage": "marioverse:weathered_copper_loophole"
     },
     "marioverse:exposed_copper_question_block": {
       "next_oxidation_stage": "marioverse:weathered_copper_question_block"
@@ -47,6 +53,9 @@
     },
     "marioverse:weathered_copper_bridge": {
       "next_oxidation_stage": "marioverse:oxidized_copper_bridge"
+    },
+    "marioverse:weathered_copper_loophole": {
+      "next_oxidation_stage": "marioverse:oxidized_copper_loophole"
     },
     "marioverse:weathered_copper_question_block": {
       "next_oxidation_stage": "marioverse:oxidized_copper_question_block"

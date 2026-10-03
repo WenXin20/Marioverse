@@ -60,6 +60,7 @@ public class TagRegistry {
     public static final TagKey<Block> CALCITE_BLOCKS = blockTags("calcite");
     public static final TagKey<Block> CALCITE_BRICK_BLOCKS = blockTags("calcite_bricks");
     public static final TagKey<Block> CALCITE_BRICK_PEDESTAL_BLOCKS = blockTags("calcite_brick_pedestals");
+    public static final TagKey<Block> CALCITE_BRICK_LOOPHOLE_BLOCKS = blockTags("calcite_brick_loopholes");
     public static final TagKey<Block> CANNOT_USE_AS_DISGUISE = blockTags("cannot_use_as_disguise");
     public static final TagKey<Block> CAVE_PIRANHA_PLANTS_SPAWNABLE_ON = blockTags("cave_piranha_plants_spawnable_on");
     public static final TagKey<Block> CHECKPOINT_FLAG_BLOCKS = blockTags("checkpoint_flags");
@@ -108,6 +109,7 @@ public class TagRegistry {
     public static final TagKey<Block> ICE_CUBE_EXTINGUISHES = blockTags("ice_cube_extinguishes");
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
     public static final TagKey<Block> LARGE_ARROW_SIGNS = blockTags("large_arrow_signs");
+    public static final TagKey<Block> LOOPHOLE_BLOCKS = blockTags("loopholes");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK = blockTags("mega_mushroom_can_break");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE = blockTags("mega_mushroom_can_break/adventure_mode");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING = blockTags("mega_mushroom_can_break/falling");
@@ -202,6 +204,7 @@ public class TagRegistry {
     public static final TagKey<Item> BRIDGE_STAIR_ITEMS = itemTags("bridge_stairs");
     public static final TagKey<Item> CALCITE_BRICK_ITEMS = itemTags("calcite_bricks");
     public static final TagKey<Item> CALCITE_BRICK_PEDESTAL_ITEMS = itemTags("calcite_brick_pedestals");
+    public static final TagKey<Item> CALCITE_BRICK_LOOPHOLE_ITEMS = itemTags("calcite_brick_loopholes");
     public static final TagKey<Item> CALCITE_ITEMS = itemTags("calcite");
     public static final TagKey<Item> CANNOT_PLACE_IN_CHECKPOINT_FLAGS = itemTags("cannot_place_in_checkpoint_flags");
     public static final TagKey<Item> CANNOT_PLACE_IN_QUESTION_BLOCKS = itemTags("cannot_place_in_question_blocks");
@@ -266,6 +269,7 @@ public class TagRegistry {
     public static final TagKey<Item> KOOPA_TROOPA_SPAWN_EGGS = itemTags("spawn_eggs/koopa_troopa");
     public static final TagKey<Item> LARGE_ARROW_SIGN_ITEMS = itemTags("large_arrow_signs");
     public static final TagKey<Item> MALE_COSTUMES = itemTags("costumes/male");;
+    public static final TagKey<Item> LOOPHOLE_ITEMS = itemTags("loopholes");
     public static final TagKey<Item> MUSHROOM_TRAMPOLINE_BLOCK_ITEMS = itemTags("mushroom_trampoline_blocks");
     public static final TagKey<Item> MUSHROOT_LOG_ITEMS = itemTags("mushroot_logs");
     public static final TagKey<Item> MUSHROOT_PLANK_ITEMS = itemTags("mushroot_planks");

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:loopholes",
+  "key": {
+    "#": {
+      "item": "minecraft:exposed_cut_copper"
+    }
+  },
+  "pattern": [
+    "# #",
+    "# #",
+    "# #"
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:exposed_copper_loophole"
+  }
+}

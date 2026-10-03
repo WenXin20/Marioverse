@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.blocks.GrassyStoneBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LoopholeBlock;
 import com.wenxin2.marioverse.blocks.RoseHedgeBlock;
 import com.wenxin2.marioverse.blocks.ShortShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.ShroomgrassBlock;
@@ -75,6 +76,7 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperBridgeBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperLoopholeBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperPedestalBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
@@ -142,6 +144,8 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_PEDESTALS =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_LOOPHOLES =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHISELED_CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CRACKED_CALCITE_BRICKS =
@@ -171,6 +175,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> ACACIA_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> ACACIA_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
+    public static final DeferredBlock<Block> AMETHYST_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
     public static final DeferredBlock<Block> AMETHYST_BRICK_STAIRS;
@@ -197,6 +202,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BIRCH_PICKET_FENCE;
     public static final DeferredBlock<Block> BIRCH_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> BIRCH_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> BLACKSTONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_BRIDGE;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
@@ -207,6 +213,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> BRAIN_CORAL_TOWER;
     public static final DeferredBlock<Block> BRICK_BRIDGE;
+    public static final DeferredBlock<Block> BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BUBBLE_CORAL_TOWER;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
@@ -245,6 +252,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> COBBLED_FORTSTONE_WALL;
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> COPPER_BRIDGE;
+    public static final DeferredBlock<Block> COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CRACKED_DEEP_FUNGAL_BRICKS;
@@ -274,6 +282,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> DARK_OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> DARK_PRISMARINE_BRIDGE;
+    public static final DeferredBlock<Block> DARK_PRISMARINE_LOOPHOLE;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DARK_SPOOKROOT_LEAVES;
@@ -283,12 +292,15 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEAD_HORN_CORAL_TOWER;
     public static final DeferredBlock<Block> DEAD_TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> DEATH_BLOCK;
+    public static final DeferredBlock<Block> DEEPSLATE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> DEEPSLATE_BRIDGE;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_TILES;
+    public static final DeferredBlock<Block> DEEPSLATE_TILE_LOOPHOLE;
     public static final DeferredBlock<Block> DEEPSLATE_TILE_PEDESTAL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_STAIRS;
@@ -308,15 +320,18 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> DEEP_WET_MUD;
     public static final DeferredBlock<Block> DIORITE_BRIDGE;
+    public static final DeferredBlock<Block> END_STONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> END_STONE_BRIDGE;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> EXPOSED_COPPER_BRIDGE;
+    public static final DeferredBlock<Block> EXPOSED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> FIRE_CORAL_TOWER;
     public static final DeferredBlock<Block> FORTSTONE;
     public static final DeferredBlock<Block> FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> FORTSTONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> FORTSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FORTSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> FORTSTONE_BRICK_STAIRS;
@@ -330,6 +345,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FORTSTONE_STAIRS;
     public static final DeferredBlock<Block> FORTSTONE_WALL;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> FUNGAL_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> FUNGAL_BRICK_STAIRS;
@@ -504,10 +520,12 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MANGROVE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MONSTER_DEATH_BLOCK;
+    public static final DeferredBlock<Block> MOSSY_STONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MOSSY_STONE_BRIDGE;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUD_BRICK_BRIDGE;
+    public static final DeferredBlock<Block> MUD_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
     public static final DeferredBlock<Block> MUSHROOT_ARROW_SIGN;
@@ -546,6 +564,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_WALL_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WOOD;
     public static final DeferredBlock<Block> NETHER_BRICK_BRIDGE;
+    public static final DeferredBlock<Block> NETHER_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> OAK_ARROW_SIGN;
@@ -558,6 +577,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> ON_OFF_SWITCH;
     public static final DeferredBlock<Block> ORANGE_BLOOMFLOWER;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_BRIDGE;
+    public static final DeferredBlock<Block> OXIDIZED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
@@ -571,6 +591,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_AMETHYST_STAIRS;
     public static final DeferredBlock<Block> POLISHED_AMETHYST_WALL;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICK_STAIRS;
@@ -585,6 +606,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_LOOPHOLE;
     public static final DeferredBlock<Block> POLISHED_FORTSTONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_FORTSTONE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILES;
@@ -594,6 +616,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_WALL;
     public static final DeferredBlock<Block> POLISHED_FORTSTONE_WALL;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_STAIRS;
@@ -627,13 +650,16 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_WHITE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_YELLOW_BLOOMFLOWER;
+    public static final DeferredBlock<Block> PRISMARINE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> PRISMARINE_BRIDGE;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPLE_BLOOMFLOWER;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
     public static final DeferredBlock<Block> PURPUR_BRIDGE;
+    public static final DeferredBlock<Block> PURPUR_LOOPHOLE;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> QUARTZ_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> QUARTZ_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> QUARTZ_BRIDGE;
     public static final DeferredBlock<Block> QUARTZ_QUESTION_BRICKS;
@@ -643,11 +669,13 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_BRIDGE;
+    public static final DeferredBlock<Block> RED_NETHER_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
     public static final DeferredBlock<Block> RED_QUICKSAND;
     public static final DeferredBlock<Block> RED_ROSE_HEDGE;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_STAIRS;
@@ -669,6 +697,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> ROSALINA_ABILITY_BLOCK;
     public static final DeferredBlock<Block> SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> SANDSTONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_STAIRS;
@@ -754,6 +783,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SPRUCE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STEVE_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> STONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> STONE_BRIDGE;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
@@ -824,6 +854,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> TALL_SHROOMGRASS;
     public static final DeferredBlock<Block> TUBE_CORAL_TOWER;
+    public static final DeferredBlock<Block> TUFF_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> TUFF_BRIDGE;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
@@ -838,18 +869,23 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WARPED_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> WAXED_COPPER_BRIDGE;
+    public static final DeferredBlock<Block> WAXED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_BRIDGE;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_BRIDGE;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_BRIDGE;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WEATHERED_COPPER_BRIDGE;
+    public static final DeferredBlock<Block> WEATHERED_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WET_MUD;
@@ -2052,6 +2088,9 @@ public class BlockRegistry {
         FUNGAL_BRICK_PEDESTAL = registerBlock("fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
 
+        FUNGAL_BRICK_LOOPHOLE = registerBlock("fungal_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
+
         CHISELED_FUNGAL_BRICKS = registerBlock("chiseled_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
 
@@ -2119,6 +2158,9 @@ public class BlockRegistry {
         POLISHED_FUNGAL_BRICK_PEDESTAL = registerBlock("polished_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_BRICKS.get())));
 
+        POLISHED_FUNGAL_BRICK_LOOPHOLE = registerBlock("polished_fungal_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_BRICKS.get())));
+
         CHISELED_POLISHED_FUNGAL_BRICKS = registerBlock("chiseled_polished_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_BRICKS.get())));
 
@@ -2182,6 +2224,9 @@ public class BlockRegistry {
         DEEP_FUNGAL_BRICK_PEDESTAL = registerBlock("deep_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
+        DEEP_FUNGAL_BRICK_LOOPHOLE = registerBlock("deep_fungal_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
+
         CHISELED_DEEP_FUNGAL_BRICKS = registerBlock("chiseled_deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
@@ -2244,6 +2289,9 @@ public class BlockRegistry {
         POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL = registerBlock("polished_deep_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_BRICKS.get())));
 
+        POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE = registerBlock("polished_deep_fungal_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_BRICKS.get())));
+
         CHISELED_POLISHED_DEEP_FUNGAL_BRICKS = registerBlock("chiseled_polished_deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_BRICKS.get())));
 
@@ -2305,6 +2353,9 @@ public class BlockRegistry {
 
         FORTSTONE_BRICK_PEDESTAL = registerBlock("fortstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+        FORTSTONE_BRICK_LOOPHOLE = registerBlock("fortstone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
 
         CHISELED_FORTSTONE_BRICKS = registerBlock("chiseled_fortstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
@@ -2375,6 +2426,9 @@ public class BlockRegistry {
 
         POLISHED_FORTSTONE_BRICK_PEDESTAL = registerBlock("polished_fortstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        POLISHED_FORTSTONE_LOOPHOLE = registerBlock("polished_fortstone_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
 
         CHISELED_POLISHED_FORTSTONE_BRICKS = registerBlock("chiseled_polished_fortstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
@@ -2465,6 +2519,9 @@ public class BlockRegistry {
         AMETHYST_BRICK_PEDESTAL = registerBlock("amethyst_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
 
+        AMETHYST_BRICK_LOOPHOLE = registerBlock("amethyst_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
+
         AMETHYST_BRIDGE = registerBlock("amethyst_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
 
@@ -2526,6 +2583,9 @@ public class BlockRegistry {
         SANDSTONE_BRICK_PEDESTAL = registerBlock("sandstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
 
+        SANDSTONE_BRICK_LOOPHOLE = registerBlock("sandstone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
+
         SANDSTONE_BRIDGE = registerBlock("sandstone_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
 
@@ -2562,6 +2622,9 @@ public class BlockRegistry {
 
         RED_SANDSTONE_BRICK_PEDESTAL = registerBlock("red_sandstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
+
+        RED_SANDSTONE_BRICK_LOOPHOLE = registerBlock("red_sandstone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
 
         RED_SANDSTONE_BRIDGE = registerBlock("red_sandstone_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
@@ -2600,6 +2663,9 @@ public class BlockRegistry {
         STONE_BRICK_PEDESTAL = registerBlock("stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
+        STONE_BRICK_LOOPHOLE = registerBlock("stone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+
         STONE_BRIDGE = registerBlock("stone_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
@@ -2629,6 +2695,9 @@ public class BlockRegistry {
         MOSSY_STONE_BRICK_PEDESTAL = registerBlock("mossy_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
 
+        MOSSY_STONE_BRICK_LOOPHOLE = registerBlock("mossy_stone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
+
         MOSSY_STONE_BRIDGE = registerBlock("mossy_stone_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
 
@@ -2648,6 +2717,9 @@ public class BlockRegistry {
 
         TUFF_BRICK_PEDESTAL = registerBlock("tuff_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
+
+        TUFF_BRICK_LOOPHOLE = registerBlock("tuff_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
 
         TUFF_BRIDGE = registerBlock("tuff_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
@@ -2669,6 +2741,9 @@ public class BlockRegistry {
         DEEPSLATE_BRICK_PEDESTAL = registerBlock("deepslate_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
 
+        DEEPSLATE_BRICK_LOOPHOLE = registerBlock("deepslate_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
+
         DEEPSLATE_BRIDGE = registerBlock("deepslate_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
 
@@ -2689,6 +2764,9 @@ public class BlockRegistry {
         DEEPSLATE_TILE_PEDESTAL = registerBlock("deepslate_tile_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
 
+        DEEPSLATE_TILE_LOOPHOLE = registerBlock("deepslate_tile_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
+
 
         QUESTION_BRICKS = registerBlock("question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
@@ -2705,6 +2783,9 @@ public class BlockRegistry {
 
         BRICK_PEDESTAL = registerBlock("brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
+
+        BRICK_LOOPHOLE = registerBlock("brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
         BRICK_BRIDGE = registerBlock("brick_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
@@ -2726,6 +2807,9 @@ public class BlockRegistry {
         MUD_BRICK_PEDESTAL = registerBlock("mud_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
 
+        MUD_BRICK_LOOPHOLE = registerBlock("mud_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
+
         MUD_BRICK_BRIDGE = registerBlock("mud_brick_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
 
@@ -2745,6 +2829,9 @@ public class BlockRegistry {
 
         PRISMARINE_BRICK_PEDESTAL = registerBlock("prismarine_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
+
+        PRISMARINE_BRICK_LOOPHOLE = registerBlock("prismarine_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
 
         PRISMARINE_BRIDGE = registerBlock("prismarine_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
@@ -2766,6 +2853,9 @@ public class BlockRegistry {
         DARK_PRISMARINE_PEDESTAL = registerBlock("dark_prismarine_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
 
+        DARK_PRISMARINE_LOOPHOLE = registerBlock("dark_prismarine_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+
         DARK_PRISMARINE_BRIDGE = registerBlock("dark_prismarine_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
 
@@ -2785,6 +2875,9 @@ public class BlockRegistry {
 
         NETHER_BRICK_PEDESTAL = registerBlock("nether_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
+
+        NETHER_BRICK_LOOPHOLE = registerBlock("nether_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
         NETHER_BRICK_BRIDGE = registerBlock("nether_brick_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
@@ -2806,6 +2899,9 @@ public class BlockRegistry {
         RED_NETHER_BRICK_PEDESTAL = registerBlock("red_nether_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
+        RED_NETHER_BRICK_LOOPHOLE = registerBlock("red_nether_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
+
         RED_NETHER_BRICK_BRIDGE = registerBlock("red_nether_brick_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
@@ -2825,6 +2921,9 @@ public class BlockRegistry {
 
         BLACKSTONE_BRICK_PEDESTAL = registerBlock("blackstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
+
+        BLACKSTONE_BRICK_LOOPHOLE = registerBlock("blackstone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
 
         BLACKSTONE_BRIDGE = registerBlock("blackstone_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
@@ -2846,6 +2945,9 @@ public class BlockRegistry {
         END_STONE_BRICK_PEDESTAL = registerBlock("end_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
+        END_STONE_BRICK_LOOPHOLE = registerBlock("end_stone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
+
         END_STONE_BRIDGE = registerBlock("end_stone_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
@@ -2865,6 +2967,9 @@ public class BlockRegistry {
 
         PURPUR_BLOCK_PEDESTAL = registerBlock("purpur_block_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
+
+        PURPUR_LOOPHOLE = registerBlock("purpur_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
         PURPUR_BRIDGE = registerBlock("purpur_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
@@ -2886,6 +2991,9 @@ public class BlockRegistry {
         QUARTZ_BRICK_PEDESTAL = registerBlock("quartz_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
 
+        QUARTZ_BRICK_LOOPHOLE = registerBlock("quartz_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+
         QUARTZ_BRIDGE = registerBlock("quartz_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
 
@@ -2905,6 +3013,9 @@ public class BlockRegistry {
 
         CUT_COPPER_PEDESTAL = registerBlock("cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+
+        COPPER_LOOPHOLE = registerBlock("copper_loophole",
+                () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
         COPPER_BRIDGE = registerBlock("copper_bridge",
                 () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
@@ -2926,6 +3037,9 @@ public class BlockRegistry {
         EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("exposed_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
 
+        EXPOSED_COPPER_LOOPHOLE = registerBlock("exposed_copper_loophole",
+                () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
+
         EXPOSED_COPPER_BRIDGE = registerBlock("exposed_copper_bridge",
                 () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_CUT_COPPER)));
 
@@ -2945,6 +3059,9 @@ public class BlockRegistry {
 
         WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("weathered_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
+
+        WEATHERED_COPPER_LOOPHOLE = registerBlock("weathered_copper_loophole",
+                () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
 
         WEATHERED_COPPER_BRIDGE = registerBlock("weathered_copper_bridge",
                 () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_CUT_COPPER)));
@@ -2966,6 +3083,9 @@ public class BlockRegistry {
         OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("oxidized_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
 
+        OXIDIZED_COPPER_LOOPHOLE = registerBlock("oxidized_copper_loophole",
+                () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+
         OXIDIZED_COPPER_BRIDGE = registerBlock("oxidized_copper_bridge",
                 () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_CUT_COPPER)));
 
@@ -2985,6 +3105,9 @@ public class BlockRegistry {
 
         WAXED_CUT_COPPER_PEDESTAL = registerBlock("waxed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
+
+        WAXED_COPPER_LOOPHOLE = registerBlock("waxed_copper_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
 
         WAXED_COPPER_BRIDGE = registerBlock("waxed_copper_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
@@ -3006,6 +3129,9 @@ public class BlockRegistry {
         WAXED_EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("waxed_exposed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
 
+        WAXED_EXPOSED_COPPER_LOOPHOLE = registerBlock("waxed_exposed_copper_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+
         WAXED_EXPOSED_COPPER_BRIDGE = registerBlock("waxed_exposed_copper_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_CUT_COPPER)));
 
@@ -3026,6 +3152,9 @@ public class BlockRegistry {
         WAXED_WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("waxed_weathered_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
 
+        WAXED_WEATHERED_COPPER_LOOPHOLE = registerBlock("waxed_weathered_copper_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+
         WAXED_WEATHERED_COPPER_BRIDGE = registerBlock("waxed_weathered_copper_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_CUT_COPPER)));
 
@@ -3045,6 +3174,9 @@ public class BlockRegistry {
 
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        WAXED_OXIDIZED_COPPER_LOOPHOLE = registerBlock("waxed_oxidized_copper_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
         WAXED_OXIDIZED_COPPER_BRIDGE = registerBlock("waxed_oxidized_copper_bridge",
                 () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_CUT_COPPER)));
@@ -3093,6 +3225,10 @@ public class BlockRegistry {
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CALCITE_BRIDGES.put(color, registerBlock(color.getName() + "_calcite_bridge",
                         () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(CALCITE_BRICKS.get(color).get())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_LOOPHOLES.put(color, registerBlock(color.getName() + "_calcite_brick_loophole",
+                        () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(CALCITE_BRICKS.get(color).get())))));
 
         CLASSIC_CHECKPOINT_FLAG = registerNoItemBlock("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlock(3, null, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)

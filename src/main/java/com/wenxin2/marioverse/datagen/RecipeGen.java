@@ -181,6 +181,7 @@ public class RecipeGen extends RecipeUtils {
         oneToOneRecipe(3, "red_dye", Items.RED_DYE, RecipeCategory.MISC, BlockRegistry.RED_ROSE_HEDGE, output);
         oneToOneRecipe(3, "white_dye", Items.WHITE_DYE, RecipeCategory.MISC, BlockRegistry.WHITE_ROSE_HEDGE, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, true, output);
+        plusRecipe(1, "loopholes", BlockRegistry.RED_NETHER_BRICK_LOOPHOLE, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_LOOPHOLE, true, output);
         plusRecipe(1, "bridges", BlockRegistry.RED_NETHER_BRICK_BRIDGE, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_BRIDGE, true, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, true, output);
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, true, output);
@@ -197,6 +198,8 @@ public class RecipeGen extends RecipeUtils {
         twoByOneRecipe(1, "splunkin_o_lantern", BlockRegistry.SPLUNKIN_O_LANTERN, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, Blocks.TORCH, false, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.VINE, output);
+        twoItemRecipe(1, "loopholes", BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_LOOPHOLE, Blocks.MOSS_BLOCK, output);
+        twoItemRecipe(1, "loopholes", BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_LOOPHOLE, Blocks.VINE, output);
         twoItemRecipe(1, "bridges", BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRIDGE, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "bridges", BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRIDGE, Blocks.VINE, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
@@ -240,6 +243,10 @@ public class RecipeGen extends RecipeUtils {
         waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK, BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_COPPER_LOOPHOLE, BlockRegistry.COPPER_LOOPHOLE, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE, BlockRegistry.EXPOSED_COPPER_LOOPHOLE, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE, BlockRegistry.WEATHERED_COPPER_LOOPHOLE, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE, Items.HONEYCOMB, output);
 
         stonecuttingFromBase(2, BlockRegistry.DEEP_FUNGAL_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_COBBLESTONE, output);
         stonecuttingFromBase(2, BlockRegistry.FORTSTONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.COBBLED_FORTSTONE, output);
@@ -272,6 +279,14 @@ public class RecipeGen extends RecipeUtils {
         stonecutting(1, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_CUT_COPPER, output);
         stonecutting(1, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_CUT_COPPER, output);
         stonecutting(1, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.EXPOSED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WAXED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_EXPOSED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WEATHERED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_CUT_COPPER, output);
 
         stonecutting(1, BlockRegistry.SMASHABLE_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
         stonecutting(1, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
@@ -290,6 +305,14 @@ public class RecipeGen extends RecipeUtils {
         stonecuttingFromBase(4, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_COPPER, output);
         stonecuttingFromBase(4, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_COPPER, output);
         stonecuttingFromBase(4, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.COPPER_BLOCK, output);
+        stonecuttingFromBase(4, BlockRegistry.EXPOSED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.WAXED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_COPPER_BLOCK, output);
+        stonecuttingFromBase(4, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_EXPOSED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.WEATHERED_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_COPPER, output);
 
         stonecuttingFromBase(4, BlockRegistry.SMASHABLE_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Blocks.COPPER_BLOCK, output);
         stonecuttingFromBase(4, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_COPPER, output);

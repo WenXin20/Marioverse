@@ -44,6 +44,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.CALCITE_BLOCKS, TagRegistry.CALCITE_ITEMS);
         copy(TagRegistry.CALCITE_BRICK_BLOCKS, TagRegistry.CALCITE_BRICK_ITEMS);
         copy(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS, TagRegistry.CALCITE_BRICK_PEDESTAL_ITEMS);
+        copy(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS, TagRegistry.CALCITE_BRICK_LOOPHOLE_ITEMS);
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.CORAL_TOWER_BLOCKS, TagRegistry.CORAL_TOWERS);
@@ -83,6 +84,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.HEDGE_SNOWY_BLOCKS, TagRegistry.HEDGE_SNOWY_ITEMS);
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.LARGE_ARROW_SIGNS, TagRegistry.LARGE_ARROW_SIGN_ITEMS);
+        copy(TagRegistry.LOOPHOLE_BLOCKS, TagRegistry.LOOPHOLE_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOT_LOGS, TagRegistry.MUSHROOT_LOG_ITEMS);
         copy(TagRegistry.MUSHROOT_PLANKS, TagRegistry.MUSHROOT_PLANK_ITEMS);

@@ -1,0 +1,10 @@
+{
+  "parent": "marioverse:block/template_loophole_bottom",
+  "textures": {
+    "bottom": "marioverse:block/fungal_bricks",
+    "front": "marioverse:block/fungal_bricks",
+    "particle": "marioverse:block/fungal_bricks",
+    "side": "marioverse:block/fungal_bricks",
+    "top": "marioverse:block/fungal_bricks"
+  }
+}

@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.LoopholeBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.integration.CompatRegistry;
@@ -31,6 +32,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class MudModule extends StoneZoneModule {
     public final SimpleEntrySet<MudType, Block> brickBridge;
+    public final SimpleEntrySet<MudType, Block> brickLoophole;
     public final SimpleEntrySet<MudType, Block> brickPedestal;
     public final SimpleEntrySet<MudType, Block> invisibleQuestionBlock;
     public final SimpleEntrySet<MudType, Block> questionBlock;
@@ -84,6 +86,21 @@ public class MudModule extends StoneZoneModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(brickPedestal);
+
+        brickLoophole = StoneZoneEntrySet.of(MudType.class, "brick_loophole",
+                        BlockRegistry.MUD_BRICK_LOOPHOLE, () -> VanillaMudTypes.MUD,
+                        mudType -> new LoopholeBlock(Utils.copyPropertySafe(mudType.bricksOrStone())))
+                .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
+                .addTag(TagRegistry.LOOPHOLE_BLOCKS, Registries.BLOCK)
+                .addTag(TagRegistry.LOOPHOLE_ITEMS, Registries.ITEM)
+                .addRecipe(modRes("mud_brick_loophole_from_packed_mud_stonecutting"))
+                .addRecipe(modRes("mud_brick_loophole_stonecutting"))
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
+                .setTab(buildingBlocksTab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(brickLoophole);
 
         invisibleQuestionBlock = StoneZoneEntrySet.of(MudType.class, "question_bricks", "invisible",
                         BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS, () -> VanillaMudTypes.MUD,

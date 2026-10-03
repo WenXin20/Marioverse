@@ -41,8 +41,6 @@ public class PlatformBlock extends SlabBlock {
 
     protected static final VoxelShape BOTTOM_COLLISION = Block
             .box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
-    protected static final VoxelShape DOUBLE_COLLISION = Block
-            .box(0.0, 0.0, 0.0, 16.0, 16.0, 16.0);
     protected static final VoxelShape TOP_COLLISION = Block
             .box(0.0, 8.0, 0.0, 16.0, 16.0, 16.0);
 

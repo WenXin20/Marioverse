@@ -398,6 +398,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.FUNGAL_BRICK_STAIRS);
             add(event, BlockRegistry.FUNGAL_BRICK_SLAB);
             add(event, BlockRegistry.FUNGAL_BRICK_WALL);
+            add(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL);
+            add(event, BlockRegistry.FUNGAL_BRICK_LOOPHOLE);
             add(event, BlockRegistry.CHISELED_FUNGAL_BRICKS);
 
             add(event, BlockRegistry.POLISHED_FUNGAL_STONE);
@@ -410,6 +412,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS);
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB);
             add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_WALL);
+            add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL);
+            add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE);
             add(event, BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS);
 
             add(event, BlockRegistry.HARD_FUNGAL_BLOCK);
@@ -442,6 +446,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS);
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_SLAB);
             add(event, BlockRegistry.DEEP_FUNGAL_BRICK_WALL);
+            add(event, BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL);
+            add(event, BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE);
             add(event, BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS);
 
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE);
@@ -454,6 +460,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS);
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB);
             add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL);
+            add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL);
+            add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE);
             add(event, BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS);
 
             add(event, BlockRegistry.HARD_DEEP_FUNGAL_BLOCK);
@@ -486,6 +494,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.FORTSTONE_BRICK_STAIRS);
             add(event, BlockRegistry.FORTSTONE_BRICK_SLAB);
             add(event, BlockRegistry.FORTSTONE_BRICK_WALL);
+            add(event, BlockRegistry.FORTSTONE_BRICK_PEDESTAL);
+            add(event, BlockRegistry.FORTSTONE_BRICK_LOOPHOLE);
             add(event, BlockRegistry.CHISELED_FORTSTONE_BRICKS);
 
             add(event, BlockRegistry.HUGE_FORTSTONE_BRICKS);
@@ -503,6 +513,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_STAIRS);
             add(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_SLAB);
             add(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_WALL);
+            add(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL);
+            add(event, BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE);
             add(event, BlockRegistry.CHISELED_POLISHED_FORTSTONE_BRICKS);
 
             add(event, BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICKS);
@@ -515,6 +527,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.POLISHED_FORTSTONE_TILE_STAIRS);
             add(event, BlockRegistry.POLISHED_FORTSTONE_TILE_SLAB);
             add(event, BlockRegistry.POLISHED_FORTSTONE_TILE_WALL);
+            add(event, BlockRegistry.POLISHED_FORTSTONE_TILE_PEDESTAL);
             add(event, BlockRegistry.CHISELED_POLISHED_FORTSTONE_TILES);
 
             add(event, BlockRegistry.HUGE_POLISHED_FORTSTONE_TILES);
@@ -544,6 +557,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.AMETHYST_BRICK_STAIRS);
             add(event, BlockRegistry.AMETHYST_BRICK_SLAB);
             add(event, BlockRegistry.AMETHYST_BRICK_WALL);
+            add(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL);
+            add(event, BlockRegistry.AMETHYST_BRICK_LOOPHOLE);
             add(event, BlockRegistry.CHISELED_AMETHYST_BRICKS);
             add(event, BlockRegistry.AMETHYST_BRIDGE);
 
@@ -591,14 +606,6 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER);
             add(event, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER);
 
-            add(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL);
-            add(event, BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL);
-            add(event, BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL);
-            add(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL);
-            add(event, BlockRegistry.FORTSTONE_BRICK_PEDESTAL);
-            add(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL);
-            add(event, BlockRegistry.POLISHED_FORTSTONE_TILE_PEDESTAL);
-            add(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL);
             add(event, BlockRegistry.STONE_BRICK_PEDESTAL);
             add(event, BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL);
             add(event, BlockRegistry.DEEPSLATE_BRICK_PEDESTAL);
@@ -624,6 +631,31 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL);
             add(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL);
             add(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
+            add(event, BlockRegistry.STONE_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.DEEPSLATE_TILE_LOOPHOLE);
+            add(event, BlockRegistry.TUFF_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.BRICK_LOOPHOLE);
+            add(event, BlockRegistry.MUD_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.SANDSTONE_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.RED_SANDSTONE_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.PRISMARINE_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.DARK_PRISMARINE_LOOPHOLE);
+            add(event, BlockRegistry.NETHER_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.RED_NETHER_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.BLACKSTONE_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.QUARTZ_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.END_STONE_BRICK_LOOPHOLE);
+            add(event, BlockRegistry.PURPUR_LOOPHOLE);
+            add(event, BlockRegistry.COPPER_LOOPHOLE);
+            add(event, BlockRegistry.EXPOSED_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WEATHERED_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WAXED_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE);
+            add(event, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE);
 
             add(event, BlockRegistry.HARD_OAK_BLOCK);
             add(event, BlockRegistry.HARD_OAK_SLAB);
@@ -803,6 +835,7 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CRACKED_CALCITE_BRICKS, true, true);
             addDyedBlocks(event, BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CHISELED_CALCITE_BRICKS, true, true);
             addDyedBlocks(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_PEDESTALS, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_LOOPHOLES, true, true);
             add(event, BlockRegistry.CALCITE_STAIRS);
             add(event, BlockRegistry.CALCITE_SLAB);
             add(event, BlockRegistry.CALCITE_WALL);
@@ -1401,7 +1434,8 @@ public class MarioverseCreativeTabs {
                 addDyedBlocks(event, BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CHISELED_CALCITE_BRICKS, true, true);
                 addDyedBlocks(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.STORAGE_CALCITE_BRICKS, true, true);
                 addDyedBlocks(event, BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_PEDESTALS, true, true);
-                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRIDGES, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_LOOPHOLES, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.PINK), BlockRegistry.CALCITE_BRIDGES, true, true);
                 addDyedBlockPairs(event, BlockRegistry.CALCITE_BRIDGES.get(DyeColor.PINK), BlockRegistry.PICKET_FENCES, BlockRegistry.PICKET_FENCE_GATES);
 
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE);
@@ -1490,6 +1524,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WARP_PIPES.get(DyeColor.GREEN), BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.RED));
                 addAfter(event, BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.RED), BlockRegistry.GOAL_POLES.get(DyeColor.RED));
                 addAfter(event, BlockRegistry.GOAL_POLES.get(DyeColor.RED), BlockRegistry.BRICK_PEDESTAL);
+                addAfter(event, BlockRegistry.BRICK_PEDESTAL, BlockRegistry.BRICK_LOOPHOLE);
             }
 
             if (tab == CreativeModeTabs.TOOLS_AND_UTILITIES) {
@@ -1828,7 +1863,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FUNGAL_BRICK_STAIRS, BlockRegistry.FUNGAL_BRICK_SLAB);
                 addAfter(event, BlockRegistry.FUNGAL_BRICK_SLAB, BlockRegistry.FUNGAL_BRICK_WALL);
                 addAfter(event, BlockRegistry.FUNGAL_BRICK_WALL, BlockRegistry.FUNGAL_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL, BlockRegistry.FUNGAL_BRIDGE);
+                addAfter(event, BlockRegistry.FUNGAL_BRICK_PEDESTAL, BlockRegistry.FUNGAL_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.FUNGAL_BRICK_LOOPHOLE, BlockRegistry.FUNGAL_BRIDGE);
                 addAfter(event, BlockRegistry.FUNGAL_BRIDGE, BlockRegistry.CHISELED_FUNGAL_BRICKS);
 
                 addAfter(event, BlockRegistry.CHISELED_FUNGAL_BRICKS, BlockRegistry.POLISHED_FUNGAL_STONE);
@@ -1842,7 +1878,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS, BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB);
                 addAfter(event, BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB, BlockRegistry.POLISHED_FUNGAL_BRICK_WALL);
                 addAfter(event, BlockRegistry.POLISHED_FUNGAL_BRICK_WALL, BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL, BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS);
+                addAfter(event, BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL, BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE, BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS);
 
                 addAfter(event, BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS, BlockRegistry.HARD_FUNGAL_BLOCK);
                 addAfter(event, BlockRegistry.HARD_FUNGAL_BLOCK, BlockRegistry.HARD_FUNGAL_STAIRS);
@@ -1872,7 +1909,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS, BlockRegistry.DEEP_FUNGAL_BRICK_SLAB);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_SLAB, BlockRegistry.DEEP_FUNGAL_BRICK_WALL);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_WALL, BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL, BlockRegistry.DEEP_FUNGAL_BRIDGE);
+                addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL, BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE, BlockRegistry.DEEP_FUNGAL_BRIDGE);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_BRIDGE, BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS);
 
                 addAfter(event, BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE);
@@ -1886,7 +1924,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB);
                 addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL);
                 addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL, BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS);
+                addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE, BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS);
 
                 addAfter(event, BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS, BlockRegistry.HARD_DEEP_FUNGAL_BLOCK);
                 addAfter(event, BlockRegistry.HARD_DEEP_FUNGAL_BLOCK, BlockRegistry.HARD_DEEP_FUNGAL_STAIRS);
@@ -1916,7 +1955,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FORTSTONE_BRICK_STAIRS, BlockRegistry.FORTSTONE_BRICK_SLAB);
                 addAfter(event, BlockRegistry.FORTSTONE_BRICK_SLAB, BlockRegistry.FORTSTONE_BRICK_WALL);
                 addAfter(event, BlockRegistry.FORTSTONE_BRICK_WALL, BlockRegistry.FORTSTONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.FORTSTONE_BRICK_PEDESTAL, BlockRegistry.CHISELED_FORTSTONE_BRICKS);
+                addAfter(event, BlockRegistry.FORTSTONE_BRICK_PEDESTAL, BlockRegistry.FORTSTONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.FORTSTONE_BRICK_LOOPHOLE, BlockRegistry.CHISELED_FORTSTONE_BRICKS);
 
                 addAfter(event, BlockRegistry.CHISELED_FORTSTONE_BRICKS, BlockRegistry.HUGE_FORTSTONE_BRICKS);
                 addAfter(event, BlockRegistry.HUGE_FORTSTONE_BRICKS, BlockRegistry.HUGE_FORTSTONE_BRICK_STAIRS);
@@ -1934,7 +1974,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_STAIRS, BlockRegistry.POLISHED_FORTSTONE_BRICK_SLAB);
                 addAfter(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_SLAB, BlockRegistry.POLISHED_FORTSTONE_BRICK_WALL);
                 addAfter(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_WALL, BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL, BlockRegistry.FORTSTONE_BRIDGE);
+                addAfter(event, BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL, BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE);
+                addAfter(event, BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE, BlockRegistry.FORTSTONE_BRIDGE);
                 addAfter(event, BlockRegistry.FORTSTONE_BRIDGE, BlockRegistry.CHISELED_POLISHED_FORTSTONE_BRICKS);
 
                 addAfter(event, BlockRegistry.CHISELED_POLISHED_FORTSTONE_BRICKS, BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICKS);
@@ -1961,11 +2002,13 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.HARD_FORTSTONE_SLAB, BlockRegistry.HARD_FORTSTONE_WALL);
 
                 addAfter(event, Blocks.STONE_BRICK_WALL, BlockRegistry.STONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.STONE_BRICK_PEDESTAL, BlockRegistry.STONE_BRIDGE);
+                addAfter(event, BlockRegistry.STONE_BRICK_PEDESTAL, BlockRegistry.STONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.STONE_BRICK_LOOPHOLE, BlockRegistry.STONE_BRIDGE);
                 addAfter(event, Blocks.CHISELED_STONE_BRICKS, BlockRegistry.SMASHABLE_STONE_BRICKS);
 
                 addAfter(event, Blocks.MOSSY_STONE_BRICK_WALL, BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, BlockRegistry.MOSSY_STONE_BRIDGE);
+                addAfter(event, BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE, BlockRegistry.MOSSY_STONE_BRIDGE);
                 addAfter(event, BlockRegistry.MOSSY_STONE_BRIDGE, BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS);
 
                 addAfter(event, Blocks.REINFORCED_DEEPSLATE, Blocks.CALCITE);
@@ -1986,29 +2029,35 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WHITE_CALCITE_BRICK_SLAB, BlockRegistry.WHITE_CALCITE_BRICK_WALL);
                 addAfter(event, BlockRegistry.WHITE_CALCITE_BRICK_WALL, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE));
                 addAfter(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.WHITE));
 
-                addAfter(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRIDGES.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRIDGES.get(DyeColor.WHITE));
                 addAfter(event, BlockRegistry.CALCITE_BRIDGES.get(DyeColor.WHITE), BlockRegistry.CALCITE_CHECKERED_TILES);
                 addAfter(event, BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.CALCITE_CHECKERED_TILE_SLAB);
                 addAfter(event, BlockRegistry.CALCITE_CHECKERED_TILE_SLAB, BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS);
                 addAfter(event, BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS, BlockRegistry.CALCITE_CHECKERED_TILE_WALL);
 
                 addAfter(event, Blocks.DEEPSLATE_BRICK_WALL, BlockRegistry.DEEPSLATE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.DEEPSLATE_BRICK_PEDESTAL, BlockRegistry.DEEPSLATE_BRIDGE);
+                addAfter(event, BlockRegistry.DEEPSLATE_BRICK_PEDESTAL, BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE, BlockRegistry.DEEPSLATE_BRIDGE);
                 addAfter(event, BlockRegistry.DEEPSLATE_BRIDGE, BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS);
                 addAfter(event, Blocks.DEEPSLATE_TILE_WALL, BlockRegistry.DEEPSLATE_TILE_PEDESTAL);
-                addAfter(event, BlockRegistry.DEEPSLATE_TILE_PEDESTAL, BlockRegistry.SMASHABLE_DEEPSLATE_TILES);
+                addAfter(event, BlockRegistry.DEEPSLATE_TILE_PEDESTAL, BlockRegistry.DEEPSLATE_TILE_LOOPHOLE);
+                addAfter(event, BlockRegistry.DEEPSLATE_TILE_LOOPHOLE, BlockRegistry.SMASHABLE_DEEPSLATE_TILES);
 
                 addAfter(event, Blocks.TUFF_BRICK_WALL, BlockRegistry.TUFF_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.TUFF_BRICK_PEDESTAL, BlockRegistry.TUFF_BRIDGE);
+                addAfter(event, BlockRegistry.TUFF_BRICK_PEDESTAL, BlockRegistry.TUFF_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.TUFF_BRICK_LOOPHOLE, BlockRegistry.TUFF_BRIDGE);
                 addAfter(event, Blocks.CHISELED_TUFF_BRICKS, BlockRegistry.SMASHABLE_TUFF_BRICKS);
 
                 addAfter(event, Blocks.BRICK_WALL, BlockRegistry.BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.BRICK_PEDESTAL, BlockRegistry.BRICK_BRIDGE);
+                addAfter(event, BlockRegistry.BRICK_PEDESTAL, BlockRegistry.BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.BRICK_LOOPHOLE, BlockRegistry.BRICK_BRIDGE);
                 addAfter(event, BlockRegistry.BRICK_BRIDGE, BlockRegistry.SMASHABLE_BRICKS);
 
                 addAfter(event, Blocks.MUD_BRICK_WALL, BlockRegistry.MUD_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.MUD_BRICK_PEDESTAL, BlockRegistry.MUD_BRICK_BRIDGE);
+                addAfter(event, BlockRegistry.MUD_BRICK_PEDESTAL, BlockRegistry.MUD_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.MUD_BRICK_LOOPHOLE, BlockRegistry.MUD_BRICK_BRIDGE);
                 addAfter(event, BlockRegistry.MUD_BRICK_BRIDGE, BlockRegistry.SMASHABLE_MUD_BRICKS);
 
                 addAfter(event, Blocks.CUT_SANDSTONE_SLAB, BlockRegistry.SANDSTONE_BRICKS);
@@ -2017,7 +2066,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.SANDSTONE_BRICK_STAIRS, BlockRegistry.SANDSTONE_BRICK_SLAB);
                 addAfter(event, BlockRegistry.SANDSTONE_BRICK_SLAB, BlockRegistry.SANDSTONE_BRICK_WALL);
                 addAfter(event, BlockRegistry.SANDSTONE_BRICK_WALL, BlockRegistry.SANDSTONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.SANDSTONE_BRICK_PEDESTAL, BlockRegistry.SANDSTONE_BRIDGE);
+                addAfter(event, BlockRegistry.SANDSTONE_BRICK_PEDESTAL, BlockRegistry.SANDSTONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.SANDSTONE_BRICK_LOOPHOLE, BlockRegistry.SANDSTONE_BRIDGE);
                 addAfter(event, BlockRegistry.SANDSTONE_BRIDGE, BlockRegistry.CHISELED_SANDSTONE_BRICKS);
 
                 addAfter(event, Blocks.CUT_RED_SANDSTONE_SLAB, BlockRegistry.RED_SANDSTONE_BRICKS);
@@ -2026,15 +2076,18 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.RED_SANDSTONE_BRICK_STAIRS, BlockRegistry.RED_SANDSTONE_BRICK_SLAB);
                 addAfter(event, BlockRegistry.RED_SANDSTONE_BRICK_SLAB, BlockRegistry.RED_SANDSTONE_BRICK_WALL);
                 addAfter(event, BlockRegistry.RED_SANDSTONE_BRICK_WALL, BlockRegistry.RED_SANDSTONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.RED_SANDSTONE_BRICK_PEDESTAL, BlockRegistry.RED_SANDSTONE_BRIDGE);
+                addAfter(event, BlockRegistry.RED_SANDSTONE_BRICK_PEDESTAL, BlockRegistry.RED_SANDSTONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.RED_SANDSTONE_BRICK_LOOPHOLE, BlockRegistry.RED_SANDSTONE_BRIDGE);
                 addAfter(event, BlockRegistry.RED_SANDSTONE_BRIDGE, BlockRegistry.CHISELED_RED_SANDSTONE_BRICKS);
 
                 addAfter(event, Blocks.PRISMARINE_BRICK_SLAB, BlockRegistry.PRISMARINE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.PRISMARINE_BRICK_PEDESTAL, BlockRegistry.PRISMARINE_BRIDGE);
+                addAfter(event, BlockRegistry.PRISMARINE_BRICK_PEDESTAL, BlockRegistry.PRISMARINE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.PRISMARINE_BRICK_LOOPHOLE, BlockRegistry.PRISMARINE_BRIDGE);
                 addAfter(event, BlockRegistry.PRISMARINE_BRIDGE, BlockRegistry.SMASHABLE_PRISMARINE_BRICKS);
 
                 addAfter(event, Blocks.DARK_PRISMARINE_SLAB, BlockRegistry.DARK_PRISMARINE_PEDESTAL);
-                addAfter(event, BlockRegistry.DARK_PRISMARINE_PEDESTAL, BlockRegistry.DARK_PRISMARINE_BRIDGE);
+                addAfter(event, BlockRegistry.DARK_PRISMARINE_PEDESTAL, BlockRegistry.DARK_PRISMARINE_LOOPHOLE);
+                addAfter(event, BlockRegistry.DARK_PRISMARINE_LOOPHOLE, BlockRegistry.DARK_PRISMARINE_BRIDGE);
                 addAfter(event, BlockRegistry.DARK_PRISMARINE_BRIDGE, BlockRegistry.SMASHABLE_DARK_PRISMARINE);
 
                 addAfter(event, Blocks.AMETHYST_BLOCK, BlockRegistry.AMETHYST_STAIRS);
@@ -2052,63 +2105,78 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.AMETHYST_BRICK_STAIRS, BlockRegistry.AMETHYST_BRICK_SLAB);
                 addAfter(event, BlockRegistry.AMETHYST_BRICK_SLAB, BlockRegistry.AMETHYST_BRICK_WALL);
                 addAfter(event, BlockRegistry.AMETHYST_BRICK_WALL, BlockRegistry.AMETHYST_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL, BlockRegistry.AMETHYST_BRIDGE);
+                addAfter(event, BlockRegistry.AMETHYST_BRICK_PEDESTAL, BlockRegistry.AMETHYST_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.AMETHYST_BRICK_LOOPHOLE, BlockRegistry.AMETHYST_BRIDGE);
                 addAfter(event, BlockRegistry.AMETHYST_BRIDGE, BlockRegistry.CHISELED_AMETHYST_BRICKS);
 
                 addAfter(event, Blocks.NETHER_BRICK_FENCE, BlockRegistry.NETHER_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.NETHER_BRICK_PEDESTAL, BlockRegistry.NETHER_BRICK_BRIDGE);
+                addAfter(event, BlockRegistry.NETHER_BRICK_PEDESTAL, BlockRegistry.NETHER_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.NETHER_BRICK_LOOPHOLE, BlockRegistry.NETHER_BRICK_BRIDGE);
                 addAfter(event, BlockRegistry.NETHER_BRICK_BRIDGE, BlockRegistry.SMASHABLE_NETHER_BRICKS);
 
                 addAfter(event, Blocks.RED_NETHER_BRICK_WALL, BlockRegistry.RED_NETHER_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.RED_NETHER_BRICK_PEDESTAL, BlockRegistry.RED_NETHER_BRICK_BRIDGE);
+                addAfter(event, BlockRegistry.RED_NETHER_BRICK_PEDESTAL, BlockRegistry.RED_NETHER_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.RED_NETHER_BRICK_LOOPHOLE, BlockRegistry.RED_NETHER_BRICK_BRIDGE);
                 addAfter(event, BlockRegistry.RED_NETHER_BRICK_BRIDGE, BlockRegistry.SMASHABLE_RED_NETHER_BRICKS);
 
                 addAfter(event, Blocks.POLISHED_BLACKSTONE_BRICK_WALL, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, BlockRegistry.BLACKSTONE_BRIDGE);
+                addAfter(event, BlockRegistry.BLACKSTONE_BRICK_PEDESTAL, BlockRegistry.BLACKSTONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.BLACKSTONE_BRICK_LOOPHOLE, BlockRegistry.BLACKSTONE_BRIDGE);
                 addAfter(event, BlockRegistry.BLACKSTONE_BRIDGE, BlockRegistry.SMASHABLE_BLACKSTONE_BRICKS);
 
                 addAfter(event, Blocks.END_STONE_BRICK_WALL, BlockRegistry.END_STONE_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.END_STONE_BRICK_PEDESTAL, BlockRegistry.END_STONE_BRIDGE);
+                addAfter(event, BlockRegistry.END_STONE_BRICK_PEDESTAL, BlockRegistry.END_STONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.END_STONE_BRICK_LOOPHOLE, BlockRegistry.END_STONE_BRIDGE);
                 addAfter(event, BlockRegistry.END_STONE_BRIDGE, BlockRegistry.SMASHABLE_END_STONE_BRICKS);
 
                 addAfter(event, Blocks.PURPUR_SLAB, BlockRegistry.PURPUR_BLOCK_PEDESTAL);
-                addAfter(event, BlockRegistry.PURPUR_BLOCK_PEDESTAL, BlockRegistry.PURPUR_BRIDGE);
+                addAfter(event, BlockRegistry.PURPUR_BLOCK_PEDESTAL, BlockRegistry.PURPUR_LOOPHOLE);
+                addAfter(event, BlockRegistry.PURPUR_LOOPHOLE, BlockRegistry.PURPUR_BRIDGE);
                 addAfter(event, BlockRegistry.PURPUR_BRIDGE, BlockRegistry.SMASHABLE_PURPUR_BLOCK);
 
                 addAfter(event, Blocks.QUARTZ_BRICKS, BlockRegistry.SMASHABLE_QUARTZ_BRICKS);
                 addAfter(event, BlockRegistry.SMASHABLE_QUARTZ_BRICKS, BlockRegistry.QUARTZ_BRICK_PEDESTAL);
-                addAfter(event, BlockRegistry.QUARTZ_BRICK_PEDESTAL, BlockRegistry.QUARTZ_BRIDGE);
+                addAfter(event, BlockRegistry.QUARTZ_BRICK_PEDESTAL, BlockRegistry.QUARTZ_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.QUARTZ_BRICK_LOOPHOLE, BlockRegistry.QUARTZ_BRIDGE);
 
                 addAfter(event, Blocks.CUT_COPPER_SLAB, BlockRegistry.CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.CUT_COPPER_PEDESTAL, BlockRegistry.COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.CUT_COPPER_PEDESTAL, BlockRegistry.COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.COPPER_LOOPHOLE, BlockRegistry.COPPER_BRIDGE);
                 addAfter(event, BlockRegistry.COPPER_BRIDGE, BlockRegistry.SMASHABLE_CUT_COPPER);
 
                 addAfter(event, Blocks.EXPOSED_CUT_COPPER_SLAB, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.EXPOSED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.EXPOSED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.EXPOSED_COPPER_LOOPHOLE, BlockRegistry.EXPOSED_COPPER_BRIDGE);
                 addAfter(event, BlockRegistry.EXPOSED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER);
 
                 addAfter(event, Blocks.WEATHERED_CUT_COPPER_SLAB, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WEATHERED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WEATHERED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WEATHERED_COPPER_LOOPHOLE, BlockRegistry.WEATHERED_COPPER_BRIDGE);
                 addAfter(event, BlockRegistry.WEATHERED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER);
 
                 addAfter(event, Blocks.OXIDIZED_CUT_COPPER_SLAB, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.OXIDIZED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE, BlockRegistry.OXIDIZED_COPPER_BRIDGE);
                 addAfter(event, BlockRegistry.OXIDIZED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER);
 
                 addAfter(event, Blocks.WAXED_CUT_COPPER_SLAB, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WAXED_COPPER_LOOPHOLE, BlockRegistry.WAXED_COPPER_BRIDGE);
                 addAfter(event, BlockRegistry.WAXED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WAXED_CUT_COPPER);
 
                 addAfter(event, Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE);
                 addAfter(event, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER);
 
                 addAfter(event, Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE);
                 addAfter(event, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER);
 
                 addAfter(event, Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
-                addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE);
+                addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE);
                 addAfter(event, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER);
             }
 
@@ -2282,6 +2350,39 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL);
                 addAfter(event, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL);
                 addDyedBlocks(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.CALCITE_BRICK_PEDESTALS, false, false);
+                addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.FUNGAL_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.FUNGAL_BRICK_LOOPHOLE, BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE, BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE, BlockRegistry.FORTSTONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.FORTSTONE_BRICK_LOOPHOLE, BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE);
+                addAfter(event, BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE, BlockRegistry.AMETHYST_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.AMETHYST_BRICK_LOOPHOLE, BlockRegistry.STONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.STONE_BRICK_LOOPHOLE, BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE, BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE, BlockRegistry.DEEPSLATE_TILE_LOOPHOLE);
+                addAfter(event, BlockRegistry.DEEPSLATE_TILE_LOOPHOLE, BlockRegistry.TUFF_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.TUFF_BRICK_LOOPHOLE, BlockRegistry.BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.BRICK_LOOPHOLE, BlockRegistry.MUD_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.MUD_BRICK_LOOPHOLE, BlockRegistry.SANDSTONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.SANDSTONE_BRICK_LOOPHOLE, BlockRegistry.RED_SANDSTONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.RED_SANDSTONE_BRICK_LOOPHOLE, BlockRegistry.PRISMARINE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.PRISMARINE_BRICK_LOOPHOLE, BlockRegistry.DARK_PRISMARINE_LOOPHOLE);
+                addAfter(event, BlockRegistry.DARK_PRISMARINE_LOOPHOLE, BlockRegistry.NETHER_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.NETHER_BRICK_LOOPHOLE, BlockRegistry.RED_NETHER_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.RED_NETHER_BRICK_LOOPHOLE, BlockRegistry.BLACKSTONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.BLACKSTONE_BRICK_LOOPHOLE, BlockRegistry.QUARTZ_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.QUARTZ_BRICK_LOOPHOLE, BlockRegistry.END_STONE_BRICK_LOOPHOLE);
+                addAfter(event, BlockRegistry.END_STONE_BRICK_LOOPHOLE, BlockRegistry.PURPUR_LOOPHOLE);
+                addAfter(event, BlockRegistry.PURPUR_LOOPHOLE, BlockRegistry.COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.COPPER_LOOPHOLE, BlockRegistry.EXPOSED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.EXPOSED_COPPER_LOOPHOLE, BlockRegistry.WEATHERED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WEATHERED_COPPER_LOOPHOLE, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.OXIDIZED_COPPER_LOOPHOLE, BlockRegistry.WAXED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WAXED_COPPER_LOOPHOLE, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WAXED_EXPOSED_COPPER_LOOPHOLE, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE);
+                addAfter(event, BlockRegistry.WAXED_WEATHERED_COPPER_LOOPHOLE, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE);
+                addDyedBlocks(event, BlockRegistry.WAXED_OXIDIZED_COPPER_LOOPHOLE, BlockRegistry.CALCITE_BRICK_LOOPHOLES, true, true);
 
                 addAfter(event, Items.OAK_HANGING_SIGN, ItemRegistry.OAK_ARROW_SIGN);
                 addAfter(event, ItemRegistry.OAK_ARROW_SIGN, ItemRegistry.LARGE_OAK_ARROW_SIGN);
@@ -2325,7 +2426,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.WARPED_HANGING_SIGN, ItemRegistry.WARPED_ARROW_SIGN);
                 addAfter(event, ItemRegistry.WARPED_ARROW_SIGN, ItemRegistry.LARGE_WARPED_ARROW_SIGN);
 
-                addAfter(event, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.IRON_SPIKE);
+                addAfter(event, BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.PINK), BlockRegistry.IRON_SPIKE);
 
                 addAfter(event, Items.RESPAWN_ANCHOR, BlockRegistry.CLEAR_WARP_PIPE);
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);

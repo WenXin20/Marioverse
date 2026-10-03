@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -60,7 +61,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
     public static final MapCodec<GoalPoleBlock> CODEC = simpleCodec(GoalPoleBlock::new);
-    public static final EnumProperty<ColumnBlockStates> COLUMN = EnumProperty.create("column", ColumnBlockStates.class);
+    public static final EnumProperty<ColumnBlockStates> COLUMN = BlockStatePropertyRegistry.COLUMN;
     public static final BooleanProperty FLAG = BooleanProperty.create("flag");
     public static final BooleanProperty LOWERED = BooleanProperty.create("lowered");
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
@@ -126,11 +127,11 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
-        FluidState fluidState = placeContext.getLevel().getFluidState(placeContext.getClickedPos());
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
 
         return this.defaultBlockState().setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8)
-                .setValue(ROTATION, RotationSegment.convertToSegment(placeContext.getRotation()));
+                .setValue(ROTATION, RotationSegment.convertToSegment(context.getRotation()));
     }
 
     @NotNull

@@ -1,0 +1,11 @@
+{
+  "parent": "marioverse:block/template_loophole_top",
+  "textures": {
+    "bottom": "minecraft:block/polished_blackstone_bricks",
+    "front": "minecraft:block/polished_blackstone_bricks",
+    "inside": "minecraft:block/polished_blackstone_bricks",
+    "particle": "minecraft:block/polished_blackstone_bricks",
+    "side": "minecraft:block/polished_blackstone_bricks",
+    "top": "minecraft:block/polished_blackstone_bricks"
+  }
+}

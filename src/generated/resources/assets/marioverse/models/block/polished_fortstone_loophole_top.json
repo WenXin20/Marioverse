@@ -1,0 +1,11 @@
+{
+  "parent": "marioverse:block/template_loophole_top",
+  "textures": {
+    "bottom": "marioverse:block/polished_fortstone_bottom",
+    "front": "marioverse:block/polished_fortstone_loophole_top",
+    "inside": "marioverse:block/polished_fortstone_loophole_inside",
+    "particle": "marioverse:block/polished_fortstone_loophole_side",
+    "side": "marioverse:block/polished_fortstone_loophole_side",
+    "top": "marioverse:block/polished_fortstone_top"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "parent": "marioverse:block/template_loophole_top",
+  "textures": {
+    "bottom": "minecraft:block/quartz_bricks",
+    "front": "minecraft:block/quartz_bricks",
+    "inside": "minecraft:block/quartz_bricks",
+    "particle": "minecraft:block/quartz_bricks",
+    "side": "minecraft:block/quartz_bricks",
+    "top": "minecraft:block/quartz_bricks"
+  }
+}

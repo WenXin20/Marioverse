@@ -74,6 +74,7 @@ public class RecipeUtils extends RecipeProvider {
                     .put(BlockFamilyExtended.Variant.HUGE, (outputItem, inputItem) -> hugeBlockBuilder(9, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
                     .put(BlockFamilyExtended.Variant.LARGE_ARROW_SIGN, (outputItem, inputItem) -> arrowSignUpgradeBuilder(1, outputItem, RecipeCategory.DECORATIONS, Ingredient.of(inputItem), "large_arrow_signs"))
                     .put(BlockFamilyExtended.Variant.LOG_PLATFORM, (outputItem, inputItem) -> logPlatformBuilder(6, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
+                    .put(BlockFamilyExtended.Variant.LOOPHOLE, (outputItem, inputItem) -> loopholeBuilder(6, outputItem, RecipeCategory.BUILDING_BLOCKS, inputItem))
                     .put(BlockFamilyExtended.Variant.PANELS, (outputItem, inputItem) -> panelsBuilder(2, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PANELS_FROM_BOARDS, (outputItem, inputItem) -> panelsFromBoardsBuilder(5, outputItem, Ingredient.of(inputItem)))
                     .put(BlockFamilyExtended.Variant.PEDESTAL, (outputItem, inputItem) -> pedestalBuilder(5, outputItem, inputItem))
@@ -224,6 +225,16 @@ public class RecipeUtils extends RecipeProvider {
                 .pattern("###")
                 .unlockedBy("has_log", has(inputItem))
                 .group(Marioverse.MOD_ID + ":log_platforms");
+    }
+
+    public static RecipeBuilder loopholeBuilder(int outputAmt, ItemLike outputItem, RecipeCategory category, ItemLike inputItem) {
+        return ShapedRecipeBuilder.shaped(category, outputItem, outputAmt)
+                .define('#', inputItem)
+                .pattern("# #")
+                .pattern("# #")
+                .pattern("# #")
+                .unlockedBy("has_stone", has(inputItem))
+                .group(Marioverse.MOD_ID + ":loopholes");
     }
 
     public static RecipeBuilder panelsBuilder(int outputAmt, ItemLike outputItem, Ingredient inputItem) {

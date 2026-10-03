@@ -15,7 +15,6 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.Nullable;
 
 public class LogPlatformBlock extends PlatformBlock {
-    public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
     public Block logBlock;
 
     public LogPlatformBlock(Block logBlock, Properties properties) {
