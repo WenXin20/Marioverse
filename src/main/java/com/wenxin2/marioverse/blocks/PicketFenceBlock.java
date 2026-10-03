@@ -241,7 +241,7 @@ public class PicketFenceBlock extends HorizontalDirectionalBlock implements Simp
     }
 
     @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
         return false;
     }
 

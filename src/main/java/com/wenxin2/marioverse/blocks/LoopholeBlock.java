@@ -52,6 +52,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -146,6 +147,11 @@ public class LoopholeBlock extends Block implements SimpleWaterloggedBlock {
                 };
             default: return state;
         }
+    }
+
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
+        return false;
     }
 
     public static ColumnBlockStates getColumnState(boolean connectsUp, boolean connectsDown) {
