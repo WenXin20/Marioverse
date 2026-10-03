@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "minecraft:block/oxidized_cut_copper",
     "front": "minecraft:block/oxidized_cut_copper",
-    "inside": "minecraft:block/oxidized_cut_copper",
     "particle": "minecraft:block/oxidized_cut_copper",
     "side": "minecraft:block/oxidized_cut_copper",
     "top": "minecraft:block/oxidized_cut_copper"

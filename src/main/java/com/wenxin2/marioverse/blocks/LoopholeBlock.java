@@ -66,21 +66,7 @@ public class LoopholeBlock extends Block implements SimpleWaterloggedBlock {
     public static final EnumProperty<ColumnBlockStates> COLUMN = BlockStatePropertyRegistry.COLUMN;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    protected static final VoxelShape PILLARS_Z = Shapes.or(
-            Block.box(0.0, 0.0, 0.0, 5.0, 16.0, 16.0),
-            Block.box(11.0, 0.0, 0.0, 16.0, 16.0, 16.0)).optimize();
-    protected static final VoxelShape LOWER_BAR_Z = Block.box(5.0, 0.0, 0.0, 11.0, 4.0, 16.0);
-    protected static final VoxelShape UPPER_BAR_Z = Block.box(5.0, 10.0, 0.0, 11.0, 16.0, 16.0);
-
-    protected static final VoxelShape NONE_Z = Shapes.or(PILLARS_Z, LOWER_BAR_Z, UPPER_BAR_Z).optimize();
-    protected static final VoxelShape BOTTOM_Z = Shapes.or(PILLARS_Z, LOWER_BAR_Z).optimize();
-    protected static final VoxelShape MIDDLE_Z = PILLARS_Z;
-    protected static final VoxelShape TOP_Z = Shapes.or(PILLARS_Z, UPPER_BAR_Z).optimize();
-
-    protected static final VoxelShape NONE_X = VoxelShapeUtils.rotateShape(Direction.NORTH, Direction.EAST, NONE_Z);
-    protected static final VoxelShape BOTTOM_X = VoxelShapeUtils.rotateShape(Direction.NORTH, Direction.EAST, BOTTOM_Z);
-    protected static final VoxelShape MIDDLE_X = VoxelShapeUtils.rotateShape(Direction.NORTH, Direction.EAST, MIDDLE_Z);
-    protected static final VoxelShape TOP_X = VoxelShapeUtils.rotateShape(Direction.NORTH, Direction.EAST, TOP_Z);
+    protected static final VoxelShape[] SHAPES = LoopholeBlock.makeShapes(5.0, 11.0);
 
     public LoopholeBlock(Properties properties) {
         super(properties);
@@ -102,13 +88,8 @@ public class LoopholeBlock extends Block implements SimpleWaterloggedBlock {
     @NotNull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        boolean isX = state.getValue(AXIS) == Direction.Axis.X;
-        return switch (state.getValue(COLUMN)) {
-            case TOP -> isX ? TOP_X : TOP_Z;
-            case MIDDLE -> isX ? MIDDLE_X : MIDDLE_Z;
-            case BOTTOM -> isX ? BOTTOM_X : BOTTOM_Z;
-            default -> isX ? NONE_X : NONE_Z;
-        };
+        int axisIndex = state.getValue(AXIS) == Direction.Axis.X ? 1 : 0;
+        return this.getShapes()[state.getValue(COLUMN).ordinal() * 2 + axisIndex];
     }
 
     @Override
@@ -187,5 +168,30 @@ public class LoopholeBlock extends Block implements SimpleWaterloggedBlock {
 
     public static boolean connectsDown(BlockState state) {
         return state.getValue(COLUMN) == ColumnBlockStates.TOP || state.getValue(COLUMN) == ColumnBlockStates.MIDDLE;
+    }
+
+    protected VoxelShape[] getShapes() {
+        return SHAPES;
+    }
+
+    public static VoxelShape[] makeShapes(double lowerBarTop, double upperBarBottom) {
+        VoxelShape pillars = Shapes.or(
+                Block.box(0.0, 0.0, 0.0, 5.0, 16.0, 16.0),
+                Block.box(11.0, 0.0, 0.0, 16.0, 16.0, 16.0));
+        VoxelShape lowerBar = Block.box(5.0, 0.0, 0.0, 11.0, lowerBarTop, 16.0);
+        VoxelShape upperBar = Block.box(5.0, upperBarBottom, 0.0, 11.0, 16.0, 16.0);
+        VoxelShape[] shapes = new VoxelShape[ColumnBlockStates.values().length * 2];
+
+        for (ColumnBlockStates column : ColumnBlockStates.values()) {
+            VoxelShape shape = switch (column) {
+                case TOP -> Shapes.or(pillars, upperBar);
+                case MIDDLE -> pillars;
+                case BOTTOM -> Shapes.or(pillars, lowerBar);
+                default -> Shapes.or(pillars, lowerBar, upperBar);
+            };
+            shapes[column.ordinal() * 2] = shape.optimize();
+            shapes[column.ordinal() * 2 + 1] = VoxelShapeUtils.rotateShape(Direction.NORTH, Direction.EAST, shape).optimize();
+        }
+        return shapes;
     }
 }

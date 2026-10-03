@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "minecraft:block/tuff_bricks",
     "front": "minecraft:block/tuff_bricks",
-    "inside": "minecraft:block/tuff_bricks",
     "particle": "minecraft:block/tuff_bricks",
     "side": "minecraft:block/tuff_bricks",
     "top": "minecraft:block/tuff_bricks"

@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "minecraft:block/bricks",
     "front": "minecraft:block/bricks",
-    "inside": "minecraft:block/bricks",
     "particle": "minecraft:block/bricks",
     "side": "minecraft:block/bricks",
     "top": "minecraft:block/bricks"

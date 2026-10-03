@@ -750,9 +750,9 @@ public class BlockStateGen extends BlockStateProvider {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
                 if (blockName.equals("polished_fortstone_loophole")) {
-                    this.loopholeModel(block, modLoc("block/" + blockName + "_front"), modLoc("block/" + blockName + "_bottom"),
-                            modLoc("block/" + blockName + "_middle"), modLoc("block/" + blockName + "_top"),
-                            modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_inside"),
+                    this.loopholeModel(block, "template_polished_loophole", modLoc("block/" + blockName + "_front"),
+                            modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_middle"),
+                            modLoc("block/" + blockName + "_top"), modLoc("block/" + blockName + "_side"),
                             modLoc("block/polished_fortstone_top"), modLoc("block/polished_fortstone_bottom"));
                 } else {
                     ResourceLocation baseBlock = BuiltInRegistries.BLOCK.getKey(blockFamily.getBaseBlock());
@@ -761,7 +761,7 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation topTexture = this.textureOrDefault(texture.withSuffix("_top"), texture);
                     ResourceLocation bottomTexture = this.textureOrDefault(texture.withSuffix("_bottom"), topTexture);
 
-                    this.loopholeModel(block, texture, texture, texture, texture, texture, texture, topTexture, bottomTexture);
+                    this.loopholeModel(block, "template_loophole", texture, texture, texture, texture, texture, topTexture, bottomTexture);
                 }
             }
         }));
@@ -2258,27 +2258,27 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void loopholeModel(Block block, ResourceLocation frontTexture, ResourceLocation frontBottomTexture,
+    private void loopholeModel(Block block, String template, ResourceLocation frontTexture, ResourceLocation frontBottomTexture,
                                ResourceLocation frontMiddleTexture, ResourceLocation frontTopTexture, ResourceLocation sideTexture,
-                               ResourceLocation insideTexture, ResourceLocation topTexture, ResourceLocation bottomTexture) {
+                               ResourceLocation topTexture, ResourceLocation bottomTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()
-                .withExistingParent(modelName, modLoc("block/template_loophole"))
+                .withExistingParent(modelName, modLoc("block/" + template))
                 .texture("particle", sideTexture).texture("front", frontTexture).texture("side", sideTexture)
                 .texture("top", topTexture).texture("bottom", bottomTexture);
         ModelFile modelBottom = models()
-                .withExistingParent(modelName + "_bottom", modLoc("block/template_loophole_bottom"))
+                .withExistingParent(modelName + "_bottom", modLoc("block/" + template + "_bottom"))
                 .texture("particle", sideTexture).texture("front", frontBottomTexture).texture("side", sideTexture)
                 .texture("top", topTexture).texture("bottom", bottomTexture);
         ModelFile modelMiddle = models()
-                .withExistingParent(modelName + "_middle", modLoc("block/template_loophole_middle"))
+                .withExistingParent(modelName + "_middle", modLoc("block/" + template + "_middle"))
                 .texture("particle", sideTexture).texture("front", frontMiddleTexture).texture("side", sideTexture)
                 .texture("top", topTexture).texture("bottom", bottomTexture);
         ModelFile modelTop = models()
-                .withExistingParent(modelName + "_top", modLoc("block/template_loophole_top"))
+                .withExistingParent(modelName + "_top", modLoc("block/" + template + "_top"))
                 .texture("particle", sideTexture).texture("front", frontTopTexture).texture("side", sideTexture)
-                .texture("inside", insideTexture).texture("top", topTexture).texture("bottom", bottomTexture);
+                .texture("top", topTexture).texture("bottom", bottomTexture);
 
         this.simpleBlockItem(block, model);
 

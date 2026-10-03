@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:block/template_loophole",
+  "parent": "marioverse:block/template_polished_loophole",
   "textures": {
     "bottom": "marioverse:block/polished_fortstone_bottom",
     "front": "marioverse:block/polished_fortstone_loophole_front",

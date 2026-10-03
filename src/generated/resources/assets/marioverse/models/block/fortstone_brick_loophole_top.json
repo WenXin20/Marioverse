@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "marioverse:block/fortstone_bricks",
     "front": "marioverse:block/fortstone_bricks",
-    "inside": "marioverse:block/fortstone_bricks",
     "particle": "marioverse:block/fortstone_bricks",
     "side": "marioverse:block/fortstone_bricks",
     "top": "marioverse:block/fortstone_bricks"

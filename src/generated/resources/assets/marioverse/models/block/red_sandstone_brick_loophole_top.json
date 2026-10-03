@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "marioverse:block/red_sandstone_bricks",
     "front": "marioverse:block/red_sandstone_bricks",
-    "inside": "marioverse:block/red_sandstone_bricks",
     "particle": "marioverse:block/red_sandstone_bricks",
     "side": "marioverse:block/red_sandstone_bricks",
     "top": "marioverse:block/red_sandstone_bricks"

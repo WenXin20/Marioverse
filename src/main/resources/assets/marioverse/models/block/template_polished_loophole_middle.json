@@ -4,7 +4,7 @@
 	"parent": "minecraft:block/block",
 	"textures": {
 		"particle": "#front",
-		"front": "block/bricks",
+		"front": "marioverse:block/polished_fortstone_loophole_middle",
 		"side": "marioverse:block/polished_fortstone_loophole_side",
 		"bottom": "marioverse:block/polished_fortstone_bottom",
 		"top": "marioverse:block/polished_fortstone_top"

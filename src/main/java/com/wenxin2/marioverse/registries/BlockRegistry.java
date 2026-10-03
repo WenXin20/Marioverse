@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LoopholeBlock;
+import com.wenxin2.marioverse.blocks.PolishedLoopholeBlock;
 import com.wenxin2.marioverse.blocks.RoseHedgeBlock;
 import com.wenxin2.marioverse.blocks.ShortShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.ShroomgrassBlock;
@@ -2428,7 +2429,7 @@ public class BlockRegistry {
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
 
         POLISHED_FORTSTONE_LOOPHOLE = registerBlock("polished_fortstone_loophole",
-                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+                () -> new PolishedLoopholeBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
 
         CHISELED_POLISHED_FORTSTONE_BRICKS = registerBlock("chiseled_polished_fortstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));

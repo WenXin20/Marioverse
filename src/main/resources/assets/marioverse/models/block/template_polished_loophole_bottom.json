@@ -4,12 +4,23 @@
 	"parent": "minecraft:block/block",
 	"textures": {
 		"particle": "#front",
-		"front": "block/bricks",
+		"front": "marioverse:block/polished_fortstone_loophole_bottom",
 		"side": "marioverse:block/polished_fortstone_loophole_side",
 		"bottom": "marioverse:block/polished_fortstone_bottom",
 		"top": "marioverse:block/polished_fortstone_top"
 	},
 	"elements": [
+		{
+			"from": [5, 0, 0],
+			"to": [11, 4, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5, 0, 0]},
+			"faces": {
+				"north": {"uv": [5, 12, 11, 16], "texture": "#front", "cullface": "north"},
+				"south": {"uv": [5, 12, 11, 16], "texture": "#front", "cullface": "south"},
+				"up": {"uv": [5, 0, 11, 16], "texture": "#top"},
+				"down": {"uv": [5, 0, 11, 16], "texture": "#bottom", "cullface": "down"}
+			}
+		},
 		{
 			"from": [0, 0, 0],
 			"to": [5, 16, 16],

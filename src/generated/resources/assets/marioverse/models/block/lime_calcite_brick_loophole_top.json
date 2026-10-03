@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "marioverse:block/lime_calcite_bricks",
     "front": "marioverse:block/lime_calcite_bricks",
-    "inside": "marioverse:block/lime_calcite_bricks",
     "particle": "marioverse:block/lime_calcite_bricks",
     "side": "marioverse:block/lime_calcite_bricks",
     "top": "marioverse:block/lime_calcite_bricks"

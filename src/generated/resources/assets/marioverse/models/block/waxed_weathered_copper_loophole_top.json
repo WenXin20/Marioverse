@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "minecraft:block/weathered_cut_copper",
     "front": "minecraft:block/weathered_cut_copper",
-    "inside": "minecraft:block/weathered_cut_copper",
     "particle": "minecraft:block/weathered_cut_copper",
     "side": "minecraft:block/weathered_cut_copper",
     "top": "minecraft:block/weathered_cut_copper"

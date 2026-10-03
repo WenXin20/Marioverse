@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "marioverse:block/amethyst_bricks",
     "front": "marioverse:block/amethyst_bricks",
-    "inside": "marioverse:block/amethyst_bricks",
     "particle": "marioverse:block/amethyst_bricks",
     "side": "marioverse:block/amethyst_bricks",
     "top": "marioverse:block/amethyst_bricks"

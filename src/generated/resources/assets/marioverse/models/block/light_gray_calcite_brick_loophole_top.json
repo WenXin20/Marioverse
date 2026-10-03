@@ -3,7 +3,6 @@
   "textures": {
     "bottom": "marioverse:block/light_gray_calcite_bricks",
     "front": "marioverse:block/light_gray_calcite_bricks",
-    "inside": "marioverse:block/light_gray_calcite_bricks",
     "particle": "marioverse:block/light_gray_calcite_bricks",
     "side": "marioverse:block/light_gray_calcite_bricks",
     "top": "marioverse:block/light_gray_calcite_bricks"
