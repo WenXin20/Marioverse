@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "marioverse:block/cube_all_north_west_mirrored",
   "textures": {
-    "all": "marioverse:block/empty_mud_question_bricks"
+    "all": "marioverse:block/empty_mud_question_bricks",
+    "mirrored": "marioverse:block/empty_mud_question_bricks_mirrored"
   }
 }

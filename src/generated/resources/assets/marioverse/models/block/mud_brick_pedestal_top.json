@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:block/template_brick_pedestal_top",
+  "parent": "marioverse:block/template_brick_pedestal_north_west_mirrored_top",
   "textures": {
     "bricks": "minecraft:block/mud_bricks"
   }

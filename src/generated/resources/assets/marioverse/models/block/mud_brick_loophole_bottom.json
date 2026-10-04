@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:block/template_loophole_bottom",
+  "parent": "marioverse:block/template_loophole_north_west_mirrored_bottom",
   "textures": {
     "bottom": "minecraft:block/mud_bricks",
     "front": "minecraft:block/mud_bricks",

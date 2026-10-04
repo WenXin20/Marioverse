@@ -75,6 +75,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.level.block.state.properties.WallSide;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
@@ -700,6 +701,14 @@ public class BlockStateGen extends BlockStateProvider {
                     invisibleTexture = modLoc("block/invisible_question_block");
 
                     this.invisibleQuestionBlockModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture);
+                } else if (block == BlockFamilyRegistry.MUD_BRICKS.get(questionBlock)) {
+                    String removeInvisibleName = blockName.replace("invisible_", "");
+                    mainTexture = modLoc("block/" + removeInvisibleName);
+                    emptyTexture = modLoc("block/empty_" + removeInvisibleName);
+                    invisibleTexture = modLoc("block/invisible_question_block");
+
+                    this.invisibleQuestionBlockMirroredModel(block, removeInvisibleName, mainTexture, emptyTexture, invisibleTexture,
+                            mainTexture.withSuffix("_mirrored"));
                 } else {
                     String removeInvisibleName = blockName.replace("invisible_", "");
                     mainTexture = modLoc("block/" + removeInvisibleName);
@@ -761,7 +770,10 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation topTexture = this.textureOrDefault(texture.withSuffix("_top"), texture);
                     ResourceLocation bottomTexture = this.textureOrDefault(texture.withSuffix("_bottom"), topTexture);
 
-                    this.loopholeModel(block, "template_loophole", texture, texture, texture, texture, texture, topTexture, bottomTexture);
+                    String template = blockFamily.getBaseBlock() == Blocks.MUD_BRICKS
+                            ? "template_loophole_north_west_mirrored" : "template_loophole";
+
+                    this.loopholeModel(block, template, texture, texture, texture, texture, texture, topTexture, bottomTexture);
                 }
             }
         }));
@@ -790,7 +802,9 @@ public class BlockStateGen extends BlockStateProvider {
                         || block == BlockFamilyRegistry.TUFF_BRICKS.get(pedestal)) {
                     texture = mcLoc("minecraft:block/" + removePedestalName);
 
-                    this.pedestalModel(block, texture);
+                    if (block == BlockFamilyRegistry.MUD_BRICKS.get(pedestal))
+                        this.pedestalModel(block, texture, "template_brick_pedestal_north_west_mirrored");
+                    else this.pedestalModel(block, texture);
                 } else if (block == BlockFamilyRegistry.DEEP_FUNGAL_BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.FUNGAL_BRICKS.get(pedestal)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get(pedestal)
@@ -906,6 +920,11 @@ public class BlockStateGen extends BlockStateProvider {
                     emptyTexture = modLoc("block/empty_" + unWaxedName);
 
                     this.questionBlockModel(block, mainTexture, emptyTexture);
+                } else if (block == BlockFamilyRegistry.MUD_BRICKS.get(questionBlock)) {
+                    mainTexture = modLoc("block/" + blockName);
+                    emptyTexture = modLoc("block/empty_" + blockName);
+
+                    this.questionBlockMirroredModel(block, mainTexture, emptyTexture, mainTexture.withSuffix("_mirrored"));
                 } else {
                     mainTexture = modLoc("block/" + blockName);
                     emptyTexture = modLoc("block/empty_" + blockName);
@@ -1117,7 +1136,9 @@ public class BlockStateGen extends BlockStateProvider {
                     mainTexture = mcLoc("minecraft:block/" + removeSmashableName);
                     overlayTexture = modLoc("block/" + blockName + "_overlay");
 
-                    this.cubeOverlayModel(block, mainTexture, overlayTexture);
+                    if (block == BlockFamilyRegistry.MUD_BRICKS.get(smashableBlock))
+                        this.cubeOverlayModel(block, mainTexture, overlayTexture, "cube_all_overlay_north_west_mirrored");
+                    else this.cubeOverlayModel(block, mainTexture, overlayTexture);
                 }
             }
         }));
@@ -1256,7 +1277,8 @@ public class BlockStateGen extends BlockStateProvider {
                     mainTexture = mcLoc("minecraft:block/" + removeStorageName);
                     emptyTexture = modLoc("block/empty_" + questionBlockName);
 
-                    this.storageBrickModel(block, mainTexture, emptyTexture);
+                    this.storageBrickModel(block, mainTexture, emptyTexture,
+                            block == BlockFamilyRegistry.MUD_BRICKS.get(storageBrick));
                 } else if (block == BlockFamilyRegistry.RED_SANDSTONE_BRICKS.get(storageBrick)
                         || block == BlockFamilyRegistry.SANDSTONE_BRICKS.get(storageBrick)) {
                     String removeBricksName = removeStorageName.replace("_bricks", "");
@@ -1908,10 +1930,14 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void cubeOverlayModel(Block block, ResourceLocation mainTexture, ResourceLocation overlayTexture) {
+        this.cubeOverlayModel(block, mainTexture, overlayTexture, "cube_all_overlay");
+    }
+
+    private void cubeOverlayModel(Block block, ResourceLocation mainTexture, ResourceLocation overlayTexture, String template) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()
-                .withExistingParent(modelName, modLoc("block/cube_all_overlay"))
+                .withExistingParent(modelName, modLoc("block/" + template))
                 .texture("all", mainTexture).texture("overlay", overlayTexture).renderType("cutout_mipped");
 
         simpleBlockWithItem(block, model);
@@ -1996,12 +2022,23 @@ public class BlockStateGen extends BlockStateProvider {
 
     private void invisibleQuestionBlockModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture,
                                              ResourceLocation invisibleTexture) {
-        ModelFile model = models()
-                .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
-                .texture("bottom", emptyTexture).texture("side", mainTexture).texture("top", emptyTexture);
-        ModelFile modelEmpty = models()
-                .withExistingParent("empty_invisible_" + modelName, mcLoc("block/cube_all"))
+        this.invisibleQuestionBlockMirroredModel(block, modelName, mainTexture, emptyTexture, invisibleTexture, null);
+    }
+
+    private void invisibleQuestionBlockMirroredModel(Block block, String modelName, ResourceLocation mainTexture, ResourceLocation emptyTexture,
+                                                     ResourceLocation invisibleTexture, @Nullable ResourceLocation mirroredTexture) {
+        ModelFile model = mirroredTexture != null
+                ? models().withExistingParent(modelName, modLoc("block/cube_bottom_top_north_west_mirrored"))
+                        .texture("bottom", emptyTexture).texture("side", mainTexture).texture("side_mirrored", mirroredTexture)
+                        .texture("top", emptyTexture)
+                : models().withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
+                        .texture("bottom", emptyTexture).texture("side", mainTexture).texture("top", emptyTexture);
+        BlockModelBuilder modelEmpty = models()
+                .withExistingParent("empty_invisible_" + modelName,
+                        mirroredTexture != null ? modLoc("block/cube_all_north_west_mirrored") : mcLoc("block/cube_all"))
                 .texture("all", emptyTexture);
+        if (mirroredTexture != null)
+            modelEmpty.texture("mirrored", emptyTexture.withSuffix("_mirrored"));
         ModelFile modelInvisible = models()
                 .withExistingParent("invisible_" + modelName, mcLoc("block/cube_all"))
                 .texture("all", invisibleTexture).renderType("translucent");
@@ -2296,15 +2333,19 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void pedestalModel(Block block, ResourceLocation mainTexture) {
+        this.pedestalModel(block, mainTexture, "template_brick_pedestal");
+    }
+
+    private void pedestalModel(Block block, ResourceLocation mainTexture, String template) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile modelTop = models()
                 .withExistingParent(modelName + "_top",
-                        modLoc("block/template_brick_pedestal_top"))
+                        modLoc("block/" + template + "_top"))
                 .texture("bricks", mainTexture);
         ModelFile modelBottom = models()
                 .withExistingParent(modelName,
-                        modLoc("block/template_brick_pedestal"))
+                        modLoc("block/" + template))
                 .texture("bricks", mainTexture);
 
         simpleBlockItem(block, modelTop);
@@ -2540,14 +2581,25 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void questionBlockModel(Block block, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
+        this.questionBlockMirroredModel(block, mainTexture, emptyTexture, null);
+    }
+
+    private void questionBlockMirroredModel(Block block, ResourceLocation mainTexture, ResourceLocation emptyTexture,
+                                            @Nullable ResourceLocation mirroredTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile model = models()
-                .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
-                .texture("bottom", emptyTexture).texture("side", mainTexture).texture("top", emptyTexture);
-        ModelFile modelEmpty = models()
-                .withExistingParent("empty_" + modelName, mcLoc("block/cube_all"))
+        ModelFile model = mirroredTexture != null
+                ? models().withExistingParent(modelName, modLoc("block/cube_bottom_top_north_west_mirrored"))
+                        .texture("bottom", emptyTexture).texture("side", mainTexture).texture("side_mirrored", mirroredTexture)
+                        .texture("top", emptyTexture)
+                : models().withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
+                        .texture("bottom", emptyTexture).texture("side", mainTexture).texture("top", emptyTexture);
+        BlockModelBuilder modelEmpty = models()
+                .withExistingParent("empty_" + modelName,
+                        mirroredTexture != null ? modLoc("block/cube_all_north_west_mirrored") : mcLoc("block/cube_all"))
                 .texture("all", emptyTexture);
+        if (mirroredTexture != null)
+            modelEmpty.texture("mirrored", emptyTexture.withSuffix("_mirrored"));
 
         simpleBlockItem(block, model);
 
@@ -2723,14 +2775,21 @@ public class BlockStateGen extends BlockStateProvider {
     }
 
     private void storageBrickModel(Block block, ResourceLocation mainTexture, ResourceLocation emptyTexture) {
+        this.storageBrickModel(block, mainTexture, emptyTexture, false);
+    }
+
+    private void storageBrickModel(Block block, ResourceLocation mainTexture, ResourceLocation emptyTexture, boolean northWestMirrored) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()
-                .withExistingParent(modelName, mcLoc("block/cube_all"))
+                .withExistingParent(modelName, mcLoc(northWestMirrored ? "block/cube_north_west_mirrored_all" : "block/cube_all"))
                 .texture("all", mainTexture);
-        ModelFile modelEmpty = models()
-                .withExistingParent("empty_" + modelName, mcLoc("block/cube_all"))
+        BlockModelBuilder modelEmpty = models()
+                .withExistingParent("empty_" + modelName,
+                        northWestMirrored ? modLoc("block/cube_all_north_west_mirrored") : mcLoc("block/cube_all"))
                 .texture("all", emptyTexture);
+        if (northWestMirrored)
+            modelEmpty.texture("mirrored", emptyTexture.withSuffix("_mirrored"));
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().with(QuestionBlock.EMPTY, false).addModels(new ConfiguredModel(model));
