@@ -46,6 +46,7 @@
   - Mushroot & Spookroot Saplings
   - Shroomgrass Blocks
 - Added new creative tabs
+- New On/Off Trampoline Mushroom textures
 - Fixed flammability of Log Stairs
 - Fixed Supplementaries soap not working with some dyed blocks
 - Fixed peaceful difficulty causing some blocks/enemies to not do damage
@@ -61,8 +62,7 @@ Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/
 - Fixed piranha plants spawning everywhere
 
 ## Update 1.11.1
-**Now requires Curios instead of Accessories**
-
+**Now requires Curios instead of Accessories** <br>
 **Remove equipped items before uninstalling Accessories**
 
 - Migrated compat to use Curios instead of Accessories
