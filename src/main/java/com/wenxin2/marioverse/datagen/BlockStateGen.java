@@ -759,7 +759,7 @@ public class BlockStateGen extends BlockStateProvider {
                 String blockName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
                 if (blockName.equals("polished_fortstone_loophole")) {
-                    this.loopholeModel(block, "template_polished_loophole", modLoc("block/" + blockName + "_front"),
+                    this.loopholeModel(block, "template_polished_loophole", "template_polished_loophole", modLoc("block/" + blockName + "_front"),
                             modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_middle"),
                             modLoc("block/" + blockName + "_top"), modLoc("block/" + blockName + "_side"),
                             modLoc("block/polished_fortstone_top"), modLoc("block/polished_fortstone_bottom"));
@@ -770,10 +770,11 @@ public class BlockStateGen extends BlockStateProvider {
                     ResourceLocation topTexture = this.textureOrDefault(texture.withSuffix("_top"), texture);
                     ResourceLocation bottomTexture = this.textureOrDefault(texture.withSuffix("_bottom"), topTexture);
 
-                    String template = blockFamily.getBaseBlock() == Blocks.MUD_BRICKS
-                            ? "template_loophole_north_west_mirrored" : "template_loophole";
+                    boolean mudBricks = blockFamily.getBaseBlock() == Blocks.MUD_BRICKS;
+                    String template = mudBricks ? "template_loophole_north_west_mirrored" : "template_loophole";
+                    String xTemplate = mudBricks ? "template_loophole_south_west_mirrored" : "template_loophole";
 
-                    this.loopholeModel(block, template, texture, texture, texture, texture, texture, topTexture, bottomTexture);
+                    this.loopholeModel(block, template, xTemplate, texture, texture, texture, texture, texture, topTexture, bottomTexture);
                 }
             }
         }));
@@ -2295,41 +2296,47 @@ public class BlockStateGen extends BlockStateProvider {
         });
     }
 
-    private void loopholeModel(Block block, String template, ResourceLocation frontTexture, ResourceLocation frontBottomTexture,
-                               ResourceLocation frontMiddleTexture, ResourceLocation frontTopTexture, ResourceLocation sideTexture,
-                               ResourceLocation topTexture, ResourceLocation bottomTexture) {
+    private void loopholeModel(Block block, String template, String xTemplate, ResourceLocation frontTexture,
+                               ResourceLocation frontBottomTexture, ResourceLocation frontMiddleTexture, ResourceLocation frontTopTexture,
+                               ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation bottomTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile model = models()
-                .withExistingParent(modelName, modLoc("block/" + template))
-                .texture("particle", sideTexture).texture("front", frontTexture).texture("side", sideTexture)
-                .texture("top", topTexture).texture("bottom", bottomTexture);
-        ModelFile modelBottom = models()
-                .withExistingParent(modelName + "_bottom", modLoc("block/" + template + "_bottom"))
-                .texture("particle", sideTexture).texture("front", frontBottomTexture).texture("side", sideTexture)
-                .texture("top", topTexture).texture("bottom", bottomTexture);
-        ModelFile modelMiddle = models()
-                .withExistingParent(modelName + "_middle", modLoc("block/" + template + "_middle"))
-                .texture("particle", sideTexture).texture("front", frontMiddleTexture).texture("side", sideTexture)
-                .texture("top", topTexture).texture("bottom", bottomTexture);
-        ModelFile modelTop = models()
-                .withExistingParent(modelName + "_top", modLoc("block/" + template + "_top"))
-                .texture("particle", sideTexture).texture("front", frontTopTexture).texture("side", sideTexture)
-                .texture("top", topTexture).texture("bottom", bottomTexture);
+        ModelFile[] modelsZ = this.loopholeModels(modelName, template, frontTexture, frontBottomTexture,
+                frontMiddleTexture, frontTopTexture, sideTexture, topTexture, bottomTexture);
+        ModelFile[] modelsX = xTemplate.equals(template) ? modelsZ : this.loopholeModels(modelName + "_x", xTemplate, frontTexture,
+                frontBottomTexture, frontMiddleTexture, frontTopTexture, sideTexture, topTexture, bottomTexture);
 
-        this.simpleBlockItem(block, model);
+        this.simpleBlockItem(block, modelsZ[0]);
 
         this.getVariantBuilder(block).forAllStatesExcept(state -> {
+            boolean isX = state.getValue(LoopholeBlock.AXIS) == Direction.Axis.X;
+            ModelFile[] axisModels = isX ? modelsX : modelsZ;
             ModelFile columnModel = switch (state.getValue(LoopholeBlock.COLUMN)) {
-                case BOTTOM -> modelBottom;
-                case MIDDLE -> modelMiddle;
-                case TOP -> modelTop;
-                default -> model;
+                case BOTTOM -> axisModels[1];
+                case MIDDLE -> axisModels[2];
+                case TOP -> axisModels[3];
+                default -> axisModels[0];
             };
-            int yRot = state.getValue(LoopholeBlock.AXIS) == Direction.Axis.X ? 90 : 0;
 
-            return ConfiguredModel.builder().modelFile(columnModel).rotationY(yRot).uvLock(false).build();
+            return ConfiguredModel.builder().modelFile(columnModel).rotationY(isX ? 90 : 0).uvLock(false).build();
         }, LoopholeBlock.WATERLOGGED);
+    }
+
+    private ModelFile[] loopholeModels(String modelName, String template, ResourceLocation frontTexture,
+                                       ResourceLocation frontBottomTexture, ResourceLocation frontMiddleTexture,
+                                       ResourceLocation frontTopTexture, ResourceLocation sideTexture,
+                                       ResourceLocation topTexture, ResourceLocation bottomTexture) {
+        String[] suffixes = {"", "_bottom", "_middle", "_top"};
+        ResourceLocation[] fronts = {frontTexture, frontBottomTexture, frontMiddleTexture, frontTopTexture};
+        ModelFile[] columnModels = new ModelFile[suffixes.length];
+
+        for (int i = 0; i < suffixes.length; i++) {
+            columnModels[i] = models()
+                    .withExistingParent(modelName + suffixes[i], modLoc("block/" + template + suffixes[i]))
+                    .texture("particle", sideTexture).texture("front", fronts[i]).texture("side", sideTexture)
+                    .texture("top", topTexture).texture("bottom", bottomTexture);
+        }
+        return columnModels;
     }
 
     private void pedestalModel(Block block, ResourceLocation mainTexture) {

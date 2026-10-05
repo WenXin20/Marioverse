@@ -1,0 +1,10 @@
+{
+  "parent": "marioverse:block/template_loophole_south_west_mirrored_top",
+  "textures": {
+    "bottom": "minecraft:block/mud_bricks",
+    "front": "minecraft:block/mud_bricks",
+    "particle": "minecraft:block/mud_bricks",
+    "side": "minecraft:block/mud_bricks",
+    "top": "minecraft:block/mud_bricks"
+  }
+}
