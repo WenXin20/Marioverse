@@ -95,7 +95,9 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.features.TreeFeatures;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.effect.MobEffect;
@@ -1080,34 +1082,34 @@ public class BlockRegistry {
                 () -> superMushroomCap(MapColor.COLOR_YELLOW));
 
         BLUE_SUPER_MUSHROOM = registerBlock("blue_super_mushroom",
-                () -> superMushroom(MapColor.COLOR_BLUE));
+                () -> superMushroom("blue", MapColor.COLOR_BLUE));
         GREEN_SUPER_MUSHROOM = registerBlock("green_super_mushroom",
-                () -> superMushroom(MapColor.COLOR_GREEN));
+                () -> superMushroom("green", MapColor.COLOR_GREEN));
         LIME_SUPER_MUSHROOM = registerBlock("lime_super_mushroom",
-                () -> superMushroom(MapColor.COLOR_LIGHT_GREEN));
+                () -> superMushroom("lime", MapColor.COLOR_LIGHT_GREEN));
         ORANGE_SUPER_MUSHROOM = registerBlock("orange_super_mushroom",
-                () -> superMushroom(MapColor.COLOR_ORANGE));
+                () -> superMushroom("orange", MapColor.COLOR_ORANGE));
         PURPLE_SUPER_MUSHROOM = registerBlock("purple_super_mushroom",
-                () -> superMushroom(MapColor.COLOR_PURPLE));
+                () -> superMushroom("purple", MapColor.COLOR_PURPLE));
         RED_SUPER_MUSHROOM = registerBlock("red_super_mushroom",
-                () -> superMushroom(MapColor.COLOR_RED));
+                () -> superMushroom("red", MapColor.COLOR_RED));
         YELLOW_SUPER_MUSHROOM = registerBlock("yellow_super_mushroom",
-                () -> superMushroom(MapColor.COLOR_YELLOW));
+                () -> superMushroom("yellow", MapColor.COLOR_YELLOW));
 
         BLUE_MEGA_MUSHROOM = registerBlock("blue_mega_mushroom",
-                () -> megaMushroom(MapColor.COLOR_BLUE));
+                () -> megaMushroom("blue", MapColor.COLOR_BLUE));
         GREEN_MEGA_MUSHROOM = registerBlock("green_mega_mushroom",
-                () -> megaMushroom(MapColor.COLOR_GREEN));
+                () -> megaMushroom("green", MapColor.COLOR_GREEN));
         LIME_MEGA_MUSHROOM = registerBlock("lime_mega_mushroom",
-                () -> megaMushroom(MapColor.COLOR_LIGHT_GREEN));
+                () -> megaMushroom("lime", MapColor.COLOR_LIGHT_GREEN));
         ORANGE_MEGA_MUSHROOM = registerBlock("orange_mega_mushroom",
-                () -> megaMushroom(MapColor.COLOR_ORANGE));
+                () -> megaMushroom("orange", MapColor.COLOR_ORANGE));
         PURPLE_MEGA_MUSHROOM = registerBlock("purple_mega_mushroom",
-                () -> megaMushroom(MapColor.COLOR_PURPLE));
+                () -> megaMushroom("purple", MapColor.COLOR_PURPLE));
         RED_MEGA_MUSHROOM = registerBlock("red_mega_mushroom",
-                () -> megaMushroom(MapColor.COLOR_RED));
+                () -> megaMushroom("red", MapColor.COLOR_RED));
         YELLOW_MEGA_MUSHROOM = registerBlock("yellow_mega_mushroom",
-                () -> megaMushroom(MapColor.COLOR_YELLOW));
+                () -> megaMushroom("yellow", MapColor.COLOR_YELLOW));
 
         POTTED_BLUE_SUPER_MUSHROOM = registerNoItemBlock("potted_blue_super_mushroom",
                 () -> pottedMushroom(BlockRegistry.BLUE_SUPER_MUSHROOM));
@@ -3524,8 +3526,9 @@ public class BlockRegistry {
                 .mapColor(state -> state.getValue(SuperMushroomCapBlock.UP) ? color : MapColor.TERRACOTTA_YELLOW));
     }
 
-    private static Block superMushroom(MapColor color) {
-        return new SuperMushroomBlock(TreeFeatures.HUGE_RED_MUSHROOM,
+    private static Block superMushroom(String colorName, MapColor color) {
+        return new SuperMushroomBlock(mushroomFeature("huge_" + colorName + "_super_mushroom"),
+                mushroomFeature("wide_" + colorName + "_super_mushroom"),
                 BlockBehaviour.Properties.of().mapColor(color)
                         .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
@@ -3533,12 +3536,18 @@ public class BlockRegistry {
                         .randomTicks().instabreak());
     }
 
-    private static Block megaMushroom(MapColor color) {
-        return new MegaMushroomBlock(TreeFeatures.HUGE_RED_MUSHROOM,
+    private static Block megaMushroom(String colorName, MapColor color) {
+        return new MegaMushroomBlock(mushroomFeature("huge_" + colorName + "_mega_mushroom"),
+                mushroomFeature("wide_" + colorName + "_mega_mushroom"),
                 BlockBehaviour.Properties.of().mapColor(color)
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                         .hasPostProcess(BlockRegistry::always)
                         .randomTicks().instabreak());
+    }
+
+    private static ResourceKey<ConfiguredFeature<?, ?>> mushroomFeature(String name) {
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE,
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
     }
 
     private static Block pottedMushroom(Supplier<Block> mushroom) {

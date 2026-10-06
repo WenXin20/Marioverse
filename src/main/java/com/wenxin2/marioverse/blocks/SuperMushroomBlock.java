@@ -1,8 +1,12 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import java.util.List;
+import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -26,6 +30,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.level.BlockGrowFeatureEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlock {
@@ -37,8 +43,12 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
     protected static final VoxelShape SHAPE = Block
             .box(6, 0, 6, 10, 16, 10).optimize();
 
-    public SuperMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
+    private final ResourceKey<ConfiguredFeature<?, ?>> wideFeature;
+
+    public SuperMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature,
+                              ResourceKey<ConfiguredFeature<?, ?>> wideFeature, Properties properties) {
         super(configuredFeature, properties);
+        this.wideFeature = wideFeature;
         this.registerDefaultState(this.stateDefinition.any().setValue(TOP, true));
     }
 
@@ -84,7 +94,7 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
 
     @Override
     public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos pos, BlockState state) {
-        if (levelReader.getBlockState(pos.below()).is(BlockTags.DIRT))
+        if (this.canGrowHuge(levelReader, pos))
             return true;
 
         BlockPos posAbove = this.getTopPos(levelReader, pos).above();
@@ -93,16 +103,17 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
 
     @Override
     public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
-        if (level.getBlockState(pos.below()).is(BlockTags.DIRT))
+        if (this.canGrowHuge(level, pos))
             return super.isBonemealSuccess(level, random, pos, state);
         return true;
     }
 
     @Override
     public void performBonemeal(ServerLevel serverLevel, RandomSource random, BlockPos pos, BlockState state) {
-        if (serverLevel.getBlockState(pos.below()).is(BlockTags.DIRT))
-            this.growMushroom(serverLevel, pos, state, random);
-        else serverLevel.setBlock(this.getTopPos(serverLevel, pos).above(), this.defaultBlockState(), Block.UPDATE_ALL);
+        if (this.canGrowHuge(serverLevel, pos)) {
+            if (!this.growWideMushroom(serverLevel, pos, random))
+                this.growMushroom(serverLevel, pos, state, random);
+        } else serverLevel.setBlock(this.getTopPos(serverLevel, pos).above(), this.defaultBlockState(), Block.UPDATE_ALL);
     }
 
     @Override
@@ -122,6 +133,43 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
         if (vec3.y < 0.0) {
             double dy = entity instanceof LivingEntity ? 1.0 : 0.8;
             entity.setDeltaMovement(vec3.x, -vec3.y * 0.66F * dy, vec3.z);
+        }
+    }
+
+    private boolean canGrowHuge(BlockGetter blockGetter, BlockPos pos) {
+        return blockGetter.getBlockState(pos.below()).is(BlockTags.DIRT)
+                && !blockGetter.getBlockState(pos.above()).is(this);
+    }
+
+    private boolean growWideMushroom(ServerLevel serverLevel, BlockPos pos, RandomSource random) {
+        for (int offsetX = 0; offsetX >= -1; offsetX--) {
+            for (int offsetZ = 0; offsetZ >= -1; offsetZ--) {
+                BlockPos cornerPos = pos.offset(offsetX, 0, offsetZ);
+                List<BlockPos> positions = List.of(cornerPos, cornerPos.east(), cornerPos.south(), cornerPos.east().south());
+                if (positions.stream().allMatch(mushroomPos -> serverLevel.getBlockState(mushroomPos).is(this))) {
+                    this.placeWideMushroom(serverLevel, cornerPos, positions, random);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void placeWideMushroom(ServerLevel serverLevel, BlockPos cornerPos, List<BlockPos> positions, RandomSource random) {
+        Optional<Holder.Reference<ConfiguredFeature<?, ?>>> feature = serverLevel.registryAccess()
+                .registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(this.wideFeature);
+        if (feature.isEmpty())
+            return;
+
+        BlockGrowFeatureEvent event = EventHooks.fireBlockGrowFeature(serverLevel, random, cornerPos, feature.get());
+        if (event.isCanceled() || event.getFeature() == null)
+            return;
+
+        List<BlockState> states = positions.stream().map(serverLevel::getBlockState).toList();
+        positions.forEach(mushroomPos -> serverLevel.removeBlock(mushroomPos, false));
+        if (!event.getFeature().value().place(serverLevel, serverLevel.getChunkSource().getGenerator(), random, cornerPos)) {
+            for (int i = 0; i < positions.size(); i++)
+                serverLevel.setBlock(positions.get(i), states.get(i), Block.UPDATE_ALL);
         }
     }
 

@@ -38,8 +38,9 @@ public class MegaMushroomBlock extends SuperMushroomBlock implements Bonemealabl
     protected static final VoxelShape SHAPE = Block
             .box(5, 0, 5, 11, 16, 11).optimize();
 
-    public MegaMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
-        super(configuredFeature, properties);
+    public MegaMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature,
+                             ResourceKey<ConfiguredFeature<?, ?>> wideFeature, Properties properties) {
+        super(configuredFeature, wideFeature, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(TOP, true));
     }
 
@@ -51,8 +52,6 @@ public class MegaMushroomBlock extends SuperMushroomBlock implements Bonemealabl
     @NotNull
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        final Vec3 offset = state.getOffset(blockGetter, pos);
-
         if (state.getValue(TOP))
             return TOP_SHAPE;
         return SHAPE;
