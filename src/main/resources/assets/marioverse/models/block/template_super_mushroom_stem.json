@@ -1,0 +1,25 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"render_type": "solid",
+	"textures": {
+		"particle": "marioverse:boenndal_textures/blocks/mushrooms/super_mushroom_thin_stem",
+		"stem": "marioverse:boenndal_textures/blocks/mushrooms/super_mushroom_thin_stem"
+	},
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [10, 16, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 7]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 16], "texture": "#stem"},
+				"east": {"uv": [0, 0, 4, 16], "texture": "#stem"},
+				"south": {"uv": [0, 0, 4, 16], "texture": "#stem"},
+				"west": {"uv": [0, 0, 4, 16], "texture": "#stem"},
+				"up": {"uv": [4, 0, 8, 4], "texture": "#stem", "cullface": "up"},
+				"down": {"uv": [4, 0, 8, 4], "texture": "#stem", "cullface": "down"}
+			}
+		}
+	]
+}
