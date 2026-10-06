@@ -22,7 +22,7 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
         RandomSource random = context.random();
         BlockPos pos = context.origin();
         WorldGenLevel worldGenLevel = context.level();
-        GlobalSwitchSavedData data = GlobalSwitchSavedData.get(worldGenLevel.getLevel());
+        boolean isActive = GlobalSwitchSavedData.isActiveCached(worldGenLevel.getLevel());
         int placedAmt = 0;
         BlockPos.MutableBlockPos posMutable = new BlockPos.MutableBlockPos();
         int j = patchConfig.xzSpread() + 1;
@@ -37,7 +37,7 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
                 BlockState placedState = worldGenLevel.getBlockState(posMutable);
 
                 if (placedState.hasProperty(OnBlock.ACTIVE))
-                    worldGenLevel.setBlock(posMutable, placedState.setValue(OnBlock.ACTIVE, data.isActive()), 2);
+                    worldGenLevel.setBlock(posMutable, placedState.setValue(OnBlock.ACTIVE, isActive), 2);
 
                 placedAmt++;
             }

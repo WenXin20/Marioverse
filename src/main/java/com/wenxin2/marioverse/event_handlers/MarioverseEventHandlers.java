@@ -68,6 +68,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -130,6 +132,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -154,11 +157,22 @@ public class MarioverseEventHandlers {
     }
 
     @SubscribeEvent
+    public static void onLevelLoad(LevelEvent.Load event) {
+        if (event.getLevel() instanceof ServerLevel level)
+            GlobalSwitchSavedData.get(level);
+    }
+
+    @SubscribeEvent
     public static void onChunkLoad(ChunkEvent.Load event) {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
 
-        level.getServer().execute(() -> processChunk(level, event.getChunk().getPos()));
-        level.getServer().execute(() -> processLinkedChunk(level, event.getChunk().getPos()));
+        ChunkPos chunkPos = event.getChunk().getPos();
+        MinecraftServer server = level.getServer();
+
+        server.tell(new TickTask(server.getTickCount(), () -> {
+            processChunk(level, chunkPos);
+            processLinkedChunk(level, chunkPos);
+        }));
     }
 
     private static void processChunk(ServerLevel level, ChunkPos chunkPos) {

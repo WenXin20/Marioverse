@@ -50,8 +50,8 @@ public class HugeSwitchMushroomFeature extends AbstractHugeMushroomFeature {
                         }
 
                         if (blockstate.hasProperty(OnBlock.ACTIVE) && levelAccessor instanceof ServerLevelAccessor serverLevelAccessor) {
-                            GlobalSwitchSavedData data = GlobalSwitchSavedData.get(serverLevelAccessor.getLevel());
-                            blockstate = blockstate.setValue(OnBlock.ACTIVE, data.isActive());
+                            boolean isActive = GlobalSwitchSavedData.isActiveCached(serverLevelAccessor.getLevel());
+                            blockstate = blockstate.setValue(OnBlock.ACTIVE, isActive);
                         }
 
                         this.setBlock(levelAccessor, posMutable, blockstate);
