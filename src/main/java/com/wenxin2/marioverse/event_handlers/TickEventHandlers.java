@@ -44,6 +44,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
@@ -268,6 +269,9 @@ public class TickEventHandlers {
     }
 
     private static void collideWithBlocks(Level level, Entity entity) {
+        if (entity instanceof AbstractWindCharge)
+            return;
+
         EntityType<?> type = entity.getType();
         boolean canHitAbove = type.is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES) || type.is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 || type.is(TagRegistry.CAN_SMASH_BLOCKS) || type.is(TagRegistry.CAN_HIT_ABILITY_BLOCKS)

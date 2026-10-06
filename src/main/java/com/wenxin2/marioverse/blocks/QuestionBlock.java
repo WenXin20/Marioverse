@@ -51,7 +51,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
+import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
@@ -199,7 +199,7 @@ public class QuestionBlock extends BaseEntityBlock {
         if (level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBlockEntity
                 && projectile.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
-                && !(projectile instanceof WindCharge))
+                && !(projectile instanceof AbstractWindCharge))
             QuestionBlock.hitQuestionBlock(level, pos, projectile, questionBlockEntity);
 
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);

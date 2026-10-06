@@ -20,7 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
+import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -119,7 +119,7 @@ public class AbilityBlock extends Block {
         if (projectile.getOwner() instanceof LivingEntity livingEntity
                 && projectile.getType().is(TagRegistry.CAN_HIT_ABILITY_BLOCKS)
                 && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
-                && !(projectile instanceof WindCharge))
+                && !(projectile instanceof AbstractWindCharge))
             AbilityBlock.hitAbilityBlock(level, hitResult.getBlockPos(), state, livingEntity);
 
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
