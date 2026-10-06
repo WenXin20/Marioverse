@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "end=false,facing=down": {
+      "model": "marioverse:block/super_mushroom_stem",
+      "x": 180
+    },
+    "end=false,facing=east": {
+      "model": "marioverse:block/super_mushroom_stem",
+      "x": 90,
+      "y": 90
+    },
+    "end=false,facing=north": {
+      "model": "marioverse:block/super_mushroom_stem",
+      "x": 90
+    },
+    "end=false,facing=south": {
+      "model": "marioverse:block/super_mushroom_stem",
+      "x": 90,
+      "y": 180
+    },
+    "end=false,facing=up": {
+      "model": "marioverse:block/super_mushroom_stem"
+    },
+    "end=false,facing=west": {
+      "model": "marioverse:block/super_mushroom_stem",
+      "x": 90,
+      "y": 270
+    },
+    "end=true,facing=down": {
+      "model": "marioverse:block/super_mushroom_stem_end",
+      "x": 180
+    },
+    "end=true,facing=east": {
+      "model": "marioverse:block/super_mushroom_stem_end",
+      "x": 90,
+      "y": 90
+    },
+    "end=true,facing=north": {
+      "model": "marioverse:block/super_mushroom_stem_end",
+      "x": 90
+    },
+    "end=true,facing=south": {
+      "model": "marioverse:block/super_mushroom_stem_end",
+      "x": 90,
+      "y": 180
+    },
+    "end=true,facing=up": {
+      "model": "marioverse:block/super_mushroom_stem_end"
+    },
+    "end=true,facing=west": {
+      "model": "marioverse:block/super_mushroom_stem_end",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

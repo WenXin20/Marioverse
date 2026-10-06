@@ -200,7 +200,21 @@ public class ItemTagsGen extends ItemTagsProvider {
 
         tag(Tags.Items.MUSHROOMS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem())
+                .add(BlockRegistry.BLUE_MEGA_MUSHROOM.asItem())
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM.asItem())
+                .add(BlockRegistry.GREEN_MEGA_MUSHROOM.asItem())
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM.asItem())
+                .add(BlockRegistry.LIME_MEGA_MUSHROOM.asItem())
+                .add(BlockRegistry.LIME_SUPER_MUSHROOM.asItem())
+                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM.asItem())
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM.asItem())
+                .add(BlockRegistry.PURPLE_MEGA_MUSHROOM.asItem())
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM.asItem())
+                .add(BlockRegistry.RED_MEGA_MUSHROOM.asItem())
+                .add(BlockRegistry.RED_SUPER_MUSHROOM.asItem())
+                .add(BlockRegistry.YELLOW_MEGA_MUSHROOM.asItem())
+                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM.asItem());
 
         tag(ItemTags.ARMOR_ENCHANTABLE)
                 .add(ItemRegistry.BODICE.get())

@@ -250,10 +250,19 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.MUSHROOT_LOG);
             add(event, BlockRegistry.SPOOKROOT_LOG);
+            add(event, BlockRegistry.SUPER_MUSHROOM_STEM);
 
             add(event, BlockRegistry.MUSHROOT_LEAVES);
             add(event, BlockRegistry.SPOOKROOT_LEAVES);
             add(event, BlockRegistry.DARK_SPOOKROOT_LEAVES);
+
+            add(event, BlockRegistry.RED_SUPER_MUSHROOM_BLOCK);
+            add(event, BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK);
+            add(event, BlockRegistry.GREEN_SUPER_MUSHROOM_BLOCK);
+            add(event, BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK);
+            add(event, BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK);
+            add(event, BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK);
+            add(event, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK);
 
             add(event, BlockRegistry.MUSHROOT_SAPLING);
             add(event, BlockRegistry.SPOOKROOT_SAPLING);
@@ -261,6 +270,21 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.RED_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_TRAMPOLINE_CAP);
+            add(event, BlockRegistry.RED_SUPER_MUSHROOM);
+            add(event, BlockRegistry.RED_MEGA_MUSHROOM);
+            add(event, BlockRegistry.YELLOW_SUPER_MUSHROOM);
+            add(event, BlockRegistry.YELLOW_MEGA_MUSHROOM);
+            add(event, BlockRegistry.GREEN_SUPER_MUSHROOM);
+            add(event, BlockRegistry.GREEN_MEGA_MUSHROOM);
+            add(event, BlockRegistry.BLUE_SUPER_MUSHROOM);
+            add(event, BlockRegistry.BLUE_MEGA_MUSHROOM);
+            add(event, BlockRegistry.PURPLE_MEGA_MUSHROOM);
+            add(event, BlockRegistry.PURPLE_SUPER_MUSHROOM);
+            add(event, BlockRegistry.ORANGE_SUPER_MUSHROOM);
+            add(event, BlockRegistry.ORANGE_MEGA_MUSHROOM);
+            add(event, BlockRegistry.LIME_SUPER_MUSHROOM);
+            add(event, BlockRegistry.LIME_MEGA_MUSHROOM);
+
             add(event, BlockRegistry.WHITE_BLOOMFLOWER);
             add(event, BlockRegistry.BLUE_BLOOMFLOWER);
             add(event, BlockRegistry.ORANGE_BLOOMFLOWER);
@@ -1409,6 +1433,16 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.CHERRY_LOG, BlockRegistry.MUSHROOT_LOG);
                 addAfter(event, BlockRegistry.MUSHROOT_LOG, BlockRegistry.SPOOKROOT_LOG);
 
+                addAfter(event, Blocks.MUSHROOM_STEM, BlockRegistry.SUPER_MUSHROOM_STEM);
+
+                addAfter(event, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_SUPER_MUSHROOM_BLOCK);
+                addAfter(event, BlockRegistry.RED_SUPER_MUSHROOM_BLOCK, BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK);
+                addAfter(event, BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK, BlockRegistry.GREEN_SUPER_MUSHROOM_BLOCK);
+                addAfter(event, BlockRegistry.GREEN_SUPER_MUSHROOM_BLOCK, BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK);
+                addAfter(event, BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK, BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK);
+                addAfter(event, BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK, BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK);
+                addAfter(event, BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK);
+
                 addAfter(event, Blocks.FLOWERING_AZALEA_LEAVES, BlockRegistry.MUSHROOT_LEAVES);
                 addAfter(event, BlockRegistry.MUSHROOT_LEAVES, BlockRegistry.SPOOKROOT_LEAVES);
                 addAfter(event, BlockRegistry.SPOOKROOT_LEAVES, BlockRegistry.DARK_SPOOKROOT_LEAVES);
@@ -1419,6 +1453,20 @@ public class MarioverseCreativeTabs {
 
                 addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.RED_TRAMPOLINE_CAP, BlockRegistry.BLUE_TRAMPOLINE_CAP);
+                addAfter(event, BlockRegistry.BLUE_TRAMPOLINE_CAP, BlockRegistry.RED_SUPER_MUSHROOM);
+                addAfter(event, BlockRegistry.RED_SUPER_MUSHROOM, BlockRegistry.RED_MEGA_MUSHROOM);
+                addAfter(event, BlockRegistry.RED_MEGA_MUSHROOM, BlockRegistry.YELLOW_SUPER_MUSHROOM);
+                addAfter(event, BlockRegistry.YELLOW_SUPER_MUSHROOM, BlockRegistry.YELLOW_MEGA_MUSHROOM);
+                addAfter(event, BlockRegistry.YELLOW_MEGA_MUSHROOM, BlockRegistry.GREEN_SUPER_MUSHROOM);
+                addAfter(event, BlockRegistry.GREEN_SUPER_MUSHROOM, BlockRegistry.GREEN_MEGA_MUSHROOM);
+                addAfter(event, BlockRegistry.GREEN_MEGA_MUSHROOM, BlockRegistry.BLUE_SUPER_MUSHROOM);
+                addAfter(event, BlockRegistry.BLUE_SUPER_MUSHROOM, BlockRegistry.BLUE_MEGA_MUSHROOM);
+                addAfter(event, BlockRegistry.BLUE_MEGA_MUSHROOM, BlockRegistry.PURPLE_SUPER_MUSHROOM);
+                addAfter(event, BlockRegistry.PURPLE_SUPER_MUSHROOM, BlockRegistry.PURPLE_MEGA_MUSHROOM);
+                addAfter(event, BlockRegistry.PURPLE_MEGA_MUSHROOM, BlockRegistry.ORANGE_SUPER_MUSHROOM);
+                addAfter(event, BlockRegistry.ORANGE_SUPER_MUSHROOM, BlockRegistry.ORANGE_MEGA_MUSHROOM);
+                addAfter(event, BlockRegistry.ORANGE_MEGA_MUSHROOM, BlockRegistry.LIME_SUPER_MUSHROOM);
+                addAfter(event, BlockRegistry.LIME_SUPER_MUSHROOM, BlockRegistry.LIME_MEGA_MUSHROOM);
 
                 addAfter(event, Blocks.SHORT_GRASS, BlockRegistry.SHORT_SHROOMGRASS);
                 addAfter(event, BlockRegistry.SHORT_SHROOMGRASS, BlockRegistry.SHROOMGRASS);

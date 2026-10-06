@@ -27,6 +27,16 @@
   - Shovels remove snow, snow layers make hedges snow
   - Shears remove roses
   - Bone Meal grows the hedge and regrows roses
+- Added Super Mushroom plants
+  - Comes in 7 different colors
+  - If dirt is below, bone meal grows it into a Huge Super Mushroom
+  - If no dirt, bone meal grows it taller
+  - It is slightly bouncy
+- Added Mega Mushroom plants
+  - Comes in 7 different colors
+  - If dirt is below, bone meal grows it into a Huge Mega Mushroom
+  - If no dirt, bone meal grows it taller
+  - It is slightly more bouncy
 - Added Arrow Signs for all wood types
   - Every Compat support
 - Added Hard Wooden Blocks for all wood types

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_single_face",
+  "textures": {
+    "texture": "marioverse:block/blue_super_mushroom_block_cap"
+  }
+}

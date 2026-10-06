@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-03T14:13:14.69754	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-10-06T15:08:59.1446929	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -38,7 +38,7 @@ eb3f7ca15f032d0d19418282e01f56a49a060528 data/c/tags/item/foods/raw_fish.json
 789473b71265972c32eafed83385821b3ee84ed0 data/c/tags/item/glass_blocks/wooden.json
 c7065018449d1318e71044df4526e528d11f4109 data/c/tags/item/glass_panes/colorless.json
 c7065018449d1318e71044df4526e528d11f4109 data/c/tags/item/glass_panes/wooden.json
-94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/c/tags/item/mushrooms.json
+2666d102f3d2aaed527363efcfd85ba87dbc9eae data/c/tags/item/mushrooms.json
 71b48e90c32dc97f001f1731d3f7c0b485536abe data/c/tags/item/pumpkins/carved.json
 990b6967f7666aad0fc595370294f4722b89bcff data/c/tags/item/pumpkins/jack_o_lanterns.json
 39995742f261f459d47e9cf36b556492a79bed7d data/c/tags/item/stones.json

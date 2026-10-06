@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/super_mushroom_stem_top",
+    "side": "marioverse:block/super_mushroom_skirt",
+    "top": "marioverse:block/super_mushroom_skirt_top"
+  }
+}

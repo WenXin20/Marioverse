@@ -14,9 +14,17 @@
     "#marioverse:windows/wooden",
     "#marioverse:window_panes/wooden",
     "marioverse:blue_mushroom_trampoline",
+    "marioverse:blue_super_mushroom_block",
     "marioverse:blue_trampoline_cap",
+    "marioverse:green_super_mushroom_block",
+    "marioverse:lime_super_mushroom_block",
+    "marioverse:orange_super_mushroom_block",
+    "marioverse:purple_super_mushroom_block",
     "marioverse:red_mushroom_trampoline",
+    "marioverse:red_super_mushroom_block",
     "marioverse:red_trampoline_cap",
+    "marioverse:super_mushroom_stem",
+    "marioverse:yellow_super_mushroom_block",
     "marioverse:splunkin_carved_pumpkin",
     "marioverse:splunkin_o_lantern"
   ]

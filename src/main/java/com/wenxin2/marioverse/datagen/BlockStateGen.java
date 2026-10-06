@@ -25,6 +25,10 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
 import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
+import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
@@ -54,8 +58,10 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -68,6 +74,7 @@ import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Half;
@@ -360,6 +367,43 @@ public class BlockStateGen extends BlockStateProvider {
         this.deepPathModel(BlockRegistry.DEEP_WET_MUD.get());
         this.waterSpoutModel(waterSpout, texture(waterSpout, "_flow"), texture(waterSpout, "_still"),
                 texture(waterSpout, "_splash"));
+
+        this.megaMushroomModels(BlockRegistry.BLUE_MEGA_MUSHROOM.get(),
+                BlockRegistry.GREEN_MEGA_MUSHROOM.get(),
+                BlockRegistry.LIME_MEGA_MUSHROOM.get(),
+                BlockRegistry.ORANGE_MEGA_MUSHROOM.get(),
+                BlockRegistry.PURPLE_MEGA_MUSHROOM.get(),
+                BlockRegistry.RED_MEGA_MUSHROOM.get(),
+                BlockRegistry.YELLOW_MEGA_MUSHROOM.get());
+        this.pottedMegaMushroomModels(BlockRegistry.POTTED_BLUE_MEGA_MUSHROOM.get(),
+                BlockRegistry.POTTED_GREEN_MEGA_MUSHROOM.get(),
+                BlockRegistry.POTTED_LIME_MEGA_MUSHROOM.get(),
+                BlockRegistry.POTTED_ORANGE_MEGA_MUSHROOM.get(),
+                BlockRegistry.POTTED_PURPLE_MEGA_MUSHROOM.get(),
+                BlockRegistry.POTTED_RED_MEGA_MUSHROOM.get(),
+                BlockRegistry.POTTED_YELLOW_MEGA_MUSHROOM.get());
+        this.pottedSuperMushroomModels(BlockRegistry.POTTED_BLUE_SUPER_MUSHROOM.get(),
+                BlockRegistry.POTTED_GREEN_SUPER_MUSHROOM.get(),
+                BlockRegistry.POTTED_LIME_SUPER_MUSHROOM.get(),
+                BlockRegistry.POTTED_ORANGE_SUPER_MUSHROOM.get(),
+                BlockRegistry.POTTED_PURPLE_SUPER_MUSHROOM.get(),
+                BlockRegistry.POTTED_RED_SUPER_MUSHROOM.get(),
+                BlockRegistry.POTTED_YELLOW_SUPER_MUSHROOM.get());
+        this.superMushroomCapModels(BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK.get(),
+                BlockRegistry.GREEN_SUPER_MUSHROOM_BLOCK.get(),
+                BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK.get(),
+                BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK.get(),
+                BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK.get(),
+                BlockRegistry.RED_SUPER_MUSHROOM_BLOCK.get(),
+                BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK.get());
+        this.superMushroomModels(BlockRegistry.BLUE_SUPER_MUSHROOM.get(),
+                BlockRegistry.GREEN_SUPER_MUSHROOM.get(),
+                BlockRegistry.LIME_SUPER_MUSHROOM.get(),
+                BlockRegistry.ORANGE_SUPER_MUSHROOM.get(),
+                BlockRegistry.PURPLE_SUPER_MUSHROOM.get(),
+                BlockRegistry.RED_SUPER_MUSHROOM.get(),
+                BlockRegistry.YELLOW_SUPER_MUSHROOM.get());
+        this.superMushroomStemModel(BlockRegistry.SUPER_MUSHROOM_STEM.get());
 
         this.genArrowSigns();
         this.genButtons();
@@ -3250,5 +3294,128 @@ public class BlockStateGen extends BlockStateProvider {
     private ResourceLocation textureOrDefault(ResourceLocation texture, ResourceLocation defaultTexture) {
         return this.models().existingFileHelper.exists(texture, PackType.CLIENT_RESOURCES, ".png", "textures")
                 ? texture : defaultTexture;
+    }
+
+    private void superMushroomStemModel(Block block) {
+        String modelName = this.name(block);
+        ResourceLocation topTexture = texture(block, "_top");
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("block/cube_column"))
+                .texture("side", blockTexture(block)).texture("end", topTexture);
+        ModelFile modelEnd = models()
+                .withExistingParent(modelName + "_end", mcLoc("block/cube_bottom_top"))
+                .texture("side", modLoc("block/super_mushroom_skirt")).texture("bottom", topTexture)
+                .texture("top", modLoc("block/super_mushroom_skirt_top"));
+
+        simpleBlockItem(block, modelEnd);
+
+        this.directionalBlock(block, state -> state.getValue(SuperMushroomStemBlock.END) ? modelEnd : model);
+    }
+
+    private void superMushroomCapModels(Block... blocks) {
+        ResourceLocation insideTexture = modLoc("block/super_mushroom_block_inside");
+        ModelFile modelInside = models()
+                .withExistingParent("super_mushroom_block_inside", mcLoc("block/mushroom_block_inside"))
+                .texture("texture", insideTexture).texture("particle", insideTexture);
+
+        for (Block block : blocks) {
+            String modelName = this.name(block);
+            ResourceLocation capTexture = texture(block, "_cap"), topTexture = texture(block, "_top");
+
+            ModelFile modelSide = models()
+                    .withExistingParent(modelName, mcLoc("block/template_single_face"))
+                    .texture("texture", blockTexture(block));
+            ModelFile modelCap = models()
+                    .withExistingParent(modelName + "_cap", mcLoc("block/template_single_face"))
+                    .texture("texture", capTexture);
+            ModelFile modelTop = models()
+                    .withExistingParent(modelName + "_top", mcLoc("block/template_single_face"))
+                    .texture("texture", topTexture);
+            ModelFile modelInventory = models()
+                    .withExistingParent(modelName + "_inventory", mcLoc("block/cube_bottom_top"))
+                    .texture("side", capTexture).texture("bottom", insideTexture).texture("top", topTexture);
+
+            simpleBlockItem(block, modelInventory);
+
+            MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block);
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                BooleanProperty property = PipeBlock.PROPERTY_BY_DIRECTION.get(direction);
+                int yRot = ((int) direction.toYRot() + 180) % 360;
+
+                builder.part().modelFile(modelSide).rotationY(yRot).uvLock(true).addModel()
+                        .condition(property, true).condition(SuperMushroomCapBlock.BOTTOM, false).end();
+                builder.part().modelFile(modelCap).rotationY(yRot).uvLock(true).addModel()
+                        .condition(property, true).condition(SuperMushroomCapBlock.BOTTOM, true).end();
+                builder.part().modelFile(modelInside).rotationY(yRot).addModel()
+                        .condition(property, false).end();
+            }
+
+            builder.part().modelFile(modelTop).rotationX(270).uvLock(true).addModel()
+                    .condition(SuperMushroomCapBlock.UP, true).end();
+            builder.part().modelFile(modelInside).rotationX(270).addModel()
+                    .condition(SuperMushroomCapBlock.UP, false).end();
+            builder.part().modelFile(modelTop).rotationX(90).uvLock(true).addModel()
+                    .condition(SuperMushroomCapBlock.DOWN, true).condition(SuperMushroomCapBlock.BOTTOM, false).end();
+            builder.part().modelFile(modelInside).rotationX(90).addModel()
+                    .condition(SuperMushroomCapBlock.DOWN, true).condition(SuperMushroomCapBlock.BOTTOM, true).end();
+            builder.part().modelFile(modelInside).rotationX(90).addModel()
+                    .condition(SuperMushroomCapBlock.DOWN, false).end();
+        }
+    }
+
+    private void superMushroomModels(Block... blocks) {
+        ResourceLocation stemTexture = modLoc("block/super_mushroom_thin_stem");
+        ModelFile modelStem = models()
+                .withExistingParent("super_mushroom_thin_stem", modLoc("block/template_super_mushroom_stem"))
+                .texture("stem", stemTexture).texture("particle", stemTexture);
+
+        for (Block block : blocks) {
+            ModelFile model = models()
+                    .withExistingParent(this.name(block), modLoc("block/template_super_mushroom"))
+                    .texture("main", blockTexture(block)).texture("bottom", texture(block, "_bottom"))
+                    .texture("particle", blockTexture(block));
+
+            this.getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
+                    .modelFile(state.getValue(SuperMushroomBlock.TOP) ? model : modelStem).build());
+        }
+    }
+
+    private void megaMushroomModels(Block... blocks) {
+        ResourceLocation stemTexture = modLoc("block/mega_mushroom_stem");
+        ModelFile modelStem = models()
+                .withExistingParent("mega_mushroom_stem", modLoc("block/template_mega_mushroom_stem"))
+                .texture("stem", stemTexture).texture("particle", stemTexture);
+
+        for (Block block : blocks) {
+            ModelFile model = models()
+                    .withExistingParent(this.name(block), modLoc("block/template_mega_mushroom"))
+                    .texture("main", blockTexture(block)).texture("bottom", texture(block, "_bottom"))
+                    .texture("top", texture(block, "_top")).texture("particle", blockTexture(block));
+
+            this.getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
+                    .modelFile(state.getValue(MegaMushroomBlock.TOP) ? model : modelStem).build());
+        }
+    }
+
+    private void pottedSuperMushroomModels(Block... blocks) {
+        for (Block block : blocks) {
+            Block mushroom = ((FlowerPotBlock) block).getPotted();
+
+            this.simpleBlock(block, models()
+                    .withExistingParent(this.name(block), modLoc("block/template_potted_super_mushroom"))
+                    .texture("main", blockTexture(mushroom)).texture("bottom", texture(mushroom, "_bottom")));
+        }
+    }
+
+    private void pottedMegaMushroomModels(Block... blocks) {
+        for (Block block : blocks) {
+            Block mushroom = ((FlowerPotBlock) block).getPotted();
+
+            this.simpleBlock(block, models()
+                    .withExistingParent(this.name(block), modLoc("block/template_potted_mega_mushroom"))
+                    .texture("main", blockTexture(mushroom)).texture("bottom", texture(mushroom, "_bottom"))
+                    .texture("top", texture(mushroom, "_top")));
+        }
     }
 }

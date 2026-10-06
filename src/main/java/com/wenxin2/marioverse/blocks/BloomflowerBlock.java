@@ -45,7 +45,7 @@ public class BloomflowerBlock extends FlowerBlock implements BonemealableBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, AMOUNT);
+        builder.add(AMOUNT, FACING);
     }
 
     @NotNull

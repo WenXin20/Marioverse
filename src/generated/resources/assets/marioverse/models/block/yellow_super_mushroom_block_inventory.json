@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/super_mushroom_block_inside",
+    "side": "marioverse:block/yellow_super_mushroom_block_cap",
+    "top": "marioverse:block/yellow_super_mushroom_block_top"
+  }
+}

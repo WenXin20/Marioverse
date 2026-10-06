@@ -10,9 +10,11 @@ import com.wenxin2.marioverse.blocks.DeathBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
@@ -183,6 +185,9 @@ public class BlockLootTableGen extends LootTableProvider {
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.WHITE_ROSE_HEDGE.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_ROSE_HEDGE.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() instanceof BloomflowerBlock)
+                        this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
+                    else if (block instanceof FlowerPotBlock pot && (pot.getPotted() instanceof SuperMushroomBlock
+                            || pot.getPotted() instanceof MegaMushroomBlock))
                         this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPottedPiranhaPlantTable(ItemRegistry.PIRANHA_PLANT_POD));
