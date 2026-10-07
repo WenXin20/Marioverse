@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -37,11 +39,15 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class RecipeUtils extends RecipeProvider {
     private static final Set<List<Object>> processedRecipes = new HashSet<>();
@@ -1513,5 +1519,22 @@ public class RecipeUtils extends RecipeProvider {
     @NotNull
     protected static String getConversionRecipeTagName(ItemLike outputItem, TagKey<?> tag) {
         return getItemName(outputItem) + "_from_" + getRecipeItemName(tag);
+    }
+
+    protected static RecipeOutput keepDamage(RecipeOutput output) {
+        return new RecipeOutput() {
+            @NotNull
+            @Override
+            public Advancement.Builder advancement() {
+                return output.advancement();
+            }
+
+            @Override
+            public void accept(ResourceLocation id, Recipe<?> recipe, @Nullable AdvancementHolder advancement,
+                               ICondition... conditions) {
+                output.accept(id, recipe instanceof ShapelessRecipe shapelessRecipe
+                        ? new KeepDamageShapelessRecipe(shapelessRecipe) : recipe, advancement, conditions);
+            }
+        };
     }
 }
