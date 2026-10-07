@@ -228,7 +228,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.countdownBox);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.clock_button.tooltip");
-        this.clockButton = new StateImageButton(this.leftPos + 126, this.topPos + 30, 16, 16, () -> CLOCK_SPRITES[this.clockFrame()], () -> true, button -> {
+        this.clockButton = new StateImageButton(this.leftPos + 126, this.topPos + 30, 16, 16,
+                () -> CLOCK_SPRITES[this.clockFrame()], () -> true, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0 && this.countdownBox.isFocused())
                 this.confirmButtonOnPress();
@@ -238,7 +239,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.clockButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.ticks_button.tooltip");
-        this.ticksButton = new StateImageButton(this.leftPos + 61, this.topPos + 56, 15, 16, UNIT_LEFT_SPRITES, () -> this.menu.getTimeUnit() != 0, button -> {
+        this.ticksButton = new StateImageButton(this.leftPos + 61, this.topPos + 56, 15, 16,
+                UNIT_LEFT_SPRITES, () -> this.menu.getTimeUnit() != 0, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0)
                 this.confirmButtonOnPress();
@@ -248,7 +250,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.ticksButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.seconds_button.tooltip");
-        this.secondsButton = new StateImageButton(this.leftPos + 76, this.topPos + 56, 14, 16, UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 1, button -> {
+        this.secondsButton = new StateImageButton(this.leftPos + 76, this.topPos + 56, 14, 16,
+                UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 1, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0)
                 this.confirmButtonOnPress();
@@ -258,7 +261,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.secondsButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.minute_button.tooltip");
-        this.minuteButton = new StateImageButton(this.leftPos + 90, this.topPos + 56, 14, 16, UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 2, button -> {
+        this.minuteButton = new StateImageButton(this.leftPos + 90, this.topPos + 56, 14, 16,
+                UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 2, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0)
                 this.confirmButtonOnPress();
@@ -268,7 +272,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.minuteButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.hour_button.tooltip");
-        this.hourButton = new StateImageButton(this.leftPos + 104, this.topPos + 56, 15, 16, UNIT_RIGHT_SPRITES, () -> this.menu.getTimeUnit() != 3, button -> {
+        this.hourButton = new StateImageButton(this.leftPos + 104, this.topPos + 56, 15, 16,
+                UNIT_RIGHT_SPRITES, () -> this.menu.getTimeUnit() != 3, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0)
                 this.confirmButtonOnPress();
@@ -278,7 +283,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.hourButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.confirm_button.tooltip");
-        this.confirmButton = new ImageButton(this.leftPos + 124, this.topPos + 54, 20, 20, CONFIRM_SPRITES, button -> {
+        this.confirmButton = new ImageButton(this.leftPos + 124, this.topPos + 54, 20, 20,
+                CONFIRM_SPRITES, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0 && this.countdownBox.isFocused())
                 this.confirmButtonOnPress();
@@ -320,7 +326,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.collisionCheckbox);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.north_button.tooltip");
-        this.northButton = new StateImageButton(this.leftPos + 58, this.topPos + 14, 16, 22, ARROW_UP_SPRITES, () -> this.menu.getPlacementDirection() != 2, button -> {
+        this.northButton = new StateImageButton(this.leftPos + 58, this.topPos + 14, 16, 22,
+                ARROW_UP_SPRITES, () -> this.menu.getPlacementDirection() != 2, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(2);
@@ -329,7 +336,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.northButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.north_block_face_button.tooltip");
-        this.northBlockFaceButton = new StateImageButton(this.leftPos + 59, this.topPos + 37, 14, 4, FACE_HORIZONTAL_SPRITES, () -> this.menu.getBlockFace() != 2, button -> {
+        this.northBlockFaceButton = new StateImageButton(this.leftPos + 59, this.topPos + 37, 14, 4,
+                FACE_HORIZONTAL_SPRITES, () -> this.menu.getBlockFace() != 2, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.blockFaceButtonOnPress(2);
@@ -338,7 +346,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.northBlockFaceButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.east_button.tooltip");
-        this.eastButton = new StateImageButton(this.leftPos + 81, this.topPos + 43, 22, 16, ARROW_RIGHT_SPRITES, () -> this.menu.getPlacementDirection() != 4, button -> {
+        this.eastButton = new StateImageButton(this.leftPos + 81, this.topPos + 43, 22, 16,
+                ARROW_RIGHT_SPRITES, () -> this.menu.getPlacementDirection() != 4, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(4);
@@ -347,7 +356,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.eastButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.east_block_face_button.tooltip");
-        this.eastBlockFaceButton = new StateImageButton(this.leftPos + 76, this.topPos + 44, 4, 14, FACE_VERTICAL_SPRITES, () -> this.menu.getBlockFace() != 4, button -> {
+        this.eastBlockFaceButton = new StateImageButton(this.leftPos + 76, this.topPos + 44, 4, 14,
+                FACE_VERTICAL_SPRITES, () -> this.menu.getBlockFace() != 4, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.blockFaceButtonOnPress(4);
@@ -356,7 +366,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.eastBlockFaceButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.south_button.tooltip");
-        this.southButton = new StateImageButton(this.leftPos + 58, this.topPos + 66, 16, 22, ARROW_DOWN_SPRITES, () -> this.menu.getPlacementDirection() != 3, button -> {
+        this.southButton = new StateImageButton(this.leftPos + 58, this.topPos + 66, 16, 22,
+                ARROW_DOWN_SPRITES, () -> this.menu.getPlacementDirection() != 3, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(3);
@@ -365,7 +376,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.southButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.south_block_face_button.tooltip");
-        this.southBlockFaceButton = new StateImageButton(this.leftPos + 59, this.topPos + 61, 14, 4, FACE_HORIZONTAL_SPRITES, () -> this.menu.getBlockFace() != 3, button -> {
+        this.southBlockFaceButton = new StateImageButton(this.leftPos + 59, this.topPos + 61, 14, 4,
+                FACE_HORIZONTAL_SPRITES, () -> this.menu.getBlockFace() != 3, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.blockFaceButtonOnPress(3);
@@ -374,7 +386,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.southBlockFaceButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.west_button.tooltip");
-        this.westButton = new StateImageButton(this.leftPos + 29, this.topPos + 43, 22, 16, ARROW_LEFT_SPRITES, () -> this.menu.getPlacementDirection() != 5, button -> {
+        this.westButton = new StateImageButton(this.leftPos + 29, this.topPos + 43, 22, 16,
+                ARROW_LEFT_SPRITES, () -> this.menu.getPlacementDirection() != 5, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(5);
@@ -383,7 +396,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.westButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.west_block_face_button.tooltip");
-        this.westBlockFaceButton = new StateImageButton(this.leftPos + 52, this.topPos + 44, 4, 14, FACE_VERTICAL_SPRITES, () -> this.menu.getBlockFace() != 5, button -> {
+        this.westBlockFaceButton = new StateImageButton(this.leftPos + 52, this.topPos + 44, 4, 14,
+                FACE_VERTICAL_SPRITES, () -> this.menu.getBlockFace() != 5, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.blockFaceButtonOnPress(5);
@@ -392,7 +406,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.westBlockFaceButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.up_button.tooltip");
-        this.upButton = new StateImageButton(this.leftPos + 112, this.topPos + 14, 16, 22, ARROW_UP_SPRITES, () -> this.menu.getPlacementDirection() != 0, button -> {
+        this.upButton = new StateImageButton(this.leftPos + 112, this.topPos + 14, 16, 22,
+                ARROW_UP_SPRITES, () -> this.menu.getPlacementDirection() != 0, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(0);
@@ -401,7 +416,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.upButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.top_block_face_button.tooltip");
-        this.topBlockFaceButton = new StateImageButton(this.leftPos + 113, this.topPos + 37, 14, 4, FACE_HORIZONTAL_SPRITES, () -> this.menu.getBlockFace() != 0, button -> {
+        this.topBlockFaceButton = new StateImageButton(this.leftPos + 113, this.topPos + 37, 14, 4,
+                FACE_HORIZONTAL_SPRITES, () -> this.menu.getBlockFace() != 0, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.blockFaceButtonOnPress(0);
@@ -410,7 +426,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.topBlockFaceButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.down_button.tooltip");
-        this.downButton = new StateImageButton(this.leftPos + 112, this.topPos + 66, 16, 22, ARROW_DOWN_SPRITES, () -> this.menu.getPlacementDirection() != 1, button -> {
+        this.downButton = new StateImageButton(this.leftPos + 112, this.topPos + 66, 16, 22,
+                ARROW_DOWN_SPRITES, () -> this.menu.getPlacementDirection() != 1, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(1);
@@ -419,7 +436,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.downButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.bottom_block_face_button.tooltip");
-        this.bottomBlockFaceButton = new StateImageButton(this.leftPos + 113, this.topPos + 61, 14, 4, FACE_HORIZONTAL_SPRITES, () -> this.menu.getBlockFace() != 1, button -> {
+        this.bottomBlockFaceButton = new StateImageButton(this.leftPos + 113, this.topPos + 61, 14, 4,
+                FACE_HORIZONTAL_SPRITES, () -> this.menu.getBlockFace() != 1, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.blockFaceButtonOnPress(1);
@@ -444,7 +462,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.hideItemRenderedCheckbox);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.face_north_button.tooltip");
-        this.faceNorthButton = new StateImageButton(this.leftPos + 62, this.topPos + 18, 16, 22, ARROW_UP_SPRITES, () -> this.menu.getFacingDirection() != 2, button -> {
+        this.faceNorthButton = new StateImageButton(this.leftPos + 62, this.topPos + 18, 16, 22,
+                ARROW_UP_SPRITES, () -> this.menu.getFacingDirection() != 2, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(2);
@@ -453,7 +472,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.faceNorthButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.face_east_button.tooltip");
-        this.faceEastButton = new StateImageButton(this.leftPos + 81, this.topPos + 43, 22, 16, ARROW_RIGHT_SPRITES, () -> this.menu.getFacingDirection() != 4, button -> {
+        this.faceEastButton = new StateImageButton(this.leftPos + 81, this.topPos + 43, 22, 16,
+                ARROW_RIGHT_SPRITES, () -> this.menu.getFacingDirection() != 4, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(4);
@@ -462,7 +482,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.faceEastButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.face_south_button.tooltip");
-        this.faceSouthButton = new StateImageButton(this.leftPos + 62, this.topPos + 62, 16, 22, ARROW_DOWN_SPRITES, () -> this.menu.getFacingDirection() != 3, button -> {
+        this.faceSouthButton = new StateImageButton(this.leftPos + 62, this.topPos + 62, 16, 22,
+                ARROW_DOWN_SPRITES, () -> this.menu.getFacingDirection() != 3, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(3);
@@ -471,7 +492,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.faceSouthButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.face_west_button.tooltip");
-        this.faceWestButton = new StateImageButton(this.leftPos + 37, this.topPos + 43, 22, 16, ARROW_LEFT_SPRITES, () -> this.menu.getFacingDirection() != 5, button -> {
+        this.faceWestButton = new StateImageButton(this.leftPos + 37, this.topPos + 43, 22, 16,
+                ARROW_LEFT_SPRITES, () -> this.menu.getFacingDirection() != 5, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(5);
@@ -480,7 +502,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.faceWestButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.face_up_button.tooltip");
-        this.faceUpButton = new StateImageButton(this.leftPos + 107, this.topPos + 18, 16, 22, ARROW_UP_SPRITES, () -> this.menu.getFacingDirection() != 0, button -> {
+        this.faceUpButton = new StateImageButton(this.leftPos + 107, this.topPos + 18, 16, 22,
+                ARROW_UP_SPRITES, () -> this.menu.getFacingDirection() != 0, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(0);
@@ -489,7 +512,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.faceUpButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.face_down_button.tooltip");
-        this.faceDownButton = new StateImageButton(this.leftPos + 107, this.topPos + 62, 16, 22, ARROW_DOWN_SPRITES, () -> this.menu.getFacingDirection() != 1, button -> {
+        this.faceDownButton = new StateImageButton(this.leftPos + 107, this.topPos + 62, 16, 22,
+                ARROW_DOWN_SPRITES, () -> this.menu.getFacingDirection() != 1, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(1);
@@ -506,7 +530,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.sneakingCheckbox);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.replace_button.tooltip");
-        this.replaceButton = new StateImageButton(this.leftPos + 149, this.topPos + 16, 20, 20, REPLACE_SPRITES, () -> this.menu.getMenuType() != 0, button -> {
+        this.replaceButton = new StateImageButton(this.leftPos + 149, this.topPos + 16, 20, 20,
+                REPLACE_SPRITES, () -> this.menu.getMenuType() != 0, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0 && this.countdownBox.isFocused())
                 this.confirmButtonOnPress();
@@ -518,7 +543,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.replaceButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.placement_button.tooltip");
-        this.placementButton = new StateImageButton(this.leftPos + 149, this.topPos + 41, 20, 20, PLACEMENT_SPRITES, () -> this.menu.getMenuType() != 1, button -> {
+        this.placementButton = new StateImageButton(this.leftPos + 149, this.topPos + 41, 20, 20,
+                PLACEMENT_SPRITES, () -> this.menu.getMenuType() != 1, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0 && this.countdownBox.isFocused())
                 this.confirmButtonOnPress();
@@ -530,7 +556,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.addRenderableWidget(this.placementButton);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.disguise_button.tooltip");
-        this.disguiseButton = new StateImageButton(this.leftPos + 149, this.topPos + 66, 20, 20, DISGUISE_SPRITES, () -> this.menu.getMenuType() != 2, button -> {
+        this.disguiseButton = new StateImageButton(this.leftPos + 149, this.topPos + 66, 20, 20,
+                DISGUISE_SPRITES, () -> this.menu.getMenuType() != 2, button -> {
             int menuType = this.menu.getMenuType();
             if (menuType == 0 && this.countdownBox.isFocused())
                 this.confirmButtonOnPress();

@@ -122,31 +122,26 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         this.addRenderableWidget(this.renameBox);
 
         this.renameButton = this.addRenderableWidget(new StateImageButton(x + 7, y + 18, 24, 24,
-                RENAME_SPRITES,
-                () -> !(ConfigRegistry.WAX_DISABLES_RENAMING.get() && this.isWaxed()), (b) -> {
-            this.renameButtonOnPress();
-        }, Component.translatable("menu.marioverse.warp_pipe.rename_button.narrate")));
+                RENAME_SPRITES, () -> !(ConfigRegistry.WAX_DISABLES_RENAMING.get() && this.isWaxed()),
+                button -> this.renameButtonOnPress(), Component.translatable("menu.marioverse.warp_pipe.rename_button.narrate")));
 
         this.closeButton = this.addRenderableWidget(new StateImageButton(x + 7, y + 45, 24, 24,
                 () -> this.hasPipeProperty(WarpPipeBlock.CLOSED) ? PIPE_CLOSED_SPRITES : PIPE_OPEN_SPRITES,
-                () -> !this.isLocked(ConfigRegistry.CREATIVE_CLOSE_PIPES.get(), ConfigRegistry.WAX_DISABLES_CLOSING.get()), (b) -> {
-            this.closeButtonOnPress();
-        }, Component.translatable("menu.marioverse.warp_pipe.close_button.narrate")));
+                () -> !this.isLocked(ConfigRegistry.CREATIVE_CLOSE_PIPES.get(), ConfigRegistry.WAX_DISABLES_CLOSING.get()),
+                button -> this.closeButtonOnPress(), Component.translatable("menu.marioverse.warp_pipe.close_button.narrate")));
 
         this.waterSpoutButton = this.addRenderableWidget(new StateImageButton(x + 34, y + 18, 24, 24,
                 () -> this.hasPipeProperty(WarpPipeBlock.WATER_SPOUT) ? WATER_SPOUT_ON_SPRITES : WATER_SPOUT_OFF_SPRITES,
-                () -> !this.isLocked(ConfigRegistry.CREATIVE_WATER_SPOUT.get(), ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get()), (b) -> {
-            this.waterSpoutButtonOnPress();
-        }, Component.translatable("menu.marioverse.warp_pipe.water_spout_button.narrate")));
+                () -> !this.isLocked(ConfigRegistry.CREATIVE_WATER_SPOUT.get(), ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get()),
+                button -> this.waterSpoutButtonOnPress(), Component.translatable("menu.marioverse.warp_pipe.water_spout_button.narrate")));
 
         // Only returning default of 4
         BlockPos clickedPos = getClickedPos();
         int spoutHeight = 4; // Default value
         if (clickedPos != null && Minecraft.getInstance().level != null) {
             BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(clickedPos);
-            if (blockEntity instanceof WarpPipeBlockEntity) {
+            if (blockEntity instanceof WarpPipeBlockEntity)
                 spoutHeight = ((WarpPipeBlockEntity) blockEntity).getSpoutHeight();
-            }
         }
 
         final Component height = Component.translatable("menu.marioverse.warp_pipe.water_spout_slider.height");
@@ -155,9 +150,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         this.bubblesButton = this.addRenderableWidget(new StateImageButton(x + 34, y + 45, 24, 24,
                 () -> this.hasPipeProperty(WarpPipeBlock.BUBBLES) ? BUBBLES_ON_SPRITES : BUBBLES_OFF_SPRITES,
-                () -> !this.isLocked(ConfigRegistry.CREATIVE_BUBBLES.get(), ConfigRegistry.WAX_DISABLES_BUBBLES.get()), (b) -> {
-            this.bubblesButtonOnPress();
-        }, Component.translatable("menu.marioverse.warp_pipe.bubbles_button.narrate")));
+                () -> !this.isLocked(ConfigRegistry.CREATIVE_BUBBLES.get(), ConfigRegistry.WAX_DISABLES_BUBBLES.get()),
+                button -> this.bubblesButtonOnPress(), Component.translatable("menu.marioverse.warp_pipe.bubbles_button.narrate")));
 
 
         // Only returning default of 3
@@ -165,9 +159,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         int bubblesDistance = 3; // Default value
         if (clickedPos != null && Minecraft.getInstance().level != null) {
             BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(clickedPos);
-            if (blockEntity instanceof WarpPipeBlockEntity) {
+            if (blockEntity instanceof WarpPipeBlockEntity)
                 bubblesDistance = ((WarpPipeBlockEntity) blockEntity).getBubblesDistance();
-            }
         }
 
         final Component distance = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider.distance");

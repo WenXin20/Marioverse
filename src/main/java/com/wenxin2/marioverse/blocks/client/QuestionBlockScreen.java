@@ -125,42 +125,48 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.countdownBox.setMaxLength(34);
         this.addRenderableWidget(this.countdownBox);
 
-        this.clockButton = new StateImageButton(this.leftPos + 143, this.topPos + 23, 16, 16, () -> CLOCK_SPRITES[this.clockFrame()], () -> true, button -> {
+        this.clockButton = new StateImageButton(this.leftPos + 143, this.topPos + 23, 16, 16,
+                () -> CLOCK_SPRITES[this.clockFrame()], () -> true, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
         }, Component.translatable("menu.marioverse.question_block.clock_button.narrate"));
         this.clockButton.visible = false;
         this.addRenderableWidget(this.clockButton);
 
-        this.ticksButton = new StateImageButton(this.leftPos + 77, this.topPos + 48, 15, 16, UNIT_LEFT_SPRITES, () -> this.menu.getTimeUnit() != 0, button -> {
+        this.ticksButton = new StateImageButton(this.leftPos + 77, this.topPos + 48, 15, 16,
+                UNIT_LEFT_SPRITES, () -> this.menu.getTimeUnit() != 0, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
         }, Component.translatable("menu.marioverse.question_block.ticks_button.narrate"));
         this.ticksButton.visible = false;
         this.addRenderableWidget(this.ticksButton);
 
-        this.secondsButton = new StateImageButton(this.leftPos + 92, this.topPos + 48, 14, 16, UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 1, button -> {
+        this.secondsButton = new StateImageButton(this.leftPos + 92, this.topPos + 48, 14, 16,
+                UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 1, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
         }, Component.translatable("menu.marioverse.question_block.seconds_button.narrate"));
         this.secondsButton.visible = false;
         this.addRenderableWidget(this.secondsButton);
 
-        this.minuteButton = new StateImageButton(this.leftPos + 106, this.topPos + 48, 14, 16, UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 2, button -> {
+        this.minuteButton = new StateImageButton(this.leftPos + 106, this.topPos + 48, 14, 16,
+                UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 2, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
         }, Component.translatable("menu.marioverse.question_block.minute_button.narrate"));
         this.minuteButton.visible = false;
         this.addRenderableWidget(this.minuteButton);
 
-        this.hourButton = new StateImageButton(this.leftPos + 120, this.topPos + 48, 15, 16, UNIT_RIGHT_SPRITES, () -> this.menu.getTimeUnit() != 3, button -> {
+        this.hourButton = new StateImageButton(this.leftPos + 120, this.topPos + 48, 15, 16,
+                UNIT_RIGHT_SPRITES, () -> this.menu.getTimeUnit() != 3, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
         }, Component.translatable("menu.marioverse.question_block.hour_button.narrate"));
         this.hourButton.visible = false;
         this.addRenderableWidget(this.hourButton);
 
-        this.confirmButton = new ImageButton(this.leftPos + 141, this.topPos + 45, 20, 20, CONFIRM_SPRITES, button -> {
+        this.confirmButton = new ImageButton(this.leftPos + 141, this.topPos + 45, 20, 20,
+                CONFIRM_SPRITES, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
         }, Component.translatable("menu.marioverse.question_block.confirm_button.tooltip"));
