@@ -85,6 +85,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.INVISIBLE_QUESTION_BLOCKS, TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.LARGE_ARROW_SIGNS, TagRegistry.LARGE_ARROW_SIGN_ITEMS);
         copy(TagRegistry.LOOPHOLE_BLOCKS, TagRegistry.LOOPHOLE_ITEMS);
+        copy(TagRegistry.MEGA_MUSHROOMS, TagRegistry.MEGA_MUSHROOM_ITEMS);
+        copy(TagRegistry.SUPER_MUSHROOMS, TagRegistry.SUPER_MUSHROOM_ITEMS);
+        copy(TagRegistry.SUPER_MUSHROOM_CAPS, TagRegistry.SUPER_MUSHROOM_CAP_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOT_LOGS, TagRegistry.MUSHROOT_LOG_ITEMS);
         copy(TagRegistry.MUSHROOT_PLANKS, TagRegistry.MUSHROOT_PLANK_ITEMS);
@@ -201,20 +204,8 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(Tags.Items.MUSHROOMS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem())
-                .add(BlockRegistry.BLUE_MEGA_MUSHROOM.asItem())
-                .add(BlockRegistry.BLUE_SUPER_MUSHROOM.asItem())
-                .add(BlockRegistry.GREEN_MEGA_MUSHROOM.asItem())
-                .add(BlockRegistry.GREEN_SUPER_MUSHROOM.asItem())
-                .add(BlockRegistry.LIME_MEGA_MUSHROOM.asItem())
-                .add(BlockRegistry.LIME_SUPER_MUSHROOM.asItem())
-                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM.asItem())
-                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM.asItem())
-                .add(BlockRegistry.PURPLE_MEGA_MUSHROOM.asItem())
-                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM.asItem())
-                .add(BlockRegistry.RED_MEGA_MUSHROOM.asItem())
-                .add(BlockRegistry.RED_SUPER_MUSHROOM.asItem())
-                .add(BlockRegistry.YELLOW_MEGA_MUSHROOM.asItem())
-                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM.asItem());
+                .addTag(TagRegistry.MEGA_MUSHROOM_ITEMS)
+                .addTag(TagRegistry.SUPER_MUSHROOM_ITEMS);
 
         tag(ItemTags.ARMOR_ENCHANTABLE)
                 .add(ItemRegistry.BODICE.get())

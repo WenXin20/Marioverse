@@ -1,23 +1,11 @@
 {
   "values": [
     "#marioverse:hedges",
+    "#marioverse:mega_mushrooms",
+    "#marioverse:super_mushrooms",
     "marioverse:blue_trampoline_cap",
     "marioverse:glow_block",
     "marioverse:red_trampoline_cap",
-    "marioverse:splunkin_carved_pumpkin",
-    "marioverse:blue_mega_mushroom",
-    "marioverse:blue_super_mushroom",
-    "marioverse:green_mega_mushroom",
-    "marioverse:green_super_mushroom",
-    "marioverse:lime_mega_mushroom",
-    "marioverse:lime_super_mushroom",
-    "marioverse:orange_mega_mushroom",
-    "marioverse:orange_super_mushroom",
-    "marioverse:purple_mega_mushroom",
-    "marioverse:purple_super_mushroom",
-    "marioverse:red_mega_mushroom",
-    "marioverse:red_super_mushroom",
-    "marioverse:yellow_mega_mushroom",
-    "marioverse:yellow_super_mushroom"
+    "marioverse:splunkin_carved_pumpkin"
   ]
 }

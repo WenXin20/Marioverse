@@ -15,6 +15,7 @@ import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
@@ -35,12 +36,14 @@ import java.util.function.BiConsumer;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
@@ -58,6 +61,7 @@ import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -186,6 +190,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_ROSE_HEDGE.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() instanceof BloomflowerBlock)
                         this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
+                    else if (block instanceof SuperMushroomCapBlock)
+                        this.add(block, this.createSuperMushroomCapDrop(block));
                     else if (block instanceof FlowerPotBlock pot && (pot.getPotted() instanceof SuperMushroomBlock
                             || pot.getPotted() instanceof MegaMushroomBlock))
                         this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
@@ -375,6 +381,20 @@ public class BlockLootTableGen extends LootTableProvider {
                             .add(LootItem.lootTableItem(block)
                                     .apply(CopyBlockState.copyState(block).copy(HedgeBlock.SNOWY))))
             );
+        }
+
+        protected LootTable.Builder createSuperMushroomCapDrop(Block block) {
+            ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
+            String colorName = blockId.getPath().replace("_super_mushroom_block", "");
+            Block superMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(colorName + "_super_mushroom"));
+            Block megaMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(colorName + "_mega_mushroom"));
+
+            return this.createSilkTouchDispatchTable(block,
+                            this.applyExplosionCondition(block, LootItem.lootTableItem(superMushroom)))
+                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .when(this.doesNotHaveSilkTouch())
+                            .when(LootItemRandomChanceCondition.randomChance(0.25F))
+                            .add(this.applyExplosionCondition(block, LootItem.lootTableItem(megaMushroom))));
         }
 
         protected LootTable.Builder createPottedSnowyHedgeDrop(Block block) {

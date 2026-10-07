@@ -110,7 +110,8 @@ public class TagRegistry {
     public static final TagKey<Block> INVISIBLE_QUESTION_BLOCKS = blockTags("invisible_question_blocks");
     public static final TagKey<Block> LARGE_ARROW_SIGNS = blockTags("large_arrow_signs");
     public static final TagKey<Block> LOOPHOLE_BLOCKS = blockTags("loopholes");
-    public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK = blockTags("mega_mushroom_can_break");
+    public static final TagKey<Block> MEGA_MUSHROOMS = blockTags("mega_mushrooms");
+    public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK =blockTags("mega_mushroom_can_break");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE = blockTags("mega_mushroom_can_break/adventure_mode");
     public static final TagKey<Block> MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING = blockTags("mega_mushroom_can_break/falling");
     public static final TagKey<Block> MELTS = blockTags("melts");
@@ -119,7 +120,7 @@ public class TagRegistry {
     public static final TagKey<Block> MELTS_INTO_PACKED_ICE = blockTags("melts_into_packed_ice");
     public static final TagKey<Block> MELTS_INTO_WATER = blockTags("melts_into_water");
     public static final TagKey<Block> MELTS_SNOWBALL = blockTags("melts_snowball");
-    public static final TagKey<Block> MUSHROOM_TRAMPOLINE_BLOCKS = blockTags("mushroom_trampoline_blocks");
+    public static final TagKey<Block> MUSHROOM_TRAMPOLINE_BLOCKS =blockTags("mushroom_trampoline_blocks");
     public static final TagKey<Block> MUSHROOT_LOGS = blockTags("mushroot_logs");
     public static final TagKey<Block> MUSHROOT_PLANKS = blockTags("mushroot_planks");
     public static final TagKey<Block> PICKET_FENCES = blockTags("picket_fences");
@@ -144,6 +145,8 @@ public class TagRegistry {
     public static final TagKey<Block> STONE_HARD_WALLS = blockTags("hard_walls/stone");
     public static final TagKey<Block> STORAGE_BRICK_BLOCKS = blockTags("storage_bricks");
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
+    public static final TagKey<Block> SUPER_MUSHROOMS = blockTags("super_mushrooms");
+    public static final TagKey<Block> SUPER_MUSHROOM_CAPS = blockTags("super_mushroom_caps");
     public static final TagKey<Block> SUPPORTS_DANGO_BLOSSOM = blockTags("supports_dango_blossom");
     public static final TagKey<Block> WARP_DOOR_BLOCKS = blockTags("warp_doors");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
@@ -270,7 +273,8 @@ public class TagRegistry {
     public static final TagKey<Item> LARGE_ARROW_SIGN_ITEMS = itemTags("large_arrow_signs");
     public static final TagKey<Item> MALE_COSTUMES = itemTags("costumes/male");;
     public static final TagKey<Item> LOOPHOLE_ITEMS = itemTags("loopholes");
-    public static final TagKey<Item> MUSHROOM_TRAMPOLINE_BLOCK_ITEMS = itemTags("mushroom_trampoline_blocks");
+    public static final TagKey<Item> MEGA_MUSHROOM_ITEMS = itemTags("mega_mushrooms");
+    public static final TagKey<Item> MUSHROOM_TRAMPOLINE_BLOCK_ITEMS =itemTags("mushroom_trampoline_blocks");
     public static final TagKey<Item> MUSHROOT_LOG_ITEMS = itemTags("mushroot_logs");
     public static final TagKey<Item> MUSHROOT_PLANK_ITEMS = itemTags("mushroot_planks");
     public static final TagKey<Item> PANTS = itemTags("pants");
@@ -302,6 +306,8 @@ public class TagRegistry {
     public static final TagKey<Item> STONE_HARD_WALL_ITEMS = itemTags("hard_walls/stone");
     public static final TagKey<Item> STORAGE_BRICK_ITEMS = itemTags("storage_bricks");
     public static final TagKey<Item> STORAGE_CALCITE_BRICK_ITEMS = itemTags("storage_calcite_bricks");
+    public static final TagKey<Item> SUPER_MUSHROOM_ITEMS = itemTags("super_mushrooms");
+    public static final TagKey<Item> SUPER_MUSHROOM_CAP_ITEMS = itemTags("super_mushroom_caps");
     public static final TagKey<Item> WARP_DOOR_ITEMS = itemTags("warp_doors");
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");

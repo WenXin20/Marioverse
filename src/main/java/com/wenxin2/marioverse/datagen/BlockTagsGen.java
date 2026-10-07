@@ -1285,24 +1285,39 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.ENDERMAN_HOLDABLE)
                 .addTag(TagRegistry.HEDGE_BLOCKS)
+                .addTag(TagRegistry.MEGA_MUSHROOMS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.GLOW_BLOCK.get())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
+
+        tag(TagRegistry.MEGA_MUSHROOMS)
                 .add(BlockRegistry.BLUE_MEGA_MUSHROOM.get())
-                .add(BlockRegistry.BLUE_SUPER_MUSHROOM.get())
                 .add(BlockRegistry.GREEN_MEGA_MUSHROOM.get())
-                .add(BlockRegistry.GREEN_SUPER_MUSHROOM.get())
                 .add(BlockRegistry.LIME_MEGA_MUSHROOM.get())
-                .add(BlockRegistry.LIME_SUPER_MUSHROOM.get())
                 .add(BlockRegistry.ORANGE_MEGA_MUSHROOM.get())
-                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM.get())
                 .add(BlockRegistry.PURPLE_MEGA_MUSHROOM.get())
-                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM.get())
                 .add(BlockRegistry.RED_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.YELLOW_MEGA_MUSHROOM.get());
+
+        tag(TagRegistry.SUPER_MUSHROOMS)
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.LIME_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM.get())
                 .add(BlockRegistry.RED_SUPER_MUSHROOM.get())
-                .add(BlockRegistry.YELLOW_MEGA_MUSHROOM.get())
                 .add(BlockRegistry.YELLOW_SUPER_MUSHROOM.get());
+
+        tag(TagRegistry.SUPER_MUSHROOM_CAPS)
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.RED_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK.get());
 
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
                 .addTag(TagRegistry.DEATH_BLOCKS)
@@ -1692,6 +1707,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .addTag(TagRegistry.HEDGE_BLOCKS)
+                .addTag(TagRegistry.MEGA_MUSHROOMS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
                 .addTag(TagRegistry.WOODEN_ARROW_SIGNS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
@@ -1704,18 +1721,12 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.WOODEN_WALLS)
                 .addTag(TagRegistry.WOODEN_WINDOWS)
                 .addTag(TagRegistry.WOODEN_WINDOW_PANES)
+                .addTag(TagRegistry.SUPER_MUSHROOM_CAPS)
                 .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
-                .add(BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK.get())
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.GREEN_SUPER_MUSHROOM_BLOCK.get())
-                .add(BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK.get())
-                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK.get())
-                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK.get())
                 .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get())
-                .add(BlockRegistry.RED_SUPER_MUSHROOM_BLOCK.get())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SUPER_MUSHROOM_STEM.get())
-                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
@@ -1959,6 +1970,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WET_MUD_FARMLAND.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
+                .addTag(TagRegistry.MEGA_MUSHROOMS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())

@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-06T15:08:59.1341058	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-10-06T20:08:55.6506489	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -102,6 +102,7 @@ c9c0d5f98a850952e1add89566aa29e2b435214f data/marioverse/tags/block/hedges/snowy
 7994a1f2379ef5bf446ddc415f61b97fb95f3c2d data/marioverse/tags/block/large_arrow_signs/flammable.json
 165e41bafa3202e0755615c93f024d2505e1e638 data/marioverse/tags/block/large_arrow_signs/wooden.json
 fdee9523679ade0cb634851cbec5187425399208 data/marioverse/tags/block/loopholes.json
+69c70a188070788bd17f390d041b74c4160026b1 data/marioverse/tags/block/mega_mushrooms.json
 94a6ea364d801c0b3e4694b8d5355a82344abcdd data/marioverse/tags/block/mega_mushroom_can_break.json
 44fbb1dfa7779572aac31488b47a0d6a2dde5856 data/marioverse/tags/block/mega_mushroom_can_break/adventure_mode.json
 11bcfbe303c6dc312dda58598be28d186e443594 data/marioverse/tags/block/mega_mushroom_can_break/falling.json
@@ -140,6 +141,8 @@ a3c02b0be1a55969deb4073f6e31212d97aaaaee data/marioverse/tags/block/smashable_bl
 4102ce3a30ef5178d737ad0d8aed6a4c3a950f06 data/marioverse/tags/block/spookroot_planks.json
 3c805c1cbd7b539c7e427d303e5cea53cbd8ea08 data/marioverse/tags/block/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calcite_bricks.json
+8ac1ab236765aff3899becf6f83375bee5adf612 data/marioverse/tags/block/super_mushrooms.json
+7f2f79d777faae5a1cbb2e84fb4b1fb617437bd4 data/marioverse/tags/block/super_mushroom_caps.json
 4b5f6cc96623ba793a76d27abb6723552869d67c data/marioverse/tags/block/supports_dango_blossom.json
 d0f05827083f5b326c01ca1e68ce26cc0f4a4d20 data/marioverse/tags/block/walls/flammable.json
 d5e972f693fa185801a5a13ff5d3a06d2e9c2875 data/marioverse/tags/block/walls/wooden.json
@@ -161,7 +164,7 @@ cdb6632c40766661d822c90fed1656cd9fd0baf9 data/minecraft/tags/block/ceiling_hangi
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
 e9ed280a523a34d5da1a046244b1a0cd49645407 data/minecraft/tags/block/dirt.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
-2d221b00d52ef678b168f3e71cb533e2607e949e data/minecraft/tags/block/enderman_holdable.json
+6eaf4e49700b0ec19b3199cc905ff815b8732d04 data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 2bbd0fd34b17230eea47727565783149abeb82d8 data/minecraft/tags/block/fence_gates.json
 14742b562ea2fa76e68930652cec7e858856c12e data/minecraft/tags/block/flowers.json
@@ -177,7 +180,7 @@ ede6c84e66ed40d9d5807ec9fa5605a6c9419655 data/minecraft/tags/block/leaves.json
 d0937a0630d64be292b48a90c8c5b850a6278b66 data/minecraft/tags/block/logs_that_burn.json
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_logs_can_grow_through.json
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_roots_can_grow_through.json
-32bdc4a10af00686940eae7f5b456a60b2ab93cb data/minecraft/tags/block/mineable/axe.json
+b92aaeeb11373b4b7844e039d8d5a06aaef3c79b data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 063c9336d13633ae2e3e88910be8993253897ed3 data/minecraft/tags/block/mineable/pickaxe.json
 95e4c25615d95838082475b740d03652b99843ab data/minecraft/tags/block/mineable/shovel.json
@@ -199,7 +202,7 @@ c168e2a9518e20af623dccc05f946b6afbc973d6 data/minecraft/tags/block/stairs.json
 9c91187db353ba8f36c3701f190299a12a12a4ff data/minecraft/tags/block/standing_signs.json
 dd2eaafb141ecc462b70907c4daeab314d52f737 data/minecraft/tags/block/stone_buttons.json
 dd6db5c2a56d25975cce66e0168fea3c1f3a01c2 data/minecraft/tags/block/stone_pressure_plates.json
-a273e29686e03715f82bcb1b5df05486bc69879e data/minecraft/tags/block/sword_efficient.json
+03688284c377b0333924690f8dd7bd59ec29e5a3 data/minecraft/tags/block/sword_efficient.json
 a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/valid_spawn.json
 a4f05e42751dee6079b3d76617ada719604748b2 data/minecraft/tags/block/walls.json

@@ -10,11 +10,13 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -169,6 +171,14 @@ public class RecipeGen extends RecipeUtils {
         oneToOneRecipe(4, "planks", BlockRegistry.MUSHROOT_PLANKS, RecipeCategory.BUILDING_BLOCKS, TagRegistry.MUSHROOT_LOG_ITEMS, output);
         oneToOneRecipe(4, "planks", BlockRegistry.SPOOKROOT_PLANKS, RecipeCategory.BUILDING_BLOCKS, TagRegistry.SPOOKROOT_LOG_ITEMS, output);
         oneToOneRecipe(4, Marioverse.MOD_ID + ":" + "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, Items.MUSHROOM_STEW)
+                .requires(Items.BOWL)
+                .requires(Ingredient.fromValues(Stream.of(new Ingredient.TagValue(TagRegistry.SUPER_MUSHROOM_ITEMS),
+                        new Ingredient.TagValue(TagRegistry.MEGA_MUSHROOM_ITEMS))))
+                .requires(Tags.Items.MUSHROOMS)
+                .unlockedBy("has_super_mushroom", has(TagRegistry.SUPER_MUSHROOM_ITEMS))
+                .unlockedBy("has_mega_mushroom", has(TagRegistry.MEGA_MUSHROOM_ITEMS))
+                .save(output, Marioverse.MOD_ID + ":mushroom_stew_from_super_mushrooms");
         oneToOneRecipe(1, "blue_dye", Items.BLUE_DYE, RecipeCategory.MISC, BlockRegistry.BLUE_BLOOMFLOWER, output);
         oneToOneRecipe(1, "orange_dye", Items.ORANGE_DYE, RecipeCategory.MISC, BlockRegistry.ORANGE_BLOOMFLOWER, output);
         oneToOneRecipe(1, "pink_dye", Items.PINK_DYE, RecipeCategory.MISC, BlockRegistry.PINK_BLOOMFLOWER, output);
