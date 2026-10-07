@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.client.StateImageButton;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.network.PacketHandler;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
@@ -10,7 +11,9 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -23,6 +26,14 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
     private boolean showIcon = false;
     private boolean initializedFromServer = false;
     private String questionBlockName = "";
+
+    private static final WidgetSprites[] CLOCK_SPRITES = clockSprites();
+    private static final WidgetSprites CONFIRM_SPRITES = sprites("confirm");
+    private static final WidgetSprites REFILL_OFF_SPRITES = sprites("refill_off");
+    private static final WidgetSprites REFILL_ON_SPRITES = sprites("refill_on");
+    private static final WidgetSprites UNIT_LEFT_SPRITES = selectableSprites("unit_left");
+    private static final WidgetSprites UNIT_MIDDLE_SPRITES = selectableSprites("unit_middle");
+    private static final WidgetSprites UNIT_RIGHT_SPRITES = selectableSprites("unit_right");
     Button clockButton;
     Button confirmButton;
     Button hourButton;
@@ -56,81 +67,11 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GUI);
 
-        int refillTicks = this.menu.getRefillCountdown();
-        int frameCount = 8;
-        int frameWidth = 16;
-        int startU = 0;
-        int frame = 0;
-
         // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture width, texture height
         graphics.blit(GUI, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 
-        if (refillTicks > 0 && this.minecraft != null && this.minecraft.level != null) {
-            long gameTime = this.minecraft.level.getGameTime();
-            int speed = Math.max(1, (int) (Math.sqrt(refillTicks) / 2));
-
-            frame = (int) ((gameTime / speed) % frameCount);
-        }
-        int uOffset = startU + (frame * frameWidth);
-
-        if (this.clockButton.visible) {
-            if (this.clockButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 143, this.topPos + 23, uOffset, 184, 16, 16);
-            else graphics.blit(GUI, this.leftPos + 143, this.topPos + 23, uOffset, 167, 16, 16);
-        }
-
-        if (this.refillOffButton.visible) {
-            if (this.refillOffButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 14, this.topPos + 45, 215, 22, 37, 20);
-            else graphics.blit(GUI, this.leftPos + 14, this.topPos + 45, 177, 22, 37, 20);
-        }
-
-        if (this.refillOnButton.visible) {
-            if (this.refillOnButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 14, this.topPos + 45, 215, 1, 37, 20);
-            else graphics.blit(GUI, this.leftPos + 14, this.topPos + 45, 177, 1, 37, 20);
-        }
-
         if (this.countdownBox.visible)
             graphics.blit(GUI, this.leftPos + 57, this.topPos + 24, 177, 43, 78, 14);
-
-        if (this.confirmButton.visible) {
-            if (this.confirmButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 141, this.topPos + 45, 198, 58, 20, 20);
-            else graphics.blit(GUI, this.leftPos + 141, this.topPos + 45, 177, 58, 20, 20);
-        }
-
-        if (this.ticksButton.visible) {
-            if (this.menu.getTimeUnit() == 0)
-                graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 209, 79, 15, 16);
-            else if (this.ticksButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 193, 79, 15, 16);
-            else graphics.blit(GUI, this.leftPos + 77, this.topPos + 48, 177, 79, 15, 16);
-        }
-
-        if (this.secondsButton.visible) {
-            if (this.menu.getTimeUnit() == 1)
-                graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 207, 96, 14, 16);
-            else if (this.secondsButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 192, 96, 14, 16);
-            else graphics.blit(GUI, this.leftPos + 92, this.topPos + 48, 177, 96, 14, 16);
-        }
-
-        if (this.minuteButton.visible) {
-            if (this.menu.getTimeUnit() == 2)
-                graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 207, 96, 14, 16);
-            else if (this.minuteButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 192, 96, 14, 16);
-            else graphics.blit(GUI, this.leftPos + 106, this.topPos + 48, 177, 96, 14, 16);
-        }
-
-        if (this.hourButton.visible) {
-            if (this.menu.getTimeUnit() == 3)
-                graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 209, 113, 15, 16);
-            else if (this.hourButton.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 193, 113, 15, 16);
-            else graphics.blit(GUI, this.leftPos + 120, this.topPos + 48, 177, 113, 15, 16);
-        }
 
         if (this.showIcon)
             graphics.blit(GUI, this.leftPos + 83, this.topPos + 9, 177, 130, 60, 68);
@@ -140,8 +81,7 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
     public void init() {
         super.init();
 
-        final Component refillOffButton = Component.translatable("menu.marioverse.question_block.refill_off_button");
-        this.refillOffButton = Button.builder(refillOffButton, button -> {
+        this.refillOffButton = new ImageButton(this.leftPos + 14, this.topPos + 45, 37, 20, REFILL_OFF_SPRITES, button -> {
             this.countdownBox.setVisible(true);
             this.clockButton.visible = true;
             this.confirmButton.visible = true;
@@ -156,13 +96,10 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
                 PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
                 PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, 5));
             }
-        }).bounds(this.leftPos + 14, this.topPos + 45, 37, 20)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.refill_off_button.narrate")).build();
-        this.refillOffButton.setAlpha(0);
+        }, Component.translatable("menu.marioverse.question_block.refill_off_button.tooltip"));
         this.addRenderableWidget(this.refillOffButton);
 
-        final Component refillOnButton = Component.translatable("menu.marioverse.question_block.refill_on_button");
-        this.refillOnButton = Button.builder(refillOnButton, button -> {
+        this.refillOnButton = new ImageButton(this.leftPos + 14, this.topPos + 45, 37, 20, REFILL_ON_SPRITES, button -> {
             this.countdownBox.setVisible(false);
             this.clockButton.visible = false;
             this.confirmButton.visible = false;
@@ -174,10 +111,8 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
             this.hourButton.visible = false;
             this.showIcon = true;
             PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, -1));
-        }).bounds(this.leftPos + 14, this.topPos + 45, 37, 20)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.refill_on_button.narrate")).build();
+        }, Component.translatable("menu.marioverse.question_block.refill_on_button.tooltip"));
         this.refillOnButton.visible = false;
-        this.refillOnButton.setAlpha(0);
         this.addRenderableWidget(this.refillOnButton);
 
         this.countdownBox = new EditBox(this.font, this.leftPos + 59, this.topPos + 27, 70, 16,
@@ -190,65 +125,49 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
         this.countdownBox.setMaxLength(34);
         this.addRenderableWidget(this.countdownBox);
 
-        final Component clockButton = Component.translatable("menu.marioverse.question_block.clock_button");
-        this.clockButton = Button.builder(clockButton, button -> {
+        this.clockButton = new StateImageButton(this.leftPos + 143, this.topPos + 23, 16, 16, () -> CLOCK_SPRITES[this.clockFrame()], () -> true, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
-        }).bounds(this.leftPos + 143, this.topPos + 23, 16, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.clock_button.narrate")).build();
+        }, Component.translatable("menu.marioverse.question_block.clock_button.narrate"));
         this.clockButton.visible = false;
-        this.clockButton.setAlpha(0);
         this.addRenderableWidget(this.clockButton);
 
-        final Component ticksButton = Component.translatable("menu.marioverse.question_block.ticks_button");
-        this.ticksButton = Button.builder(ticksButton, button -> {
+        this.ticksButton = new StateImageButton(this.leftPos + 77, this.topPos + 48, 15, 16, UNIT_LEFT_SPRITES, () -> this.menu.getTimeUnit() != 0, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
-        }).bounds(this.leftPos + 77, this.topPos + 48, 15, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.ticks_button.narrate")).build();
+        }, Component.translatable("menu.marioverse.question_block.ticks_button.narrate"));
         this.ticksButton.visible = false;
-        this.ticksButton.setAlpha(0);
         this.addRenderableWidget(this.ticksButton);
 
-        final Component secondsButton = Component.translatable("menu.marioverse.question_block.seconds_button");
-        this.secondsButton = Button.builder(secondsButton, button -> {
+        this.secondsButton = new StateImageButton(this.leftPos + 92, this.topPos + 48, 14, 16, UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 1, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
-        }).bounds(this.leftPos + 92, this.topPos + 48, 14, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.seconds_button.narrate")).build();
+        }, Component.translatable("menu.marioverse.question_block.seconds_button.narrate"));
         this.secondsButton.visible = false;
-        this.secondsButton.setAlpha(0);
         this.addRenderableWidget(this.secondsButton);
 
-        final Component minuteButton = Component.translatable("menu.marioverse.question_block.minute_button");
-        this.minuteButton = Button.builder(minuteButton, button -> {
+        this.minuteButton = new StateImageButton(this.leftPos + 106, this.topPos + 48, 14, 16, UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 2, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
-        }).bounds(this.leftPos + 106, this.topPos + 48, 14, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.minute_button.narrate")).build();
+        }, Component.translatable("menu.marioverse.question_block.minute_button.narrate"));
         this.minuteButton.visible = false;
-        this.minuteButton.setAlpha(0);
         this.addRenderableWidget(this.minuteButton);
 
-        final Component hourButton = Component.translatable("menu.marioverse.question_block.hour_button");
-        this.hourButton = Button.builder(hourButton, button -> {
+        this.hourButton = new StateImageButton(this.leftPos + 120, this.topPos + 48, 15, 16, UNIT_RIGHT_SPRITES, () -> this.menu.getTimeUnit() != 3, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
-        }).bounds(this.leftPos + 120, this.topPos + 48, 15, 16)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.hour_button.narrate")).build();
+        }, Component.translatable("menu.marioverse.question_block.hour_button.narrate"));
         this.hourButton.visible = false;
-        this.hourButton.setAlpha(0);
         this.addRenderableWidget(this.hourButton);
 
-        final Component confirmButton = Component.translatable("menu.marioverse.question_block.confirm_button");
-        this.confirmButton = Button.builder(confirmButton, button -> {
+        this.confirmButton = new ImageButton(this.leftPos + 141, this.topPos + 45, 20, 20, CONFIRM_SPRITES, button -> {
             this.confirmButtonOnPress();
             this.menu.playSound(SoundRegistry.REFILL_CONFIRMED.get());
-        }).bounds(this.leftPos + 141, this.topPos + 45, 20, 20)
-                .createNarration(supplier -> Component.translatable("menu.marioverse.question_block.confirm_button.narrate")).build();
+        }, Component.translatable("menu.marioverse.question_block.confirm_button.tooltip"));
         this.confirmButton.visible = false;
-        this.confirmButton.setAlpha(0);
         this.addRenderableWidget(this.confirmButton);
+
+        this.initializedFromServer = false;
     }
 
     @Override
@@ -356,5 +275,36 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
 
         if (this.minecraft != null && this.minecraft.getConnection() != null)
             PacketHandler.sendToServer(new RefillCountdownPayload(this.menu.containerId, parsed));
+    }
+
+    private int clockFrame() {
+        int refillTicks = this.menu.getRefillCountdown();
+
+        if (refillTicks > 0 && this.minecraft != null && this.minecraft.level != null) {
+            long gameTime = this.minecraft.level.getGameTime();
+            int speed = Math.max(1, (int) (Math.sqrt(refillTicks) / 2));
+
+            return (int) ((gameTime / speed) % CLOCK_SPRITES.length);
+        }
+        return 0;
+    }
+
+    private static ResourceLocation sprite(String name) {
+        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "question_block/" + name);
+    }
+
+    private static WidgetSprites sprites(String name) {
+        return new WidgetSprites(sprite(name), sprite(name + "_highlighted"));
+    }
+
+    private static WidgetSprites selectableSprites(String name) {
+        return new WidgetSprites(sprite(name), sprite(name + "_selected"), sprite(name + "_highlighted"));
+    }
+
+    private static WidgetSprites[] clockSprites() {
+        WidgetSprites[] clock = new WidgetSprites[8];
+        for (int frame = 0; frame < clock.length; frame++)
+            clock[frame] = sprites("clock_" + frame);
+        return clock;
     }
 }

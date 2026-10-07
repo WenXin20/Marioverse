@@ -63,6 +63,7 @@
 - Fixed Question Blocks blockstate not updating correctly
 - Fixed decorated pots being too rare in the Brick Lanes structure
 - Fixed windcharges toggling blocks twice, such as On/Off Switches
+- Fixed buttons not rendering with the Spatial GUI mod
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
