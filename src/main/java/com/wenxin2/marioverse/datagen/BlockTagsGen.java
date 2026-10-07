@@ -2059,8 +2059,15 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.blockTags("sable", "super_light"));
 
         tag(TagRegistry.blockTags("twilightforest", "portal/decoration"))
+                .addTag(TagRegistry.HEDGE_BLOCKS)
+                .addTag(TagRegistry.MEGA_MUSHROOMS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
                 .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
+                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.SHORT_SHROOMGRASS.get())
+                .add(BlockRegistry.SHROOMGRASS.get())
+                .add(BlockRegistry.SHRUBROOM.get())
+                .add(BlockRegistry.TALL_SHROOMGRASS.get());
 
         tag(TagRegistry.blockTags("twilightforest", "portal/edge"))
                 .add(BlockRegistry.DEEP_WET_MUD.get())
@@ -2068,9 +2075,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SHROOMSOIL_PATH.get())
                 .add(BlockRegistry.WET_MUD_FARMLAND.get());
 
-        tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.DANGO_BLOSSOM.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
+        tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"));
     }
 }

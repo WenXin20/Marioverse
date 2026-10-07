@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-06T20:08:55.6506489	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-10-07T18:09:10.9947594	Tags for minecraft:block mod id marioverse
 f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -223,6 +223,6 @@ b0912048c89580c07a2df0672eb46f4bec762438 data/sable/tags/block/end_stones.json
 ed8318623af15718a46a312178a6a298f2fee8c8 data/sable/tags/block/light.json
 a22e372c23fd9460c3ce7f162266214db78e75ad data/sable/tags/block/quarter_volume.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/sable/tags/block/super_light.json
-94e099c62cb9eee1cd62887c672bbbcae276a6e5 data/twilightforest/tags/block/portal/decoration.json
+c7b21e2d485a2c8b60cd595a87d9549b558834a4 data/twilightforest/tags/block/portal/decoration.json
 3dd49e38be3de7a0909353812e7c2465e571d6b6 data/twilightforest/tags/block/portal/edge.json
-132f7fa05987470fe6c5893238618629abacc326 data/twilightforest/tags/block/portal/generated_decoration.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/twilightforest/tags/block/portal/generated_decoration.json
