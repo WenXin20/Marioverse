@@ -53,15 +53,16 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.IntRange;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.CopyBlockState;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
+import net.minecraft.world.level.storage.loot.functions.LimitCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -389,12 +390,16 @@ public class BlockLootTableGen extends LootTableProvider {
             Block superMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(colorName + "_super_mushroom"));
             Block megaMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(colorName + "_mega_mushroom"));
 
-            return this.createSilkTouchDispatchTable(block,
-                            this.applyExplosionCondition(block, LootItem.lootTableItem(superMushroom)))
-                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+            return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                    .add(LootItem.lootTableItem(block).when(this.hasSilkTouch()))
+                    .add(this.applyExplosionDecay(block, LootItem.lootTableItem(superMushroom).setWeight(3)
                             .when(this.doesNotHaveSilkTouch())
-                            .when(LootItemRandomChanceCondition.randomChance(0.25F))
-                            .add(this.applyExplosionCondition(block, LootItem.lootTableItem(megaMushroom))));
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(-6.0F, 2.0F)))
+                            .apply(LimitCount.limitCount(IntRange.lowerBound(0)))))
+                    .add(this.applyExplosionDecay(block, LootItem.lootTableItem(megaMushroom)
+                            .when(this.doesNotHaveSilkTouch())
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(-6.0F, 2.0F)))
+                            .apply(LimitCount.limitCount(IntRange.lowerBound(0))))));
         }
 
         protected LootTable.Builder createPottedSnowyHedgeDrop(Block block) {

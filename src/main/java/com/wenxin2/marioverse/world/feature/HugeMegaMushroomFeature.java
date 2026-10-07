@@ -37,6 +37,10 @@ public class HugeMegaMushroomFeature extends ShapedHugeMushroomFeature {
                         return true;
 
                     int radiusAbove = getLayerRadius(radius, capMinY, bodyMinY, stemHeight, y + 1);
+                    if (radiusAbove < layerRadius && Math.min(distanceX, distanceZ) == 0
+                            && Math.max(distanceX, distanceZ) == radiusAbove)
+                        return true;
+
                     return !isInLayer(radiusAbove, distanceX, distanceZ)
                             || !isInLayer(layerRadius, distanceX + 1, distanceZ)
                             || !isInLayer(layerRadius, distanceX, distanceZ + 1);
