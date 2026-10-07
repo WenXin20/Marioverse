@@ -66,6 +66,7 @@
 - Fixed buttons not rendering with the Spatial GUI mod
 - Fixed wrench not taking damage when linking pipes
 - Fixed wrench to wrench recipe erasing damage
+- Fixed warp pipe data not saving with create contraptions
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

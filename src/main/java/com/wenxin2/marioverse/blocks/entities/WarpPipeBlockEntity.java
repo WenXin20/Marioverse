@@ -371,11 +371,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     @Override
-    public boolean onlyOpCanSetNbt() {
-        return true;
-    }
-
-    @Override
     public void setEntityId(@NotNull EntityType<?> entityType, RandomSource random) {
         this.pipeSpawner.setEntityId(entityType, this.level, random, this.worldPosition);
         this.setChanged();
