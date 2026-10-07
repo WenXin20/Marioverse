@@ -61,7 +61,7 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
             return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
 
         BooleanProperty faceProperty = PipeBlock.PROPERTY_BY_DIRECTION.get(hitResult.getDirection());
-        if (state.getValue(faceProperty))
+        if (!this.canBonemealFace(state, faceProperty))
             return ItemInteractionResult.CONSUME;
 
         if (!level.isClientSide) {
@@ -74,7 +74,7 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
 
     @Override
     public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos pos, BlockState state) {
-        return PipeBlock.PROPERTY_BY_DIRECTION.values().stream().anyMatch(property -> !state.getValue(property));
+        return PipeBlock.PROPERTY_BY_DIRECTION.values().stream().anyMatch(property -> this.canBonemealFace(state, property));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
     @Override
     public void performBonemeal(ServerLevel serverLevel, RandomSource random, BlockPos pos, BlockState state) {
         List<BooleanProperty> faceProperties = PipeBlock.PROPERTY_BY_DIRECTION.values().stream()
-                .filter(property -> !state.getValue(property)).toList();
+                .filter(property -> this.canBonemealFace(state, property)).toList();
         if (!faceProperties.isEmpty())
             serverLevel.setBlock(pos, state.setValue(Util.getRandom(faceProperties, random), true), Block.UPDATE_ALL);
     }
@@ -93,5 +93,9 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(BOTTOM, UP, DOWN, NORTH, EAST, SOUTH, WEST);
+    }
+
+    private boolean canBonemealFace(BlockState state, BooleanProperty faceProperty) {
+        return !state.getValue(faceProperty) && !(faceProperty == DOWN && state.getValue(BOTTOM));
     }
 }
