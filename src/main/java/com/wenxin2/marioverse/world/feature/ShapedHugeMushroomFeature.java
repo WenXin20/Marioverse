@@ -5,21 +5,22 @@ import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.HugeMushroomBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.HugeMushroomFeatureConfiguration;
 
-public abstract class ShapedHugeMushroomFeature extends Feature<HugeMushroomFeatureConfiguration> {
-    public ShapedHugeMushroomFeature(Codec<HugeMushroomFeatureConfiguration> codec) {
+public abstract class ShapedHugeMushroomFeature extends Feature<ShapedHugeMushroomConfiguration> {
+    public ShapedHugeMushroomFeature(Codec<ShapedHugeMushroomConfiguration> codec) {
         super(codec);
     }
 
     protected boolean placeMushroom(WorldGenLevel level, RandomSource random, BlockPos origin,
-                                    HugeMushroomFeatureConfiguration config, int stemWidth, int stemHeight,
+                                    ShapedHugeMushroomConfiguration config, int stemWidth, int stemHeight,
                                     int capMinY, int capMaxY, int capRadius, CapShape shape) {
         if (!this.isValidPosition(level, origin, stemWidth, stemHeight, capMinY, capMaxY, capRadius, shape))
             return false;
@@ -35,7 +36,7 @@ public abstract class ShapedHugeMushroomFeature extends Feature<HugeMushroomFeat
                     if (level.getBlockState(posMutable).isSolidRender(level, posMutable))
                         continue;
 
-                    BlockState state = config.capProvider.getState(random, origin);
+                    BlockState state = config.capProvider().getState(random, origin);
                     state = with(state, HugeMushroomBlock.WEST, isExposed(shape, stemWidth, x, y, z, -1, 0));
                     state = with(state, HugeMushroomBlock.EAST, isExposed(shape, stemWidth, x, y, z, 1, 0));
                     state = with(state, HugeMushroomBlock.NORTH, isExposed(shape, stemWidth, x, y, z, 0, -1));
@@ -55,7 +56,7 @@ public abstract class ShapedHugeMushroomFeature extends Feature<HugeMushroomFeat
                     if (level.getBlockState(posMutable).isSolidRender(level, posMutable))
                         continue;
 
-                    this.setBlock(level, posMutable, with(config.stemProvider.getState(random, origin),
+                    this.setBlock(level, posMutable, with(config.stemProvider().getState(random, origin),
                             SuperMushroomStemBlock.END, y == stemHeight - 1));
                 }
             }
@@ -91,6 +92,14 @@ public abstract class ShapedHugeMushroomFeature extends Feature<HugeMushroomFeat
             }
         }
         return true;
+    }
+
+    protected static int scaleWithStem(RandomSource random, IntProvider range, IntProvider stemRange, int stemHeight) {
+        int stemHeights = stemRange.getMaxValue() - stemRange.getMinValue();
+        float progress = stemHeights <= 0 ? random.nextFloat()
+                : (float) (stemHeight - stemRange.getMinValue()) / stemHeights;
+        float scaled = Mth.lerp(progress, range.getMinValue(), range.getMaxValue());
+        return Mth.clamp(Mth.floor(scaled + random.nextFloat()), range.getMinValue(), range.getMaxValue());
     }
 
     private static boolean isCap(CapShape shape, int stemWidth, int x, int y, int z) {

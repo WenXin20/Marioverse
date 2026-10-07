@@ -7,7 +7,21 @@
         "Name": "marioverse:purple_super_mushroom_block"
       }
     },
-    "foliage_radius": 3,
+    "cap_height": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 6,
+      "min_inclusive": 4
+    },
+    "radius": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 3,
+      "min_inclusive": 2
+    },
+    "stem_height": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 9,
+      "min_inclusive": 4
+    },
     "stem_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
