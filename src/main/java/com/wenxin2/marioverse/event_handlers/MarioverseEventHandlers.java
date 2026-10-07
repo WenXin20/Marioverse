@@ -10,13 +10,11 @@ import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
@@ -851,13 +849,6 @@ public class MarioverseEventHandlers {
 
                 event.setCancellationResult(InteractionResult.SUCCESS);
                 event.setCanceled(true);
-            }
-        }
-
-        if (level.isClientSide()) {
-            if (blockEntity instanceof WarpPipeBlockEntity) {
-                // Update the last clicked position
-                WarpPipeScreen.lastClickedPos = pos;
             }
         }
     }

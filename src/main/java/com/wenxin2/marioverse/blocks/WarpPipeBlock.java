@@ -200,9 +200,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         Item item = stack.getItem();
 
         if (state.getValue(ENTRANCE) && player.getItemInHand(hand).is(TagRegistry.WRENCHES)) {
-            if (blockEntity instanceof WarpPipeBlockEntity) {
+            if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new WarpPipeMenu(id,
-                        playerInventory, ContainerLevelAccess.create(level, pos), pos), ((WarpPipeBlockEntity) blockEntity).getDisplayName()));
+                        playerInventory, pipeBlockEntity.getDataAccess(), ContainerLevelAccess.create(level, pos)), pipeBlockEntity.getDisplayName()));
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));

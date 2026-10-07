@@ -74,6 +74,7 @@ import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ArmorStandItem;
 import net.minecraft.world.item.BlockItem;
@@ -133,6 +134,33 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     @Nullable public Component name;
     public Component pipeName;
     private LockCode lockKey = LockCode.NO_LOCK;
+
+    private final ContainerData dataAccess = new ContainerData() {
+        @Override
+        public int get(int index) {
+            BlockState state = WarpPipeBlockEntity.this.getBlockState();
+            boolean isPipe = state.getBlock() instanceof WarpPipeBlock;
+
+            return switch (index) {
+                case 0 -> isPipe && state.getValue(WarpPipeBlock.CLOSED) ? 1 : 0;
+                case 1 -> isPipe && state.getValue(WarpPipeBlock.WATER_SPOUT) ? 1 : 0;
+                case 2 -> isPipe && state.getValue(WarpPipeBlock.BUBBLES) ? 1 : 0;
+                case 3 -> WarpPipeBlockEntity.this.isWaxed() ? 1 : 0;
+                case 4 -> WarpPipeBlockEntity.this.getSpoutHeight();
+                case 5 -> WarpPipeBlockEntity.this.getBubblesDistance();
+                case 6 -> state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(ClearWarpPipeBlock.WATERLOGGED) ? 1 : 0;
+                default -> 0;
+            };
+        }
+
+        @Override
+        public void set(int index, int value) {}
+
+        @Override
+        public int getCount() {
+            return WarpPipeMenu.DATA_COUNT;
+        }
+    };
     private ItemStack spawnItemStack = ItemStack.EMPTY;
     public int spoutHeight = 4;
     public int bubblesDistance = 3;
@@ -279,7 +307,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         if (this.level != null)
-            return new WarpPipeMenu(id, inventory, ContainerLevelAccess.create(this.level, this.getBlockPos()));
+            return new WarpPipeMenu(id, inventory, this.getDataAccess(), ContainerLevelAccess.create(this.level, this.getBlockPos()));
         else return null;
     }
 
@@ -1411,5 +1439,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         ItemEntity itemEntity = new ItemEntity(world, x, y, z, stack);
         itemEntity.setDeltaMovement(velocity);
         world.addFreshEntity(itemEntity);
+    }
+
+    public ContainerData getDataAccess() {
+        return this.dataAccess;
     }
 }
