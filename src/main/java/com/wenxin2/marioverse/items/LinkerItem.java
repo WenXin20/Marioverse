@@ -30,6 +30,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -174,6 +175,9 @@ public class LinkerItem extends TieredItem {
 
                             this.spawnParticles(level, pos, ParticleTypes.ENCHANT);
                             this.playSound(level, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
+
+                            if (!level.isClientSide)
+                                stack.hurtAndBreak(2, player, LivingEntity.getSlotForHand(useOnContext.getHand()));
                         }
                   //  }
                     setBound(stack, false);  // Reset binding
