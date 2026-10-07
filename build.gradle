@@ -93,6 +93,7 @@ dependencies {
     compileOnly "curse.maven:packs-editor-1606070:8432925"
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     implementation "curse.maven:roughly-enough-items-${rei_version}"
+    implementation "curse.maven:slabbed-1457462:9029709"
     implementation "curse.maven:spatial-gui-1676741:9085092"
     implementation "curse.maven:spark-${spark_version}"
     implementation "curse.maven:the-twilight-forest-227639:7797302"

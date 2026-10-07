@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.blocks.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.client.ResizableCheckbox;
 import com.wenxin2.marioverse.client.StateImageButton;
 import com.wenxin2.marioverse.inventory.BlockSpawnerMenu;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
@@ -22,7 +21,6 @@ import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.ImageButton;
@@ -44,6 +42,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     private String blockSpawnerName = "";
 
     private static final WidgetSprites[] CLOCK_SPRITES = clockSprites();
+    private static final WidgetSprites CHECKBOX_SPRITES = new WidgetSprites(sprite("checkbox"), sprite("checkbox_selected"),
+            sprite("checkbox_highlighted"), sprite("checkbox_selected_highlighted"));
     private static final WidgetSprites CONFIRM_SPRITES = sprites("confirm");
     private static final WidgetSprites REPLACE_SPRITES = selectableSprites("replace");
     private static final WidgetSprites PLACEMENT_SPRITES = selectableSprites("placement");
@@ -93,12 +93,12 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     EditBox countdownBox;
     EditBox placementOffsetBox;
     Inventory inventory;
-    ResizableCheckbox collisionCheckbox;
-    ResizableCheckbox interactableCheckbox;
-    ResizableCheckbox hideItemRenderedCheckbox;
-    ResizableCheckbox rightClickableCheckbox;
-    ResizableCheckbox sneakingCheckbox;
-    ResizableCheckbox unbreakableCheckbox;
+    Button collisionCheckbox;
+    Button interactableCheckbox;
+    Button hideItemRenderedCheckbox;
+    Button rightClickableCheckbox;
+    Button sneakingCheckbox;
+    Button unbreakableCheckbox;
 
     public BlockSpawnerScreen(BlockSpawnerMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -133,66 +133,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         if (this.placementOffsetBox.visible && this.menu.getMenuType() == 1)
             graphics.blit(GUI, this.leftPos + 107, this.topPos + 42, 177, 15, 26, 18);
 
-        if (this.unbreakableCheckbox.visible && this.menu.getMenuType() == 1) {
-            if (this.menu.isUnbreakable() == 1 && this.unbreakableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 6, this.topPos + 62, 232, 24, 10, 8);
-            else if (this.menu.isUnbreakable() == 1)
-                graphics.blit(GUI, this.leftPos + 6, this.topPos + 62, 232, 15, 10, 8);
-            else if (this.unbreakableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 7, this.topPos + 62, 223, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 7, this.topPos + 62, 223, 15, 8, 8);
-        }
-
-        if (this.rightClickableCheckbox.visible && this.menu.getMenuType() == 1) {
-            if (this.menu.isRightClickable() == 1 && this.rightClickableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 16, this.topPos + 62, 232, 24, 10, 8);
-            else if (this.menu.isRightClickable() == 1)
-                graphics.blit(GUI, this.leftPos + 16, this.topPos + 62, 232, 15, 10, 8);
-            else if (this.rightClickableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 17, this.topPos + 62, 223, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 17, this.topPos + 62, 223, 15, 8, 8);
-        }
-
-        if (this.interactableCheckbox.visible && this.menu.getMenuType() == 1) {
-            if (this.menu.isInteractable() == 1 && this.interactableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 232, 24, 10, 8);
-            else if (this.menu.isInteractable() == 1)
-                graphics.blit(GUI, this.leftPos + 6, this.topPos + 72, 232, 15, 10, 8);
-            else if (this.interactableCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 223, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 7, this.topPos + 72, 223, 15, 8, 8);
-        }
-
-        if (this.hideItemRenderedCheckbox.visible && this.menu.getMenuType() == 1) {
-            if (this.menu.isItemRenderHidden() == 1 && this.hideItemRenderedCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 136, this.topPos + 47, 232, 24, 10, 8);
-            else if (this.menu.isItemRenderHidden() == 1)
-                graphics.blit(GUI, this.leftPos + 136, this.topPos + 47, 232, 15, 10, 8);
-            else if (this.hideItemRenderedCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 137, this.topPos + 47, 223, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 137, this.topPos + 47, 223, 15, 8, 8);
-        }
-
-        if (this.collisionCheckbox.visible && this.menu.getMenuType() == 1) {
-            if (this.menu.hasCollision() == 1 && this.collisionCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 16, this.topPos + 72, 232, 24, 10, 8);
-            else if (this.menu.hasCollision() == 1)
-                graphics.blit(GUI, this.leftPos + 16, this.topPos + 72, 232, 15, 10, 8);
-            else if (this.collisionCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 223, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 17, this.topPos + 72, 223, 15, 8, 8);
-        }
-
-        if (this.sneakingCheckbox.visible && this.menu.getMenuType() == 2) {
-            if (this.menu.isSneaking() == 1 && this.sneakingCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 136, this.topPos + 72, 232, 24, 10, 8);
-            else if (this.menu.isSneaking() == 1)
-                graphics.blit(GUI, this.leftPos + 136, this.topPos + 72, 232, 15, 10, 8);
-            else if (this.sneakingCheckbox.isHoveredOrFocused())
-                graphics.blit(GUI, this.leftPos + 137, this.topPos + 72, 223, 24, 8, 8);
-            else graphics.blit(GUI, this.leftPos + 137, this.topPos + 72, 223, 15, 8, 8);
-        }
-
         if (this.showLine)
             graphics.blit(GUI, this.leftPos + 26, this.topPos + 16, 240, 34, 2, 70);
 
@@ -217,7 +157,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         super.init();
 
         Component tooltip = Component.literal("");
-        Component buttonName = Component.literal("");
 
         this.countdownBox = new EditBox(this.font, this.leftPos + 43, this.topPos + 35, 70, 16,
                 Component.translatable("menu.marioverse.block_spawner.countdown_box.narrate"));
@@ -245,7 +184,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0)
                 this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
-        }, Component.translatable("menu.marioverse.block_spawner.ticks_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.ticks_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.ticks_button"));
         this.ticksButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.ticksButton);
 
@@ -256,7 +196,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0)
                 this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
-        }, Component.translatable("menu.marioverse.block_spawner.seconds_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.seconds_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.seconds_button"));
         this.secondsButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.secondsButton);
 
@@ -267,7 +208,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0)
                 this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
-        }, Component.translatable("menu.marioverse.block_spawner.minute_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.minute_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.minute_button"));
         this.minuteButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.minuteButton);
 
@@ -278,7 +220,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             if (menuType == 0)
                 this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
-        }, Component.translatable("menu.marioverse.block_spawner.hour_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.hour_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.hour_button"));
         this.hourButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.hourButton);
 
@@ -293,36 +236,36 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.confirmButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.confirmButton);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.unbreakable_checkbox");
         tooltip = Component.translatable("menu.marioverse.block_spawner.unbreakable_checkbox.tooltip");
-        this.unbreakableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isUnbreakableCheckbox)
-                .pos(this.leftPos + 7, this.topPos + 62).setSize(8)
-                .tooltip(Tooltip.create(tooltip)).build();
-        this.unbreakableCheckbox.setAlpha(0);
+        this.unbreakableCheckbox = new StateImageButton(this.leftPos + 6, this.topPos + 62, 10, 8,
+                CHECKBOX_SPRITES, () -> this.menu.isUnbreakable() != 1, button ->
+                PacketHandler.sendToServer(new IsUnbreakablePayload(this.menu.containerId, this.menu.isUnbreakable() == 1 ? 0 : 1)),
+                tooltip);
+        this.unbreakableCheckbox.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.unbreakableCheckbox);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.right_clickable_checkbox");
         tooltip = Component.translatable("menu.marioverse.block_spawner.right_clickable_checkbox.tooltip");
-        this.rightClickableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isRightClickableCheckbox)
-                .pos(this.leftPos + 17, this.topPos + 62).setSize(8)
-                .tooltip(Tooltip.create(tooltip)).build();
-        this.rightClickableCheckbox.setAlpha(0);
+        this.rightClickableCheckbox = new StateImageButton(this.leftPos + 16, this.topPos + 62, 10, 8,
+                CHECKBOX_SPRITES, () -> this.menu.isRightClickable() != 1, button ->
+                PacketHandler.sendToServer(new IsRightClickablePayload(this.menu.containerId, this.menu.isRightClickable() == 1 ? 0 : 1)),
+                tooltip);
+        this.rightClickableCheckbox.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.rightClickableCheckbox);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.interactable_checkbox");
         tooltip = Component.translatable("menu.marioverse.block_spawner.interactable_checkbox.tooltip");
-        this.interactableCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isInteractableCheckbox)
-                .pos(this.leftPos + 7, this.topPos + 72).setSize(8)
-                .tooltip(Tooltip.create(tooltip)).build();
-        this.interactableCheckbox.setAlpha(0);
+        this.interactableCheckbox = new StateImageButton(this.leftPos + 6, this.topPos + 72, 10, 8,
+                CHECKBOX_SPRITES, () -> this.menu.isInteractable() != 1, button ->
+                PacketHandler.sendToServer(new IsInteractablePayload(this.menu.containerId, this.menu.isInteractable() == 1 ? 0 : 1)),
+                tooltip);
+        this.interactableCheckbox.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.interactableCheckbox);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.collision_checkbox");
         tooltip = Component.translatable("menu.marioverse.block_spawner.collision_checkbox.tooltip");
-        this.collisionCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::hasCollisionCheckbox)
-                .pos(this.leftPos + 17, this.topPos + 72).setSize(8)
-                .tooltip(Tooltip.create(tooltip)).build();
-        this.collisionCheckbox.setAlpha(0);
+        this.collisionCheckbox = new StateImageButton(this.leftPos + 16, this.topPos + 72, 10, 8,
+                CHECKBOX_SPRITES, () -> this.menu.hasCollision() != 1, button ->
+                PacketHandler.sendToServer(new HasCollisionPayload(this.menu.containerId, this.menu.hasCollision() == 1 ? 0 : 1)),
+                tooltip);
+        this.collisionCheckbox.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.collisionCheckbox);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.north_button.tooltip");
@@ -331,7 +274,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(2);
-        }, Component.translatable("menu.marioverse.block_spawner.north_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.north_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.north_button"));
         this.northButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.northButton);
 
@@ -351,7 +295,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(4);
-        }, Component.translatable("menu.marioverse.block_spawner.east_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.east_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.east_button"));
         this.eastButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.eastButton);
 
@@ -371,7 +316,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(3);
-        }, Component.translatable("menu.marioverse.block_spawner.south_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.south_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.south_button"));
         this.southButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.southButton);
 
@@ -391,7 +337,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(5);
-        }, Component.translatable("menu.marioverse.block_spawner.west_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.west_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.west_button"));
         this.westButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.westButton);
 
@@ -411,7 +358,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(0);
-        }, Component.translatable("menu.marioverse.block_spawner.up_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.up_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.up_button"));
         this.upButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.upButton);
 
@@ -431,7 +379,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 1)
                 this.placementDirectionButtonOnPress(1);
-        }, Component.translatable("menu.marioverse.block_spawner.down_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.down_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.down_button"));
         this.downButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.downButton);
 
@@ -453,12 +402,12 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
         this.placementOffsetBox.setMaxLength(15);
         this.addRenderableWidget(this.placementOffsetBox);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.hide_item_rendered_checkbox");
         tooltip = Component.translatable("menu.marioverse.block_spawner.hide_item_rendered_checkbox.tooltip");
-        this.hideItemRenderedCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::hideItemRenderedCheckbox)
-                .pos(this.leftPos + 137, this.topPos + 47).setSize(8)
-                .tooltip(Tooltip.create(tooltip)).build();
-        this.hideItemRenderedCheckbox.setAlpha(0);
+        this.hideItemRenderedCheckbox = new StateImageButton(this.leftPos + 136, this.topPos + 47, 10, 8,
+                CHECKBOX_SPRITES, () -> this.menu.isItemRenderHidden() != 1, button ->
+                PacketHandler.sendToServer(new HideItemRenderedPayload(this.menu.containerId, this.menu.isItemRenderHidden() == 1 ? 0 : 1)),
+                tooltip);
+        this.hideItemRenderedCheckbox.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.hideItemRenderedCheckbox);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.face_north_button.tooltip");
@@ -467,7 +416,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(2);
-        }, Component.translatable("menu.marioverse.block_spawner.face_north_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.face_north_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.face_north_button"));
         this.faceNorthButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.faceNorthButton);
 
@@ -477,7 +427,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(4);
-        }, Component.translatable("menu.marioverse.block_spawner.face_east_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.face_east_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.face_east_button"));
         this.faceEastButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.faceEastButton);
 
@@ -487,7 +438,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(3);
-        }, Component.translatable("menu.marioverse.block_spawner.face_south_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.face_south_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.face_south_button"));
         this.faceSouthButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.faceSouthButton);
 
@@ -497,7 +449,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(5);
-        }, Component.translatable("menu.marioverse.block_spawner.face_west_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.face_west_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.face_west_button"));
         this.faceWestButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.faceWestButton);
 
@@ -507,7 +460,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(0);
-        }, Component.translatable("menu.marioverse.block_spawner.face_up_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.face_up_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.face_up_button"));
         this.faceUpButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.faceUpButton);
 
@@ -517,16 +471,17 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             int menuType = this.menu.getMenuType();
             if (menuType == 2)
                 this.facingDirectionButtonOnPress(1);
-        }, Component.translatable("menu.marioverse.block_spawner.face_down_button.narrate"));
+        }, Component.translatable("menu.marioverse.block_spawner.face_down_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.block_spawner.face_down_button"));
         this.faceDownButton.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.faceDownButton);
 
-        buttonName = Component.translatable("menu.marioverse.block_spawner.sneaking_checkbox");
         tooltip = Component.translatable("menu.marioverse.block_spawner.sneaking_checkbox.tooltip");
-        this.sneakingCheckbox = ResizableCheckbox.builder(buttonName, this.font).onValueChange(this::isSneakingCheckbox)
-                .pos(this.leftPos + 137, this.topPos + 72).setSize(8)
-                .tooltip(Tooltip.create(tooltip)).build();
-        this.sneakingCheckbox.setAlpha(0);
+        this.sneakingCheckbox = new StateImageButton(this.leftPos + 136, this.topPos + 72, 10, 8,
+                CHECKBOX_SPRITES, () -> this.menu.isSneaking() != 1, button ->
+                PacketHandler.sendToServer(new IsSneakingPayload(this.menu.containerId, this.menu.isSneaking() == 1 ? 0 : 1)),
+                tooltip);
+        this.sneakingCheckbox.setTooltip(Tooltip.create(tooltip));
         this.addRenderableWidget(this.sneakingCheckbox);
 
         tooltip = Component.translatable("menu.marioverse.block_spawner.replace_button.tooltip");
@@ -703,30 +658,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
     private void facingDirectionButtonOnPress(int facingDirection) {
         PacketHandler.sendToServer(new FacingDirectionPayload(this.menu.containerId, facingDirection));
-    }
-
-    private void hasCollisionCheckbox(AbstractWidget widget, boolean hasCollision) {
-        PacketHandler.sendToServer(new HasCollisionPayload(this.menu.containerId, hasCollision ? 1 : 0));
-    }
-
-    private void hideItemRenderedCheckbox(AbstractWidget widget, boolean hideItemRendered) {
-        PacketHandler.sendToServer(new HideItemRenderedPayload(this.menu.containerId, hideItemRendered ? 1 : 0));
-    }
-
-    private void isInteractableCheckbox(AbstractWidget widget, boolean isInteractable) {
-        PacketHandler.sendToServer(new IsInteractablePayload(this.menu.containerId, isInteractable ? 1 : 0));
-    }
-
-    private void isRightClickableCheckbox(AbstractWidget widget, boolean isRightClickable) {
-        PacketHandler.sendToServer(new IsRightClickablePayload(this.menu.containerId, isRightClickable ? 1 : 0));
-    }
-
-    private void isSneakingCheckbox(AbstractWidget widget, boolean isSneaking) {
-        PacketHandler.sendToServer(new IsSneakingPayload(this.menu.containerId, isSneaking ? 1 : 0));
-    }
-
-    private void isUnbreakableCheckbox(AbstractWidget widget, boolean isUnbreakable) {
-        PacketHandler.sendToServer(new IsUnbreakablePayload(this.menu.containerId, isUnbreakable ? 1 : 0));
     }
 
     private void placementDirectionButtonOnPress(int placementDirection) {

@@ -137,7 +137,8 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
                 UNIT_LEFT_SPRITES, () -> this.menu.getTimeUnit() != 0, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 0));
-        }, Component.translatable("menu.marioverse.question_block.ticks_button.narrate"));
+        }, Component.translatable("menu.marioverse.question_block.ticks_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.question_block.ticks_button"));
         this.ticksButton.visible = false;
         this.addRenderableWidget(this.ticksButton);
 
@@ -145,7 +146,8 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
                 UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 1, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 1));
-        }, Component.translatable("menu.marioverse.question_block.seconds_button.narrate"));
+        }, Component.translatable("menu.marioverse.question_block.seconds_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.question_block.seconds_button"));
         this.secondsButton.visible = false;
         this.addRenderableWidget(this.secondsButton);
 
@@ -153,7 +155,8 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
                 UNIT_MIDDLE_SPRITES, () -> this.menu.getTimeUnit() != 2, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 2));
-        }, Component.translatable("menu.marioverse.question_block.minute_button.narrate"));
+        }, Component.translatable("menu.marioverse.question_block.minute_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.question_block.minute_button"));
         this.minuteButton.visible = false;
         this.addRenderableWidget(this.minuteButton);
 
@@ -161,7 +164,8 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
                 UNIT_RIGHT_SPRITES, () -> this.menu.getTimeUnit() != 3, button -> {
             this.confirmButtonOnPress();
             PacketHandler.sendToServer(new TimeUnitPayload(this.menu.containerId, 3));
-        }, Component.translatable("menu.marioverse.question_block.hour_button.narrate"));
+        }, Component.translatable("menu.marioverse.question_block.hour_button.narrate"))
+                .withLabel(Component.translatable("menu.marioverse.question_block.hour_button"));
         this.hourButton.visible = false;
         this.addRenderableWidget(this.hourButton);
 
