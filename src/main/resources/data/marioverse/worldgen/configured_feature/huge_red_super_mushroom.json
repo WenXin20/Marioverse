@@ -10,7 +10,7 @@
     "cap_height": 2,
     "radius": {
       "type": "minecraft:uniform",
-      "max_inclusive": 3,
+      "max_inclusive": 5,
       "min_inclusive": 1
     },
     "stem_height": {

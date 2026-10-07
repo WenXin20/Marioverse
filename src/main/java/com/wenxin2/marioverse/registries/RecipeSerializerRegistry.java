@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.data.ArrowSignUpgradeRecipe;
 import com.wenxin2.marioverse.data.HexColorShapedRecipe;
 import com.wenxin2.marioverse.data.HexColorShapelessRecipe;
 import com.wenxin2.marioverse.data.WarpDoorRecipe;
+import com.wenxin2.marioverse.data.KeepDamageShapelessRecipe;
 import com.wenxin2.marioverse.data.WarpTrapDoorRecipe;
 import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +19,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 public class RecipeSerializerRegistry {
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<WarpDoorRecipe>> WARP_DOOR;
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<WarpTrapDoorRecipe>> WARP_TRAPDOOR;
+    public static final Supplier<RecipeSerializer<KeepDamageShapelessRecipe>> KEEP_DAMAGE_SHAPELESS;
     public static final Supplier<RecipeSerializer<HexColorShapedRecipe>> HEX_COLOR_SHAPED;
     public static final Supplier<RecipeType<HexColorShapedRecipe>> HEX_COLOR_SHAPED_TYPE;
     public static final Supplier<RecipeSerializer<HexColorShapelessRecipe>> HEX_COLOR_SHAPELESS;
@@ -59,6 +61,8 @@ public class RecipeSerializerRegistry {
                 () -> new SimpleCraftingRecipeSerializer<>(WarpDoorRecipe::new));
         WARP_TRAPDOOR = Marioverse.RECIPE_SERIALIZERS.register("warp_trapdoor",
                 () -> new SimpleCraftingRecipeSerializer<>(WarpTrapDoorRecipe::new));
+        KEEP_DAMAGE_SHAPELESS = Marioverse.RECIPE_SERIALIZERS
+                .register("keep_damage_shapeless", KeepDamageShapelessRecipe.Serializer::new);
     }
 
     public static void init() {

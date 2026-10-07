@@ -32,9 +32,6 @@ public class HugeMegaMushroomFeature extends ShapedHugeMushroomFeature {
         return this.placeMushroom(context.level(), random, context.origin(), config, this.twoByTwo ? 2 : 1,
                 stemHeight, capMinY, stemHeight, radius + 1, (distanceX, y, distanceZ) -> {
                     int layerRadius = getLayerRadius(radius, capMinY, bodyMinY, stemHeight, y);
-                    int radiusBelow = getLayerRadius(radius, capMinY, bodyMinY, stemHeight, y - 1);
-                    if (radiusBelow > layerRadius && isRoundedCorner(layerRadius, distanceX, distanceZ))
-                        return true;
                     if (!isInLayer(layerRadius, distanceX, distanceZ))
                         return false;
                     if (y == stemHeight)
@@ -42,17 +39,9 @@ public class HugeMegaMushroomFeature extends ShapedHugeMushroomFeature {
 
                     int radiusAbove = getLayerRadius(radius, capMinY, bodyMinY, stemHeight, y + 1);
                     return !isInLayer(radiusAbove, distanceX, distanceZ)
+                            || isLayerEdge(radiusAbove, distanceX, distanceZ)
                             || isLayerEdge(layerRadius, distanceX, distanceZ);
                 });
-    }
-
-    private static boolean isRoundedCorner(int layerRadius, int distanceX, int distanceZ) {
-        if (distanceX > layerRadius || distanceZ > layerRadius)
-            return false;
-        if (layerRadius == 1)
-            return distanceX + distanceZ == 2;
-        return layerRadius >= 2 && distanceX + distanceZ < layerRadius * 2
-                && !isInLayer(layerRadius, distanceX, distanceZ);
     }
 
     private static int getLayerRadius(int radius, int capMinY, int bodyMinY, int stemHeight, int y) {

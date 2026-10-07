@@ -93,6 +93,28 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
     }
 
     @Override
+    protected void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
+        if (random.nextInt(25) != 0)
+            return;
+
+        int mushroomsAllowed = 5;
+        for (BlockPos nearbyPos : BlockPos.betweenClosed(pos.offset(-4, -1, -4), pos.offset(4, 1, 4))) {
+            if (serverLevel.getBlockState(nearbyPos).is(this) && --mushroomsAllowed <= 0)
+                return;
+        }
+
+        BlockPos spreadPos = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
+        for (int i = 0; i < 4; i++) {
+            if (this.canSpreadTo(serverLevel, spreadPos))
+                pos = spreadPos;
+            spreadPos = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
+        }
+
+        if (this.canSpreadTo(serverLevel, spreadPos))
+            serverLevel.setBlock(spreadPos, this.defaultBlockState(), Block.UPDATE_CLIENTS);
+    }
+
+    @Override
     public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos pos, BlockState state) {
         if (this.canGrowHuge(levelReader, pos))
             return true;
@@ -134,6 +156,14 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
             double dy = entity instanceof LivingEntity ? 1.0 : 0.8;
             entity.setDeltaMovement(vec3.x, -vec3.y * 0.66F * dy, vec3.z);
         }
+    }
+
+    private boolean canSpreadTo(ServerLevel serverLevel, BlockPos pos) {
+        BlockState stateBelow = serverLevel.getBlockState(pos.below());
+        if (!serverLevel.isEmptyBlock(pos) || stateBelow.is(this)
+                || !this.defaultBlockState().canSurvive(serverLevel, pos))
+            return false;
+        return stateBelow.is(BlockTags.MUSHROOM_GROW_BLOCK) || serverLevel.getRawBrightness(pos, 0) < 13;
     }
 
     private boolean canGrowHuge(BlockGetter blockGetter, BlockPos pos) {
