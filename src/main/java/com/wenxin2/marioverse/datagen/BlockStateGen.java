@@ -3009,28 +3009,22 @@ public class BlockStateGen extends BlockStateProvider {
 
             for (boolean entrance : new boolean[]{false, true}) {
                 for (boolean closed : new boolean[]{false, true}) {
-                    for (boolean bubbles : new boolean[]{false, true}) {
-                        for (boolean waterSpout : new boolean[]{false, true}) {
-                            String modelName = baseName + "_"
-                                    + direction.getName()
-                                    + (entrance ? "_entrance" : "")
-                                    + (entrance ? (closed ? "_closed" : "") : "");
+                    String modelName = baseName + "_"
+                            + direction.getName()
+                            + (entrance ? "_entrance" : "")
+                            + (entrance ? (closed ? "_closed" : "") : "");
 
-                            ModelFile model = modelCache.computeIfAbsent(modelName, name -> {
-                                ResourceLocation side = entrance ? entranceTexture : sideTexture;
-                                ResourceLocation top = entrance ? (closed ? topClosedTexture : topTexture) : bottomTexture;
-                                return this.createWarpPipeModel(name, bottomTexture, side, top, direction);
-                            });
+                    ModelFile model = modelCache.computeIfAbsent(modelName, name -> {
+                        ResourceLocation side = entrance ? entranceTexture : sideTexture;
+                        ResourceLocation top = entrance ? (closed ? topClosedTexture : topTexture) : bottomTexture;
+                        return this.createWarpPipeModel(name, bottomTexture, side, top, direction);
+                    });
 
-                            variantBuilder.partialState()
-                                    .with(WarpPipeBlock.FACING, direction)
-                                    .with(WarpPipeBlock.ENTRANCE, entrance)
-                                    .with(WarpPipeBlock.CLOSED, closed)
-                                    .with(WarpPipeBlock.BUBBLES, bubbles)
-                                    .with(WarpPipeBlock.WATER_SPOUT, waterSpout)
-                                    .addModels(new ConfiguredModel(model, xRot, yRot, false));
-                        }
-                    }
+                    variantBuilder.partialState()
+                            .with(WarpPipeBlock.FACING, direction)
+                            .with(WarpPipeBlock.ENTRANCE, entrance)
+                            .with(WarpPipeBlock.CLOSED, closed)
+                            .addModels(new ConfiguredModel(model, xRot, yRot, false));
                 }
             }
         }

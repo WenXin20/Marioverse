@@ -123,6 +123,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public PipeText pipeText = this.createDefaultPipeText();
     public static final String SPOUT_HEIGHT = "SpoutHeight";
     public static final String BUBBLES_DISTANCE = "BubblesDistance";
+    public static final String BUBBLES = "Bubbles";
+    public static final String WATER_SPOUT = "WaterSpout";
     public static final String DISPLAY_TEXT_NORTH = "displayTextNorth";
     public static final String DISPLAY_TEXT_SOUTH = "displayTextSouth";
     public static final String DISPLAY_TEXT_EAST = "displayTextEast";
@@ -143,8 +145,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
             return switch (index) {
                 case 0 -> isPipe && state.getValue(WarpPipeBlock.CLOSED) ? 1 : 0;
-                case 1 -> isPipe && state.getValue(WarpPipeBlock.WATER_SPOUT) ? 1 : 0;
-                case 2 -> isPipe && state.getValue(WarpPipeBlock.BUBBLES) ? 1 : 0;
+                case 1 -> isPipe && WarpPipeBlockEntity.this.hasWaterSpout() ? 1 : 0;
+                case 2 -> isPipe && WarpPipeBlockEntity.this.hasBubbles() ? 1 : 0;
                 case 3 -> WarpPipeBlockEntity.this.isWaxed() ? 1 : 0;
                 case 4 -> WarpPipeBlockEntity.this.getSpoutHeight();
                 case 5 -> WarpPipeBlockEntity.this.getBubblesDistance();
@@ -164,6 +166,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     private ItemStack spawnItemStack = ItemStack.EMPTY;
     public int spoutHeight = 4;
     public int bubblesDistance = 3;
+    private boolean bubbles = true;
+    private boolean waterSpout = true;
     public int spawnItemDelay = 20;
     public boolean displayTextNorth;
     public boolean displayTextSouth;
@@ -224,6 +228,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         tag.putShort("SpawnItemDelay", (short) this.spawnItemDelay);
         tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
         tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
+        tag.putBoolean(BUBBLES, this.bubbles);
+        tag.putBoolean(WATER_SPOUT, this.waterSpout);
         tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
         tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
         tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
@@ -250,6 +256,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.spawnItemDelay = tag.getShort("SpawnItemDelay");
         this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
         this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
+        this.bubbles = !tag.contains(BUBBLES) || tag.getBoolean(BUBBLES);
+        this.waterSpout = tag.getBoolean(WATER_SPOUT);
         this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
         this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
         this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
@@ -587,15 +595,45 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (this.level != null && player.containerMenu instanceof WarpPipeMenu) {
             BlockState state = this.level.getBlockState(((WarpPipeMenu) player.containerMenu).getBlockPos());
             BlockPos menuPos = ((WarpPipeMenu) player.containerMenu).getBlockPos();
-            if (state.getValue(WarpPipeBlock.WATER_SPOUT)) {
-                this.level.setBlock(menuPos, state.setValue(WarpPipeBlock.WATER_SPOUT, Boolean.FALSE), 3);
-                this.level.scheduleTick(menuPos, state.getBlock(), 3);
-                this.playSound(this.level, menuPos, SoundRegistry.WATER_SPOUT_BREAK.get(), SoundSource.BLOCKS, 1.0F, pitchLow);
-            } else {
-                this.level.setBlock(menuPos, state.setValue(WarpPipeBlock.WATER_SPOUT, Boolean.TRUE), 3);
-                this.level.scheduleTick(menuPos, state.getBlock(), 3);
-                this.playSound(this.level, menuPos, SoundRegistry.WATER_SPOUT_PLACE.get(), SoundSource.BLOCKS, 1.0F, pitchHigh);
+            if (this.level.getBlockEntity(menuPos) instanceof WarpPipeBlockEntity pipeBlockEntity) {
+                if (pipeBlockEntity.hasWaterSpout()) {
+                    pipeBlockEntity.setWaterSpout(false);
+                    this.level.scheduleTick(menuPos, state.getBlock(), 3);
+                    this.playSound(this.level, menuPos, SoundRegistry.WATER_SPOUT_BREAK.get(), SoundSource.BLOCKS, 1.0F, pitchLow);
+                } else {
+                    pipeBlockEntity.setWaterSpout(true);
+                    this.level.scheduleTick(menuPos, state.getBlock(), 3);
+                    this.playSound(this.level, menuPos, SoundRegistry.WATER_SPOUT_PLACE.get(), SoundSource.BLOCKS, 1.0F, pitchHigh);
+                }
             }
+        }
+    }
+
+    public boolean hasWaterSpout() {
+        return this.waterSpout;
+    }
+
+    public void setWaterSpout(boolean waterSpout) {
+        this.waterSpout = waterSpout;
+        this.updateColumns();
+    }
+
+    public boolean hasBubbles() {
+        return this.bubbles;
+    }
+
+    public void setBubbles(boolean bubbles) {
+        this.bubbles = bubbles;
+        this.updateColumns();
+    }
+
+    private void updateColumns() {
+        this.setChanged();
+        if (this.level != null) {
+            BlockState state = this.getBlockState();
+            this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_ALL);
+            state.updateNeighbourShapes(this.level, this.worldPosition, Block.UPDATE_ALL);
+            this.level.updateNeighbourForOutputSignal(this.worldPosition, state.getBlock());
         }
     }
 
@@ -680,14 +718,16 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (this.level != null && player.containerMenu instanceof WarpPipeMenu) {
             BlockState state = this.level.getBlockState(((WarpPipeMenu) player.containerMenu).getBlockPos());
             BlockPos menuPos = ((WarpPipeMenu) player.containerMenu).getBlockPos();
-            if (state.getValue(WarpPipeBlock.BUBBLES)) {
-                this.level.setBlock(menuPos, state.setValue(WarpPipeBlock.BUBBLES, Boolean.FALSE), 3);
-                this.level.scheduleTick(menuPos, state.getBlock(), 3);
-                this.playSound(this.level, menuPos, SoundEvents.BUBBLE_COLUMN_BUBBLE_POP, SoundSource.BLOCKS, 1.0F, pitchLow);
-            } else {
-                this.level.setBlock(menuPos, state.setValue(WarpPipeBlock.BUBBLES, Boolean.TRUE), 3);
-                this.level.scheduleTick(menuPos, state.getBlock(), 3);
-                this.playSound(this.level, menuPos, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 1.0F, pitchHigh);
+            if (this.level.getBlockEntity(menuPos) instanceof WarpPipeBlockEntity pipeBlockEntity) {
+                if (pipeBlockEntity.hasBubbles()) {
+                    pipeBlockEntity.setBubbles(false);
+                    this.level.scheduleTick(menuPos, state.getBlock(), 3);
+                    this.playSound(this.level, menuPos, SoundEvents.BUBBLE_COLUMN_BUBBLE_POP, SoundSource.BLOCKS, 1.0F, pitchLow);
+                } else {
+                    pipeBlockEntity.setBubbles(true);
+                    this.level.scheduleTick(menuPos, state.getBlock(), 3);
+                    this.playSound(this.level, menuPos, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 1.0F, pitchHigh);
+                }
             }
         }
     }

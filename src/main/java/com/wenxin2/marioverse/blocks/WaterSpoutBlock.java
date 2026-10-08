@@ -87,14 +87,14 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
 
         if (stateBelow.getBlock() instanceof WarpPipeBlock
                 && (stateBelow.getValue(WarpPipeBlock.CLOSED) || stateBelow.getValue(WarpPipeBlock.FACING) != Direction.UP
-                || !stateBelow.getValue(WarpPipeBlock.WATER_SPOUT))) {
+                || !WarpPipeBlock.hasWaterSpout(worldAccessor, pos.below()))) {
             worldAccessor.destroyBlock(pos, true);
             return Blocks.AIR.defaultBlockState();
         }
 
         if (stateBelow.getBlock() instanceof ClearWarpPipeBlock
                 && (stateBelow.getValue(WarpPipeBlock.CLOSED) || stateBelow.getValue(WarpPipeBlock.FACING) != Direction.UP
-                || !stateBelow.getValue(ClearWarpPipeBlock.WATERLOGGED) || !stateBelow.getValue(WarpPipeBlock.WATER_SPOUT))) {
+                || !stateBelow.getValue(ClearWarpPipeBlock.WATERLOGGED) || !WarpPipeBlock.hasWaterSpout(worldAccessor, pos.below()))) {
             worldAccessor.destroyBlock(pos, true);
             return Blocks.AIR.defaultBlockState();
         }
@@ -119,11 +119,11 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         else if ((stateBelow.is(Blocks.WATER) && stateBelow.getFluidState().getAmount() >= 8 && stateBelow.getFluidState().isSource()))
             return true;
         else if (stateBelow.getBlock() instanceof WarpPipeBlock && stateBelow.getValue(WarpPipeBlock.FACING) == Direction.UP
-                && (!stateBelow.getValue(WarpPipeBlock.CLOSED) && stateBelow.getValue(WarpPipeBlock.WATER_SPOUT))
+                && (!stateBelow.getValue(WarpPipeBlock.CLOSED) && WarpPipeBlock.hasWaterSpout(worldReader, pos.below()))
                 && !(stateBelow.getBlock() instanceof ClearWarpPipeBlock))
             return true;
         else return stateBelow.getBlock() instanceof ClearWarpPipeBlock && stateBelow.getValue(WarpPipeBlock.FACING) == Direction.UP
-                    && (!stateBelow.getValue(WarpPipeBlock.CLOSED) && stateBelow.getValue(WarpPipeBlock.WATER_SPOUT))
+                    && (!stateBelow.getValue(WarpPipeBlock.CLOSED) && WarpPipeBlock.hasWaterSpout(worldReader, pos.below()))
                     && stateBelow.getValue(ClearWarpPipeBlock.WATERLOGGED);
     }
 
@@ -134,13 +134,13 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
     public static BlockState setBlockState(BlockState state, LevelAccessor worldAccessor, BlockPos pos) {
         BlockState stateAbove = worldAccessor.getBlockState(pos.above());
         if (state.isAir() || state.is(BlockRegistry.WATER_SPOUT.get())
-                || (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.WATER_SPOUT) && !state.getValue(WarpPipeBlock.CLOSED))) {
+                || (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))) {
             if (state.is(BlockRegistry.WATER_SPOUT.get())) {
                 if (!stateAbove.is(BlockRegistry.WATER_SPOUT.get()))
                     return state.setValue(TOP, Boolean.TRUE);
                 else return state.setValue(TOP, Boolean.FALSE);
             } else if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.FACING) == Direction.UP
-                    && state.getValue(WarpPipeBlock.WATER_SPOUT) && !state.getValue(WarpPipeBlock.CLOSED)) {
+                    && !state.getValue(WarpPipeBlock.CLOSED)) {
                 if (!stateAbove.is(BlockRegistry.WATER_SPOUT.get()))
                     return BlockRegistry.WATER_SPOUT.get().defaultBlockState().setValue(TOP, Boolean.TRUE);
                 else return BlockRegistry.WATER_SPOUT.get().defaultBlockState().setValue(TOP, Boolean.FALSE);
@@ -239,7 +239,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
     @Override
     public void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
         WarpPipeBlockEntity pipeBlockEntity = (WarpPipeBlockEntity) serverWorld.getBlockEntity(pos.below());
-        if (pipeBlockEntity != null && pipeBlockEntity.getBlockState().getValue(WarpPipeBlock.WATER_SPOUT))
+        if (pipeBlockEntity != null && pipeBlockEntity.hasWaterSpout())
             WaterSpoutBlock.repeatColumnUp(serverWorld, pos, state, serverWorld.getBlockState(pos.below()), pipeBlockEntity.spoutHeight);
         else WaterSpoutBlock.repeatColumnUp(serverWorld, pos, state, serverWorld.getBlockState(pos.below()), 0);
     }

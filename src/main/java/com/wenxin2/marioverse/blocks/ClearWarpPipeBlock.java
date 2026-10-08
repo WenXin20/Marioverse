@@ -119,14 +119,14 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         super(color, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP)
                 .setValue(ENTRANCE, Boolean.TRUE).setValue(CLOSED, Boolean.FALSE).setValue(POWERED, Boolean.FALSE)
-                .setValue(WATERLOGGED, Boolean.FALSE).setValue(WATER_SPOUT, Boolean.FALSE)
+                .setValue(WATERLOGGED, Boolean.FALSE)
                 .setValue(UP, Boolean.FALSE).setValue(NORTH, Boolean.FALSE).setValue(SOUTH, Boolean.FALSE)
                 .setValue(EAST, Boolean.FALSE).setValue(WEST, Boolean.FALSE).setValue(DOWN, Boolean.FALSE));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(BUBBLES, CLOSED, ENTRANCE, FACING, POWERED, WATER_SPOUT, WATERLOGGED, UP, DOWN, NORTH, SOUTH, EAST, WEST);
+        stateBuilder.add(CLOSED, ENTRANCE, FACING, POWERED, WATERLOGGED, UP, DOWN, NORTH, SOUTH, EAST, WEST);
     }
 
     public VoxelShape voxelShape(BlockState state) {
@@ -552,27 +552,27 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     public void tick(BlockState state, ServerLevel serverWorld, BlockPos pos, RandomSource random) {
         WarpPipeBlockEntity pipeBlockEntity = (WarpPipeBlockEntity) serverWorld.getBlockEntity(pos);
 
-        if (state.getValue(WATER_SPOUT) && pipeBlockEntity != null && state.getValue(WATERLOGGED)) {
+        if (pipeBlockEntity != null && pipeBlockEntity.hasWaterSpout() && state.getValue(WATERLOGGED)) {
             WaterSpoutBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBlockEntity.spoutHeight);
             serverWorld.scheduleTick(pos, this, 3);
         }
 
-        if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.UP && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
+        if (pipeBlockEntity != null && pipeBlockEntity.hasBubbles() && state.getValue(FACING) == Direction.UP && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
             PipeBubblesBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBlockEntity.bubblesDistance);
             serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.DOWN && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
+        } else if (pipeBlockEntity != null && pipeBlockEntity.hasBubbles() && state.getValue(FACING) == Direction.DOWN && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
             PipeBubblesBlock.repeatColumnDown(serverWorld, pos.below(), state, pipeBlockEntity.bubblesDistance);
             serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.NORTH && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
+        } else if (pipeBlockEntity != null && pipeBlockEntity.hasBubbles() && state.getValue(FACING) == Direction.NORTH && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
             PipeBubblesBlock.repeatColumnNorth(serverWorld, pos.north(), state, pipeBlockEntity.bubblesDistance);
             serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.SOUTH && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
+        } else if (pipeBlockEntity != null && pipeBlockEntity.hasBubbles() && state.getValue(FACING) == Direction.SOUTH && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
             PipeBubblesBlock.repeatColumnSouth(serverWorld, pos.south(), state, pipeBlockEntity.bubblesDistance);
             serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.EAST && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
+        } else if (pipeBlockEntity != null && pipeBlockEntity.hasBubbles() && state.getValue(FACING) == Direction.EAST && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
             PipeBubblesBlock.repeatColumnEast(serverWorld, pos.east(), state, pipeBlockEntity.bubblesDistance);
             serverWorld.scheduleTick(pos, this, 3);
-        } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.WEST && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
+        } else if (pipeBlockEntity != null && pipeBlockEntity.hasBubbles() && state.getValue(FACING) == Direction.WEST && state.getValue(WATERLOGGED) && pipeBlockEntity != null) {
             PipeBubblesBlock.repeatColumnWest(serverWorld, pos.west(), state, pipeBlockEntity.bubblesDistance);
             serverWorld.scheduleTick(pos, this, 3);
         }

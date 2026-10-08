@@ -51,6 +51,7 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Spawner;
@@ -82,18 +83,16 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                             .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
                     .apply(instance, (dyeColor, properties) -> new WarpPipeBlock(dyeColor.orElse(null), properties))
     );
-    public static final BooleanProperty BUBBLES = BooleanProperty.create("bubbles");
     public static final BooleanProperty CLOSED = BooleanProperty.create("closed");
     public static final BooleanProperty ENTRANCE = BooleanProperty.create("entrance");
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
-    public static final BooleanProperty WATER_SPOUT = BooleanProperty.create("water_spout");
     @Nullable private final DyeColor color;
 
     public WarpPipeBlock(@Nullable DyeColor color, BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(BUBBLES, Boolean.TRUE)
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP)
                 .setValue(CLOSED, Boolean.FALSE).setValue(ENTRANCE, Boolean.TRUE)
-                .setValue(POWERED, Boolean.FALSE).setValue(WATER_SPOUT, Boolean.FALSE));
+                .setValue(POWERED, Boolean.FALSE));
         this.color = color;
     }
 
@@ -104,7 +103,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(BUBBLES, CLOSED, ENTRANCE, FACING, POWERED, WATER_SPOUT);
+        stateBuilder.add(CLOSED, ENTRANCE, FACING, POWERED);
     }
 
     @Override
@@ -160,9 +159,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE) {
-            if (state.getValue(WATER_SPOUT))
+            if (warpPipeBE.hasWaterSpout())
                 return Math.min(warpPipeBE.getSpoutHeight(), 15);
-            else if (state.getValue(BUBBLES))
+            else if (warpPipeBE.hasBubbles())
                 return Math.min(warpPipeBE.getBubblesDistance(), 15);
         }
         return 0;
@@ -425,6 +424,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
         if (oldState.getBlock() == state.getBlock())
             return;
+        if (level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE)
+            pipeBE.setWaterSpout(false);
         if (level instanceof ServerLevel serverLevel)
             this.checkAndFlip(state, serverLevel, pos);
 
@@ -460,27 +461,27 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 BaseWarpBlockEntity.WARP_LOCATIONS.put(uuid, pos);
             }
 
-            if (state.getValue(WATER_SPOUT) && state.getValue(FACING) == Direction.UP && serverWorld.dimension() != Level.NETHER) {
+            if (pipeBE.hasWaterSpout() && state.getValue(FACING) == Direction.UP && serverWorld.dimension() != Level.NETHER) {
                 WaterSpoutBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBE.spoutHeight);
                 serverWorld.scheduleTick(pos, this, 3);
             }
 
-            if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.UP) {
+            if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.UP) {
                 PipeBubblesBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.DOWN) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.DOWN) {
                 PipeBubblesBlock.repeatColumnDown(serverWorld, pos.below(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.NORTH) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.NORTH) {
                 PipeBubblesBlock.repeatColumnNorth(serverWorld, pos.north(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.SOUTH) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.SOUTH) {
                 PipeBubblesBlock.repeatColumnSouth(serverWorld, pos.south(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.EAST) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.EAST) {
                 PipeBubblesBlock.repeatColumnEast(serverWorld, pos.east(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.WEST) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.WEST) {
                 PipeBubblesBlock.repeatColumnWest(serverWorld, pos.west(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
             }
@@ -509,8 +510,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         Block blockEast = world.getBlockState(pos.east()).getBlock();
         Block blockWest = world.getBlockState(pos.west()).getBlock();
 
-        if (!state.getValue(CLOSED) && (state.getValue(BUBBLES) || state.getValue(WATER_SPOUT)) && state.getValue(ENTRANCE)
-                && blockEntity instanceof WarpPipeBlockEntity warpPipeBE) {
+        if (!state.getValue(CLOSED) && state.getValue(ENTRANCE) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE
+                && (warpPipeBE.hasBubbles() || warpPipeBE.hasWaterSpout())) {
 
             if (warpPipeBE.getPersistentData().isEmpty()) {
 
@@ -647,5 +648,13 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         for(Direction direction : Direction.values()) {
             ParticleUtils.spawnParticlesOnBlockFace(world, pos, particles, amountRange, direction, () -> speedRange, 0.55D);
         }
+    }
+
+    public static boolean hasBubbles(BlockGetter blockGetter, BlockPos pos) {
+        return blockGetter.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.hasBubbles();
+    }
+
+    public static boolean hasWaterSpout(BlockGetter blockGetter, BlockPos pos) {
+        return blockGetter.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.hasWaterSpout();
     }
 }

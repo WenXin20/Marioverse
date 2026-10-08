@@ -24,7 +24,6 @@
                   "Properties": {
                     "up": "true",
                     "entrance": "false",
-                    "water_spout": "true",
                     "waterlogged": "true"
                   }
                 }
@@ -44,7 +43,6 @@
                     "down": "true",
                     "up": "true",
                     "entrance": "false",
-                    "water_spout": "true",
                     "waterlogged": "true"
                   }
                 }

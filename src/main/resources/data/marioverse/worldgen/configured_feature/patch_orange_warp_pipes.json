@@ -43,8 +43,7 @@
                 "state": {
                   "Name": "marioverse:orange_warp_pipe",
                   "Properties": {
-                    "entrance": "false",
-                    "water_spout": "true"
+                    "entrance": "false"
                   }
                 }
               }
@@ -56,8 +55,7 @@
                 "state": {
                   "Name": "marioverse:orange_warp_pipe",
                   "Properties": {
-                    "entrance": "true",
-                    "water_spout": "true"
+                    "entrance": "true"
                   }
                 }
               }
