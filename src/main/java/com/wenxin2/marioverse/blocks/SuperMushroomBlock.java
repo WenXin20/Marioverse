@@ -160,8 +160,7 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
 
     private boolean canSpreadTo(ServerLevel serverLevel, BlockPos pos) {
         BlockState stateBelow = serverLevel.getBlockState(pos.below());
-        if (!serverLevel.isEmptyBlock(pos) || stateBelow.is(this)
-                || !this.defaultBlockState().canSurvive(serverLevel, pos))
+        if (!serverLevel.isEmptyBlock(pos) || !this.defaultBlockState().canSurvive(serverLevel, pos))
             return false;
         return stateBelow.is(BlockTags.MUSHROOM_GROW_BLOCK) || serverLevel.getRawBrightness(pos, 0) < 13;
     }
