@@ -3301,19 +3301,21 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent(modelName + "_horizontal", modLoc("block/template_single_face_east"))
                 .texture("texture", stemTexture);
         ModelFile modelSkirt = models()
-                .withExistingParent("super_mushroom_skirt", mcLoc("block/template_single_face")).texture("texture", skirtTexture);
+                .withExistingParent("super_mushroom_skirt", mcLoc("block/template_single_face"))
+                .texture("texture", skirtTexture).texture("particle", stemTexture);
         ModelFile modelSkirtHorizontal = models()
                 .withExistingParent("super_mushroom_skirt_horizontal", modLoc("block/template_single_face_east"))
-                .texture("texture", skirtTexture);
+                .texture("texture", skirtTexture).texture("particle", stemTexture);
         ModelFile modelSkirtTop = models()
                 .withExistingParent("super_mushroom_skirt_top", mcLoc("block/template_single_face"))
-                .texture("texture", skirtTopTexture);
+                .texture("texture", skirtTopTexture).texture("particle", stemTexture);
         ModelFile modelInside = models()
                 .withExistingParent(modelName + "_inside", mcLoc("block/mushroom_block_inside"))
-                .texture("texture", insideTexture).texture("particle", insideTexture);
+                .texture("texture", insideTexture).texture("particle", stemTexture);
         ModelFile modelInventory = models()
                 .withExistingParent(modelName + "_inventory", mcLoc("block/cube_bottom_top"))
-                .texture("side", skirtTexture).texture("bottom", stemTexture).texture("top", skirtTopTexture);
+                .texture("side", skirtTexture).texture("bottom", stemTexture).texture("top", skirtTopTexture)
+                .texture("particle", stemTexture);
 
         simpleBlockItem(block, modelInventory);
 
@@ -3378,13 +3380,14 @@ public class BlockStateGen extends BlockStateProvider {
                     .texture("texture", blockTexture(block));
             ModelFile modelCap = models()
                     .withExistingParent(modelName + "_cap", mcLoc("block/template_single_face"))
-                    .texture("texture", capTexture);
+                    .texture("texture", capTexture).texture("particle", blockTexture(block));
             ModelFile modelTop = models()
                     .withExistingParent(modelName + "_top", mcLoc("block/template_single_face"))
-                    .texture("texture", topTexture);
+                    .texture("texture", topTexture).texture("particle", blockTexture(block));
             ModelFile modelInventory = models()
                     .withExistingParent(modelName + "_inventory", mcLoc("block/cube_bottom_top"))
-                    .texture("side", capTexture).texture("bottom", insideTexture).texture("top", topTexture);
+                    .texture("side", capTexture).texture("bottom", insideTexture).texture("top", topTexture)
+                    .texture("particle", blockTexture(block));
 
             simpleBlockItem(block, modelInventory);
 

@@ -27,6 +27,7 @@
       "state": {
         "Name": "marioverse:super_mushroom_stem",
         "Properties": {
+          "down": "false",
           "end": "false",
           "facing": "up"
         }

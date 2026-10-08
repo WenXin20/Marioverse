@@ -60,7 +60,6 @@ public abstract class ShapedHugeMushroomFeature extends Feature<ShapedHugeMushro
                             SuperMushroomStemBlock.END, y == stemHeight - 1);
                     if (state.getBlock() instanceof SuperMushroomStemBlock) {
                         state = state.setValue(SuperMushroomStemBlock.UP, y == stemHeight - 1)
-                                .setValue(SuperMushroomStemBlock.DOWN, false)
                                 .setValue(SuperMushroomStemBlock.WEST, x == 0)
                                 .setValue(SuperMushroomStemBlock.EAST, x == stemWidth - 1)
                                 .setValue(SuperMushroomStemBlock.NORTH, z == 0)
