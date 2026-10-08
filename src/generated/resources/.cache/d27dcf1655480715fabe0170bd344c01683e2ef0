@@ -1,8 +1,8 @@
-// 1.21.1	2026-10-07T18:09:10.9947594	Tags for minecraft:block mod id marioverse
-f99fa540d4522f5bac8bec150853302189c9150a data/create/tags/block/brittle.json
+// 1.21.1	2026-10-07T22:15:03.0216137	Tags for minecraft:block mod id marioverse
+9b7d46af183fd8ae038d6af38435dbdbfda4d9a8 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
-ec03c1325fa26175603eceeea5f9f92018fe96a0 data/create/tags/block/movable_empty_collider.json
+7bda9e5d77048a6e238ceb989652a6df3bf9a97e data/create/tags/block/movable_empty_collider.json
 3328fc37e450afbca82611da12322d23408f0d7d data/create/tags/block/safe_nbt.json
 f8b64e2ef01c28cc3f45a012a987a1593637c2b4 data/create/tags/block/simple_mounted_storage.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/create/tags/block/single_block_inventories.json
@@ -112,7 +112,7 @@ e6a968de6c4bf32c65f2aaf5943a8af49adefda7 data/marioverse/tags/block/melts.json
 f12710e9c28fd237cbfc94b57f80a2fd67940d54 data/marioverse/tags/block/melts_into_packed_ice.json
 59cf3672223aaddb9a134569a973a414572c9389 data/marioverse/tags/block/melts_into_water.json
 5deb9af770fdad544511740089e3a3075ff82b32 data/marioverse/tags/block/melts_snowball.json
-ba9228d4717929b718af29decf3382915356cc84 data/marioverse/tags/block/mushroom_trampoline_blocks.json
+ff5b7eaa7cf5403a07fa644bf33590ad7f929e57 data/marioverse/tags/block/mushroom_trampoline_blocks.json
 bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/block/mushroot_logs.json
 1246002449a1e94e6f47058a9210307d8ff68423 data/marioverse/tags/block/mushroot_planks.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/block/picket_fences.json
@@ -164,11 +164,11 @@ cdb6632c40766661d822c90fed1656cd9fd0baf9 data/minecraft/tags/block/ceiling_hangi
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
 e9ed280a523a34d5da1a046244b1a0cd49645407 data/minecraft/tags/block/dirt.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
-6eaf4e49700b0ec19b3199cc905ff815b8732d04 data/minecraft/tags/block/enderman_holdable.json
+a25fcf964c911dbc5ae884e1d331bc3402a3664f data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 2bbd0fd34b17230eea47727565783149abeb82d8 data/minecraft/tags/block/fence_gates.json
 14742b562ea2fa76e68930652cec7e858856c12e data/minecraft/tags/block/flowers.json
-e8d6a3f49adeb62120da97887c1e1ff09640dd5c data/minecraft/tags/block/flower_pots.json
+765011b33f291581f33fed24882f66a055e3993e data/minecraft/tags/block/flower_pots.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/foxes_spawnable_on.json
 4e1901ff6551710ff119e7d00134ac9eff353037 data/minecraft/tags/block/frogs_spawnable_on.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json
@@ -180,7 +180,7 @@ ede6c84e66ed40d9d5807ec9fa5605a6c9419655 data/minecraft/tags/block/leaves.json
 d0937a0630d64be292b48a90c8c5b850a6278b66 data/minecraft/tags/block/logs_that_burn.json
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_logs_can_grow_through.json
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_roots_can_grow_through.json
-b92aaeeb11373b4b7844e039d8d5a06aaef3c79b data/minecraft/tags/block/mineable/axe.json
+2b25f0488d6e816a82123cd993f6ae899b72a996 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 063c9336d13633ae2e3e88910be8993253897ed3 data/minecraft/tags/block/mineable/pickaxe.json
 95e4c25615d95838082475b740d03652b99843ab data/minecraft/tags/block/mineable/shovel.json
@@ -202,7 +202,7 @@ c168e2a9518e20af623dccc05f946b6afbc973d6 data/minecraft/tags/block/stairs.json
 9c91187db353ba8f36c3701f190299a12a12a4ff data/minecraft/tags/block/standing_signs.json
 dd2eaafb141ecc462b70907c4daeab314d52f737 data/minecraft/tags/block/stone_buttons.json
 dd6db5c2a56d25975cce66e0168fea3c1f3a01c2 data/minecraft/tags/block/stone_pressure_plates.json
-03688284c377b0333924690f8dd7bd59ec29e5a3 data/minecraft/tags/block/sword_efficient.json
+4addc59011d83aecf54534969ac6a750bd3f7e02 data/minecraft/tags/block/sword_efficient.json
 a64597a81f1bba93d69973c61c21d0ec33d3b22c data/minecraft/tags/block/underwater_bonemeals.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/valid_spawn.json
 a4f05e42751dee6079b3d76617ada719604748b2 data/minecraft/tags/block/walls.json
@@ -223,6 +223,6 @@ b0912048c89580c07a2df0672eb46f4bec762438 data/sable/tags/block/end_stones.json
 ed8318623af15718a46a312178a6a298f2fee8c8 data/sable/tags/block/light.json
 a22e372c23fd9460c3ce7f162266214db78e75ad data/sable/tags/block/quarter_volume.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/sable/tags/block/super_light.json
-c7b21e2d485a2c8b60cd595a87d9549b558834a4 data/twilightforest/tags/block/portal/decoration.json
+f8e21a8d74ab516dbdc0fa6dd2a97957ca272168 data/twilightforest/tags/block/portal/decoration.json
 3dd49e38be3de7a0909353812e7c2465e571d6b6 data/twilightforest/tags/block/portal/edge.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/twilightforest/tags/block/portal/generated_decoration.json

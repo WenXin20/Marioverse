@@ -6,17 +6,17 @@
     "marioverse:blue_mega_mushroom": {
       "chance": 0.65
     },
-    "marioverse:blue_mushroom_trampoline": {
+    "marioverse:blue_mushroom_trampoline_block": {
       "chance": 0.85
+    },
+    "marioverse:blue_mushroom_trampoline_cap": {
+      "chance": 0.65
     },
     "marioverse:blue_super_mushroom": {
       "chance": 0.65
     },
     "marioverse:blue_super_mushroom_block": {
       "chance": 0.85
-    },
-    "marioverse:blue_trampoline_cap": {
-      "chance": 0.65
     },
     "marioverse:dango_blossom": {
       "chance": 0.65
@@ -90,8 +90,11 @@
     "marioverse:red_mega_mushroom": {
       "chance": 0.65
     },
-    "marioverse:red_mushroom_trampoline": {
+    "marioverse:red_mushroom_trampoline_block": {
       "chance": 0.85
+    },
+    "marioverse:red_mushroom_trampoline_cap": {
+      "chance": 0.65
     },
     "marioverse:red_rose_hedge": {
       "chance": 0.85
@@ -101,9 +104,6 @@
     },
     "marioverse:red_super_mushroom_block": {
       "chance": 0.85
-    },
-    "marioverse:red_trampoline_cap": {
-      "chance": 0.65
     },
     "marioverse:short_shroomgrass": {
       "chance": 0.3

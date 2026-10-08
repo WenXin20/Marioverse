@@ -218,10 +218,10 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_MEGA_MUSHROOM;
-    public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM_BLOCK;
-    public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> BRAIN_CORAL_TOWER;
     public static final DeferredBlock<Block> BRICK_BRIDGE;
     public static final DeferredBlock<Block> BRICK_LOOPHOLE;
@@ -650,8 +650,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
     public static final DeferredBlock<Block> POTTED_BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_BLUE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_BLUE_MUSHROOM_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_BLUE_SUPER_MUSHROOM;
-    public static final DeferredBlock<Block> POTTED_BLUE_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
     public static final DeferredBlock<Block> POTTED_GREEN_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> POTTED_GREEN_SUPER_MUSHROOM;
@@ -670,9 +670,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_PURPLE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> POTTED_RED_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_RED_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_RED_MUSHROOM_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_RED_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_RED_SUPER_MUSHROOM;
-    public static final DeferredBlock<Block> POTTED_RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_SHORT_SHROOMGRASS;
     public static final DeferredBlock<Block> POTTED_SHROOMGRASS;
     public static final DeferredBlock<Block> POTTED_SHRUBROOM;
@@ -705,7 +705,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_BLOOMFLOWER;
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_MEGA_MUSHROOM;
-    public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_BRIDGE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
@@ -722,7 +723,6 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> RED_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> RED_SUPER_MUSHROOM_BLOCK;
-    public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_STAIRS;
@@ -1036,29 +1036,29 @@ public class BlockRegistry {
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
                         .noOcclusion()));
 
-        RED_MUSHROOM_TRAMPOLINE = registerBlock("red_mushroom_trampoline",
+        RED_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("red_mushroom_trampoline_block",
                 () -> new RedMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
                         .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
-        BLUE_MUSHROOM_TRAMPOLINE = registerBlock("blue_mushroom_trampoline",
-                () -> new BlueMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
+        BLUE_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("blue_mushroom_trampoline_block",
+                () -> new BlueMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE_BLOCK.get())
                         .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
 
-        RED_TRAMPOLINE_CAP = registerBlock("red_trampoline_cap",
+        RED_MUSHROOM_TRAMPOLINE_CAP = registerBlock("red_mushroom_trampoline_cap",
                 () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(),
                         BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                                 .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
                                 .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
-        BLUE_TRAMPOLINE_CAP = registerBlock("blue_trampoline_cap",
+        BLUE_MUSHROOM_TRAMPOLINE_CAP = registerBlock("blue_mushroom_trampoline_cap",
                 () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(),
                         BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                                 .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
                                 .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
-        POTTED_RED_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_trampoline_cap",
+        POTTED_RED_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_mushroom_trampoline_cap",
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
-                        BlockRegistry.RED_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
-        POTTED_BLUE_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_trampoline_cap",
+                        BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_mushroom_trampoline_cap",
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
-                        BlockRegistry.BLUE_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+                        BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
 
 
         SUPER_MUSHROOM_STEM = registerBlock("super_mushroom_stem",
@@ -3436,7 +3436,7 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.BLUE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_BLUE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.BLUE_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_BLUE_MEGA_MUSHROOM);
         pot.addPlant(BlockRegistry.BLUE_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_BLUE_SUPER_MUSHROOM);
-        pot.addPlant(BlockRegistry.BLUE_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP);
+        pot.addPlant(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_MUSHROOM_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
         pot.addPlant(BlockRegistry.GREEN_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_GREEN_MEGA_MUSHROOM);
         pot.addPlant(BlockRegistry.GREEN_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_GREEN_SUPER_MUSHROOM);
@@ -3458,7 +3458,7 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.PURPLE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PURPLE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.RED_BLOOMFLOWER.getId(), BlockRegistry.POTTED_RED_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.RED_ROSE_HEDGE.getId(), BlockRegistry.POTTED_RED_ROSE_HEDGE);
-        pot.addPlant(BlockRegistry.RED_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_TRAMPOLINE_CAP);
+        pot.addPlant(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_MUSHROOM_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.SHORT_SHROOMGRASS.getId(), BlockRegistry.POTTED_SHORT_SHROOMGRASS);
         pot.addPlant(BlockRegistry.SHROOMGRASS.getId(), BlockRegistry.POTTED_SHROOMGRASS);
         pot.addPlant(BlockRegistry.SHRUBROOM.getId(), BlockRegistry.POTTED_SHRUBROOM);
@@ -3587,6 +3587,26 @@ public class BlockRegistry {
     }
 
     public static void registerAliases() {
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "blue_mushroom_trampoline"), BLUE_MUSHROOM_TRAMPOLINE_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "blue_mushroom_trampoline"), BLUE_MUSHROOM_TRAMPOLINE_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "red_mushroom_trampoline"), RED_MUSHROOM_TRAMPOLINE_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "red_mushroom_trampoline"), RED_MUSHROOM_TRAMPOLINE_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "blue_trampoline_cap"), BLUE_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "blue_trampoline_cap"), BLUE_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "red_trampoline_cap"), RED_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "red_trampoline_cap"), RED_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "potted_blue_trampoline_cap"), POTTED_BLUE_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "potted_red_trampoline_cap"), POTTED_RED_MUSHROOM_TRAMPOLINE_CAP.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation

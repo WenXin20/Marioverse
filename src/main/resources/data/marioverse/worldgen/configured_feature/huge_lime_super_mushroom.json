@@ -15,7 +15,7 @@
     },
     "stem_height": {
       "type": "minecraft:uniform",
-      "max_inclusive": 8,
+      "max_inclusive": 14,
       "min_inclusive": 2
     },
     "stem_provider": {

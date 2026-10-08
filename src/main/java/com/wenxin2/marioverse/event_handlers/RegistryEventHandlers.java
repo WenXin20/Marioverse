@@ -637,12 +637,12 @@ public class RegistryEventHandlers {
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.RED_TRAMPOLINE_CAP, 1),
+                new ItemStack(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP, 1),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.BLUE_TRAMPOLINE_CAP, 1),
+                new ItemStack(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP, 1),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(

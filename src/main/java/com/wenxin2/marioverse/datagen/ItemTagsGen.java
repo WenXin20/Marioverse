@@ -202,8 +202,8 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.SPINY_CHEEP_CHEEP.get());
 
         tag(Tags.Items.MUSHROOMS)
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem())
+                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP.asItem())
+                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP.asItem())
                 .addTag(TagRegistry.MEGA_MUSHROOM_ITEMS)
                 .addTag(TagRegistry.SUPER_MUSHROOM_ITEMS);
 

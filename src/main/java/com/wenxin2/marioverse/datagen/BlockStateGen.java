@@ -308,8 +308,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(glow, texture(glow, "_front"), blockTexture(glow), blockTexture(glow));
         this.horizontalModel(splunkin, blockTexture(splunkin), mcLoc("block/" + pumpkin + "_side"), mcLoc("block/" + pumpkin + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), blockTexture(BlockRegistry.IRON_SPIKE.get()));
-        this.mushroomTrampolineBlueModel(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get(), blockTexture(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get()));
-        this.mushroomTrampolineRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(), blockTexture(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get()));
+        this.mushroomTrampolineBlueModel(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK.get(), blockTexture(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK.get()));
+        this.mushroomTrampolineRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK.get(), blockTexture(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK.get()));
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
@@ -335,8 +335,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.pottedHedgeModel(BlockRegistry.POTTED_RED_ROSE_HEDGE.get(), modLoc("block/potted_hedge"), modLoc("block/potted_hedge_red_rose"));
         this.pottedHedgeModel(BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(), modLoc("block/potted_hedge"), modLoc("block/potted_hedge_white_rose"));
         this.pottedShrubroomModel(BlockRegistry.POTTED_SHRUBROOM.get());
-        this.pottedTrampolineCapBlueModel(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
-        this.pottedTrampolineCapRedModel(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
+        this.pottedTrampolineCapBlueModel(BlockRegistry.POTTED_BLUE_MUSHROOM_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP.get()));
+        this.pottedTrampolineCapRedModel(BlockRegistry.POTTED_RED_MUSHROOM_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP.get()));
         this.spikePanelModel(BlockRegistry.SPIKE_PANEL.get(), blockTexture(BlockRegistry.SPIKE_PANEL.get()));
         this.shrubroomModel(BlockRegistry.SHRUBROOM.get());
         this.shroomgrassBlockModel(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(), 1, blockTexture(BlockRegistry.DEEP_FUNGAL_STONE.get()),
@@ -359,8 +359,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.tintedCrossModel(BlockRegistry.SHROOMGRASS.get(), blockTexture(BlockRegistry.SHROOMGRASS.get()));
         this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHORT_SHROOMGRASS.get()));
         this.tintedCrossFlowerPotModel(BlockRegistry.POTTED_SHROOMGRASS.get(), texture("potted_", BlockRegistry.SHROOMGRASS.get()));
-        this.trampolineCapBlueModel(BlockRegistry.BLUE_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_TRAMPOLINE_CAP.get()));
-        this.trampolineCapRedModel(BlockRegistry.RED_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_TRAMPOLINE_CAP.get()));
+        this.trampolineCapBlueModel(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP.get()));
+        this.trampolineCapRedModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP.get(), blockTexture(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP.get()));
         this.cubeAllModel(BlockRegistry.WET_MUD.get(), blockTexture(BlockRegistry.WET_MUD.get()));
         this.dirtPathFarmlandModel(BlockRegistry.WET_MUD_FARMLAND.get(), modLoc("block/wet_mud"),
                 modLoc("block/deep_wet_mud_side"), modLoc("block/wet_mud_farmland"));

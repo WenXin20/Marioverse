@@ -4,7 +4,7 @@
     "cap_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "marioverse:blue_mushroom_trampoline"
+        "Name": "marioverse:blue_mushroom_trampoline_block"
       }
     },
     "foliage_radius": 3,

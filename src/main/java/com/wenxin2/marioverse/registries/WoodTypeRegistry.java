@@ -8,10 +8,6 @@ public class WoodTypeRegistry {
     public static final WoodType MUSHROOT;
     public static final WoodType SPOOKROOT;
 
-    // Custom marioverse-namespaced WoodTypes for each vanilla wood, reusing the vanilla BlockSetType
-    // (so sounds/interactions match vanilla) but with our own name so arrow sign texture resolution
-    // (ResourceLocation.parse(woodType.name()) in ArrowSignBlockModel) resolves to our own texture
-    // pack layout under assets/marioverse/... instead of assets/minecraft/....
     public static final WoodType OAK;
     public static final WoodType SPRUCE;
     public static final WoodType BIRCH;
