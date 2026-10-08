@@ -523,15 +523,11 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @NotNull
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos posNeighbor) {
-        Direction facing = state.getValue(FACING);
         BlockState newState = state;
         BooleanProperty property = PROPERTY_BY_DIRECTION.get(direction);
 
         if (state.getValue(WATERLOGGED) && !state.getValue(CLOSED))
             levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
-
-        if (direction == facing)
-            newState = calculateEntrance(state, levelAccessor, pos);
 
         if (property != null) {
             boolean shouldConnect = this.connectsTo(neighborState);
@@ -539,6 +535,16 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             if (state.getValue(property) != shouldConnect)
                 newState = newState.setValue(property, shouldConnect);
         }
+        return this.calculateEntrance(newState, levelAccessor, pos);
+    }
+
+    @Override
+    public BlockState calculateEntrance(BlockState state, LevelAccessor level, BlockPos pos) {
+        BlockState newState = super.calculateEntrance(state, level, pos);
+        long connections = PROPERTY_BY_DIRECTION.values().stream().filter(newState::getValue).count();
+
+        if (newState.getValue(ENTRANCE) && connections > 1)
+            return newState.setValue(ENTRANCE, false);
         return newState;
     }
 
