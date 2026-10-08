@@ -308,8 +308,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(glow, texture(glow, "_front"), blockTexture(glow), blockTexture(glow));
         this.horizontalModel(splunkin, blockTexture(splunkin), mcLoc("block/" + pumpkin + "_side"), mcLoc("block/" + pumpkin + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), blockTexture(BlockRegistry.IRON_SPIKE.get()));
-        this.mushroomTrampolineBlueModel(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), blockTexture(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get()));
-        this.mushroomTrampolineRedModel(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), blockTexture(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get()));
+        this.mushroomTrampolineModel(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), false);
+        this.mushroomTrampolineModel(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), true);
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
@@ -2533,44 +2533,63 @@ public class BlockStateGen extends BlockStateProvider {
         variantBuilder.partialState().with(BrickPedestalBlock.TOP, false).addModels(new ConfiguredModel(modelBottom));
     }
 
-    private void mushroomTrampolineRedModel(Block block, ResourceLocation activeTexture) {
-        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+    private void mushroomTrampolineModel(Block block, boolean onWhenActive) {
+        String modelName = this.name(block);
+        MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block);
 
-        ModelFile model = models()
-                .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
-                .texture("bottom", activeTexture + "_bottom").texture("side", activeTexture)
-                .texture("top", activeTexture + "_top");
-        ModelFile modelOff = models()
-                .withExistingParent(modelName + "_off", mcLoc("block/cube_bottom_top"))
-                .texture("bottom", activeTexture + "_bottom_off").texture("side", activeTexture + "_off")
-                .texture("top", activeTexture + "_top_off");
+        for (boolean on : new boolean[]{true, false}) {
+            String suffix = on ? "" : "_off";
+            boolean active = on == onWhenActive;
+            ResourceLocation sideTexture = texture(block, suffix), topTexture = texture(block, "_top" + suffix),
+                    insideTexture = texture(block, "_inside" + suffix);
+            ResourceLocation capTexture = this.textureOrDefault(texture(block, "_cap" + suffix), sideTexture);
 
-        simpleBlockItem(block, model);
+            ModelFile modelSide = models()
+                    .withExistingParent(modelName + suffix, mcLoc("block/template_single_face"))
+                    .texture("texture", sideTexture);
+            ModelFile modelCap = models()
+                    .withExistingParent(modelName + "_cap" + suffix, mcLoc("block/template_single_face"))
+                    .texture("texture", capTexture).texture("particle", sideTexture);
+            ModelFile modelTop = models()
+                    .withExistingParent(modelName + "_top" + suffix, mcLoc("block/template_single_face"))
+                    .texture("texture", topTexture).texture("particle", sideTexture);
+            ModelFile modelInside = models()
+                    .withExistingParent(modelName + "_inside" + suffix, mcLoc("block/mushroom_block_inside"))
+                    .texture("texture", insideTexture).texture("particle", sideTexture);
 
-        this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);
-            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
-        });
-    }
+            if (on)
+                simpleBlockItem(block, models()
+                        .withExistingParent(modelName + "_inventory", mcLoc("block/cube_bottom_top"))
+                        .texture("side", capTexture).texture("bottom", insideTexture).texture("top", topTexture)
+                        .texture("particle", sideTexture));
 
-    private void mushroomTrampolineBlueModel(Block block, ResourceLocation activeTexture) {
-        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                BooleanProperty property = PipeBlock.PROPERTY_BY_DIRECTION.get(direction);
+                int yRot = this.horizontalRotation(Direction.NORTH, direction);
 
-        ModelFile model = models()
-                .withExistingParent(modelName, mcLoc("block/cube_bottom_top"))
-                .texture("bottom", activeTexture + "_bottom").texture("side", activeTexture)
-                .texture("top", activeTexture + "_top");
-        ModelFile modelOff = models()
-                .withExistingParent(modelName + "_off", mcLoc("block/cube_bottom_top"))
-                .texture("bottom", activeTexture + "_bottom_off").texture("side", activeTexture + "_off")
-                .texture("top", activeTexture + "_top_off");
+                builder.part().modelFile(modelSide).rotationY(yRot).uvLock(true).addModel()
+                        .condition(OnBlock.ACTIVE, active).condition(property, true)
+                        .condition(SuperMushroomCapBlock.BOTTOM, false).end();
+                builder.part().modelFile(modelCap).rotationY(yRot).uvLock(true).addModel()
+                        .condition(OnBlock.ACTIVE, active).condition(property, true)
+                        .condition(SuperMushroomCapBlock.BOTTOM, true).end();
+                builder.part().modelFile(modelInside).rotationY(yRot).addModel()
+                        .condition(OnBlock.ACTIVE, active).condition(property, false).end();
+            }
 
-        simpleBlockItem(block, model);
-
-        this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = !state.getValue(OnBlock.ACTIVE);
-            return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
-        });
+            builder.part().modelFile(modelTop).rotationX(270).uvLock(true).addModel()
+                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.UP, true).end();
+            builder.part().modelFile(modelInside).rotationX(270).addModel()
+                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.UP, false).end();
+            builder.part().modelFile(modelTop).rotationX(90).uvLock(true).addModel()
+                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, true)
+                    .condition(SuperMushroomCapBlock.BOTTOM, false).end();
+            builder.part().modelFile(modelInside).rotationX(90).addModel()
+                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, true)
+                    .condition(SuperMushroomCapBlock.BOTTOM, true).end();
+            builder.part().modelFile(modelInside).rotationX(90).addModel()
+                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, false).end();
+        }
     }
 
     private void onOffSwitchModel(Block block, ResourceLocation onSideTexture, ResourceLocation onTopTexture,

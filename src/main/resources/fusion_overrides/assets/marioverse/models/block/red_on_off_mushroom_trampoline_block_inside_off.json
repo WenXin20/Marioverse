@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/mushroom_block_inside",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "particle": "marioverse:block/red_on_off_mushroom_trampoline_block_off",
+    "texture": "marioverse:block/red_on_off_mushroom_trampoline_block_inside_off"
+  },
+  "connections": {
+    "texture": {
+      "type": "match_state",
+      "block": "marioverse:red_on_off_mushroom_trampoline_block",
+      "properties": {
+        "active": "false"
+      }
+    },
+    "default": {
+      "type": "is_same_block"
+    }
+  }
+}

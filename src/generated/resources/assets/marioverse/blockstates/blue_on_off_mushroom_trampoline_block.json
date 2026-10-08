@@ -1,10 +1,378 @@
 {
-  "variants": {
-    "active=false": {
-      "model": "marioverse:block/blue_on_off_mushroom_trampoline_block"
+  "multipart": [
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block",
+        "uvlock": true
+      },
+      "when": {
+        "active": "false",
+        "bottom": "false",
+        "north": "true"
+      }
     },
-    "active=true": {
-      "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_off"
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_cap",
+        "uvlock": true
+      },
+      "when": {
+        "active": "false",
+        "bottom": "true",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside"
+      },
+      "when": {
+        "active": "false",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "active": "false",
+        "bottom": "false",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_cap",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "active": "false",
+        "bottom": "true",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside",
+        "y": 90
+      },
+      "when": {
+        "active": "false",
+        "east": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "active": "false",
+        "bottom": "false",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_cap",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "active": "false",
+        "bottom": "true",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside",
+        "y": 180
+      },
+      "when": {
+        "active": "false",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "active": "false",
+        "bottom": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_cap",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "active": "false",
+        "bottom": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside",
+        "y": 270
+      },
+      "when": {
+        "active": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_top",
+        "uvlock": true,
+        "x": 270
+      },
+      "when": {
+        "active": "false",
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside",
+        "x": 270
+      },
+      "when": {
+        "active": "false",
+        "up": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_top",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "active": "false",
+        "bottom": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside",
+        "x": 90
+      },
+      "when": {
+        "active": "false",
+        "bottom": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside",
+        "x": 90
+      },
+      "when": {
+        "active": "false",
+        "down": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_off",
+        "uvlock": true
+      },
+      "when": {
+        "active": "true",
+        "bottom": "false",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_cap_off",
+        "uvlock": true
+      },
+      "when": {
+        "active": "true",
+        "bottom": "true",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside_off"
+      },
+      "when": {
+        "active": "true",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_off",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "active": "true",
+        "bottom": "false",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_cap_off",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "active": "true",
+        "bottom": "true",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside_off",
+        "y": 90
+      },
+      "when": {
+        "active": "true",
+        "east": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_off",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "active": "true",
+        "bottom": "false",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_cap_off",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "active": "true",
+        "bottom": "true",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside_off",
+        "y": 180
+      },
+      "when": {
+        "active": "true",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_off",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "active": "true",
+        "bottom": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_cap_off",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "active": "true",
+        "bottom": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside_off",
+        "y": 270
+      },
+      "when": {
+        "active": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_top_off",
+        "uvlock": true,
+        "x": 270
+      },
+      "when": {
+        "active": "true",
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside_off",
+        "x": 270
+      },
+      "when": {
+        "active": "true",
+        "up": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_top_off",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "active": "true",
+        "bottom": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside_off",
+        "x": 90
+      },
+      "when": {
+        "active": "true",
+        "bottom": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/blue_on_off_mushroom_trampoline_block_inside_off",
+        "x": 90
+      },
+      "when": {
+        "active": "true",
+        "down": "false"
+      }
     }
-  }
+  ]
 }

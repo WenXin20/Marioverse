@@ -56,7 +56,7 @@
   - Mushroot & Spookroot Saplings
   - Shroomgrass Blocks
 - Added new creative tabs
-- New On/Off Trampoline Mushroom textures
+- New On/Off Trampoline Mushroom textures & models
 - Removed the bubbles & water_spout blockstates from warp pipes
   - Saves to the block entity now
   - Reduces states from 192 to 48

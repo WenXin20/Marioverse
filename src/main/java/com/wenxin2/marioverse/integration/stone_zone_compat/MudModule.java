@@ -126,6 +126,7 @@ public class MudModule extends StoneZoneModule {
                         BlockRegistry.MUD_QUESTION_BRICKS, () -> VanillaMudTypes.MUD,
                         mudType -> new QuestionBlock(Utils.copyPropertySafe(mudType.bricksOrStone())))
                 .addTexture(modRes("block/empty_mud_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/empty_mud_question_bricks_mirrored"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTexture(modRes("block/mud_question_bricks"), questionPalette)
                 .addTexture(modRes("block/mud_question_bricks_mirrored"), questionPalette)
                 .addTag(CompatRegistry.CREATE_COPYCAT_ALLOW, Registries.BLOCK)
