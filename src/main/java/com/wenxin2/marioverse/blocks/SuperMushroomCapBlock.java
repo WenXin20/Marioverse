@@ -44,7 +44,8 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState stateBelow = context.getLevel().getBlockState(context.getClickedPos().below());
         return super.getStateForPlacement(context)
-                .setValue(BOTTOM, !(stateBelow.getBlock() instanceof SuperMushroomCapBlock));
+                .setValue(BOTTOM, !context.isSecondaryUseActive()
+                        && !(stateBelow.getBlock() instanceof SuperMushroomCapBlock));
     }
 
     @NotNull
@@ -52,8 +53,12 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                      LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
         BlockState newState = super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
-        if (direction == Direction.DOWN)
-            return newState.setValue(BOTTOM, !(neighborState.getBlock() instanceof SuperMushroomCapBlock));
+        if (direction == Direction.DOWN) {
+            if (neighborState.getBlock() instanceof SuperMushroomCapBlock)
+                return newState.setValue(BOTTOM, false);
+            if (neighborState.isAir())
+                return newState.setValue(BOTTOM, true);
+        }
         return newState;
     }
 
