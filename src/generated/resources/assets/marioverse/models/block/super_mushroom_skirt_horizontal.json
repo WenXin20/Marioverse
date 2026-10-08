@@ -1,0 +1,6 @@
+{
+  "parent": "marioverse:block/template_single_face_east",
+  "textures": {
+    "texture": "marioverse:block/super_mushroom_skirt"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/template_single_face",
+  "parent": "marioverse:block/template_single_face_east",
   "textures": {
     "texture": "marioverse:block/super_mushroom_stem"
   }

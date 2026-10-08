@@ -56,8 +56,17 @@ public abstract class ShapedHugeMushroomFeature extends Feature<ShapedHugeMushro
                     if (level.getBlockState(posMutable).isSolidRender(level, posMutable))
                         continue;
 
-                    this.setBlock(level, posMutable, with(config.stemProvider().getState(random, origin),
-                            SuperMushroomStemBlock.END, y == stemHeight - 1));
+                    BlockState state = with(config.stemProvider().getState(random, origin),
+                            SuperMushroomStemBlock.END, y == stemHeight - 1);
+                    if (state.getBlock() instanceof SuperMushroomStemBlock) {
+                        state = state.setValue(SuperMushroomStemBlock.UP, y == stemHeight - 1)
+                                .setValue(SuperMushroomStemBlock.DOWN, false)
+                                .setValue(SuperMushroomStemBlock.WEST, x == 0)
+                                .setValue(SuperMushroomStemBlock.EAST, x == stemWidth - 1)
+                                .setValue(SuperMushroomStemBlock.NORTH, z == 0)
+                                .setValue(SuperMushroomStemBlock.SOUTH, z == stemWidth - 1);
+                    }
+                    this.setBlock(level, posMutable, state);
                 }
             }
         }

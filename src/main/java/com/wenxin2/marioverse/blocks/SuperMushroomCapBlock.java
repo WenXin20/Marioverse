@@ -5,6 +5,8 @@ import java.util.List;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -26,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
@@ -85,9 +88,12 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
     @Override
     public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
         BooleanProperty faceProperty = PipeBlock.PROPERTY_BY_DIRECTION.get(context.getClickedFace());
-        if (itemAbility == ItemAbilities.AXE_SCRAPE && state.getValue(faceProperty)
-                && !(faceProperty == DOWN && state.getValue(BOTTOM)))
+        if (itemAbility == ItemAbilities.AXE_STRIP && state.getValue(faceProperty)
+                && !(faceProperty == DOWN && state.getValue(BOTTOM))) {
+            if (!simulate && context.getLevel() instanceof ServerLevel serverLevel)
+                spawnScrapeParticles(serverLevel, context.getClickedPos(), state, context.getClickedFace());
             return state.setValue(faceProperty, false);
+        }
         return super.getToolModifiedState(state, context, itemAbility, simulate);
     }
 
@@ -116,5 +122,12 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
 
     private boolean canBonemealFace(BlockState state, BooleanProperty faceProperty) {
         return !state.getValue(faceProperty) && !(faceProperty == DOWN && state.getValue(BOTTOM));
+    }
+
+    public static void spawnScrapeParticles(ServerLevel serverLevel, BlockPos pos, BlockState state, Direction face) {
+        Vec3 faceCenter = Vec3.atCenterOf(pos).add(Vec3.atLowerCornerOf(face.getNormal()).scale(0.55));
+        serverLevel.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, state), faceCenter.x, faceCenter.y, faceCenter.z,
+                20, 0.25 * (1 - Math.abs(face.getStepX())), 0.25 * (1 - Math.abs(face.getStepY())),
+                0.25 * (1 - Math.abs(face.getStepZ())), 0.05);
     }
 }

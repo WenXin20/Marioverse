@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_single_face",
   "textures": {
-    "texture": "marioverse:block/super_mushroom_stem"
+    "texture": "marioverse:block/super_mushroom_skirt"
   }
 }
