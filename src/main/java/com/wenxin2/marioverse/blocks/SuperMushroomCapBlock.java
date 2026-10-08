@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -25,7 +26,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class SuperMushroomCapBlock extends HugeMushroomBlock implements BonemealableBlock {
     public static final BooleanProperty BOTTOM = BlockStatePropertyRegistry.BOTTOM;
@@ -70,6 +74,16 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
             stack.consume(1, player);
         }
         return ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
+        BooleanProperty faceProperty = PipeBlock.PROPERTY_BY_DIRECTION.get(context.getClickedFace());
+        if (itemAbility == ItemAbilities.AXE_SCRAPE && state.getValue(faceProperty)
+                && !(faceProperty == DOWN && state.getValue(BOTTOM)))
+            return state.setValue(faceProperty, false);
+        return super.getToolModifiedState(state, context, itemAbility, simulate);
     }
 
     @Override
