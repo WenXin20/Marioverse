@@ -158,10 +158,10 @@ public class RecipeGen extends RecipeUtils {
             dyeItemRecipe(1, "picket_fence_from_dye", BlockRegistry.PICKET_FENCES.get(color), RecipeCategory.BUILDING_BLOCKS, color.getTag(), TagRegistry.PICKET_FENCE_ITEMS, false, output);
         for (DyeColor color : DyeColor.values())
             dyeItemRecipe(1, "picket_fence_gate_from_dye", BlockRegistry.PICKET_FENCE_GATES.get(color), RecipeCategory.REDSTONE, color.getTag(), TagRegistry.PICKET_FENCE_GATE_ITEMS, false, output);
-        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
-        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
-        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
-        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
         onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.BLUE_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BLUE_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
         onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.RED_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
         onOffSwitchRecipe(1, "on_off_switches", BlockRegistry.ON_OFF_SWITCH, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Tags.Items.GEMS_QUARTZ, Blocks.REDSTONE_TORCH, false, output);
@@ -214,10 +214,10 @@ public class RecipeGen extends RecipeUtils {
         twoItemRecipe(1, "bridges", BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRIDGE, Blocks.VINE, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.VINE, output);
-        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
-        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
-        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
-        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
         twoItemRecipe(1, "question_blocks", BlockRegistry.MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "question_blocks", BlockRegistry.MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_QUESTION_BRICKS, Blocks.VINE, output);
         twoItemRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_STONE_BRICKS, Blocks.MOSS_BLOCK, output);

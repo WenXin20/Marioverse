@@ -2,6 +2,7 @@
   "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "bottom": "marioverse:block/super_mushroom_block_inside",
+    "particle": "marioverse:block/red_super_mushroom_block",
     "side": "marioverse:block/red_super_mushroom_block_cap",
     "top": "marioverse:block/red_super_mushroom_block_top"
   }

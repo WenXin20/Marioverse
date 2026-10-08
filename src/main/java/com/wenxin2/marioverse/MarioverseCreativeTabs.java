@@ -263,15 +263,15 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK);
             add(event, BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK);
             add(event, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK);
-            add(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK);
-            add(event, BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK);
+            add(event, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
+            add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
 
             add(event, BlockRegistry.MUSHROOT_SAPLING);
             add(event, BlockRegistry.SPOOKROOT_SAPLING);
             add(event, BlockRegistry.SPOOKY_SPOOKROOT_SAPLING);
 
-            add(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP);
-            add(event, BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP);
+            add(event, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
+            add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
             add(event, BlockRegistry.RED_SUPER_MUSHROOM);
             add(event, BlockRegistry.RED_MEGA_MUSHROOM);
             add(event, BlockRegistry.YELLOW_SUPER_MUSHROOM);
@@ -913,8 +913,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.ON_OFF_SWITCH);
             add(event, BlockRegistry.RED_DOTTED_LINE_BLOCK);
             add(event, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
-            add(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK);
-            add(event, BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK);
+            add(event, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
+            add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
             add(event, BlockRegistry.DEATH_BLOCK);
             add(event, BlockRegistry.PLAYER_DEATH_BLOCK);
             add(event, BlockRegistry.MONSTER_DEATH_BLOCK);
@@ -1453,9 +1453,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MUSHROOT_SAPLING, BlockRegistry.SPOOKROOT_SAPLING);
                 addAfter(event, BlockRegistry.SPOOKROOT_SAPLING, BlockRegistry.SPOOKY_SPOOKROOT_SAPLING);
 
-                addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP);
-                addAfter(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP, BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP);
-                addAfter(event, BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP, BlockRegistry.RED_SUPER_MUSHROOM);
+                addAfter(event, Blocks.RED_MUSHROOM, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
+                addAfter(event, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
+                addAfter(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockRegistry.RED_SUPER_MUSHROOM);
                 addAfter(event, BlockRegistry.RED_SUPER_MUSHROOM, BlockRegistry.RED_MEGA_MUSHROOM);
                 addAfter(event, BlockRegistry.RED_MEGA_MUSHROOM, BlockRegistry.YELLOW_SUPER_MUSHROOM);
                 addAfter(event, BlockRegistry.YELLOW_SUPER_MUSHROOM, BlockRegistry.YELLOW_MEGA_MUSHROOM);
@@ -1588,8 +1588,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.TARGET, BlockRegistry.ON_OFF_SWITCH);
                 addAfter(event, BlockRegistry.ON_OFF_SWITCH, BlockRegistry.RED_DOTTED_LINE_BLOCK);
                 addAfter(event, BlockRegistry.RED_DOTTED_LINE_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK);
-                addAfter(event, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK);
-                addAfter(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK, BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK);
+                addAfter(event, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
+                addAfter(event, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
 
                 addAfter(event, Blocks.STONE_BUTTON, BlockRegistry.FUNGAL_STONE_BUTTON);
                 addAfter(event, BlockRegistry.FUNGAL_STONE_BUTTON, BlockRegistry.DEEP_FUNGAL_STONE_BUTTON);

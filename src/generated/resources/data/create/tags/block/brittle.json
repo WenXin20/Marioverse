@@ -2,12 +2,12 @@
   "values": [
     "#marioverse:coral_towers",
     "#marioverse:dead_coral_towers",
-    "marioverse:blue_mushroom_trampoline_cap",
+    "marioverse:blue_on_off_mushroom_trampoline_cap",
     "marioverse:dango_blossom",
-    "marioverse:potted_blue_mushroom_trampoline_cap",
+    "marioverse:potted_blue_on_off_mushroom_trampoline_cap",
     "marioverse:potted_dango_blossom",
     "marioverse:potted_piranha_plant",
-    "marioverse:potted_red_mushroom_trampoline_cap",
-    "marioverse:red_mushroom_trampoline_cap"
+    "marioverse:potted_red_on_off_mushroom_trampoline_cap",
+    "marioverse:red_on_off_mushroom_trampoline_cap"
   ]
 }

@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-07T22:15:02.9788447	Item Models: marioverse
+// 1.21.1	2026-10-08T16:22:43.607829	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -395,7 +395,7 @@ a53197f3449fe20ae0d47a2cb7b8ab2b9c4545b1 assets/marioverse/models/item/black_goa
 f063be2f730f13d227127853c6dca4327282adbb assets/marioverse/models/item/blue_checkpoint_flag.json
 27975e2df3f7fb84b357a5e4f6f87ec4ac4ece67 assets/marioverse/models/item/blue_goal_pole.json
 cb3bdc1ababf2ef2732200d764771bccf3c6da61 assets/marioverse/models/item/blue_mega_mushroom.json
-0989f907a0d3130a2c9a297d0b30fc9315c9960b assets/marioverse/models/item/blue_mushroom_trampoline_cap.json
+f97fd96f46acbc3887fc9e6671d242a270a69084 assets/marioverse/models/item/blue_on_off_mushroom_trampoline_cap.json
 d0fdddf1c9ad8f83511402527911a2922df20032 assets/marioverse/models/item/blue_super_mushroom.json
 dcd66bfa24a55bad0eefc379478aa3e74cc3742d assets/marioverse/models/item/bodice.json
 19bf93a5b7752e78b5fa8ce30d0af2c2613d7a91 assets/marioverse/models/item/boo_spawn_egg.json
@@ -3162,7 +3162,7 @@ fabe671a24615946f844650067166a2477daeffd assets/marioverse/models/item/red_koopa
 1bb9296c4bad5253a71afcc87d5c146e2090a88d assets/marioverse/models/item/red_koopa_shoes.json
 2b32499357745ee1294ba49c0e0cfd9f01d4344c assets/marioverse/models/item/red_koopa_troopa_spawn_egg.json
 8e17c81d1ac47bbdcd7ad6b7c66c3d9cded9ee85 assets/marioverse/models/item/red_mega_mushroom.json
-f8422ba5a57e7549fba494498dde686709ad9bfa assets/marioverse/models/item/red_mushroom_trampoline_cap.json
+c3158602d72a3e95292ad8e268efd627bf4c4ace assets/marioverse/models/item/red_on_off_mushroom_trampoline_cap.json
 4a0a4e848187f29bee695a7f0281543b3c169b63 assets/marioverse/models/item/red_quicksand_bucket.json
 e81e0d5df67ab5671f2079342bb09b95fa7c1a6e assets/marioverse/models/item/red_rose_hedge.json
 2ccb14a62f3844e06202168d407cec1138810f94 assets/marioverse/models/item/red_super_mushroom.json

@@ -198,8 +198,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
                     else if (block instanceof PottedPiranhaPlantBlock)
                         this.add(block, this.createPottedPiranhaPlantTable(ItemRegistry.PIRANHA_PLANT_POD));
-                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP.get())
-                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_CAP.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.DANGO_BLOSSOM.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.DANGO_BLOSSOM.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.MUSHROOT_SAPLING.get())
@@ -208,8 +208,8 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.SPOOKROOT_SAPLING.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get())
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get()));
-                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP.get())
-                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_CAP.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get()));
                     else this.dropSelf(block);
                 }
             });

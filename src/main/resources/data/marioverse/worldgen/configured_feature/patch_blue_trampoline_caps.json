@@ -8,7 +8,7 @@
           "to_place": {
             "type": "minecraft:simple_state_provider",
             "state": {
-              "Name": "marioverse:blue_mushroom_trampoline_cap"
+              "Name": "marioverse:blue_on_off_mushroom_trampoline_cap"
             }
           }
         }

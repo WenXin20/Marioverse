@@ -1,6 +1,7 @@
 {
   "parent": "marioverse:block/template_single_face_east",
   "textures": {
+    "particle": "marioverse:block/super_mushroom_stem",
     "texture": "marioverse:block/super_mushroom_skirt"
   }
 }

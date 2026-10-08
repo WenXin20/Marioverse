@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/mushroom_block_inside",
   "textures": {
-    "particle": "marioverse:block/super_mushroom_stem_inside",
+    "particle": "marioverse:block/super_mushroom_stem",
     "texture": "marioverse:block/super_mushroom_stem_inside"
   }
 }

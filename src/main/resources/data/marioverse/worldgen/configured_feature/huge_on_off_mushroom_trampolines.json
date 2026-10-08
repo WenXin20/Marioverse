@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:random_boolean_selector",
+  "config": {
+    "feature_false": {
+      "feature": "marioverse:huge_red_on_off_mushroom_trampoline",
+      "placement": []
+    },
+    "feature_true": {
+      "feature": "marioverse:huge_blue_on_off_mushroom_trampoline",
+      "placement": []
+    }
+  }
+}

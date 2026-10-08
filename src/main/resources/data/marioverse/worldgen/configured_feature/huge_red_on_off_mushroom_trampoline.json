@@ -1,0 +1,23 @@
+{
+  "type": "marioverse:huge_switch_mushroom",
+  "config": {
+    "cap_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "marioverse:red_on_off_mushroom_trampoline_block"
+      }
+    },
+    "foliage_radius": 3,
+    "stem_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "marioverse:super_mushroom_stem",
+        "Properties": {
+          "down": "false",
+          "end": "false",
+          "facing": "up"
+        }
+      }
+    }
+  }
+}

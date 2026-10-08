@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "marioverse:block/blue_on_off_mushroom_trampoline_cap"
+    },
+    "active=true": {
+      "model": "marioverse:block/blue_on_off_mushroom_trampoline_cap_off"
+    }
+  }
+}

@@ -16,8 +16,8 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class TreeRegistry {
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> HUGE_BLUE_TRAMPOLINE_CAP;
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> HUGE_RED_TRAMPOLINE_CAP;
+    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> HUGE_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE;
+    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> HUGE_RED_ON_OFF_MUSHROOM_TRAMPOLINE;
     public static final DeferredHolder<FoliagePlacerType<?>, FoliagePlacerType<DomeFoliagePlacer>> DOME_FOLIAGE_PLACER;
     public static final DeferredHolder<TrunkPlacerType<?>, TrunkPlacerType<TaperingTrunkPlacer>> TAPERING_TRUNK_PLACER;
     public static final DeferredHolder<TrunkPlacerType<?>, TrunkPlacerType<TwoByTwoTrunkPlacer>> TWO_BY_TWO_TRUNK_PLACER;
@@ -36,13 +36,13 @@ public class TreeRegistry {
         BRANCH_GROWTH_DECORATOR = Marioverse.TREE_DECORATORS.register("branch_growth_decorator",
                 () -> new TreeDecoratorType<>(BranchGrowthDecorator.CODEC));
 
-        HUGE_BLUE_TRAMPOLINE_CAP = Marioverse.CONFIGURED_FEATURES.register("huge_blue_trampoline_cap",
+        HUGE_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = Marioverse.CONFIGURED_FEATURES.register("huge_blue_on_off_mushroom_trampoline",
                 () -> new ConfiguredFeature<>(FeatureRegistry.HUGE_SWITCH_MUSHROOM.get(),
-                        new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE_BLOCK.get()),
+                        new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get()),
                                 BlockStateProvider.simple(Blocks.MUSHROOM_STEM), 3)));
-        HUGE_RED_TRAMPOLINE_CAP = Marioverse.CONFIGURED_FEATURES.register("huge_red_trampoline_cap",
+        HUGE_RED_ON_OFF_MUSHROOM_TRAMPOLINE = Marioverse.CONFIGURED_FEATURES.register("huge_red_on_off_mushroom_trampoline",
                 () -> new ConfiguredFeature<>(FeatureRegistry.HUGE_SWITCH_MUSHROOM.get(),
-                        new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK.get()),
+                        new HugeMushroomFeatureConfiguration(BlockStateProvider.simple(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get()),
                                 BlockStateProvider.simple(Blocks.MUSHROOM_STEM), 3)));
     }
 

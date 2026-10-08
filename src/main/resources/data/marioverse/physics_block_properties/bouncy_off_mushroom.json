@@ -1,5 +1,5 @@
 {
-  "selector": "marioverse:blue_mushroom_trampoline_block",
+  "selector": "marioverse:blue_on_off_mushroom_trampoline_block",
   "properties": {
     "sable:restitution": 0.0
   },
