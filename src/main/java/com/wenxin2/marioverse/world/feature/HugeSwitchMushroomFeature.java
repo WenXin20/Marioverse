@@ -2,8 +2,10 @@ package com.wenxin2.marioverse.world.feature;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -58,6 +60,22 @@ public class HugeSwitchMushroomFeature extends AbstractHugeMushroomFeature {
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    protected void placeTrunk(LevelAccessor levelAccessor, RandomSource random, BlockPos pos,
+                              HugeMushroomFeatureConfiguration config, int maxHeight, BlockPos.MutableBlockPos posMutable) {
+        for (int y = 0; y < maxHeight; y++) {
+            posMutable.set(pos).move(Direction.UP, y);
+            if (levelAccessor.getBlockState(posMutable).isSolidRender(levelAccessor, posMutable))
+                continue;
+
+            BlockState state = config.stemProvider.getState(random, pos);
+            if (state.getBlock() instanceof SuperMushroomStemBlock)
+                state = state.setValue(SuperMushroomStemBlock.END, y == maxHeight - 1)
+                        .setValue(SuperMushroomStemBlock.UP, y == maxHeight - 1);
+            this.setBlock(levelAccessor, posMutable, state);
         }
     }
 
