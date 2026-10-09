@@ -6,6 +6,12 @@
     "marioverse:blue_mega_mushroom": {
       "chance": 0.65
     },
+    "marioverse:blue_on_off_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:blue_on_off_mushroom_trampoline": {
+      "chance": 0.65
+    },
     "marioverse:blue_on_off_mushroom_trampoline_block": {
       "chance": 0.85
     },
@@ -88,6 +94,12 @@
       "chance": 0.3
     },
     "marioverse:red_mega_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:red_on_off_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:red_on_off_mushroom_trampoline": {
       "chance": 0.65
     },
     "marioverse:red_on_off_mushroom_trampoline_block": {

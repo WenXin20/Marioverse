@@ -368,6 +368,14 @@ public class BlockStateGen extends BlockStateProvider {
         this.waterSpoutModel(waterSpout, texture(waterSpout, "_flow"), texture(waterSpout, "_still"),
                 texture(waterSpout, "_splash"));
 
+        this.mushroomTrampolinePlantModel(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), false, true);
+        this.mushroomTrampolinePlantModel(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get(), false, false);
+        this.mushroomTrampolinePlantModel(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), true, true);
+        this.mushroomTrampolinePlantModel(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.get(), true, false);
+        this.pottedMushroomTrampolinePlantModel(BlockRegistry.POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), false, true);
+        this.pottedMushroomTrampolinePlantModel(BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get(), false, false);
+        this.pottedMushroomTrampolinePlantModel(BlockRegistry.POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), true, true);
+        this.pottedMushroomTrampolinePlantModel(BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE.get(), true, false);
         this.megaMushroomModels(BlockRegistry.BLUE_MEGA_MUSHROOM.get(),
                 BlockRegistry.GREEN_MEGA_MUSHROOM.get(),
                 BlockRegistry.LIME_MEGA_MUSHROOM.get(),
@@ -3451,6 +3459,54 @@ public class BlockStateGen extends BlockStateProvider {
             this.getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
                     .modelFile(state.getValue(SuperMushroomBlock.TOP) ? model : modelStem).build());
         }
+    }
+
+    private void mushroomTrampolinePlantModel(Block block, boolean onWhenActive, boolean isMega) {
+        String modelName = this.name(block);
+        String stemName = isMega ? "mega_mushroom_stem" : "super_mushroom_thin_stem";
+        ResourceLocation stemTexture = modLoc("block/" + stemName);
+        ResourceLocation template = modLoc(isMega ? "block/template_mega_mushroom" : "block/template_super_mushroom");
+
+        ModelFile modelStem = models()
+                .withExistingParent(stemName, modLoc(isMega ? "block/template_mega_mushroom_stem" : "block/template_super_mushroom_stem"))
+                .texture("stem", stemTexture).texture("particle", stemTexture);
+        BlockModelBuilder model = models().withExistingParent(modelName, template)
+                .texture("main", blockTexture(block)).texture("bottom", texture(block, "_bottom"))
+                .texture("particle", blockTexture(block));
+        BlockModelBuilder modelOff = models().withExistingParent(modelName + "_off", template)
+                .texture("main", texture(block, "_off")).texture("bottom", texture(block, "_bottom_off"))
+                .texture("particle", texture(block, "_off"));
+
+        if (isMega) {
+            model.texture("top", texture(block, "_top"));
+            modelOff.texture("top", texture(block, "_top_off"));
+        }
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            if (!state.getValue(SuperMushroomBlock.TOP))
+                return ConfiguredModel.builder().modelFile(modelStem).build();
+            boolean isOn = state.getValue(OnBlock.ACTIVE) == onWhenActive;
+            return ConfiguredModel.builder().modelFile(isOn ? model : modelOff).build();
+        });
+    }
+
+    private void pottedMushroomTrampolinePlantModel(Block block, boolean onWhenActive, boolean isMega) {
+        String modelName = this.name(block);
+        Block mushroom = ((FlowerPotBlock) block).getPotted();
+        ResourceLocation template = modLoc(isMega ? "block/template_potted_mega_mushroom" : "block/template_potted_super_mushroom");
+
+        BlockModelBuilder model = models().withExistingParent(modelName, template)
+                .texture("main", blockTexture(mushroom)).texture("bottom", texture(mushroom, "_bottom"));
+        BlockModelBuilder modelOff = models().withExistingParent(modelName + "_off", template)
+                .texture("main", texture(mushroom, "_off")).texture("bottom", texture(mushroom, "_bottom_off"));
+
+        if (isMega) {
+            model.texture("top", texture(mushroom, "_top"));
+            modelOff.texture("top", texture(mushroom, "_top_off"));
+        }
+
+        this.getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
+                .modelFile(state.getValue(OnBlock.ACTIVE) == onWhenActive ? model : modelOff).build());
     }
 
     private void megaMushroomModels(Block... blocks) {

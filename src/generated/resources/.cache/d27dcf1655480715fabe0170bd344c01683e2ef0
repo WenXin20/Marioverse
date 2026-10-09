@@ -1,8 +1,8 @@
-// 1.21.1	2026-10-08T16:22:43.6890515	Tags for minecraft:block mod id marioverse
-b29fa869c5ea2c2e2434a5ba63a6ce2f29690648 data/create/tags/block/brittle.json
+// 1.21.1	2026-10-09T01:50:33.7558331	Tags for minecraft:block mod id marioverse
+e990f1c09ddff67ca7665d62061ce9dee91784f0 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
-536e9a8254457a11fdf6159b662e2a5612c55986 data/create/tags/block/movable_empty_collider.json
+a1e3406e2af21a8f13bfe72d6c1cba924c14e955 data/create/tags/block/movable_empty_collider.json
 3328fc37e450afbca82611da12322d23408f0d7d data/create/tags/block/safe_nbt.json
 f8b64e2ef01c28cc3f45a012a987a1593637c2b4 data/create/tags/block/simple_mounted_storage.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/create/tags/block/single_block_inventories.json
@@ -102,7 +102,7 @@ c9c0d5f98a850952e1add89566aa29e2b435214f data/marioverse/tags/block/hedges/snowy
 7994a1f2379ef5bf446ddc415f61b97fb95f3c2d data/marioverse/tags/block/large_arrow_signs/flammable.json
 165e41bafa3202e0755615c93f024d2505e1e638 data/marioverse/tags/block/large_arrow_signs/wooden.json
 fdee9523679ade0cb634851cbec5187425399208 data/marioverse/tags/block/loopholes.json
-69c70a188070788bd17f390d041b74c4160026b1 data/marioverse/tags/block/mega_mushrooms.json
+3e9e00593e699601deacd0ed85bf878ba4567a27 data/marioverse/tags/block/mega_mushrooms.json
 94a6ea364d801c0b3e4694b8d5355a82344abcdd data/marioverse/tags/block/mega_mushroom_can_break.json
 44fbb1dfa7779572aac31488b47a0d6a2dde5856 data/marioverse/tags/block/mega_mushroom_can_break/adventure_mode.json
 11bcfbe303c6dc312dda58598be28d186e443594 data/marioverse/tags/block/mega_mushroom_can_break/falling.json
@@ -141,7 +141,7 @@ a3c02b0be1a55969deb4073f6e31212d97aaaaee data/marioverse/tags/block/smashable_bl
 4102ce3a30ef5178d737ad0d8aed6a4c3a950f06 data/marioverse/tags/block/spookroot_planks.json
 3c805c1cbd7b539c7e427d303e5cea53cbd8ea08 data/marioverse/tags/block/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calcite_bricks.json
-8ac1ab236765aff3899becf6f83375bee5adf612 data/marioverse/tags/block/super_mushrooms.json
+199096fa688cbbea78e64777865b42550f144216 data/marioverse/tags/block/super_mushrooms.json
 7f2f79d777faae5a1cbb2e84fb4b1fb617437bd4 data/marioverse/tags/block/super_mushroom_caps.json
 4b5f6cc96623ba793a76d27abb6723552869d67c data/marioverse/tags/block/supports_dango_blossom.json
 d0f05827083f5b326c01ca1e68ce26cc0f4a4d20 data/marioverse/tags/block/walls/flammable.json
@@ -168,7 +168,7 @@ eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
 2bbd0fd34b17230eea47727565783149abeb82d8 data/minecraft/tags/block/fence_gates.json
 14742b562ea2fa76e68930652cec7e858856c12e data/minecraft/tags/block/flowers.json
-07aead79f81bd19b3c3ca7e973d810a3ceac7f06 data/minecraft/tags/block/flower_pots.json
+bba102db6f973b1fe3b2e08260125e87bdacd611 data/minecraft/tags/block/flower_pots.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/foxes_spawnable_on.json
 4e1901ff6551710ff119e7d00134ac9eff353037 data/minecraft/tags/block/frogs_spawnable_on.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/geode_invalid_blocks.json
@@ -223,6 +223,6 @@ b0912048c89580c07a2df0672eb46f4bec762438 data/sable/tags/block/end_stones.json
 ed8318623af15718a46a312178a6a298f2fee8c8 data/sable/tags/block/light.json
 a22e372c23fd9460c3ce7f162266214db78e75ad data/sable/tags/block/quarter_volume.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/sable/tags/block/super_light.json
-f4a0f6b123b5235c692b7b9953915defbec9c1ab data/twilightforest/tags/block/portal/decoration.json
+7d77268381f1a84cdc8e37540e53dfebb35f9e29 data/twilightforest/tags/block/portal/decoration.json
 3dd49e38be3de7a0909353812e7c2465e571d6b6 data/twilightforest/tags/block/portal/edge.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/twilightforest/tags/block/portal/generated_decoration.json

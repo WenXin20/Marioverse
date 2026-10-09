@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -26,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class RedMushroomTrampolineBlock extends SuperMushroomCapBlock implements ToggleableBlock {
-    public static final BooleanProperty ACTIVE = OnBlock.ACTIVE;
+    public static final BooleanProperty ACTIVE = BlockStatePropertyRegistry.ACTIVE;
 
     public RedMushroomTrampolineBlock(Properties properties) {
         super(properties);

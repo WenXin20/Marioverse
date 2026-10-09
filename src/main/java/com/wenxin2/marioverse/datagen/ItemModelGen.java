@@ -69,6 +69,10 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.RED_SUPER_MUSHROOM.asItem());
         this.basicItem(BlockRegistry.YELLOW_MEGA_MUSHROOM.asItem());
         this.basicItem(BlockRegistry.YELLOW_SUPER_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.asItem());
         this.bloomflowerItem(BlockRegistry.BLUE_BLOOMFLOWER.asItem());
         this.bloomflowerItem(BlockRegistry.ORANGE_BLOOMFLOWER.asItem());
         this.bloomflowerItem(BlockRegistry.PINK_BLOOMFLOWER.asItem());

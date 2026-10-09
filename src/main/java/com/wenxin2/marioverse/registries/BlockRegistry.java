@@ -22,6 +22,10 @@ import com.wenxin2.marioverse.blocks.ShroomsoilPathBlock;
 import com.wenxin2.marioverse.blocks.ShrubroomBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
+import com.wenxin2.marioverse.blocks.RedSuperMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.BlueSuperMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedMegaMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.BlueMegaMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
@@ -218,6 +222,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM;
@@ -650,6 +656,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
     public static final DeferredBlock<Block> POTTED_BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_BLUE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_BLUE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
@@ -670,6 +678,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_PURPLE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> POTTED_RED_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_RED_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> POTTED_RED_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_RED_SUPER_MUSHROOM;
@@ -709,6 +719,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_NETHER_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK;
     public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
     public static final DeferredBlock<Block> RED_QUICKSAND;
@@ -1059,6 +1071,54 @@ public class BlockRegistry {
         POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_on_off_mushroom_trampoline_cap",
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
                         BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+
+        RED_ON_OFF_MUSHROOM_TRAMPOLINE = registerBlock("red_on_off_mushroom_trampoline",
+                () -> new RedSuperMushroomTrampolineBlock(mushroomFeature("huge_red_on_off_super_mushroom_trampoline"),
+                        mushroomFeature("wide_red_on_off_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = registerBlock("blue_on_off_mushroom_trampoline",
+                () -> new BlueSuperMushroomTrampolineBlock(mushroomFeature("huge_blue_on_off_super_mushroom_trampoline"),
+                        mushroomFeature("wide_blue_on_off_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("red_on_off_mega_mushroom_trampoline",
+                () -> new RedMegaMushroomTrampolineBlock(mushroomFeature("huge_red_on_off_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_red_on_off_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("blue_on_off_mega_mushroom_trampoline",
+                () -> new BlueMegaMushroomTrampolineBlock(mushroomFeature("huge_blue_on_off_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_blue_on_off_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+
+        POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mega_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mega_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
 
 
         SUPER_MUSHROOM_STEM = registerBlock("super_mushroom_stem",
@@ -3435,6 +3495,8 @@ public class BlockRegistry {
         FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
         pot.addPlant(BlockRegistry.BLUE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_BLUE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.BLUE_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_BLUE_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE);
         pot.addPlant(BlockRegistry.BLUE_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_BLUE_SUPER_MUSHROOM);
         pot.addPlant(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
@@ -3449,6 +3511,8 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.PURPLE_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_PURPLE_MEGA_MUSHROOM);
         pot.addPlant(BlockRegistry.PURPLE_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_PURPLE_SUPER_MUSHROOM);
         pot.addPlant(BlockRegistry.RED_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_RED_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE);
         pot.addPlant(BlockRegistry.RED_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_RED_SUPER_MUSHROOM);
         pot.addPlant(BlockRegistry.SPOOKROOT_SAPLING.getId(), BlockRegistry.POTTED_SPOOKROOT_SAPLING);
         pot.addPlant(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.getId(), BlockRegistry.POTTED_SPOOKY_SPOOKROOT_SAPLING);

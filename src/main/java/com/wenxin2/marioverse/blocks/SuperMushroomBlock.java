@@ -11,8 +11,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -43,13 +41,13 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
     protected static final VoxelShape SHAPE = Block
             .box(6, 0, 6, 10, 16, 10).optimize();
 
-    private final ResourceKey<ConfiguredFeature<?, ?>> wideFeature;
+    protected ResourceKey<ConfiguredFeature<?, ?>> wideFeature;
 
     public SuperMushroomBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature,
                               ResourceKey<ConfiguredFeature<?, ?>> wideFeature, Properties properties) {
         super(configuredFeature, properties);
-        this.wideFeature = wideFeature;
         this.registerDefaultState(this.stateDefinition.any().setValue(TOP, true));
+        this.wideFeature = wideFeature;
     }
 
     @Override
@@ -136,26 +134,6 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
             if (!this.growWideMushroom(serverLevel, pos, random))
                 this.growMushroom(serverLevel, pos, state, random);
         } else serverLevel.setBlock(this.getTopPos(serverLevel, pos).above(), this.defaultBlockState(), Block.UPDATE_ALL);
-    }
-
-    @Override
-    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        super.fallOn(level, state, pos, entity, fallDistance * 0.5F);
-    }
-
-    @Override
-    public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
-        if (entity.isSuppressingBounce())
-            super.updateEntityAfterFallOn(blockGetter, entity);
-        else this.bounceUp(entity);
-    }
-
-    private void bounceUp(Entity entity) {
-        Vec3 vec3 = entity.getDeltaMovement();
-        if (vec3.y < 0.0) {
-            double dy = entity instanceof LivingEntity ? 1.0 : 0.8;
-            entity.setDeltaMovement(vec3.x, -vec3.y * 0.66F * dy, vec3.z);
-        }
     }
 
     private boolean canSpreadTo(ServerLevel serverLevel, BlockPos pos) {

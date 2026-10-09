@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class BlockStatePropertyRegistry {
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final BooleanProperty BOARD = BooleanProperty.create("board");
     public static final BooleanProperty BOTTOM = BooleanProperty.create("bottom");
     public static final BooleanProperty DISGUISED = BooleanProperty.create("disguised");

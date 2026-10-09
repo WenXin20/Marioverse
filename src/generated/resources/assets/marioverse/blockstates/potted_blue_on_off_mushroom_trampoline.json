@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "marioverse:block/potted_blue_on_off_mushroom_trampoline"
+    },
+    "active=true": {
+      "model": "marioverse:block/potted_blue_on_off_mushroom_trampoline_off"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_potted_super_mushroom",
+  "textures": {
+    "bottom": "marioverse:block/red_on_off_mushroom_trampoline_bottom",
+    "main": "marioverse:block/red_on_off_mushroom_trampoline"
+  }
+}
