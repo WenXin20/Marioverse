@@ -1,7 +1,10 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -38,6 +41,28 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
         final Vec3 offset = state.getOffset(blockGetter, pos);
 
         return SHAPE.move(offset.x, offset.y, offset.z);
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        return this.getShape(state, blockGetter, pos, context);
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        boolean isOn = state.getValue(OnBlock.ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
+        super.fallOn(level, state, pos, entity, isOn ? fallDistance * 0.5F : fallDistance);
+    }
+
+    @Override
+    public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
+        BlockState state = blockGetter.getBlockState(entity.getOnPos());
+        Vec3 motion = entity.getDeltaMovement();
+
+        if (!entity.isSuppressingBounce() && motion.y < 0.0 && state.is(this)
+                && state.getValue(OnBlock.ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP))
+            entity.setDeltaMovement(motion.x, -motion.y * 0.5F * (entity instanceof LivingEntity ? 1.0 : 0.8), motion.z);
+        else super.updateEntityAfterFallOn(blockGetter, entity);
     }
 
     @Override

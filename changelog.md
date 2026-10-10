@@ -31,12 +31,15 @@
   - Comes in 7 different colors
   - If dirt is below, bone meal grows it into a Huge Super Mushroom
   - If no dirt, bone meal grows it taller
-  - It is slightly bouncy
 - Added Mega Mushroom plants
   - Comes in 7 different colors
   - If dirt is below, bone meal grows it into a Huge Mega Mushroom
   - If no dirt, bone meal grows it taller
-  - It is slightly more bouncy
+- New On/Off Trampoline Mushroom textures & models
+- Added Mega & Super mushroom plants
+  - Bone meal grows it into their respective huge mushroom
+  - On/Off Switch toggles it
+  - Slightly bouncy
 - Added Arrow Signs for all wood types
   - Every Compat support
 - Added Hard Wooden Blocks for all wood types
@@ -56,7 +59,6 @@
   - Mushroot & Spookroot Saplings
   - Shroomgrass Blocks
 - Added new creative tabs
-- New On/Off Trampoline Mushroom textures & models
 - Removed the bubbles & water_spout blockstates from warp pipes
   - Saves to the block entity now
   - Reduces states from 192 to 48

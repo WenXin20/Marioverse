@@ -101,15 +101,18 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
                 return;
         }
 
-        BlockPos spreadPos = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
-        for (int i = 0; i < 4; i++) {
-            if (this.canSpreadTo(serverLevel, spreadPos))
-                pos = spreadPos;
+        BlockPos spreadPos = this.getTopPos(serverLevel, pos).above();
+        if (random.nextBoolean()) {
             spreadPos = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
+            for (int i = 0; i < 4; i++) {
+                if (this.canSpreadTo(serverLevel, spreadPos))
+                    pos = spreadPos;
+                spreadPos = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
+            }
         }
 
         if (this.canSpreadTo(serverLevel, spreadPos))
-            serverLevel.setBlock(spreadPos, this.defaultBlockState(), Block.UPDATE_CLIENTS);
+            serverLevel.setBlock(spreadPos, state.setValue(TOP, true), Block.UPDATE_ALL);
     }
 
     @Override

@@ -49,6 +49,7 @@ import com.wenxin2.marioverse.blocks.PicketFenceGateBlock;
 import com.wenxin2.marioverse.blocks.PlayerDeathBlock;
 import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedHedgeBlock;
+import com.wenxin2.marioverse.blocks.PottedSuperMushroomBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
@@ -1059,12 +1060,12 @@ public class BlockRegistry {
                 () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_ON_OFF_MUSHROOM_TRAMPOLINE.getKey(),
                         BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                                 .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
-                                .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
+                                .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()));
         BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerBlock("blue_on_off_mushroom_trampoline_cap",
                 () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.getKey(),
                         BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                                 .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
-                                .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
+                                .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()));
         POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_on_off_mushroom_trampoline_cap",
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
                         BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
@@ -3615,7 +3616,7 @@ public class BlockRegistry {
     }
 
     private static Block pottedMushroom(Supplier<Block> mushroom) {
-        return new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, mushroom,
+        return new PottedSuperMushroomBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, mushroom,
                 BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     }
 
