@@ -1,10 +1,13 @@
 package com.wenxin2.marioverse.blocks;
 
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -28,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PottedTrampolineCapBlock extends FlowerPotBlock implements ToggleableBlock {
+    public static final BooleanProperty ACTIVE = BlockStatePropertyRegistry.ACTIVE;
     protected static final VoxelShape CAP_SHAPE = Shapes
             .or(Block.box(5, 0, 5, 11, 6, 11),
                     Block.box(7, 6, 7, 9, 10, 9),
@@ -35,13 +39,13 @@ public class PottedTrampolineCapBlock extends FlowerPotBlock implements Toggleab
 
     public PottedTrampolineCapBlock(@Nullable Supplier<FlowerPotBlock> emptyPot, Supplier<? extends Block> block, Properties properties) {
         super(emptyPot, block, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStatePropertyRegistry.ACTIVE, true));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(BlockStatePropertyRegistry.ACTIVE);
+        builder.add(ACTIVE);
     }
 
     @NotNull
@@ -64,6 +68,12 @@ public class PottedTrampolineCapBlock extends FlowerPotBlock implements Toggleab
         this.onPlaceSavedData(level, pos);
         if (oldState.is(this) && !this.isOn(oldState) && this.isOn(state))
             this.launchEntities(level, pos);
+
+        if (!oldState.is(this) && level instanceof ServerLevel serverLevel) {
+            boolean isActive = GlobalSwitchSavedData.get(serverLevel).isActive();
+            if (state.getValue(ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(ACTIVE, isActive), Block.UPDATE_ALL);
+        }
         super.onPlace(state, level, pos, oldState, isMoving);
     }
 
@@ -101,7 +111,7 @@ public class PottedTrampolineCapBlock extends FlowerPotBlock implements Toggleab
         Block potted = this.getPotted();
         boolean isBlue = potted instanceof BlueSuperMushroomTrampolineBlock || potted instanceof BlueMegaMushroomTrampolineBlock
                 || potted == BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get();
-        return state.getValue(BlockStatePropertyRegistry.ACTIVE) != isBlue;
+        return state.getValue(ACTIVE) != isBlue;
     }
 
     protected void launchEntities(Level level, BlockPos pos) {
