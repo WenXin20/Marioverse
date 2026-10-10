@@ -55,6 +55,7 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
         builder.add(TOP);
     }
 
+    @NotNull
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         final Vec3 offset = state.getOffset(blockGetter, pos);

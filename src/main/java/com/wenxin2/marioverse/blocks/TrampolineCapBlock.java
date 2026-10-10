@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.core.BlockPos;
@@ -23,18 +24,19 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlock, ToggleableBlock {
+    public static final BooleanProperty ACTIVE = BlockStatePropertyRegistry.ACTIVE;
     protected static final VoxelShape SHAPE = Shapes
             .or(Block.box(7, 0, 7, 9, 8, 9),
                     Block.box(4, 8, 4, 12, 10, 12)).optimize();
 
     public TrampolineCapBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
         super(configuredFeature, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStatePropertyRegistry.ACTIVE, true));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(BlockStatePropertyRegistry.ACTIVE);
+        builder.add(ACTIVE);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        boolean isOn = state.getValue(BlockStatePropertyRegistry.ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
+        boolean isOn = state.getValue(ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
         super.fallOn(level, state, pos, entity, isOn ? fallDistance * 0.5F : fallDistance);
     }
 
@@ -61,7 +63,7 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
         Vec3 motion = entity.getDeltaMovement();
 
         if (!entity.isSuppressingBounce() && motion.y < 0.0 && state.is(this)
-                && state.getValue(BlockStatePropertyRegistry.ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP))
+                && state.getValue(ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP))
             entity.setDeltaMovement(motion.x, -motion.y * 0.5F * (entity instanceof LivingEntity ? 1.0 : 0.8), motion.z);
         else super.updateEntityAfterFallOn(blockGetter, entity);
     }
