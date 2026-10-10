@@ -62,6 +62,7 @@
 - Removed the bubbles & water_spout blockstates from warp pipes
   - Saves to the block entity now
   - Reduces states from 192 to 48
+- Improved bouncing on bouncy blocks
 - Fixed flammability of Log Stairs
 - Fixed Supplementaries soap not working with some dyed blocks
 - Fixed peaceful difficulty causing some blocks/enemies to not do damage
