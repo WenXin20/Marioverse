@@ -605,14 +605,45 @@ public class RegistryEventHandlers {
                 BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get()
         };
 
+        Block[] superMushrooms = {
+                BlockRegistry.RED_SUPER_MUSHROOM.get(), BlockRegistry.YELLOW_SUPER_MUSHROOM.get(),
+                BlockRegistry.GREEN_SUPER_MUSHROOM.get(), BlockRegistry.BLUE_SUPER_MUSHROOM.get(),
+                BlockRegistry.PURPLE_SUPER_MUSHROOM.get(), BlockRegistry.ORANGE_SUPER_MUSHROOM.get(),
+                BlockRegistry.LIME_SUPER_MUSHROOM.get(), BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get()
+        };
+
+        Block[] megaMushrooms = {
+                BlockRegistry.RED_MEGA_MUSHROOM.get(), BlockRegistry.YELLOW_MEGA_MUSHROOM.get(),
+                BlockRegistry.GREEN_MEGA_MUSHROOM.get(), BlockRegistry.BLUE_MEGA_MUSHROOM.get(),
+                BlockRegistry.PURPLE_MEGA_MUSHROOM.get(), BlockRegistry.ORANGE_MEGA_MUSHROOM.get(),
+                BlockRegistry.LIME_MEGA_MUSHROOM.get(), BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get()
+        };
+
         Block[] soils = {
                 BlockRegistry.SHROOMGRASS_BLOCK.get(), BlockRegistry.SHROOMSOIL.get(),
                 BlockRegistry.WET_MUD.get()
         };
 
+        Block[] stones = {
+                BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.FORTSTONE.get(),
+                BlockRegistry.FUNGAL_STONE.get()
+        };
+
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
                 new ItemStack(saplings[random.nextInt(saplings.length)], 5),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(superMushrooms[random.nextInt(superMushrooms.length)], 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 3),
+                new ItemStack(megaMushrooms[random.nextInt(megaMushrooms.length)], 5),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
@@ -633,6 +664,11 @@ public class RegistryEventHandlers {
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
                 new ItemStack(soils[random.nextInt(soils.length)], 16),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 3),
+                new ItemStack(stones[random.nextInt(stones.length)], 16),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(

@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.network.server_bound.handler;
 
-import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,7 +18,7 @@ public class BouncePacket {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                RedMushroomTrampolineBlock.bounceEntity(player.level(), payload.pos(), player, payload.isHoldingJump(), payload.motionY());
+                MushroomTrampolineCapBlock.bounceEntity(player.level(), payload.pos(), player, payload.isHoldingJump(), payload.motionY());
                 if (player instanceof ServerPlayer serverPlayer)
                     serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(player));
             });

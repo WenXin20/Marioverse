@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -14,46 +13,17 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
-public class RedMushroomTrampolineBlock extends SuperMushroomCapBlock implements ToggleableBlock {
-    public static final BooleanProperty ACTIVE = BlockStatePropertyRegistry.ACTIVE;
-
-    public RedMushroomTrampolineBlock(Properties properties) {
+public class MushroomTrampolineCapBlock extends SuperMushroomCapBlock {
+    public MushroomTrampolineCapBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(ACTIVE, true));
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(ACTIVE);
-    }
-
-    @NotNull
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.getStateForPlacementSavedData(super.getStateForPlacement(context), context);
-    }
-
-    @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        this.onPlaceSavedData(level, pos);
-    }
-
-    @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        this.onRemoveSavedData(level, pos);
+        this.registerDefaultState(this.defaultBlockState());
     }
 
     @Override
@@ -66,12 +36,9 @@ public class RedMushroomTrampolineBlock extends SuperMushroomCapBlock implements
     @Override
     public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
         BlockPos pos = entity.getOnPos();
-        BlockState state = blockGetter.getBlockState(pos);
 
-        if (!entity.isSuppressingBounce() && !(entity instanceof Player)
-                && state.hasProperty(ACTIVE) && state.getValue(ACTIVE)
-                && !(state.getBlock() instanceof BlueMushroomTrampolineBlock))
-            RedMushroomTrampolineBlock.bounceEntity(entity.level(), pos, entity, false, entity.getDeltaMovement().y);
+        if (!entity.isSuppressingBounce() && !(entity instanceof Player))
+            MushroomTrampolineCapBlock.bounceEntity(entity.level(), pos, entity, false, entity.getDeltaMovement().y);
         else super.updateEntityAfterFallOn(blockGetter, entity);
     }
 

@@ -4,11 +4,12 @@ import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
+import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
-import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
@@ -507,13 +508,18 @@ public class ClientEventHandlers {
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying)
 
-                            || (blockBelow instanceof BlueMushroomTrampolineBlock
+                            || (blockBelow instanceof MushroomTrampolineCapBlock
+                            && !(blockBelow instanceof RedMushroomTrampolineCapBlock)
+                            && !player.isSuppressingBounce() && !player.isNoGravity()
+                            && !player.getAbilities().flying)
+
+                            || (blockBelow instanceof BlueMushroomTrampolineCapBlock
                             && !stateBelow.getValue(BlockStatePropertyRegistry.ACTIVE)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying)
 
-                            || (blockBelow instanceof RedMushroomTrampolineBlock
-                            && !(blockBelow instanceof BlueMushroomTrampolineBlock)
+                            || (blockBelow instanceof RedMushroomTrampolineCapBlock
+                            && !(blockBelow instanceof BlueMushroomTrampolineCapBlock)
                             && stateBelow.getValue(BlockStatePropertyRegistry.ACTIVE)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying);

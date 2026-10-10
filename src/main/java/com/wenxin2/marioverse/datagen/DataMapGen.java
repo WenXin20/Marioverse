@@ -68,9 +68,12 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
 
                 .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
                 .add(BlockRegistry.HEDGE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
                 .add(BlockRegistry.PINK_ROSE_HEDGE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
                 .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
                 .add(BlockRegistry.RED_ROSE_HEDGE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)

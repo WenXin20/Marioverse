@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_mega_mushroom",
+  "textures": {
+    "bottom": "marioverse:block/pink_mega_mushroom_trampoline_bottom",
+    "main": "marioverse:block/pink_mega_mushroom_trampoline",
+    "particle": "marioverse:block/pink_mega_mushroom_trampoline",
+    "top": "marioverse:block/pink_mega_mushroom_trampoline_top"
+  }
+}

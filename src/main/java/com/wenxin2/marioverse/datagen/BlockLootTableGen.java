@@ -11,9 +11,9 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
+import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
-import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
@@ -192,7 +192,7 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_ROSE_HEDGE.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() instanceof BloomflowerBlock)
                         this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
-                    else if (block instanceof SuperMushroomCapBlock && !(block instanceof RedMushroomTrampolineBlock))
+                    else if (block instanceof SuperMushroomCapBlock && !(block instanceof MushroomTrampolineCapBlock))
                         this.add(block, this.createSuperMushroomCapDrop(block));
                     else if (block instanceof FlowerPotBlock pot && (pot.getPotted() instanceof SuperMushroomBlock
                             || pot.getPotted() instanceof MegaMushroomBlock))

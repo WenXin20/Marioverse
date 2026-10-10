@@ -309,6 +309,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), blockTexture(BlockRegistry.IRON_SPIKE.get()));
         this.mushroomTrampolineModel(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), false);
         this.mushroomTrampolineModel(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), true);
+        this.mushroomTrampolineModel(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK.get());
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
         this.pipeBubblesModel(BlockRegistry.PIPE_BUBBLES.get());
@@ -376,6 +377,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.pottedMushroomTrampolinePlantModel(BlockRegistry.POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), true, true);
         this.pottedMushroomTrampolinePlantModel(BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE.get(), true, false);
         this.megaMushroomModels(BlockRegistry.BLUE_MEGA_MUSHROOM.get(),
+                BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.GREEN_MEGA_MUSHROOM.get(),
                 BlockRegistry.LIME_MEGA_MUSHROOM.get(),
                 BlockRegistry.ORANGE_MEGA_MUSHROOM.get(),
@@ -383,6 +385,7 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.RED_MEGA_MUSHROOM.get(),
                 BlockRegistry.YELLOW_MEGA_MUSHROOM.get());
         this.pottedMegaMushroomModels(BlockRegistry.POTTED_BLUE_MEGA_MUSHROOM.get(),
+                BlockRegistry.POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.POTTED_GREEN_MEGA_MUSHROOM.get(),
                 BlockRegistry.POTTED_LIME_MEGA_MUSHROOM.get(),
                 BlockRegistry.POTTED_ORANGE_MEGA_MUSHROOM.get(),
@@ -390,6 +393,7 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.POTTED_RED_MEGA_MUSHROOM.get(),
                 BlockRegistry.POTTED_YELLOW_MEGA_MUSHROOM.get());
         this.pottedSuperMushroomModels(BlockRegistry.POTTED_BLUE_SUPER_MUSHROOM.get(),
+                BlockRegistry.POTTED_PINK_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.POTTED_GREEN_SUPER_MUSHROOM.get(),
                 BlockRegistry.POTTED_LIME_SUPER_MUSHROOM.get(),
                 BlockRegistry.POTTED_ORANGE_SUPER_MUSHROOM.get(),
@@ -404,6 +408,7 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.RED_SUPER_MUSHROOM_BLOCK.get(),
                 BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK.get());
         this.superMushroomModels(BlockRegistry.BLUE_SUPER_MUSHROOM.get(),
+                BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.GREEN_SUPER_MUSHROOM.get(),
                 BlockRegistry.LIME_SUPER_MUSHROOM.get(),
                 BlockRegistry.ORANGE_SUPER_MUSHROOM.get(),
@@ -3397,50 +3402,63 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent("super_mushroom_block_inside", mcLoc("block/mushroom_block_inside"))
                 .texture("texture", insideTexture).texture("particle", insideTexture);
 
-        for (Block block : blocks) {
-            String modelName = this.name(block);
-            ResourceLocation capTexture = texture(block, "_cap"), topTexture = texture(block, "_top");
+        for (Block block : blocks)
+            this.superMushroomCapModel(block, insideTexture, modelInside);
+    }
 
-            ModelFile modelSide = models()
-                    .withExistingParent(modelName, mcLoc("block/template_single_face"))
-                    .texture("texture", blockTexture(block));
-            ModelFile modelCap = models()
-                    .withExistingParent(modelName + "_cap", mcLoc("block/template_single_face"))
-                    .texture("texture", capTexture).texture("particle", blockTexture(block));
-            ModelFile modelTop = models()
-                    .withExistingParent(modelName + "_top", mcLoc("block/template_single_face"))
-                    .texture("texture", topTexture).texture("particle", blockTexture(block));
-            ModelFile modelInventory = models()
-                    .withExistingParent(modelName + "_inventory", mcLoc("block/cube_bottom_top"))
-                    .texture("side", capTexture).texture("bottom", insideTexture).texture("top", topTexture)
-                    .texture("particle", blockTexture(block));
+    private void mushroomTrampolineModel(Block block) {
+        ResourceLocation insideTexture = texture(block, "_inside");
+        ModelFile modelInside = models()
+                .withExistingParent(this.name(block) + "_inside", mcLoc("block/mushroom_block_inside"))
+                .texture("texture", insideTexture).texture("particle", blockTexture(block));
 
-            simpleBlockItem(block, modelInventory);
+        this.superMushroomCapModel(block, insideTexture, modelInside);
+    }
 
-            MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block);
-            for (Direction direction : Direction.Plane.HORIZONTAL) {
-                BooleanProperty property = PipeBlock.PROPERTY_BY_DIRECTION.get(direction);
-                int yRot = ((int) direction.toYRot() + 180) % 360;
+    private void superMushroomCapModel(Block block, ResourceLocation insideTexture, ModelFile modelInside) {
+        String modelName = this.name(block);
+        ResourceLocation capTexture = texture(block, "_cap");
+        ResourceLocation topTexture = this.textureOrDefault(texture(block, "_top"), blockTexture(block));
 
-                builder.part().modelFile(modelSide).rotationY(yRot).uvLock(true).addModel()
-                        .condition(property, true).condition(SuperMushroomCapBlock.BOTTOM, false).end();
-                builder.part().modelFile(modelCap).rotationY(yRot).uvLock(true).addModel()
-                        .condition(property, true).condition(SuperMushroomCapBlock.BOTTOM, true).end();
-                builder.part().modelFile(modelInside).rotationY(yRot).addModel()
-                        .condition(property, false).end();
-            }
+        ModelFile modelSide = models()
+                .withExistingParent(modelName, mcLoc("block/template_single_face"))
+                .texture("texture", blockTexture(block));
+        ModelFile modelCap = models()
+                .withExistingParent(modelName + "_cap", mcLoc("block/template_single_face"))
+                .texture("texture", capTexture).texture("particle", blockTexture(block));
+        ModelFile modelTop = models()
+                .withExistingParent(modelName + "_top", mcLoc("block/template_single_face"))
+                .texture("texture", topTexture).texture("particle", blockTexture(block));
+        ModelFile modelInventory = models()
+                .withExistingParent(modelName + "_inventory", mcLoc("block/cube_bottom_top"))
+                .texture("side", capTexture).texture("bottom", insideTexture).texture("top", topTexture)
+                .texture("particle", blockTexture(block));
 
-            builder.part().modelFile(modelTop).rotationX(270).uvLock(true).addModel()
-                    .condition(SuperMushroomCapBlock.UP, true).end();
-            builder.part().modelFile(modelInside).rotationX(270).addModel()
-                    .condition(SuperMushroomCapBlock.UP, false).end();
-            builder.part().modelFile(modelTop).rotationX(90).uvLock(true).addModel()
-                    .condition(SuperMushroomCapBlock.DOWN, true).condition(SuperMushroomCapBlock.BOTTOM, false).end();
-            builder.part().modelFile(modelInside).rotationX(90).addModel()
-                    .condition(SuperMushroomCapBlock.DOWN, true).condition(SuperMushroomCapBlock.BOTTOM, true).end();
-            builder.part().modelFile(modelInside).rotationX(90).addModel()
-                    .condition(SuperMushroomCapBlock.DOWN, false).end();
+        simpleBlockItem(block, modelInventory);
+
+        MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block);
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BooleanProperty property = PipeBlock.PROPERTY_BY_DIRECTION.get(direction);
+            int yRot = ((int) direction.toYRot() + 180) % 360;
+
+            builder.part().modelFile(modelSide).rotationY(yRot).uvLock(true).addModel()
+                    .condition(property, true).condition(SuperMushroomCapBlock.BOTTOM, false).end();
+            builder.part().modelFile(modelCap).rotationY(yRot).uvLock(true).addModel()
+                    .condition(property, true).condition(SuperMushroomCapBlock.BOTTOM, true).end();
+            builder.part().modelFile(modelInside).rotationY(yRot).addModel()
+                    .condition(property, false).end();
         }
+
+        builder.part().modelFile(modelTop).rotationX(270).uvLock(true).addModel()
+                .condition(SuperMushroomCapBlock.UP, true).end();
+        builder.part().modelFile(modelInside).rotationX(270).addModel()
+                .condition(SuperMushroomCapBlock.UP, false).end();
+        builder.part().modelFile(modelTop).rotationX(90).uvLock(true).addModel()
+                .condition(SuperMushroomCapBlock.DOWN, true).condition(SuperMushroomCapBlock.BOTTOM, false).end();
+        builder.part().modelFile(modelInside).rotationX(90).addModel()
+                .condition(SuperMushroomCapBlock.DOWN, true).condition(SuperMushroomCapBlock.BOTTOM, true).end();
+        builder.part().modelFile(modelInside).rotationX(90).addModel()
+                .condition(SuperMushroomCapBlock.DOWN, false).end();
     }
 
     private void superMushroomModels(Block... blocks) {

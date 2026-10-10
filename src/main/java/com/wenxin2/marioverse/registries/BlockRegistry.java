@@ -23,6 +23,10 @@ import com.wenxin2.marioverse.blocks.ShroomsoilPathBlock;
 import com.wenxin2.marioverse.blocks.ShrubroomBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
+import com.wenxin2.marioverse.blocks.MegaMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.PottedMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.RedSuperMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.BlueSuperMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.RedMegaMushroomTrampolineBlock;
@@ -33,7 +37,7 @@ import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
-import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.CoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DaisyAbilityBlock;
 import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
@@ -53,7 +57,7 @@ import com.wenxin2.marioverse.blocks.PottedHedgeBlock;
 import com.wenxin2.marioverse.blocks.PottedSuperMushroomBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
-import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.LogBridgeBlock;
 import com.wenxin2.marioverse.blocks.BridgeStairBlock;
@@ -611,6 +615,9 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
     public static final DeferredBlock<Block> PEACH_ABILITY_BLOCK;
     public static final DeferredBlock<Block> PINK_BLOOMFLOWER;
+    public static final DeferredBlock<Block> PINK_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> PINK_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> PINK_MUSHROOM_TRAMPOLINE_BLOCK;
     public static final DeferredBlock<Block> PINK_ROSE_HEDGE;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> PLAYER_DEATH_BLOCK;
@@ -673,6 +680,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POTTED_ORANGE_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> POTTED_ORANGE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> POTTED_PINK_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_PINK_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> POTTED_PINK_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
     public static final DeferredBlock<Block> POTTED_PURPLE_BLOOMFLOWER;
@@ -1051,11 +1060,14 @@ public class BlockRegistry {
                         .noOcclusion()));
 
         RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("red_on_off_mushroom_trampoline_block",
-                () -> new RedMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                () -> new RedMushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
                         .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
         BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("blue_on_off_mushroom_trampoline_block",
-                () -> new BlueMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                () -> new BlueMushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
                         .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
+        PINK_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("pink_mushroom_trampoline_block",
+                () -> new MushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(MapColor.COLOR_PINK)));
 
         RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerBlock("red_on_off_mushroom_trampoline_cap",
                 () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_ON_OFF_MUSHROOM_TRAMPOLINE.getKey(),
@@ -1109,6 +1121,22 @@ public class BlockRegistry {
                                 .hasPostProcess(BlockRegistry::always)
                                 .randomTicks().instabreak()));
 
+        PINK_MUSHROOM_TRAMPOLINE = registerBlock("pink_mushroom_trampoline",
+                () -> new SuperMushroomTrampolineBlock(mushroomFeature("huge_pink_super_mushroom_trampoline"),
+                        mushroomFeature("wide_pink_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        PINK_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("pink_mega_mushroom_trampoline",
+                () -> new MegaMushroomTrampolineBlock(mushroomFeature("huge_pink_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_pink_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+
         POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mushroom_trampoline",
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
                         BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
@@ -1121,6 +1149,10 @@ public class BlockRegistry {
         POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mega_mushroom_trampoline",
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
                         BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_PINK_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_pink_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE));
+        POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_pink_mega_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE));
 
 
         SUPER_MUSHROOM_STEM = registerBlock("super_mushroom_stem",
@@ -3520,6 +3552,8 @@ public class BlockRegistry {
         pot.addPlant(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.getId(), BlockRegistry.POTTED_SPOOKY_SPOOKROOT_SAPLING);
         pot.addPlant(BlockRegistry.ORANGE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_ORANGE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.PINK_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PINK_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_PINK_MUSHROOM_TRAMPOLINE);
         pot.addPlant(BlockRegistry.PINK_ROSE_HEDGE.getId(), BlockRegistry.POTTED_PINK_ROSE_HEDGE);
         pot.addPlant(BlockRegistry.PURPLE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PURPLE_BLOOMFLOWER);
         pot.addPlant(BlockRegistry.RED_BLOOMFLOWER.getId(), BlockRegistry.POTTED_RED_BLOOMFLOWER);
@@ -3618,6 +3652,11 @@ public class BlockRegistry {
 
     private static Block pottedMushroom(Supplier<Block> mushroom) {
         return new PottedSuperMushroomBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, mushroom,
+                BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+    }
+
+    private static Block pottedMushroomTrampoline(Supplier<Block> mushroom) {
+        return new PottedMushroomTrampolineBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, mushroom,
                 BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     }
 

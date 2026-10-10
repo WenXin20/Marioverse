@@ -72,6 +72,15 @@
     "marioverse:pink_bloomflower": {
       "chance": 0.3
     },
+    "marioverse:pink_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:pink_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:pink_mushroom_trampoline_block": {
+      "chance": 0.85
+    },
     "marioverse:pink_rose_hedge": {
       "chance": 0.85
     },

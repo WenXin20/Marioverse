@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-09T01:50:33.7196997	Item Models: marioverse
+// 1.21.1	2026-10-10T01:30:20.3171737	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -3136,6 +3136,8 @@ f59effd1b62c8f350b73c260f869fd547be20c53 assets/marioverse/models/item/orange_me
 eddb7285c524b8a194695b196c5da10c1739ace2 assets/marioverse/models/item/pink_bloomflower.json
 e9aaedaf97e12fc16f42f324e01b8f10526b2525 assets/marioverse/models/item/pink_checkpoint_flag.json
 a7417a0c33a973cad7262a4d5af9185c04c4e80d assets/marioverse/models/item/pink_goal_pole.json
+d120cba5a968679e7c54275af65b7788a66e3522 assets/marioverse/models/item/pink_mega_mushroom_trampoline.json
+5a428bc4733e422802c055694581d5521f3d8aed assets/marioverse/models/item/pink_mushroom_trampoline.json
 5fc160fce44dae6f24831d211e8ac463b4698e7c assets/marioverse/models/item/pink_rose_hedge.json
 5d3b25f614934dc3622fa2eeb439e22942c1d144 assets/marioverse/models/item/piranha_plant_pod.json
 47e0bf860f1271d958d0ca0db32d7d835397cc14 assets/marioverse/models/item/piranha_plant_spawn_egg.json

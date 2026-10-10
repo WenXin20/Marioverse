@@ -265,6 +265,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK);
             add(event, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
             add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
+            add(event, BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK);
 
             add(event, BlockRegistry.MUSHROOT_SAPLING);
             add(event, BlockRegistry.SPOOKROOT_SAPLING);
@@ -290,6 +291,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE);
             add(event, BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE);
+            add(event, BlockRegistry.PINK_MUSHROOM_TRAMPOLINE);
+            add(event, BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE);
 
             add(event, BlockRegistry.WHITE_BLOOMFLOWER);
             add(event, BlockRegistry.BLUE_BLOOMFLOWER);
@@ -1448,6 +1451,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK, BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK);
                 addAfter(event, BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK, BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK);
                 addAfter(event, BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK);
+                addAfter(event, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK, BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK);
 
                 addAfter(event, Blocks.FLOWERING_AZALEA_LEAVES, BlockRegistry.MUSHROOT_LEAVES);
                 addAfter(event, BlockRegistry.MUSHROOT_LEAVES, BlockRegistry.SPOOKROOT_LEAVES);
@@ -1477,6 +1481,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE);
                 addAfter(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE, BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE);
+                addAfter(event, BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockRegistry.PINK_MUSHROOM_TRAMPOLINE);
+                addAfter(event, BlockRegistry.PINK_MUSHROOM_TRAMPOLINE, BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE);
 
                 addAfter(event, Blocks.SHORT_GRASS, BlockRegistry.SHORT_SHROOMGRASS);
                 addAfter(event, BlockRegistry.SHORT_SHROOMGRASS, BlockRegistry.SHROOMGRASS);
