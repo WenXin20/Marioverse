@@ -525,7 +525,9 @@ public class ClientEventHandlers {
                             && !player.getAbilities().flying);
 
                     if (canBounce) {
-                        player.setOnGround(false);
+                        if (minY >= posBelow.getY() + 0.9 && player.getBoundingBox().deflate(0.05, 0.0, 0.05)
+                                .move(0.0, -0.2, 0.0).intersects(new AABB(posBelow)))
+                            player.setOnGround(false);
                         PacketDistributor.sendToServer(new BouncePayload(posBelow, Minecraft.getInstance().options.keyJump.isDown(), motion.y));
                         break;
                     }
