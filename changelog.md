@@ -35,8 +35,10 @@
   - Comes in 7 different colors
   - If dirt is below, bone meal grows it into a Huge Mega Mushroom
   - If no dirt, bone meal grows it taller
+- Added Mushroom Trampoline blocks
+  - Always bouncy
 - New On/Off Trampoline Mushroom textures & models
-- Added Mega & Super mushroom plants
+- Added On/Off Mega & Super mushroom plants
   - Bone meal grows it into their respective huge mushroom
   - On/Off Switch toggles it
   - Slightly bouncy
