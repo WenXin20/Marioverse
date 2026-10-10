@@ -42,17 +42,17 @@ public class MushroomTrampolineCapBlock extends SuperMushroomCapBlock {
         else super.updateEntityAfterFallOn(blockGetter, entity);
     }
 
-    public static void bounceEntity(Level level, BlockPos pos, Entity entity, boolean holdingJump, double clientMotionY) {
+    public static boolean bounceEntity(Level level, BlockPos pos, Entity entity, boolean holdingJump, double clientMotionY) {
         float pitch = 0.8F + level.random.nextFloat() * 0.2F;
         Vec3 vec3 = entity.getDeltaMovement();
 
         if (entity instanceof Player player && player.getAbilities().flying)
-            return;
+            return false;
 
         double motionY = (entity instanceof Player) ? clientMotionY : vec3.y;
 
         if (motionY >= 0.0)
-            return;
+            return false;
 
         VoxelShape shape = level.getBlockState(pos).getCollisionShape(level, pos);
         double blockTopY = pos.getY() + (shape.isEmpty() ? 1.0 : shape.max(Direction.Axis.Y));
@@ -60,7 +60,7 @@ public class MushroomTrampolineCapBlock extends SuperMushroomCapBlock {
         double verticalEpsilon = 0.1;
 
         if (entityMinY < blockTopY - verticalEpsilon || entityMinY > blockTopY + verticalEpsilon)
-            return;
+            return false;
 
         AABB entityBox = entity.getBoundingBox();
         double horizontalEpsilon = 0.05;
@@ -70,7 +70,7 @@ public class MushroomTrampolineCapBlock extends SuperMushroomCapBlock {
                 && entityBox.minZ < pos.getZ() + 1.0 - horizontalEpsilon;
 
         if (!overlapsX || !overlapsZ)
-            return;
+            return false;
 
         double baseBounce = 0.0552;
         double bounceFactor = (entity instanceof LivingEntity ? 1.0 : 0.8);
@@ -101,5 +101,6 @@ public class MushroomTrampolineCapBlock extends SuperMushroomCapBlock {
 
         entity.resetFallDistance();
         entity.setDeltaMovement(vec3.x, newY, vec3.z);
+        return true;
     }
 }

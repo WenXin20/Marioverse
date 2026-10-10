@@ -18,8 +18,9 @@ public class BouncePacket {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 Player player = context.player();
-                MushroomTrampolineCapBlock.bounceEntity(player.level(), payload.pos(), player, payload.isHoldingJump(), payload.motionY());
-                if (player instanceof ServerPlayer serverPlayer)
+                boolean bounced = MushroomTrampolineCapBlock.bounceEntity(player.level(), payload.pos(), player,
+                        payload.isHoldingJump(), payload.motionY());
+                if (bounced && player instanceof ServerPlayer serverPlayer)
                     serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(player));
             });
         }
