@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.world.feature;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.mojang.serialization.Codec;
-import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import net.minecraft.core.BlockPos;
@@ -51,9 +51,9 @@ public class HugeSwitchMushroomFeature extends AbstractHugeMushroomFeature {
                                     .setValue(HugeMushroomBlock.SOUTH, flag9);
                         }
 
-                        if (blockstate.hasProperty(OnBlock.ACTIVE) && levelAccessor instanceof ServerLevelAccessor serverLevelAccessor) {
+                        if (blockstate.hasProperty(BlockStatePropertyRegistry.ACTIVE) && levelAccessor instanceof ServerLevelAccessor serverLevelAccessor) {
                             boolean isActive = GlobalSwitchSavedData.isActiveCached(serverLevelAccessor.getLevel());
-                            blockstate = blockstate.setValue(OnBlock.ACTIVE, isActive);
+                            blockstate = blockstate.setValue(BlockStatePropertyRegistry.ACTIVE, isActive);
                         }
 
                         this.setBlock(levelAccessor, posMutable, blockstate);

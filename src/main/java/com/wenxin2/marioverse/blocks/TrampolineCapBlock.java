@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -28,12 +29,12 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
 
     public TrampolineCapBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
         super(configuredFeature, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(OnBlock.ACTIVE, true));
+        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStatePropertyRegistry.ACTIVE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(OnBlock.ACTIVE);
+        builder.add(BlockStatePropertyRegistry.ACTIVE);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        boolean isOn = state.getValue(OnBlock.ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
+        boolean isOn = state.getValue(BlockStatePropertyRegistry.ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
         super.fallOn(level, state, pos, entity, isOn ? fallDistance * 0.5F : fallDistance);
     }
 
@@ -60,7 +61,7 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
         Vec3 motion = entity.getDeltaMovement();
 
         if (!entity.isSuppressingBounce() && motion.y < 0.0 && state.is(this)
-                && state.getValue(OnBlock.ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP))
+                && state.getValue(BlockStatePropertyRegistry.ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP))
             entity.setDeltaMovement(motion.x, -motion.y * 0.5F * (entity instanceof LivingEntity ? 1.0 : 0.8), motion.z);
         else super.updateEntityAfterFallOn(blockGetter, entity);
     }

@@ -1,12 +1,12 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
-import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
@@ -508,13 +508,13 @@ public class ClientEventHandlers {
                             && !player.getAbilities().flying)
 
                             || (blockBelow instanceof BlueMushroomTrampolineBlock
-                            && !stateBelow.getValue(OnBlock.ACTIVE)
+                            && !stateBelow.getValue(BlockStatePropertyRegistry.ACTIVE)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying)
 
                             || (blockBelow instanceof RedMushroomTrampolineBlock
                             && !(blockBelow instanceof BlueMushroomTrampolineBlock)
-                            && stateBelow.getValue(OnBlock.ACTIVE)
+                            && stateBelow.getValue(BlockStatePropertyRegistry.ACTIVE)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying);
 

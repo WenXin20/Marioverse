@@ -16,7 +16,6 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.RoseHedgeBlock;
 import com.wenxin2.marioverse.blocks.LogPlatformBlock;
-import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PanelBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceBlock;
 import com.wenxin2.marioverse.blocks.PicketFenceGateBlock;
@@ -2021,7 +2020,7 @@ public class BlockStateGen extends BlockStateProvider {
         else simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);
+            boolean isActive = state.getValue(BlockStatePropertyRegistry.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -2503,7 +2502,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);
+            boolean isActive = state.getValue(BlockStatePropertyRegistry.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -2519,7 +2518,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("mushroom", activeTexture + "_off");
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = !state.getValue(OnBlock.ACTIVE);
+            boolean isActive = !state.getValue(BlockStatePropertyRegistry.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -2576,27 +2575,27 @@ public class BlockStateGen extends BlockStateProvider {
                 int yRot = this.horizontalRotation(Direction.NORTH, direction);
 
                 builder.part().modelFile(modelSide).rotationY(yRot).uvLock(true).addModel()
-                        .condition(OnBlock.ACTIVE, active).condition(property, true)
+                        .condition(BlockStatePropertyRegistry.ACTIVE, active).condition(property, true)
                         .condition(SuperMushroomCapBlock.BOTTOM, false).end();
                 builder.part().modelFile(modelCap).rotationY(yRot).uvLock(true).addModel()
-                        .condition(OnBlock.ACTIVE, active).condition(property, true)
+                        .condition(BlockStatePropertyRegistry.ACTIVE, active).condition(property, true)
                         .condition(SuperMushroomCapBlock.BOTTOM, true).end();
                 builder.part().modelFile(modelInside).rotationY(yRot).addModel()
-                        .condition(OnBlock.ACTIVE, active).condition(property, false).end();
+                        .condition(BlockStatePropertyRegistry.ACTIVE, active).condition(property, false).end();
             }
 
             builder.part().modelFile(modelTop).rotationX(270).uvLock(true).addModel()
-                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.UP, true).end();
+                    .condition(BlockStatePropertyRegistry.ACTIVE, active).condition(SuperMushroomCapBlock.UP, true).end();
             builder.part().modelFile(modelInside).rotationX(270).addModel()
-                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.UP, false).end();
+                    .condition(BlockStatePropertyRegistry.ACTIVE, active).condition(SuperMushroomCapBlock.UP, false).end();
             builder.part().modelFile(modelTop).rotationX(90).uvLock(true).addModel()
-                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, true)
+                    .condition(BlockStatePropertyRegistry.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, true)
                     .condition(SuperMushroomCapBlock.BOTTOM, false).end();
             builder.part().modelFile(modelInside).rotationX(90).addModel()
-                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, true)
+                    .condition(BlockStatePropertyRegistry.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, true)
                     .condition(SuperMushroomCapBlock.BOTTOM, true).end();
             builder.part().modelFile(modelInside).rotationX(90).addModel()
-                    .condition(OnBlock.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, false).end();
+                    .condition(BlockStatePropertyRegistry.ACTIVE, active).condition(SuperMushroomCapBlock.DOWN, false).end();
         }
     }
 
@@ -2614,7 +2613,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);;
+            boolean isActive = state.getValue(BlockStatePropertyRegistry.ACTIVE);;
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -2902,7 +2901,7 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = state.getValue(OnBlock.ACTIVE);
+            boolean isActive = state.getValue(BlockStatePropertyRegistry.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -2918,7 +2917,7 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("mushroom", activeTexture + "_off");
 
         this.getVariantBuilder(block).forAllStates(state -> {
-            boolean isActive = !state.getValue(OnBlock.ACTIVE);
+            boolean isActive = !state.getValue(BlockStatePropertyRegistry.ACTIVE);
             return ConfiguredModel.builder().modelFile(isActive ? model : modelOff).build();
         });
     }
@@ -3485,7 +3484,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.getVariantBuilder(block).forAllStates(state -> {
             if (!state.getValue(SuperMushroomBlock.TOP))
                 return ConfiguredModel.builder().modelFile(modelStem).build();
-            boolean isOn = state.getValue(OnBlock.ACTIVE) == onWhenActive;
+            boolean isOn = state.getValue(BlockStatePropertyRegistry.ACTIVE) == onWhenActive;
             return ConfiguredModel.builder().modelFile(isOn ? model : modelOff).build();
         });
     }
@@ -3506,7 +3505,7 @@ public class BlockStateGen extends BlockStateProvider {
         }
 
         this.getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
-                .modelFile(state.getValue(OnBlock.ACTIVE) == onWhenActive ? model : modelOff).build());
+                .modelFile(state.getValue(BlockStatePropertyRegistry.ACTIVE) == onWhenActive ? model : modelOff).build());
     }
 
     private void megaMushroomModels(Block... blocks) {

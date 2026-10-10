@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.world.feature;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.mojang.serialization.Codec;
-import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
@@ -46,7 +46,7 @@ public abstract class ShapedHugeMushroomFeature extends Feature<ShapedHugeMushro
                     state = with(state, HugeMushroomBlock.UP, !isCap(shape, stemWidth, x, y + 1, z));
                     state = with(state, HugeMushroomBlock.DOWN, false);
                     state = with(state, SuperMushroomCapBlock.BOTTOM, y == capMinY);
-                    state = with(state, OnBlock.ACTIVE, GlobalSwitchSavedData.isActiveCached(level.getLevel()));
+                    state = with(state, BlockStatePropertyRegistry.ACTIVE, GlobalSwitchSavedData.isActiveCached(level.getLevel()));
                     this.setBlock(level, posMutable, state);
                 }
             }

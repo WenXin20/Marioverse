@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
@@ -33,10 +34,10 @@ public interface ToggleableBlock {
         if (level instanceof ServerLevel serverLevel) {
             GlobalSwitchSavedData data = GlobalSwitchSavedData.get(serverLevel);
             if (player != null && player.isShiftKeyDown())
-                return defaultState.setValue(OnBlock.ACTIVE, !data.isActive());
-            return defaultState.setValue(OnBlock.ACTIVE, data.isActive());
+                return defaultState.setValue(BlockStatePropertyRegistry.ACTIVE, !data.isActive());
+            return defaultState.setValue(BlockStatePropertyRegistry.ACTIVE, data.isActive());
         }
-        return defaultState.setValue(OnBlock.ACTIVE, true);
+        return defaultState.setValue(BlockStatePropertyRegistry.ACTIVE, true);
     }
 
     static void toggle(ServerLevel level, BlockPos switchPos, Entity entity) {
@@ -55,7 +56,7 @@ public interface ToggleableBlock {
 
         dataGlobal.setActive(!dataGlobal.isActive());
         boolean isActiveGlobal = dataGlobal.isActive();
-        boolean stateActive = stateSwitch.getValue(OnBlock.ACTIVE);
+        boolean stateActive = stateSwitch.getValue(BlockStatePropertyRegistry.ACTIVE);
 
         if (radius > 0) {
             BlockPos.MutableBlockPos posMutable = new BlockPos.MutableBlockPos();
@@ -69,8 +70,8 @@ public interface ToggleableBlock {
 
                         BlockState state = level.getBlockState(posMutable);
 
-                        if (state.getBlock() instanceof ToggleableBlock && state.getValue(OnBlock.ACTIVE) != stateActive)
-                            level.setBlock(posMutable, state.setValue(OnBlock.ACTIVE, stateActive), Block.UPDATE_ALL);
+                        if (state.getBlock() instanceof ToggleableBlock && state.getValue(BlockStatePropertyRegistry.ACTIVE) != stateActive)
+                            level.setBlock(posMutable, state.setValue(BlockStatePropertyRegistry.ACTIVE, stateActive), Block.UPDATE_ALL);
 
                         dataGlobal.unlink(posMutable);
                         dataLinked.unlink(posMutable);
@@ -91,8 +92,8 @@ public interface ToggleableBlock {
                     continue;
                 }
 
-                if (state.getValue(OnBlock.ACTIVE) != stateActive)
-                    level.setBlock(pos, state.setValue(OnBlock.ACTIVE, stateActive), Block.UPDATE_CLIENTS);
+                if (state.getValue(BlockStatePropertyRegistry.ACTIVE) != stateActive)
+                    level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ACTIVE, stateActive), Block.UPDATE_CLIENTS);
                 dataGlobal.unlink(pos);
             }
         }
@@ -109,8 +110,8 @@ public interface ToggleableBlock {
                         continue;
                     }
 
-                    if (state.getValue(OnBlock.ACTIVE) != isActiveGlobal)
-                        level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActiveGlobal), Block.UPDATE_CLIENTS);
+                    if (state.getValue(BlockStatePropertyRegistry.ACTIVE) != isActiveGlobal)
+                        level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ACTIVE, isActiveGlobal), Block.UPDATE_CLIENTS);
                 }
             }
         }

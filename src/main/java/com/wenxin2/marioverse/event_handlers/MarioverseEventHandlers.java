@@ -1,11 +1,11 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.DyeColumnBlock;
-import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
@@ -186,8 +186,8 @@ public class MarioverseEventHandlers {
                 continue;
             }
 
-            if (state.getValue(OnBlock.ACTIVE) != isActive)
-                level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+            if (state.getValue(BlockStatePropertyRegistry.ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
         }
     }
 
@@ -217,8 +217,8 @@ public class MarioverseEventHandlers {
                     continue;
                 }
 
-                if (state.getValue(OnBlock.ACTIVE) != isActive)
-                    level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
+                if (state.getValue(BlockStatePropertyRegistry.ACTIVE) != isActive)
+                    level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ACTIVE, isActive), Block.UPDATE_CLIENTS);
             }
         }
     }

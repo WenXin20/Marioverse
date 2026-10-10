@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import java.util.function.Supplier;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -33,13 +35,23 @@ public class PottedTrampolineCapBlock extends FlowerPotBlock implements Toggleab
 
     public PottedTrampolineCapBlock(@Nullable Supplier<FlowerPotBlock> emptyPot, Supplier<? extends Block> block, Properties properties) {
         super(emptyPot, block, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(OnBlock.ACTIVE, true));
+        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStatePropertyRegistry.ACTIVE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(OnBlock.ACTIVE);
+        builder.add(BlockStatePropertyRegistry.ACTIVE);
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        if (this.getPotted() instanceof MegaMushroomBlock)
+            return PottedSuperMushroomBlock.MEGA_SHAPE;
+        if (this.getPotted() instanceof SuperMushroomBlock)
+            return PottedSuperMushroomBlock.SUPER_SHAPE;
+        return CAP_SHAPE;
     }
 
     @Override
@@ -50,6 +62,8 @@ public class PottedTrampolineCapBlock extends FlowerPotBlock implements Toggleab
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         this.onPlaceSavedData(level, pos);
+        if (oldState.is(this) && !this.isOn(oldState) && this.isOn(state))
+            this.launchEntities(level, pos);
         super.onPlace(state, level, pos, oldState, isMoving);
     }
 
@@ -66,16 +80,6 @@ public class PottedTrampolineCapBlock extends FlowerPotBlock implements Toggleab
         if (!player.getItemInHand(hand).is(ItemRegistry.CREATIVE_WRENCH.get()))
             return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
         return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
-    }
-
-    @NotNull
-    @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        if (this.getPotted() instanceof MegaMushroomBlock)
-            return PottedSuperMushroomBlock.MEGA_SHAPE;
-        if (this.getPotted() instanceof SuperMushroomBlock)
-            return PottedSuperMushroomBlock.SUPER_SHAPE;
-        return CAP_SHAPE;
     }
 
     @Override
@@ -97,6 +101,18 @@ public class PottedTrampolineCapBlock extends FlowerPotBlock implements Toggleab
         Block potted = this.getPotted();
         boolean isBlue = potted instanceof BlueSuperMushroomTrampolineBlock || potted instanceof BlueMegaMushroomTrampolineBlock
                 || potted == BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get();
-        return state.getValue(OnBlock.ACTIVE) != isBlue;
+        return state.getValue(BlockStatePropertyRegistry.ACTIVE) != isBlue;
+    }
+
+    protected void launchEntities(Level level, BlockPos pos) {
+        for (Entity entity : level.getEntities(null, new AABB(pos).expandTowards(0.0, 0.5, 0.0))) {
+            if (!entity.onGround() || entity.isSuppressingBounce() || !entity.getOnPos().equals(pos))
+                continue;
+
+            Vec3 motion = entity.getDeltaMovement();
+            entity.setDeltaMovement(motion.x, 0.8, motion.z);
+            entity.resetFallDistance();
+            entity.hurtMarked = true;
+        }
     }
 }
