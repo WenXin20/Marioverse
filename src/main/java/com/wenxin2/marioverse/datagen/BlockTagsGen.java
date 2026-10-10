@@ -1748,6 +1748,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK.get())
                 .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
                 .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.PINK_SUPER_MUSHROOM_STEM.get())
                 .add(BlockRegistry.SUPER_MUSHROOM_STEM.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());

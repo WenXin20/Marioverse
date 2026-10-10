@@ -1,43 +1,5 @@
 {
   "values": [
-    "marioverse:pink_mushroom_trampoline_block",
-    "minecraft:brown_mushroom_block",
-    "minecraft:red_mushroom_block",
-    {
-      "id": "#chipped:brown_mushroom_block",
-      "required": false
-    },
-    {
-      "id": "#chipped:red_mushroom_block",
-      "required": false
-    },
-    {
-      "id": "superbb:blue_bigshroom_block",
-      "required": false
-    },
-    {
-      "id": "superbb:green_bigshroom_block",
-      "required": false
-    },
-    {
-      "id": "superbb:lime_bigshroom_block",
-      "required": false
-    },
-    {
-      "id": "superbb:orange_bigshroom_block",
-      "required": false
-    },
-    {
-      "id": "superbb:purple_bigshroom_block",
-      "required": false
-    },
-    {
-      "id": "superbb:red_bigshroom_block",
-      "required": false
-    },
-    {
-      "id": "superbb:yellow_bigshroom_block",
-      "required": false
-    }
+    "marioverse:pink_mushroom_trampoline_block"
   ]
 }

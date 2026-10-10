@@ -416,6 +416,7 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.RED_SUPER_MUSHROOM.get(),
                 BlockRegistry.YELLOW_SUPER_MUSHROOM.get());
         this.superMushroomStemModel(BlockRegistry.SUPER_MUSHROOM_STEM.get());
+        this.superMushroomStemModel(BlockRegistry.PINK_SUPER_MUSHROOM_STEM.get());
 
         this.genArrowSigns();
         this.genButtons();
@@ -3323,8 +3324,11 @@ public class BlockStateGen extends BlockStateProvider {
 
     private void superMushroomStemModel(Block block) {
         String modelName = this.name(block);
-        ResourceLocation stemTexture = blockTexture(block), insideTexture = texture(block, "_inside"),
-                skirtTexture = modLoc("block/super_mushroom_skirt"), skirtTopTexture = modLoc("block/super_mushroom_skirt_top");
+        String skirtName = modelName.replace("stem", "skirt");
+        ResourceLocation stemTexture = this.textureOrDefault(blockTexture(block), modLoc("block/super_mushroom_stem")),
+                insideTexture = this.textureOrDefault(texture(block, "_inside"), modLoc("block/super_mushroom_stem_inside")),
+                skirtTexture = this.textureOrDefault(modLoc("block/" + skirtName), modLoc("block/super_mushroom_skirt")),
+                skirtTopTexture = this.textureOrDefault(modLoc("block/" + skirtName + "_top"), modLoc("block/super_mushroom_skirt_top"));
 
         ModelFile modelStem = models()
                 .withExistingParent(modelName, mcLoc("block/template_single_face")).texture("texture", stemTexture);
@@ -3332,13 +3336,13 @@ public class BlockStateGen extends BlockStateProvider {
                 .withExistingParent(modelName + "_horizontal", modLoc("block/template_single_face_east"))
                 .texture("texture", stemTexture);
         ModelFile modelSkirt = models()
-                .withExistingParent("super_mushroom_skirt", mcLoc("block/template_single_face"))
+                .withExistingParent(skirtName, mcLoc("block/template_single_face"))
                 .texture("texture", skirtTexture).texture("particle", stemTexture);
         ModelFile modelSkirtHorizontal = models()
-                .withExistingParent("super_mushroom_skirt_horizontal", modLoc("block/template_single_face_east"))
+                .withExistingParent(skirtName + "_horizontal", modLoc("block/template_single_face_east"))
                 .texture("texture", skirtTexture).texture("particle", stemTexture);
         ModelFile modelSkirtTop = models()
-                .withExistingParent("super_mushroom_skirt_top", mcLoc("block/template_single_face"))
+                .withExistingParent(skirtName + "_top", mcLoc("block/template_single_face"))
                 .texture("texture", skirtTopTexture).texture("particle", stemTexture);
         ModelFile modelInside = models()
                 .withExistingParent(modelName + "_inside", mcLoc("block/mushroom_block_inside"))

@@ -62,6 +62,7 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.RED_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.RED_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PINK_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.YELLOW_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.YELLOW_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)

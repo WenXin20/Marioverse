@@ -619,6 +619,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> PINK_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> PINK_MUSHROOM_TRAMPOLINE_BLOCK;
     public static final DeferredBlock<Block> PINK_ROSE_HEDGE;
+    public static final DeferredBlock<Block> PINK_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> PLAYER_DEATH_BLOCK;
     public static final DeferredBlock<Block> POLISHED_AMETHYST;
@@ -1061,45 +1062,18 @@ public class BlockRegistry {
 
         RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("red_on_off_mushroom_trampoline_block",
                 () -> new RedMushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
-                        .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
-        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("blue_on_off_mushroom_trampoline_block",
-                () -> new BlueMushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
-                        .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
-        PINK_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("pink_mushroom_trampoline_block",
-                () -> new MushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
-                        .mapColor(MapColor.COLOR_PINK)));
-
+                        .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE)
+                                ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
         RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerBlock("red_on_off_mushroom_trampoline_cap",
                 () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_ON_OFF_MUSHROOM_TRAMPOLINE.getKey(),
                         BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
                                 .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
                                 .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()));
-        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerBlock("blue_on_off_mushroom_trampoline_cap",
-                () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.getKey(),
-                        BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
-                                .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
-                                .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()));
-        POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_on_off_mushroom_trampoline_cap",
-                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
-                        BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
-        POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_on_off_mushroom_trampoline_cap",
-                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
-                        BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
-
         RED_ON_OFF_MUSHROOM_TRAMPOLINE = registerBlock("red_on_off_mushroom_trampoline",
                 () -> new RedSuperMushroomTrampolineBlock(mushroomFeature("huge_red_on_off_super_mushroom_trampoline"),
                         mushroomFeature("wide_red_on_off_super_mushroom_trampoline"),
                         BlockBehaviour.Properties.of()
                                 .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
-                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
-                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
-                                .hasPostProcess(BlockRegistry::always)
-                                .randomTicks().instabreak()));
-        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = registerBlock("blue_on_off_mushroom_trampoline",
-                () -> new BlueSuperMushroomTrampolineBlock(mushroomFeature("huge_blue_on_off_super_mushroom_trampoline"),
-                        mushroomFeature("wide_blue_on_off_super_mushroom_trampoline"),
-                        BlockBehaviour.Properties.of()
-                                .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
                                 .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
                                 .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                                 .hasPostProcess(BlockRegistry::always)
@@ -1112,6 +1086,34 @@ public class BlockRegistry {
                                 .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                                 .hasPostProcess(BlockRegistry::always)
                                 .randomTicks().instabreak()));
+        POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_on_off_mushroom_trampoline_cap",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mega_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+
+        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("blue_on_off_mushroom_trampoline_block",
+                () -> new BlueMushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                        .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE)
+                                ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
+        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerBlock("blue_on_off_mushroom_trampoline_cap",
+                () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.getKey(),
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                                .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                                .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()));
+        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = registerBlock("blue_on_off_mushroom_trampoline",
+                () -> new BlueSuperMushroomTrampolineBlock(mushroomFeature("huge_blue_on_off_super_mushroom_trampoline"),
+                        mushroomFeature("wide_blue_on_off_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
         BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("blue_on_off_mega_mushroom_trampoline",
                 () -> new BlueMegaMushroomTrampolineBlock(mushroomFeature("huge_blue_on_off_mega_mushroom_trampoline"),
                         mushroomFeature("wide_blue_on_off_mega_mushroom_trampoline"),
@@ -1120,7 +1122,19 @@ public class BlockRegistry {
                                 .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                                 .hasPostProcess(BlockRegistry::always)
                                 .randomTicks().instabreak()));
+        POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_on_off_mushroom_trampoline_cap",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mega_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
 
+        PINK_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("pink_mushroom_trampoline_block",
+                () -> new MushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(MapColor.COLOR_PINK)));
         PINK_MUSHROOM_TRAMPOLINE = registerBlock("pink_mushroom_trampoline",
                 () -> new SuperMushroomTrampolineBlock(mushroomFeature("huge_pink_super_mushroom_trampoline"),
                         mushroomFeature("wide_pink_super_mushroom_trampoline"),
@@ -1136,102 +1150,96 @@ public class BlockRegistry {
                                 .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                                 .hasPostProcess(BlockRegistry::always)
                                 .randomTicks().instabreak()));
-
-        POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mushroom_trampoline",
-                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
-                        BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
-        POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mushroom_trampoline",
-                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
-                        BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
-        POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mega_mushroom_trampoline",
-                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
-                        BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
-        POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mega_mushroom_trampoline",
-                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
-                        BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
         POTTED_PINK_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_pink_mushroom_trampoline",
                 () -> pottedMushroomTrampoline(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE));
         POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_pink_mega_mushroom_trampoline",
                 () -> pottedMushroomTrampoline(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE));
-
 
         SUPER_MUSHROOM_STEM = registerBlock("super_mushroom_stem",
                 () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
                         .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
                                 && state.getValue(SuperMushroomStemBlock.END)
                                 ? MapColor.TERRACOTTA_YELLOW : MapColor.WOOL)));
+        PINK_SUPER_MUSHROOM_STEM = registerBlock("pink_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_PINK)));
+
         BLUE_SUPER_MUSHROOM_BLOCK = registerBlock("blue_super_mushroom_block",
                 () -> superMushroomCap(MapColor.COLOR_BLUE));
-        GREEN_SUPER_MUSHROOM_BLOCK = registerBlock("green_super_mushroom_block",
-                () -> superMushroomCap(MapColor.COLOR_GREEN));
-        LIME_SUPER_MUSHROOM_BLOCK = registerBlock("lime_super_mushroom_block",
-                () -> superMushroomCap(MapColor.COLOR_LIGHT_GREEN));
-        ORANGE_SUPER_MUSHROOM_BLOCK = registerBlock("orange_super_mushroom_block",
-                () -> superMushroomCap(MapColor.COLOR_ORANGE));
-        PURPLE_SUPER_MUSHROOM_BLOCK = registerBlock("purple_super_mushroom_block",
-                () -> superMushroomCap(MapColor.COLOR_PURPLE));
-        RED_SUPER_MUSHROOM_BLOCK = registerBlock("red_super_mushroom_block",
-                () -> superMushroomCap(MapColor.COLOR_RED));
-        YELLOW_SUPER_MUSHROOM_BLOCK = registerBlock("yellow_super_mushroom_block",
-                () -> superMushroomCap(MapColor.COLOR_YELLOW));
-
         BLUE_SUPER_MUSHROOM = registerBlock("blue_super_mushroom",
                 () -> superMushroom("blue", MapColor.COLOR_BLUE));
-        GREEN_SUPER_MUSHROOM = registerBlock("green_super_mushroom",
-                () -> superMushroom("green", MapColor.COLOR_GREEN));
-        LIME_SUPER_MUSHROOM = registerBlock("lime_super_mushroom",
-                () -> superMushroom("lime", MapColor.COLOR_LIGHT_GREEN));
-        ORANGE_SUPER_MUSHROOM = registerBlock("orange_super_mushroom",
-                () -> superMushroom("orange", MapColor.COLOR_ORANGE));
-        PURPLE_SUPER_MUSHROOM = registerBlock("purple_super_mushroom",
-                () -> superMushroom("purple", MapColor.COLOR_PURPLE));
-        RED_SUPER_MUSHROOM = registerBlock("red_super_mushroom",
-                () -> superMushroom("red", MapColor.COLOR_RED));
-        YELLOW_SUPER_MUSHROOM = registerBlock("yellow_super_mushroom",
-                () -> superMushroom("yellow", MapColor.COLOR_YELLOW));
-
         BLUE_MEGA_MUSHROOM = registerBlock("blue_mega_mushroom",
                 () -> megaMushroom("blue", MapColor.COLOR_BLUE));
-        GREEN_MEGA_MUSHROOM = registerBlock("green_mega_mushroom",
-                () -> megaMushroom("green", MapColor.COLOR_GREEN));
-        LIME_MEGA_MUSHROOM = registerBlock("lime_mega_mushroom",
-                () -> megaMushroom("lime", MapColor.COLOR_LIGHT_GREEN));
-        ORANGE_MEGA_MUSHROOM = registerBlock("orange_mega_mushroom",
-                () -> megaMushroom("orange", MapColor.COLOR_ORANGE));
-        PURPLE_MEGA_MUSHROOM = registerBlock("purple_mega_mushroom",
-                () -> megaMushroom("purple", MapColor.COLOR_PURPLE));
-        RED_MEGA_MUSHROOM = registerBlock("red_mega_mushroom",
-                () -> megaMushroom("red", MapColor.COLOR_RED));
-        YELLOW_MEGA_MUSHROOM = registerBlock("yellow_mega_mushroom",
-                () -> megaMushroom("yellow", MapColor.COLOR_YELLOW));
-
         POTTED_BLUE_SUPER_MUSHROOM = registerNoItemBlock("potted_blue_super_mushroom",
                 () -> pottedMushroom(BlockRegistry.BLUE_SUPER_MUSHROOM));
-        POTTED_GREEN_SUPER_MUSHROOM = registerNoItemBlock("potted_green_super_mushroom",
-                () -> pottedMushroom(BlockRegistry.GREEN_SUPER_MUSHROOM));
-        POTTED_LIME_SUPER_MUSHROOM = registerNoItemBlock("potted_lime_super_mushroom",
-                () -> pottedMushroom(BlockRegistry.LIME_SUPER_MUSHROOM));
-        POTTED_ORANGE_SUPER_MUSHROOM = registerNoItemBlock("potted_orange_super_mushroom",
-                () -> pottedMushroom(BlockRegistry.ORANGE_SUPER_MUSHROOM));
-        POTTED_PURPLE_SUPER_MUSHROOM = registerNoItemBlock("potted_purple_super_mushroom",
-                () -> pottedMushroom(BlockRegistry.PURPLE_SUPER_MUSHROOM));
-        POTTED_RED_SUPER_MUSHROOM = registerNoItemBlock("potted_red_super_mushroom",
-                () -> pottedMushroom(BlockRegistry.RED_SUPER_MUSHROOM));
-        POTTED_YELLOW_SUPER_MUSHROOM = registerNoItemBlock("potted_yellow_super_mushroom",
-                () -> pottedMushroom(BlockRegistry.YELLOW_SUPER_MUSHROOM));
-
         POTTED_BLUE_MEGA_MUSHROOM = registerNoItemBlock("potted_blue_mega_mushroom",
                 () -> pottedMushroom(BlockRegistry.BLUE_MEGA_MUSHROOM));
+
+        GREEN_SUPER_MUSHROOM_BLOCK = registerBlock("green_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_GREEN));
+        GREEN_SUPER_MUSHROOM = registerBlock("green_super_mushroom",
+                () -> superMushroom("green", MapColor.COLOR_GREEN));
+        GREEN_MEGA_MUSHROOM = registerBlock("green_mega_mushroom",
+                () -> megaMushroom("green", MapColor.COLOR_GREEN));
+        POTTED_GREEN_SUPER_MUSHROOM = registerNoItemBlock("potted_green_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.GREEN_SUPER_MUSHROOM));
         POTTED_GREEN_MEGA_MUSHROOM = registerNoItemBlock("potted_green_mega_mushroom",
                 () -> pottedMushroom(BlockRegistry.GREEN_MEGA_MUSHROOM));
+
+        LIME_SUPER_MUSHROOM_BLOCK = registerBlock("lime_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_LIGHT_GREEN));
+        LIME_SUPER_MUSHROOM = registerBlock("lime_super_mushroom",
+                () -> superMushroom("lime", MapColor.COLOR_LIGHT_GREEN));
+        LIME_MEGA_MUSHROOM = registerBlock("lime_mega_mushroom",
+                () -> megaMushroom("lime", MapColor.COLOR_LIGHT_GREEN));
+        POTTED_LIME_SUPER_MUSHROOM = registerNoItemBlock("potted_lime_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.LIME_SUPER_MUSHROOM));
         POTTED_LIME_MEGA_MUSHROOM = registerNoItemBlock("potted_lime_mega_mushroom",
                 () -> pottedMushroom(BlockRegistry.LIME_MEGA_MUSHROOM));
+
+        ORANGE_SUPER_MUSHROOM_BLOCK = registerBlock("orange_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_ORANGE));
+        ORANGE_SUPER_MUSHROOM = registerBlock("orange_super_mushroom",
+                () -> superMushroom("orange", MapColor.COLOR_ORANGE));
+        ORANGE_MEGA_MUSHROOM = registerBlock("orange_mega_mushroom",
+                () -> megaMushroom("orange", MapColor.COLOR_ORANGE));
+        POTTED_ORANGE_SUPER_MUSHROOM = registerNoItemBlock("potted_orange_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.ORANGE_SUPER_MUSHROOM));
         POTTED_ORANGE_MEGA_MUSHROOM = registerNoItemBlock("potted_orange_mega_mushroom",
                 () -> pottedMushroom(BlockRegistry.ORANGE_MEGA_MUSHROOM));
+
+        PURPLE_SUPER_MUSHROOM_BLOCK = registerBlock("purple_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_PURPLE));
+        PURPLE_SUPER_MUSHROOM = registerBlock("purple_super_mushroom",
+                () -> superMushroom("purple", MapColor.COLOR_PURPLE));
+        PURPLE_MEGA_MUSHROOM = registerBlock("purple_mega_mushroom",
+                () -> megaMushroom("purple", MapColor.COLOR_PURPLE));
+        POTTED_PURPLE_SUPER_MUSHROOM = registerNoItemBlock("potted_purple_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.PURPLE_SUPER_MUSHROOM));
         POTTED_PURPLE_MEGA_MUSHROOM = registerNoItemBlock("potted_purple_mega_mushroom",
                 () -> pottedMushroom(BlockRegistry.PURPLE_MEGA_MUSHROOM));
+
+        RED_SUPER_MUSHROOM_BLOCK = registerBlock("red_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_RED));
+        RED_SUPER_MUSHROOM = registerBlock("red_super_mushroom",
+                () -> superMushroom("red", MapColor.COLOR_RED));
+        RED_MEGA_MUSHROOM = registerBlock("red_mega_mushroom",
+                () -> megaMushroom("red", MapColor.COLOR_RED));
+        POTTED_RED_SUPER_MUSHROOM = registerNoItemBlock("potted_red_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.RED_SUPER_MUSHROOM));
         POTTED_RED_MEGA_MUSHROOM = registerNoItemBlock("potted_red_mega_mushroom",
                 () -> pottedMushroom(BlockRegistry.RED_MEGA_MUSHROOM));
+
+        YELLOW_SUPER_MUSHROOM_BLOCK = registerBlock("yellow_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_YELLOW));
+        YELLOW_SUPER_MUSHROOM = registerBlock("yellow_super_mushroom",
+                () -> superMushroom("yellow", MapColor.COLOR_YELLOW));
+        YELLOW_MEGA_MUSHROOM = registerBlock("yellow_mega_mushroom",
+                () -> megaMushroom("yellow", MapColor.COLOR_YELLOW));
+        POTTED_YELLOW_SUPER_MUSHROOM = registerNoItemBlock("potted_yellow_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.YELLOW_SUPER_MUSHROOM));
         POTTED_YELLOW_MEGA_MUSHROOM = registerNoItemBlock("potted_yellow_mega_mushroom",
                 () -> pottedMushroom(BlockRegistry.YELLOW_MEGA_MUSHROOM));
 

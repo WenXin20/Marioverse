@@ -251,6 +251,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.MUSHROOT_LOG);
             add(event, BlockRegistry.SPOOKROOT_LOG);
             add(event, BlockRegistry.SUPER_MUSHROOM_STEM);
+            add(event, BlockRegistry.PINK_SUPER_MUSHROOM_STEM);
 
             add(event, BlockRegistry.MUSHROOT_LEAVES);
             add(event, BlockRegistry.SPOOKROOT_LEAVES);
@@ -1443,6 +1444,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MUSHROOT_LOG, BlockRegistry.SPOOKROOT_LOG);
 
                 addAfter(event, Blocks.MUSHROOM_STEM, BlockRegistry.SUPER_MUSHROOM_STEM);
+                addAfter(event, BlockRegistry.SUPER_MUSHROOM_STEM, BlockRegistry.PINK_SUPER_MUSHROOM_STEM);
 
                 addAfter(event, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_SUPER_MUSHROOM_BLOCK);
                 addAfter(event, BlockRegistry.RED_SUPER_MUSHROOM_BLOCK, BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK);
