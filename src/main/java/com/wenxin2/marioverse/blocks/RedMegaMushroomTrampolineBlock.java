@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.AABB;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -39,6 +41,8 @@ public class RedMegaMushroomTrampolineBlock extends MegaMushroomTrampolineBlock 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         this.onPlaceSavedData(level, pos);
+        if (oldState.is(this) && state.getValue(TOP) && !oldState.getValue(ACTIVE) && state.getValue(ACTIVE))
+            this.launchEntities(level, pos);
     }
 
     @Override
@@ -59,5 +63,18 @@ public class RedMegaMushroomTrampolineBlock extends MegaMushroomTrampolineBlock 
 
         if (!entity.isSuppressingBounce() && state.getValue(ACTIVE))
             this.bounceUp(entity);
+        else entity.setDeltaMovement(entity.getDeltaMovement().multiply(1.0, 0.0, 1.0));
+    }
+
+    protected void launchEntities(Level level, BlockPos pos) {
+        for (Entity entity : level.getEntities(null, new AABB(pos).expandTowards(0.0, 0.5, 0.0))) {
+            if (!entity.onGround() || entity.isSuppressingBounce() || !entity.getOnPos().equals(pos))
+                continue;
+
+            Vec3 motion = entity.getDeltaMovement();
+            entity.setDeltaMovement(motion.x, 0.8, motion.z);
+            entity.resetFallDistance();
+            entity.hurtMarked = true;
+        }
     }
 }

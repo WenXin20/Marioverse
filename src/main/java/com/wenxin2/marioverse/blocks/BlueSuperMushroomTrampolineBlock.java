@@ -19,6 +19,13 @@ public class BlueSuperMushroomTrampolineBlock extends RedSuperMushroomTrampoline
     }
 
     @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        this.onPlaceSavedData(level, pos);
+        if (oldState.is(this) && state.getValue(TOP) && oldState.getValue(ACTIVE) && !state.getValue(ACTIVE))
+            this.launchEntities(level, pos);
+    }
+
+    @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         float distance = !state.getValue(ACTIVE) ? fallDistance * 0.5F : fallDistance;
         super.fallOn(level, state, pos, entity, distance);
@@ -31,6 +38,7 @@ public class BlueSuperMushroomTrampolineBlock extends RedSuperMushroomTrampoline
 
         if (!entity.isSuppressingBounce() && !state.getValue(ACTIVE))
             this.bounceUp(entity);
+        else entity.setDeltaMovement(entity.getDeltaMovement().multiply(1.0, 0.0, 1.0));
     }
 
     private void bounceUp(Entity entity) {
