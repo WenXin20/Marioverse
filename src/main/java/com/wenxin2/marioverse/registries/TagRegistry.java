@@ -147,6 +147,7 @@ public class TagRegistry {
     public static final TagKey<Block> STORAGE_CALCITE_BRICK_BLOCKS = blockTags("storage_calcite_bricks");
     public static final TagKey<Block> SUPER_MUSHROOMS = blockTags("super_mushrooms");
     public static final TagKey<Block> SUPER_MUSHROOM_CAPS = blockTags("super_mushroom_caps");
+    public static final TagKey<Block> SUPER_MUSHROOM_STEMS = blockTags("super_mushroom_stems");
     public static final TagKey<Block> SUPPORTS_DANGO_BLOSSOM = blockTags("supports_dango_blossom");
     public static final TagKey<Block> WARP_DOOR_BLOCKS = blockTags("warp_doors");
     public static final TagKey<Block> WARP_PIPE_BLOCKS = blockTags("warp_pipes");
@@ -308,6 +309,7 @@ public class TagRegistry {
     public static final TagKey<Item> STORAGE_CALCITE_BRICK_ITEMS = itemTags("storage_calcite_bricks");
     public static final TagKey<Item> SUPER_MUSHROOM_ITEMS = itemTags("super_mushrooms");
     public static final TagKey<Item> SUPER_MUSHROOM_CAP_ITEMS = itemTags("super_mushroom_caps");
+    public static final TagKey<Item> SUPER_MUSHROOM_STEM_ITEMS = itemTags("super_mushroom_stems");
     public static final TagKey<Item> WARP_DOOR_ITEMS = itemTags("warp_doors");
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");

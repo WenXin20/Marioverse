@@ -42,6 +42,9 @@
     "marioverse:green_super_mushroom_block": {
       "chance": 0.85
     },
+    "marioverse:green_super_mushroom_stem": {
+      "chance": 0.65
+    },
     "marioverse:hedge": {
       "chance": 0.85
     },
@@ -176,6 +179,9 @@
     },
     "marioverse:yellow_super_mushroom_block": {
       "chance": 0.85
+    },
+    "marioverse:yellow_super_mushroom_stem": {
+      "chance": 0.65
     }
   }
 }

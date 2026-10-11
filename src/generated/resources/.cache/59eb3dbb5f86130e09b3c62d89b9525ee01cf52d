@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-10T20:02:42.4966797	Loot Tables
+// 1.21.1	2026-10-10T23:55:57.9238144	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -293,6 +293,7 @@ e171a1753a8c62620b5f631cb92c42e4eeb3d447 data/marioverse/loot_table/blocks/green
 544a89ac1c6e43854d520547ef948e9d99dd143b data/marioverse/loot_table/blocks/green_pipe_junction.json
 af36f7d783c6db924f50f56aad59fa163066a5ed data/marioverse/loot_table/blocks/green_super_mushroom.json
 feb18a23eabb24a6cd3dee982af848638a372990 data/marioverse/loot_table/blocks/green_super_mushroom_block.json
+72ff8bcc1492f4b5ea60fad535958f30b12fe4a1 data/marioverse/loot_table/blocks/green_super_mushroom_stem.json
 0e9de879021e2c3e5078ca88b0f50f8fb58da647 data/marioverse/loot_table/blocks/green_warp_pipe.json
 37b6bd9c7aa69523fbe6f6895bf08ce516330931 data/marioverse/loot_table/blocks/hard_acacia_block.json
 487c7dd3cbae9ae7f2f9989c8039d50b95cc7d83 data/marioverse/loot_table/blocks/hard_acacia_slab.json
@@ -973,5 +974,6 @@ dcf1809ba812cffd6c16c3298970508e345bdf14 data/marioverse/loot_table/blocks/yello
 5a06c26227fd93a1998fe7970280d8044634ba8e data/marioverse/loot_table/blocks/yellow_pipe_junction.json
 1cfc0ca4b8cca2093a951c625bc72c5e93a1022a data/marioverse/loot_table/blocks/yellow_super_mushroom.json
 e916e5ff9e49b4e10c0556777d7b672a1d2459b5 data/marioverse/loot_table/blocks/yellow_super_mushroom_block.json
+30f02f3042c9b09af43bbaaa4d1d5892855fdb62 data/marioverse/loot_table/blocks/yellow_super_mushroom_stem.json
 3df74b128912026018cc7b533ede4850b1116b3f data/marioverse/loot_table/blocks/yellow_warp_pipe.json
 87675725bddbb1cd326bcf5fd2a4ad16521fcafd data/marioverse/loot_table/gameplay/hedge_snow.json

@@ -88,6 +88,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.MEGA_MUSHROOMS, TagRegistry.MEGA_MUSHROOM_ITEMS);
         copy(TagRegistry.SUPER_MUSHROOMS, TagRegistry.SUPER_MUSHROOM_ITEMS);
         copy(TagRegistry.SUPER_MUSHROOM_CAPS, TagRegistry.SUPER_MUSHROOM_CAP_ITEMS);
+        copy(TagRegistry.SUPER_MUSHROOM_STEMS, TagRegistry.SUPER_MUSHROOM_STEM_ITEMS);
         copy(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS, TagRegistry.MUSHROOM_TRAMPOLINE_BLOCK_ITEMS);
         copy(TagRegistry.MUSHROOT_LOGS, TagRegistry.MUSHROOT_LOG_ITEMS);
         copy(TagRegistry.MUSHROOT_PLANKS, TagRegistry.MUSHROOT_PLANK_ITEMS);
