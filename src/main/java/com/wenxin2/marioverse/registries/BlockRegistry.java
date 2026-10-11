@@ -236,6 +236,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLUE_ON_OFF_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> BRAIN_CORAL_TOWER;
     public static final DeferredBlock<Block> BRICK_BRIDGE;
     public static final DeferredBlock<Block> BRICK_LOOPHOLE;
@@ -751,6 +752,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_SANDSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> RED_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> RED_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> RED_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_STAIRS;
@@ -1171,6 +1173,11 @@ public class BlockRegistry {
                         .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
                                 && state.getValue(SuperMushroomStemBlock.END)
                                 ? MapColor.TERRACOTTA_YELLOW : MapColor.WOOL)));
+        RED_SUPER_MUSHROOM_STEM = registerBlock("red_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_RED)));
         YELLOW_SUPER_MUSHROOM_STEM = registerBlock("yellow_super_mushroom_stem",
                 () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
                         .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
@@ -1181,6 +1188,11 @@ public class BlockRegistry {
                         .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
                                 && state.getValue(SuperMushroomStemBlock.END)
                                 ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_GREEN)));
+        BLUE_SUPER_MUSHROOM_STEM = registerBlock("blue_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_BLUE)));
         PINK_SUPER_MUSHROOM_STEM = registerBlock("pink_super_mushroom_stem",
                 () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
                         .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP

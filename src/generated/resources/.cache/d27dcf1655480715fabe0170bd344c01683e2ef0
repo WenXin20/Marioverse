@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-11T00:45:06.3173798	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-10-11T16:18:28.482969	Tags for minecraft:block mod id marioverse
 6775e2b14039a463b1410e948cb543f8ca097f27 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -143,7 +143,7 @@ a3c02b0be1a55969deb4073f6e31212d97aaaaee data/marioverse/tags/block/smashable_bl
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/block/storage_calcite_bricks.json
 4ecf1b9644ea3e3d729a6af19e68652c97bbc091 data/marioverse/tags/block/super_mushrooms.json
 7f2f79d777faae5a1cbb2e84fb4b1fb617437bd4 data/marioverse/tags/block/super_mushroom_caps.json
-7f4900b31e33907067ea7cd712ce17c9a0462c29 data/marioverse/tags/block/super_mushroom_stems.json
+d9cd268cb91def079916101291b0900494dfcb2a data/marioverse/tags/block/super_mushroom_stems.json
 4b5f6cc96623ba793a76d27abb6723552869d67c data/marioverse/tags/block/supports_dango_blossom.json
 d0f05827083f5b326c01ca1e68ce26cc0f4a4d20 data/marioverse/tags/block/walls/flammable.json
 d5e972f693fa185801a5a13ff5d3a06d2e9c2875 data/marioverse/tags/block/walls/wooden.json

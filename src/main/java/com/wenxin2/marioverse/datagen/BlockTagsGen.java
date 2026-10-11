@@ -1327,8 +1327,10 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.SUPER_MUSHROOM_STEMS)
                 .add(BlockRegistry.SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.RED_SUPER_MUSHROOM_STEM.get())
                 .add(BlockRegistry.YELLOW_SUPER_MUSHROOM_STEM.get())
                 .add(BlockRegistry.GREEN_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM_STEM.get())
                 .add(BlockRegistry.PINK_SUPER_MUSHROOM_STEM.get())
                 .add(BlockRegistry.RED_ON_OFF_SUPER_MUSHROOM_STEM.get())
                 .add(BlockRegistry.BLUE_ON_OFF_SUPER_MUSHROOM_STEM.get());

@@ -27,6 +27,9 @@
     "marioverse:blue_super_mushroom_block": {
       "chance": 0.85
     },
+    "marioverse:blue_super_mushroom_stem": {
+      "chance": 0.65
+    },
     "marioverse:dango_blossom": {
       "chance": 0.65
     },
@@ -137,6 +140,9 @@
     },
     "marioverse:red_super_mushroom_block": {
       "chance": 0.85
+    },
+    "marioverse:red_super_mushroom_stem": {
+      "chance": 0.65
     },
     "marioverse:short_shroomgrass": {
       "chance": 0.3
