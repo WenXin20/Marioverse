@@ -419,6 +419,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.superMushroomStemModel(BlockRegistry.BLUE_SUPER_MUSHROOM_STEM.get());
         this.superMushroomStemModel(BlockRegistry.GREEN_SUPER_MUSHROOM_STEM.get());
         this.superMushroomStemModel(BlockRegistry.PINK_SUPER_MUSHROOM_STEM.get());
+        this.superMushroomStemModel(BlockRegistry.PURPLE_SUPER_MUSHROOM_STEM.get());
         this.superMushroomStemModel(BlockRegistry.RED_SUPER_MUSHROOM_STEM.get());
         this.superMushroomStemModel(BlockRegistry.YELLOW_SUPER_MUSHROOM_STEM.get());
         this.onOffMushroomStemModel(BlockRegistry.BLUE_ON_OFF_SUPER_MUSHROOM_STEM.get(), false);

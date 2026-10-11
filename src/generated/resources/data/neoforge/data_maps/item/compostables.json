@@ -111,6 +111,9 @@
     "marioverse:purple_super_mushroom_block": {
       "chance": 0.85
     },
+    "marioverse:purple_super_mushroom_stem": {
+      "chance": 0.65
+    },
     "marioverse:red_bloomflower": {
       "chance": 0.3
     },

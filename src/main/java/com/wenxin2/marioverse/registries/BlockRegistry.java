@@ -718,6 +718,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> PURPLE_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> PURPLE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> PURPLE_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> PURPLE_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
     public static final DeferredBlock<Block> PURPUR_BRIDGE;
     public static final DeferredBlock<Block> PURPUR_LOOPHOLE;
@@ -1193,6 +1194,11 @@ public class BlockRegistry {
                         .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
                                 && state.getValue(SuperMushroomStemBlock.END)
                                 ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_BLUE)));
+        PURPLE_SUPER_MUSHROOM_STEM = registerBlock("purple_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_PURPLE)));
         PINK_SUPER_MUSHROOM_STEM = registerBlock("pink_super_mushroom_stem",
                 () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
                         .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
