@@ -58,6 +58,7 @@ import com.wenxin2.marioverse.blocks.PottedSuperMushroomBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.RedSuperMushroomStemBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
 import com.wenxin2.marioverse.blocks.LogBridgeBlock;
 import com.wenxin2.marioverse.blocks.BridgeStairBlock;
@@ -232,6 +233,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> BLUE_ON_OFF_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM_BLOCK;
     public static final DeferredBlock<Block> BRAIN_CORAL_TOWER;
@@ -735,6 +737,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK;
     public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> RED_ON_OFF_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> RED_QUICKSAND;
     public static final DeferredBlock<Block> RED_ROSE_HEDGE;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
@@ -1095,6 +1098,9 @@ public class BlockRegistry {
         POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mega_mushroom_trampoline",
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
                         BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        RED_ON_OFF_SUPER_MUSHROOM_STEM = registerBlock("red_on_off_super_mushroom_stem",
+                () -> new RedSuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.WOOL)));
 
         BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("blue_on_off_mushroom_trampoline_block",
                 () -> new BlueMushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
@@ -1131,6 +1137,9 @@ public class BlockRegistry {
         POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mega_mushroom_trampoline",
                 () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
                         BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        BLUE_ON_OFF_SUPER_MUSHROOM_STEM = registerBlock("blue_on_off_super_mushroom_stem",
+                () -> new RedSuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.WOOL)));
 
         PINK_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("pink_mushroom_trampoline_block",
                 () -> new MushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)

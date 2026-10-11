@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-10T17:32:16.6741042	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-10-10T20:02:42.5398546	Tags for minecraft:block mod id marioverse
 6775e2b14039a463b1410e948cb543f8ca097f27 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -180,7 +180,7 @@ ede6c84e66ed40d9d5807ec9fa5605a6c9419655 data/minecraft/tags/block/leaves.json
 d0937a0630d64be292b48a90c8c5b850a6278b66 data/minecraft/tags/block/logs_that_burn.json
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_logs_can_grow_through.json
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_roots_can_grow_through.json
-c3b0fb0ec01277fd97c10a284885d9a8bfa5da4d data/minecraft/tags/block/mineable/axe.json
+df523da22285cf5063afe7a98d5c3d8594e34dd9 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 063c9336d13633ae2e3e88910be8993253897ed3 data/minecraft/tags/block/mineable/pickaxe.json
 95e4c25615d95838082475b740d03652b99843ab data/minecraft/tags/block/mineable/shovel.json

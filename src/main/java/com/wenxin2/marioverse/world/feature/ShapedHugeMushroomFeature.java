@@ -52,6 +52,7 @@ public abstract class ShapedHugeMushroomFeature extends Feature<ShapedHugeMushro
             }
         }
 
+        BlockState stemState = config.stemProvider().getState(random, origin);
         for (int y = 0; y < stemHeight; y++) {
             for (int x = 0; x < stemWidth; x++) {
                 for (int z = 0; z < stemWidth; z++) {
@@ -59,8 +60,8 @@ public abstract class ShapedHugeMushroomFeature extends Feature<ShapedHugeMushro
                     if (level.getBlockState(posMutable).isSolidRender(level, posMutable))
                         continue;
 
-                    BlockState state = with(config.stemProvider().getState(random, origin),
-                            SuperMushroomStemBlock.END, y == stemHeight - 1);
+                    BlockState state = with(stemState, SuperMushroomStemBlock.END, y == stemHeight - 1);
+                    state = with(state, BlockStatePropertyRegistry.ACTIVE, GlobalSwitchSavedData.isActiveCached(level.getLevel()));
                     if (state.getBlock() instanceof SuperMushroomStemBlock) {
                         state = state.setValue(SuperMushroomStemBlock.UP, y == stemHeight - 1)
                                 .setValue(SuperMushroomStemBlock.WEST, x == 0)

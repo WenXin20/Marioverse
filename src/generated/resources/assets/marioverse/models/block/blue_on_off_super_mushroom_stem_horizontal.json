@@ -1,0 +1,6 @@
+{
+  "parent": "marioverse:block/template_single_face_east",
+  "textures": {
+    "texture": "marioverse:block/blue_on_off_super_mushroom_stem"
+  }
+}

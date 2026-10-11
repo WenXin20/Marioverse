@@ -417,6 +417,8 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.YELLOW_SUPER_MUSHROOM.get());
         this.superMushroomStemModel(BlockRegistry.SUPER_MUSHROOM_STEM.get());
         this.superMushroomStemModel(BlockRegistry.PINK_SUPER_MUSHROOM_STEM.get());
+        this.onOffMushroomStemModel(BlockRegistry.BLUE_ON_OFF_SUPER_MUSHROOM_STEM.get(), false);
+        this.onOffMushroomStemModel(BlockRegistry.RED_ON_OFF_SUPER_MUSHROOM_STEM.get(), true);
 
         this.genArrowSigns();
         this.genButtons();
@@ -3330,70 +3332,14 @@ public class BlockStateGen extends BlockStateProvider {
                 skirtTexture = this.textureOrDefault(modLoc("block/" + skirtName), modLoc("block/super_mushroom_skirt")),
                 skirtTopTexture = this.textureOrDefault(modLoc("block/" + skirtName + "_top"), modLoc("block/super_mushroom_skirt_top"));
 
-        ModelFile modelStem = models()
-                .withExistingParent(modelName, mcLoc("block/template_single_face")).texture("texture", stemTexture);
-        ModelFile modelStemHorizontal = models()
-                .withExistingParent(modelName + "_horizontal", modLoc("block/template_single_face_east"))
-                .texture("texture", stemTexture);
-        ModelFile modelSkirt = models()
-                .withExistingParent(skirtName, mcLoc("block/template_single_face"))
-                .texture("texture", skirtTexture).texture("particle", stemTexture);
-        ModelFile modelSkirtHorizontal = models()
-                .withExistingParent(skirtName + "_horizontal", modLoc("block/template_single_face_east"))
-                .texture("texture", skirtTexture).texture("particle", stemTexture);
-        ModelFile modelSkirtTop = models()
-                .withExistingParent(skirtName + "_top", mcLoc("block/template_single_face"))
-                .texture("texture", skirtTopTexture).texture("particle", stemTexture);
-        ModelFile modelInside = models()
-                .withExistingParent(modelName + "_inside", mcLoc("block/mushroom_block_inside"))
-                .texture("texture", insideTexture).texture("particle", stemTexture);
         ModelFile modelInventory = models()
                 .withExistingParent(modelName + "_inventory", mcLoc("block/cube_bottom_top"))
                 .texture("side", skirtTexture).texture("bottom", stemTexture).texture("top", skirtTopTexture)
                 .texture("particle", stemTexture);
 
         simpleBlockItem(block, modelInventory);
-
-        MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block);
-        for (Direction face : Direction.values()) {
-            BooleanProperty faceProperty = PipeBlock.PROPERTY_BY_DIRECTION.get(face);
-            int faceRotX = face == Direction.UP ? 270 : face == Direction.DOWN ? 90 : 0;
-            int faceRotY = face.getAxis().isVertical() ? 0 : this.horizontalRotation(Direction.NORTH, face);
-
-            builder.part().modelFile(modelInside).rotationX(faceRotX).rotationY(faceRotY).addModel()
-                    .condition(faceProperty, false).end();
-
-            for (Direction facing : Direction.values()) {
-                for (boolean end : new boolean[]{false, true}) {
-                    ModelFile model = end ? modelSkirt : modelStem;
-                    int rotX = faceRotX, rotY = faceRotY;
-
-                    if (face == facing)
-                        model = end ? modelSkirtTop : modelStem;
-                    else if (face == facing.getOpposite())
-                        model = modelStem;
-                    else if (facing == Direction.DOWN) {
-                        rotX = 180;
-                        rotY = this.horizontalRotation(Direction.SOUTH, face);
-                    } else if (facing.getAxis().isHorizontal() && face == Direction.UP)
-                        rotY = this.horizontalRotation(Direction.SOUTH, facing);
-                    else if (facing.getAxis().isHorizontal() && face == Direction.DOWN)
-                        rotY = this.horizontalRotation(Direction.NORTH, facing);
-                    else if (facing.getAxis().isHorizontal()) {
-                        int steps = this.horizontalRotation(Direction.EAST, face) / 90;
-                        Direction textureUp = Direction.from2DDataValue((facing.get2DDataValue() - steps + 4) % 4);
-
-                        model = end ? modelSkirtHorizontal : modelStemHorizontal;
-                        rotX = textureUp == Direction.NORTH ? 90 : 270;
-                        rotY = steps * 90;
-                    }
-
-                    builder.part().modelFile(model).rotationX(rotX).rotationY(rotY).addModel()
-                            .condition(faceProperty, true).condition(SuperMushroomStemBlock.FACING, facing)
-                            .condition(SuperMushroomStemBlock.END, end).end();
-                }
-            }
-        }
+        this.superMushroomStemParts(this.getMultipartBuilder(block), modelName, skirtName,
+                stemTexture, insideTexture, skirtTexture, skirtTopTexture, null);
     }
 
     private int horizontalRotation(Direction from, Direction to) {
@@ -3566,5 +3512,97 @@ public class BlockStateGen extends BlockStateProvider {
                     .texture("main", blockTexture(mushroom)).texture("bottom", texture(mushroom, "_bottom"))
                     .texture("top", texture(mushroom, "_top")));
         }
+    }
+
+    private void onOffMushroomStemModel(Block block, boolean onWhenActive) {
+        String modelName = this.name(block);
+        String skirtName = modelName.replace("stem", "skirt");
+        ResourceLocation offStemTexture = modLoc("block/super_mushroom_stem"),
+                offInsideTexture = modLoc("block/super_mushroom_stem_inside");
+        ResourceLocation stemTexture = this.textureOrDefault(blockTexture(block), offStemTexture),
+                insideTexture = this.textureOrDefault(texture(block, "_inside"), offInsideTexture),
+                skirtTexture = this.textureOrDefault(modLoc("block/" + skirtName), modLoc("block/super_mushroom_skirt")),
+                skirtTopTexture = this.textureOrDefault(modLoc("block/" + skirtName + "_top"), modLoc("block/super_mushroom_skirt_top"));
+
+        ModelFile modelInventory = models()
+                .withExistingParent(modelName + "_inventory", mcLoc("block/cube_bottom_top"))
+                .texture("side", skirtTexture).texture("bottom", stemTexture).texture("top", skirtTopTexture)
+                .texture("particle", stemTexture);
+
+        simpleBlockItem(block, modelInventory);
+
+        MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block);
+        this.superMushroomStemParts(builder, modelName, skirtName,
+                stemTexture, insideTexture, skirtTexture, skirtTopTexture, onWhenActive);
+        this.superMushroomStemParts(builder, "super_mushroom_stem", "super_mushroom_skirt_off", offStemTexture, offInsideTexture,
+                modLoc("block/super_mushroom_skirt_off"), modLoc("block/super_mushroom_skirt_top_off"), !onWhenActive);
+    }
+
+    private void superMushroomStemParts(MultiPartBlockStateBuilder builder, String modelName, String skirtName,
+                                        ResourceLocation stemTexture, ResourceLocation insideTexture,
+                                        ResourceLocation skirtTexture, ResourceLocation skirtTopTexture,
+                                        @Nullable Boolean active) {
+        ModelFile modelStem = models()
+                .withExistingParent(modelName, mcLoc("block/template_single_face")).texture("texture", stemTexture);
+        ModelFile modelStemHorizontal = models()
+                .withExistingParent(modelName + "_horizontal", modLoc("block/template_single_face_east"))
+                .texture("texture", stemTexture);
+        ModelFile modelSkirt = models()
+                .withExistingParent(skirtName, mcLoc("block/template_single_face"))
+                .texture("texture", skirtTexture).texture("particle", stemTexture);
+        ModelFile modelSkirtHorizontal = models()
+                .withExistingParent(skirtName + "_horizontal", modLoc("block/template_single_face_east"))
+                .texture("texture", skirtTexture).texture("particle", stemTexture);
+        ModelFile modelSkirtTop = models()
+                .withExistingParent(skirtName + "_top", mcLoc("block/template_single_face"))
+                .texture("texture", skirtTopTexture).texture("particle", stemTexture);
+        ModelFile modelInside = models()
+                .withExistingParent(modelName + "_inside", mcLoc("block/mushroom_block_inside"))
+                .texture("texture", insideTexture).texture("particle", stemTexture);
+
+        for (Direction face : Direction.values()) {
+            BooleanProperty faceProperty = PipeBlock.PROPERTY_BY_DIRECTION.get(face);
+            int faceRotX = face == Direction.UP ? 270 : face == Direction.DOWN ? 90 : 0;
+            int faceRotY = face.getAxis().isVertical() ? 0 : this.horizontalRotation(Direction.NORTH, face);
+
+            ConfiguredModel.Builder<MultiPartBlockStateBuilder.PartBuilder> insidePart = builder.part()
+                    .modelFile(modelInside).rotationX(faceRotX).rotationY(faceRotY);
+            this.withActive(insidePart.addModel().condition(faceProperty, false), active).end();
+
+            for (Direction facing : Direction.values()) {
+                for (boolean end : new boolean[]{false, true}) {
+                    ModelFile model = end ? modelSkirt : modelStem;
+                    int rotX = faceRotX, rotY = faceRotY;
+
+                    if (face == facing)
+                        model = end ? modelSkirtTop : modelStem;
+                    else if (face == facing.getOpposite())
+                        model = modelStem;
+                    else if (facing == Direction.DOWN) {
+                        rotX = 180;
+                        rotY = this.horizontalRotation(Direction.SOUTH, face);
+                    } else if (facing.getAxis().isHorizontal() && face == Direction.UP)
+                        rotY = this.horizontalRotation(Direction.SOUTH, facing);
+                    else if (facing.getAxis().isHorizontal() && face == Direction.DOWN)
+                        rotY = this.horizontalRotation(Direction.NORTH, facing);
+                    else if (facing.getAxis().isHorizontal()) {
+                        int steps = this.horizontalRotation(Direction.EAST, face) / 90;
+                        Direction textureUp = Direction.from2DDataValue((facing.get2DDataValue() - steps + 4) % 4);
+
+                        model = end ? modelSkirtHorizontal : modelStemHorizontal;
+                        rotX = textureUp == Direction.NORTH ? 90 : 270;
+                        rotY = steps * 90;
+                    }
+
+                    this.withActive(builder.part().modelFile(model).rotationX(rotX).rotationY(rotY).addModel()
+                            .condition(faceProperty, true).condition(SuperMushroomStemBlock.FACING, facing)
+                            .condition(SuperMushroomStemBlock.END, end), active).end();
+                }
+            }
+        }
+    }
+
+    private MultiPartBlockStateBuilder.PartBuilder withActive(MultiPartBlockStateBuilder.PartBuilder part, @Nullable Boolean active) {
+        return active == null ? part : part.condition(BlockStatePropertyRegistry.ACTIVE, active);
     }
 }

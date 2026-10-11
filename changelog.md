@@ -39,7 +39,7 @@
   - Always bouncy
 - New On/Off Trampoline Mushroom textures & models
 - Added On/Off Mega & Super mushroom plants
-  - Bone meal grows it into their respective huge mushroom
+  - Bone meal grows it into their respective huge mushroom w/ On/Off stems
   - On/Off Switch toggles it
   - Slightly bouncy
 - Added Arrow Signs for all wood types
