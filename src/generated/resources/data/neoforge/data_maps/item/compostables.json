@@ -72,11 +72,23 @@
     "marioverse:orange_mega_mushroom": {
       "chance": 0.65
     },
+    "marioverse:orange_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:orange_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:orange_mushroom_trampoline_block": {
+      "chance": 0.85
+    },
     "marioverse:orange_super_mushroom": {
       "chance": 0.65
     },
     "marioverse:orange_super_mushroom_block": {
       "chance": 0.85
+    },
+    "marioverse:orange_super_mushroom_stem": {
+      "chance": 0.65
     },
     "marioverse:pink_bloomflower": {
       "chance": 0.3

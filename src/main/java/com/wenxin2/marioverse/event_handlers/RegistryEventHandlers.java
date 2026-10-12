@@ -610,7 +610,8 @@ public class RegistryEventHandlers {
                 BlockRegistry.GREEN_SUPER_MUSHROOM.get(), BlockRegistry.BLUE_SUPER_MUSHROOM.get(),
                 BlockRegistry.PURPLE_SUPER_MUSHROOM.get(), BlockRegistry.ORANGE_SUPER_MUSHROOM.get(),
                 BlockRegistry.LIME_SUPER_MUSHROOM.get(), BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.get(),
-                BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get()
+                BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.get()
         };
 
         Block[] megaMushrooms = {
@@ -618,7 +619,8 @@ public class RegistryEventHandlers {
                 BlockRegistry.GREEN_MEGA_MUSHROOM.get(), BlockRegistry.BLUE_MEGA_MUSHROOM.get(),
                 BlockRegistry.PURPLE_MEGA_MUSHROOM.get(), BlockRegistry.ORANGE_MEGA_MUSHROOM.get(),
                 BlockRegistry.LIME_MEGA_MUSHROOM.get(), BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(),
-                BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get()
+                BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get()
         };
 
         Block[] soils = {

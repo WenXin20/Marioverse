@@ -1,0 +1,49 @@
+{
+  "type": "marioverse:huge_super_mushroom",
+  "config": {
+    "cap_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "marioverse:orange_mushroom_trampoline_block"
+      }
+    },
+    "cap_height": 2,
+    "radius": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 5,
+      "min_inclusive": 1
+    },
+    "stem_height": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 14,
+      "min_inclusive": 2
+    },
+    "stem_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "marioverse:orange_super_mushroom_stem",
+            "Properties": {
+              "down": "false",
+              "end": "false",
+              "facing": "up"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "Name": "marioverse:super_mushroom_stem",
+            "Properties": {
+              "down": "false",
+              "end": "false",
+              "facing": "up"
+            }
+          },
+          "weight": 3
+        }
+      ]
+    }
+  }
+}

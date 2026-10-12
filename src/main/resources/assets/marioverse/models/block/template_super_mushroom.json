@@ -4,9 +4,9 @@
 	"parent": "minecraft:block/block",
 	"render_type": "solid",
 	"textures": {
-		"particle": "marioverse:boenndal_textures/blocks/mushrooms/blue_super_mushroom",
-		"main": "marioverse:boenndal_textures/blocks/mushrooms/blue_super_mushroom",
-		"bottom": "marioverse:boenndal_textures/blocks/mushrooms/blue_super_mushroom_bottom"
+		"particle": "marioverse:block/orange_mushroom_trampoline",
+		"main": "marioverse:block/orange_mushroom_trampoline",
+		"bottom": "marioverse:block/orange_mushroom_trampoline_bottom"
 	},
 	"elements": [
 		{

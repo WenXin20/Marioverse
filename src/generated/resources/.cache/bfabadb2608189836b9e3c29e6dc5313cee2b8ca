@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-10T01:30:20.3171737	Item Models: marioverse
+// 1.21.1	2026-10-11T20:22:44.0191331	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -3131,6 +3131,8 @@ de0c3b51b45be55cd8615c33465ddeed4ad4fb6b assets/marioverse/models/item/one_up_mu
 d71e2369371eda26924578fbbc22e15b1f7c69ff assets/marioverse/models/item/orange_checkpoint_flag.json
 1ba34bbdf64a09d00da46fdb911a8b9b7f79324f assets/marioverse/models/item/orange_goal_pole.json
 f59effd1b62c8f350b73c260f869fd547be20c53 assets/marioverse/models/item/orange_mega_mushroom.json
+a862caed74698bea9126d1ec9e6de9e3604dea49 assets/marioverse/models/item/orange_mega_mushroom_trampoline.json
+e8724ae8d683732e639d9acca31008fd784df516 assets/marioverse/models/item/orange_mushroom_trampoline.json
 86edbd7e10b343e2838a22a1a28668a058375fcf assets/marioverse/models/item/orange_super_mushroom.json
 6e79c99c77b189071e1be6858142996de9b5178a assets/marioverse/models/item/pants.json
 eddb7285c524b8a194695b196c5da10c1739ace2 assets/marioverse/models/item/pink_bloomflower.json
