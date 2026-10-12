@@ -11,7 +11,6 @@ import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
-import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.StarCoinBlock;
@@ -192,7 +191,7 @@ public class BlockLootTableGen extends LootTableProvider {
                         this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_ROSE_HEDGE.get()));
                     else if (block instanceof FlowerPotBlock pot && pot.getPotted() instanceof BloomflowerBlock)
                         this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
-                    else if (block instanceof SuperMushroomCapBlock && !(block instanceof MushroomTrampolineCapBlock))
+                    else if (block instanceof SuperMushroomCapBlock)
                         this.add(block, this.createSuperMushroomCapDrop(block));
                     else if (block instanceof FlowerPotBlock pot && (pot.getPotted() instanceof SuperMushroomBlock
                             || pot.getPotted() instanceof MegaMushroomBlock))
@@ -387,9 +386,10 @@ public class BlockLootTableGen extends LootTableProvider {
 
         protected LootTable.Builder createSuperMushroomCapDrop(Block block) {
             ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
-            String colorName = blockId.getPath().replace("_super_mushroom_block", "");
-            Block superMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(colorName + "_super_mushroom"));
-            Block megaMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(colorName + "_mega_mushroom"));
+            String mushroomName = blockId.getPath().replace("_block", "");
+            String megaMushroomName = mushroomName.replace("super_mushroom", "mushroom").replace("mushroom", "mega_mushroom");
+            Block superMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(mushroomName));
+            Block megaMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(megaMushroomName));
 
             return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                     .add(LootItem.lootTableItem(block).when(this.hasSilkTouch()))
