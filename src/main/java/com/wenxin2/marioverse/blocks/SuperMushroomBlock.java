@@ -87,7 +87,7 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
         BlockPos posBelow = pos.below();
         BlockState stateBelow = levelReader.getBlockState(posBelow);
 
-        return stateBelow.is(this) || stateBelow.isSolidRender(levelReader, posBelow)
+        return stateBelow.is(this) || Block.canSupportCenter(levelReader, posBelow, Direction.UP)
                 || stateBelow.getBlock() instanceof FarmBlock;
     }
 
@@ -138,6 +138,15 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
             if (!this.growWideMushroom(serverLevel, pos, random))
                 this.growMushroom(serverLevel, pos, state, random);
         } else serverLevel.setBlock(this.getTopPos(serverLevel, pos).above(), this.defaultBlockState(), Block.UPDATE_ALL);
+    }
+
+    public boolean hasOffset(BlockGetter blockGetter, BlockPos pos) {
+        BlockPos.MutableBlockPos posBelow = pos.mutable().move(Direction.DOWN);
+        BlockState stateBelow = blockGetter.getBlockState(posBelow);
+        for (int i = 0; i < 16 && stateBelow.is(this) && !blockGetter.isOutsideBuildHeight(posBelow); i++)
+            stateBelow = blockGetter.getBlockState(posBelow.move(Direction.DOWN));
+
+        return stateBelow.isFaceSturdy(blockGetter, posBelow, Direction.UP) || stateBelow.getBlock() instanceof FarmBlock;
     }
 
     private boolean canSpreadTo(ServerLevel serverLevel, BlockPos pos) {

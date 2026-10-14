@@ -120,6 +120,12 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         else return super.getCollisionShape(state, blockGetter, pos, context);
     }
 
+    @NotNull
+    @Override
+    protected VoxelShape getBlockSupportShape(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return GOAL_POLE_MIDDLE;
+    }
+
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {

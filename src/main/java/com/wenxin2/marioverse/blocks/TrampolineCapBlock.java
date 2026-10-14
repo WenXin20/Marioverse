@@ -4,6 +4,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -90,6 +91,6 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
         BlockPos posBelow = pos.below();
         BlockState stateBelow = levelReader.getBlockState(posBelow);
 
-        return stateBelow.isSolidRender(levelReader, pos) || state.getBlock() instanceof FarmBlock;
+        return Block.canSupportCenter(levelReader, posBelow, Direction.UP) || stateBelow.getBlock() instanceof FarmBlock;
     }
 }

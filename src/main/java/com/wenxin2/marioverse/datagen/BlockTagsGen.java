@@ -1646,6 +1646,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.WALL_POST_OVERRIDE)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
                 .add(BlockRegistry.ACACIA_ARROW_SIGN.get())
                 .add(BlockRegistry.BAMBOO_ARROW_SIGN.get())
                 .add(BlockRegistry.BIRCH_ARROW_SIGN.get())

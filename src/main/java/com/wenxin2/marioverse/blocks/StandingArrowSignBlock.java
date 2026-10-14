@@ -123,6 +123,12 @@ public class StandingArrowSignBlock extends StandingSignBlock {
 
     @NotNull
     @Override
+    protected VoxelShape getBlockSupportShape(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return state.getValue(POST) ? POST_SHAPE : Shapes.empty();
+    }
+
+    @NotNull
+    @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                      LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(BlockStateProperties.WATERLOGGED))
