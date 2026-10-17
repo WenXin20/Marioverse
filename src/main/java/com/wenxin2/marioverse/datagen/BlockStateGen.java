@@ -311,6 +311,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.mushroomTrampolineModel(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), true);
         this.mushroomTrampolineModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK.get());
         this.mushroomTrampolineModel(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK.get());
+        this.mushroomTrampolineModel(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK.get());
         this.mushroomTrampolineModel(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK.get());
         this.onOffSwitchModel(BlockRegistry.ON_OFF_SWITCH.get(), modLoc("block/on_switch"), modLoc("block/on_switch_top"),
                 modLoc("block/off_switch"), modLoc("block/off_switch_top"));
@@ -381,6 +382,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.megaMushroomModels(BlockRegistry.BLUE_MEGA_MUSHROOM.get(),
                 BlockRegistry.RED_MEGA_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.GREEN_MEGA_MUSHROOM.get(),
                 BlockRegistry.LIME_MEGA_MUSHROOM.get(),
@@ -391,6 +393,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.pottedMegaMushroomModels(BlockRegistry.POTTED_BLUE_MEGA_MUSHROOM.get(),
                 BlockRegistry.POTTED_RED_MEGA_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.POTTED_ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.POTTED_LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.POTTED_GREEN_MEGA_MUSHROOM.get(),
                 BlockRegistry.POTTED_LIME_MEGA_MUSHROOM.get(),
@@ -401,6 +404,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.pottedSuperMushroomModels(BlockRegistry.POTTED_BLUE_SUPER_MUSHROOM.get(),
                 BlockRegistry.POTTED_RED_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.POTTED_ORANGE_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.POTTED_LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.POTTED_PINK_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.POTTED_GREEN_SUPER_MUSHROOM.get(),
                 BlockRegistry.POTTED_LIME_SUPER_MUSHROOM.get(),
@@ -418,6 +422,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.superMushroomModels(BlockRegistry.BLUE_SUPER_MUSHROOM.get(),
                 BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get(),
                 BlockRegistry.GREEN_SUPER_MUSHROOM.get(),
                 BlockRegistry.LIME_SUPER_MUSHROOM.get(),

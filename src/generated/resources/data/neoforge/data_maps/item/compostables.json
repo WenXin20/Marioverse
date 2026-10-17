@@ -51,6 +51,15 @@
     "marioverse:hedge": {
       "chance": 0.85
     },
+    "marioverse:light_blue_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:light_blue_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:light_blue_mushroom_trampoline_block": {
+      "chance": 0.85
+    },
     "marioverse:lime_mega_mushroom": {
       "chance": 0.65
     },

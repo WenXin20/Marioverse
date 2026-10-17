@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-17T00:27:57.7405678	Item Models: marioverse
+// 1.21.1	2026-10-17T16:57:03.5183326	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -2714,6 +2714,8 @@ a6bf11c0961143b3199de64eac42dd5db81be99d assets/marioverse/models/item/large_war
 c7c1704b32451107649eee647c7eb897543d2f01 assets/marioverse/models/item/large_warped_arrow_sign_up_yellow.json
 70fc7988477bcba9223a62e7ddf74bb812d47d0b assets/marioverse/models/item/light_blue_checkpoint_flag.json
 b00b02c1ff943f5ef3827c8bde7a91bc56852c89 assets/marioverse/models/item/light_blue_goal_pole.json
+29aae87e23f4ccbb134fc2e8651d9551e2c0272e assets/marioverse/models/item/light_blue_mega_mushroom_trampoline.json
+608ee6cc39e883cf1041bf8779a4b2054e42d0b9 assets/marioverse/models/item/light_blue_mushroom_trampoline.json
 2295834889650a176fb1192fc074e37b3847ac9b assets/marioverse/models/item/light_gray_checkpoint_flag.json
 8b18df311faecb987462ef5711cc08e8b8d1ae61 assets/marioverse/models/item/light_gray_goal_pole.json
 44001e9637c694c63ba028aa277d61229e74cb92 assets/marioverse/models/item/lime_checkpoint_flag.json
