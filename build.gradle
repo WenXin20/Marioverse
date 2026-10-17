@@ -88,12 +88,12 @@ dependencies {
     implementation "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
-    compileOnly "curse.maven:jei-${jei_version}"
+    implementation "curse.maven:jei-${jei_version}"
     implementation "curse.maven:jei-trade-1641894:8998466"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
     implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
-    implementation "curse.maven:roughly-enough-items-${rei_version}"
+    compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     compileOnly "curse.maven:slabbed-1457462:9029709"
     compileOnly "curse.maven:spatial-gui-1676741:9085092"
     implementation "curse.maven:spark-${spark_version}"
@@ -138,7 +138,7 @@ dependencies {
 runs {
     configureEach {
         systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
+        systemProperty 'forge.logging.console.level', 'info'
         programArguments '-mixin.config=marioverse.mixins.json'
 
         modSource project.sourceSets.main

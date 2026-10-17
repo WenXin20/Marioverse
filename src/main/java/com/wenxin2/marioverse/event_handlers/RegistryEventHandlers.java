@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import org.jetbrains.annotations.Nullable;
+import net.minecraft.util.RandomSource;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.curios.PlasticBucketCurio;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
@@ -447,8 +449,9 @@ public class RegistryEventHandlers {
             int[] colorCrown = { 0xFFFF647D, 0xFFA4FDF0, 0xFFFF647E };
 
             trades.get(3).add((entity, random) -> {
-                crownStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorCrown[random.nextInt(colorCrown.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), crownStack,
+                ItemStack stack = crownStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorCrown[randomIndex(colorCrown.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), stack,
                         5, 25, 0.2F);
             });
         }
@@ -515,44 +518,51 @@ public class RegistryEventHandlers {
             ItemStack heelsStack = new ItemStack(ItemRegistry.HEELS.get());
 
             trades.get(3).add((entity, random) -> {
-                hatStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), hatStack,
+                ItemStack stack = hatStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[randomIndex(colors.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                shirtStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), shirtStack,
+                ItemStack stack = shirtStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[randomIndex(colors.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                pantsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), pantsStack,
+                ItemStack stack = pantsStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[randomIndex(colors.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                shoesStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[random.nextInt(colorShoes.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), shoesStack,
+                ItemStack stack = shoesStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[randomIndex(colorShoes.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), stack,
                         5, 4, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                bodiceStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[random.nextInt(colorDress.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), bodiceStack,
+                ItemStack stack = bodiceStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[randomIndex(colorDress.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                dressStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[random.nextInt(colorDress.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), dressStack,
+                ItemStack stack = dressStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[randomIndex(colorDress.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                heelsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[random.nextInt(colorShoes.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), heelsStack,
+                ItemStack stack = heelsStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[randomIndex(colorShoes.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), stack,
                         5, 4, 0.2F);
             });
         }
@@ -635,17 +645,17 @@ public class RegistryEventHandlers {
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
-                new ItemStack(saplings[random.nextInt(saplings.length)], 5),
+                new ItemStack(saplings[randomIndex(saplings.length, random)], 5),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),
-                new ItemStack(superMushrooms[random.nextInt(superMushrooms.length)], 5),
+                new ItemStack(superMushrooms[randomIndex(superMushrooms.length, random)], 5),
                 16, 5, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
-                new ItemStack(megaMushrooms[random.nextInt(megaMushrooms.length)], 5),
+                new ItemStack(megaMushrooms[randomIndex(megaMushrooms.length, random)], 5),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
@@ -655,22 +665,22 @@ public class RegistryEventHandlers {
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),
-                new ItemStack(hedges[random.nextInt(hedges.length)], 5),
+                new ItemStack(hedges[randomIndex(hedges.length, random)], 5),
                 16, 5, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),
-                new ItemStack(bloomflowers[random.nextInt(bloomflowers.length)], 5),
+                new ItemStack(bloomflowers[randomIndex(bloomflowers.length, random)], 5),
                 16, 5, 0.1F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
-                new ItemStack(soils[random.nextInt(soils.length)], 16),
+                new ItemStack(soils[randomIndex(soils.length, random)], 16),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 3),
-                new ItemStack(stones[random.nextInt(stones.length)], 16),
+                new ItemStack(stones[randomIndex(stones.length, random)], 16),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
@@ -742,5 +752,9 @@ public class RegistryEventHandlers {
                 new ItemCost(Items.EMERALD, 64),
                 new ItemStack(ItemRegistry.SUPER_STAR.get(), 1),
                 1, 30, 0.2F));
+    }
+
+    private static int randomIndex(int length, @Nullable RandomSource random) {
+        return (random != null ? random : RandomSource.create()).nextInt(length);
     }
 }
