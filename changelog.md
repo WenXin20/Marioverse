@@ -90,7 +90,8 @@
 - Fixed warp pipe data not saving with create contraptions
 - Fixed holding space to bounce higher being inconsistent
 - Fixed render hitbox of piranha plants
-- Fixed projectiles passing through the head of sideways piranha plants
+- Fixed projectiles bouncing of piranha plants
+- Fixed piranha plants not attaching to the block face clicked on with spawn eggs
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
