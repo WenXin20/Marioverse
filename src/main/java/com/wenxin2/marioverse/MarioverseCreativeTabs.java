@@ -907,7 +907,6 @@ public class MarioverseCreativeTabs {
         }
 
         if (tab == MARIOVERSE_FUNCTIONAL_TAB.getKey() && !disableModTabs) {
-            add(event, BlockRegistry.IRON_SCREW);
             add(event, BlockRegistry.IRON_SPIKE);
             add(event, BlockRegistry.SPIKE_PANEL);
 
@@ -919,6 +918,8 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CLASSIC_GOAL_POLE, BlockRegistry.GOAL_POLES, true, true);
             add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("Wonder Flag"));
             add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("America Flag"));
+
+            add(event, BlockRegistry.IRON_SCREW);
 
             add(event, ItemRegistry.MUSHROOT_SIGN);
             add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
@@ -1071,6 +1072,8 @@ public class MarioverseCreativeTabs {
         if (tab == MARIOVERSE_DECORATIONS_TAB.getKey() && !disableModTabs) {
             add(event, BlockRegistry.STAR_COIN);
             add(event, BlockRegistry.COIN);
+
+            add(event, BlockRegistry.IRON_SCREW);
 
             add(event, BlockRegistry.FUNGAL_BRIDGE);
             add(event, BlockRegistry.DEEP_FUNGAL_BRIDGE);
@@ -1655,6 +1658,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE, BlockRegistry.FUNGAL_QUESTION_PANEL);
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_PANEL, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL, BlockRegistry.FORTSTONE_QUESTION_PANEL);
+                addAfter(event, BlockRegistry.FORTSTONE_QUESTION_PANEL, BlockRegistry.IRON_SCREW);
 
                 addAfter(event, Items.DECORATED_POT, BlockRegistry.FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK);

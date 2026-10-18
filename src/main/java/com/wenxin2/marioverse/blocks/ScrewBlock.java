@@ -63,7 +63,8 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
     private static final Map<Direction, VoxelShape[]> TOP_SHAPES = Util.make(new EnumMap<>(Direction.class), map -> {
         for (Direction facing : Direction.values()) {
             VoxelShape[] shapes = new VoxelShape[MAX_HEIGHT + 1];
-            for (int height = 0; height <= MAX_HEIGHT; height++) {
+            shapes[0] = orientedBox(facing, 2.05, -0.95, 2.05, 13.95, 0.95, 13.95);
+            for (int height = 1; height <= MAX_HEIGHT; height++) {
                 int headTop = headTop(height);
                 VoxelShape head = orientedBox(facing, 2, headTop - 2, 2, 14, headTop, 14);
                 shapes[height] = headTop <= 2 ? head
