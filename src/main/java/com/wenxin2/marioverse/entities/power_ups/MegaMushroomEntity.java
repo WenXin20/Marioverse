@@ -20,7 +20,6 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class MegaMushroomEntity extends MushroomEntity implements GeoEntity, PowerUpSource {
@@ -46,7 +45,7 @@ public class MegaMushroomEntity extends MushroomEntity implements GeoEntity, Pow
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimation));
-        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, this.getSpawnDuration()));
+        controllers.add(BasePowerUpEntity.createSpawnController(this));
     }
 
     @Override

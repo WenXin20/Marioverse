@@ -73,13 +73,12 @@ public class PiranhaPlantPodItem extends BetterSpawnEggItem {
                         direction == Direction.UP);
 
                 if (entity instanceof PiranhaPlantEntity piranhaPlant) {
-                    BlockPos newPos = piranhaPlant.findValidBlockPos();
                     String variant = stack.get(DataComponentRegistry.VARIANT.get());
 
                     if (variant != null)
                         piranhaPlant.setVariant(variant);
 
-                    piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
+                    piranhaPlant.attachToClickedFace(pos, direction);
                     piranhaPlant.setOwner(player);
                     piranhaPlant.setPersistenceRequired();
                     stack.shrink(1);

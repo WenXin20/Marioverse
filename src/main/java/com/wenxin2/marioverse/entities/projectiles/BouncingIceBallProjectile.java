@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.projectiles;
 
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.MiniGoombaEntity;
+import com.wenxin2.marioverse.entities.PiranhaPlantEntity;
 import com.wenxin2.marioverse.entities.PokeyEntity;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.entities.power_ups.BaseMushroomEntity;
@@ -403,15 +404,17 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                 else partEntity.hurt(DamageSourceRegistry.iceBall(entity, this.getOwner()), ConfigRegistry.ICE_BALL_DAMAGE.get().floatValue());
                 partEntity.extinguishFire();
 
-                if (partEntity.isAlive()) {
-                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), partEntity.level());
-                    if (partEntity.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
-                            || partEntity.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
-                        iceCube.setFrozenEntity(partEntity, 2);
-                    else iceCube.setFrozenEntity(partEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
-                    iceCube.moveTo(partEntity.getX(), partEntity.getY(), partEntity.getZ(), partEntity.getYRot(), partEntity.getXRot());
+                PiranhaPlantEntity piranhaPlant = partEntity.getParent();
+                if (piranhaPlant.isAlive()) {
+                    IceCubeEntity iceCube = new IceCubeEntity(EntityRegistry.ICE_CUBE.get(), piranhaPlant.level());
+                    if (piranhaPlant.getType().is(EntityTypeTags.FREEZE_IMMUNE_ENTITY_TYPES)
+                            || piranhaPlant.getType().is(TagRegistry.ICE_CUBE_SHATTERS_INSTANTLY))
+                        iceCube.setFrozenEntity(piranhaPlant, 2);
+                    else iceCube.setFrozenEntity(piranhaPlant, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
+                    iceCube.setTicksInAir(120);
+                    iceCube.moveTo(piranhaPlant.getX(), piranhaPlant.getY(), piranhaPlant.getZ(), piranhaPlant.getYRot(), piranhaPlant.getXRot());
                     iceCube.setOwner(this.getOwner());
-                    partEntity.level().addFreshEntity(iceCube);
+                    piranhaPlant.level().addFreshEntity(iceCube);
                 }
             }
             level.playSound(null, this.blockPosition(), SoundRegistry.ICE_BALL_FROZE_ENEMY.get(),

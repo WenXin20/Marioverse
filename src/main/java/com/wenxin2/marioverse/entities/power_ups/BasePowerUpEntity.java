@@ -11,6 +11,10 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.constant.DefaultAnimations;
 
 public class BasePowerUpEntity extends PathfinderMob {
     public BasePowerUpEntity(EntityType<? extends PathfinderMob> entityType, Level world) {
@@ -101,6 +105,11 @@ public class BasePowerUpEntity extends PathfinderMob {
     }
 
     public boolean isSpawning() {
-        return this.tickCount < this.getSpawnDuration();
+        return this.isAddedToLevel() && this.tickCount < this.getSpawnDuration();
+    }
+
+    public static <T extends BasePowerUpEntity & GeoAnimatable> AnimationController<T> createSpawnController(T powerUp) {
+        return new AnimationController<>(powerUp, "Spawn", 0, state -> powerUp.isAddedToLevel()
+                && powerUp.tickCount <= powerUp.getSpawnDuration() ? state.setAndContinue(DefaultAnimations.SPAWN) : PlayState.STOP);
     }
 }
