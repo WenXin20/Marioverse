@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "marioverse:screws",
+  "key": {
+    "I": {
+      "tag": "c:ingots/netherite"
+    },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    }
+  },
+  "pattern": [
+    "I",
+    "N",
+    "N"
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:netherite_screw"
+  }
+}

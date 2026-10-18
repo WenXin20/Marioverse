@@ -391,6 +391,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
+    public static final DeferredBlock<Block> GOLD_SCREW;
     public static final DeferredBlock<Block> GRANITE_BRIDGE;
     public static final DeferredBlock<Block> GRASSY_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> GRASSY_FORTSTONE;
@@ -598,6 +599,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> MUSHROOT_WALL_HANGING_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WALL_SIGN;
     public static final DeferredBlock<Block> MUSHROOT_WOOD;
+    public static final DeferredBlock<Block> NETHERITE_SCREW;
     public static final DeferredBlock<Block> NETHER_BRICK_BRIDGE;
     public static final DeferredBlock<Block> NETHER_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
@@ -1049,6 +1051,13 @@ public class BlockRegistry {
         IRON_SCREW = registerBlock("iron_screw",
                 () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                         .sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        GOLD_SCREW = registerBlock("gold_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.METAL).strength(3.0F, 6.0F).requiresCorrectToolForDrops()));
+        NETHERITE_SCREW = registerBlock("netherite_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                        .sound(SoundType.NETHERITE_BLOCK).strength(50.0F, 1200.0F).requiresCorrectToolForDrops()),
+                new Item.Properties().fireResistant());
 
 
         IRON_SPIKE = registerBlock("iron_spike",
@@ -3661,8 +3670,12 @@ public class BlockRegistry {
     }
 
     public static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
+        return BlockRegistry.registerBlock(name, block, new Item.Properties());
+    }
+
+    public static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block, Item.Properties itemProperties) {
         DeferredBlock<T> blocks = Marioverse.BLOCKS.register(name, block);
-        Marioverse.ITEMS.register(name, () -> new BlockItem(blocks.get(), new Item.Properties()));
+        Marioverse.ITEMS.register(name, () -> new BlockItem(blocks.get(), itemProperties));
         return blocks;
     }
 

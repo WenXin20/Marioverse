@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_screw_top_14",
+  "textures": {
+    "bottom": "marioverse:block/netherite_screw_bottom",
+    "overlay": "marioverse:block/netherite_screw_overlay",
+    "particle": "marioverse:block/netherite_screw",
+    "top": "marioverse:block/netherite_screw"
+  }
+}

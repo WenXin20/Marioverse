@@ -48,7 +48,9 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.COIN.asItem());
         this.basicItem(BlockRegistry.DANGO_BLOSSOM.asItem());
         this.basicItem(BlockRegistry.HEDGE.asItem());
+        this.basicItem(BlockRegistry.GOLD_SCREW.asItem());
         this.basicItem(BlockRegistry.IRON_SCREW.asItem());
+        this.basicItem(BlockRegistry.NETHERITE_SCREW.asItem());
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
         this.basicItem(BlockRegistry.MUSHROOT_DOOR.asItem());
         this.basicItem(BlockRegistry.SPOOKROOT_DOOR.asItem());

@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-18T01:18:26.1455381	Item Models: marioverse
+// 1.21.1	2026-10-18T16:15:59.7281153	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -848,6 +848,7 @@ b47a297ce67d4f841c52ab22d08d97abe6d959e2 assets/marioverse/models/item/fire_shoe
 949526ff98bf305b8eb729792fde7261f0c4d1ca assets/marioverse/models/item/golden_koopa_shoes.json
 cfad7e0a4bfd950232e52e304149fa7d435da82b assets/marioverse/models/item/gold_koopa_shell.json
 c2d00e0d4057b2d155d2c3f0608b86dc5c14472c assets/marioverse/models/item/gold_koopa_troopa_spawn_egg.json
+14937fc620139b0af6bdc7390a7690bbc8450603 assets/marioverse/models/item/gold_screw.json
 5f416a4c03fd98f05a23a56d505827cfa7e91e57 assets/marioverse/models/item/goomba_spawn_egg.json
 af89083561edc3b5740fd470750f17945ed4abd4 assets/marioverse/models/item/goombella_spawn_egg.json
 927cd0f0257f25cbd3a424ee4b7e7c6d5c990550 assets/marioverse/models/item/gray_checkpoint_flag.json
@@ -2999,6 +3000,7 @@ df1f59e85f297a6d0d85934eb5940f5dc4141e40 assets/marioverse/models/item/mushroot_
 5e9c25c00bfca92a822168e995e3a358ab45bb0d assets/marioverse/models/item/mushroot_hanging_sign.json
 8b762fed0ddad206554cfce9969a70202f165bee assets/marioverse/models/item/mushroot_sapling.json
 e9cb194a6076f62c378e8561f37a90db019678be assets/marioverse/models/item/mushroot_sign.json
+0642b2bd1014297473e8b94d63cc0ff9d65b0a0a assets/marioverse/models/item/netherite_screw.json
 6a2b3a93749bc06cd4b8efc197e8707548bbaf38 assets/marioverse/models/item/oak_arrow_sign.json
 0a66c1d42c7a5ee915319a85ec69f4a85ddd5d10 assets/marioverse/models/item/oak_arrow_sign_bottom_left_black.json
 cbe2ce6ff7717669d1ea57ccf8c78d65c9d9db28 assets/marioverse/models/item/oak_arrow_sign_bottom_left_blue.json

@@ -57,19 +57,19 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
 
     private static final Map<Direction, VoxelShape> SCREW_SHAPES = Util.make(new EnumMap<>(Direction.class), map -> {
         for (Direction facing : Direction.values())
-            map.put(facing, orientedBox(facing, 6, 0, 6, 10, 16, 10));
+            map.put(facing, ScrewBlock.orientedBox(facing, 6, 0, 6, 10, 16, 10));
     });
 
     private static final Map<Direction, VoxelShape[]> TOP_SHAPES = Util.make(new EnumMap<>(Direction.class), map -> {
         for (Direction facing : Direction.values()) {
             VoxelShape[] shapes = new VoxelShape[MAX_HEIGHT + 1];
-            shapes[0] = orientedBox(facing, 2.05, -0.95, 2.05, 13.95, 0.95, 13.95);
+            shapes[0] = ScrewBlock.orientedBox(facing, 2.05, -0.95, 2.05, 13.95, 0.95, 13.95);
 
             for (int height = 1; height <= MAX_HEIGHT; height++) {
-                int headTop = headTop(height);
-                VoxelShape head = orientedBox(facing, 2, headTop - 2, 2, 14, headTop, 14);
+                int headTop = ScrewBlock.headTop(height);
+                VoxelShape head = ScrewBlock.orientedBox(facing, 2, headTop - 2, 2, 14, headTop, 14);
                 shapes[height] = headTop <= 2 ? head
-                        : Shapes.or(head, orientedBox(facing, 6, 0, 6, 10, headTop - 2, 10));
+                        : Shapes.or(head, ScrewBlock.orientedBox(facing, 6, 0, 6, 10, headTop - 2, 10));
             }
             map.put(facing, shapes);
         }
@@ -106,7 +106,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
         BlockState state = this.defaultBlockState().setValue(FACING, context.getClickedFace())
                 .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
 
-        return hasSupport(state, context.getLevel(), context.getClickedPos()) ? state : null;
+        return ScrewBlock.hasSupport(state, context.getLevel(), context.getClickedPos()) ? state : null;
     }
 
     @NotNull
@@ -115,7 +115,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
         if (state.getValue(WATERLOGGED))
             levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
 
-        if (direction == state.getValue(FACING) && !state.getValue(TOP) && !isStackedScrew(state, neighborState))
+        if (direction == state.getValue(FACING) && !state.getValue(TOP) && !ScrewBlock.isStackedScrew(state, neighborState))
             return state.setValue(TOP, true);
 
         return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
@@ -133,7 +133,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
         BlockState supportState = level.getBlockState(supportPos);
         boolean sneaking = placer != null && placer.isShiftKeyDown();
 
-        if (!level.isClientSide && !sneaking && isStackedScrew(supportState, state))
+        if (!level.isClientSide && !sneaking && ScrewBlock.isStackedScrew(supportState, state))
             level.setBlock(supportPos, supportState.setValue(TOP, false), Block.UPDATE_ALL);
     }
 
@@ -149,15 +149,15 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
     @NotNull
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        BlockPos topPos = findTopScrew(level, pos, state);
+        BlockPos topPos = ScrewBlock.findTopScrew(level, pos, state);
         BlockState topState = level.getBlockState(topPos);
 
         if (!topState.getValue(TOP))
             return InteractionResult.PASS;
 
         boolean changed = player.isSecondaryUseActive()
-                ? unscrew(level, topPos, topState, player)
-                : screw(level, topPos, topState, player);
+                ? ScrewBlock.unscrew(level, topPos, topState, player)
+                : ScrewBlock.screw(level, topPos, topState, player);
 
         if (!changed)
             return InteractionResult.PASS;
@@ -177,7 +177,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
 
     @Override
     protected int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        if (!state.getValue(TOP) || isStackedOnScrew(level, pos, state))
+        if (!state.getValue(TOP) || ScrewBlock.isStackedOnScrew(level, pos, state))
             return 0;
         return (MAX_HEIGHT - state.getValue(HEIGHT)) * 15 / MAX_HEIGHT;
     }
@@ -200,7 +200,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
             BlockState frontState = level.getBlockState(frontPos);
 
             level.updateNeighborsAt(pos.relative(facing.getOpposite()), this);
-            if (!level.isClientSide && !state.getValue(TOP) && isStackedScrew(state, frontState))
+            if (!level.isClientSide && !state.getValue(TOP) && ScrewBlock.isStackedScrew(state, frontState))
                 level.scheduleTick(frontPos, frontState.getBlock(), 1);
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
@@ -209,7 +209,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
     @Override
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         BlockState behindState = level.getBlockState(pos.relative(state.getValue(FACING).getOpposite()));
-        if (!isStackedScrew(behindState, state))
+        if (!ScrewBlock.isStackedScrew(behindState, state))
             level.destroyBlock(pos, true);
     }
 
@@ -220,7 +220,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
         while (!topState.getValue(TOP)) {
             BlockPos nextPos = topPos.relative(topState.getValue(FACING));
             BlockState nextState = level.getBlockState(nextPos);
-            if (!isStackedScrew(topState, nextState))
+            if (!ScrewBlock.isStackedScrew(topState, nextState))
                 break;
             topPos = nextPos;
             topState = nextState;
@@ -239,7 +239,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
 
         BlockPos belowPos = topPos.relative(topState.getValue(FACING).getOpposite());
         BlockState belowState = level.getBlockState(belowPos);
-        if (!isStackedScrew(belowState, topState) || belowState.getValue(TOP))
+        if (!ScrewBlock.isStackedScrew(belowState, topState) || belowState.getValue(TOP))
             return false;
 
         if (!level.isClientSide) {
@@ -257,13 +257,13 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
 
         if (height < MAX_HEIGHT) {
             if (!level.isClientSide) {
-                pushEntities(level, topPos, facing, headTop(height), headTop(height + 1));
+                ScrewBlock.pushEntities(level, topPos, facing, ScrewBlock.headTop(height), ScrewBlock.headTop(height + 1));
                 level.setBlock(topPos, topState.setValue(HEIGHT, height + 1), Block.UPDATE_ALL);
             }
             return true;
         }
 
-        ItemStack screwStack = findScrewItem(player);
+        ItemStack screwStack = ScrewBlock.findScrewItem(player);
         if (screwStack.isEmpty() && !player.hasInfiniteMaterials())
             return false;
 
@@ -274,11 +274,11 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
                 .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
 
         if (!level.isInWorldBounds(newPos) || !level.getBlockState(newPos).canBeReplaced()
-                || !hasSupport(newState, level, newPos))
+                || !ScrewBlock.hasSupport(newState, level, newPos))
             return false;
 
         if (!level.isClientSide) {
-            pushEntities(level, topPos, facing, headTop(MAX_HEIGHT), 16 + headTop(1));
+            ScrewBlock.pushEntities(level, topPos, facing, ScrewBlock.headTop(MAX_HEIGHT), 16 + ScrewBlock.headTop(1));
             level.setBlock(newPos, newState, Block.UPDATE_ALL);
             level.setBlock(topPos, topState.setValue(TOP, false), Block.UPDATE_ALL);
             if (!player.hasInfiniteMaterials())
@@ -288,7 +288,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
     }
 
     private static void pushEntities(Level level, BlockPos pos, Direction facing, int fromTop, int toTop) {
-        AABB area = orientedBox(facing, 2, fromTop, 2, 14, toTop, 14).bounds().move(pos);
+        AABB area = ScrewBlock.orientedBox(facing, 2, fromTop, 2, 14, toTop, 14).bounds().move(pos);
         Vec3 offset = Vec3.atLowerCornerOf(facing.getNormal()).scale((toTop - fromTop) / 16.0);
 
         for (Entity entity : level.getEntities((Entity) null, area, EntitySelector.NO_SPECTATORS)) {
@@ -317,7 +317,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
 
     private static boolean isStackedOnScrew(BlockGetter level, BlockPos pos, BlockState state) {
         BlockState behindState = level.getBlockState(pos.relative(state.getValue(FACING).getOpposite()));
-        return isStackedScrew(behindState, state) && !behindState.getValue(TOP);
+        return ScrewBlock.isStackedScrew(behindState, state) && !behindState.getValue(TOP);
     }
 
     private static int headTop(int height) {

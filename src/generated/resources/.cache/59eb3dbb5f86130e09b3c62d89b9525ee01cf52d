@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-18T01:18:26.1250098	Loot Tables
+// 1.21.1	2026-10-18T16:15:59.7120945	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -266,6 +266,7 @@ d52da63c1128da1f6f310df918473354af0ed7e9 data/marioverse/loot_table/blocks/funga
 4fee31b7ae8252aa0d0b17dacbddc3534115616e data/marioverse/loot_table/blocks/fungal_stone_stairs.json
 bea277f0a93217d7803e01b84e9a53b19e4fae95 data/marioverse/loot_table/blocks/fungal_stone_wall.json
 6588298e92673afeac308fd4cb595b62d3dad598 data/marioverse/loot_table/blocks/glow_block.json
+399dbaa85e04219d41890ff4fdecfdad7b566c0e data/marioverse/loot_table/blocks/gold_screw.json
 bd1beee494b55b3d99086cae9605e2dd696c41c5 data/marioverse/loot_table/blocks/granite_bridge.json
 62bfa5bf78e79d2fa3fd8086c9e609303a899689 data/marioverse/loot_table/blocks/grassy_deep_fungal_stone.json
 2638a6420724ac937d6163a1547a0217adb277ff data/marioverse/loot_table/blocks/grassy_fortstone.json
@@ -522,6 +523,7 @@ f236338643148a4c7d4066ef182ebaea1d4fa9f8 data/marioverse/loot_table/blocks/mushr
 6d967b43271e0ebf0ff4c947b419804ce311a1d7 data/marioverse/loot_table/blocks/mushroot_wall_hanging_sign.json
 2dde25f1e30a2c75e62ca5b1e857b5b642c41918 data/marioverse/loot_table/blocks/mushroot_wall_sign.json
 78ff392c77dbe2c12805c267af2a734f34021764 data/marioverse/loot_table/blocks/mushroot_wood.json
+63f103c8d5f4fd1560f78b78166195daafe2760b data/marioverse/loot_table/blocks/netherite_screw.json
 14d253b42b35067dcdd77d742aae9eeae5766ef9 data/marioverse/loot_table/blocks/nether_brick_bridge.json
 f08ab0e7546258f2ab817099db66323802c45c78 data/marioverse/loot_table/blocks/nether_brick_loophole.json
 c00cfbf5009d08ba5755f2db67201390f688a8ea data/marioverse/loot_table/blocks/nether_brick_pedestal.json

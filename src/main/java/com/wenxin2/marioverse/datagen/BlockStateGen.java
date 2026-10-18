@@ -308,7 +308,9 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(glow, texture(glow, "_front"), blockTexture(glow), blockTexture(glow));
         this.horizontalModel(splunkin, blockTexture(splunkin), mcLoc("block/" + pumpkin + "_side"), mcLoc("block/" + pumpkin + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), blockTexture(BlockRegistry.IRON_SPIKE.get()));
+        this.screwModel(BlockRegistry.GOLD_SCREW.get(), blockTexture(BlockRegistry.GOLD_SCREW.get()));
         this.screwModel(BlockRegistry.IRON_SCREW.get(), blockTexture(BlockRegistry.IRON_SCREW.get()));
+        this.screwModel(BlockRegistry.NETHERITE_SCREW.get(), blockTexture(BlockRegistry.NETHERITE_SCREW.get()));
         this.mushroomTrampolineModel(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), false);
         this.mushroomTrampolineModel(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), true);
         this.mushroomTrampolineModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK.get());

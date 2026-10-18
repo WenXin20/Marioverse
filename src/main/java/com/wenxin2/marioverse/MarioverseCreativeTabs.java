@@ -920,6 +920,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.GOAL_POLES.get(DyeColor.WHITE), Component.literal("America Flag"));
 
             add(event, BlockRegistry.IRON_SCREW);
+            add(event, BlockRegistry.GOLD_SCREW);
+            add(event, BlockRegistry.NETHERITE_SCREW);
 
             add(event, ItemRegistry.MUSHROOT_SIGN);
             add(event, ItemRegistry.MUSHROOT_HANGING_SIGN);
@@ -1074,6 +1076,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.COIN);
 
             add(event, BlockRegistry.IRON_SCREW);
+            add(event, BlockRegistry.GOLD_SCREW);
+            add(event, BlockRegistry.NETHERITE_SCREW);
 
             add(event, BlockRegistry.FUNGAL_BRIDGE);
             add(event, BlockRegistry.DEEP_FUNGAL_BRIDGE);
@@ -1659,6 +1663,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_PANEL, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL, BlockRegistry.FORTSTONE_QUESTION_PANEL);
                 addAfter(event, BlockRegistry.FORTSTONE_QUESTION_PANEL, BlockRegistry.IRON_SCREW);
+                addAfter(event, BlockRegistry.IRON_SCREW, BlockRegistry.GOLD_SCREW);
+                addAfter(event, BlockRegistry.GOLD_SCREW, BlockRegistry.NETHERITE_SCREW);
 
                 addAfter(event, Items.DECORATED_POT, BlockRegistry.FUNGAL_QUESTION_BLOCK);
                 addAfter(event, BlockRegistry.FUNGAL_QUESTION_BLOCK, BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK);
@@ -1978,8 +1984,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS, BlockRegistry.WARPED_STEM_BRIDGE);
                 addAfter(event, BlockRegistry.WARPED_STEM_BRIDGE, BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE);
 
-                addAfter(event, Blocks.CHAIN, BlockRegistry.IRON_SPIKE);
+                addAfter(event, Blocks.CHAIN, BlockRegistry.IRON_SCREW);
+                addAfter(event, BlockRegistry.IRON_SCREW, BlockRegistry.IRON_SPIKE);
                 addAfter(event, BlockRegistry.IRON_SPIKE, BlockRegistry.SPIKE_PANEL);
+
+                addAfter(event, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, BlockRegistry.GOLD_SCREW);
+                addAfter(event, Blocks.NETHERITE_BLOCK, BlockRegistry.NETHERITE_SCREW);
 
                 addAfter(event, Blocks.POLISHED_GRANITE_SLAB, BlockRegistry.GRANITE_BRIDGE);
                 addAfter(event, Blocks.POLISHED_DIORITE_SLAB, BlockRegistry.DIORITE_BRIDGE);
