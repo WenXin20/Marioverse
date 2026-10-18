@@ -89,6 +89,8 @@
 - Fixed wrench to wrench recipe erasing damage
 - Fixed warp pipe data not saving with create contraptions
 - Fixed holding space to bounce higher being inconsistent
+- Fixed render hitbox of piranha plants
+- Fixed projectiles passing through the head of sideways piranha plants
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

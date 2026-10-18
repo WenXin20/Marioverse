@@ -762,6 +762,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         double scale = this.getScaleAttribute();
 
         if (!this.isBaby()) {
+            part.setOldPosAndRot();
             part.setPos(this.getX() + offsetX + 0.5, this.getY() + offsetY, this.getZ() + offsetZ + 0.5);
             part.setBoundingBox(new AABB(this.getX() + offsetX - width, this.getY() + offsetY, this.getZ() + offsetZ - width,
                     this.getX() + (offsetX + width * widthScale * (scale / 2)), this.getY() + (offsetY + height * heightScale * scale),
