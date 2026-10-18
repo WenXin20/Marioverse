@@ -375,7 +375,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                     else iceCube.setFrozenEntity(livingEntity, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
 
                     iceCube.setTicksInAir(120);
-                    iceCube.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.getYRot(), livingEntity.getXRot());
+                    iceCube.moveToFrozenEntity(livingEntity);
                     iceCube.setOwner(this.getOwner());
                     livingEntity.level().addFreshEntity(iceCube);
                 }
@@ -412,7 +412,7 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
                         iceCube.setFrozenEntity(piranhaPlant, 2);
                     else iceCube.setFrozenEntity(piranhaPlant, ConfigRegistry.ICE_CUBE_LIFESPAN.get());
                     iceCube.setTicksInAir(120);
-                    iceCube.moveTo(piranhaPlant.getX(), piranhaPlant.getY(), piranhaPlant.getZ(), piranhaPlant.getYRot(), piranhaPlant.getXRot());
+                    iceCube.moveToFrozenEntity(piranhaPlant);
                     iceCube.setOwner(this.getOwner());
                     piranhaPlant.level().addFreshEntity(iceCube);
                 }

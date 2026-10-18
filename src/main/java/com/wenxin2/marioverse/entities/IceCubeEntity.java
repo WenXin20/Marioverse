@@ -523,6 +523,10 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             float eyeHeightScale = 1.0F;
             float heightScale = 1.0F;
             float widthScale = 1.0F;
+            AABB frozenBox = entity.getBoundingBox();
+            Vec3 frozenBoxCenter = frozenBox.getCenter();
+            float frozenWidth = (float) Math.max(frozenBox.getXsize(), frozenBox.getZsize());
+            float frozenHeight = (float) frozenBox.getYsize();
             this.frozenEntityData = new CompoundTag();
             entity.saveWithoutId(this.frozenEntityData);
             this.frozenEntityData.putUUID("UUID", entity.getUUID());
@@ -558,8 +562,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 this.getFrozenEntityData().putFloat("HeadRotation", entity.getYHeadRot());
                 this.getFrozenEntityData().putFloat("Pitch", entity.getXRot());
                 this.getFrozenEntityData().putFloat("EyeHeight", entity.getEyeHeight());
-                this.getFrozenEntityData().putFloat("Height", entity.getBbHeight());
-                this.getFrozenEntityData().putFloat("Width", entity.getBbWidth());
+                this.getFrozenEntityData().putFloat("Height", frozenHeight);
+                this.getFrozenEntityData().putFloat("Width", frozenWidth);
+                this.getFrozenEntityData().putDouble("OffsetX", entity.getX() - frozenBoxCenter.x);
+                this.getFrozenEntityData().putDouble("OffsetY", entity.getY() - frozenBox.minY);
+                this.getFrozenEntityData().putDouble("OffsetZ", entity.getZ() - frozenBoxCenter.z);
                 this.getFrozenEntityData().putFloat("Scale", scale);
                 this.getFrozenEntityData().putFloat("EyeHeightScale", eyeHeightScale);
                 this.getFrozenEntityData().putFloat("HeightScale", heightScale);
@@ -567,8 +574,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 this.entityData.set(FROZEN_DATA, frozenEntityData);
             }
 
-            this.setHeight(entity.getBbHeight());
-            this.setWidth(entity.getBbWidth());
+            this.setHeight(frozenHeight);
+            this.setWidth(frozenWidth);
             this.setEyeHeightScale(eyeHeightScale);
             this.setHeightScale(heightScale);
             this.setWidthScale(widthScale);
@@ -577,7 +584,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             if (entity instanceof KoopaTroopaEntity koopa)
                 koopa.hide(koopa.isHiding());
 
-            this.setSize(entity.getBbWidth() * scale * widthScale * 1.55F, entity.getBbHeight() * scale * heightScale * 1.55F);
+            this.setSize(frozenWidth * scale * widthScale * 1.55F, frozenHeight * scale * heightScale * 1.55F);
             if (!(entity instanceof Player))
                 entity.discard();
 
@@ -647,12 +654,16 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         if (this.getFrozenEntityData() != null && this.level() instanceof ServerLevel serverWorld) {
+            Vec3 frozenOffset = this.getFrozenOffset();
             Entity entity = EntityType.loadEntityRecursive(this.getFrozenEntityData(), serverWorld, (e) -> {
-                e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+                e.moveTo(this.getX() + frozenOffset.x, this.getY() + frozenOffset.y, this.getZ() + frozenOffset.z,
+                        this.getYRot(), this.getXRot());
                 return e;
             });
 
             if (entity != null) {
+                if (entity instanceof PiranhaPlantEntity piranhaPlant)
+                    piranhaPlant.refreshAttachment();
                 if (attackingEntity != null)
                     serverWorld.addFreshEntity(entity);
                 if (entity instanceof LivingEntity livingEntity) {
@@ -981,5 +992,28 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             for (AttributeModifier modifier : fromAttr.getModifiers())
                 toAttr.addPermanentModifier(modifier);
         }
+    }
+
+    public void moveToFrozenEntity(Entity entity) {
+        AABB frozenBox = entity.getBoundingBox();
+        Vec3 frozenBoxCenter = frozenBox.getCenter();
+        this.moveTo(frozenBoxCenter.x, frozenBox.minY, frozenBoxCenter.z, entity.getYRot(), entity.getXRot());
+    }
+
+    public Vec3 getFrozenOffset() {
+        CompoundTag tag = this.getFrozenEntityData();
+        if (tag == null)
+            return Vec3.ZERO;
+        return new Vec3(tag.getDouble("OffsetX"), tag.getDouble("OffsetY"), tag.getDouble("OffsetZ"));
+    }
+
+    public float getFrozenWidth(Entity frozenEntity) {
+        CompoundTag tag = this.getFrozenEntityData();
+        return tag != null && tag.contains("Width") ? tag.getFloat("Width") : frozenEntity.getBbWidth();
+    }
+
+    public float getFrozenHeight(Entity frozenEntity) {
+        CompoundTag tag = this.getFrozenEntityData();
+        return tag != null && tag.contains("Height") ? tag.getFloat("Height") : frozenEntity.getBbHeight();
     }
 }

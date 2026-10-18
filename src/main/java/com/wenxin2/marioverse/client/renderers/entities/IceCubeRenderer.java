@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
@@ -39,11 +40,14 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
                     widthScale = livingEntity.getPersistentData().getFloat("WidthScale");
             }
 
-            float height = frozenEntity.getBbHeight() * scale * heightScale * 1.55F;
-            float width = frozenEntity.getBbWidth() * scale * widthScale * 1.55F;
+            float frozenHeight = entity.getFrozenHeight(frozenEntity);
+            float frozenWidth = entity.getFrozenWidth(frozenEntity);
+            float height = frozenHeight * scale * heightScale * 1.55F;
+            float width = frozenWidth * scale * widthScale * 1.55F;
             float offset = (height - (height / 1.55F)) / 2;
+            Vec3 frozenOffset = entity.getFrozenOffset();
 
-            if (frozenEntity.getBbHeight() >= frozenEntity.getBbWidth() * 3)
+            if (frozenHeight >= frozenWidth * 3)
                 width *= 2.0F;
 
             frozenEntity.setYRot(entity.getBodyRotation());
@@ -53,7 +57,7 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
                 this.withScale(width, height);
                 entity.setSize(width, height);
 
-                poseStack.translate(0, offset, 0);
+                poseStack.translate(frozenOffset.x, offset + frozenOffset.y, frozenOffset.z);
                 poseStack.scale(scale * widthScale, scale * heightScale, scale * widthScale);
                 renderEntityInIceCube(frozenEntity.getYRot(), poseStack, buffer, packedLight, frozenEntity, this.entityRenderer);
 

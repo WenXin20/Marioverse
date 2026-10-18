@@ -1026,16 +1026,32 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     }
 
     public void attachToClickedFace(BlockPos clickedPos, Direction clickedFace) {
-        BlockState clickedState = this.level().getBlockState(clickedPos);
-
-        if (!clickedState.isAir() && !clickedState.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)
-                && (clickedState.is(TagRegistry.WARP_PIPE_BLOCKS) || clickedState.isSolid()
-                        || clickedState.getBlock() instanceof LeavesBlock || clickedState.getBlock() instanceof DirtPathBlock)) {
+        if (this.canAttachTo(this.level().getBlockState(clickedPos)))
             this.attachToBlock(clickedPos, clickedFace);
-        } else {
-            BlockPos validPos = this.findValidBlockPos();
-            if (validPos != null)
-                this.attachToBlock(validPos, this.determineAttachmentSide(validPos));
+        else this.attachToNearestBlock();
+    }
+
+    public void refreshAttachment() {
+        Direction side = this.getAttachedSide();
+        BlockPos supportPos = side == null ? null : this.blockPosition().relative(side.getOpposite());
+
+        if (supportPos != null && this.canAttachTo(this.level().getBlockState(supportPos)))
+            this.attachToBlock(supportPos, side);
+        else {
+            this.detachFromBlock();
+            this.attachToNearestBlock();
         }
+    }
+
+    private void attachToNearestBlock() {
+        BlockPos validPos = this.findValidBlockPos();
+        if (validPos != null)
+            this.attachToBlock(validPos, this.determineAttachmentSide(validPos));
+    }
+
+    private boolean canAttachTo(BlockState state) {
+        return !state.isAir() && !state.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)
+                && (state.is(TagRegistry.WARP_PIPE_BLOCKS) || state.isSolid()
+                        || state.getBlock() instanceof LeavesBlock || state.getBlock() instanceof DirtPathBlock);
     }
 }
