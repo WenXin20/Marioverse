@@ -10,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -103,7 +104,7 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
         }
 
         BlockPos spreadPos = this.getTopPos(serverLevel, pos).above();
-        if (random.nextBoolean()) {
+        if (random.nextBoolean() || !this.canGrowTaller(serverLevel, pos)) {
             spreadPos = pos.offset(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2), random.nextInt(3) - 1);
             for (int i = 0; i < 4; i++) {
                 if (this.canSpreadTo(serverLevel, spreadPos))
@@ -122,7 +123,8 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
             return true;
 
         BlockPos posAbove = this.getTopPos(levelReader, pos).above();
-        return !levelReader.isOutsideBuildHeight(posAbove) && levelReader.isEmptyBlock(posAbove);
+        return !levelReader.isOutsideBuildHeight(posAbove) && levelReader.isEmptyBlock(posAbove)
+                && this.canGrowTaller(levelReader, pos);
     }
 
     @Override
@@ -152,6 +154,8 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
     private boolean canSpreadTo(ServerLevel serverLevel, BlockPos pos) {
         BlockState stateBelow = serverLevel.getBlockState(pos.below());
         if (!serverLevel.isEmptyBlock(pos) || !this.defaultBlockState().canSurvive(serverLevel, pos))
+            return false;
+        if (stateBelow.is(this) && !this.canGrowTaller(serverLevel, pos.below()))
             return false;
         return stateBelow.is(BlockTags.MUSHROOM_GROW_BLOCK) || serverLevel.getRawBrightness(pos, 0) < 13;
     }
@@ -198,5 +202,14 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
         while (blockGetter.getBlockState(topPos.above()).is(this))
             topPos.move(Direction.UP);
         return topPos.immutable();
+    }
+
+    private boolean canGrowTaller(BlockGetter blockGetter, BlockPos pos) {
+        BlockPos.MutableBlockPos bottomPos = pos.mutable();
+        while (blockGetter.getBlockState(bottomPos.below()).is(this) && !blockGetter.isOutsideBuildHeight(bottomPos.below()))
+            bottomPos.move(Direction.DOWN);
+
+        int maxHeight = 3 + (int) Math.floorMod(Mth.getSeed(bottomPos), 3L);
+        return this.getTopPos(blockGetter, pos).getY() - bottomPos.getY() + 1 < maxHeight;
     }
 }
