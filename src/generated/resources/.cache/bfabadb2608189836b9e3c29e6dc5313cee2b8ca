@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-17T16:57:03.5183326	Item Models: marioverse
+// 1.21.1	2026-10-18T01:18:26.1455381	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -904,6 +904,7 @@ ed4153cfb333060e013c7a9b156baba36fc0fe87 assets/marioverse/models/item/invisible
 30f23ffa6474059c66f67a0d721a0d4d7227e278 assets/marioverse/models/item/invisible_waxed_oxidized_copper_question_block.json
 dfc3db4a00febbc133ddb3b91cb884bd84b592d9 assets/marioverse/models/item/invisible_waxed_weathered_copper_question_block.json
 dfc3db4a00febbc133ddb3b91cb884bd84b592d9 assets/marioverse/models/item/invisible_weathered_copper_question_block.json
+8398c9b98d93fc697be37ec0833436c1ea8e70cc assets/marioverse/models/item/iron_screw.json
 f25c0e0377eea7dca0d94b82e6ad58322bcfe0a5 assets/marioverse/models/item/iron_spike.json
 29a8b53f1033e44f8d3117933bdcff1d0ef012ba assets/marioverse/models/item/jungle_arrow_sign.json
 513281b4c41fa6562c93ff5b90e5aeb83cd55b64 assets/marioverse/models/item/jungle_arrow_sign_bottom_left_black.json

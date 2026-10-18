@@ -907,6 +907,7 @@ public class MarioverseCreativeTabs {
         }
 
         if (tab == MARIOVERSE_FUNCTIONAL_TAB.getKey() && !disableModTabs) {
+            add(event, BlockRegistry.IRON_SCREW);
             add(event, BlockRegistry.IRON_SPIKE);
             add(event, BlockRegistry.SPIKE_PANEL);
 

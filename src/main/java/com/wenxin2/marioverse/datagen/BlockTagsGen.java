@@ -1951,6 +1951,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_SLAB.get())
                 .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_STAIRS.get())
                 .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_WALL.get())
+                .add(BlockRegistry.IRON_SCREW.get())
                 .add(BlockRegistry.IRON_SPIKE.get())
                 .add(BlockRegistry.MOSSY_STONE_BRIDGE.get())
                 .add(BlockRegistry.MUD_BRICK_BRIDGE.get())

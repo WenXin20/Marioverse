@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-17T16:57:03.4873762	Loot Tables
+// 1.21.1	2026-10-18T01:18:26.1250098	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -404,6 +404,7 @@ bf9c97542ad6e43fa5d13a3c698a3b9ee7f35c0a data/marioverse/loot_table/blocks/invis
 540cd64fba65353dac3ae18a41016f69752c288f data/marioverse/loot_table/blocks/invisible_waxed_oxidized_copper_question_block.json
 d5d1fbdb4091604f77371905f38291466fcf467e data/marioverse/loot_table/blocks/invisible_waxed_weathered_copper_question_block.json
 3fd3c05ba7774f6ab18bcc0dd61ded580e6bd06b data/marioverse/loot_table/blocks/invisible_weathered_copper_question_block.json
+f35f2c08dd3799e0cd4a3c40b7dde36d19d68ae4 data/marioverse/loot_table/blocks/iron_screw.json
 643851d187a37f0eb48f984de401dc24c2f49350 data/marioverse/loot_table/blocks/iron_spike.json
 e780868774f935844554ccbf37ff1f6787d6b8ed data/marioverse/loot_table/blocks/jungle_arrow_sign.json
 0146e110966c057774b515c1530b1676c5f94917 data/marioverse/loot_table/blocks/jungle_log_bridge.json

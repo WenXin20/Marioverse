@@ -42,6 +42,11 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
         this.registerDefaultState(this.defaultBlockState().setValue(BOTTOM, true));
     }
 
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(BOTTOM, UP, DOWN, NORTH, EAST, SOUTH, WEST);
+    }
+
     @NotNull
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -113,11 +118,6 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
                 .filter(property -> this.canBonemealFace(state, property)).toList();
         if (!faceProperties.isEmpty())
             serverLevel.setBlock(pos, state.setValue(Util.getRandom(faceProperties, random), true), Block.UPDATE_ALL);
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(BOTTOM, UP, DOWN, NORTH, EAST, SOUTH, WEST);
     }
 
     private boolean canBonemealFace(BlockState state, BooleanProperty faceProperty) {

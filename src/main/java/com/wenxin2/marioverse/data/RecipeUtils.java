@@ -941,6 +941,25 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void screwRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
+                            Object ingot, Object nugget, boolean uniqueFileName, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(category, outputItem, outputAmt)
+                .pattern("I")
+                .pattern("N")
+                .pattern("N")
+                .group(Marioverse.MOD_ID + ":" + groupName);
+
+        defineIngredient(builder, 'I', ingot);
+        defineIngredient(builder, 'N', nugget);
+
+        builder.unlockedBy(getUnlockName(ingot), unlockCriterion(ingot));
+
+        if (uniqueFileName && ingot instanceof ItemLike itemLike)
+            builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike) + "_" + outputAmt);
+        else builder.save(output);
+    }
+
     public void shirtRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object colorItem, Object ingot, Object wool, boolean uniqueFileName, RecipeOutput output) {
         HexColorRecipeBuilder builder = HexColorRecipeBuilder

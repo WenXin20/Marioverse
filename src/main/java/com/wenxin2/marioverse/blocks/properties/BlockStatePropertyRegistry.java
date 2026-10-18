@@ -28,4 +28,5 @@ public class BlockStatePropertyRegistry {
     public static final EnumProperty<SideBlockStates> SIDE = EnumProperty
             .create("side", SideBlockStates.class);
     public static final IntegerProperty FLOWER_AMOUNT = IntegerProperty.create("flower_amount", 1, 3);
+    public static final IntegerProperty HEIGHT_8 = IntegerProperty.create("height", 0, 8);
 }

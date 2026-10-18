@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "marioverse:screws",
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "N": {
+      "tag": "c:nuggets/iron"
+    }
+  },
+  "pattern": [
+    "I",
+    "N",
+    "N"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:iron_screw"
+  }
+}

@@ -59,6 +59,11 @@ public class SuperMushroomStemBlock extends DirectionalBlock implements Bonemeal
     }
 
     @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(END, FACING, UP, DOWN, NORTH, EAST, SOUTH, WEST);
+    }
+
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Direction facing = context.getClickedFace();
         BlockPos pos = context.getClickedPos();
@@ -155,10 +160,5 @@ public class SuperMushroomStemBlock extends DirectionalBlock implements Bonemeal
             newState = newState.setValue(PipeBlock.PROPERTY_BY_DIRECTION.get(mirror.mirror(direction)),
                     state.getValue(PipeBlock.PROPERTY_BY_DIRECTION.get(direction)));
         return newState;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(END, FACING, UP, DOWN, NORTH, EAST, SOUTH, WEST);
     }
 }

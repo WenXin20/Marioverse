@@ -22,6 +22,7 @@ import com.wenxin2.marioverse.blocks.PicketFenceGateBlock;
 import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.QuestionPanelBlock;
+import com.wenxin2.marioverse.blocks.ScrewBlock;
 import com.wenxin2.marioverse.blocks.SpikePanelBlock;
 import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
 import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
@@ -307,6 +308,7 @@ public class BlockStateGen extends BlockStateProvider {
         this.horizontalModel(glow, texture(glow, "_front"), blockTexture(glow), blockTexture(glow));
         this.horizontalModel(splunkin, blockTexture(splunkin), mcLoc("block/" + pumpkin + "_side"), mcLoc("block/" + pumpkin + "_top"));
         this.ironSpikeModel(BlockRegistry.IRON_SPIKE.get(), blockTexture(BlockRegistry.IRON_SPIKE.get()));
+        this.screwModel(BlockRegistry.IRON_SCREW.get(), blockTexture(BlockRegistry.IRON_SCREW.get()));
         this.mushroomTrampolineModel(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), false);
         this.mushroomTrampolineModel(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), true);
         this.mushroomTrampolineModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK.get());
@@ -2341,6 +2343,34 @@ public class BlockStateGen extends BlockStateProvider {
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         variantBuilder.partialState().addModels(new ConfiguredModel(model));
+    }
+
+    private void screwModel(Block block, ResourceLocation texture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile screwModel = models()
+                .withExistingParent(modelName, modLoc("block/template_screw"))
+                .texture("particle", texture).texture("top", texture)
+                .texture("bottom", texture + "_bottom").texture("overlay", texture + "_overlay");
+
+        ModelFile[] topModels = new ModelFile[ScrewBlock.MAX_HEIGHT + 1];
+        for (int height = 0; height <= ScrewBlock.MAX_HEIGHT; height++) {
+            String suffix = height == ScrewBlock.MAX_HEIGHT ? "_top" : "_top_" + height * 2;
+            topModels[height] = models()
+                    .withExistingParent(modelName + suffix, modLoc("block/template_screw" + suffix))
+                    .texture("particle", texture).texture("top", texture)
+                    .texture("bottom", texture + "_bottom").texture("overlay", texture + "_overlay");
+        }
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction facing = state.getValue(ScrewBlock.FACING);
+            ModelFile model = state.getValue(ScrewBlock.TOP) ? topModels[state.getValue(ScrewBlock.HEIGHT)] : screwModel;
+
+            return ConfiguredModel.builder().modelFile(model)
+                    .rotationX(facing == Direction.DOWN ? 180 : facing.getAxis().isHorizontal() ? 90 : 0)
+                    .rotationY(facing.getAxis().isHorizontal() ? ((int) facing.toYRot() + 180) % 360 : 0)
+                    .build();
+        });
     }
 
     private void logPlatformModel(Block block, ResourceLocation logTexture, ResourceLocation endTexture, ResourceLocation topTexture) {

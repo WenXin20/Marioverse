@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-17T16:57:03.6245835	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-10-18T01:18:26.2115094	Tags for minecraft:block mod id marioverse
 43c9acdeb8989ded6282b22a81b284aaa52ac324 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -183,7 +183,7 @@ f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_logs
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_roots_can_grow_through.json
 3b97ad34ca57fcd8fdf2372c6902cae300d79246 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-063c9336d13633ae2e3e88910be8993253897ed3 data/minecraft/tags/block/mineable/pickaxe.json
+4736d8586cd323dac1fff58545adac76ebf21ba3 data/minecraft/tags/block/mineable/pickaxe.json
 95e4c25615d95838082475b740d03652b99843ab data/minecraft/tags/block/mineable/shovel.json
 11bf9914a37f97368e3320edbd090ecc24c07476 data/minecraft/tags/block/needs_iron_tool.json
 9d1c2fbbbbffc0bbc0ce1265f2be54dc26a8fb72 data/minecraft/tags/block/needs_stone_tool.json

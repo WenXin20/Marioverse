@@ -9,6 +9,12 @@
   - Added Deep Fungal Cobblestone sets
   - Added Hard Deep Fungal Block sets
   - Added Rocky Deep Fungal Stone sets
+- Added Screws
+  - Right-click to screw it into the ground
+  - Shift-right-click to unscrew it
+  - Shift-right-clicking will place more screws from your gui if unscrewed above a block
+  - The lower a screw is, the more redstone power it will emit
+  - Placeable multiple blocks tall or on any block side
 - Added Picket Fences 
   - Wood variants
   - 16 dyed colors
@@ -17,6 +23,13 @@
   - Shift-right-click to dye one block
 - Added Mushroot block set
   - Mushroot tree & mega Mushroot tree
+  - Doors, Trapdoors, Signs & Hanging Signs
+  - Arrow Signs & Large Arrow Signs
+  - Framed Windows, Boards, Panels, & Hard Blocks
+  - Picket Fences, Log Platforms
+  - Boats & Chest Boats
+- Added Spookroot block set
+  - Spookroot tree & mega Spookroot tree
   - Doors, Trapdoors, Signs & Hanging Signs
   - Arrow Signs & Large Arrow Signs
   - Framed Windows, Boards, Panels, & Hard Blocks

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.registries;
 
+import com.wenxin2.marioverse.blocks.ScrewBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
@@ -507,6 +508,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> IRON_SPIKE;
+    public static final DeferredBlock<Block> IRON_SCREW;
     public static final DeferredBlock<Block> JUNGLE_ARROW_SIGN;
     public static final DeferredBlock<Block> JUNGLE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE;
@@ -1042,6 +1044,11 @@ public class BlockRegistry {
                         .pushReaction(PushReaction.DESTROY).isSuffocating(BlockRegistry::never)
                         .isViewBlocking(BlockRegistry::never).strength(0.5F, 0.5F)
                         .instabreak().noCollission()));
+
+
+        IRON_SCREW = registerBlock("iron_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                        .sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
 
 
         IRON_SPIKE = registerBlock("iron_spike",
