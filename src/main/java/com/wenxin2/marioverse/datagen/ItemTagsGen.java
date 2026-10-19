@@ -101,6 +101,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.QUESTION_PANEL_BLOCKS, TagRegistry.QUESTION_PANELS_ITEMS);
+        copy(TagRegistry.SCREWS, TagRegistry.SCREW_ITEMS);
         copy(TagRegistry.SMASHABLE_BLOCKS, TagRegistry.SMASHABLE_BLOCK_ITEMS);
         copy(TagRegistry.STONE_HARD_BLOCKS, TagRegistry.STONE_HARD_BLOCK_ITEMS);
         copy(TagRegistry.STONE_HARD_SLABS, TagRegistry.STONE_HARD_SLAB_ITEMS);
