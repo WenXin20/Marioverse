@@ -1544,6 +1544,23 @@ public class BlockRegistry {
                 () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHORT_SHROOMGRASS,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
+
+        HEDGE = registerBlock("hedge",
+                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+
+        PINK_ROSE_HEDGE = registerBlock("pink_rose_hedge",
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+
+        RED_ROSE_HEDGE = registerBlock("red_rose_hedge",
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+
+        SNOWY_HEDGE = registerNoItemBlock("snowy_hedge",
+                () -> new SnowyHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())
+                        .mapColor(MapColor.SNOW)));
+
+        WHITE_ROSE_HEDGE = registerBlock("white_rose_hedge",
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+
         POTTED_HEDGE = registerNoItemBlock("potted_hedge",
                 () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.HEDGE,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
@@ -1568,6 +1585,7 @@ public class BlockRegistry {
                 () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.WHITE_ROSE_HEDGE,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
                         false, true));
+        
 
         SHROOMSOIL = registerBlock("shroomsoil",
                 () -> new ShroomsoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
@@ -1615,22 +1633,6 @@ public class BlockRegistry {
         STRIPPED_MUSHROOT_WOOD = registerBlock("stripped_mushroot_wood", () -> log(MapColor.WOOD, MapColor.WOOD));
 
         MUSHROOT_LEAVES = registerBlock("mushroot_leaves", () -> leaves(SoundType.GRASS));
-
-        HEDGE = registerBlock("hedge",
-                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
-
-        PINK_ROSE_HEDGE = registerBlock("pink_rose_hedge",
-                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
-
-        RED_ROSE_HEDGE = registerBlock("red_rose_hedge",
-                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
-
-        SNOWY_HEDGE = registerNoItemBlock("snowy_hedge",
-                () -> new SnowyHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())
-                        .mapColor(MapColor.SNOW)));
-
-        WHITE_ROSE_HEDGE = registerBlock("white_rose_hedge",
-                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
 
         MUSHROOT_PLANKS = registerBlock("mushroot_planks",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
