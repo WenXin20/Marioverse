@@ -4,7 +4,7 @@
   "group": "marioverse:screws",
   "key": {
     "I": {
-      "tag": "c:ingots/netherite"
+      "tag": "c:ingots/gold"
     },
     "N": {
       "item": "minecraft:netherite_scrap"
@@ -16,7 +16,7 @@
     "N"
   ],
   "result": {
-    "count": 6,
+    "count": 4,
     "id": "marioverse:netherite_screw"
   }
 }

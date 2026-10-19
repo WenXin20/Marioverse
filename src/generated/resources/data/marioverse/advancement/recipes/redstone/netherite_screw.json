@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_ingots/netherite": {
+    "has_ingots/gold": {
       "conditions": {
         "items": [
           {
-            "items": "#c:ingots/netherite"
+            "items": "#c:ingots/gold"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_ingots/netherite"
+      "has_ingots/gold"
     ]
   ],
   "rewards": {
