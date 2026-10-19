@@ -288,7 +288,7 @@ public class MarioverseClient {
 
         event.register((stack, tintIndex) -> {
             if (tintIndex == 1)
-                return 0x3F76E4;
+                return 0xFF3F76E4;
             return -1;
         }, ItemRegistry.PLASTIC_WATER_BUCKET.get());
 

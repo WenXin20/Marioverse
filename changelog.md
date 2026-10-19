@@ -92,6 +92,7 @@
 - Fixed render hitbox of piranha plants
 - Fixed projectiles bouncing of piranha plants
 - Fixed piranha plants not attaching to the block face clicked on with spawn eggs
+- Fixed the plastic water bucket not rendering water
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
