@@ -1694,11 +1694,13 @@ public class BlockRegistry {
 
         LARGE_MUSHROOT_ARROW_SIGN = registerNoItemBlock("large_mushroot_arrow_sign",
                 () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.MUSHROOT,
-                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
 
         LARGE_MUSHROOT_WALL_ARROW_SIGN = registerNoItemBlock("large_mushroot_wall_arrow_sign",
                 () -> new LargeWallArrowSignBlock(WoodTypeRegistry.MUSHROOT,
-                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)
+                        BlockBehaviour.Properties.ofFullCopy(LARGE_MUSHROOT_ARROW_SIGN.get()).mapColor(MapColor.WOOD)
                                 .lootFrom(LARGE_MUSHROOT_ARROW_SIGN)));
 
         MUSHROOT_LOG_BRIDGE = registerBlock("mushroot_log_bridge",
@@ -1842,11 +1844,13 @@ public class BlockRegistry {
 
         LARGE_SPOOKROOT_ARROW_SIGN = registerNoItemBlock("large_spookroot_arrow_sign",
                 () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
-                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
 
         LARGE_SPOOKROOT_WALL_ARROW_SIGN = registerNoItemBlock("large_spookroot_wall_arrow_sign",
                 () -> new LargeWallArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
-                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)
+                        BlockBehaviour.Properties.ofFullCopy(LARGE_SPOOKROOT_ARROW_SIGN.get()).mapColor(MapColor.WOOD)
                                 .lootFrom(LARGE_SPOOKROOT_ARROW_SIGN)));
 
         SPOOKROOT_LOG_BRIDGE = registerBlock("spookroot_log_bridge",
