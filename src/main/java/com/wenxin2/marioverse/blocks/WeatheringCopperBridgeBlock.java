@@ -15,8 +15,7 @@ public class WeatheringCopperBridgeBlock extends BridgeBlock implements Weatheri
     public static final MapCodec<WeatheringCopperBridgeBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(WeatheringCopper.WeatherState.CODEC.fieldOf("weathering_state")
                             .forGetter(ChangeOverTimeBlock::getAge), propertiesCodec())
-                    .apply(instance, WeatheringCopperBridgeBlock::new)
-    );
+                    .apply(instance, WeatheringCopperBridgeBlock::new));
     private final WeatheringCopper.WeatherState weatherState;
 
     @NotNull

@@ -17,8 +17,7 @@ public class WeatheringCopperInvisibleQuestionBlock extends InvisibleQuestionBlo
     public static final MapCodec<WeatheringCopperInvisibleQuestionBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(WeatheringCopper.WeatherState.CODEC.fieldOf("weathering_state")
                             .forGetter(ChangeOverTimeBlock::getAge), propertiesCodec())
-                    .apply(instance, WeatheringCopperInvisibleQuestionBlock::new)
-    );
+                    .apply(instance, WeatheringCopperInvisibleQuestionBlock::new));
     private final WeatheringCopper.WeatherState weatherState;
 
     @NotNull

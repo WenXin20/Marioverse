@@ -21,8 +21,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -45,6 +47,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -141,7 +144,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                               Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (stack.getItem() instanceof BlockItem)
+        if (stack.getItem() instanceof BlockItem || ScrewBlock.isModifiedByItem(stack, state, player, hand, hitResult))
             return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
@@ -306,6 +309,14 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
                 return stack;
         }
         return ItemStack.EMPTY;
+    }
+
+    private static boolean isModifiedByItem(ItemStack stack, BlockState state, Player player,
+                                            InteractionHand hand, BlockHitResult hitResult) {
+        UseOnContext context = new UseOnContext(player, hand, hitResult);
+        return state.getToolModifiedState(context, ItemAbilities.AXE_SCRAPE, true) != null
+                || state.getToolModifiedState(context, ItemAbilities.AXE_WAX_OFF, true) != null
+                || (stack.getItem() instanceof HoneycombItem && HoneycombItem.getWaxed(state).isPresent());
     }
 
     private static boolean hasSupport(BlockState state, LevelReader level, BlockPos pos) {

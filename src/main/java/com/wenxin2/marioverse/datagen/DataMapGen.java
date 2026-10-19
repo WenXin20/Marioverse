@@ -119,6 +119,9 @@ public class DataMapGen extends DataMapProvider {
                 .add(GameEventRegistry.CHECKPOINT_ACTIVATED, new VibrationFrequency(11), false);
 
         builder(NeoForgeDataMaps.OXIDIZABLES)
+                .add(BlockRegistry.COPPER_SCREW, new Oxidizable(BlockRegistry.EXPOSED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_SCREW, new Oxidizable(BlockRegistry.WEATHERED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_SCREW, new Oxidizable(BlockRegistry.OXIDIZED_COPPER_SCREW.get()), false)
                 .add(BlockRegistry.COPPER_BRIDGE, new Oxidizable(BlockRegistry.EXPOSED_COPPER_BRIDGE.get()), false)
                 .add(BlockRegistry.EXPOSED_COPPER_BRIDGE, new Oxidizable(BlockRegistry.WEATHERED_COPPER_BRIDGE.get()), false)
                 .add(BlockRegistry.WEATHERED_COPPER_BRIDGE, new Oxidizable(BlockRegistry.OXIDIZED_COPPER_BRIDGE.get()), false)
@@ -168,6 +171,10 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.SPOOKROOT_WOOD, new Strippable(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get()), false);
 
         builder(NeoForgeDataMaps.WAXABLES)
+                .add(BlockRegistry.COPPER_SCREW, new Waxable(BlockRegistry.WAXED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_SCREW, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_SCREW, new Waxable(BlockRegistry.WAXED_WEATHERED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.OXIDIZED_COPPER_SCREW, new Waxable(BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW.get()), false)
                 .add(BlockRegistry.COPPER_BRIDGE, new Waxable(BlockRegistry.WAXED_COPPER_BRIDGE.get()), false)
                 .add(BlockRegistry.EXPOSED_COPPER_BRIDGE, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE.get()), false)
                 .add(BlockRegistry.WEATHERED_COPPER_BRIDGE, new Waxable(BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE.get()), false)

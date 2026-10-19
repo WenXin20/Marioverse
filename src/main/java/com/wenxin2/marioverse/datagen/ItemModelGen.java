@@ -51,6 +51,14 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(BlockRegistry.GOLD_SCREW.asItem());
         this.basicItem(BlockRegistry.IRON_SCREW.asItem());
         this.basicItem(BlockRegistry.NETHERITE_SCREW.asItem());
+        this.basicItem(BlockRegistry.COPPER_SCREW.asItem());
+        this.basicItem(BlockRegistry.EXPOSED_COPPER_SCREW.asItem());
+        this.basicItem(BlockRegistry.WEATHERED_COPPER_SCREW.asItem());
+        this.basicItem(BlockRegistry.OXIDIZED_COPPER_SCREW.asItem());
+        this.waxedItem(BlockRegistry.WAXED_COPPER_SCREW.asItem(), BlockRegistry.COPPER_SCREW.asItem());
+        this.waxedItem(BlockRegistry.WAXED_EXPOSED_COPPER_SCREW.asItem(), BlockRegistry.EXPOSED_COPPER_SCREW.asItem());
+        this.waxedItem(BlockRegistry.WAXED_WEATHERED_COPPER_SCREW.asItem(), BlockRegistry.WEATHERED_COPPER_SCREW.asItem());
+        this.waxedItem(BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW.asItem(), BlockRegistry.OXIDIZED_COPPER_SCREW.asItem());
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
         this.basicItem(BlockRegistry.MUSHROOT_DOOR.asItem());
         this.basicItem(BlockRegistry.SPOOKROOT_DOOR.asItem());
@@ -693,5 +701,12 @@ public class ItemModelGen extends ItemModelProvider {
                 }
             });
         });
+    }
+
+    public void waxedItem(Item waxedItem, Item item) {
+        ResourceLocation texture = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        this.getBuilder(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(waxedItem)).getPath())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(texture.getNamespace(), "item/" + texture.getPath()));
     }
 }

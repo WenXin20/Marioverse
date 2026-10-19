@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "marioverse:screws",
+  "key": {
+    "I": {
+      "tag": "c:ingots/copper"
+    },
+    "N": {
+      "tag": "c:ingots/copper"
+    }
+  },
+  "pattern": [
+    "I",
+    "N",
+    "N"
+  ],
+  "result": {
+    "count": 3,
+    "id": "marioverse:copper_screw"
+  }
+}

@@ -1,26 +1,14 @@
 ## Update 1.12.0
-- Fungal Stone sets
+- Improved Fungal Stone sets
   - Added new textures
   - Added Fungal Cobblestone sets
   - Added Hard Fungal Block sets
   - Added Rocky Fungal Stone sets
-- Deep Fungal Stone sets
+- Improved Deep Fungal Stone sets
   - Added new textures
   - Added Deep Fungal Cobblestone sets
   - Added Hard Deep Fungal Block sets
   - Added Rocky Deep Fungal Stone sets
-- Added Screws
-  - Right-click to screw it into the ground
-  - Shift-right-click to unscrew it
-  - Shift-right-clicking will place more screws from your gui if unscrewed above a block
-  - The lower a screw is, the more redstone power it will emit
-  - Placeable multiple blocks tall or on any block side
-- Added Picket Fences 
-  - Wood variants
-  - 16 dyed colors
-  - Gates for all variants
-  - Right-click to dye a column
-  - Shift-right-click to dye one block
 - Added Mushroot block set
   - Mushroot tree & mega Mushroot tree
   - Doors, Trapdoors, Signs & Hanging Signs
@@ -35,6 +23,17 @@
   - Framed Windows, Boards, Panels, & Hard Blocks
   - Picket Fences, Log Platforms
   - Boats & Chest Boats
+- Added Iron, Copper, Gold, & Netherite Screws
+  - Placeable multiple blocks tall or on any block side
+  - Right-click to screw it into the ground
+  - Shift-right-click to unscrew it
+  - Shift-right-clicking will place more screws from your gui if unscrewed above a block
+  - The lower a screw is, the more redstone power it will emit
+- Added Picket Fences w/ all wood variants
+  - 16 dyed colors
+  - Gates for all variants
+  - Right-click to dye a column
+  - Shift-right-click to dye one block
 - Added Hedges
   - Snowy Hedges, Pink, Red, & White Rose Hedges
   - Shovels remove snow, snow layers make hedges snow

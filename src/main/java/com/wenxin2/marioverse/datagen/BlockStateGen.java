@@ -311,6 +311,14 @@ public class BlockStateGen extends BlockStateProvider {
         this.screwModel(BlockRegistry.GOLD_SCREW.get(), blockTexture(BlockRegistry.GOLD_SCREW.get()));
         this.screwModel(BlockRegistry.IRON_SCREW.get(), blockTexture(BlockRegistry.IRON_SCREW.get()));
         this.screwModel(BlockRegistry.NETHERITE_SCREW.get(), blockTexture(BlockRegistry.NETHERITE_SCREW.get()));
+        this.screwModel(BlockRegistry.COPPER_SCREW.get(), blockTexture(BlockRegistry.COPPER_SCREW.get()));
+        this.screwModel(BlockRegistry.EXPOSED_COPPER_SCREW.get(), blockTexture(BlockRegistry.EXPOSED_COPPER_SCREW.get()));
+        this.screwModel(BlockRegistry.WEATHERED_COPPER_SCREW.get(), blockTexture(BlockRegistry.WEATHERED_COPPER_SCREW.get()));
+        this.screwModel(BlockRegistry.OXIDIZED_COPPER_SCREW.get(), blockTexture(BlockRegistry.OXIDIZED_COPPER_SCREW.get()));
+        this.screwModel(BlockRegistry.WAXED_COPPER_SCREW.get(), blockTexture(BlockRegistry.COPPER_SCREW.get()));
+        this.screwModel(BlockRegistry.WAXED_EXPOSED_COPPER_SCREW.get(), blockTexture(BlockRegistry.EXPOSED_COPPER_SCREW.get()));
+        this.screwModel(BlockRegistry.WAXED_WEATHERED_COPPER_SCREW.get(), blockTexture(BlockRegistry.WEATHERED_COPPER_SCREW.get()));
+        this.screwModel(BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW.get(), blockTexture(BlockRegistry.OXIDIZED_COPPER_SCREW.get()));
         this.mushroomTrampolineModel(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), false);
         this.mushroomTrampolineModel(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get(), true);
         this.mushroomTrampolineModel(BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK.get());

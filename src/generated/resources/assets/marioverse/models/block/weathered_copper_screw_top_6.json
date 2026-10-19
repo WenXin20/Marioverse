@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_screw_top_6",
+  "textures": {
+    "bottom": "marioverse:block/weathered_copper_screw_bottom",
+    "overlay": "marioverse:block/weathered_copper_screw_overlay",
+    "particle": "marioverse:block/weathered_copper_screw",
+    "top": "marioverse:block/weathered_copper_screw"
+  }
+}

@@ -16,8 +16,7 @@ public class WeatheringCopperQuestionBlock extends QuestionBlock implements Enti
     public static final MapCodec<WeatheringCopperQuestionBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(WeatheringCopper.WeatherState.CODEC.fieldOf("weathering_state")
                             .forGetter(ChangeOverTimeBlock::getAge), propertiesCodec())
-                    .apply(instance, WeatheringCopperQuestionBlock::new)
-    );
+                    .apply(instance, WeatheringCopperQuestionBlock::new));
     private final WeatheringCopper.WeatherState weatherState;
 
     @NotNull

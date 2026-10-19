@@ -15,8 +15,7 @@ public class WeatheringCopperLoopholeBlock extends LoopholeBlock implements Weat
     public static final MapCodec<WeatheringCopperLoopholeBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(WeatheringCopper.WeatherState.CODEC.fieldOf("weathering_state")
                             .forGetter(ChangeOverTimeBlock::getAge), propertiesCodec())
-                    .apply(instance, WeatheringCopperLoopholeBlock::new)
-    );
+                    .apply(instance, WeatheringCopperLoopholeBlock::new));
     private final WeatheringCopper.WeatherState weatherState;
 
     @NotNull

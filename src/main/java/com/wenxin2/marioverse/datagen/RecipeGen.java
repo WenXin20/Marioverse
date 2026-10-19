@@ -200,6 +200,7 @@ public class RecipeGen extends RecipeUtils {
         plusRecipe(1, "storage_bricks", BlockRegistry.STORAGE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.STORAGE_NETHER_BRICKS, true, output);
         plusRecipe(4, "glow_block", BlockRegistry.GLOW_BLOCK, Tags.Items.GLASS_BLOCKS_COLORLESS, Blocks.GLOWSTONE, false, output);
         screwRecipe(3, "screws", BlockRegistry.GOLD_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, false, output);
+        screwRecipe(3, "screws", BlockRegistry.COPPER_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_COPPER, Tags.Items.INGOTS_COPPER, false, output);
         screwRecipe(3, "screws", BlockRegistry.IRON_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_IRON, Tags.Items.NUGGETS_IRON, false, output);
         screwRecipe(6, "screws", BlockRegistry.NETHERITE_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_NETHERITE, Items.NETHERITE_SCRAP, false, output);
         spikePanelRecipe(3, "spike_panels", BlockRegistry.SPIKE_PANEL, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, Blocks.POLISHED_DEEPSLATE_SLAB, false, output);
@@ -248,6 +249,10 @@ public class RecipeGen extends RecipeUtils {
         waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, BlockRegistry.EXPOSED_COPPER_BRIDGE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, BlockRegistry.WEATHERED_COPPER_BRIDGE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, BlockRegistry.OXIDIZED_COPPER_BRIDGE, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_COPPER_SCREW, BlockRegistry.COPPER_SCREW, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_SCREW, BlockRegistry.EXPOSED_COPPER_SCREW, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_SCREW, BlockRegistry.WEATHERED_COPPER_SCREW, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW, BlockRegistry.OXIDIZED_COPPER_SCREW, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_COPPER_QUESTION_BLOCK, BlockRegistry.COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, BlockRegistry.CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK, BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);

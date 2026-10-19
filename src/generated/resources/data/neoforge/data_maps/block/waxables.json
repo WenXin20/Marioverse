@@ -6,6 +6,9 @@
     "marioverse:copper_question_block": {
       "waxed": "marioverse:waxed_copper_question_block"
     },
+    "marioverse:copper_screw": {
+      "waxed": "marioverse:waxed_copper_screw"
+    },
     "marioverse:cut_copper_loophole": {
       "waxed": "marioverse:waxed_cut_copper_loophole"
     },
@@ -17,6 +20,9 @@
     },
     "marioverse:exposed_copper_question_block": {
       "waxed": "marioverse:waxed_exposed_copper_question_block"
+    },
+    "marioverse:exposed_copper_screw": {
+      "waxed": "marioverse:waxed_exposed_copper_screw"
     },
     "marioverse:exposed_cut_copper_loophole": {
       "waxed": "marioverse:waxed_exposed_cut_copper_loophole"
@@ -41,6 +47,9 @@
     },
     "marioverse:oxidized_copper_question_block": {
       "waxed": "marioverse:waxed_oxidized_copper_question_block"
+    },
+    "marioverse:oxidized_copper_screw": {
+      "waxed": "marioverse:waxed_oxidized_copper_screw"
     },
     "marioverse:oxidized_cut_copper_loophole": {
       "waxed": "marioverse:waxed_oxidized_cut_copper_loophole"
@@ -77,6 +86,9 @@
     },
     "marioverse:weathered_copper_question_block": {
       "waxed": "marioverse:waxed_weathered_copper_question_block"
+    },
+    "marioverse:weathered_copper_screw": {
+      "waxed": "marioverse:waxed_weathered_copper_screw"
     },
     "marioverse:weathered_cut_copper_loophole": {
       "waxed": "marioverse:waxed_weathered_cut_copper_loophole"

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.blocks.ScrewBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperScrewBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
@@ -280,6 +281,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> COIN;
     public static final DeferredBlock<Block> COPPER_BRIDGE;
     public static final DeferredBlock<Block> COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> COPPER_SCREW;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CRACKED_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_FORTSTONE_BRICKS;
@@ -353,6 +355,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> EXPOSED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> EXPOSED_COPPER_SCREW;
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> FIRE_CORAL_TOWER;
@@ -625,6 +628,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> ORANGE_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> OXIDIZED_COPPER_SCREW;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
@@ -962,22 +966,27 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WATER_SPOUT;
     public static final DeferredBlock<Block> WAXED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_COPPER_SCREW;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_SCREW;
     public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_SCREW;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_SCREW;
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WEATHERED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WEATHERED_COPPER_SCREW;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> WET_MUD;
@@ -1058,6 +1067,22 @@ public class BlockRegistry {
                 () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                         .sound(SoundType.NETHERITE_BLOCK).strength(50.0F, 1200.0F).requiresCorrectToolForDrops()),
                 new Item.Properties().fireResistant());
+        COPPER_SCREW = registerBlock("copper_screw",
+                () -> new WeatheringCopperScrewBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)));
+        EXPOSED_COPPER_SCREW = registerBlock("exposed_copper_screw",
+                () -> new WeatheringCopperScrewBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
+        WEATHERED_COPPER_SCREW = registerBlock("weathered_copper_screw",
+                () -> new WeatheringCopperScrewBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
+        OXIDIZED_COPPER_SCREW = registerBlock("oxidized_copper_screw",
+                () -> new WeatheringCopperScrewBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+        WAXED_COPPER_SCREW = registerBlock("waxed_copper_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_COPPER_BLOCK)));
+        WAXED_EXPOSED_COPPER_SCREW = registerBlock("waxed_exposed_copper_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+        WAXED_WEATHERED_COPPER_SCREW = registerBlock("waxed_weathered_copper_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+        WAXED_OXIDIZED_COPPER_SCREW = registerBlock("waxed_oxidized_copper_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
 
 
         IRON_SPIKE = registerBlock("iron_spike",
