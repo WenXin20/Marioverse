@@ -266,7 +266,7 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
             return true;
         }
 
-        ItemStack screwStack = ScrewBlock.findScrewItem(player);
+        ItemStack screwStack = ScrewBlock.findScrewItem(player, topState.getBlock());
         if (screwStack.isEmpty() && !player.hasInfiniteMaterials())
             return false;
 
@@ -300,15 +300,20 @@ public class ScrewBlock extends DirectionalBlock implements SimpleWaterloggedBlo
         }
     }
 
-    private static ItemStack findScrewItem(Player player) {
+    private static ItemStack findScrewItem(Player player, Block preferredScrew) {
         Inventory inventory = player.getInventory();
+        ItemStack fallback = ItemStack.EMPTY;
 
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
             ItemStack stack = inventory.getItem(slot);
-            if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof ScrewBlock)
-                return stack;
+            if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof ScrewBlock) {
+                if (blockItem.getBlock() == preferredScrew)
+                    return stack;
+                if (fallback.isEmpty())
+                    fallback = stack;
+            }
         }
-        return ItemStack.EMPTY;
+        return fallback;
     }
 
     private static boolean isModifiedByItem(ItemStack stack, BlockState state, Player player,
