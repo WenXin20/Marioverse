@@ -201,6 +201,14 @@ public class RecipeGen extends RecipeUtils {
         plusRecipe(4, "glow_block", BlockRegistry.GLOW_BLOCK, Tags.Items.GLASS_BLOCKS_COLORLESS, Blocks.GLOWSTONE, false, output);
         screwRecipe(3, "screws", BlockRegistry.GOLD_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, false, output);
         screwRecipe(3, "screws", BlockRegistry.COPPER_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_COPPER, Tags.Items.INGOTS_COPPER, false, output);
+        stonecuttingFromBase(9, BlockRegistry.COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.COPPER_BLOCK, output);
+        stonecuttingFromBase(9, BlockRegistry.EXPOSED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.EXPOSED_COPPER, output);
+        stonecuttingFromBase(9, BlockRegistry.WEATHERED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WEATHERED_COPPER, output);
+        stonecuttingFromBase(9, BlockRegistry.OXIDIZED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.OXIDIZED_COPPER, output);
+        stonecuttingFromBase(9, BlockRegistry.WAXED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WAXED_COPPER_BLOCK, output);
+        stonecuttingFromBase(9, BlockRegistry.WAXED_EXPOSED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WAXED_EXPOSED_COPPER, output);
+        stonecuttingFromBase(9, BlockRegistry.WAXED_WEATHERED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WAXED_WEATHERED_COPPER, output);
+        stonecuttingFromBase(9, BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WAXED_OXIDIZED_COPPER, output);
         screwRecipe(3, "screws", BlockRegistry.IRON_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_IRON, Tags.Items.NUGGETS_IRON, false, output);
         screwRecipe(6, "screws", BlockRegistry.NETHERITE_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_NETHERITE, Items.NETHERITE_SCRAP, false, output);
         spikePanelRecipe(3, "spike_panels", BlockRegistry.SPIKE_PANEL, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, Blocks.POLISHED_DEEPSLATE_SLAB, false, output);
