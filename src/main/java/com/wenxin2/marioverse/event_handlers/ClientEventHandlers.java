@@ -88,6 +88,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -560,7 +561,10 @@ public class ClientEventHandlers {
     }
 
     @SubscribeEvent
-    public static void onRenderOverlay(RenderGuiLayerEvent.Pre event) {
+    public static void onRenderOverlay(RenderGuiLayerEvent.Post event) {
+        if (!event.getName().equals(VanillaGuiLayers.CAMERA_OVERLAYS))
+            return;
+
         GuiGraphics gui = event.getGuiGraphics();
         int w = gui.guiWidth();
         int h = gui.guiHeight();
