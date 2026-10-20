@@ -1596,7 +1596,7 @@ public class BlockRegistry {
                 () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.WHITE_ROSE_HEDGE,
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
                         false, true));
-        
+
 
         SHROOMSOIL = registerBlock("shroomsoil",
                 () -> new ShroomsoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));

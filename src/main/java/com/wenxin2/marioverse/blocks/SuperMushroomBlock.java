@@ -123,8 +123,7 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
             return true;
 
         BlockPos posAbove = this.getTopPos(levelReader, pos).above();
-        return !levelReader.isOutsideBuildHeight(posAbove) && levelReader.isEmptyBlock(posAbove)
-                && this.canGrowTaller(levelReader, pos);
+        return !levelReader.isOutsideBuildHeight(posAbove) && levelReader.isEmptyBlock(posAbove);
     }
 
     @Override
