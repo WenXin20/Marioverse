@@ -62,8 +62,8 @@
 - Added Shroomsoil and Shroomgrass Block
 - Added Shroomsoil Farmland & Path
 - Added Wet Mud, smelts into vanilla mud
-- Deep Wet Mud, super slippery
-- Wet Mud Farmland, always moist
+- Added Deep Wet Mud, super slippery
+- Added Wet Mud Farmland, always moist
 - Added Short Shroomgrass, Shroomgrass, & Tall Shroomgrass
 - Added Shrubrooms
 - Added bloomflowers of various colors
