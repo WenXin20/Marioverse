@@ -753,6 +753,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUICKSAND;
     public static final DeferredBlock<Block> RED_BLOOMFLOWER;
+    public static final DeferredBlock<Block> RED_DIAMOND_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> RED_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> RED_MEGA_MUSHROOM_TRAMPOLINE;
@@ -3700,6 +3701,10 @@ public class BlockRegistry {
         Arrays.stream(DyeColor.values()).forEach(color ->
                 PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
+
+
+        RED_DIAMOND_PARKOUR_BLOCK = registerBlock("red_diamond_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.RED)));
 
 
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",

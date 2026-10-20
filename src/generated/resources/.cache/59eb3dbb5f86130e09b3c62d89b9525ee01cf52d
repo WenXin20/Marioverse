@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-18T21:27:03.2806039	Loot Tables
+// 1.21.1	2026-10-20T01:44:34.0098	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -721,6 +721,7 @@ fb59c512a2e22f10acf4deac1c89733c4427cead data/marioverse/loot_table/blocks/red_c
 4c04ed8527914c5eca802aa9d4f3e5af2659afa1 data/marioverse/loot_table/blocks/red_calcite_brick_pedestal.json
 3c58314edb62dc6038a3879914d170286d320ce0 data/marioverse/loot_table/blocks/red_calcite_bridge.json
 64d3b0b552dfc7aefb5d815b6c9acbde6e0c8d0e data/marioverse/loot_table/blocks/red_checkpoint_flag.json
+d3342ae58e7e946b6ccd16e207c974b497d59950 data/marioverse/loot_table/blocks/red_diamond_parkour_block.json
 ca678fa3ec46799f2d26d0547ac86ca70e3fa32d data/marioverse/loot_table/blocks/red_dotted_line_block.json
 ecad661a56521cdd4d2257d23bb1f7150cb85c4c data/marioverse/loot_table/blocks/red_goal_pole.json
 e3df18dfa26a4e06486cce10f0886f4492ac4ba3 data/marioverse/loot_table/blocks/red_mega_mushroom.json

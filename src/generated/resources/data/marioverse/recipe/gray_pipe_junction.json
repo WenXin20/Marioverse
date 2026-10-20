@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:pipe_junctions",
+  "key": {
+    "D": {
+      "tag": "c:dyes/gray"
+    },
+    "I": {
+      "tag": "c:ingots/copper"
+    }
+  },
+  "pattern": [
+    "III",
+    "IDI",
+    "III"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:gray_pipe_junction"
+  }
+}

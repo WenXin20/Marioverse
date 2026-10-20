@@ -913,6 +913,22 @@ public class RecipeUtils extends RecipeProvider {
         else builder.save(output);
     }
 
+    public void parkourBlockRecipe(int outputAmt, ItemLike outputItem, Object screw, Object ingot, Object dye, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .pattern("SIS")
+                .pattern("IDI")
+                .pattern("SIS")
+                .group(Marioverse.MOD_ID + ":parkour_blocks");
+
+        defineIngredient(builder, 'S', screw);
+        defineIngredient(builder, 'I', ingot);
+        defineIngredient(builder, 'D', dye);
+
+        builder.unlockedBy(getUnlockName(screw), unlockCriterion(screw));
+        builder.save(output);
+    }
+
     public void pedestalRecipe(int outputAmt, ItemLike outputItem, ItemLike inputItem, RecipeOutput output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
                 .define('B', inputItem)
@@ -939,6 +955,21 @@ public class RecipeUtils extends RecipeProvider {
         if (uniqueFileName && slab instanceof ItemLike itemLike)
             builder.save(output, Marioverse.MOD_ID + ":" + getConversionRecipeName(outputItem, itemLike) + "_" + outputAmt);
         else builder.save(output);
+    }
+
+    public void pipeJunctionRecipe(int outputAmt, ItemLike outputItem, Object ingot, Object dye, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .pattern("III")
+                .pattern("IDI")
+                .pattern("III")
+                .group(Marioverse.MOD_ID + ":pipe_junctions");
+
+        defineIngredient(builder, 'I', ingot);
+        defineIngredient(builder, 'D', dye);
+
+        builder.unlockedBy(getUnlockName(ingot), unlockCriterion(ingot));
+        builder.save(output);
     }
 
     public void screwRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,

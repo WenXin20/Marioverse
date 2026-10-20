@@ -509,6 +509,8 @@ public class BlockStateGen extends BlockStateProvider {
             this.cubeAllModel(entry.getValue().get(), texture);
         }
 
+        this.cubeAllModel(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get()));
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
             ResourceLocation entranceTexture = modLoc("block/" + blockName + "_entrance_side");

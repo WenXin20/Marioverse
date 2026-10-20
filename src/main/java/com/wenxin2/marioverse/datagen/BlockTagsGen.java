@@ -1519,7 +1519,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .addTag(TagRegistry.HARD_BLOCKS)
-                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
+                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
+                .add(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get());
 
         tag(BlockTags.PARROTS_SPAWNABLE_ON)
                 .addTag(TagRegistry.GRASSY_STONES)
@@ -2009,6 +2010,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.PRISMARINE_BRIDGE.get())
                 .add(BlockRegistry.PURPUR_BRIDGE.get())
                 .add(BlockRegistry.QUARTZ_BRIDGE.get())
+                .add(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.RED_NETHER_BRICK_BRIDGE.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICKS.get())

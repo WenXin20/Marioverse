@@ -2,6 +2,7 @@
   "values": [
     "#marioverse:dyeable_warp_pipes",
     "#marioverse:hard_blocks",
-    "#marioverse:pipe_junction_blocks"
+    "#marioverse:pipe_junction_blocks",
+    "marioverse:red_diamond_parkour_block"
   ]
 }

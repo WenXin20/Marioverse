@@ -58,6 +58,7 @@
   - Every Compat support
 - Added Hard Wooden Blocks for all wood types
   - Every Compat support
+- Added Diamond Parkour Blocks
 - Added Shroomsoil and Shroomgrass Block
 - Added Shroomsoil Farmland & Path
 - Added Wet Mud, smelts into vanilla mud
@@ -77,6 +78,7 @@
   - Saves to the block entity now
   - Reduces states from 192 to 48
 - Improved bouncing on bouncy blocks
+- Changed pipe junction recipe
 - Fixed flammability of Log Stairs
 - Fixed Supplementaries soap not working with some dyed blocks
 - Fixed peaceful difficulty causing some blocks/enemies to not do damage
