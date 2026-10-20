@@ -110,6 +110,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ColorRGBA;
@@ -1546,20 +1548,29 @@ public class BlockRegistry {
 
 
         HEDGE = registerBlock("hedge",
-                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
 
         PINK_ROSE_HEDGE = registerBlock("pink_rose_hedge",
-                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
 
         RED_ROSE_HEDGE = registerBlock("red_rose_hedge",
-                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
 
         SNOWY_HEDGE = registerNoItemBlock("snowy_hedge",
-                () -> new SnowyHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())
-                        .mapColor(MapColor.SNOW)));
+                () -> new SnowyHedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
 
         WHITE_ROSE_HEDGE = registerBlock("white_rose_hedge",
-                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_LEAVES.get())));
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
 
         POTTED_HEDGE = registerNoItemBlock("potted_hedge",
                 () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.HEDGE,
