@@ -880,6 +880,7 @@ public class MarioverseCreativeTabs {
 
             addDyedBlocks(event, BlockRegistry.LARGE_WARPED_ARROW_SIGN, BlockRegistry.PIPE_JUNCTION, true, true);
             add(event, BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK);
+            add(event, BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK);
             add(event, Blocks.CALCITE);
             addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE, true, true);
             addDyedBlocks(event, BlockRegistry.CALCITE.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE, true, true);

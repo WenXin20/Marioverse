@@ -690,6 +690,8 @@ public class RecipeGen extends RecipeUtils {
             pipeJunctionRecipe(1, entry.getValue(), Tags.Items.INGOTS_COPPER, dyeItemTag, output);
         }
 
+        parkourBlockRecipe(1, BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+                TagRegistry.itemTags("c", "dyes/" + DyeColor.BLUE.getName()), output);
         parkourBlockRecipe(1, BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.RED.getName()), output);
 

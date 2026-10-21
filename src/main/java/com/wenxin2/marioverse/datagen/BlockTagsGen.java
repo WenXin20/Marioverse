@@ -1520,6 +1520,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .addTag(TagRegistry.HARD_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
+                .add(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get());
 
         tag(BlockTags.PARROTS_SPAWNABLE_ON)
@@ -1855,6 +1856,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ANDESITE_BRIDGE.get())
                 .add(BlockRegistry.BLACKSTONE_BRIDGE.get())
                 .add(BlockRegistry.BLOCK_SPAWNER.get())
+                .add(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.BRICK_BRIDGE.get())
                 .add(BlockRegistry.CALCITE_BUTTON.get())

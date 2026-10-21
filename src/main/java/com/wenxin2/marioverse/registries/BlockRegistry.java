@@ -231,6 +231,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BLOCK_SPAWNER;
     public static final DeferredBlock<Block> BLUE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> BLUE_DIAMOND_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
     public static final DeferredBlock<Block> BLUE_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
@@ -3703,6 +3704,8 @@ public class BlockRegistry {
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
 
 
+        BLUE_DIAMOND_PARKOUR_BLOCK = registerBlock("blue_diamond_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.BLUE)));
         RED_DIAMOND_PARKOUR_BLOCK = registerBlock("red_diamond_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.RED)));
 
