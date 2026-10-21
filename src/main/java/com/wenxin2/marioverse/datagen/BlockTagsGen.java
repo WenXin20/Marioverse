@@ -881,6 +881,14 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPOOKROOT_PANELS.get())
                 .add(BlockRegistry.SPOOKROOT_PLANKS.get());
 
+        tag(TagRegistry.PARKOUR_BLOCKS)
+                .addTag(TagRegistry.DIAMOND_PARKOUR_BLOCKS);
+
+        tag(TagRegistry.DIAMOND_PARKOUR_BLOCKS)
+                .add(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get());
+
         tag(TagRegistry.PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES);
 
@@ -1519,9 +1527,8 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .addTag(TagRegistry.HARD_BLOCKS)
-                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
-                .add(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get());
+                .addTag(TagRegistry.PARKOUR_BLOCKS)
+                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
 
         tag(BlockTags.PARROTS_SPAWNABLE_ON)
                 .addTag(TagRegistry.GRASSY_STONES)
@@ -1837,6 +1844,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.GRASSY_STONES)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .addTag(TagRegistry.PARKOUR_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
@@ -1856,7 +1864,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.ANDESITE_BRIDGE.get())
                 .add(BlockRegistry.BLACKSTONE_BRIDGE.get())
                 .add(BlockRegistry.BLOCK_SPAWNER.get())
-                .add(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.BRICK_BRIDGE.get())
                 .add(BlockRegistry.CALCITE_BUTTON.get())
@@ -2012,7 +2019,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.PRISMARINE_BRIDGE.get())
                 .add(BlockRegistry.PURPUR_BRIDGE.get())
                 .add(BlockRegistry.QUARTZ_BRIDGE.get())
-                .add(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.RED_NETHER_BRICK_BRIDGE.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICKS.get())

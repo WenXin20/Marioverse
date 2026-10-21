@@ -402,6 +402,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> GRASSY_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> GRASSY_FORTSTONE;
     public static final DeferredBlock<Block> GRASSY_FUNGAL_STONE;
+    public static final DeferredBlock<Block> GREEN_DIAMOND_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> GREEN_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> GREEN_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> GREEN_SUPER_MUSHROOM_BLOCK;
@@ -3706,6 +3707,8 @@ public class BlockRegistry {
 
         BLUE_DIAMOND_PARKOUR_BLOCK = registerBlock("blue_diamond_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.BLUE)));
+        GREEN_DIAMOND_PARKOUR_BLOCK = registerBlock("green_diamond_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.GREEN)));
         RED_DIAMOND_PARKOUR_BLOCK = registerBlock("red_diamond_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.RED)));
 

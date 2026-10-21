@@ -510,6 +510,7 @@ public class BlockStateGen extends BlockStateProvider {
         }
 
         this.cubeAllModel(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get()));
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {

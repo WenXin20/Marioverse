@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-20T13:38:38.9943714	Loot Tables
+// 1.21.1	2026-10-21T00:33:57.7996857	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -291,6 +291,7 @@ f9d9be3ddeb97ee2adfffcd23855b0ad03802627 data/marioverse/loot_table/blocks/green
 abdbc9dc1f491a3252aa0d6d854a95d39fc5885e data/marioverse/loot_table/blocks/green_calcite_brick_pedestal.json
 eb044f6fb79b71e6d0dbc0ffab4dc4a7dba5e729 data/marioverse/loot_table/blocks/green_calcite_bridge.json
 ba892bfcbaca11a0e709187f2c7cacf71bb90e92 data/marioverse/loot_table/blocks/green_checkpoint_flag.json
+07c7054f73625fbbe07efa7af5f79427f83d6c16 data/marioverse/loot_table/blocks/green_diamond_parkour_block.json
 e171a1753a8c62620b5f631cb92c42e4eeb3d447 data/marioverse/loot_table/blocks/green_goal_pole.json
 8517ebe69de61c3b9f3006a31f2b4fb195c13f53 data/marioverse/loot_table/blocks/green_mega_mushroom.json
 1862923429c249331796ccd4ab2e0bee49e4e936 data/marioverse/loot_table/blocks/green_picket_fence.json

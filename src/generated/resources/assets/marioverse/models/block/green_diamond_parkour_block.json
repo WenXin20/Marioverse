@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "marioverse:block/green_diamond_parkour_block"
+  }
+}
