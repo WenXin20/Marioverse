@@ -1002,6 +1002,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
     public static final DeferredBlock<Block> WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> YELLOW_BLOOMFLOWER;
+    public static final DeferredBlock<Block> YELLOW_DIAMOND_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> YELLOW_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> YELLOW_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> YELLOW_SUPER_MUSHROOM_BLOCK;
@@ -3711,6 +3712,8 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.GREEN)));
         RED_DIAMOND_PARKOUR_BLOCK = registerBlock("red_diamond_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.RED)));
+        YELLOW_DIAMOND_PARKOUR_BLOCK = registerBlock("yellow_diamond_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.YELLOW)));
 
 
         PIPE_BUBBLES = registerNoItemBlock("pipe_bubbles",
