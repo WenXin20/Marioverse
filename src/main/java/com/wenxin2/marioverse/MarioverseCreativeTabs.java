@@ -879,13 +879,13 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LARGE_WARPED_ARROW_SIGN);
 
             addDyedBlocks(event, BlockRegistry.LARGE_WARPED_ARROW_SIGN, BlockRegistry.PIPE_JUNCTION, true, true);
-            add(event, BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK);
-            add(event, BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK);
-            add(event, BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK);
-            add(event, BlockRegistry.YELLOW_DIAMOND_PARKOUR_BLOCK);
-            add(event, BlockRegistry.CYAN_DIAMOND_PARKOUR_BLOCK);
-            add(event, BlockRegistry.PURPLE_DIAMOND_PARKOUR_BLOCK);
-            add(event, BlockRegistry.PINK_DIAMOND_PARKOUR_BLOCK);
+            add(event, BlockRegistry.RED_RHOMBUS_PARKOUR_BLOCK);
+            add(event, BlockRegistry.BLUE_RHOMBUS_PARKOUR_BLOCK);
+            add(event, BlockRegistry.GREEN_RHOMBUS_PARKOUR_BLOCK);
+            add(event, BlockRegistry.YELLOW_RHOMBUS_PARKOUR_BLOCK);
+            add(event, BlockRegistry.CYAN_RHOMBUS_PARKOUR_BLOCK);
+            add(event, BlockRegistry.PURPLE_RHOMBUS_PARKOUR_BLOCK);
+            add(event, BlockRegistry.PINK_RHOMBUS_PARKOUR_BLOCK);
             add(event, Blocks.CALCITE);
             addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE, true, true);
             addDyedBlocks(event, BlockRegistry.CALCITE.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE, true, true);

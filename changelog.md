@@ -58,7 +58,7 @@
   - Every Compat support
 - Added Hard Wooden Blocks for all wood types
   - Every Compat support
-- Added Diamond Parkour Blocks
+- Added Rhombus Parkour Blocks
 - Added Shroomsoil and Shroomgrass Block
 - Added Shroomsoil Farmland & Path
 - Added Wet Mud, smelts into vanilla mud

@@ -882,16 +882,16 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPOOKROOT_PLANKS.get());
 
         tag(TagRegistry.PARKOUR_BLOCKS)
-                .addTag(TagRegistry.DIAMOND_PARKOUR_BLOCKS);
+                .addTag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS);
 
-        tag(TagRegistry.DIAMOND_PARKOUR_BLOCKS)
-                .add(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.CYAN_DIAMOND_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.PINK_DIAMOND_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.PURPLE_DIAMOND_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.YELLOW_DIAMOND_PARKOUR_BLOCK.get());
+        tag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS)
+                .add(BlockRegistry.BLUE_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.CYAN_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.GREEN_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.PINK_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.PURPLE_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.RED_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.YELLOW_RHOMBUS_PARKOUR_BLOCK.get());
 
         tag(TagRegistry.PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES);

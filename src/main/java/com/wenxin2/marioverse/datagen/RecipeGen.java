@@ -690,19 +690,19 @@ public class RecipeGen extends RecipeUtils {
             pipeJunctionRecipe(1, entry.getValue(), Tags.Items.INGOTS_COPPER, dyeItemTag, output);
         }
 
-        parkourBlockRecipe(1, BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+        parkourBlockRecipe(1, BlockRegistry.BLUE_RHOMBUS_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.BLUE.getName()), output);
-        parkourBlockRecipe(1, BlockRegistry.CYAN_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+        parkourBlockRecipe(1, BlockRegistry.CYAN_RHOMBUS_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.CYAN.getName()), output);
-        parkourBlockRecipe(1, BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+        parkourBlockRecipe(1, BlockRegistry.GREEN_RHOMBUS_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.GREEN.getName()), output);
-        parkourBlockRecipe(1, BlockRegistry.PINK_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+        parkourBlockRecipe(1, BlockRegistry.PINK_RHOMBUS_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.PINK.getName()), output);
-        parkourBlockRecipe(1, BlockRegistry.PURPLE_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+        parkourBlockRecipe(1, BlockRegistry.PURPLE_RHOMBUS_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.PURPLE.getName()), output);
-        parkourBlockRecipe(1, BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+        parkourBlockRecipe(1, BlockRegistry.RED_RHOMBUS_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.RED.getName()), output);
-        parkourBlockRecipe(1, BlockRegistry.YELLOW_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+        parkourBlockRecipe(1, BlockRegistry.YELLOW_RHOMBUS_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.YELLOW.getName()), output);
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
