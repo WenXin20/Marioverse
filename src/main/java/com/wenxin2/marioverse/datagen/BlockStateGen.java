@@ -512,6 +512,8 @@ public class BlockStateGen extends BlockStateProvider {
         this.cubeAllModel(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.CYAN_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.CYAN_DIAMOND_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.PINK_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.PINK_DIAMOND_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.PURPLE_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.PURPLE_DIAMOND_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.YELLOW_DIAMOND_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.YELLOW_DIAMOND_PARKOUR_BLOCK.get()));
 

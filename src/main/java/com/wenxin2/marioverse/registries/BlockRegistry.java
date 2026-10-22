@@ -639,6 +639,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
     public static final DeferredBlock<Block> PEACH_ABILITY_BLOCK;
     public static final DeferredBlock<Block> PINK_BLOOMFLOWER;
+    public static final DeferredBlock<Block> PINK_DIAMOND_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> PINK_MEGA_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> PINK_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> PINK_MUSHROOM_TRAMPOLINE_BLOCK;
@@ -741,6 +742,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> PRISMARINE_BRIDGE;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> PURPLE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> PURPLE_DIAMOND_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> PURPLE_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> PURPLE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> PURPLE_SUPER_MUSHROOM_BLOCK;
@@ -3713,6 +3715,10 @@ public class BlockRegistry {
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.CYAN)));
         GREEN_DIAMOND_PARKOUR_BLOCK = registerBlock("green_diamond_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.GREEN)));
+        PINK_DIAMOND_PARKOUR_BLOCK = registerBlock("pink_diamond_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.PINK)));
+        PURPLE_DIAMOND_PARKOUR_BLOCK = registerBlock("purple_diamond_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.PURPLE)));
         RED_DIAMOND_PARKOUR_BLOCK = registerBlock("red_diamond_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.RED)));
         YELLOW_DIAMOND_PARKOUR_BLOCK = registerBlock("yellow_diamond_parkour_block",

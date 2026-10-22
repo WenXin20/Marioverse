@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-21T23:35:13.6524123	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-10-22T16:24:29.4705487	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -128,7 +128,7 @@ bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/item/mushroot_logs
 1246002449a1e94e6f47058a9210307d8ff68423 data/marioverse/tags/item/mushroot_planks.json
 5caef3bf5fe1f82caaeaac7f566d0787b4b83f19 data/marioverse/tags/item/pants.json
 9387adb8f81fdb0c57ebf4faeef514f5d8016c6a data/marioverse/tags/item/parkour_blocks.json
-9106c5c81a3574d51bc174d50987f8bad17d85e5 data/marioverse/tags/item/parkour_blocks/diamond.json
+1eb7b6d7c12657ea4ffd8a22c5db6ee5f9bd286e data/marioverse/tags/item/parkour_blocks/diamond.json
 393c1f9f28db0dd7eae67122cec8180a27617585 data/marioverse/tags/item/picket_fences.json
 254fc79490323d2acc833b1eed66097550f55b13 data/marioverse/tags/item/picket_fences/dyed.json
 4ba6e02432fc3dbae9ecbeb344e69a02a07e4b9d data/marioverse/tags/item/picket_fences/flammable.json
