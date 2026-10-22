@@ -692,6 +692,8 @@ public class RecipeGen extends RecipeUtils {
 
         parkourBlockRecipe(1, BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.BLUE.getName()), output);
+        parkourBlockRecipe(1, BlockRegistry.CYAN_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
+                TagRegistry.itemTags("c", "dyes/" + DyeColor.CYAN.getName()), output);
         parkourBlockRecipe(1, BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,
                 TagRegistry.itemTags("c", "dyes/" + DyeColor.GREEN.getName()), output);
         parkourBlockRecipe(1, BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK, TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER,

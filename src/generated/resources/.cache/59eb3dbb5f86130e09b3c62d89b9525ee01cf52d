@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-21T20:21:49.0695631	Loot Tables
+// 1.21.1	2026-10-21T23:35:13.5172529	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -174,6 +174,7 @@ d5c52e9e9fe4f2172d1e2a41c68f7f262803bcfa data/marioverse/loot_table/blocks/cyan_
 7e1ccbfa8fd92a425f93a706d803581b994eee3f data/marioverse/loot_table/blocks/cyan_calcite_brick_pedestal.json
 1fc66c0494f0a4c74baca519e2cbe866f9774b6a data/marioverse/loot_table/blocks/cyan_calcite_bridge.json
 c790f7222ef90174d0c92aa3ed53d11899b32c22 data/marioverse/loot_table/blocks/cyan_checkpoint_flag.json
+96eaacf6a8332d366c95476cf6b91ef0b1aa4a71 data/marioverse/loot_table/blocks/cyan_diamond_parkour_block.json
 2b467ec5f88690624b563af0494718704e426c83 data/marioverse/loot_table/blocks/cyan_goal_pole.json
 5bfb7ff22763b01d618845a21c8efb0b17b90c98 data/marioverse/loot_table/blocks/cyan_picket_fence.json
 5abab6b610b3d08fe48c6d69e634b0f694cc7591 data/marioverse/loot_table/blocks/cyan_picket_fence_gate.json

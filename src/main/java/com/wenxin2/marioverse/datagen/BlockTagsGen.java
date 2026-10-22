@@ -886,6 +886,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.DIAMOND_PARKOUR_BLOCKS)
                 .add(BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.CYAN_DIAMOND_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.RED_DIAMOND_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.YELLOW_DIAMOND_PARKOUR_BLOCK.get());

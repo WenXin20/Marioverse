@@ -304,6 +304,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> CRIMSON_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> CYAN_DIAMOND_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> DAISY_ABILITY_BLOCK;
     public static final DeferredBlock<Block> DANGO_BLOSSOM;
     public static final DeferredBlock<Block> DARK_OAK_ARROW_SIGN;
@@ -3708,6 +3709,8 @@ public class BlockRegistry {
 
         BLUE_DIAMOND_PARKOUR_BLOCK = registerBlock("blue_diamond_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.BLUE)));
+        CYAN_DIAMOND_PARKOUR_BLOCK = registerBlock("cyan_diamond_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.CYAN)));
         GREEN_DIAMOND_PARKOUR_BLOCK = registerBlock("green_diamond_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.GREEN)));
         RED_DIAMOND_PARKOUR_BLOCK = registerBlock("red_diamond_parkour_block",

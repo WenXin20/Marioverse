@@ -883,6 +883,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BLUE_DIAMOND_PARKOUR_BLOCK);
             add(event, BlockRegistry.GREEN_DIAMOND_PARKOUR_BLOCK);
             add(event, BlockRegistry.YELLOW_DIAMOND_PARKOUR_BLOCK);
+            add(event, BlockRegistry.CYAN_DIAMOND_PARKOUR_BLOCK);
             add(event, Blocks.CALCITE);
             addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE, true, true);
             addDyedBlocks(event, BlockRegistry.CALCITE.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE, true, true);
