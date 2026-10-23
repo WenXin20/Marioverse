@@ -78,6 +78,7 @@
   - Saves to the block entity now
   - Reduces states from 192 to 48
 - Improved bouncing on bouncy blocks
+- Improved bounce sound
 - Changed pipe junction recipe
 - Fixed flammability of Log Stairs
 - Fixed Supplementaries soap not working with some dyed blocks
