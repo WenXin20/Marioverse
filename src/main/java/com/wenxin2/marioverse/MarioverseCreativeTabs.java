@@ -879,7 +879,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LARGE_WARPED_ARROW_SIGN);
 
             addDyedBlocks(event, BlockRegistry.LARGE_WARPED_ARROW_SIGN, BlockRegistry.PIPE_JUNCTION, true, true);
-            addDyedBlocks(event, BlockRegistry.PIPE_JUNCTION.get(DyeColor.PINK), BlockRegistry.RHOMBUS_PARKOUR_BLOCKS, true, true);
+            addDyedBlocks(event, BlockRegistry.PIPE_JUNCTION.get(DyeColor.PINK), BlockRegistry.PARKOUR_BLOCKS, true, true);
+            addDyedBlocks(event, BlockRegistry.PARKOUR_BLOCKS.get(DyeColor.PINK), BlockRegistry.RHOMBUS_PARKOUR_BLOCKS, true, true);
             add(event, Blocks.CALCITE);
             addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE, true, true);
             addDyedBlocks(event, BlockRegistry.CALCITE.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE, true, true);
@@ -1605,7 +1606,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE);
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
                 addDyedBlocks(event, BlockRegistry.WARP_PIPES.get(DyeColor.PINK), BlockRegistry.PIPE_JUNCTION, true, true);
-                addDyedBlocks(event, BlockRegistry.PIPE_JUNCTION.get(DyeColor.PINK), BlockRegistry.RHOMBUS_PARKOUR_BLOCKS, true, true);
+                addDyedBlocks(event, BlockRegistry.PIPE_JUNCTION.get(DyeColor.PINK), BlockRegistry.PARKOUR_BLOCKS, true, true);
+                addDyedBlocks(event, BlockRegistry.PARKOUR_BLOCKS.get(DyeColor.PINK), BlockRegistry.RHOMBUS_PARKOUR_BLOCKS, true, true);
 
                 addAfter(event, Blocks.PINK_BANNER, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
                 addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);

@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-22T23:31:25.8362041	Loot Tables
+// 1.21.1	2026-10-23T00:57:35.2252484	Loot Tables
 99390c5f4c7eac37a742d0a8c2570074e70c780c data/marioverse/loot_table/blocks/acacia_arrow_sign.json
 751c939a35512a99cca3c40ac53b3820fa11fd05 data/marioverse/loot_table/blocks/acacia_log_bridge.json
 1e7bbc6725944ee3a3705a29fcc63b256a4ca47a data/marioverse/loot_table/blocks/acacia_log_bridge_stairs.json
@@ -583,6 +583,7 @@ b04d2de76d7a0b307fd0c13fc96469bcf627f562 data/marioverse/loot_table/blocks/pink_
 0be9cb56dfc5733b5bab1dc88dff7bdb03abe300 data/marioverse/loot_table/blocks/pink_mega_mushroom_trampoline.json
 3c720108a6f63ee20352ae40464eac73da16bdb1 data/marioverse/loot_table/blocks/pink_mushroom_trampoline.json
 08ec7628cc5e6e8812bd61b4fae8a509127de48b data/marioverse/loot_table/blocks/pink_mushroom_trampoline_block.json
+09dcef18a2eefa9cb8feaccb92b6f650fb807b77 data/marioverse/loot_table/blocks/pink_parkour_block.json
 dfcc88dab2d8a6ba5d6d1b7bbb5f8430058427db data/marioverse/loot_table/blocks/pink_picket_fence.json
 4d5e13d1a83390eea727a6e659b6bd2df822b0ed data/marioverse/loot_table/blocks/pink_picket_fence_gate.json
 897a89242ffc5c0c92932e6396c7cb8894b8eafc data/marioverse/loot_table/blocks/pink_pipe_junction.json
@@ -749,6 +750,7 @@ e3df18dfa26a4e06486cce10f0886f4492ac4ba3 data/marioverse/loot_table/blocks/red_m
 2d4e84b71ccd5ed4b5ee8c972e55ae5f73dbb1d5 data/marioverse/loot_table/blocks/red_on_off_mushroom_trampoline_block.json
 442ca59e83850d18479c4717188389e9ec45f169 data/marioverse/loot_table/blocks/red_on_off_mushroom_trampoline_cap.json
 314e1cb25900c89a4e851e11ce77855c6305f5ab data/marioverse/loot_table/blocks/red_on_off_super_mushroom_stem.json
+6a5ffc873d5077e9f6dacc70a526afe2985f8fe4 data/marioverse/loot_table/blocks/red_parkour_block.json
 704ebfaaf64feb418579d3cf26538685b4a2ac50 data/marioverse/loot_table/blocks/red_picket_fence.json
 c4ad708767f0b138c46e342f214cd399c497a07e data/marioverse/loot_table/blocks/red_picket_fence_gate.json
 dd1d91a202ce72ee5e37cf9bcf5ce2316a2d18e8 data/marioverse/loot_table/blocks/red_pipe_junction.json

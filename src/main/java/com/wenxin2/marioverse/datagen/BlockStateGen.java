@@ -509,6 +509,13 @@ public class BlockStateGen extends BlockStateProvider {
             this.cubeAllModel(entry.getValue().get(), texture);
         }
 
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.PARKOUR_BLOCKS.entrySet()) {
+            String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
+            ResourceLocation texture = modLoc("block/" + blockName);
+
+            this.cubeAllModel(entry.getValue().get(), texture);
+        }
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
             ResourceLocation texture = modLoc("block/" + blockName);

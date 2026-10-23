@@ -177,6 +177,8 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PARKOUR_BLOCKS =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> PICKET_FENCES =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> PICKET_FENCE_GATES =
@@ -3701,6 +3703,10 @@ public class BlockRegistry {
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
+
+        Arrays.asList(DyeColor.RED, DyeColor.PINK).forEach(color ->
+                PARKOUR_BLOCKS.put(color, registerBlock(color.getName() + "_parkour_block",
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->

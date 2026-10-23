@@ -95,6 +95,7 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.SPOOKROOT_LOGS, TagRegistry.SPOOKROOT_LOG_ITEMS);
         copy(TagRegistry.SPOOKROOT_PLANKS, TagRegistry.SPOOKROOT_PLANK_ITEMS);
         copy(TagRegistry.PARKOUR_BLOCKS, TagRegistry.PARKOUR_BLOCK_ITEMS);
+        copy(TagRegistry.NORMAL_PARKOUR_BLOCKS, TagRegistry.NORMAL_PARKOUR_BLOCK_ITEMS);
         copy(TagRegistry.RHOMBUS_PARKOUR_BLOCKS, TagRegistry.RHOMBUS_PARKOUR_BLOCK_ITEMS);
         copy(TagRegistry.PICKET_FENCES, TagRegistry.PICKET_FENCE_ITEMS);
         copy(TagRegistry.PICKET_FENCE_GATES, TagRegistry.PICKET_FENCE_GATE_ITEMS);

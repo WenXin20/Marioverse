@@ -124,6 +124,7 @@ public class TagRegistry {
     public static final TagKey<Block> MUSHROOT_LOGS = blockTags("mushroot_logs");
     public static final TagKey<Block> MUSHROOT_PLANKS = blockTags("mushroot_planks");
     public static final TagKey<Block> PARKOUR_BLOCKS = blockTags("parkour_blocks");
+    public static final TagKey<Block> NORMAL_PARKOUR_BLOCKS = blockTags("parkour_blocks/normal");
     public static final TagKey<Block> RHOMBUS_PARKOUR_BLOCKS = blockTags("parkour_blocks/rhombus");
     public static final TagKey<Block> PICKET_FENCES = blockTags("picket_fences");
     public static final TagKey<Block> PICKET_FENCE_GATES = blockTags("picket_fence_gates");
@@ -283,6 +284,7 @@ public class TagRegistry {
     public static final TagKey<Item> MUSHROOT_PLANK_ITEMS = itemTags("mushroot_planks");
     public static final TagKey<Item> PANTS = itemTags("pants");
     public static final TagKey<Item> PARKOUR_BLOCK_ITEMS = itemTags("parkour_blocks");
+    public static final TagKey<Item> NORMAL_PARKOUR_BLOCK_ITEMS = itemTags("parkour_blocks/normal");
     public static final TagKey<Item> RHOMBUS_PARKOUR_BLOCK_ITEMS = itemTags("parkour_blocks/rhombus");
     public static final TagKey<Item> PICKET_FENCE_ITEMS = itemTags("picket_fences");
     public static final TagKey<Item> PICKET_FENCE_GATE_ITEMS = itemTags("picket_fence_gates");
