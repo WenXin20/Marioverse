@@ -1,8 +1,7 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "bottom": "marioverse:block/rocky_fungal_stone_top",
-    "side": "marioverse:block/rocky_fungal_stone",
-    "top": "marioverse:block/rocky_fungal_stone_top"
+    "end": "marioverse:block/rocky_fungal_stone_top",
+    "side": "marioverse:block/rocky_fungal_stone"
   }
 }

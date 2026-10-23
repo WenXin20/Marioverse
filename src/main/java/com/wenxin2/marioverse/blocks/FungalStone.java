@@ -8,14 +8,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-public class FungalStone extends Block implements BonemealableBlock {
+public class FungalStone extends RotatedPillarBlock implements BonemealableBlock {
     public static final MapCodec<FungalStone> CODEC = simpleCodec(FungalStone::new);
 
     @NotNull

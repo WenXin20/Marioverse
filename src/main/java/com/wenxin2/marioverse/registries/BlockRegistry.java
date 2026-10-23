@@ -2479,7 +2479,7 @@ public class BlockRegistry {
 
 
         ROCKY_FUNGAL_STONE = registerBlock("rocky_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
+                () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
                         .strength(2.0F, 6.0F)));
 
         ROCKY_FUNGAL_STONE_SLAB = registerBlock("rocky_fungal_stone_slab", () -> slab(ROCKY_FUNGAL_STONE.get()));
@@ -2615,7 +2615,7 @@ public class BlockRegistry {
 
 
         ROCKY_DEEP_FUNGAL_STONE = registerBlock("rocky_deep_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
+                () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
                         .strength(3.5F, 6.0F)));
 
         ROCKY_DEEP_FUNGAL_STONE_SLAB = registerBlock("rocky_deep_fungal_stone_slab", () -> slab(ROCKY_DEEP_FUNGAL_STONE.get()));
@@ -2745,7 +2745,7 @@ public class BlockRegistry {
 
 
         ROCKY_FORTSTONE = registerBlock("rocky_fortstone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
+                () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
                         .strength(2.0F, 6.0F)));
 
         ROCKY_FORTSTONE_SLAB = registerBlock("rocky_fortstone_slab", () -> slab(ROCKY_FORTSTONE.get()));

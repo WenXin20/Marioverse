@@ -1,8 +1,7 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "bottom": "marioverse:block/rocky_fortstone_top",
-    "side": "marioverse:block/rocky_fortstone",
-    "top": "marioverse:block/rocky_fortstone_top"
+    "end": "marioverse:block/rocky_fortstone_top",
+    "side": "marioverse:block/rocky_fortstone"
   }
 }
