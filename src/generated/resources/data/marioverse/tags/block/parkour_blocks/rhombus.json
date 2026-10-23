@@ -1,11 +1,20 @@
 {
   "values": [
-    "marioverse:blue_rhombus_parkour_block",
-    "marioverse:cyan_rhombus_parkour_block",
-    "marioverse:green_rhombus_parkour_block",
+    "marioverse:white_rhombus_parkour_block",
+    "marioverse:orange_rhombus_parkour_block",
+    "marioverse:magenta_rhombus_parkour_block",
+    "marioverse:light_blue_rhombus_parkour_block",
+    "marioverse:yellow_rhombus_parkour_block",
+    "marioverse:lime_rhombus_parkour_block",
     "marioverse:pink_rhombus_parkour_block",
+    "marioverse:gray_rhombus_parkour_block",
+    "marioverse:light_gray_rhombus_parkour_block",
+    "marioverse:cyan_rhombus_parkour_block",
     "marioverse:purple_rhombus_parkour_block",
+    "marioverse:blue_rhombus_parkour_block",
+    "marioverse:brown_rhombus_parkour_block",
+    "marioverse:green_rhombus_parkour_block",
     "marioverse:red_rhombus_parkour_block",
-    "marioverse:yellow_rhombus_parkour_block"
+    "marioverse:black_rhombus_parkour_block"
   ]
 }

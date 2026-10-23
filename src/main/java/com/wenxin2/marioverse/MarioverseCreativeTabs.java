@@ -879,22 +879,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LARGE_WARPED_ARROW_SIGN);
 
             addDyedBlocks(event, BlockRegistry.LARGE_WARPED_ARROW_SIGN, BlockRegistry.PIPE_JUNCTION, true, true);
-            add(event, BlockRegistry.WHITE_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.LIGHT_GRAY_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.GRAY_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.BLACK_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.BROWN_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.RED_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.ORANGE_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.YELLOW_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.LIME_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.GREEN_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.CYAN_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.LIGHT_BLUE_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.BLUE_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.PURPLE_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.MAGENTA_RHOMBUS_PARKOUR_BLOCK);
-            add(event, BlockRegistry.PINK_RHOMBUS_PARKOUR_BLOCK);
+            addDyedBlocks(event, BlockRegistry.PIPE_JUNCTION.get(DyeColor.PINK), BlockRegistry.RHOMBUS_PARKOUR_BLOCKS, true, true);
             add(event, Blocks.CALCITE);
             addDyedBlocks(event, Blocks.CALCITE, BlockRegistry.CALCITE, true, true);
             addDyedBlocks(event, BlockRegistry.CALCITE.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE, true, true);
@@ -1620,6 +1605,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE);
                 addDyedBlocks(event, BlockRegistry.CLEAR_WARP_PIPE, BlockRegistry.WARP_PIPES, true, true);
                 addDyedBlocks(event, BlockRegistry.WARP_PIPES.get(DyeColor.PINK), BlockRegistry.PIPE_JUNCTION, true, true);
+                addDyedBlocks(event, BlockRegistry.PIPE_JUNCTION.get(DyeColor.PINK), BlockRegistry.RHOMBUS_PARKOUR_BLOCKS, true, true);
 
                 addAfter(event, Blocks.PINK_BANNER, BlockRegistry.CLASSIC_CHECKPOINT_FLAG);
                 addDyedBlocks(event, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, BlockRegistry.CHECKPOINT_FLAGS, true, true);

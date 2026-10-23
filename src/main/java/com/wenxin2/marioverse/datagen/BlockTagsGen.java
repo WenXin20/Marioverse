@@ -57,6 +57,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.PICKET_FENCE_GATES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCE_GATES).add(block.get()));
         BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
+        BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.values().forEach(block -> tag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS).add(block.get()));
         BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
@@ -74,6 +75,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.PICKET_FENCE_GATES.get(color).get())
                     .add(BlockRegistry.PIPE_JUNCTION.get(color).get())
                     .add(BlockRegistry.POLISHED_CALCITE.get(color).get())
+                    .add(BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.get(color).get())
                     .add(BlockRegistry.STORAGE_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
 
@@ -883,24 +885,6 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.PARKOUR_BLOCKS)
                 .addTag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS);
-
-        tag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS)
-                .add(BlockRegistry.BLACK_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.BLUE_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.BROWN_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.CYAN_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.GRAY_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.GREEN_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.LIGHT_BLUE_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.LIGHT_GRAY_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.LIME_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.MAGENTA_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.ORANGE_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.PINK_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.PURPLE_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.RED_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.WHITE_RHOMBUS_PARKOUR_BLOCK.get())
-                .add(BlockRegistry.YELLOW_RHOMBUS_PARKOUR_BLOCK.get());
 
         tag(TagRegistry.PICKET_FENCES)
                 .addTag(TagRegistry.WOODEN_PICKET_FENCES);
