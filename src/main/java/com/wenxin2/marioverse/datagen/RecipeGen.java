@@ -694,6 +694,7 @@ public class RecipeGen extends RecipeUtils {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
+            dyeItemRecipe(1, "rhombus_parkour_blocks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.RHOMBUS_PARKOUR_BLOCK_ITEMS, false, output);
             parkourBlockRecipe(1, entry.getValue(), TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER, dyeItemTag, output);
         }
 

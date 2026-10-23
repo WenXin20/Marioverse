@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:rhombus_parkour_blocks_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/lime"
+    },
+    {
+      "tag": "marioverse:parkour_blocks/rhombus"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:lime_rhombus_parkour_block"
+  }
+}
