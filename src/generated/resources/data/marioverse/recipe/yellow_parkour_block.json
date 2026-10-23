@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:parkour_blocks",
+  "key": {
+    "D": {
+      "tag": "c:dyes/yellow"
+    },
+    "I": {
+      "tag": "c:ingots/copper"
+    },
+    "S": {
+      "tag": "marioverse:screws"
+    }
+  },
+  "pattern": [
+    "SIS",
+    "IDI",
+    "SIS"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:yellow_parkour_block"
+  }
+}

@@ -1,7 +1,62 @@
 {
   "variants": {
-    "": {
-      "model": "marioverse:block/rocky_fortstone"
-    }
+    "axis=x": [
+      {
+        "model": "marioverse:block/rocky_fortstone",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone_mirrored",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "marioverse:block/rocky_fortstone"
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone_mirrored"
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone",
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "marioverse:block/rocky_fortstone",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone_mirrored",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/rocky_fortstone_mirrored",
+        "x": 90,
+        "y": 180
+      }
+    ]
   }
 }

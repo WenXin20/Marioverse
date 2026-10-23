@@ -1,6 +1,5 @@
 {
   "values": [
-    "marioverse:red_parkour_block",
     "marioverse:red_calcite_bricks",
     "marioverse:red_calcite_brick_pedestal",
     "marioverse:red_calcite_bridge",
@@ -9,6 +8,7 @@
     "marioverse:chiseled_red_calcite_bricks",
     "marioverse:cracked_red_calcite_bricks",
     "marioverse:red_goal_pole",
+    "marioverse:red_parkour_block",
     "marioverse:red_picket_fence",
     "marioverse:red_picket_fence_gate",
     "marioverse:red_pipe_junction",

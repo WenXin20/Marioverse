@@ -1,7 +1,62 @@
 {
   "variants": {
-    "": {
-      "model": "marioverse:block/rocky_fungal_stone"
-    }
+    "axis=x": [
+      {
+        "model": "marioverse:block/rocky_fungal_stone",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone_mirrored",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "marioverse:block/rocky_fungal_stone"
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone_mirrored"
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone",
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "marioverse:block/rocky_fungal_stone",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone_mirrored",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/rocky_fungal_stone_mirrored",
+        "x": 90,
+        "y": 180
+      }
+    ]
   }
 }

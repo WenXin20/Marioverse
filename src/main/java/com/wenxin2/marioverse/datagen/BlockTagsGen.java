@@ -54,7 +54,6 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
         BlockRegistry.PARKOUR_BLOCKS.values().forEach(block -> tag(TagRegistry.NORMAL_PARKOUR_BLOCKS).add(block.get()));
-        BlockRegistry.PARKOUR_BLOCKS.forEach((color, block) -> tag(TagRegistry.blockTags("c", "dyed/" + color)).add(block.get()));
         BlockRegistry.PICKET_FENCES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCES).add(block.get()));
         BlockRegistry.PICKET_FENCE_GATES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCE_GATES).add(block.get()));
         BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
@@ -73,6 +72,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.GOAL_POLES.get(color).get())
+                    .add(BlockRegistry.PARKOUR_BLOCKS.get(color).get())
                     .add(BlockRegistry.PICKET_FENCES.get(color).get())
                     .add(BlockRegistry.PICKET_FENCE_GATES.get(color).get())
                     .add(BlockRegistry.PIPE_JUNCTION.get(color).get())

@@ -1,7 +1,62 @@
 {
   "variants": {
-    "": {
-      "model": "marioverse:block/fortstone"
-    }
+    "axis=x": [
+      {
+        "model": "marioverse:block/fortstone",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/fortstone_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/fortstone",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/fortstone_mirrored",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "marioverse:block/fortstone"
+      },
+      {
+        "model": "marioverse:block/fortstone_mirrored"
+      },
+      {
+        "model": "marioverse:block/fortstone",
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/fortstone_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "marioverse:block/fortstone",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/fortstone_mirrored",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/fortstone",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/fortstone_mirrored",
+        "x": 90,
+        "y": 180
+      }
+    ]
   }
 }

@@ -1,25 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "marioverse:parkour_blocks",
+  "group": "marioverse:rhombus_parkour_blocks",
   "key": {
-    "D": {
-      "tag": "c:dyes/black"
-    },
-    "I": {
-      "tag": "c:ingots/copper"
-    },
-    "S": {
-      "tag": "marioverse:screws"
+    "P": {
+      "item": "marioverse:black_parkour_block"
     }
   },
   "pattern": [
-    "SIS",
-    "IDI",
-    "SIS"
+    " P ",
+    "P P",
+    " P "
   ],
   "result": {
-    "count": 1,
+    "count": 4,
     "id": "marioverse:black_rhombus_parkour_block"
   }
 }

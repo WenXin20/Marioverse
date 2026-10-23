@@ -3705,7 +3705,7 @@ public class BlockRegistry {
                 PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
 
-        Arrays.asList(DyeColor.RED, DyeColor.PINK).forEach(color ->
+        Arrays.stream(DyeColor.values()).forEach(color ->
                 PARKOUR_BLOCKS.put(color, registerBlock(color.getName() + "_parkour_block",
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
 

@@ -972,6 +972,20 @@ public class RecipeUtils extends RecipeProvider {
         builder.save(output);
     }
 
+    public void rhombusParkourBlockRecipe(int outputAmt, ItemLike outputItem, Object parkourBlock, RecipeOutput output) {
+        ShapedRecipeBuilder builder = ShapedRecipeBuilder
+                .shaped(RecipeCategory.BUILDING_BLOCKS, outputItem, outputAmt)
+                .pattern(" P ")
+                .pattern("P P")
+                .pattern(" P ")
+                .group(Marioverse.MOD_ID + ":rhombus_parkour_blocks");
+
+        defineIngredient(builder, 'P', parkourBlock);
+
+        builder.unlockedBy(getUnlockName(parkourBlock), unlockCriterion(parkourBlock));
+        builder.save(output);
+    }
+
     public void screwRecipe(int outputAmt, String groupName, ItemLike outputItem, RecipeCategory category,
                             Object ingot, Object nugget, boolean uniqueFileName, RecipeOutput output) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder

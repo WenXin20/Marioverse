@@ -133,6 +133,11 @@ public class BlockStateGen extends BlockStateProvider {
             this.cubeBottomTopModel(block, texture(block, "_top"), blockTexture(block), texture(block, "_top"));
     }
 
+    private void rotatedMirroredColumnBlocks(Block... blocks) {
+        for (Block block : blocks)
+            this.rotatedMirroredColumnModel(block, blockTexture(block), texture(block, "_top"));
+    }
+
     private void coralTowerBlocks(Block... blocks) {
         for (Block block : blocks)
             this.coralTowerModel(block, blockTexture(block));
@@ -212,13 +217,13 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.WARIO_ABILITY_BLOCK.get());
         this.tintedCubeBottomTopModel(BlockRegistry.MUSHROOT_LEAVES.get(), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_bottom"),
                 blockTexture(BlockRegistry.MUSHROOT_LEAVES.get()), texture(BlockRegistry.MUSHROOT_LEAVES.get(), "_top"));
-        this.cubeTopBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
+        this.rotatedMirroredColumnBlocks(BlockRegistry.DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.FORTSTONE.get(),
                 BlockRegistry.FUNGAL_STONE.get(),
-                BlockRegistry.ROCKY_FORTSTONE.get(),
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
-                BlockRegistry.ROCKY_FUNGAL_STONE.get(),
-                BlockRegistry.SPOOKROOT_LEAVES.get(),
+                BlockRegistry.ROCKY_FORTSTONE.get(),
+                BlockRegistry.ROCKY_FUNGAL_STONE.get());
+        this.cubeTopBlocks(BlockRegistry.SPOOKROOT_LEAVES.get(),
                 BlockRegistry.DARK_SPOOKROOT_LEAVES.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(),
                 BlockRegistry.BUBBLE_CORAL_TOWER.get(),
@@ -1876,6 +1881,34 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("all", mainTexture);
 
         simpleBlockWithItem(block, model);
+    }
+
+    private void rotatedMirroredColumnModel(Block block, ResourceLocation sideTexture, ResourceLocation endTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_column"))
+                .texture("side", sideTexture)
+                .texture("end", endTexture);
+        ModelFile mirroredModel = models()
+                .withExistingParent(modelName + "_mirrored", mcLoc("minecraft:block/cube_column_mirrored"))
+                .texture("side", sideTexture)
+                .texture("end", endTexture);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction.Axis axis = state.getValue(BlockStateProperties.AXIS);
+            int xRot = axis == Direction.Axis.Y ? 0 : 90;
+            int yRot = axis == Direction.Axis.X ? 90 : 0;
+            int yRotFlipped = axis == Direction.Axis.X ? 90 : 180;
+
+            return ConfiguredModel.builder()
+                    .modelFile(model).rotationX(xRot).rotationY(yRot)
+                    .nextModel().modelFile(mirroredModel).rotationX(xRot).rotationY(yRot)
+                    .nextModel().modelFile(model).rotationX(xRot).rotationY(yRotFlipped)
+                    .nextModel().modelFile(mirroredModel).rotationX(xRot).rotationY(yRotFlipped)
+                    .build();
+        });
+        simpleBlockItem(block, model);
     }
 
     private void cubeAllCutoutModel(Block block, ResourceLocation mainTexture) {

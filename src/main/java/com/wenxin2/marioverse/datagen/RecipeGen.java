@@ -690,12 +690,20 @@ public class RecipeGen extends RecipeUtils {
             pipeJunctionRecipe(1, entry.getValue(), Tags.Items.INGOTS_COPPER, dyeItemTag, output);
         }
 
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.PARKOUR_BLOCKS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "parkour_blocks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.NORMAL_PARKOUR_BLOCK_ITEMS, false, output);
+            parkourBlockRecipe(4, entry.getValue(), TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER, dyeItemTag, output);
+        }
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
             dyeItemRecipe(1, "rhombus_parkour_blocks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.RHOMBUS_PARKOUR_BLOCK_ITEMS, false, output);
-            parkourBlockRecipe(1, entry.getValue(), TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER, dyeItemTag, output);
+            rhombusParkourBlockRecipe(4, entry.getValue(), BlockRegistry.PARKOUR_BLOCKS.get(dyeColor), output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
