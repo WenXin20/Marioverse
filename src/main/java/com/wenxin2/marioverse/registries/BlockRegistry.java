@@ -229,6 +229,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BLACKSTONE_BRIDGE;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> BLACK_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> BLOCK_SPAWNER;
     public static final DeferredBlock<Block> BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
@@ -246,6 +247,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BRICK_BRIDGE;
     public static final DeferredBlock<Block> BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> BROWN_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> BUBBLE_CORAL_TOWER;
     public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
@@ -403,6 +405,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> GRASSY_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> GRASSY_FORTSTONE;
     public static final DeferredBlock<Block> GRASSY_FUNGAL_STONE;
+    public static final DeferredBlock<Block> GRAY_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> GREEN_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> GREEN_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> GREEN_SUPER_MUSHROOM;
@@ -551,10 +554,13 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> LARGE_SPRUCE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_WARPED_ARROW_SIGN;
     public static final DeferredBlock<Block> LARGE_WARPED_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LIGHT_GRAY_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> LIME_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> LIME_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> LIME_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> LIME_SUPER_MUSHROOM_BLOCK;
     public static final DeferredBlock<Block> LUIGI_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> MAGENTA_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> MANGROVE_ARROW_SIGN;
     public static final DeferredBlock<Block> MANGROVE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE;
@@ -625,9 +631,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> LIGHT_BLUE_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> LIGHT_BLUE_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> ORANGE_MEGA_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> ORANGE_MUSHROOM_TRAMPOLINE;
     public static final DeferredBlock<Block> ORANGE_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> ORANGE_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> ORANGE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> ORANGE_SUPER_MUSHROOM_BLOCK;
     public static final DeferredBlock<Block> ORANGE_SUPER_MUSHROOM_STEM;
@@ -1003,6 +1011,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_SLAB;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
     public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
+    public static final DeferredBlock<Block> WHITE_RHOMBUS_PARKOUR_BLOCK;
     public static final DeferredBlock<Block> WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> YELLOW_BLOOMFLOWER;
     public static final DeferredBlock<Block> YELLOW_MEGA_MUSHROOM;
@@ -3709,18 +3718,36 @@ public class BlockRegistry {
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
 
 
+        BLACK_RHOMBUS_PARKOUR_BLOCK = registerBlock("black_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.BLACK)));
         BLUE_RHOMBUS_PARKOUR_BLOCK = registerBlock("blue_rhombus_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.BLUE)));
+        BROWN_RHOMBUS_PARKOUR_BLOCK = registerBlock("brown_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.BROWN)));
         CYAN_RHOMBUS_PARKOUR_BLOCK = registerBlock("cyan_rhombus_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.CYAN)));
+        GRAY_RHOMBUS_PARKOUR_BLOCK = registerBlock("gray_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.GRAY)));
         GREEN_RHOMBUS_PARKOUR_BLOCK = registerBlock("green_rhombus_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.GREEN)));
+        LIGHT_BLUE_RHOMBUS_PARKOUR_BLOCK = registerBlock("light_blue_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.LIGHT_BLUE)));
+        LIGHT_GRAY_RHOMBUS_PARKOUR_BLOCK = registerBlock("light_gray_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.LIGHT_GRAY)));
+        LIME_RHOMBUS_PARKOUR_BLOCK = registerBlock("lime_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.LIME)));
+        MAGENTA_RHOMBUS_PARKOUR_BLOCK = registerBlock("magenta_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.MAGENTA)));
+        ORANGE_RHOMBUS_PARKOUR_BLOCK = registerBlock("orange_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.ORANGE)));
         PINK_RHOMBUS_PARKOUR_BLOCK = registerBlock("pink_rhombus_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.PINK)));
         PURPLE_RHOMBUS_PARKOUR_BLOCK = registerBlock("purple_rhombus_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.PURPLE)));
         RED_RHOMBUS_PARKOUR_BLOCK = registerBlock("red_rhombus_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.RED)));
+        WHITE_RHOMBUS_PARKOUR_BLOCK = registerBlock("white_rhombus_parkour_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.WHITE)));
         YELLOW_RHOMBUS_PARKOUR_BLOCK = registerBlock("yellow_rhombus_parkour_block",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(DyeColor.YELLOW)));
 

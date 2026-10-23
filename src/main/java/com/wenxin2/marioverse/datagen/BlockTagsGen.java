@@ -885,12 +885,21 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS);
 
         tag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS)
+                .add(BlockRegistry.BLACK_RHOMBUS_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.BLUE_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.BROWN_RHOMBUS_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.CYAN_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.GRAY_RHOMBUS_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.GREEN_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.LIGHT_BLUE_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.LIGHT_GRAY_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.LIME_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.MAGENTA_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.ORANGE_RHOMBUS_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.PINK_RHOMBUS_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.PURPLE_RHOMBUS_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.RED_RHOMBUS_PARKOUR_BLOCK.get())
+                .add(BlockRegistry.WHITE_RHOMBUS_PARKOUR_BLOCK.get())
                 .add(BlockRegistry.YELLOW_RHOMBUS_PARKOUR_BLOCK.get());
 
         tag(TagRegistry.PICKET_FENCES)

@@ -509,12 +509,21 @@ public class BlockStateGen extends BlockStateProvider {
             this.cubeAllModel(entry.getValue().get(), texture);
         }
 
+        this.cubeAllModel(BlockRegistry.BLACK_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.BLACK_RHOMBUS_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.BLUE_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.BLUE_RHOMBUS_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.BROWN_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.BROWN_RHOMBUS_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.CYAN_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.CYAN_RHOMBUS_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.GRAY_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.GRAY_RHOMBUS_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.GREEN_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.GREEN_RHOMBUS_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.LIGHT_BLUE_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.LIGHT_BLUE_RHOMBUS_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.LIGHT_GRAY_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.LIGHT_GRAY_RHOMBUS_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.LIME_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.LIME_RHOMBUS_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.MAGENTA_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.MAGENTA_RHOMBUS_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.ORANGE_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.ORANGE_RHOMBUS_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.PINK_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.PINK_RHOMBUS_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.PURPLE_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.PURPLE_RHOMBUS_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.RED_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.RED_RHOMBUS_PARKOUR_BLOCK.get()));
+        this.cubeAllModel(BlockRegistry.WHITE_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.WHITE_RHOMBUS_PARKOUR_BLOCK.get()));
         this.cubeAllModel(BlockRegistry.YELLOW_RHOMBUS_PARKOUR_BLOCK.get(), blockTexture(BlockRegistry.YELLOW_RHOMBUS_PARKOUR_BLOCK.get()));
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {
