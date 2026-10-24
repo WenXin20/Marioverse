@@ -223,12 +223,18 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_FORTSTONE.get(),
                 BlockRegistry.ROCKY_FUNGAL_STONE.get());
-        this.rotatedMirroredBottomTopModel(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get(), texture(BlockRegistry.DEEP_FUNGAL_STONE.get(), "_top"),
-                blockTexture(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get()), texture(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get(), "_top"));
-        this.rotatedMirroredBottomTopModel(BlockRegistry.FORTSTONE_FLOOR.get(), texture(BlockRegistry.FORTSTONE.get(), "_top"),
-                blockTexture(BlockRegistry.FORTSTONE_FLOOR.get()), texture(BlockRegistry.FORTSTONE_FLOOR.get(), "_top"));
-        this.rotatedMirroredBottomTopModel(BlockRegistry.FUNGAL_STONE_FLOOR.get(), texture(BlockRegistry.FUNGAL_STONE.get(), "_top"),
-                blockTexture(BlockRegistry.FUNGAL_STONE_FLOOR.get()), texture(BlockRegistry.FUNGAL_STONE_FLOOR.get(), "_top"));
+        this.rotatedMirroredBottomTopModel(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get(), modLoc("block/cube_bottom_top_down_mirrored"),
+                texture(BlockRegistry.DEEP_FUNGAL_STONE.get(), "_top"),
+                blockTexture(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get()), texture(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get(), "_top"),
+                texture(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get(), "_top"));
+        this.rotatedMirroredBottomTopModel(BlockRegistry.FORTSTONE_FLOOR.get(), mcLoc("minecraft:block/cube_bottom_top"),
+                texture(BlockRegistry.FORTSTONE.get(), "_top"),
+                blockTexture(BlockRegistry.FORTSTONE_FLOOR.get()), texture(BlockRegistry.FORTSTONE_FLOOR.get(), "_top"),
+                texture(BlockRegistry.FORTSTONE_FLOOR.get(), "_top_mirrored"));
+        this.rotatedMirroredBottomTopModel(BlockRegistry.FUNGAL_STONE_FLOOR.get(), modLoc("block/cube_bottom_top_down_mirrored"),
+                texture(BlockRegistry.FUNGAL_STONE.get(), "_top"),
+                blockTexture(BlockRegistry.FUNGAL_STONE_FLOOR.get()), texture(BlockRegistry.FUNGAL_STONE_FLOOR.get(), "_top"),
+                texture(BlockRegistry.FUNGAL_STONE_FLOOR.get(), "_top"));
         this.cubeTopBlocks(BlockRegistry.SPOOKROOT_LEAVES.get(),
                 BlockRegistry.DARK_SPOOKROOT_LEAVES.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(),
@@ -1917,8 +1923,9 @@ public class BlockStateGen extends BlockStateProvider {
         simpleBlockItem(block, model);
     }
 
-    private void rotatedMirroredBottomTopModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
-                                               ResourceLocation topTexture) {
+    private void rotatedMirroredBottomTopModel(Block block, ResourceLocation mirroredParent, ResourceLocation bottomTexture,
+                                               ResourceLocation sideTexture, ResourceLocation topTexture,
+                                               ResourceLocation mirroredTopTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
         ModelFile model = models()
@@ -1927,10 +1934,10 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("side", sideTexture)
                 .texture("top", topTexture);
         ModelFile mirroredModel = models()
-                .withExistingParent(modelName + "_mirrored", modLoc("block/cube_bottom_top_down_mirrored"))
+                .withExistingParent(modelName + "_mirrored", mirroredParent)
                 .texture("bottom", bottomTexture)
                 .texture("side", sideTexture)
-                .texture("top", topTexture);
+                .texture("top", mirroredTopTexture);
 
         this.getVariantBuilder(block).forAllStates(state -> {
             Direction facing = state.getValue(BlockStateProperties.FACING);
