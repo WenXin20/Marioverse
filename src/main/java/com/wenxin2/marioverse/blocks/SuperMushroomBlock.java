@@ -208,7 +208,7 @@ public class SuperMushroomBlock extends MushroomBlock implements BonemealableBlo
         while (blockGetter.getBlockState(bottomPos.below()).is(this) && !blockGetter.isOutsideBuildHeight(bottomPos.below()))
             bottomPos.move(Direction.DOWN);
 
-        int maxHeight = 3 + (int) Math.floorMod(Mth.getSeed(bottomPos), 3L);
+        int maxHeight = 2 + (int) Math.floorMod(Mth.getSeed(bottomPos), 3L);
         return this.getTopPos(blockGetter, pos).getY() - bottomPos.getY() + 1 < maxHeight;
     }
 }
