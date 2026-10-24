@@ -929,6 +929,7 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.IRON_SCREW);
             add(event, BlockRegistry.GOLD_SCREW);
+            add(event, BlockRegistry.DIAMOND_SCREW);
             add(event, BlockRegistry.NETHERITE_SCREW);
             add(event, BlockRegistry.COPPER_SCREW);
             add(event, BlockRegistry.EXPOSED_COPPER_SCREW);
@@ -1093,6 +1094,7 @@ public class MarioverseCreativeTabs {
 
             add(event, BlockRegistry.IRON_SCREW);
             add(event, BlockRegistry.GOLD_SCREW);
+            add(event, BlockRegistry.DIAMOND_SCREW);
             add(event, BlockRegistry.NETHERITE_SCREW);
             add(event, BlockRegistry.COPPER_SCREW);
             add(event, BlockRegistry.EXPOSED_COPPER_SCREW);
@@ -1693,7 +1695,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL, BlockRegistry.FORTSTONE_QUESTION_PANEL);
                 addAfter(event, BlockRegistry.FORTSTONE_QUESTION_PANEL, BlockRegistry.IRON_SCREW);
                 addAfter(event, BlockRegistry.IRON_SCREW, BlockRegistry.GOLD_SCREW);
-                addAfter(event, BlockRegistry.GOLD_SCREW, BlockRegistry.NETHERITE_SCREW);
+                addAfter(event, BlockRegistry.GOLD_SCREW, BlockRegistry.DIAMOND_SCREW);
+                addAfter(event, BlockRegistry.DIAMOND_SCREW, BlockRegistry.NETHERITE_SCREW);
                 addAfter(event, BlockRegistry.NETHERITE_SCREW, BlockRegistry.COPPER_SCREW);
                 addAfter(event, BlockRegistry.COPPER_SCREW, BlockRegistry.EXPOSED_COPPER_SCREW);
                 addAfter(event, BlockRegistry.EXPOSED_COPPER_SCREW, BlockRegistry.WEATHERED_COPPER_SCREW);
@@ -2026,6 +2029,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.IRON_SPIKE, BlockRegistry.SPIKE_PANEL);
 
                 addAfter(event, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, BlockRegistry.GOLD_SCREW);
+                addAfter(event, Blocks.DIAMOND_BLOCK, BlockRegistry.DIAMOND_SCREW);
                 addAfter(event, Blocks.NETHERITE_BLOCK, BlockRegistry.NETHERITE_SCREW);
                 addAfter(event, Blocks.WAXED_OXIDIZED_COPPER_BULB, BlockRegistry.COPPER_SCREW);
                 addAfter(event, BlockRegistry.COPPER_SCREW, BlockRegistry.EXPOSED_COPPER_SCREW);

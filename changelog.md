@@ -36,7 +36,7 @@
   - Framed Windows, Boards, Panels, & Hard Blocks
   - Picket Fences, Log Platforms
   - Boats & Chest Boats
-- Added Iron, Copper, Gold, & Netherite Screws
+- Added Iron, Copper, Gold, Diamond, & Netherite Screws
   - Placeable multiple blocks tall or on any block side
   - Right-click to screw it into the ground
   - Shift-right-click to unscrew it

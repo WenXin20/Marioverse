@@ -11,9 +11,9 @@
     }
   },
   "pattern": [
-    "I",
-    "N",
-    "N"
+    "  I",
+    " N ",
+    "N  "
   ],
   "result": {
     "count": 4,

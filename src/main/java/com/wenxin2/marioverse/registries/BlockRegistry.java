@@ -356,6 +356,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> DEEP_WET_MUD;
+    public static final DeferredBlock<Block> DIAMOND_SCREW;
     public static final DeferredBlock<Block> DIORITE_BRIDGE;
     public static final DeferredBlock<Block> END_STONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
@@ -1074,6 +1075,9 @@ public class BlockRegistry {
         GOLD_SCREW = registerBlock("gold_screw",
                 () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.METAL).strength(3.0F, 6.0F).requiresCorrectToolForDrops()));
+        DIAMOND_SCREW = registerBlock("diamond_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND)
+                        .sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         NETHERITE_SCREW = registerBlock("netherite_screw",
                 () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                         .sound(SoundType.NETHERITE_BLOCK).strength(50.0F, 1200.0F).requiresCorrectToolForDrops()),

@@ -990,9 +990,9 @@ public class RecipeUtils extends RecipeProvider {
                             Object ingot, Object nugget, boolean uniqueFileName, RecipeOutput output) {
         ShapedRecipeBuilder builder = ShapedRecipeBuilder
                 .shaped(category, outputItem, outputAmt)
-                .pattern("I")
-                .pattern("N")
-                .pattern("N")
+                .pattern("  I")
+                .pattern(" N ")
+                .pattern("N  ")
                 .group(Marioverse.MOD_ID + ":" + groupName);
 
         defineIngredient(builder, 'I', ingot);

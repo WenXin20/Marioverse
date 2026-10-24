@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "marioverse:screws",
+  "key": {
+    "I": {
+      "tag": "c:gems/diamond"
+    },
+    "N": {
+      "tag": "c:gems/diamond"
+    }
+  },
+  "pattern": [
+    "  I",
+    " N ",
+    "N  "
+  ],
+  "result": {
+    "count": 8,
+    "id": "marioverse:diamond_screw"
+  }
+}

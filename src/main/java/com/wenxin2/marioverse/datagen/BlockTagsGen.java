@@ -953,6 +953,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.SCREWS)
                 .add(BlockRegistry.COPPER_SCREW.get())
+                .add(BlockRegistry.DIAMOND_SCREW.get())
                 .add(BlockRegistry.EXPOSED_COPPER_SCREW.get())
                 .add(BlockRegistry.GOLD_SCREW.get())
                 .add(BlockRegistry.IRON_SCREW.get())

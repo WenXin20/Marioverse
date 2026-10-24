@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_screw",
+  "textures": {
+    "bottom": "marioverse:block/diamond_screw_bottom",
+    "overlay": "marioverse:block/diamond_screw_overlay",
+    "particle": "marioverse:block/diamond_screw",
+    "top": "marioverse:block/diamond_screw"
+  }
+}

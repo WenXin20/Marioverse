@@ -200,6 +200,7 @@ public class RecipeGen extends RecipeUtils {
         plusRecipe(1, "storage_bricks", BlockRegistry.STORAGE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.STORAGE_NETHER_BRICKS, true, output);
         plusRecipe(4, "glow_block", BlockRegistry.GLOW_BLOCK, Tags.Items.GLASS_BLOCKS_COLORLESS, Blocks.GLOWSTONE, false, output);
         screwRecipe(8, "screws", BlockRegistry.COPPER_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_COPPER, Tags.Items.INGOTS_COPPER, false, output);
+        screwRecipe(8, "screws", BlockRegistry.DIAMOND_SCREW, RecipeCategory.REDSTONE, Tags.Items.GEMS_DIAMOND, Tags.Items.GEMS_DIAMOND, false, output);
         screwRecipe(4, "screws", BlockRegistry.GOLD_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, false, output);
         screwRecipe(4, "screws", BlockRegistry.IRON_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_IRON, Tags.Items.NUGGETS_IRON, false, output);
         screwRecipe(4, "screws", BlockRegistry.NETHERITE_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_GOLD, Items.NETHERITE_SCRAP, false, output);
