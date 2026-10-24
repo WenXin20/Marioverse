@@ -3979,9 +3979,17 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:blue_mushbloom"), BLUE_BLOOMFLOWER.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:blue_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.BLUE).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:blue_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.BLUE).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:bushroom"), HEDGE.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:bushroom"), HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:cyan_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.CYAN).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:cyan_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.CYAN).getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:fortstone_bricks"), POLISHED_FORTSTONE_BRICKS.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
@@ -4026,6 +4034,10 @@ public class BlockRegistry {
                 .parse("superbb:green_bigshroom_cap"), GREEN_SUPER_MUSHROOM_BLOCK.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:green_bigshroom_cap"), GREEN_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:green_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.GREEN).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:green_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.GREEN).getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:green_shroom"), LIME_SUPER_MUSHROOM.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
@@ -4125,6 +4137,10 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:pink_mushbloom"), PINK_BLOOMFLOWER.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:pink_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.PINK).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:pink_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.PINK).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:polished_fortstone"), POLISHED_FORTSTONE.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:polished_fortstone"), POLISHED_FORTSTONE.getId());
@@ -4149,6 +4165,10 @@ public class BlockRegistry {
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:purple_mushbloom"), PURPLE_BLOOMFLOWER.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:purple_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.PURPLE).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:purple_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.PURPLE).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:red_bigshroom_block"), RED_SUPER_MUSHROOM_BLOCK.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:red_bigshroom_block"), RED_SUPER_MUSHROOM_BLOCK.getId());
@@ -4164,6 +4184,10 @@ public class BlockRegistry {
                 .parse("superbb:red_mushbloom"), RED_BLOOMFLOWER.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:red_mushbloom"), RED_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:red_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.RED).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:red_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.RED).getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:red_shroom"), ORANGE_SUPER_MUSHROOM.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
@@ -4228,5 +4252,9 @@ public class BlockRegistry {
                 .parse("superbb:yellow_mushbloom"), YELLOW_BLOOMFLOWER.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:yellow_mushbloom"), YELLOW_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:yellow_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.YELLOW).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:yellow_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.YELLOW).getId());
     }
 }
