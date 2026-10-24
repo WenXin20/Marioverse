@@ -141,15 +141,6 @@
     "marioverse:red_mega_mushroom": {
       "chance": 0.65
     },
-    "marioverse:red_mega_mushroom_trampoline": {
-      "chance": 0.65
-    },
-    "marioverse:red_mushroom_trampoline": {
-      "chance": 0.65
-    },
-    "marioverse:red_mushroom_trampoline_block": {
-      "chance": 0.85
-    },
     "marioverse:red_on_off_mega_mushroom_trampoline": {
       "chance": 0.65
     },
@@ -176,6 +167,15 @@
     },
     "marioverse:red_super_mushroom_stem": {
       "chance": 0.65
+    },
+    "marioverse:scarlet_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:scarlet_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:scarlet_mushroom_trampoline_block": {
+      "chance": 0.85
     },
     "marioverse:short_shroomgrass": {
       "chance": 0.3

@@ -4,7 +4,7 @@
     "cap_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "marioverse:red_mushroom_trampoline_block"
+        "Name": "marioverse:scarlet_mushroom_trampoline_block"
       }
     },
     "cap_height": 2,

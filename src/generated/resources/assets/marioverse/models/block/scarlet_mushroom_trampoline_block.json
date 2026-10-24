@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_single_face",
   "textures": {
-    "texture": "marioverse:block/red_mushroom_trampoline_block"
+    "texture": "marioverse:block/scarlet_mushroom_trampoline_block"
   }
 }

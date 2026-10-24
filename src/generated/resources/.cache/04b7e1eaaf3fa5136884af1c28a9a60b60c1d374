@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-23T22:52:48.3852158	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-10-24T00:38:41.2600415	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -122,8 +122,8 @@ bb18fc4c396d6f92ae6b398f49523d90a15ac46e data/marioverse/tags/item/koopa_shells.
 18e3285bb98fd204eba901c942bffcea436f3042 data/marioverse/tags/item/large_arrow_signs/flammable.json
 729ce402af04abb7877af6b5c5760625ba6955a6 data/marioverse/tags/item/large_arrow_signs/wooden.json
 fdee9523679ade0cb634851cbec5187425399208 data/marioverse/tags/item/loopholes.json
-e0062dcf785df20da9b88828c00789ca40aef07a data/marioverse/tags/item/mega_mushrooms.json
-9931fa41e81f1514b9ec2905acbe678fd4ee6b9d data/marioverse/tags/item/mushroom_trampoline_blocks.json
+4adb581af786842a171895339169abfbb3010219 data/marioverse/tags/item/mega_mushrooms.json
+f15f5932d0dc2c647f3192afc4aff79e5baf0193 data/marioverse/tags/item/mushroom_trampoline_blocks.json
 bde8e67a2251af7b571243c7bd0e610b55c6eb5f data/marioverse/tags/item/mushroot_logs.json
 1246002449a1e94e6f47058a9210307d8ff68423 data/marioverse/tags/item/mushroot_planks.json
 5caef3bf5fe1f82caaeaac7f566d0787b4b83f19 data/marioverse/tags/item/pants.json
@@ -163,7 +163,7 @@ a3c02b0be1a55969deb4073f6e31212d97aaaaee data/marioverse/tags/item/smashable_blo
 4102ce3a30ef5178d737ad0d8aed6a4c3a950f06 data/marioverse/tags/item/spookroot_planks.json
 3c805c1cbd7b539c7e427d303e5cea53cbd8ea08 data/marioverse/tags/item/storage_bricks.json
 d87b573e2cc9c63faea0ca2da49944b58333220f data/marioverse/tags/item/storage_calcite_bricks.json
-d73d9086a96831a3ebc71c3829cf702eb5764dad data/marioverse/tags/item/super_mushrooms.json
+b31dd5e11fe5da3adace008f24567dc0248536bc data/marioverse/tags/item/super_mushrooms.json
 7f2f79d777faae5a1cbb2e84fb4b1fb617437bd4 data/marioverse/tags/item/super_mushroom_caps.json
 b452bc0b6b4b6a3163a0f95ce4d681f8750c0eb7 data/marioverse/tags/item/super_mushroom_stems.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/marioverse/tags/item/tools/wrenches.json

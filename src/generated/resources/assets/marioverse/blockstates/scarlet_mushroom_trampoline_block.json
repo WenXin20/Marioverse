@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block",
         "uvlock": true
       },
       "when": {
@@ -12,7 +12,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_cap",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_cap",
         "uvlock": true
       },
       "when": {
@@ -22,7 +22,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_inside"
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_inside"
       },
       "when": {
         "north": "false"
@@ -30,7 +30,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block",
         "uvlock": true,
         "y": 90
       },
@@ -41,7 +41,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_cap",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_cap",
         "uvlock": true,
         "y": 90
       },
@@ -52,7 +52,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_inside",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_inside",
         "y": 90
       },
       "when": {
@@ -61,7 +61,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block",
         "uvlock": true,
         "y": 180
       },
@@ -72,7 +72,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_cap",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_cap",
         "uvlock": true,
         "y": 180
       },
@@ -83,7 +83,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_inside",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_inside",
         "y": 180
       },
       "when": {
@@ -92,7 +92,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block",
         "uvlock": true,
         "y": 270
       },
@@ -103,7 +103,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_cap",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_cap",
         "uvlock": true,
         "y": 270
       },
@@ -114,7 +114,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_inside",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_inside",
         "y": 270
       },
       "when": {
@@ -123,7 +123,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_top",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_top",
         "uvlock": true,
         "x": 270
       },
@@ -133,7 +133,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_inside",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_inside",
         "x": 270
       },
       "when": {
@@ -142,7 +142,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_top",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_top",
         "uvlock": true,
         "x": 90
       },
@@ -153,7 +153,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_inside",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_inside",
         "x": 90
       },
       "when": {
@@ -163,7 +163,7 @@
     },
     {
       "apply": {
-        "model": "marioverse:block/red_mushroom_trampoline_block_inside",
+        "model": "marioverse:block/scarlet_mushroom_trampoline_block_inside",
         "x": 90
       },
       "when": {

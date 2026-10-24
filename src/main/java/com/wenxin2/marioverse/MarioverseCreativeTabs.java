@@ -277,7 +277,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK);
             add(event, BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
             add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK);
-            add(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK);
+            add(event, BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE_BLOCK);
             add(event, BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK);
             add(event, BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK);
             add(event, BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK);
@@ -306,8 +306,8 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
             add(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE);
             add(event, BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE);
-            add(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE);
-            add(event, BlockRegistry.RED_MEGA_MUSHROOM_TRAMPOLINE);
+            add(event, BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE);
+            add(event, BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE);
             add(event, BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE);
             add(event, BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE);
             add(event, BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE);
@@ -1515,8 +1515,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK, BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK);
                 addAfter(event, BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK, BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK);
                 addAfter(event, BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK);
-                addAfter(event, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK);
-                addAfter(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE_BLOCK, BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK);
+                addAfter(event, BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK, BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE_BLOCK);
+                addAfter(event, BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE_BLOCK, BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK);
                 addAfter(event, BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK, BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK);
                 addAfter(event, BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK, BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK);
 
@@ -1548,9 +1548,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
                 addAfter(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE);
                 addAfter(event, BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE, BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE);
-                addAfter(event, BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockRegistry.RED_MUSHROOM_TRAMPOLINE);
-                addAfter(event, BlockRegistry.RED_MUSHROOM_TRAMPOLINE, BlockRegistry.RED_MEGA_MUSHROOM_TRAMPOLINE);
-                addAfter(event, BlockRegistry.RED_MEGA_MUSHROOM_TRAMPOLINE, BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE);
+                addAfter(event, BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE);
+                addAfter(event, BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE, BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE);
+                addAfter(event, BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE, BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE);
                 addAfter(event, BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE, BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE);
                 addAfter(event, BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE, BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE);
                 addAfter(event, BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE, BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE);

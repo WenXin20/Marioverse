@@ -23,7 +23,7 @@
               }
             }
           ],
-          "name": "marioverse:red_mushroom_trampoline_block"
+          "name": "marioverse:scarlet_mushroom_trampoline_block"
         },
         {
           "type": "minecraft:item",
@@ -67,7 +67,7 @@
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "marioverse:red_mushroom_trampoline",
+          "name": "marioverse:scarlet_mushroom_trampoline",
           "weight": 3
         },
         {
@@ -112,11 +112,11 @@
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "marioverse:red_mega_mushroom_trampoline"
+          "name": "marioverse:scarlet_mega_mushroom_trampoline"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "marioverse:blocks/red_mushroom_trampoline_block"
+  "random_sequence": "marioverse:blocks/scarlet_mushroom_trampoline_block"
 }
