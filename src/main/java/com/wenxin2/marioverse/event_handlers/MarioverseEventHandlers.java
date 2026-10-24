@@ -98,6 +98,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.BlockItemStateProperties;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -117,6 +118,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -747,6 +749,23 @@ public class MarioverseEventHandlers {
                 && dyeColumnBlock.dyeSingleBlock(level, pos, state, heldItem, player, event.getFace())) {
             event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             event.setCanceled(true);
+        }
+
+        if (heldItem.canPerformAction(ItemAbilities.PICKAXE_DIG)) {
+            BlockState floorState = state.getToolModifiedState(new UseOnContext(player, event.getHand(), event.getHitVec()),
+                    ItemAbilities.PICKAXE_DIG, true);
+
+            if (floorState != null && floorState != state) {
+                if (!level.isClientSide) {
+                    level.setBlock(pos, floorState, Block.UPDATE_ALL_IMMEDIATE);
+                    level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, floorState));
+                    level.playSound(null, pos, floorState.getSoundType(level, pos, player).getHitSound(),
+                            SoundSource.BLOCKS, 1.0F, 0.9F + level.random.nextFloat() * 0.2F);
+                    heldItem.hurtAndBreak(1, player, LivingEntity.getSlotForHand(event.getHand()));
+                }
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                event.setCanceled(true);
+            }
         }
 
         BlockEntity blockEntity = level.getBlockEntity(pos);

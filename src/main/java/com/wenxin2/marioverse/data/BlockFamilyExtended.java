@@ -137,6 +137,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder floor(Block block) {
+            this.family.variants.put(Variant.FLOOR, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder hangingSign(Block block, Block blockWall) {
             this.family.variants.put(Variant.HANGING_SIGN, block);
             this.family.variants.put(Variant.WALL_HANGING_SIGN, blockWall);
@@ -337,6 +342,7 @@ public class BlockFamilyExtended {
         DOOR("door"),
         FENCE("fence"),
         FENCE_GATE("fence_gate"),
+        FLOOR("floor"),
         HANGING_ARROW_SIGN("hanging_arrow_sign"),
         HANGING_SIGN("hanging_sign"),
         HARD_BLOCK("hard_block"),

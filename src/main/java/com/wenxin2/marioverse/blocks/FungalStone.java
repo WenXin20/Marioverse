@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
@@ -13,7 +14,10 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class FungalStone extends RotatedPillarBlock implements BonemealableBlock {
     public static final MapCodec<FungalStone> CODEC = simpleCodec(FungalStone::new);
@@ -71,5 +75,22 @@ public class FungalStone extends RotatedPillarBlock implements BonemealableBlock
     @Override
     public BonemealableBlock.Type getType() {
         return BonemealableBlock.Type.NEIGHBOR_SPREADER;
+    }
+
+    @Nullable
+    @Override
+    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
+        if (itemAbility == ItemAbilities.PICKAXE_DIG) {
+            if (state.is(BlockRegistry.DEEP_FUNGAL_STONE))
+                return StoneFloorBlock.getFloorState(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get(),
+                        state.getValue(AXIS), context.getClickedFace());
+            else if (state.is(BlockRegistry.FUNGAL_STONE))
+                return StoneFloorBlock.getFloorState(BlockRegistry.FUNGAL_STONE_FLOOR.get(),
+                        state.getValue(AXIS), context.getClickedFace());
+            else if (state.is(BlockRegistry.FORTSTONE))
+                return StoneFloorBlock.getFloorState(BlockRegistry.FORTSTONE_FLOOR.get(),
+                        state.getValue(AXIS), context.getClickedFace());
+        }
+        return super.getToolModifiedState(state, context, itemAbility, simulate);
     }
 }

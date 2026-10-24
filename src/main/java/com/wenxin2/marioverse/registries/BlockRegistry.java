@@ -15,6 +15,7 @@ import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LoopholeBlock;
 import com.wenxin2.marioverse.blocks.PolishedLoopholeBlock;
+import com.wenxin2.marioverse.blocks.RockyStoneBlock;
 import com.wenxin2.marioverse.blocks.RoseHedgeBlock;
 import com.wenxin2.marioverse.blocks.ShortShroomgrassBlock;
 import com.wenxin2.marioverse.blocks.ShroomgrassBlock;
@@ -24,6 +25,7 @@ import com.wenxin2.marioverse.blocks.ShroomsoilFarmlandBlock;
 import com.wenxin2.marioverse.blocks.ShroomsoilPathBlock;
 import com.wenxin2.marioverse.blocks.ShrubroomBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.StoneFloorBlock;
 import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
 import com.wenxin2.marioverse.blocks.MegaMushroomTrampolineBlock;
 import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
@@ -784,14 +786,17 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> RED_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> RED_SUPER_MUSHROOM_BLOCK;
     public static final DeferredBlock<Block> RED_SUPER_MUSHROOM_STEM;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_FLOOR;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> FORTSTONE_FLOOR;
     public static final DeferredBlock<Block> ROCKY_FORTSTONE;
     public static final DeferredBlock<Block> ROCKY_FORTSTONE_SLAB;
     public static final DeferredBlock<Block> ROCKY_FORTSTONE_STAIRS;
     public static final DeferredBlock<Block> ROCKY_FORTSTONE_WALL;
+    public static final DeferredBlock<Block> FUNGAL_STONE_FLOOR;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_STAIRS;
@@ -2479,7 +2484,7 @@ public class BlockRegistry {
 
 
         ROCKY_FUNGAL_STONE = registerBlock("rocky_fungal_stone",
-                () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
+                () -> new RockyStoneBlock(BlockRegistry.FUNGAL_STONE_FLOOR, BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
                         .strength(2.0F, 6.0F)));
 
         ROCKY_FUNGAL_STONE_SLAB = registerBlock("rocky_fungal_stone_slab", () -> slab(ROCKY_FUNGAL_STONE.get()));
@@ -2487,6 +2492,10 @@ public class BlockRegistry {
         ROCKY_FUNGAL_STONE_STAIRS = registerBlock("rocky_fungal_stone_stairs", () -> stair(ROCKY_FUNGAL_STONE.get()));
 
         ROCKY_FUNGAL_STONE_WALL = registerBlock("rocky_fungal_stone_wall", () -> wall(ROCKY_FUNGAL_STONE.get()));
+
+        FUNGAL_STONE_FLOOR = registerBlock("fungal_stone_floor",
+                () -> new StoneFloorBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
+                        .strength(2.0F, 6.0F)));
 
 
         FUNGAL_COBBLESTONE = registerBlock("fungal_cobblestone",
@@ -2615,7 +2624,7 @@ public class BlockRegistry {
 
 
         ROCKY_DEEP_FUNGAL_STONE = registerBlock("rocky_deep_fungal_stone",
-                () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
+                () -> new RockyStoneBlock(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR, BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
                         .strength(3.5F, 6.0F)));
 
         ROCKY_DEEP_FUNGAL_STONE_SLAB = registerBlock("rocky_deep_fungal_stone_slab", () -> slab(ROCKY_DEEP_FUNGAL_STONE.get()));
@@ -2623,6 +2632,10 @@ public class BlockRegistry {
         ROCKY_DEEP_FUNGAL_STONE_STAIRS = registerBlock("rocky_deep_fungal_stone_stairs", () -> stair(ROCKY_DEEP_FUNGAL_STONE.get()));
 
         ROCKY_DEEP_FUNGAL_STONE_WALL = registerBlock("rocky_deep_fungal_stone_wall", () -> wall(ROCKY_DEEP_FUNGAL_STONE.get()));
+
+        DEEP_FUNGAL_STONE_FLOOR = registerBlock("deep_fungal_stone_floor",
+                () -> new StoneFloorBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.DEEP_FUNGAL_STONE.get())
+                        .strength(3.5F, 6.0F)));
 
 
         DEEP_FUNGAL_COBBLESTONE = registerBlock("deep_fungal_cobblestone",
@@ -2745,7 +2758,7 @@ public class BlockRegistry {
 
 
         ROCKY_FORTSTONE = registerBlock("rocky_fortstone",
-                () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
+                () -> new RockyStoneBlock(BlockRegistry.FORTSTONE_FLOOR, BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
                         .strength(2.0F, 6.0F)));
 
         ROCKY_FORTSTONE_SLAB = registerBlock("rocky_fortstone_slab", () -> slab(ROCKY_FORTSTONE.get()));
@@ -2753,6 +2766,10 @@ public class BlockRegistry {
         ROCKY_FORTSTONE_STAIRS = registerBlock("rocky_fortstone_stairs", () -> stair(ROCKY_FORTSTONE.get()));
 
         ROCKY_FORTSTONE_WALL = registerBlock("rocky_fortstone_wall", () -> wall(ROCKY_FORTSTONE.get()));
+
+        FORTSTONE_FLOOR = registerBlock("fortstone_floor",
+                () -> new StoneFloorBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
+                        .strength(2.0F, 6.0F)));
 
 
         COBBLED_FORTSTONE = registerBlock("cobbled_fortstone",

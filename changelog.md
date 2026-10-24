@@ -4,11 +4,24 @@
   - Added Fungal Cobblestone sets
   - Added Hard Fungal Block sets
   - Added Rocky Fungal Stone sets
+  - Added Fungal Stone Floor
+    - Right-click with a pickaxe on Fungal Stone or Rocky Fungal Stone
 - Improved Deep Fungal Stone sets
   - Added new textures
   - Added Deep Fungal Cobblestone sets
   - Added Hard Deep Fungal Block sets
   - Added Rocky Deep Fungal Stone sets
+  - Added Deep Fungal Stone Floor
+    - Right-click with a pickaxe on Deep Fungal Stone or Rocky Deep Fungal Stone
+- Added Fortstone block set
+  - Added Cobbled Fortstone sets
+  - Added Hard Fortstone Block sets
+  - Added Rocky Fortstone sets
+  - Added Fortstone brick sets
+  - Added Polished Fortstone brick sets
+  - Added Huge Fortstone brick sets
+  - Added Fortstone Floor
+    - Right-click with a pickaxe on Fortstone or Rocky Fortstone
 - Added Mushroot block set
   - Mushroot tree & mega Mushroot tree
   - Doors, Trapdoors, Signs & Hanging Signs
@@ -85,7 +98,7 @@
 - Fixed peaceful difficulty causing some blocks/enemies to not do damage
 - Fixed Question Blocks blockstate not updating correctly
 - Fixed decorated pots being too rare in the Brick Lanes structure
-- Fixed windcharges toggling blocks twice, such as On/Off Switches
+- Fixed wind charges toggling blocks twice, such as On/Off Switches
 - Fixed buttons not rendering with the Spatial GUI mod
 - Fixed wrench not taking damage when linking pipes
 - Fixed wrench to wrench recipe erasing damage

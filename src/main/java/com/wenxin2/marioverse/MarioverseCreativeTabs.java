@@ -235,12 +235,15 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DEEP_WET_MUD);
 
             add(event, BlockRegistry.GRASSY_FUNGAL_STONE);
+            add(event, BlockRegistry.FUNGAL_STONE_FLOOR);
             add(event, BlockRegistry.FUNGAL_STONE);
             add(event, BlockRegistry.ROCKY_FUNGAL_STONE);
             add(event, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE);
+            add(event, BlockRegistry.DEEP_FUNGAL_STONE_FLOOR);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.GRASSY_FORTSTONE);
+            add(event, BlockRegistry.FORTSTONE_FLOOR);
             add(event, BlockRegistry.FORTSTONE);
             add(event, BlockRegistry.ROCKY_FORTSTONE);
 
@@ -427,6 +430,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS);
 
             add(event, BlockRegistry.GRASSY_FUNGAL_STONE);
+            add(event, BlockRegistry.FUNGAL_STONE_FLOOR);
             add(event, BlockRegistry.FUNGAL_STONE);
             add(event, BlockRegistry.FUNGAL_STONE_STAIRS);
             add(event, BlockRegistry.FUNGAL_STONE_SLAB);
@@ -475,6 +479,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.FUNGAL_BRIDGE);
 
             add(event, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE);
+            add(event, BlockRegistry.DEEP_FUNGAL_STONE_FLOOR);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_STAIRS);
             add(event, BlockRegistry.DEEP_FUNGAL_STONE_SLAB);
@@ -523,6 +528,7 @@ public class MarioverseCreativeTabs {
             add(event, BlockRegistry.DEEP_FUNGAL_BRIDGE);
 
             add(event, BlockRegistry.GRASSY_FORTSTONE);
+            add(event, BlockRegistry.FORTSTONE_FLOOR);
             add(event, BlockRegistry.FORTSTONE);
             add(event, BlockRegistry.FORTSTONE_STAIRS);
             add(event, BlockRegistry.FORTSTONE_SLAB);
@@ -1474,13 +1480,16 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.WET_MUD_FARMLAND, BlockRegistry.DEEP_WET_MUD);
 
                 addAfter(event, Blocks.PRISMARINE, BlockRegistry.GRASSY_FUNGAL_STONE);
-                addAfter(event, BlockRegistry.GRASSY_FUNGAL_STONE, BlockRegistry.FUNGAL_STONE);
+                addAfter(event, BlockRegistry.GRASSY_FUNGAL_STONE, BlockRegistry.FUNGAL_STONE_FLOOR);
+                addAfter(event, BlockRegistry.FUNGAL_STONE_FLOOR, BlockRegistry.FUNGAL_STONE);
                 addAfter(event, BlockRegistry.FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE);
                 addAfter(event, BlockRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE);
-                addAfter(event, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE);
+                addAfter(event, BlockRegistry.GRASSY_DEEP_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE_FLOOR);
+                addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE_FLOOR, BlockRegistry.DEEP_FUNGAL_STONE);
                 addAfter(event, BlockRegistry.DEEP_FUNGAL_STONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE);
                 addAfter(event, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, BlockRegistry.GRASSY_FORTSTONE);
-                addAfter(event, BlockRegistry.GRASSY_FORTSTONE, BlockRegistry.FORTSTONE);
+                addAfter(event, BlockRegistry.GRASSY_FORTSTONE, BlockRegistry.FORTSTONE_FLOOR);
+                addAfter(event, BlockRegistry.FORTSTONE_FLOOR, BlockRegistry.FORTSTONE);
                 addAfter(event, BlockRegistry.FORTSTONE, BlockRegistry.ROCKY_FORTSTONE);
 
                 addAfter(event, Blocks.CHERRY_LOG, BlockRegistry.MUSHROOT_LOG);

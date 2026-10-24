@@ -93,6 +93,7 @@ public class SuperMushroomCapBlock extends HugeMushroomBlock implements Bonemeal
     @Override
     public BlockState getToolModifiedState(BlockState state, UseOnContext context, ItemAbility itemAbility, boolean simulate) {
         BooleanProperty faceProperty = PipeBlock.PROPERTY_BY_DIRECTION.get(context.getClickedFace());
+
         if (itemAbility == ItemAbilities.AXE_STRIP && state.getValue(faceProperty)
                 && !(faceProperty == DOWN && state.getValue(BOTTOM))) {
             if (!simulate && context.getLevel() instanceof ServerLevel serverLevel)

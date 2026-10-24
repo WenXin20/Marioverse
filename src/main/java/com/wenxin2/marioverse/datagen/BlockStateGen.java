@@ -223,6 +223,12 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.ROCKY_FORTSTONE.get(),
                 BlockRegistry.ROCKY_FUNGAL_STONE.get());
+        this.rotatedMirroredBottomTopModel(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get(), texture(BlockRegistry.DEEP_FUNGAL_STONE.get(), "_top"),
+                blockTexture(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get()), texture(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get(), "_top"));
+        this.rotatedMirroredBottomTopModel(BlockRegistry.FORTSTONE_FLOOR.get(), texture(BlockRegistry.FORTSTONE.get(), "_top"),
+                blockTexture(BlockRegistry.FORTSTONE_FLOOR.get()), texture(BlockRegistry.FORTSTONE_FLOOR.get(), "_top"));
+        this.rotatedMirroredBottomTopModel(BlockRegistry.FUNGAL_STONE_FLOOR.get(), texture(BlockRegistry.FUNGAL_STONE.get(), "_top"),
+                blockTexture(BlockRegistry.FUNGAL_STONE_FLOOR.get()), texture(BlockRegistry.FUNGAL_STONE_FLOOR.get(), "_top"));
         this.cubeTopBlocks(BlockRegistry.SPOOKROOT_LEAVES.get(),
                 BlockRegistry.DARK_SPOOKROOT_LEAVES.get());
         this.coralTowerBlocks(BlockRegistry.BRAIN_CORAL_TOWER.get(),
@@ -1906,6 +1912,34 @@ public class BlockStateGen extends BlockStateProvider {
                     .nextModel().modelFile(mirroredModel).rotationX(xRot).rotationY(yRot)
                     .nextModel().modelFile(model).rotationX(xRot).rotationY(yRotFlipped)
                     .nextModel().modelFile(mirroredModel).rotationX(xRot).rotationY(yRotFlipped)
+                    .build();
+        });
+        simpleBlockItem(block, model);
+    }
+
+    private void rotatedMirroredBottomTopModel(Block block, ResourceLocation bottomTexture, ResourceLocation sideTexture,
+                                               ResourceLocation topTexture) {
+        String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
+
+        ModelFile model = models()
+                .withExistingParent(modelName, mcLoc("minecraft:block/cube_bottom_top"))
+                .texture("bottom", bottomTexture)
+                .texture("side", sideTexture)
+                .texture("top", topTexture);
+        ModelFile mirroredModel = models()
+                .withExistingParent(modelName + "_mirrored", modLoc("block/cube_bottom_top_down_mirrored"))
+                .texture("bottom", bottomTexture)
+                .texture("side", sideTexture)
+                .texture("top", topTexture);
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            Direction facing = state.getValue(BlockStateProperties.FACING);
+            int xRot = facing == Direction.UP ? 0 : facing == Direction.DOWN ? 180 : 90;
+            int yRot = facing.getAxis().isHorizontal() ? ((int) facing.toYRot() + 180) % 360 : 0;
+
+            return ConfiguredModel.builder()
+                    .modelFile(model).rotationX(xRot).rotationY(yRot)
+                    .nextModel().modelFile(mirroredModel).rotationX(xRot).rotationY(yRot)
                     .build();
         });
         simpleBlockItem(block, model);
