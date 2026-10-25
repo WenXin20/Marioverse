@@ -20,6 +20,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -27,6 +29,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
@@ -51,6 +55,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.NotNull;
@@ -116,9 +121,13 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
         if (hitResult.getType() != HitResult.Type.BLOCK && state.getBlock() instanceof BucketPickup)
             return InteractionResultHolder.pass(stack);
         else if (state.getBlock() instanceof BucketPickup bucketPickup && (fluidState.is(Fluids.WATER)
-                || (fluidState.is(Fluids.LAVA) && PlasticBucketItem.isFireProof(stack)))) {
-            ItemStack newStack = new ItemStack(fluidState.is(Fluids.LAVA)
-                    ? ItemRegistry.PLASTIC_LAVA_BUCKET.get() : ItemRegistry.PLASTIC_WATER_BUCKET.get());
+                || fluidState.is(Tags.Fluids.MILK) || (fluidState.is(Fluids.LAVA) && PlasticBucketItem.isFireProof(stack)))) {
+            ItemStack newStack;
+            if (fluidState.is(Fluids.LAVA))
+                newStack = new ItemStack(ItemRegistry.PLASTIC_LAVA_BUCKET.get());
+            else if (fluidState.is(Tags.Fluids.MILK))
+                newStack = new ItemStack(ItemRegistry.PLASTIC_MILK_BUCKET.get());
+            else newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
             ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
 
             if (!stackPickup.isEmpty()) {
@@ -165,6 +174,23 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
         if (player.isShiftKeyDown())
             return InteractionResultHolder.pass(stack);
         return this.swapWithEquipmentSlot(this, level, player, hand);
+    }
+
+    @NotNull
+    @Override
+    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
+        if ((livingEntity instanceof Cow || livingEntity instanceof Goat) && !livingEntity.isBaby()) {
+            SoundEvent sound = SoundEvents.COW_MILK;
+            if (livingEntity instanceof Goat goat)
+                sound = goat.isScreamingGoat() ? SoundEvents.GOAT_SCREAMING_MILK : SoundEvents.GOAT_MILK;
+            player.playSound(sound, 1.0F, 0.9F + player.getRandom().nextFloat() * 0.2F);
+
+            ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_MILK_BUCKET.get());
+            newStack.applyComponents(stack.getComponents());
+            player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, newStack));
+            return InteractionResult.sidedSuccess(player.level().isClientSide);
+        }
+        return super.interactLivingEntity(stack, player, livingEntity, hand);
     }
 
     @NotNull
@@ -217,6 +243,8 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
             return new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
         if (vanillaBucket.is(Items.LAVA_BUCKET))
             return new ItemStack(ItemRegistry.PLASTIC_LAVA_BUCKET.get());
+        if (fluid.is(Tags.Fluids.MILK))
+            return new ItemStack(ItemRegistry.PLASTIC_MILK_BUCKET.get());
 
         return new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
     }

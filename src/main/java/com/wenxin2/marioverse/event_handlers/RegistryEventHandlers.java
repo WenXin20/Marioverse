@@ -401,6 +401,8 @@ public class RegistryEventHandlers {
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_WATER_BUCKET);
         event.registerItem(Capabilities.FluidHandler.ITEM,
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_LAVA_BUCKET);
+        event.registerItem(Capabilities.FluidHandler.ITEM,
+                (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_MILK_BUCKET);
     }
 
     @SubscribeEvent

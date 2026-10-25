@@ -103,6 +103,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PLASTIC_BUCKET);
             add(event, ItemRegistry.PLASTIC_WATER_BUCKET);
             add(event, MarioverseCreativeTabs.enchanted(event, ItemRegistry.PLASTIC_LAVA_BUCKET, Enchantments.FIRE_PROTECTION, 1));
+            add(event, ItemRegistry.PLASTIC_MILK_BUCKET);
             add(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
             add(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
             add(event, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
@@ -1740,7 +1741,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Items.MILK_BUCKET, ItemRegistry.PLASTIC_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.PLASTIC_WATER_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_WATER_BUCKET, plasticLava);
-                addAfter(event, plasticLava, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
+                addAfter(event, plasticLava, ItemRegistry.PLASTIC_MILK_BUCKET);
+                addAfter(event, ItemRegistry.PLASTIC_MILK_BUCKET, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
 

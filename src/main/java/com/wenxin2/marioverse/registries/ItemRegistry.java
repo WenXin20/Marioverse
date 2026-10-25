@@ -23,6 +23,7 @@ import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
+import com.wenxin2.marioverse.items.PlasticMilkBucketItem;
 import com.wenxin2.marioverse.items.PokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SnowyHedgeItem;
@@ -157,6 +158,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLASTIC_BUCKET;
     public static final DeferredItem<Item> PLASTIC_LAVA_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_MILK_BUCKET;
     public static final DeferredItem<Item> PLASTIC_POWDER_SNOW_BUCKET;
     public static final DeferredItem<Item> PLASTIC_QUICKSAND_BUCKET;
     public static final DeferredItem<Item> PLASTIC_RED_QUICKSAND_BUCKET;
@@ -394,13 +396,16 @@ public class ItemRegistry {
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
                 () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
-                        4, new Item.Properties().stacksTo(1)
+                        5, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         PLASTIC_WATER_BUCKET = registerItem("plastic_water_bucket",
                 () -> new FluidPlasticBucketItem(3, Fluids.WATER, new Item.Properties().stacksTo(1)
                         .durability(128)));
         PLASTIC_LAVA_BUCKET = registerItem("plastic_lava_bucket",
                 () -> new FluidPlasticBucketItem(2, Fluids.LAVA, new Item.Properties().stacksTo(1)
+                        .durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
+        PLASTIC_MILK_BUCKET = registerItem("plastic_milk_bucket",
+                () -> new PlasticMilkBucketItem(2, new Item.Properties().stacksTo(1)
                         .durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
         PLASTIC_POWDER_SNOW_BUCKET = registerItem("plastic_powder_snow_bucket",
                 () -> new SolidPlasticBucketItem(2, Blocks.POWDER_SNOW, SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
