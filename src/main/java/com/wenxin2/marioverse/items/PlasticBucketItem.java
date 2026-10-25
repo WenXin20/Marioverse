@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.renderers.costumes.PlasticBucketRenderer;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -37,6 +38,7 @@ import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimPattern;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -113,9 +115,11 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
 
         if (hitResult.getType() != HitResult.Type.BLOCK && state.getBlock() instanceof BucketPickup)
             return InteractionResultHolder.pass(stack);
-        else if (state.getBlock() instanceof BucketPickup bucketPickup && fluidState.is(Fluids.WATER)) {
+        else if (state.getBlock() instanceof BucketPickup bucketPickup && (fluidState.is(Fluids.WATER)
+                || (fluidState.is(Fluids.LAVA) && PlasticBucketItem.isFireProof(stack)))) {
+            ItemStack newStack = new ItemStack(fluidState.is(Fluids.LAVA)
+                    ? ItemRegistry.PLASTIC_LAVA_BUCKET.get() : ItemRegistry.PLASTIC_WATER_BUCKET.get());
             ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
-            ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
 
             if (!stackPickup.isEmpty()) {
                 newStack.applyComponents(stack.getComponents());
@@ -211,8 +215,15 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
 
         if (vanillaBucket.is(Items.WATER_BUCKET))
             return new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+        if (vanillaBucket.is(Items.LAVA_BUCKET))
+            return new ItemStack(ItemRegistry.PLASTIC_LAVA_BUCKET.get());
 
         return new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
+    }
+
+    public static boolean isFireProof(ItemStack stack) {
+        return stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY).keySet().stream()
+                .anyMatch(enchantment -> enchantment.is(TagRegistry.FIRE_PROOF_ENCHANTS));
     }
 
     public static void applyRandomTrim(ServerLevelAccessor levelAccessor, RandomSource random, ItemStack stack) {

@@ -213,6 +213,7 @@ public class ItemModelGen extends ItemModelProvider {
 
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_BUCKET.get(), Fluids.EMPTY, false, false);
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
+        this.plasticFluidBucketItem(ItemRegistry.PLASTIC_LAVA_BUCKET.get(), Fluids.LAVA, "plastic_bucket_lava_fluid", false, false);
 
         // Compat items are namespaced elsewhere and EveryCompat generates their own models.
         for (Item item : BuiltInRegistries.ITEM) {
@@ -514,7 +515,11 @@ public class ItemModelGen extends ItemModelProvider {
     }
 
     public void plasticFluidBucketItem(Item item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
-        this.plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, applyTint, coverIsMask);
+        this.plasticFluidBucketItem(item, fluid, "plastic_bucket_fluid", applyTint, coverIsMask);
+    }
+
+    public void plasticFluidBucketItem(Item item, Fluid fluid, String mask, boolean applyTint, boolean coverIsMask) {
+        this.plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, mask, applyTint, coverIsMask);
     }
 
     public void largeItem(ResourceLocation item) {
@@ -523,14 +528,14 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()));
     }
 
-    public void plasticFluidBucketItem(ResourceLocation item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
+    public void plasticFluidBucketItem(ResourceLocation item, Fluid fluid, String mask, boolean applyTint, boolean coverIsMask) {
         ItemModelBuilder builder = this.getBuilder(item.getPath())
                 .parent(new ModelFile.UncheckedModelFile("neoforge:item/default"))
                 .texture("base", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()))
-                .texture("fluid", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/plastic_bucket_fluid"));
+                .texture("fluid", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/" + mask));
 
         if (coverIsMask)
-            builder.texture("cover", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/plastic_bucket_fluid_cover"));
+            builder.texture("cover", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/" + mask + "_cover"));
 
         builder.customLoader((parent, existingFileHelper) ->
                 DynamicFluidContainerModelBuilder.begin(parent, existingFileHelper)

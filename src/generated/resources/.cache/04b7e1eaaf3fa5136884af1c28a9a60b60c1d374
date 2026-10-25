@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-24T00:38:41.2600415	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-10-24T22:24:47.7365994	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -8,6 +8,7 @@ c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.jso
 c0f4685b342c133937969cb5a2c80e7ee93e1ce0 data/c/tags/item/buckets.json
 1d9f59c8c89ea3b59ff39d20864ab894d79e0b18 data/c/tags/item/buckets/empty.json
 e024cf900c7e062fe97c49a94c9b0e34527a8a6a data/c/tags/item/buckets/entity_water.json
+71a3cd640884ee96e93e2d1a95562aa0dcca93a7 data/c/tags/item/buckets/lava.json
 2711a0540211a06c8475614ec464d2b599635edd data/c/tags/item/buckets/powder_snow.json
 297c804e062e08f5137905c6da8813126055ba69 data/c/tags/item/buckets/quicksand.json
 c2dde9a3c935edfd74c8048c963710b698d7d47e data/c/tags/item/buckets/water.json
@@ -183,11 +184,11 @@ eb3f7ca15f032d0d19418282e01f56a49a060528 data/minecraft/tags/item/cat_food.json
 0e45bc29e684dcd2a8bebf4b395b50844d242282 data/minecraft/tags/item/chest_boats.json
 889e1b9140d43e93df0bda1319566f3b3d348374 data/minecraft/tags/item/decorated_pot_sherds.json
 9bfbb4d85a1100341f4bddfed36c9208fecf6a11 data/minecraft/tags/item/dyeable.json
-450d5d57c3f6722874b16bfb65e7a315e45e4ccf data/minecraft/tags/item/enchantable/armor.json
-ca74cbd277ff00fcb93ad36d3a5fc3ab185fa379 data/minecraft/tags/item/enchantable/durability.json
-cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/equippable.json
+9c32c05f1be350f362da1fbdc986afcec82ddf52 data/minecraft/tags/item/enchantable/armor.json
+31b204f93649298d4725eaed9909cf450fb731de data/minecraft/tags/item/enchantable/durability.json
+90dce84697fac8566f3afa525a724fcab2360179 data/minecraft/tags/item/enchantable/equippable.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/fire_aspect.json
-cbcffc6196fe919973178ed1042e0ba7a77fe1aa data/minecraft/tags/item/enchantable/vanishing.json
+90dce84697fac8566f3afa525a724fcab2360179 data/minecraft/tags/item/enchantable/vanishing.json
 3d8c022b2d8e4c51771f0ec3105c6069dc1c3cdb data/minecraft/tags/item/enchantable/weapon.json
 0a0981e835f3187bf2971348ff7abf9ce4547fa4 data/minecraft/tags/item/fences.json
 2bbd0fd34b17230eea47727565783149abeb82d8 data/minecraft/tags/item/fence_gates.json
@@ -212,7 +213,7 @@ c168e2a9518e20af623dccc05f946b6afbc973d6 data/minecraft/tags/item/stairs.json
 dd2eaafb141ecc462b70907c4daeab314d52f737 data/minecraft/tags/item/stone_buttons.json
 26f4588a9e3d3614ea06381ea6e03c57def3c95a data/minecraft/tags/item/stone_crafting_materials.json
 26f4588a9e3d3614ea06381ea6e03c57def3c95a data/minecraft/tags/item/stone_tool_materials.json
-2773255bbc15ac09478a13c0dbb75621136e2331 data/minecraft/tags/item/trimmable_armor.json
+62b8b26a043cf384f610e0ed140fe9227c71cedb data/minecraft/tags/item/trimmable_armor.json
 df17fbdce9a0384cbb7b56e5d419d6094b844928 data/minecraft/tags/item/trim_templates.json
 a4f05e42751dee6079b3d76617ada719604748b2 data/minecraft/tags/item/walls.json
 74491dda4282f7f2d96d10b16501df4d44ba3d7c data/minecraft/tags/item/wooden_fences.json

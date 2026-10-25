@@ -1737,6 +1737,7 @@
   "item.marioverse.piranha_plant_pod.normal": "Piranha Plant Pod",
   "item.marioverse.piranha_plant_pod.tropical": "Tropical Piranha Plant Pod",
   "item.marioverse.plastic_bucket": "Plastic Bucket",
+  "item.marioverse.plastic_lava_bucket": "Plastic Lava Bucket",
   "item.marioverse.plastic_powder_snow_bucket": "Plastic Powder Snow Bucket",
   "item.marioverse.plastic_quicksand_bucket": "Plastic Quicksand Bucket",
   "item.marioverse.plastic_red_quicksand_bucket": "Plastic Red Quicksand Bucket",
@@ -1936,7 +1937,12 @@
   "item.marioverse.plastic_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_bucket.tooltip.line1": "§2Uses:",
   "item.marioverse.plastic_bucket.tooltip.line2": " §7• Picks up powder snow, quicksand, & water",
-  "item.marioverse.plastic_bucket.tooltip.line3": " §7• Trimmable",
+  "item.marioverse.plastic_bucket.tooltip.line3": " §7• Picks up lava with Fire Protection",
+  "item.marioverse.plastic_bucket.tooltip.line4": " §7• Trimmable",
+
+  "item.marioverse.plastic_lava_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "item.marioverse.plastic_lava_bucket.tooltip.line1": "§2Right-click:",
+  "item.marioverse.plastic_lava_bucket.tooltip.line2": " §7• Places lava",
 
   "item.marioverse.plastic_powder_snow_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_powder_snow_bucket.tooltip.line1": "§2Right-click:",

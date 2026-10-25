@@ -35,6 +35,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -100,6 +102,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.LARGE_SNOWBALL);
             add(event, ItemRegistry.PLASTIC_BUCKET);
             add(event, ItemRegistry.PLASTIC_WATER_BUCKET);
+            add(event, MarioverseCreativeTabs.enchanted(event, ItemRegistry.PLASTIC_LAVA_BUCKET, Enchantments.FIRE_PROTECTION, 1));
             add(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
             add(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
             add(event, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
@@ -1720,6 +1723,7 @@ public class MarioverseCreativeTabs {
             if (tab == CreativeModeTabs.TOOLS_AND_UTILITIES) {
                 ItemStack normal = new ItemStack(ItemRegistry.CHEEP_CHEEP_BUCKET.get());
                 ItemStack cold = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), "cold");
+                ItemStack plasticLava = MarioverseCreativeTabs.enchanted(event, ItemRegistry.PLASTIC_LAVA_BUCKET, Enchantments.FIRE_PROTECTION, 1);
                 ItemStack warm = bucketVariant(ItemRegistry.CHEEP_CHEEP_BUCKET.get(), "warm");
 
                 addAfter(event, Items.FISHING_ROD, ItemRegistry.WRENCH);
@@ -1735,7 +1739,8 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.QUICKSAND_BUCKET, ItemRegistry.RED_QUICKSAND_BUCKET);
                 addAfter(event, Items.MILK_BUCKET, ItemRegistry.PLASTIC_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.PLASTIC_WATER_BUCKET);
-                addAfter(event, ItemRegistry.PLASTIC_WATER_BUCKET, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
+                addAfter(event, ItemRegistry.PLASTIC_WATER_BUCKET, plasticLava);
+                addAfter(event, plasticLava, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
 
@@ -2800,6 +2805,14 @@ public class MarioverseCreativeTabs {
                 listedBlocks.add(additionalBlock);
             }
         }
+    }
+
+    public static ItemStack enchanted(BuildCreativeModeTabContentsEvent event, ItemLike item,
+                                      ResourceKey<Enchantment> enchantment, int level) {
+        ItemStack stack = new ItemStack(item);
+        stack.enchant(event.getParameters().holders().lookupOrThrow(Registries.ENCHANTMENT)
+                .getOrThrow(enchantment), level);
+        return stack;
     }
 
     public static ItemStack bucketVariant(ItemLike item, String variant) {

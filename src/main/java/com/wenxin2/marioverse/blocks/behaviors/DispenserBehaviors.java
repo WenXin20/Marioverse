@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks.behaviors;
 
 import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -78,6 +79,7 @@ public class DispenserBehaviors {
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET, dispensePlasticBucketBehavior);
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, dispensePlasticBucketBehavior);
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_WATER_BUCKET, dispensePlasticBucketBehavior);
+        DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_LAVA_BUCKET, dispensePlasticBucketBehavior);
 
         DispenseItemBehavior plasticBucketBehavior = DispenserBlock.DISPENSER_REGISTRY.get(ItemRegistry.PLASTIC_BUCKET.get());
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_BUCKET.get(), new DefaultDispenseItemBehavior() {
@@ -101,6 +103,8 @@ public class DispenserBehaviors {
                     newStack = new ItemStack(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
                 else if (state.is(Blocks.WATER))
                     newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+                else if (state.is(Blocks.LAVA) && PlasticBucketItem.isFireProof(stack))
+                    newStack = new ItemStack(ItemRegistry.PLASTIC_LAVA_BUCKET.get());
                 else if (state.is(BlockRegistry.PIPE_BUBBLES))
                     newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
                 else if (state.is(BlockRegistry.WATER_SPOUT))

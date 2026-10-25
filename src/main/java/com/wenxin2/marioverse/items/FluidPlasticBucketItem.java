@@ -51,6 +51,17 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
 
     @NotNull
     @Override
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
+        if (!this.hasCraftingRemainingItem(stack))
+            return ItemStack.EMPTY;
+
+        ItemStack newStack = new ItemStack(this.getCraftingRemainingItem());
+        newStack.applyComponents(stack.getComponents());
+        return newStack;
+    }
+
+    @NotNull
+    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
         ItemStack stack = player.getItemInHand(hand);

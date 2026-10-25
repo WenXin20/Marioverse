@@ -175,6 +175,9 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.EEP_CHEEP_BUCKET.get())
                 .add(ItemRegistry.SPINY_CHEEP_CHEEP_BUCKET.get());
 
+        tag(Tags.Items.BUCKETS_LAVA)
+                .add(ItemRegistry.PLASTIC_LAVA_BUCKET.get());
+
         tag(Tags.Items.BUCKETS_POWDER_SNOW)
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
 
@@ -219,6 +222,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
+                .add(ItemRegistry.PLASTIC_LAVA_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
@@ -262,6 +266,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
+                .add(ItemRegistry.PLASTIC_LAVA_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
@@ -278,6 +283,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
+                .add(ItemRegistry.PLASTIC_LAVA_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
@@ -393,6 +399,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
                 .add(ItemRegistry.PLASTIC_BUCKET.get())
+                .add(ItemRegistry.PLASTIC_LAVA_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())
@@ -409,6 +416,7 @@ public class ItemTagsGen extends ItemTagsProvider {
                 .add(ItemRegistry.HAT.get())
                 .add(ItemRegistry.HEELS.get())
                 .add(ItemRegistry.PANTS.get())
+                .add(ItemRegistry.PLASTIC_LAVA_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get())
                 .add(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get())

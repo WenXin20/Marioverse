@@ -21,6 +21,9 @@
     },
     "#marioverse:windows/flammable": {
       "burn_time": 150
+    },
+    "marioverse:plastic_lava_bucket": {
+      "burn_time": 20000
     }
   }
 }

@@ -106,6 +106,7 @@ public class DataMapGen extends DataMapProvider {
                 .add(BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false);
 
         builder(NeoForgeDataMaps.FURNACE_FUELS)
+                .add(ItemRegistry.PLASTIC_LAVA_BUCKET, new FurnaceFuel(20000), false)
                 .add(TagRegistry.FLAMMABLE_BRIDGE_ITEMS, new FurnaceFuel(100), false)
                 .add(TagRegistry.FLAMMABLE_BRIDGE_STAIR_ITEMS, new FurnaceFuel(100), false)
                 .add(TagRegistry.FLAMMABLE_HARD_BLOCK_ITEMS, new FurnaceFuel(300), false)

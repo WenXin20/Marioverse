@@ -71,7 +71,8 @@
   - Every Compat support
 - Added Hard Wooden Blocks for all wood types
   - Every Compat support
-- Added Rhombus Parkour Blocks
+- Added Parkour Blocks in all 16 colors
+- Added Rhombus Parkour Blocks in all 16 colors
 - Added Shroomsoil and Shroomgrass Block
 - Added Shroomsoil Farmland & Path
 - Added Wet Mud, smelts into vanilla mud
@@ -81,7 +82,8 @@
 - Added Shrubrooms
 - Added bloomflowers of various colors
 - Added stone bridge variants, a new semi-solid platform
-- Added tooltips to bridges
+- Added the ability for plastic buckets to pickup lava if enchanted with Fire Protection
+- Added tooltips to semi-solids
 - Added recipe to convert Dango Blossoms to dye
 - Added new Wandering trader trades
   - Mushroot & Spookroot Saplings
