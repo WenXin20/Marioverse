@@ -127,10 +127,10 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.WARM_CHEEP_CHEEP);
             add(event, ItemRegistry.EEP_CHEEP);
             add(event, ItemRegistry.DEEP_CHEEP);
-            add(event, ItemRegistry.COOKED_CHEEP_CHEEP);
             add(event, ItemRegistry.SPINY_CHEEP_CHEEP);
-            add(event, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP);
             add(event, ItemRegistry.PORCUPUFFER);
+            add(event, ItemRegistry.COOKED_CHEEP_CHEEP);
+            add(event, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP);
             add(event, ItemRegistry.COOKED_PORCUPUFFER);
 
             add(event, ItemRegistry.PIRANHA_PLANT_POD);
