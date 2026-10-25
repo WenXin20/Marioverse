@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
+import com.wenxin2.marioverse.blocks.TrampolineCapBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -20,6 +21,8 @@ public abstract class BlockStateBaseMixin {
     @Inject(method = "getOffset", at = @At("HEAD"), cancellable = true)
     private void getOffset(BlockGetter blockGetter, BlockPos pos, CallbackInfoReturnable<Vec3> cir) {
         if (this.getBlock() instanceof SuperMushroomBlock mushroom && !mushroom.hasOffset(blockGetter, pos))
+            cir.setReturnValue(Vec3.ZERO);
+        if (this.getBlock() instanceof TrampolineCapBlock mushroom && !mushroom.hasOffset(blockGetter, pos))
             cir.setReturnValue(Vec3.ZERO);
     }
 }

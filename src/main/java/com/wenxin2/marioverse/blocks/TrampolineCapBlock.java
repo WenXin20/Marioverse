@@ -93,4 +93,13 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
 
         return Block.canSupportCenter(levelReader, posBelow, Direction.UP) || stateBelow.getBlock() instanceof FarmBlock;
     }
+
+    public boolean hasOffset(BlockGetter blockGetter, BlockPos pos) {
+        BlockPos.MutableBlockPos posBelow = pos.mutable().move(Direction.DOWN);
+        BlockState stateBelow = blockGetter.getBlockState(posBelow);
+        for (int i = 0; i < 16 && stateBelow.is(this) && !blockGetter.isOutsideBuildHeight(posBelow); i++)
+            stateBelow = blockGetter.getBlockState(posBelow.move(Direction.DOWN));
+
+        return stateBelow.isFaceSturdy(blockGetter, posBelow, Direction.UP) || stateBelow.getBlock() instanceof FarmBlock;
+    }
 }
