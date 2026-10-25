@@ -101,6 +101,7 @@
 - Fixed Supplementaries soap not working with some dyed blocks
 - Fixed peaceful difficulty causing some blocks/enemies to not do damage
 - Fixed Question Blocks blockstate not updating correctly
+- Fixed checkpoint flags not applying power ups
 - Fixed decorated pots being too rare in the Brick Lanes structure
 - Fixed wind charges toggling blocks twice, such as On/Off Switches
 - Fixed buttons not rendering with the Spatial GUI mod

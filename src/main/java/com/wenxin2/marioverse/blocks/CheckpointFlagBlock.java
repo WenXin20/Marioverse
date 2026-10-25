@@ -20,9 +20,12 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.items.DashMushroomItem;
+import com.wenxin2.marioverse.items.PowerUpItem;
 import com.wenxin2.marioverse.items.PowerUpSpawnEggItem;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -709,6 +712,11 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             return;
         }
 
+        if (applyPowerUps && stack.getItem() instanceof PowerUpItem) {
+            CheckpointFlagBlock.applyPowerUpItem(level, pos, stack, livingEntity);
+            return;
+        }
+
         if (applyPowerUps && stack.getItem() instanceof PowerUpSpawnEggItem powerUpItem) {
             CheckpointFlagBlock.applyPowerUps(level, pos, stack, livingEntity, powerUpItem);
             return;
@@ -772,37 +780,52 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (level instanceof ServerLevel serverLevel) {
             if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
                 Entity spawnedEntity = entityType.create(serverLevel);
-                if (spawnedEntity != null && entity instanceof AbilitiesHandler handler) {
-                    if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()
-                            && spawnedEntity instanceof SuperMushroomEntity powerUp) {
-                        handler.applySuperMushroomPowerUp(level, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-                    } else if (stack.getItem() == ItemRegistry.MEGA_MUSHROOM.get()
-                            && spawnedEntity instanceof MegaMushroomEntity powerUp) {
-                        handler.applyMegaMushroomPowerUp(level, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.MINI_MUSHROOM.get()
-                            && spawnedEntity instanceof MiniMushroomEntity powerUp) {
-                        handler.applyMiniMushroomPowerUp(level, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()
-                            && spawnedEntity instanceof OneUpMushroomEntity powerUp) {
-                        handler.applyOneUpMushroomPowerUp(level, stack, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.FIRE_FLOWER.get()
-                            && spawnedEntity instanceof FireFlowerEntity powerUp) {
-                        handler.applyFireFlowerPowerUp(level, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.ICE_FLOWER.get()
-                            && spawnedEntity instanceof IceFlowerEntity powerUp) {
-                        handler.applyIceFlowerPowerUp(level, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.SUPER_STAR.get()
-                            && spawnedEntity instanceof SuperStarEntity powerUp) {
-                        handler.applySuperStarPowerUp(level, entity, powerUp);
-                    } else {
-                        entityType.spawn(serverLevel, stack, null,
-                                BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
-                                MobSpawnType.SPAWN_EGG, true, false);
-                    }
-                }
-                stack.copyWithCount(1);
+                AbilitiesHandler handler = entity instanceof AbilitiesHandler abilitiesHandler ? abilitiesHandler : null;
+
+                if (handler != null && spawnedEntity instanceof SuperMushroomEntity powerUp)
+                    handler.applySuperMushroomPowerUp(level, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                else if (handler != null && spawnedEntity instanceof MegaMushroomEntity powerUp)
+                    handler.applyMegaMushroomPowerUp(level, entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof MiniMushroomEntity powerUp)
+                    handler.applyMiniMushroomPowerUp(level, entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof OneUpMushroomEntity powerUp)
+                    handler.applyOneUpMushroomPowerUp(level, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof FireFlowerEntity powerUp)
+                    handler.applyFireFlowerPowerUp(level, entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof IceFlowerEntity powerUp)
+                    handler.applyIceFlowerPowerUp(level, entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof SuperStarEntity powerUp)
+                    handler.applySuperStarPowerUp(level, entity, powerUp);
+                else entityType.spawn(serverLevel, stack, null,
+                            BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
+                            MobSpawnType.SPAWN_EGG, true, false);
             } else QuestionBlock.spawnItem(level, pos, stack, true);
         }
+    }
+
+    public static void applyPowerUpItem(Level level, BlockPos pos, ItemStack stack, LivingEntity entity) {
+        if (!(entity instanceof AbilitiesHandler handler)) {
+            QuestionBlock.spawnItem(level, pos, stack, true);
+            return;
+        }
+
+        if (stack.is(ItemRegistry.SUPER_MUSHROOM))
+            handler.applySuperMushroomPowerUp(level, entity, null, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+        else if (stack.is(ItemRegistry.MEGA_MUSHROOM))
+            handler.applyMegaMushroomPowerUp(level, entity, null);
+        else if (stack.is(ItemRegistry.MINI_MUSHROOM))
+            handler.applyMiniMushroomPowerUp(level, entity, null);
+        else if (stack.is(ItemRegistry.ONE_UP_MUSHROOM))
+            handler.applyOneUpMushroomPowerUp(level, stack, entity, null);
+        else if (stack.is(ItemRegistry.FIRE_FLOWER) && stack.getItem() instanceof PowerUpSource source)
+            handler.applyFireFlowerPowerUp(level, entity, source);
+        else if (stack.is(ItemRegistry.ICE_FLOWER) && stack.getItem() instanceof PowerUpSource source)
+            handler.applyIceFlowerPowerUp(level, entity, source);
+        else if (stack.is(ItemRegistry.SUPER_STAR))
+            handler.applySuperStarPowerUp(level, entity, null);
+        else if (stack.is(ItemRegistry.DASH_MUSHROOM))
+            DashMushroomItem.mushroomAbilities(null, level, entity, ConfigRegistry.DASH_MUSHROOM_BOOST_STRENGTH.get(), true, false);
+        else QuestionBlock.spawnItem(level, pos, stack, true);
     }
 
     public static boolean canWash(BlockState state) {
