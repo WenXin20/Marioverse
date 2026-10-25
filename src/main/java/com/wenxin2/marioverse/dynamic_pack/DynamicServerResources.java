@@ -32,6 +32,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
@@ -42,12 +43,33 @@ public final class DynamicServerResources implements PackResources {
     private static final Logger LOGGER = LogUtils.getLogger();
     private final Map<ResourceLocation, byte[]> lootTables = new HashMap<>();
     private final Map<ResourceLocation, byte[]> colorSets = new HashMap<>();
+    private final Map<ResourceLocation, byte[]> bucketTags = new HashMap<>();
     private final PackLocationInfo location;
 
     public DynamicServerResources(PackLocationInfo location) {
         this.location = location;
         this.generateLootTables();
         this.generateColorSets();
+        this.generateBucketTags();
+    }
+
+    private void generateBucketTags() {
+        Map<ResourceLocation, JsonArray> values = new HashMap<>();
+
+        for (Map.Entry<Fluid, Item> entry : RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.entrySet())
+            values.computeIfAbsent(DynamicServerResources.bucketTagID(BuiltInRegistries.FLUID.getKey(entry.getKey())),
+                    id -> new JsonArray()).add(BuiltInRegistries.ITEM.getKey(entry.getValue()).toString());
+
+        for (Map.Entry<Block, Item> entry : RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.entrySet())
+            values.computeIfAbsent(DynamicServerResources.bucketTagID(BuiltInRegistries.BLOCK.getKey(entry.getKey())),
+                    id -> new JsonArray()).add(BuiltInRegistries.ITEM.getKey(entry.getValue()).toString());
+
+        for (Map.Entry<ResourceLocation, JsonArray> entry : values.entrySet()) {
+            JsonObject json = new JsonObject();
+            json.addProperty("replace", false);
+            json.add("values", entry.getValue());
+            bucketTags.put(entry.getKey(), json.toString().getBytes(StandardCharsets.UTF_8));
+        }
     }
 
     private void generateColorSets() {
@@ -168,6 +190,10 @@ public final class DynamicServerResources implements PackResources {
         if (data != null)
             return () -> new ByteArrayInputStream(data);
 
+        byte[] bucketTag = bucketTags.get(location);
+        if (bucketTag != null)
+            return () -> new ByteArrayInputStream(bucketTag);
+
         byte[] colorSet = colorSets.get(location);
         if (colorSet != null)
             return () -> new ByteArrayInputStream(colorSet);
@@ -240,6 +266,13 @@ public final class DynamicServerResources implements PackResources {
                         .fromNamespaceAndPath(namespace, "tags/item/" + id.getPath() + ".json");
 
                 output.accept(out, () -> buildPlasticBucketItemTag().get());
+            }
+        }
+
+        if (path.equals("tags/item")) {
+            for (Map.Entry<ResourceLocation, byte[]> entry : bucketTags.entrySet()) {
+                if (entry.getKey().getNamespace().equals(namespace))
+                    output.accept(entry.getKey(), () -> new ByteArrayInputStream(entry.getValue()));
             }
         }
 
@@ -516,5 +549,9 @@ public final class DynamicServerResources implements PackResources {
 
         byte[] data = json.toString().getBytes(StandardCharsets.UTF_8);
         return () -> new ByteArrayInputStream(data);
+    }
+
+    private static ResourceLocation bucketTagID(ResourceLocation sourceID) {
+        return ResourceLocation.fromNamespaceAndPath("c", "tags/item/buckets/" + sourceID.getPath() + ".json");
     }
 }

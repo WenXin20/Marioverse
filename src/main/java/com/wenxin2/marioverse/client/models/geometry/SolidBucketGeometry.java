@@ -2,7 +2,9 @@ package com.wenxin2.marioverse.client.models.geometry;
 
 import com.mojang.math.Transformation;
 import com.wenxin2.marioverse.Marioverse;
+import java.util.List;
 import java.util.function.Function;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
@@ -12,6 +14,7 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.neoforged.neoforge.client.RenderTypeGroup;
@@ -52,16 +55,16 @@ public class SolidBucketGeometry implements IUnbakedGeometry<SolidBucketGeometry
 
         if (context.hasMaterial("solid")) {
             TextureAtlasSprite maskSprite = spriteGetter.apply(context.getMaterial("solid"));
-            modelBuilder.addQuads(renderTypes, UnbakedGeometryHelper.bakeElements(
+            modelBuilder.addQuads(renderTypes, SolidBucketGeometry.frontAndBack(UnbakedGeometryHelper.bakeElements(
                     UnbakedGeometryHelper.createUnbakedItemMaskElements(1, maskSprite), material -> blockSprite,
-                    new SimpleModelState(modelState.getRotation().compose(SOLID_TRANSFORM), modelState.isUvLocked())));
+                    new SimpleModelState(modelState.getRotation().compose(SOLID_TRANSFORM), modelState.isUvLocked()))));
         }
 
         if (context.hasMaterial("cover")) {
             TextureAtlasSprite coverSprite = spriteGetter.apply(context.getMaterial("cover"));
-            modelBuilder.addQuads(renderTypes, UnbakedGeometryHelper.bakeElements(
+            modelBuilder.addQuads(renderTypes, SolidBucketGeometry.frontAndBack(UnbakedGeometryHelper.bakeElements(
                     UnbakedGeometryHelper.createUnbakedItemMaskElements(2, coverSprite), material -> baseSprite,
-                    new SimpleModelState(modelState.getRotation().compose(COVER_TRANSFORM), modelState.isUvLocked())));
+                    new SimpleModelState(modelState.getRotation().compose(COVER_TRANSFORM), modelState.isUvLocked()))));
         }
 
         modelBuilder.setParticle(blockSprite);
@@ -77,5 +80,9 @@ public class SolidBucketGeometry implements IUnbakedGeometry<SolidBucketGeometry
                 return material;
         }
         return new Material(InventoryMenu.BLOCK_ATLAS, this.block.withPrefix("block/"));
+    }
+
+    private static List<BakedQuad> frontAndBack(List<BakedQuad> quads) {
+        return quads.stream().filter(quad -> quad.getDirection().getAxis() == Direction.Axis.Z).toList();
     }
 }
