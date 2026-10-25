@@ -1,171 +1,1531 @@
 {
   "variants": {
-    "facing=east,half=bottom,shape=inner_left": {
+    "above=diagonal,below=diagonal,facing=east,half=bottom,shape=inner_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "y": 270
     },
-    "facing=east,half=bottom,shape=inner_right": {
+    "above=diagonal,below=diagonal,facing=east,half=bottom,shape=inner_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
     },
-    "facing=east,half=bottom,shape=outer_left": {
+    "above=diagonal,below=diagonal,facing=east,half=bottom,shape=outer_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "y": 270
     },
-    "facing=east,half=bottom,shape=outer_right": {
+    "above=diagonal,below=diagonal,facing=east,half=bottom,shape=outer_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
     },
-    "facing=east,half=bottom,shape=straight": {
+    "above=diagonal,below=diagonal,facing=east,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_diagonal"
+    },
+    "above=diagonal,below=diagonal,facing=east,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=diagonal,below=diagonal,facing=east,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=east,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=diagonal,below=diagonal,facing=east,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=east,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_diagonal",
+      "x": 180
+    },
+    "above=diagonal,below=diagonal,facing=north,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=north,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=diagonal,below=diagonal,facing=north,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=north,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=diagonal,below=diagonal,facing=north,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_diagonal",
+      "y": 270
+    },
+    "above=diagonal,below=diagonal,facing=north,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=diagonal,facing=north,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=diagonal,below=diagonal,facing=north,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=diagonal,facing=north,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=diagonal,below=diagonal,facing=north,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_diagonal",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=diagonal,facing=south,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=diagonal,below=diagonal,facing=south,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=south,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=diagonal,below=diagonal,facing=south,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=south,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_diagonal",
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=south,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=south,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=south,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=south,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=south,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_diagonal",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=west,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=west,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=west,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=diagonal,below=diagonal,facing=west,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=west,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_diagonal",
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=west,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=west,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=diagonal,facing=west,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=diagonal,facing=west,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=diagonal,facing=west,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_diagonal",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=east,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=east,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=diagonal,below=flat,facing=east,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=east,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=diagonal,below=flat,facing=east,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_diagonal"
+    },
+    "above=diagonal,below=flat,facing=east,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=diagonal,below=flat,facing=east,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=east,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=diagonal,below=flat,facing=east,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=east,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_diagonal",
+      "x": 180
+    },
+    "above=diagonal,below=flat,facing=north,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=north,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=north,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=north,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=north,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_diagonal",
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=north,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=north,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=diagonal,below=flat,facing=north,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=north,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=diagonal,below=flat,facing=north,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_diagonal",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=south,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=diagonal,below=flat,facing=south,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=south,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=diagonal,below=flat,facing=south,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=south,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_diagonal",
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=south,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=south,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=south,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=south,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=south,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_diagonal",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=west,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=west,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=west,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=diagonal,below=flat,facing=west,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=west,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_diagonal",
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=west,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=west,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=west,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=flat,facing=west,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=flat,facing=west,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_diagonal",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=east,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=east,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=diagonal,below=none,facing=east,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=east,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=diagonal,below=none,facing=east,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_diagonal"
+    },
+    "above=diagonal,below=none,facing=east,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=diagonal,below=none,facing=east,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=east,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=diagonal,below=none,facing=east,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=east,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_diagonal",
+      "x": 180
+    },
+    "above=diagonal,below=none,facing=north,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=north,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=north,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=north,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=north,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_diagonal",
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=north,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=north,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=diagonal,below=none,facing=north,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=north,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=diagonal,below=none,facing=north,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_diagonal",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=south,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=diagonal,below=none,facing=south,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=south,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=diagonal,below=none,facing=south,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=south,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_diagonal",
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=south,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=south,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=south,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=south,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=south,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_diagonal",
+      "x": 180,
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=west,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=west,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=west,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=diagonal,below=none,facing=west,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=west,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_diagonal",
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=west,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=west,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=west,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=diagonal,below=none,facing=west,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=diagonal,below=none,facing=west,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_diagonal",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=east,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=east,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=flat,below=diagonal,facing=east,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=east,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=flat,below=diagonal,facing=east,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_flat"
+    },
+    "above=flat,below=diagonal,facing=east,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=flat,below=diagonal,facing=east,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=east,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=flat,below=diagonal,facing=east,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=east,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_flat",
+      "x": 180
+    },
+    "above=flat,below=diagonal,facing=north,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=north,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=north,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=north,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=north,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_flat",
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=north,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=north,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=flat,below=diagonal,facing=north,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=north,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=flat,below=diagonal,facing=north,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_flat",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=south,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=flat,below=diagonal,facing=south,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=south,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=flat,below=diagonal,facing=south,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=south,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_flat",
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=south,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=south,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=south,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=south,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=south,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_flat",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=west,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=west,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=west,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=flat,below=diagonal,facing=west,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=west,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_flat",
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=west,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=west,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=west,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=diagonal,facing=west,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=diagonal,facing=west,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal_above_flat",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=flat,facing=east,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=flat,below=flat,facing=east,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=flat,below=flat,facing=east,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=flat,below=flat,facing=east,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=flat,below=flat,facing=east,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_flat"
+    },
+    "above=flat,below=flat,facing=east,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=flat,below=flat,facing=east,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=flat,facing=east,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=flat,below=flat,facing=east,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=flat,facing=east,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_flat",
+      "x": 180
+    },
+    "above=flat,below=flat,facing=north,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=flat,below=flat,facing=north,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=flat,below=flat,facing=north,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=flat,below=flat,facing=north,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=flat,below=flat,facing=north,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_flat",
+      "y": 270
+    },
+    "above=flat,below=flat,facing=north,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=flat,facing=north,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=flat,below=flat,facing=north,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=flat,facing=north,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=flat,below=flat,facing=north,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_flat",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=flat,facing=south,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=flat,below=flat,facing=south,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=flat,below=flat,facing=south,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=flat,below=flat,facing=south,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=flat,below=flat,facing=south,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_flat",
+      "y": 90
+    },
+    "above=flat,below=flat,facing=south,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=flat,facing=south,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=flat,facing=south,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=flat,facing=south,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=flat,facing=south,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_flat",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=flat,facing=west,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=flat,below=flat,facing=west,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=flat,below=flat,facing=west,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=flat,below=flat,facing=west,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=flat,below=flat,facing=west,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_flat",
+      "y": 180
+    },
+    "above=flat,below=flat,facing=west,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=flat,facing=west,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=flat,facing=west,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=flat,facing=west,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=flat,facing=west,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat_above_flat",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=none,facing=east,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=flat,below=none,facing=east,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=flat,below=none,facing=east,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=flat,below=none,facing=east,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=flat,below=none,facing=east,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_flat"
+    },
+    "above=flat,below=none,facing=east,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=flat,below=none,facing=east,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=none,facing=east,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=flat,below=none,facing=east,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=none,facing=east,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_flat",
+      "x": 180
+    },
+    "above=flat,below=none,facing=north,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=flat,below=none,facing=north,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=flat,below=none,facing=north,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=flat,below=none,facing=north,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=flat,below=none,facing=north,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_flat",
+      "y": 270
+    },
+    "above=flat,below=none,facing=north,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=none,facing=north,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=flat,below=none,facing=north,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=none,facing=north,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=flat,below=none,facing=north,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_flat",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=none,facing=south,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=flat,below=none,facing=south,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=flat,below=none,facing=south,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=flat,below=none,facing=south,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=flat,below=none,facing=south,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_flat",
+      "y": 90
+    },
+    "above=flat,below=none,facing=south,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=none,facing=south,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=none,facing=south,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=none,facing=south,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=none,facing=south,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_flat",
+      "x": 180,
+      "y": 90
+    },
+    "above=flat,below=none,facing=west,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=flat,below=none,facing=west,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=flat,below=none,facing=west,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=flat,below=none,facing=west,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=flat,below=none,facing=west,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_flat",
+      "y": 180
+    },
+    "above=flat,below=none,facing=west,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=none,facing=west,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=none,facing=west,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=flat,below=none,facing=west,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=flat,below=none,facing=west,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_above_flat",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=east,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=east,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=none,below=diagonal,facing=east,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=east,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=none,below=diagonal,facing=east,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal"
+    },
+    "above=none,below=diagonal,facing=east,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=none,below=diagonal,facing=east,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=east,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=none,below=diagonal,facing=east,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=east,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal",
+      "x": 180
+    },
+    "above=none,below=diagonal,facing=north,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=north,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=north,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=north,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=north,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal",
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=north,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=north,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=none,below=diagonal,facing=north,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=north,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=none,below=diagonal,facing=north,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=south,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=none,below=diagonal,facing=south,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=south,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=none,below=diagonal,facing=south,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=south,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal",
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=south,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=south,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=south,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=south,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=south,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=west,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=west,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=west,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=none,below=diagonal,facing=west,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=west,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal",
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=west,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=west,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=west,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=diagonal,facing=west,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=diagonal,facing=west,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_diagonal",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=flat,facing=east,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=none,below=flat,facing=east,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=none,below=flat,facing=east,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=none,below=flat,facing=east,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=none,below=flat,facing=east,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat"
+    },
+    "above=none,below=flat,facing=east,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=none,below=flat,facing=east,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=flat,facing=east,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=none,below=flat,facing=east,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=flat,facing=east,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat",
+      "x": 180
+    },
+    "above=none,below=flat,facing=north,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=none,below=flat,facing=north,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=none,below=flat,facing=north,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=none,below=flat,facing=north,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=none,below=flat,facing=north,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat",
+      "y": 270
+    },
+    "above=none,below=flat,facing=north,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=flat,facing=north,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180
+    },
+    "above=none,below=flat,facing=north,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=flat,facing=north,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180
+    },
+    "above=none,below=flat,facing=north,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=flat,facing=south,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=none,below=flat,facing=south,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=none,below=flat,facing=south,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=none,below=flat,facing=south,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=none,below=flat,facing=south,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat",
+      "y": 90
+    },
+    "above=none,below=flat,facing=south,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=flat,facing=south,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=flat,facing=south,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=flat,facing=south,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=flat,facing=south,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat",
+      "x": 180,
+      "y": 90
+    },
+    "above=none,below=flat,facing=west,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 90
+    },
+    "above=none,below=flat,facing=west,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 180
+    },
+    "above=none,below=flat,facing=west,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 90
+    },
+    "above=none,below=flat,facing=west,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 180
+    },
+    "above=none,below=flat,facing=west,half=bottom,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat",
+      "y": 180
+    },
+    "above=none,below=flat,facing=west,half=top,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=flat,facing=west,half=top,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=flat,facing=west,half=top,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=flat,facing=west,half=top,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "x": 180,
+      "y": 270
+    },
+    "above=none,below=flat,facing=west,half=top,shape=straight": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_below_flat",
+      "x": 180,
+      "y": 180
+    },
+    "above=none,below=none,facing=east,half=bottom,shape=inner_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
+      "y": 270
+    },
+    "above=none,below=none,facing=east,half=bottom,shape=inner_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
+    },
+    "above=none,below=none,facing=east,half=bottom,shape=outer_left": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
+      "y": 270
+    },
+    "above=none,below=none,facing=east,half=bottom,shape=outer_right": {
+      "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
+    },
+    "above=none,below=none,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spookroot_log_bridge_stairs"
     },
-    "facing=east,half=top,shape=inner_left": {
+    "above=none,below=none,facing=east,half=top,shape=inner_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "x": 180
     },
-    "facing=east,half=top,shape=inner_right": {
+    "above=none,below=none,facing=east,half=top,shape=inner_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "x": 180,
       "y": 90
     },
-    "facing=east,half=top,shape=outer_left": {
+    "above=none,below=none,facing=east,half=top,shape=outer_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "x": 180
     },
-    "facing=east,half=top,shape=outer_right": {
+    "above=none,below=none,facing=east,half=top,shape=outer_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "x": 180,
       "y": 90
     },
-    "facing=east,half=top,shape=straight": {
+    "above=none,below=none,facing=east,half=top,shape=straight": {
       "model": "marioverse:block/spookroot_log_bridge_stairs",
       "x": 180
     },
-    "facing=north,half=bottom,shape=inner_left": {
+    "above=none,below=none,facing=north,half=bottom,shape=inner_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "y": 180
     },
-    "facing=north,half=bottom,shape=inner_right": {
+    "above=none,below=none,facing=north,half=bottom,shape=inner_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "y": 270
     },
-    "facing=north,half=bottom,shape=outer_left": {
+    "above=none,below=none,facing=north,half=bottom,shape=outer_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "y": 180
     },
-    "facing=north,half=bottom,shape=outer_right": {
+    "above=none,below=none,facing=north,half=bottom,shape=outer_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "y": 270
     },
-    "facing=north,half=bottom,shape=straight": {
+    "above=none,below=none,facing=north,half=bottom,shape=straight": {
       "model": "marioverse:block/spookroot_log_bridge_stairs",
       "y": 270
     },
-    "facing=north,half=top,shape=inner_left": {
+    "above=none,below=none,facing=north,half=top,shape=inner_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "x": 180,
       "y": 270
     },
-    "facing=north,half=top,shape=inner_right": {
+    "above=none,below=none,facing=north,half=top,shape=inner_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "x": 180
     },
-    "facing=north,half=top,shape=outer_left": {
+    "above=none,below=none,facing=north,half=top,shape=outer_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "x": 180,
       "y": 270
     },
-    "facing=north,half=top,shape=outer_right": {
+    "above=none,below=none,facing=north,half=top,shape=outer_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "x": 180
     },
-    "facing=north,half=top,shape=straight": {
+    "above=none,below=none,facing=north,half=top,shape=straight": {
       "model": "marioverse:block/spookroot_log_bridge_stairs",
       "x": 180,
       "y": 270
     },
-    "facing=south,half=bottom,shape=inner_left": {
+    "above=none,below=none,facing=south,half=bottom,shape=inner_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner"
     },
-    "facing=south,half=bottom,shape=inner_right": {
+    "above=none,below=none,facing=south,half=bottom,shape=inner_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "y": 90
     },
-    "facing=south,half=bottom,shape=outer_left": {
+    "above=none,below=none,facing=south,half=bottom,shape=outer_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer"
     },
-    "facing=south,half=bottom,shape=outer_right": {
+    "above=none,below=none,facing=south,half=bottom,shape=outer_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "y": 90
     },
-    "facing=south,half=bottom,shape=straight": {
+    "above=none,below=none,facing=south,half=bottom,shape=straight": {
       "model": "marioverse:block/spookroot_log_bridge_stairs",
       "y": 90
     },
-    "facing=south,half=top,shape=inner_left": {
+    "above=none,below=none,facing=south,half=top,shape=inner_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "x": 180,
       "y": 90
     },
-    "facing=south,half=top,shape=inner_right": {
+    "above=none,below=none,facing=south,half=top,shape=inner_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "x": 180,
       "y": 180
     },
-    "facing=south,half=top,shape=outer_left": {
+    "above=none,below=none,facing=south,half=top,shape=outer_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "x": 180,
       "y": 90
     },
-    "facing=south,half=top,shape=outer_right": {
+    "above=none,below=none,facing=south,half=top,shape=outer_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "x": 180,
       "y": 180
     },
-    "facing=south,half=top,shape=straight": {
+    "above=none,below=none,facing=south,half=top,shape=straight": {
       "model": "marioverse:block/spookroot_log_bridge_stairs",
       "x": 180,
       "y": 90
     },
-    "facing=west,half=bottom,shape=inner_left": {
+    "above=none,below=none,facing=west,half=bottom,shape=inner_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "y": 90
     },
-    "facing=west,half=bottom,shape=inner_right": {
+    "above=none,below=none,facing=west,half=bottom,shape=inner_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "y": 180
     },
-    "facing=west,half=bottom,shape=outer_left": {
+    "above=none,below=none,facing=west,half=bottom,shape=outer_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "y": 90
     },
-    "facing=west,half=bottom,shape=outer_right": {
+    "above=none,below=none,facing=west,half=bottom,shape=outer_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "y": 180
     },
-    "facing=west,half=bottom,shape=straight": {
+    "above=none,below=none,facing=west,half=bottom,shape=straight": {
       "model": "marioverse:block/spookroot_log_bridge_stairs",
       "y": 180
     },
-    "facing=west,half=top,shape=inner_left": {
+    "above=none,below=none,facing=west,half=top,shape=inner_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "x": 180,
       "y": 180
     },
-    "facing=west,half=top,shape=inner_right": {
+    "above=none,below=none,facing=west,half=top,shape=inner_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_inner",
       "x": 180,
       "y": 270
     },
-    "facing=west,half=top,shape=outer_left": {
+    "above=none,below=none,facing=west,half=top,shape=outer_left": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "x": 180,
       "y": 180
     },
-    "facing=west,half=top,shape=outer_right": {
+    "above=none,below=none,facing=west,half=top,shape=outer_right": {
       "model": "marioverse:block/spookroot_log_bridge_stairs_outer",
       "x": 180,
       "y": 270
     },
-    "facing=west,half=top,shape=straight": {
+    "above=none,below=none,facing=west,half=top,shape=straight": {
       "model": "marioverse:block/spookroot_log_bridge_stairs",
       "x": 180,
       "y": 180

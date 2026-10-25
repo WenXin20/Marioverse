@@ -5,6 +5,8 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LogBridgeStairBlock;
+import com.wenxin2.marioverse.blocks.LogBridgeBlock;
 import com.wenxin2.marioverse.blocks.LoopholeBlock;
 import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
@@ -32,6 +34,7 @@ import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
+import com.wenxin2.marioverse.blocks.states.ConnectionBlockStates;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
@@ -1637,26 +1640,22 @@ public class BlockStateGen extends BlockStateProvider {
                                    ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile modelBottom = models()
-                .withExistingParent(modelName, modLoc("block/template_bamboo_bridge"))
-                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
-        ModelFile modelTop = models()
-                .withExistingParent(modelName + "_top", modLoc("block/template_bamboo_bridge_top"))
-                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+        Map<String, ModelFile> bridgeModels = new HashMap<>();
 
-        this.simpleBlockItem(block, modelBottom);
+        for (String half : new String[]{"", "_top"}) {
+            for (ConnectionBlockStates negative : ConnectionBlockStates.values()) {
+                for (ConnectionBlockStates positive : ConnectionBlockStates.values()) {
+                    String suffix = half + this.ropeSuffix("negative", negative, "positive", positive);
+                    bridgeModels.put(suffix, models()
+                            .withExistingParent(modelName + suffix, modLoc("block/template_bamboo_bridge" + suffix))
+                            .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
+                            .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture));
+                }
+            }
+        }
 
-        this.getVariantBuilder(block).forAllStates(state -> {
-            Direction.Axis axis = state.getValue(BridgeBlock.AXIS);
-            HalfBlockStates half = state.getValue(BridgeBlock.HALF);
-            ModelFile model = (half == HalfBlockStates.TOP ? modelTop : modelBottom);
-
-            int yRot = (axis == Direction.Axis.X ? 90 : 0);
-
-            return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
-        });
+        this.simpleBlockItem(block, bridgeModels.get(""));
+        this.logBridgeBlockState(block, bridgeModels);
     }
 
     private void stoneBridgeModel(Block block, ResourceLocation frontTexture, ResourceLocation sideTexture,
@@ -1688,36 +1687,40 @@ public class BlockStateGen extends BlockStateProvider {
     private void logBridgeModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation ropeTexture, ResourceLocation ropeSideTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile modelBottom = models()
-                .withExistingParent(modelName, modLoc("block/template_log_bridge"))
-                .texture("side", sideTexture).texture("top", topTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
-        ModelFile modelTop = models()
-                .withExistingParent(modelName + "_top", modLoc("block/template_log_bridge_top"))
-                .texture("side", sideTexture).texture("top", topTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+        Map<String, ModelFile> bridgeModels = new HashMap<>();
 
-        this.simpleBlockItem(block, modelBottom);
+        for (String half : new String[]{"", "_top"}) {
+            for (ConnectionBlockStates negative : ConnectionBlockStates.values()) {
+                for (ConnectionBlockStates positive : ConnectionBlockStates.values()) {
+                    String suffix = half + this.ropeSuffix("negative", negative, "positive", positive);
+                    bridgeModels.put(suffix, models()
+                            .withExistingParent(modelName + suffix, modLoc("block/template_log_bridge" + suffix))
+                            .texture("side", sideTexture).texture("top", topTexture)
+                            .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture));
+                }
+            }
+        }
 
-        this.getVariantBuilder(block).forAllStates(state -> {
-            Direction.Axis axis = state.getValue(BridgeBlock.AXIS);
-            HalfBlockStates half = state.getValue(BridgeBlock.HALF);
-            ModelFile model = (half == HalfBlockStates.TOP ? modelTop : modelBottom);
-
-            int yRot = (axis == Direction.Axis.X ? 90 : 0);
-
-            return ConfiguredModel.builder().modelFile(model).rotationY(yRot).uvLock(false).build();
-        });
+        this.simpleBlockItem(block, bridgeModels.get(""));
+        this.logBridgeBlockState(block, bridgeModels);
     }
 
     private void bambooBridgeStairsModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation sideBridgeTexture,
                                          ResourceLocation ropeTexture, ResourceLocation ropeSideTexture, ResourceLocation ropeKnotTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile model = models()
-                .withExistingParent(modelName, modLoc("block/template_bamboo_bridge_stairs"))
-                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+        Map<String, ModelFile> straightModels = new HashMap<>();
+
+        for (ConnectionBlockStates below : ConnectionBlockStates.values()) {
+            for (ConnectionBlockStates above : ConnectionBlockStates.values()) {
+                String suffix = this.ropeSuffix("below", below, "above", above);
+                straightModels.put(suffix, models()
+                        .withExistingParent(modelName + suffix, modLoc("block/template_bamboo_bridge_stairs" + suffix))
+                        .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
+                        .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture));
+            }
+        }
+
         ModelFile modelInner = models()
                 .withExistingParent(modelName + "_inner", modLoc("block/template_bamboo_bridge_stairs_inner"))
                 .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
@@ -1729,36 +1732,26 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
                 .texture("rope_knot", ropeKnotTexture);
 
-        this.simpleBlockItem(block, model);
-
-        this.getVariantBuilder(block)
-                .forAllStatesExcept(state -> {
-                    Direction facing = state.getValue(StairBlock.FACING);
-                    Half half = state.getValue(StairBlock.HALF);
-                    StairsShape shape = state.getValue(StairBlock.SHAPE);
-
-                    int yRot = (int) facing.getClockWise().toYRot();
-                    if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
-                        yRot += 270;
-                    if (shape != StairsShape.STRAIGHT && half == Half.TOP)
-                        yRot += 90;
-                    yRot %= 360;
-
-                    return ConfiguredModel.builder()
-                            .modelFile(shape == StairsShape.STRAIGHT
-                                    ? model : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter)
-                            .rotationX(half == Half.BOTTOM ? 0 : 180).rotationY(yRot).uvLock(false).build();
-                }, StairBlock.WATERLOGGED);
+        this.simpleBlockItem(block, straightModels.get(""));
+        this.bridgeStairsBlockState(block, straightModels, modelInner, modelOuter);
     }
 
     private void bridgeStairsModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture,
                                    ResourceLocation ropeTexture, ResourceLocation ropeSideTexture, ResourceLocation ropeKnotTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile model = models()
-                .withExistingParent(modelName, modLoc("block/template_log_bridge_stairs"))
-                .texture("side", sideTexture).texture("top", topTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+        Map<String, ModelFile> straightModels = new HashMap<>();
+
+        for (ConnectionBlockStates below : ConnectionBlockStates.values()) {
+            for (ConnectionBlockStates above : ConnectionBlockStates.values()) {
+                String suffix = this.ropeSuffix("below", below, "above", above);
+                straightModels.put(suffix, models()
+                        .withExistingParent(modelName + suffix, modLoc("block/template_log_bridge_stairs" + suffix))
+                        .texture("side", sideTexture).texture("top", topTexture)
+                        .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture));
+            }
+        }
+
         ModelFile modelInner = models()
                 .withExistingParent(modelName + "_inner", modLoc("block/template_log_bridge_stairs_inner"))
                 .texture("side", sideTexture).texture("top", topTexture)
@@ -1770,26 +1763,8 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
                 .texture("rope_knot", ropeKnotTexture);
 
-        this.simpleBlockItem(block, model);
-
-        this.getVariantBuilder(block)
-                .forAllStatesExcept(state -> {
-                    Direction facing = state.getValue(StairBlock.FACING);
-                    Half half = state.getValue(StairBlock.HALF);
-                    StairsShape shape = state.getValue(StairBlock.SHAPE);
-
-                    int yRot = (int) facing.getClockWise().toYRot();
-                    if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
-                        yRot += 270;
-                    if (shape != StairsShape.STRAIGHT && half == Half.TOP)
-                        yRot += 90;
-                    yRot %= 360;
-
-                    return ConfiguredModel.builder()
-                            .modelFile(shape == StairsShape.STRAIGHT
-                                    ? model : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter)
-                            .rotationX(half == Half.BOTTOM ? 0 : 180).rotationY(yRot).uvLock(false).build();
-                }, StairBlock.WATERLOGGED);
+        this.simpleBlockItem(block, straightModels.get(""));
+        this.bridgeStairsBlockState(block, straightModels, modelInner, modelOuter);
     }
 
     private void coralTowerModel(Block block, ResourceLocation crossTexture) {
@@ -3755,5 +3730,49 @@ public class BlockStateGen extends BlockStateProvider {
 
     private MultiPartBlockStateBuilder.PartBuilder withActive(MultiPartBlockStateBuilder.PartBuilder part, @Nullable Boolean active) {
         return active == null ? part : part.condition(BlockStatePropertyRegistry.ACTIVE, active);
+    }
+
+    private void logBridgeBlockState(Block block, Map<String, ModelFile> bridgeModels) {
+        this.getVariantBuilder(block).forAllStatesExcept(state -> {
+            boolean xAxis = state.getValue(BridgeBlock.AXIS) == Direction.Axis.X;
+            ConnectionBlockStates negative = state.getValue(LogBridgeBlock.NEGATIVE);
+            ConnectionBlockStates positive = state.getValue(LogBridgeBlock.POSITIVE);
+            String half = state.getValue(BridgeBlock.HALF) == HalfBlockStates.TOP ? "_top" : "";
+            String suffix = xAxis
+                    ? this.ropeSuffix("negative", positive, "positive", negative)
+                    : this.ropeSuffix("negative", negative, "positive", positive);
+
+            return ConfiguredModel.builder().modelFile(bridgeModels.get(half + suffix))
+                    .rotationY(xAxis ? 90 : 0).uvLock(false).build();
+        }, BridgeBlock.WATERLOGGED);
+    }
+
+    private void bridgeStairsBlockState(Block block, Map<String, ModelFile> straightModels, ModelFile modelInner, ModelFile modelOuter) {
+        this.getVariantBuilder(block)
+                .forAllStatesExcept(state -> {
+                    Direction facing = state.getValue(StairBlock.FACING);
+                    Half half = state.getValue(StairBlock.HALF);
+                    StairsShape shape = state.getValue(StairBlock.SHAPE);
+
+                    int yRot = (int) facing.getClockWise().toYRot();
+                    if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
+                        yRot += 270;
+                    if (shape != StairsShape.STRAIGHT && half == Half.TOP)
+                        yRot += 90;
+                    yRot %= 360;
+
+                    ModelFile model = shape == StairsShape.STRAIGHT
+                            ? straightModels.get(this.ropeSuffix("below", state.getValue(LogBridgeStairBlock.BELOW),
+                                    "above", state.getValue(LogBridgeStairBlock.ABOVE)))
+                            : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter;
+
+                    return ConfiguredModel.builder().modelFile(model)
+                            .rotationX(half == Half.BOTTOM ? 0 : 180).rotationY(yRot).uvLock(false).build();
+                }, StairBlock.WATERLOGGED);
+    }
+
+    private String ropeSuffix(String firstName, ConnectionBlockStates first, String secondName, ConnectionBlockStates second) {
+        return (first == ConnectionBlockStates.NONE ? "" : "_" + firstName + "_" + first.getSerializedName())
+                + (second == ConnectionBlockStates.NONE ? "" : "_" + secondName + "_" + second.getSerializedName());
     }
 }

@@ -1,5 +1,8 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.blocks.states.ConnectionBlockStates;
+import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.VoxelShapeUtils;
 import java.util.EnumMap;
@@ -14,13 +17,18 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.phys.AABB;
@@ -33,8 +41,10 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlock {
-    public Block logBlock;
+public class LogBridgeStairBlock extends StairBlock implements SimpleWaterloggedBlock {
+    public static final EnumProperty<ConnectionBlockStates> ABOVE = BlockStatePropertyRegistry.ABOVE;
+    public static final EnumProperty<ConnectionBlockStates> BELOW = BlockStatePropertyRegistry.BELOW;
+    public Block logBlock; 
 
     protected static final VoxelShape TOP_AABB =
             Shapes.or(Block.box(1, 13, 0, 4, 16, 16),
@@ -112,12 +122,44 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
         }
     }
 
-    public BridgeStairBlock(BlockState state, Properties properties) {
+    public LogBridgeStairBlock(BlockState state, Properties properties) {
         super(state, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH)
                 .setValue(HALF, Half.BOTTOM).setValue(SHAPE, StairsShape.STRAIGHT)
-                .setValue(WATERLOGGED, Boolean.FALSE));
+                .setValue(WATERLOGGED, Boolean.FALSE)
+                .setValue(ABOVE, ConnectionBlockStates.NONE).setValue(BELOW, ConnectionBlockStates.NONE));
         this.logBlock = state.getBlock();
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(ABOVE, BELOW);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return LogBridgeStairBlock.updateConnections(super.getStateForPlacement(context), context.getLevel(), context.getClickedPos());
+    }
+
+    @NotNull
+    @Override
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+                                     LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        return LogBridgeStairBlock.updateConnections(super.updateShape(state, direction, neighborState, level, pos, neighborPos), level, pos);
+    }
+
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        LogBridgeStairBlock.refreshDiagonalNeighbors(level, pos);
+    }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        super.onRemove(state, level, pos, newState, movedByPiston);
+        if (!newState.is(state.getBlock()))
+            LogBridgeStairBlock.refreshDiagonalNeighbors(level, pos);
     }
 
     @Override
@@ -173,7 +215,9 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
                             .setValue(FACING, state.getValue(FACING))
                             .setValue(HALF, state.getValue(HALF))
                             .setValue(SHAPE, state.getValue(SHAPE))
-                            .setValue(WATERLOGGED, state.getValue(WATERLOGGED));
+                            .setValue(WATERLOGGED, state.getValue(WATERLOGGED))
+                            .setValue(ABOVE, state.getValue(ABOVE))
+                            .setValue(BELOW, state.getValue(BELOW));
                 }
             }
         }
@@ -193,5 +237,78 @@ public class BridgeStairBlock extends StairBlock implements SimpleWaterloggedBlo
     @Override
     public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 5;
+    }
+
+    public static BlockState updateConnections(BlockState state, LevelAccessor level, BlockPos pos) {
+        if (state == null || !(state.getBlock() instanceof LogBridgeStairBlock))
+            return state;
+        if (state.getValue(SHAPE) != StairsShape.STRAIGHT)
+            return state.setValue(ABOVE, ConnectionBlockStates.NONE).setValue(BELOW, ConnectionBlockStates.NONE);
+
+        Direction facing = state.getValue(FACING);
+        int dy = state.getValue(HALF) == Half.BOTTOM ? 1 : -1;
+
+        return state.setValue(ABOVE, LogBridgeStairBlock.ropeEnd(state, level, pos, facing, dy))
+                .setValue(BELOW, LogBridgeStairBlock.ropeEnd(state, level, pos, facing.getOpposite(), -dy));
+    }
+
+    public static ConnectionBlockStates ropeEnd(BlockState state, LevelAccessor level, BlockPos pos, Direction direction, int dy) {
+        BlockPos sidePos = pos.relative(direction);
+        if (LogBridgeBlock.alignsWith(level.getBlockState(sidePos), direction)
+                || Block.canSupportCenter(level, sidePos, direction.getOpposite()))
+            return ConnectionBlockStates.FLAT;
+
+        BlockState diagonalState = level.getBlockState(sidePos.above(dy));
+        if (LogBridgeStairBlock.continuesStair(state, diagonalState) || (LogBridgeBlock.alignsWith(diagonalState, direction)
+                && diagonalState.getValue(BridgeBlock.HALF) == (dy > 0 ? HalfBlockStates.BOTTOM : HalfBlockStates.TOP)))
+            return ConnectionBlockStates.DIAGONAL;
+        return ConnectionBlockStates.NONE;
+    }
+
+    public static boolean ropeReaches(BlockState state, LevelAccessor level, BlockPos pos, BlockPos targetPos) {
+        if (!(state.getBlock() instanceof LogBridgeStairBlock) || state.getValue(SHAPE) != StairsShape.STRAIGHT)
+            return false;
+
+        Direction facing = state.getValue(FACING);
+        int dy = state.getValue(HALF) == Half.BOTTOM ? 1 : -1;
+
+        return LogBridgeStairBlock.ropeEndReaches(state, level, pos, facing, dy, targetPos)
+                || LogBridgeStairBlock.ropeEndReaches(state, level, pos, facing.getOpposite(), -dy, targetPos);
+    }
+
+    public static boolean ropeEndReaches(BlockState state, LevelAccessor level, BlockPos pos, Direction direction, int dy, BlockPos targetPos) {
+        return switch (LogBridgeStairBlock.ropeEnd(state, level, pos, direction, dy)) {
+            case FLAT -> pos.relative(direction).equals(targetPos);
+            case DIAGONAL -> pos.relative(direction).above(dy).equals(targetPos);
+            case NONE -> false;
+        };
+    }
+
+    public static boolean continuesStair(BlockState state, BlockState neighborState) {
+        return neighborState.getBlock() instanceof LogBridgeStairBlock
+                && neighborState.getValue(FACING) == state.getValue(FACING)
+                && neighborState.getValue(HALF) == state.getValue(HALF)
+                && neighborState.getValue(SHAPE) == StairsShape.STRAIGHT;
+    }
+
+    public static void refreshDiagonalNeighbors(Level level, BlockPos pos) {
+        if (level.isClientSide)
+            return;
+
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            for (int dy = -1; dy <= 1; dy += 2) {
+                BlockPos neighborPos = pos.relative(direction).above(dy);
+                BlockState neighborState = level.getBlockState(neighborPos);
+                BlockState updatedState = neighborState;
+
+                if (neighborState.getBlock() instanceof LogBridgeStairBlock)
+                    updatedState = LogBridgeStairBlock.updateConnections(neighborState, level, neighborPos);
+                else if (neighborState.getBlock() instanceof LogBridgeBlock)
+                    updatedState = LogBridgeBlock.updateConnections(neighborState, level, neighborPos);
+
+                if (updatedState != neighborState)
+                    level.setBlock(neighborPos, updatedState, Block.UPDATE_CLIENTS);
+            }
+        }
     }
 }

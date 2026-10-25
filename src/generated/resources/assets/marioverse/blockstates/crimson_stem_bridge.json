@@ -1,31 +1,129 @@
 {
   "variants": {
-    "axis=x,half=bottom,waterlogged=false": {
+    "axis=x,half=bottom,negative=diagonal,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_diagonal_positive_diagonal",
+      "y": 90
+    },
+    "axis=x,half=bottom,negative=diagonal,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_flat_positive_diagonal",
+      "y": 90
+    },
+    "axis=x,half=bottom,negative=diagonal,positive=none": {
+      "model": "marioverse:block/crimson_stem_bridge_positive_diagonal",
+      "y": 90
+    },
+    "axis=x,half=bottom,negative=flat,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_diagonal_positive_flat",
+      "y": 90
+    },
+    "axis=x,half=bottom,negative=flat,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_flat_positive_flat",
+      "y": 90
+    },
+    "axis=x,half=bottom,negative=flat,positive=none": {
+      "model": "marioverse:block/crimson_stem_bridge_positive_flat",
+      "y": 90
+    },
+    "axis=x,half=bottom,negative=none,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_diagonal",
+      "y": 90
+    },
+    "axis=x,half=bottom,negative=none,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_flat",
+      "y": 90
+    },
+    "axis=x,half=bottom,negative=none,positive=none": {
       "model": "marioverse:block/crimson_stem_bridge",
       "y": 90
     },
-    "axis=x,half=bottom,waterlogged=true": {
-      "model": "marioverse:block/crimson_stem_bridge",
+    "axis=x,half=top,negative=diagonal,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_diagonal_positive_diagonal",
       "y": 90
     },
-    "axis=x,half=top,waterlogged=false": {
+    "axis=x,half=top,negative=diagonal,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_flat_positive_diagonal",
+      "y": 90
+    },
+    "axis=x,half=top,negative=diagonal,positive=none": {
+      "model": "marioverse:block/crimson_stem_bridge_top_positive_diagonal",
+      "y": 90
+    },
+    "axis=x,half=top,negative=flat,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_diagonal_positive_flat",
+      "y": 90
+    },
+    "axis=x,half=top,negative=flat,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_flat_positive_flat",
+      "y": 90
+    },
+    "axis=x,half=top,negative=flat,positive=none": {
+      "model": "marioverse:block/crimson_stem_bridge_top_positive_flat",
+      "y": 90
+    },
+    "axis=x,half=top,negative=none,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_diagonal",
+      "y": 90
+    },
+    "axis=x,half=top,negative=none,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_flat",
+      "y": 90
+    },
+    "axis=x,half=top,negative=none,positive=none": {
       "model": "marioverse:block/crimson_stem_bridge_top",
       "y": 90
     },
-    "axis=x,half=top,waterlogged=true": {
-      "model": "marioverse:block/crimson_stem_bridge_top",
-      "y": 90
+    "axis=z,half=bottom,negative=diagonal,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_diagonal_positive_diagonal"
     },
-    "axis=z,half=bottom,waterlogged=false": {
+    "axis=z,half=bottom,negative=diagonal,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_diagonal_positive_flat"
+    },
+    "axis=z,half=bottom,negative=diagonal,positive=none": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_diagonal"
+    },
+    "axis=z,half=bottom,negative=flat,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_flat_positive_diagonal"
+    },
+    "axis=z,half=bottom,negative=flat,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_flat_positive_flat"
+    },
+    "axis=z,half=bottom,negative=flat,positive=none": {
+      "model": "marioverse:block/crimson_stem_bridge_negative_flat"
+    },
+    "axis=z,half=bottom,negative=none,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_positive_diagonal"
+    },
+    "axis=z,half=bottom,negative=none,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_positive_flat"
+    },
+    "axis=z,half=bottom,negative=none,positive=none": {
       "model": "marioverse:block/crimson_stem_bridge"
     },
-    "axis=z,half=bottom,waterlogged=true": {
-      "model": "marioverse:block/crimson_stem_bridge"
+    "axis=z,half=top,negative=diagonal,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_diagonal_positive_diagonal"
     },
-    "axis=z,half=top,waterlogged=false": {
-      "model": "marioverse:block/crimson_stem_bridge_top"
+    "axis=z,half=top,negative=diagonal,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_diagonal_positive_flat"
     },
-    "axis=z,half=top,waterlogged=true": {
+    "axis=z,half=top,negative=diagonal,positive=none": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_diagonal"
+    },
+    "axis=z,half=top,negative=flat,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_flat_positive_diagonal"
+    },
+    "axis=z,half=top,negative=flat,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_flat_positive_flat"
+    },
+    "axis=z,half=top,negative=flat,positive=none": {
+      "model": "marioverse:block/crimson_stem_bridge_top_negative_flat"
+    },
+    "axis=z,half=top,negative=none,positive=diagonal": {
+      "model": "marioverse:block/crimson_stem_bridge_top_positive_diagonal"
+    },
+    "axis=z,half=top,negative=none,positive=flat": {
+      "model": "marioverse:block/crimson_stem_bridge_top_positive_flat"
+    },
+    "axis=z,half=top,negative=none,positive=none": {
       "model": "marioverse:block/crimson_stem_bridge_top"
     }
   }

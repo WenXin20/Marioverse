@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.integration.wood_good_compat;
 import com.mojang.datafixers.util.Either;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.MarioverseCreativeTabs;
-import com.wenxin2.marioverse.blocks.BridgeStairBlock;
+import com.wenxin2.marioverse.blocks.LogBridgeStairBlock;
 import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
 import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
@@ -198,7 +198,7 @@ public class WoodModule extends EveryCompatModule {
 
         bridgeStairs = SimpleEntrySet.builder(WoodType.class, "log_bridge_stairs",
                         BlockRegistry.OAK_LOG_BRIDGE_STAIRS, () -> VanillaWoodTypes.OAK,
-                        woodType -> new BridgeStairBlock(woodType.log.defaultBlockState(), Utils.copyPropertySafe(woodType.log)))
+                        woodType -> new LogBridgeStairBlock(woodType.log.defaultBlockState(), Utils.copyPropertySafe(woodType.log)))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(BlockTags.WOODEN_STAIRS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS, Registries.BLOCK)
@@ -215,7 +215,7 @@ public class WoodModule extends EveryCompatModule {
 
         strippedBridgeStairs = SimpleEntrySet.builder(WoodType.class, "log_bridge_stairs", "stripped",
                         BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS, () -> VanillaWoodTypes.OAK,
-                        woodType -> new BridgeStairBlock(woodType.log.defaultBlockState(), Utils.copyPropertySafe(woodType.log)))
+                        woodType -> new LogBridgeStairBlock(woodType.log.defaultBlockState(), Utils.copyPropertySafe(woodType.log)))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(BlockTags.WOODEN_STAIRS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS, Registries.BLOCK)
