@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -78,6 +79,15 @@ public final class DynamicServerResources implements PackResources {
             TagRegistry.WARP_TRAPDOOR_ITEMS,
             ItemTags.TRAPDOORS,
             ItemTags.WOODEN_TRAPDOORS
+    );
+
+    private static final Set<TagKey<Item>> PLASTIC_BUCKET_ITEM_TAGS = Set.of(
+            ItemTags.ARMOR_ENCHANTABLE,
+            ItemTags.DURABILITY_ENCHANTABLE,
+            ItemTags.EQUIPPABLE_ENCHANTABLE,
+            ItemTags.TRIMMABLE_ARMOR,
+            ItemTags.VANISHING_ENCHANTABLE,
+            Tags.Items.BUCKETS
     );
 
     private void generateLootTables() {
@@ -148,6 +158,12 @@ public final class DynamicServerResources implements PackResources {
             }
         }
 
+        for (TagKey<Item> tag : PLASTIC_BUCKET_ITEM_TAGS) {
+            if (location.equals(tag.location().withPrefix("tags/item/").withSuffix(".json"))) {
+                return buildPlasticBucketItemTag();
+            }
+        }
+
         byte[] data = lootTables.get(location);
         if (data != null)
             return () -> new ByteArrayInputStream(data);
@@ -214,6 +230,19 @@ public final class DynamicServerResources implements PackResources {
             }
         }
 
+        if (path.equals("tags/item")) {
+            for (TagKey<Item> tag : PLASTIC_BUCKET_ITEM_TAGS) {
+                ResourceLocation id = tag.location();
+                if (!id.getNamespace().equals(namespace))
+                    continue;
+
+                ResourceLocation out = ResourceLocation
+                        .fromNamespaceAndPath(namespace, "tags/item/" + id.getPath() + ".json");
+
+                output.accept(out, () -> buildPlasticBucketItemTag().get());
+            }
+        }
+
         if (path.equals("color_sets")) {
             for (Map.Entry<ResourceLocation, byte[]> entry : colorSets.entrySet()) {
                 if (entry.getKey().getNamespace().equals(namespace))
@@ -238,7 +267,7 @@ public final class DynamicServerResources implements PackResources {
     @NotNull
     @Override
     public Set<String> getNamespaces(PackType type) {
-        return type == PackType.SERVER_DATA ? Set.of("minecraft", Marioverse.MOD_ID) : Set.of();
+        return type == PackType.SERVER_DATA ? Set.of("c", "minecraft", Marioverse.MOD_ID) : Set.of();
     }
 
     @Nullable
@@ -471,5 +500,19 @@ public final class DynamicServerResources implements PackResources {
         root.addProperty("random_sequence", "marioverse:blocks/" + blockId.getPath());
 
         return root;
+    }
+
+    private IoSupplier<InputStream> buildPlasticBucketItemTag() {
+        JsonObject json = new JsonObject();
+        JsonArray values = new JsonArray();
+
+        for (Item bucket : RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.values())
+            values.add(BuiltInRegistries.ITEM.getKey(bucket).toString());
+
+        json.addProperty("replace", false);
+        json.add("values", values);
+
+        byte[] data = json.toString().getBytes(StandardCharsets.UTF_8);
+        return () -> new ByteArrayInputStream(data);
     }
 }

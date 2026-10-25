@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.items.fluids;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
 
@@ -14,9 +13,7 @@ public class PlasticBucketWrapper extends FluidBucketWrapper {
 
     @Override
     public boolean canFillFluidType(FluidStack fluid) {
-        if (fluid.is(Fluids.LAVA))
-            return PlasticBucketItem.isFireProof(this.container);
-        return true;
+        return PlasticBucketItem.canPickUp(this.container, fluid.getFluid());
     }
 
     protected void setFluid(FluidStack fluidStack) {

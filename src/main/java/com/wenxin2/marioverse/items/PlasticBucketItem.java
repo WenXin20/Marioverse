@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.renderers.costumes.PlasticBucketRenderer;
+import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -23,6 +24,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -33,6 +35,7 @@ import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
@@ -51,13 +54,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -120,14 +124,9 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
 
         if (hitResult.getType() != HitResult.Type.BLOCK && state.getBlock() instanceof BucketPickup)
             return InteractionResultHolder.pass(stack);
-        else if (state.getBlock() instanceof BucketPickup bucketPickup && (fluidState.is(Fluids.WATER)
-                || fluidState.is(Tags.Fluids.MILK) || (fluidState.is(Fluids.LAVA) && PlasticBucketItem.isFireProof(stack)))) {
-            ItemStack newStack;
-            if (fluidState.is(Fluids.LAVA))
-                newStack = new ItemStack(ItemRegistry.PLASTIC_LAVA_BUCKET.get());
-            else if (fluidState.is(Tags.Fluids.MILK))
-                newStack = new ItemStack(ItemRegistry.PLASTIC_MILK_BUCKET.get());
-            else newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+        else if (state.getBlock() instanceof BucketPickup bucketPickup
+                && PlasticBucketItem.canPickUp(stack, fluidState.getType())) {
+            ItemStack newStack = new ItemStack(PlasticBucketItem.getPlasticBucket(fluidState.getType()));
             ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
 
             if (!stackPickup.isEmpty()) {
@@ -146,16 +145,18 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
                 level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
             }
             return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
-        } else if (state.getBlock() instanceof BucketPickup bucketPickup && fluidState.is(Fluids.LAVA)) {
+        } else if (state.getBlock() instanceof BucketPickup bucketPickup
+                && PlasticBucketItem.requiresFireProof(fluidState.getType())) {
+            BlockState fluidBlock = fluidState.createLegacyBlock();
             ItemStack stackPickup = bucketPickup.pickupBlock(player, level, pos, state);
 
             if (!stackPickup.isEmpty()) {
                 bucketPickup.getPickupSound(state).ifPresent(player::playSound);
 
                 if (!player.isCreative() && level.getBlockState(player.blockPosition()).canBeReplaced())
-                    level.setBlock(player.blockPosition(), Blocks.LAVA.defaultBlockState(), 3);
+                    level.setBlock(player.blockPosition(), fluidBlock, 3);
                 else if (!player.isCreative() && state.canBeReplaced())
-                    level.setBlock(pos, Blocks.LAVA.defaultBlockState(), 3);
+                    level.setBlock(pos, fluidBlock, 3);
 
                 if (!level.isClientSide) {
                     CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) player, stack);
@@ -237,16 +238,30 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
         if (fluid.isEmpty())
             return new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
 
-        ItemStack vanillaBucket = FluidUtil.getFilledBucket(fluid);
+        Item bucket = PlasticBucketItem.getPlasticBucket(fluid.getFluid());
+        return new ItemStack(bucket == Items.AIR ? ItemRegistry.PLASTIC_BUCKET.get() : bucket);
+    }
 
-        if (vanillaBucket.is(Items.WATER_BUCKET))
-            return new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
-        if (vanillaBucket.is(Items.LAVA_BUCKET))
-            return new ItemStack(ItemRegistry.PLASTIC_LAVA_BUCKET.get());
+    public static Item getPlasticBucket(Fluid fluid) {
+        if (fluid.isSame(Fluids.WATER))
+            return ItemRegistry.PLASTIC_WATER_BUCKET.get();
+        if (fluid.isSame(Fluids.LAVA))
+            return ItemRegistry.PLASTIC_LAVA_BUCKET.get();
         if (fluid.is(Tags.Fluids.MILK))
-            return new ItemStack(ItemRegistry.PLASTIC_MILK_BUCKET.get());
+            return ItemRegistry.PLASTIC_MILK_BUCKET.get();
+        if (fluid instanceof FlowingFluid flowingFluid)
+            fluid = flowingFluid.getSource();
+        return RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.getOrDefault(fluid, Items.AIR);
+    }
 
-        return new ItemStack(ItemRegistry.PLASTIC_BUCKET.get());
+    public static boolean requiresFireProof(Fluid fluid) {
+        return fluid.is(FluidTags.LAVA) || fluid.getFluidType().getTemperature() >= 1000;
+    }
+
+    public static boolean canPickUp(ItemStack stack, Fluid fluid) {
+        if (PlasticBucketItem.getPlasticBucket(fluid) == Items.AIR)
+            return false;
+        return !PlasticBucketItem.requiresFireProof(fluid) || PlasticBucketItem.isFireProof(stack);
     }
 
     public static boolean isFireProof(ItemStack stack) {

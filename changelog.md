@@ -83,6 +83,7 @@
 - Added bloomflowers of various colors
 - Added stone bridge variants, a new semi-solid platform
 - Added the ability for plastic buckets to pickup lava if enchanted with Fire Protection
+- Added the ability for plastic buckets to pickup modded fluids
 - Added the ability for plastic buckets to milk cows
 - Added tooltips to semi-solids
 - Added recipe to convert Dango Blossoms to dye

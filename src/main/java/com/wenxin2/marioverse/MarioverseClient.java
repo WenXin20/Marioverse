@@ -59,6 +59,7 @@ import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireb
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
 import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
+import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
@@ -118,6 +119,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
@@ -291,6 +293,9 @@ public class MarioverseClient {
                 return 0xFF3F76E4;
             return -1;
         }, ItemRegistry.PLASTIC_WATER_BUCKET.get());
+
+        event.register(new DynamicFluidContainerModel.Colors(),
+                RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.values().toArray(Item[]::new));
 
         event.register((stack, tintIndex) -> {
             if (tintIndex == 0)

@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
@@ -43,6 +44,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -104,6 +106,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PLASTIC_WATER_BUCKET);
             add(event, MarioverseCreativeTabs.enchanted(event, ItemRegistry.PLASTIC_LAVA_BUCKET, Enchantments.FIRE_PROTECTION, 1));
             add(event, ItemRegistry.PLASTIC_MILK_BUCKET);
+            for (ItemStack stack : MarioverseCreativeTabs.plasticFluidBuckets(event))
+                add(event, stack);
             add(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
             add(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
             add(event, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
@@ -1742,7 +1746,12 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.PLASTIC_BUCKET, ItemRegistry.PLASTIC_WATER_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_WATER_BUCKET, plasticLava);
                 addAfter(event, plasticLava, ItemRegistry.PLASTIC_MILK_BUCKET);
-                addAfter(event, ItemRegistry.PLASTIC_MILK_BUCKET, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
+                ItemStack previousBucket = new ItemStack(ItemRegistry.PLASTIC_MILK_BUCKET.get());
+                for (ItemStack stack : MarioverseCreativeTabs.plasticFluidBuckets(event)) {
+                    addAfter(event, previousBucket, stack);
+                    previousBucket = stack;
+                }
+                addAfter(event, previousBucket, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
 
@@ -2815,6 +2824,17 @@ public class MarioverseCreativeTabs {
         stack.enchant(event.getParameters().holders().lookupOrThrow(Registries.ENCHANTMENT)
                 .getOrThrow(enchantment), level);
         return stack;
+    }
+
+    public static List<ItemStack> plasticFluidBuckets(BuildCreativeModeTabContentsEvent event) {
+        List<ItemStack> stacks = new ArrayList<>();
+        RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.entrySet().stream()
+                .filter(entry -> !entry.getKey().is(Tags.Fluids.MILK))
+                .sorted(Map.Entry.comparingByValue(Comparator.comparing(BuiltInRegistries.ITEM::getKey)))
+                .forEach(entry -> stacks.add(PlasticBucketItem.requiresFireProof(entry.getKey())
+                        ? MarioverseCreativeTabs.enchanted(event, entry.getValue(), Enchantments.FIRE_PROTECTION, 1)
+                        : new ItemStack(entry.getValue())));
+        return stacks;
     }
 
     public static ItemStack bucketVariant(ItemLike item, String variant) {

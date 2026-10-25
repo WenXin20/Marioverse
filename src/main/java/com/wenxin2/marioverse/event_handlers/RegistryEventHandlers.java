@@ -26,6 +26,7 @@ import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
 import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.items.DynamicPlasticBucketItem;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
 import com.wenxin2.marioverse.items.WarpTrapDoorBlockItem;
 import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
@@ -82,6 +83,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
@@ -109,6 +111,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 public class RegistryEventHandlers {
     public static final Map<Block, Block> WARP_DOORS = new IdentityHashMap<>();
     public static final Map<Block, Block> WARP_TRAPDOORS = new IdentityHashMap<>();
+    public static final Map<Fluid, Item> PLASTIC_FLUID_BUCKETS = new IdentityHashMap<>();
     private static final Set<String> DOOR_STATES = Set.of("facing", "half", "hinge", "open", "powered");
     private static final Set<String> TRAPDOOR_STATES = Set.of("facing", "half", "open", "powered");
     private static final String WATERLOGGED = "waterlogged";
@@ -214,6 +217,27 @@ public class RegistryEventHandlers {
                 ResourceLocation warpID = BuiltInRegistries.BLOCK.getKey(warp);
 
                 helper.register(warpID, new WarpTrapDoorBlockItem(warp, source, new Item.Properties()));
+            }
+        });
+
+        event.register(Registries.ITEM, helper -> {
+            for (Fluid fluid : BuiltInRegistries.FLUID) {
+                ResourceLocation fluidID = BuiltInRegistries.FLUID.getKey(fluid);
+
+                if (fluidID.getNamespace().equals("minecraft") || fluidID.getNamespace().equals(Marioverse.MOD_ID))
+                    continue;
+                if (!fluid.isSource(fluid.defaultFluidState()))
+                    continue;
+                if (fluid.defaultFluidState().createLegacyBlock().isAir())
+                    continue;
+
+                ResourceLocation bucketID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                        "plastic_" + fluidID.getNamespace() + "_" + fluidID.getPath().replace('/', '_') + "_bucket");
+                Item bucket = new DynamicPlasticBucketItem(2, fluid, new Item.Properties().stacksTo(1)
+                        .durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get()));
+
+                helper.register(bucketID, bucket);
+                PLASTIC_FLUID_BUCKETS.put(fluid, bucket);
             }
         });
     }
@@ -403,6 +427,8 @@ public class RegistryEventHandlers {
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_LAVA_BUCKET);
         event.registerItem(Capabilities.FluidHandler.ITEM,
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_MILK_BUCKET);
+        event.registerItem(Capabilities.FluidHandler.ITEM,
+                (stack, contex) -> new PlasticBucketWrapper(stack), PLASTIC_FLUID_BUCKETS.values().toArray(Item[]::new));
     }
 
     @SubscribeEvent

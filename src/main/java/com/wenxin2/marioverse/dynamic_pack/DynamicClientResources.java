@@ -22,7 +22,9 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -190,6 +192,27 @@ public final class DynamicClientResources implements PackResources {
 
             JsonObject textures = new JsonObject();
             textures.addProperty("layer0", "minecraft:item/oak_door");
+            json.add("textures", textures);
+
+            resources.put(modelId, json.toString().getBytes(StandardCharsets.UTF_8));
+        }
+
+        for (Map.Entry<Fluid, Item> entry : RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.entrySet()) {
+            ResourceLocation itemID = BuiltInRegistries.ITEM.getKey(entry.getValue());
+
+            ResourceLocation modelId = ResourceLocation
+                    .fromNamespaceAndPath(itemID.getNamespace(), "models/item/" + itemID.getPath() + ".json");
+
+            JsonObject json = new JsonObject();
+            json.addProperty("parent", "neoforge:item/default");
+            json.addProperty("loader", "neoforge:fluid_container");
+            json.addProperty("fluid", BuiltInRegistries.FLUID.getKey(entry.getKey()).toString());
+            json.addProperty("apply_tint", true);
+            json.addProperty("cover_is_mask", false);
+
+            JsonObject textures = new JsonObject();
+            textures.addProperty("base", "marioverse:item/plastic_water_bucket");
+            textures.addProperty("fluid", "marioverse:item/mask/plastic_bucket_fluid");
             json.add("textures", textures);
 
             resources.put(modelId, json.toString().getBytes(StandardCharsets.UTF_8));
