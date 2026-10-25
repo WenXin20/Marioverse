@@ -380,8 +380,9 @@ public class BlockStateGen extends BlockStateProvider {
                 modLoc("block/grassy_fungal_stone_top"), "grassy_fungal_stone", "grassy_fungal_stone_overlay");
         this.shroomgrassBlockModel(BlockRegistry.SHROOMGRASS_BLOCK.get(), 4, modLoc("block/shroomsoil_top"),
                 modLoc("block/shroomgrass_block_top"), "shroomgrass_block", "shroomgrass_block_overlay");
-        this.farmlandModel(BlockRegistry.SHROOMSOIL_FARMLAND.get(), modLoc("block/shroomsoil_top"),
-                modLoc("block/shroomsoil_farmland"), modLoc("block/shroomsoil_farmland_moist"));
+        this.farmlandModel(BlockRegistry.SHROOMSOIL_FARMLAND.get(), modLoc("block/shroomsoil_farmland_side"),
+                modLoc("block/shroomsoil_top"), modLoc("block/shroomsoil_farmland"),
+                modLoc("block/shroomsoil_farmland_moist_side"), modLoc("block/shroomsoil_farmland_moist"));
         this.pathModel(BlockRegistry.SHROOMSOIL_PATH.get(), modLoc("block/shroomsoil_top"),
                 modLoc("block/shroomsoil_path_side"), modLoc("block/shroomsoil_path"));
         this.splunkinOLanternModel(lantern, blockTexture(lantern), mcLoc("block/" + pumpkin + "_side"),
@@ -2032,14 +2033,14 @@ public class BlockStateGen extends BlockStateProvider {
         this.simpleBlockItem(block, sideVariants[0]);
     }
 
-    private void farmlandModel(Block block, ResourceLocation dirtTexture, ResourceLocation dryTopTexture,
-                                ResourceLocation moistTopTexture) {
+    private void farmlandModel(Block block, ResourceLocation dirtTexture, ResourceLocation bottomTexture,
+                               ResourceLocation topTexture, ResourceLocation moistDirtTexture, ResourceLocation moistTopTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile dryModel = models().withExistingParent(modelName, mcLoc("minecraft:block/template_farmland"))
-                .texture("dirt", dirtTexture).texture("top", dryTopTexture);
-        ModelFile moistModel = models().withExistingParent(modelName + "_moist", mcLoc("minecraft:block/template_farmland"))
-                .texture("dirt", dirtTexture).texture("top", moistTopTexture);
+        ModelFile dryModel = models().withExistingParent(modelName, modLoc("block/template_farmland"))
+                .texture("dirt", dirtTexture).texture("bottom", bottomTexture).texture("top", topTexture);
+        ModelFile moistModel = models().withExistingParent(modelName + "_moist", modLoc("block/template_farmland"))
+                .texture("dirt", moistDirtTexture).texture("top", bottomTexture).texture("top", moistTopTexture);
 
         VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
         for (int moisture = 0; moisture < FarmBlock.MAX_MOISTURE; moisture++)

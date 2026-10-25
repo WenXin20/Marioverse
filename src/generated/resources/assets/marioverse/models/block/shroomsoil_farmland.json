@@ -1,7 +1,8 @@
 {
-  "parent": "minecraft:block/template_farmland",
+  "parent": "marioverse:block/template_farmland",
   "textures": {
-    "dirt": "marioverse:block/shroomsoil_top",
+    "bottom": "marioverse:block/shroomsoil_top",
+    "dirt": "marioverse:block/shroomsoil_farmland_side",
     "top": "marioverse:block/shroomsoil_farmland"
   }
 }
