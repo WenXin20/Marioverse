@@ -83,7 +83,7 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
                         CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, posFluid, stack);
                     player.awardStat(Stats.ITEM_USED.get(this));
 
-                    return InteractionResultHolder.sidedSuccess(newStack, level.isClientSide());
+                    return InteractionResultHolder.sidedSuccess(FluidPlasticBucketItem.getEmptySuccessItem(stack, player), level.isClientSide());
                 } else return InteractionResultHolder.fail(stack);
             }
         }
