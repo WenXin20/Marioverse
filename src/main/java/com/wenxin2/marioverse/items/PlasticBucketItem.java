@@ -21,8 +21,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
@@ -31,14 +29,15 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.MilkBucketItem;
+import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.armortrim.ArmorTrim;
 import net.minecraft.world.item.armortrim.TrimMaterial;
@@ -62,6 +61,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -180,18 +180,33 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
     @NotNull
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
-        if ((livingEntity instanceof Cow || livingEntity instanceof Goat) && !livingEntity.isBaby()) {
-            SoundEvent sound = SoundEvents.COW_MILK;
-            if (livingEntity instanceof Goat goat)
-                sound = goat.isScreamingGoat() ? SoundEvents.GOAT_SCREAMING_MILK : SoundEvents.GOAT_MILK;
-            player.playSound(sound, 1.0F, 0.9F + player.getRandom().nextFloat() * 0.2F);
+        ItemStack plasticStack = stack.copy();
+        List<ItemStack> inventory = player.getInventory().items.stream().map(ItemStack::copy).toList();
 
-            ItemStack newStack = new ItemStack(ItemRegistry.PLASTIC_MILK_BUCKET.get());
-            newStack.applyComponents(stack.getComponents());
-            player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, newStack));
-            return InteractionResult.sidedSuccess(player.level().isClientSide);
+        player.setItemInHand(hand, new ItemStack(Items.BUCKET));
+        InteractionResult result = livingEntity.interact(player, hand);
+        ItemStack filledStack = player.getItemInHand(hand).is(Items.BUCKET) ? ItemStack.EMPTY : player.getItemInHand(hand);
+
+        for (int slot = 0; filledStack.isEmpty() && slot < inventory.size(); slot++) {
+            if (hand == InteractionHand.MAIN_HAND && slot == player.getInventory().selected)
+                continue;
+            if (!ItemStack.matches(inventory.get(slot), player.getInventory().items.get(slot))) {
+                filledStack = player.getInventory().items.get(slot).copyWithCount(1);
+                player.getInventory().items.set(slot, inventory.get(slot));
+            }
         }
-        return super.interactLivingEntity(stack, player, livingEntity, hand);
+        player.setItemInHand(hand, plasticStack);
+
+        Item plasticBucket = PlasticBucketItem.getPlasticBucket(filledStack);
+        if (!result.consumesAction())
+            return super.interactLivingEntity(plasticStack, player, livingEntity, hand);
+        if (plasticBucket == Items.AIR)
+            return result;
+
+        ItemStack newStack = new ItemStack(plasticBucket);
+        newStack.applyComponents(plasticStack.getComponents());
+        player.setItemInHand(hand, ItemUtils.createFilledResult(plasticStack, player, newStack));
+        return result;
     }
 
     @NotNull
@@ -254,6 +269,17 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
         if (fluid instanceof FlowingFluid flowingFluid)
             fluid = flowingFluid.getSource();
         return RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.getOrDefault(fluid, Items.AIR);
+    }
+
+    public static Item getPlasticBucket(ItemStack filledStack) {
+        if (filledStack.isEmpty())
+            return Items.AIR;
+        if (filledStack.getItem() instanceof MilkBucketItem || filledStack.is(Tags.Items.BUCKETS_MILK))
+            return ItemRegistry.PLASTIC_MILK_BUCKET.get();
+        if (filledStack.getItem() instanceof BucketItem bucketItem && !(filledStack.getItem() instanceof MobBucketItem))
+            return PlasticBucketItem.getPlasticBucket(bucketItem.content);
+        return FluidUtil.getFluidContained(filledStack)
+                .map(fluidStack -> PlasticBucketItem.getPlasticBucket(fluidStack.getFluid())).orElse(Items.AIR);
     }
 
     public static boolean requiresFireProof(Fluid fluid) {
