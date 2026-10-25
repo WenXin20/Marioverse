@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-24T22:24:47.1512448	Item Models: marioverse
+// 1.21.1	2026-10-25T00:02:18.6440625	Item Models: marioverse
 8bd87ae7519cde96400637a2aeaf3080bb83cbc4 assets/marioverse/models/item/acacia_arrow_sign.json
 96bc850d49ace0d977d0027c8480c77f881abfa6 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_black.json
 ee66d8a0ceddd7dd8d6a34a951464f31fd089ec4 assets/marioverse/models/item/acacia_arrow_sign_bottom_left_blue.json
@@ -3154,6 +3154,7 @@ d120cba5a968679e7c54275af65b7788a66e3522 assets/marioverse/models/item/pink_mega
 47e0bf860f1271d958d0ca0db32d7d835397cc14 assets/marioverse/models/item/piranha_plant_spawn_egg.json
 ec56f6c7cf68e41ccc4c585a476dbe28b7fbd6ef assets/marioverse/models/item/plastic_bucket.json
 031b3f77e9e3cc37861d747141b1a6e304e3c159 assets/marioverse/models/item/plastic_lava_bucket.json
+2c720d28b58db7d9e3ce262049c751db3f9e14dc assets/marioverse/models/item/plastic_milk_bucket.json
 ea1591bceea341a7d38d4cac899c8527061a5dba assets/marioverse/models/item/plastic_powder_snow_bucket.json
 db05c770cbaf478ebcd1ec87ca3b47dabc8ef8ce assets/marioverse/models/item/plastic_quicksand_bucket.json
 155b90c3dbd2ab9f0afa977fd171a04aeb4e73c2 assets/marioverse/models/item/plastic_red_quicksand_bucket.json

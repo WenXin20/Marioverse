@@ -508,6 +508,8 @@ public final class DynamicServerResources implements PackResources {
 
         for (Item bucket : RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.values())
             values.add(BuiltInRegistries.ITEM.getKey(bucket).toString());
+        for (Item bucket : RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.values())
+            values.add(BuiltInRegistries.ITEM.getKey(bucket).toString());
 
         json.addProperty("replace", false);
         json.add("values", values);

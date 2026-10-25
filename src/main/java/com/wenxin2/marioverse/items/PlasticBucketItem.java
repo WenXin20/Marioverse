@@ -213,6 +213,8 @@ public class PlasticBucketItem extends BaseCostumeItem implements GeoItem {
                 newStack = new ItemStack(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
             else if (state.is(BlockRegistry.WATER_SPOUT))
                 newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+            else if (RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.containsKey(state.getBlock()))
+                newStack = new ItemStack(RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.get(state.getBlock()));
             else return InteractionResult.PASS;
             newStack.applyComponents(stack.getComponents());
 

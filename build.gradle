@@ -98,6 +98,7 @@ dependencies {
     compileOnly "curse.maven:slabbed-1457462:9029709"
     compileOnly "curse.maven:spatial-gui-1676741:9085092"
     implementation "curse.maven:spark-${spark_version}"
+    implementation "curse.maven:the-bumblezone-forge-362479:9302166" // Requires Resourceful Lib
     implementation "curse.maven:the-twilight-forest-227639:7797302"
     implementation "curse.maven:the-undergarden-379849:7862546"
     implementation "curse.maven:treechop-421377:6254465"
@@ -117,6 +118,7 @@ dependencies {
     implementation "curse.maven:framework-549225:7530361"
     compileOnly "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
+    implementation "curse.maven:resourceful-lib-570073:5973188"
     implementation "curse.maven:sable-${sable_version}" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     compileOnly "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium

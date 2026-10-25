@@ -16,6 +16,7 @@ import com.wenxin2.marioverse.client.RedQuicksandOverlay;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
+import com.wenxin2.marioverse.client.models.loaders.SolidBucketModelLoader;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
@@ -119,6 +120,8 @@ public class ClientEventHandlers {
     public static void registerLoader(ModelEvent.RegisterGeometryLoaders event) {
         event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "disguised_block"),
                 new DisguisedBlockModelLoader());
+        event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "solid_bucket"),
+                new SolidBucketModelLoader());
     }
 
     @SubscribeEvent

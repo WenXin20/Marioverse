@@ -396,7 +396,7 @@ public class ItemRegistry {
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
                 () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
-                        5, new Item.Properties().stacksTo(1)
+                        4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         PLASTIC_WATER_BUCKET = registerItem("plastic_water_bucket",
                 () -> new FluidPlasticBucketItem(3, Fluids.WATER, new Item.Properties().stacksTo(1)

@@ -1743,6 +1743,7 @@
   "item.marioverse.plastic_powder_snow_bucket": "Plastic Powder Snow Bucket",
   "item.marioverse.plastic_quicksand_bucket": "Plastic Quicksand Bucket",
   "item.marioverse.plastic_red_quicksand_bucket": "Plastic Red Quicksand Bucket",
+  "item.marioverse.plastic_solid_bucket": "Plastic %s Bucket",
   "item.marioverse.plastic_water_bucket": "Plastic Water Bucket",
   "item.marioverse.plumber_banner_pattern": "Banner Pattern",
   "item.marioverse.plumber_banner_pattern.desc": "§cPlumber",
@@ -1939,9 +1940,8 @@
   "item.marioverse.plastic_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_bucket.tooltip.line1": "§2Uses:",
   "item.marioverse.plastic_bucket.tooltip.line2": " §7• Picks up fluids, powder snow, & quicksand",
-  "item.marioverse.plastic_bucket.tooltip.line3": " §7• Milks cows & goats",
-  "item.marioverse.plastic_bucket.tooltip.line4": " §7• Picks up hot fluids with Fire Protection",
-  "item.marioverse.plastic_bucket.tooltip.line5": " §7• Trimmable",
+  "item.marioverse.plastic_bucket.tooltip.line3": " §7• Picks up hot fluids with Fire Protection",
+  "item.marioverse.plastic_bucket.tooltip.line4": " §7• Trimmable",
 
   "item.marioverse.plastic_fluid_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_fluid_bucket.tooltip.line1": "§2Right-click:",
@@ -1966,6 +1966,10 @@
   "item.marioverse.plastic_red_quicksand_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_red_quicksand_bucket.tooltip.line1": "§2Right-click:",
   "item.marioverse.plastic_red_quicksand_bucket.tooltip.line2": " §7• Places red quicksand",
+
+  "item.marioverse.plastic_solid_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "item.marioverse.plastic_solid_bucket.tooltip.line1": "§2Right-click:",
+  "item.marioverse.plastic_solid_bucket.tooltip.line2": " §7• Places %s",
 
   "item.marioverse.plastic_water_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_water_bucket.tooltip.line1": "§2Right-click:",

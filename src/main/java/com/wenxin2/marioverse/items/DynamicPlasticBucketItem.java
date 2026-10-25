@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.items;
 
 import java.util.List;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +28,7 @@ public class DynamicPlasticBucketItem extends FluidPlasticBucketItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltip) {
-        Component fluidName = this.content.getFluidType().getDescription();
+        Component fluidName = this.content.getFluidType().getDescription().copy().withStyle(ChatFormatting.GRAY);
 
         if (Screen.hasShiftDown() && this.tooltipLineAmt > 0) {
             list.add(Component.literal(""));

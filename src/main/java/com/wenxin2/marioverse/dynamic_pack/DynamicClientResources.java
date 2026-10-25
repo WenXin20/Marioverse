@@ -219,5 +219,25 @@ public final class DynamicClientResources implements PackResources {
 
             resources.put(modelId, json.toString().getBytes(StandardCharsets.UTF_8));
         }
+
+        for (Map.Entry<Block, Item> entry : RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.entrySet()) {
+            ResourceLocation itemID = BuiltInRegistries.ITEM.getKey(entry.getValue());
+
+            ResourceLocation modelId = ResourceLocation
+                    .fromNamespaceAndPath(itemID.getNamespace(), "models/item/" + itemID.getPath() + ".json");
+
+            JsonObject json = new JsonObject();
+            json.addProperty("parent", "neoforge:item/default");
+            json.addProperty("loader", "marioverse:solid_bucket");
+            json.addProperty("block", BuiltInRegistries.BLOCK.getKey(entry.getKey()).toString());
+
+            JsonObject textures = new JsonObject();
+            textures.addProperty("base", "marioverse:item/plastic_bucket");
+            textures.addProperty("solid", "marioverse:item/mask/plastic_bucket_solid");
+            textures.addProperty("cover", "marioverse:item/mask/plastic_bucket_solid_cover");
+            json.add("textures", textures);
+
+            resources.put(modelId, json.toString().getBytes(StandardCharsets.UTF_8));
+        }
     }
 }

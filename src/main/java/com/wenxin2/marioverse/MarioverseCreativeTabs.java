@@ -111,6 +111,8 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
             add(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
             add(event, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
+            for (ItemStack stack : MarioverseCreativeTabs.plasticSolidBuckets())
+                add(event, stack);
             add(event, ItemRegistry.QUICKSAND_BUCKET);
             add(event, ItemRegistry.RED_QUICKSAND_BUCKET);
             add(event, ItemRegistry.CHEEP_CHEEP_BUCKET);
@@ -1754,6 +1756,11 @@ public class MarioverseCreativeTabs {
                 addAfter(event, previousBucket, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, ItemRegistry.PLASTIC_QUICKSAND_BUCKET);
                 addAfter(event, ItemRegistry.PLASTIC_QUICKSAND_BUCKET, ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET);
+                ItemStack previousSolidBucket = new ItemStack(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
+                for (ItemStack stack : MarioverseCreativeTabs.plasticSolidBuckets()) {
+                    addAfter(event, previousSolidBucket, stack);
+                    previousSolidBucket = stack;
+                }
 
                 addAfter(event, Items.BAMBOO_CHEST_RAFT, ItemRegistry.MUSHROOT_BOAT);
                 addAfter(event, ItemRegistry.MUSHROOT_BOAT, ItemRegistry.MUSHROOT_CHEST_BOAT);
@@ -2835,6 +2842,13 @@ public class MarioverseCreativeTabs {
                         ? MarioverseCreativeTabs.enchanted(event, entry.getValue(), Enchantments.FIRE_PROTECTION, 1)
                         : new ItemStack(entry.getValue())));
         return stacks;
+    }
+
+    public static List<ItemStack> plasticSolidBuckets() {
+        return RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.values().stream()
+                .sorted(Comparator.comparing(BuiltInRegistries.ITEM::getKey))
+                .map(ItemStack::new)
+                .toList();
     }
 
     public static ItemStack bucketVariant(ItemLike item, String variant) {

@@ -27,6 +27,7 @@ import com.wenxin2.marioverse.datagen.ItemTagsGen;
 import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.DynamicPlasticBucketItem;
+import com.wenxin2.marioverse.items.DynamicSolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
 import com.wenxin2.marioverse.items.WarpTrapDoorBlockItem;
 import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
@@ -48,6 +49,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -65,10 +67,14 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.DispensibleContainerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.component.DyedItemColor;
@@ -84,6 +90,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
@@ -112,6 +119,7 @@ public class RegistryEventHandlers {
     public static final Map<Block, Block> WARP_DOORS = new IdentityHashMap<>();
     public static final Map<Block, Block> WARP_TRAPDOORS = new IdentityHashMap<>();
     public static final Map<Fluid, Item> PLASTIC_FLUID_BUCKETS = new IdentityHashMap<>();
+    public static final Map<Block, Item> PLASTIC_SOLID_BUCKETS = new IdentityHashMap<>();
     private static final Set<String> DOOR_STATES = Set.of("facing", "half", "hinge", "open", "powered");
     private static final Set<String> TRAPDOOR_STATES = Set.of("facing", "half", "open", "powered");
     private static final String WATERLOGGED = "waterlogged";
@@ -220,26 +228,49 @@ public class RegistryEventHandlers {
             }
         });
 
-        event.register(Registries.ITEM, helper -> {
-            for (Fluid fluid : BuiltInRegistries.FLUID) {
-                ResourceLocation fluidID = BuiltInRegistries.FLUID.getKey(fluid);
+        if (event.getRegistryKey().equals(Registries.BLOCK_ENTITY_TYPE)) {
+            List<Item> ironBuckets = new ArrayList<>();
+            BuiltInRegistries.ITEM.forEach(ironBuckets::add);
 
-                if (fluidID.getNamespace().equals("minecraft") || fluidID.getNamespace().equals(Marioverse.MOD_ID))
-                    continue;
-                if (!fluid.isSource(fluid.defaultFluidState()))
-                    continue;
-                if (fluid.defaultFluidState().createLegacyBlock().isAir())
+            for (Item item : ironBuckets) {
+                if (BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Marioverse.MOD_ID))
                     continue;
 
-                ResourceLocation bucketID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
-                        "plastic_" + fluidID.getNamespace() + "_" + fluidID.getPath().replace('/', '_') + "_bucket");
-                Item bucket = new DynamicPlasticBucketItem(2, fluid, new Item.Properties().stacksTo(1)
-                        .durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get()));
+                if (item instanceof BucketItem bucketItem && !(item instanceof MobBucketItem)) {
+                    Fluid fluid = bucketItem.content;
+                    ResourceLocation fluidID = BuiltInRegistries.FLUID.getKey(fluid);
 
-                helper.register(bucketID, bucket);
-                PLASTIC_FLUID_BUCKETS.put(fluid, bucket);
+                    if (fluid == Fluids.EMPTY || PLASTIC_FLUID_BUCKETS.containsKey(fluid))
+                        continue;
+                    if (fluidID.getNamespace().equals("minecraft") || fluidID.getNamespace().equals(Marioverse.MOD_ID))
+                        continue;
+                    if (BuiltInRegistries.ITEM.containsKey(RegistryEventHandlers.plasticBucketID(fluidID)))
+                        continue;
+
+                    Item bucket = new DynamicPlasticBucketItem(2, fluid, new Item.Properties().stacksTo(1)
+                            .durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get()));
+
+                    Registry.register(BuiltInRegistries.ITEM, RegistryEventHandlers.plasticBucketID(fluidID), bucket);
+                    PLASTIC_FLUID_BUCKETS.put(fluid, bucket);
+                } else if (item instanceof BlockItem blockItem && item instanceof DispensibleContainerItem) {
+                    Block block = blockItem.getBlock();
+                    ResourceLocation blockID = BuiltInRegistries.BLOCK.getKey(block);
+
+                    if (PLASTIC_SOLID_BUCKETS.containsKey(block))
+                        continue;
+                    if (blockID.getNamespace().equals("minecraft") || blockID.getNamespace().equals(Marioverse.MOD_ID))
+                        continue;
+                    if (BuiltInRegistries.ITEM.containsKey(RegistryEventHandlers.plasticBucketID(blockID)))
+                        continue;
+
+                    Item bucket = new DynamicSolidPlasticBucketItem(2, block, block.defaultBlockState().getSoundType().getPlaceSound(),
+                            new Item.Properties().stacksTo(1).durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get()));
+
+                    Registry.register(BuiltInRegistries.ITEM, RegistryEventHandlers.plasticBucketID(blockID), bucket);
+                    PLASTIC_SOLID_BUCKETS.put(block, bucket);
+                }
             }
-        });
+        }
     }
 
     @SubscribeEvent
@@ -784,6 +815,11 @@ public class RegistryEventHandlers {
                 new ItemCost(Items.EMERALD, 64),
                 new ItemStack(ItemRegistry.SUPER_STAR.get(), 1),
                 1, 30, 0.2F));
+    }
+
+    private static ResourceLocation plasticBucketID(ResourceLocation sourceID) {
+        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                "plastic_" + sourceID.getNamespace() + "_" + sourceID.getPath().replace('/', '_') + "_bucket");
     }
 
     private static int randomIndex(int length, @Nullable RandomSource random) {
