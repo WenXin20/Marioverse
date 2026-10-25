@@ -93,7 +93,7 @@ dependencies {
     implementation "curse.maven:jei-trade-1641894:8998466"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
-    implementation "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
+    compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     compileOnly "curse.maven:slabbed-1457462:9029709"
     compileOnly "curse.maven:spatial-gui-1676741:9085092"

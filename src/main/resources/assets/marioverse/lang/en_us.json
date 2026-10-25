@@ -1945,7 +1945,7 @@
 
   "item.marioverse.plastic_fluid_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_fluid_bucket.tooltip.line1": "§2Right-click:",
-  "item.marioverse.plastic_fluid_bucket.tooltip.line2": " §7• Places its fluid",
+  "item.marioverse.plastic_fluid_bucket.tooltip.line2": " §7• Places %s",
 
   "item.marioverse.plastic_lava_bucket.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.plastic_lava_bucket.tooltip.line1": "§2Right-click:",

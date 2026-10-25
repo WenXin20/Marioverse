@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -212,7 +213,8 @@ public final class DynamicClientResources implements PackResources {
 
             JsonObject textures = new JsonObject();
             textures.addProperty("base", "marioverse:item/plastic_water_bucket");
-            textures.addProperty("fluid", "marioverse:item/mask/plastic_bucket_fluid");
+            textures.addProperty("fluid", PlasticBucketItem.requiresFireProof(entry.getKey())
+                    ? "marioverse:item/mask/plastic_bucket_lava_fluid" : "marioverse:item/mask/plastic_bucket_fluid");
             json.add("textures", textures);
 
             resources.put(modelId, json.toString().getBytes(StandardCharsets.UTF_8));
