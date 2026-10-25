@@ -173,16 +173,21 @@ public class LogBridgeBlock extends BridgeBlock implements SimpleWaterloggedBloc
 
         Direction.Axis axis = state.getValue(AXIS);
 
-        return state.setValue(NEGATIVE, LogBridgeBlock.ropeConnection(level, pos, Direction.fromAxisAndDirection(axis, Direction.AxisDirection.NEGATIVE)))
-                .setValue(POSITIVE, LogBridgeBlock.ropeConnection(level, pos, Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE)));
+        return state.setValue(NEGATIVE, LogBridgeBlock.ropeConnection(state, level, pos, Direction.fromAxisAndDirection(axis, Direction.AxisDirection.NEGATIVE)))
+                .setValue(POSITIVE, LogBridgeBlock.ropeConnection(state, level, pos, Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE)));
     }
 
-    public static ConnectionBlockStates ropeConnection(LevelAccessor level, BlockPos pos, Direction direction) {
+    public static ConnectionBlockStates ropeConnection(BlockState state, LevelAccessor level, BlockPos pos, Direction direction) {
+        HalfBlockStates half = state.getValue(HALF);
         BlockPos sidePos = pos.relative(direction);
-        if (LogBridgeBlock.alignsWith(level.getBlockState(sidePos), direction)
+        if (LogBridgeBlock.alignsWith(level.getBlockState(sidePos), direction, half)
                 || Block.canSupportCenter(level, sidePos, direction.getOpposite())
                 || LogBridgeStairBlock.ropeReaches(level.getBlockState(sidePos), level, sidePos, pos))
             return ConnectionBlockStates.FLAT;
+
+        boolean top = half == HalfBlockStates.TOP;
+        if (LogBridgeBlock.alignsWith(level.getBlockState(sidePos.above(top ? 1 : -1)), direction, top ? HalfBlockStates.BOTTOM : HalfBlockStates.TOP))
+            return ConnectionBlockStates.DIAGONAL;
 
         for (int dy = -1; dy <= 1; dy += 2) {
             BlockPos stairPos = sidePos.above(dy);
@@ -192,7 +197,7 @@ public class LogBridgeBlock extends BridgeBlock implements SimpleWaterloggedBloc
         return ConnectionBlockStates.NONE;
     }
 
-    public static boolean alignsWith(BlockState state, Direction direction) {
-        return state.getBlock() instanceof LogBridgeBlock && state.getValue(AXIS) == direction.getAxis();
+    public static boolean alignsWith(BlockState state, Direction direction, HalfBlockStates half) {
+        return state.getBlock() instanceof LogBridgeBlock && state.getValue(AXIS) == direction.getAxis() && state.getValue(HALF) == half;
     }
 }
