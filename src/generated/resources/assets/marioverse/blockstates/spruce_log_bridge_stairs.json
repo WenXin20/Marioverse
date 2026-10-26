@@ -1,37 +1,37 @@
 {
   "variants": {
     "above=diagonal,below=diagonal,facing=east,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal"
     },
     "above=diagonal,below=diagonal,facing=east,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal"
     },
     "above=diagonal,below=diagonal,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spruce_log_bridge_stairs_below_diagonal_above_diagonal"
     },
     "above=diagonal,below=diagonal,facing=east,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=diagonal,facing=east,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=east,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=diagonal,facing=east,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "x": 180,
       "y": 90
     },
@@ -40,19 +40,19 @@
       "x": 180
     },
     "above=diagonal,below=diagonal,facing=north,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=diagonal,facing=north,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=north,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=diagonal,facing=north,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=north,half=bottom,shape=straight": {
@@ -60,21 +60,21 @@
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=north,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=north,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=diagonal,facing=north,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=north,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=diagonal,facing=north,half=top,shape=straight": {
@@ -83,17 +83,17 @@
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal"
     },
     "above=diagonal,below=diagonal,facing=south,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal"
     },
     "above=diagonal,below=diagonal,facing=south,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=south,half=bottom,shape=straight": {
@@ -101,22 +101,22 @@
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=south,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=south,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=diagonal,facing=south,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=south,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "x": 180,
       "y": 180
     },
@@ -126,19 +126,19 @@
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=west,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=west,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=diagonal,facing=west,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=diagonal,facing=west,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=diagonal,facing=west,half=bottom,shape=straight": {
@@ -146,22 +146,22 @@
       "y": 180
     },
     "above=diagonal,below=diagonal,facing=west,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=diagonal,facing=west,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=diagonal,facing=west,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=diagonal,facing=west,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_diagonal",
       "x": 180,
       "y": 270
     },
@@ -171,37 +171,37 @@
       "y": 180
     },
     "above=diagonal,below=flat,facing=east,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=flat,facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal"
     },
     "above=diagonal,below=flat,facing=east,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=flat,facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal"
     },
     "above=diagonal,below=flat,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spruce_log_bridge_stairs_below_flat_above_diagonal"
     },
     "above=diagonal,below=flat,facing=east,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=flat,facing=east,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=flat,facing=east,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=flat,facing=east,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "x": 180,
       "y": 90
     },
@@ -210,19 +210,19 @@
       "x": 180
     },
     "above=diagonal,below=flat,facing=north,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=flat,facing=north,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=flat,facing=north,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=flat,facing=north,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=flat,facing=north,half=bottom,shape=straight": {
@@ -230,21 +230,21 @@
       "y": 270
     },
     "above=diagonal,below=flat,facing=north,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=flat,facing=north,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=flat,facing=north,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=flat,facing=north,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=flat,facing=north,half=top,shape=straight": {
@@ -253,17 +253,17 @@
       "y": 270
     },
     "above=diagonal,below=flat,facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal"
     },
     "above=diagonal,below=flat,facing=south,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=flat,facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal"
     },
     "above=diagonal,below=flat,facing=south,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=flat,facing=south,half=bottom,shape=straight": {
@@ -271,22 +271,22 @@
       "y": 90
     },
     "above=diagonal,below=flat,facing=south,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=flat,facing=south,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=flat,facing=south,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=flat,facing=south,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "x": 180,
       "y": 180
     },
@@ -296,19 +296,19 @@
       "y": 90
     },
     "above=diagonal,below=flat,facing=west,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=flat,facing=west,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=flat,facing=west,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=flat,facing=west,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=flat,facing=west,half=bottom,shape=straight": {
@@ -316,22 +316,22 @@
       "y": 180
     },
     "above=diagonal,below=flat,facing=west,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=flat,facing=west,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=flat,facing=west,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=flat,facing=west,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_diagonal",
       "x": 180,
       "y": 270
     },
@@ -341,37 +341,37 @@
       "y": 180
     },
     "above=diagonal,below=none,facing=east,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=none,facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal"
     },
     "above=diagonal,below=none,facing=east,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=none,facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal"
     },
     "above=diagonal,below=none,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spruce_log_bridge_stairs_above_diagonal"
     },
     "above=diagonal,below=none,facing=east,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=none,facing=east,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=none,facing=east,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=none,facing=east,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "x": 180,
       "y": 90
     },
@@ -380,19 +380,19 @@
       "x": 180
     },
     "above=diagonal,below=none,facing=north,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=none,facing=north,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=none,facing=north,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=none,facing=north,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "y": 270
     },
     "above=diagonal,below=none,facing=north,half=bottom,shape=straight": {
@@ -400,21 +400,21 @@
       "y": 270
     },
     "above=diagonal,below=none,facing=north,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=none,facing=north,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=none,facing=north,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=none,facing=north,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "x": 180
     },
     "above=diagonal,below=none,facing=north,half=top,shape=straight": {
@@ -423,17 +423,17 @@
       "y": 270
     },
     "above=diagonal,below=none,facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal"
     },
     "above=diagonal,below=none,facing=south,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=none,facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal"
     },
     "above=diagonal,below=none,facing=south,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=none,facing=south,half=bottom,shape=straight": {
@@ -441,22 +441,22 @@
       "y": 90
     },
     "above=diagonal,below=none,facing=south,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=none,facing=south,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=none,facing=south,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "x": 180,
       "y": 90
     },
     "above=diagonal,below=none,facing=south,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "x": 180,
       "y": 180
     },
@@ -466,19 +466,19 @@
       "y": 90
     },
     "above=diagonal,below=none,facing=west,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=none,facing=west,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=none,facing=west,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "y": 90
     },
     "above=diagonal,below=none,facing=west,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "y": 180
     },
     "above=diagonal,below=none,facing=west,half=bottom,shape=straight": {
@@ -486,22 +486,22 @@
       "y": 180
     },
     "above=diagonal,below=none,facing=west,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=none,facing=west,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_diagonal",
       "x": 180,
       "y": 270
     },
     "above=diagonal,below=none,facing=west,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "x": 180,
       "y": 180
     },
     "above=diagonal,below=none,facing=west,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_diagonal",
       "x": 180,
       "y": 270
     },
@@ -511,37 +511,37 @@
       "y": 180
     },
     "above=flat,below=diagonal,facing=east,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "y": 270
     },
     "above=flat,below=diagonal,facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat"
     },
     "above=flat,below=diagonal,facing=east,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "y": 270
     },
     "above=flat,below=diagonal,facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat"
     },
     "above=flat,below=diagonal,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spruce_log_bridge_stairs_below_diagonal_above_flat"
     },
     "above=flat,below=diagonal,facing=east,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "x": 180
     },
     "above=flat,below=diagonal,facing=east,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=diagonal,facing=east,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "x": 180
     },
     "above=flat,below=diagonal,facing=east,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "x": 180,
       "y": 90
     },
@@ -550,19 +550,19 @@
       "x": 180
     },
     "above=flat,below=diagonal,facing=north,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "y": 180
     },
     "above=flat,below=diagonal,facing=north,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "y": 270
     },
     "above=flat,below=diagonal,facing=north,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "y": 180
     },
     "above=flat,below=diagonal,facing=north,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "y": 270
     },
     "above=flat,below=diagonal,facing=north,half=bottom,shape=straight": {
@@ -570,21 +570,21 @@
       "y": 270
     },
     "above=flat,below=diagonal,facing=north,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=diagonal,facing=north,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "x": 180
     },
     "above=flat,below=diagonal,facing=north,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=diagonal,facing=north,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "x": 180
     },
     "above=flat,below=diagonal,facing=north,half=top,shape=straight": {
@@ -593,17 +593,17 @@
       "y": 270
     },
     "above=flat,below=diagonal,facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat"
     },
     "above=flat,below=diagonal,facing=south,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "y": 90
     },
     "above=flat,below=diagonal,facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat"
     },
     "above=flat,below=diagonal,facing=south,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "y": 90
     },
     "above=flat,below=diagonal,facing=south,half=bottom,shape=straight": {
@@ -611,22 +611,22 @@
       "y": 90
     },
     "above=flat,below=diagonal,facing=south,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=diagonal,facing=south,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=diagonal,facing=south,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=diagonal,facing=south,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "x": 180,
       "y": 180
     },
@@ -636,19 +636,19 @@
       "y": 90
     },
     "above=flat,below=diagonal,facing=west,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "y": 90
     },
     "above=flat,below=diagonal,facing=west,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "y": 180
     },
     "above=flat,below=diagonal,facing=west,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "y": 90
     },
     "above=flat,below=diagonal,facing=west,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "y": 180
     },
     "above=flat,below=diagonal,facing=west,half=bottom,shape=straight": {
@@ -656,22 +656,22 @@
       "y": 180
     },
     "above=flat,below=diagonal,facing=west,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=diagonal,facing=west,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=diagonal,facing=west,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=diagonal,facing=west,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal_above_flat",
       "x": 180,
       "y": 270
     },
@@ -681,37 +681,37 @@
       "y": 180
     },
     "above=flat,below=flat,facing=east,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "y": 270
     },
     "above=flat,below=flat,facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat"
     },
     "above=flat,below=flat,facing=east,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "y": 270
     },
     "above=flat,below=flat,facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat"
     },
     "above=flat,below=flat,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spruce_log_bridge_stairs_below_flat_above_flat"
     },
     "above=flat,below=flat,facing=east,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "x": 180
     },
     "above=flat,below=flat,facing=east,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=flat,facing=east,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "x": 180
     },
     "above=flat,below=flat,facing=east,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "x": 180,
       "y": 90
     },
@@ -720,19 +720,19 @@
       "x": 180
     },
     "above=flat,below=flat,facing=north,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "y": 180
     },
     "above=flat,below=flat,facing=north,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "y": 270
     },
     "above=flat,below=flat,facing=north,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "y": 180
     },
     "above=flat,below=flat,facing=north,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "y": 270
     },
     "above=flat,below=flat,facing=north,half=bottom,shape=straight": {
@@ -740,21 +740,21 @@
       "y": 270
     },
     "above=flat,below=flat,facing=north,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=flat,facing=north,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "x": 180
     },
     "above=flat,below=flat,facing=north,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=flat,facing=north,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "x": 180
     },
     "above=flat,below=flat,facing=north,half=top,shape=straight": {
@@ -763,17 +763,17 @@
       "y": 270
     },
     "above=flat,below=flat,facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat"
     },
     "above=flat,below=flat,facing=south,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "y": 90
     },
     "above=flat,below=flat,facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat"
     },
     "above=flat,below=flat,facing=south,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "y": 90
     },
     "above=flat,below=flat,facing=south,half=bottom,shape=straight": {
@@ -781,22 +781,22 @@
       "y": 90
     },
     "above=flat,below=flat,facing=south,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=flat,facing=south,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=flat,facing=south,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=flat,facing=south,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "x": 180,
       "y": 180
     },
@@ -806,19 +806,19 @@
       "y": 90
     },
     "above=flat,below=flat,facing=west,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "y": 90
     },
     "above=flat,below=flat,facing=west,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "y": 180
     },
     "above=flat,below=flat,facing=west,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "y": 90
     },
     "above=flat,below=flat,facing=west,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "y": 180
     },
     "above=flat,below=flat,facing=west,half=bottom,shape=straight": {
@@ -826,22 +826,22 @@
       "y": 180
     },
     "above=flat,below=flat,facing=west,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=flat,facing=west,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=flat,facing=west,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=flat,facing=west,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat_above_flat",
       "x": 180,
       "y": 270
     },
@@ -851,37 +851,37 @@
       "y": 180
     },
     "above=flat,below=none,facing=east,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "y": 270
     },
     "above=flat,below=none,facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat"
     },
     "above=flat,below=none,facing=east,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "y": 270
     },
     "above=flat,below=none,facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat"
     },
     "above=flat,below=none,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spruce_log_bridge_stairs_above_flat"
     },
     "above=flat,below=none,facing=east,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "x": 180
     },
     "above=flat,below=none,facing=east,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=none,facing=east,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "x": 180
     },
     "above=flat,below=none,facing=east,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "x": 180,
       "y": 90
     },
@@ -890,19 +890,19 @@
       "x": 180
     },
     "above=flat,below=none,facing=north,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "y": 180
     },
     "above=flat,below=none,facing=north,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "y": 270
     },
     "above=flat,below=none,facing=north,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "y": 180
     },
     "above=flat,below=none,facing=north,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "y": 270
     },
     "above=flat,below=none,facing=north,half=bottom,shape=straight": {
@@ -910,21 +910,21 @@
       "y": 270
     },
     "above=flat,below=none,facing=north,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=none,facing=north,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "x": 180
     },
     "above=flat,below=none,facing=north,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=none,facing=north,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "x": 180
     },
     "above=flat,below=none,facing=north,half=top,shape=straight": {
@@ -933,17 +933,17 @@
       "y": 270
     },
     "above=flat,below=none,facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat"
     },
     "above=flat,below=none,facing=south,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "y": 90
     },
     "above=flat,below=none,facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat"
     },
     "above=flat,below=none,facing=south,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "y": 90
     },
     "above=flat,below=none,facing=south,half=bottom,shape=straight": {
@@ -951,22 +951,22 @@
       "y": 90
     },
     "above=flat,below=none,facing=south,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=none,facing=south,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=none,facing=south,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "x": 180,
       "y": 90
     },
     "above=flat,below=none,facing=south,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "x": 180,
       "y": 180
     },
@@ -976,19 +976,19 @@
       "y": 90
     },
     "above=flat,below=none,facing=west,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "y": 90
     },
     "above=flat,below=none,facing=west,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "y": 180
     },
     "above=flat,below=none,facing=west,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "y": 90
     },
     "above=flat,below=none,facing=west,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "y": 180
     },
     "above=flat,below=none,facing=west,half=bottom,shape=straight": {
@@ -996,22 +996,22 @@
       "y": 180
     },
     "above=flat,below=none,facing=west,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=none,facing=west,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_above_flat",
       "x": 180,
       "y": 270
     },
     "above=flat,below=none,facing=west,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "x": 180,
       "y": 180
     },
     "above=flat,below=none,facing=west,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_above_flat",
       "x": 180,
       "y": 270
     },
@@ -1021,37 +1021,37 @@
       "y": 180
     },
     "above=none,below=diagonal,facing=east,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "y": 270
     },
     "above=none,below=diagonal,facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal"
     },
     "above=none,below=diagonal,facing=east,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "y": 270
     },
     "above=none,below=diagonal,facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal"
     },
     "above=none,below=diagonal,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spruce_log_bridge_stairs_below_diagonal"
     },
     "above=none,below=diagonal,facing=east,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "x": 180
     },
     "above=none,below=diagonal,facing=east,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "x": 180,
       "y": 90
     },
     "above=none,below=diagonal,facing=east,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "x": 180
     },
     "above=none,below=diagonal,facing=east,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "x": 180,
       "y": 90
     },
@@ -1060,19 +1060,19 @@
       "x": 180
     },
     "above=none,below=diagonal,facing=north,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "y": 180
     },
     "above=none,below=diagonal,facing=north,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "y": 270
     },
     "above=none,below=diagonal,facing=north,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "y": 180
     },
     "above=none,below=diagonal,facing=north,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "y": 270
     },
     "above=none,below=diagonal,facing=north,half=bottom,shape=straight": {
@@ -1080,21 +1080,21 @@
       "y": 270
     },
     "above=none,below=diagonal,facing=north,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "x": 180,
       "y": 270
     },
     "above=none,below=diagonal,facing=north,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "x": 180
     },
     "above=none,below=diagonal,facing=north,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "x": 180,
       "y": 270
     },
     "above=none,below=diagonal,facing=north,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "x": 180
     },
     "above=none,below=diagonal,facing=north,half=top,shape=straight": {
@@ -1103,17 +1103,17 @@
       "y": 270
     },
     "above=none,below=diagonal,facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal"
     },
     "above=none,below=diagonal,facing=south,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "y": 90
     },
     "above=none,below=diagonal,facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal"
     },
     "above=none,below=diagonal,facing=south,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "y": 90
     },
     "above=none,below=diagonal,facing=south,half=bottom,shape=straight": {
@@ -1121,22 +1121,22 @@
       "y": 90
     },
     "above=none,below=diagonal,facing=south,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "x": 180,
       "y": 90
     },
     "above=none,below=diagonal,facing=south,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "x": 180,
       "y": 180
     },
     "above=none,below=diagonal,facing=south,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "x": 180,
       "y": 90
     },
     "above=none,below=diagonal,facing=south,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "x": 180,
       "y": 180
     },
@@ -1146,19 +1146,19 @@
       "y": 90
     },
     "above=none,below=diagonal,facing=west,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "y": 90
     },
     "above=none,below=diagonal,facing=west,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "y": 180
     },
     "above=none,below=diagonal,facing=west,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "y": 90
     },
     "above=none,below=diagonal,facing=west,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "y": 180
     },
     "above=none,below=diagonal,facing=west,half=bottom,shape=straight": {
@@ -1166,22 +1166,22 @@
       "y": 180
     },
     "above=none,below=diagonal,facing=west,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "x": 180,
       "y": 180
     },
     "above=none,below=diagonal,facing=west,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_diagonal",
       "x": 180,
       "y": 270
     },
     "above=none,below=diagonal,facing=west,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "x": 180,
       "y": 180
     },
     "above=none,below=diagonal,facing=west,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_diagonal",
       "x": 180,
       "y": 270
     },
@@ -1191,37 +1191,37 @@
       "y": 180
     },
     "above=none,below=flat,facing=east,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "y": 270
     },
     "above=none,below=flat,facing=east,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat"
     },
     "above=none,below=flat,facing=east,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "y": 270
     },
     "above=none,below=flat,facing=east,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat"
     },
     "above=none,below=flat,facing=east,half=bottom,shape=straight": {
       "model": "marioverse:block/spruce_log_bridge_stairs_below_flat"
     },
     "above=none,below=flat,facing=east,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "x": 180
     },
     "above=none,below=flat,facing=east,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "x": 180,
       "y": 90
     },
     "above=none,below=flat,facing=east,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "x": 180
     },
     "above=none,below=flat,facing=east,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "x": 180,
       "y": 90
     },
@@ -1230,19 +1230,19 @@
       "x": 180
     },
     "above=none,below=flat,facing=north,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "y": 180
     },
     "above=none,below=flat,facing=north,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "y": 270
     },
     "above=none,below=flat,facing=north,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "y": 180
     },
     "above=none,below=flat,facing=north,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "y": 270
     },
     "above=none,below=flat,facing=north,half=bottom,shape=straight": {
@@ -1250,21 +1250,21 @@
       "y": 270
     },
     "above=none,below=flat,facing=north,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "x": 180,
       "y": 270
     },
     "above=none,below=flat,facing=north,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "x": 180
     },
     "above=none,below=flat,facing=north,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "x": 180,
       "y": 270
     },
     "above=none,below=flat,facing=north,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "x": 180
     },
     "above=none,below=flat,facing=north,half=top,shape=straight": {
@@ -1273,17 +1273,17 @@
       "y": 270
     },
     "above=none,below=flat,facing=south,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner"
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat"
     },
     "above=none,below=flat,facing=south,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "y": 90
     },
     "above=none,below=flat,facing=south,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer"
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat"
     },
     "above=none,below=flat,facing=south,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "y": 90
     },
     "above=none,below=flat,facing=south,half=bottom,shape=straight": {
@@ -1291,22 +1291,22 @@
       "y": 90
     },
     "above=none,below=flat,facing=south,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "x": 180,
       "y": 90
     },
     "above=none,below=flat,facing=south,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "x": 180,
       "y": 180
     },
     "above=none,below=flat,facing=south,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "x": 180,
       "y": 90
     },
     "above=none,below=flat,facing=south,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "x": 180,
       "y": 180
     },
@@ -1316,19 +1316,19 @@
       "y": 90
     },
     "above=none,below=flat,facing=west,half=bottom,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "y": 90
     },
     "above=none,below=flat,facing=west,half=bottom,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "y": 180
     },
     "above=none,below=flat,facing=west,half=bottom,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "y": 90
     },
     "above=none,below=flat,facing=west,half=bottom,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "y": 180
     },
     "above=none,below=flat,facing=west,half=bottom,shape=straight": {
@@ -1336,22 +1336,22 @@
       "y": 180
     },
     "above=none,below=flat,facing=west,half=top,shape=inner_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "x": 180,
       "y": 180
     },
     "above=none,below=flat,facing=west,half=top,shape=inner_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_inner",
+      "model": "marioverse:block/spruce_log_bridge_stairs_inner_below_flat",
       "x": 180,
       "y": 270
     },
     "above=none,below=flat,facing=west,half=top,shape=outer_left": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "x": 180,
       "y": 180
     },
     "above=none,below=flat,facing=west,half=top,shape=outer_right": {
-      "model": "marioverse:block/spruce_log_bridge_stairs_outer",
+      "model": "marioverse:block/spruce_log_bridge_stairs_outer_below_flat",
       "x": 180,
       "y": 270
     },

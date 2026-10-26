@@ -242,41 +242,40 @@ public class LogBridgeStairBlock extends StairBlock implements SimpleWaterlogged
     public static BlockState updateConnections(BlockState state, LevelAccessor level, BlockPos pos) {
         if (state == null || !(state.getBlock() instanceof LogBridgeStairBlock))
             return state;
-        if (state.getValue(SHAPE) != StairsShape.STRAIGHT)
-            return state.setValue(ABOVE, ConnectionBlockStates.NONE).setValue(BELOW, ConnectionBlockStates.NONE);
 
-        Direction facing = state.getValue(FACING);
-        int dy = state.getValue(HALF) == Half.BOTTOM ? 1 : -1;
-
-        return state.setValue(ABOVE, LogBridgeStairBlock.ropeEnd(state, level, pos, facing, dy))
-                .setValue(BELOW, LogBridgeStairBlock.ropeEnd(state, level, pos, facing.getOpposite(), -dy));
+        return state.setValue(ABOVE, LogBridgeStairBlock.ropeEnd(state, level, pos,
+                        LogBridgeStairBlock.ropeEndDirection(state, true), LogBridgeStairBlock.ropeEndDy(state, true)))
+                .setValue(BELOW, LogBridgeStairBlock.ropeEnd(state, level, pos,
+                        LogBridgeStairBlock.ropeEndDirection(state, false), LogBridgeStairBlock.ropeEndDy(state, false)));
     }
 
     public static ConnectionBlockStates ropeEnd(BlockState state, LevelAccessor level, BlockPos pos, Direction direction, int dy) {
         BlockPos sidePos = pos.relative(direction);
-        if (LogBridgeBlock.alignsWith(level.getBlockState(sidePos), direction, dy > 0 ? HalfBlockStates.TOP : HalfBlockStates.BOTTOM)
+        BlockState sideState = level.getBlockState(sidePos);
+        if (LogBridgeBlock.alignsWith(sideState, direction, dy > 0 ? HalfBlockStates.TOP : HalfBlockStates.BOTTOM)
+                || LogBridgeStairBlock.ropeDy(sideState, direction.getOpposite()) == dy
                 || Block.canSupportCenter(level, sidePos, direction.getOpposite()))
             return ConnectionBlockStates.FLAT;
 
         BlockState diagonalState = level.getBlockState(sidePos.above(dy));
-        if (LogBridgeStairBlock.continuesStair(state, diagonalState)
+        if (LogBridgeStairBlock.ropeDy(diagonalState, direction.getOpposite()) == -dy
                 || LogBridgeBlock.alignsWith(diagonalState, direction, dy > 0 ? HalfBlockStates.BOTTOM : HalfBlockStates.TOP))
             return ConnectionBlockStates.DIAGONAL;
         return ConnectionBlockStates.NONE;
     }
 
     public static boolean ropeReaches(BlockState state, LevelAccessor level, BlockPos pos, BlockPos targetPos) {
-        if (!(state.getBlock() instanceof LogBridgeStairBlock) || state.getValue(SHAPE) != StairsShape.STRAIGHT)
+        if (!(state.getBlock() instanceof LogBridgeStairBlock))
             return false;
 
-        Direction facing = state.getValue(FACING);
-        int dy = state.getValue(HALF) == Half.BOTTOM ? 1 : -1;
-
-        return LogBridgeStairBlock.ropeEndReaches(state, level, pos, facing, dy, targetPos)
-                || LogBridgeStairBlock.ropeEndReaches(state, level, pos, facing.getOpposite(), -dy, targetPos);
+        return LogBridgeStairBlock.ropeEndReaches(state, level, pos, true, targetPos)
+                || LogBridgeStairBlock.ropeEndReaches(state, level, pos, false, targetPos);
     }
 
-    public static boolean ropeEndReaches(BlockState state, LevelAccessor level, BlockPos pos, Direction direction, int dy, BlockPos targetPos) {
+    public static boolean ropeEndReaches(BlockState state, LevelAccessor level, BlockPos pos, boolean above, BlockPos targetPos) {
+        Direction direction = LogBridgeStairBlock.ropeEndDirection(state, above);
+        int dy = LogBridgeStairBlock.ropeEndDy(state, above);
+
         return switch (LogBridgeStairBlock.ropeEnd(state, level, pos, direction, dy)) {
             case FLAT -> pos.relative(direction).equals(targetPos);
             case DIAGONAL -> pos.relative(direction).above(dy).equals(targetPos);
@@ -284,11 +283,45 @@ public class LogBridgeStairBlock extends StairBlock implements SimpleWaterlogged
         };
     }
 
-    public static boolean continuesStair(BlockState state, BlockState neighborState) {
-        return neighborState.getBlock() instanceof LogBridgeStairBlock
-                && neighborState.getValue(FACING) == state.getValue(FACING)
-                && neighborState.getValue(HALF) == state.getValue(HALF)
-                && neighborState.getValue(SHAPE) == StairsShape.STRAIGHT;
+    public static int ropeDy(BlockState state, Direction direction) {
+        if (!(state.getBlock() instanceof LogBridgeStairBlock))
+            return 0;
+        if (LogBridgeStairBlock.ropeEndDirection(state, true) == direction)
+            return LogBridgeStairBlock.ropeEndDy(state, true);
+        if (LogBridgeStairBlock.ropeEndDirection(state, false) == direction)
+            return LogBridgeStairBlock.ropeEndDy(state, false);
+        return 0;
+    }
+
+    public static Direction ropeEndDirection(BlockState state, boolean above) {
+        StairsShape shape = state.getValue(SHAPE);
+        Half half = state.getValue(HALF);
+        Direction direction = switch (shape) {
+            case STRAIGHT -> above ? Direction.EAST : Direction.WEST;
+            case OUTER_LEFT, OUTER_RIGHT -> above ? Direction.NORTH : Direction.WEST;
+            case INNER_LEFT, INNER_RIGHT -> above ? Direction.EAST : Direction.SOUTH;
+        };
+
+        if (half == Half.TOP && direction.getAxis() == Direction.Axis.Z)
+            direction = direction.getOpposite();
+
+        int yRot = (int) state.getValue(FACING).getClockWise().toYRot();
+        if (shape == StairsShape.INNER_LEFT || shape == StairsShape.OUTER_LEFT)
+            yRot += 270;
+        if (shape != StairsShape.STRAIGHT && half == Half.TOP)
+            yRot += 90;
+
+        for (int i = 0; i < (yRot % 360) / 90; i++)
+            direction = direction.getClockWise();
+        return direction;
+    }
+
+    public static int ropeEndDy(BlockState state, boolean above) {
+        StairsShape shape = state.getValue(SHAPE);
+        boolean rises = shape == StairsShape.STRAIGHT ? above : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT;
+        int dy = rises ? 1 : -1;
+
+        return state.getValue(HALF) == Half.BOTTOM ? dy : -dy;
     }
 
     public static void refreshDiagonalNeighbors(Level level, BlockPos pos) {

@@ -1709,62 +1709,52 @@ public class BlockStateGen extends BlockStateProvider {
                                          ResourceLocation ropeTexture, ResourceLocation ropeSideTexture, ResourceLocation ropeKnotTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        Map<String, ModelFile> straightModels = new HashMap<>();
+        Map<String, ModelFile> stairModels = new HashMap<>();
 
-        for (ConnectionBlockStates below : ConnectionBlockStates.values()) {
-            for (ConnectionBlockStates above : ConnectionBlockStates.values()) {
-                String suffix = this.ropeSuffix("below", below, "above", above);
-                straightModels.put(suffix, models()
-                        .withExistingParent(modelName + suffix, modLoc("block/template_bamboo_bridge_stairs" + suffix))
-                        .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
-                        .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture));
+        for (String shape : new String[]{"", "_inner", "_outer"}) {
+            for (ConnectionBlockStates below : ConnectionBlockStates.values()) {
+                for (ConnectionBlockStates above : ConnectionBlockStates.values()) {
+                    String suffix = shape + this.ropeSuffix("below", below, "above", above);
+                    BlockModelBuilder model = models()
+                            .withExistingParent(modelName + suffix, modLoc("block/template_bamboo_bridge_stairs" + suffix))
+                            .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
+                            .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+
+                    if (!shape.isEmpty())
+                        model.texture("rope_knot", ropeKnotTexture);
+                    stairModels.put(suffix, model);
+                }
             }
         }
 
-        ModelFile modelInner = models()
-                .withExistingParent(modelName + "_inner", modLoc("block/template_bamboo_bridge_stairs_inner"))
-                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
-                .texture("rope_knot", ropeKnotTexture);
-        ModelFile modelOuter = models()
-                .withExistingParent(modelName + "_outer", modLoc("block/template_bamboo_bridge_stairs_outer"))
-                .texture("side", sideTexture).texture("top", topTexture).texture("bridge_side", sideBridgeTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
-                .texture("rope_knot", ropeKnotTexture);
-
-        this.simpleBlockItem(block, straightModels.get(""));
-        this.bridgeStairsBlockState(block, straightModels, modelInner, modelOuter);
+        this.simpleBlockItem(block, stairModels.get(""));
+        this.bridgeStairsBlockState(block, stairModels);
     }
 
     private void bridgeStairsModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture,
                                    ResourceLocation ropeTexture, ResourceLocation ropeSideTexture, ResourceLocation ropeKnotTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        Map<String, ModelFile> straightModels = new HashMap<>();
+        Map<String, ModelFile> stairModels = new HashMap<>();
 
-        for (ConnectionBlockStates below : ConnectionBlockStates.values()) {
-            for (ConnectionBlockStates above : ConnectionBlockStates.values()) {
-                String suffix = this.ropeSuffix("below", below, "above", above);
-                straightModels.put(suffix, models()
-                        .withExistingParent(modelName + suffix, modLoc("block/template_log_bridge_stairs" + suffix))
-                        .texture("side", sideTexture).texture("top", topTexture)
-                        .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture));
+        for (String shape : new String[]{"", "_inner", "_outer"}) {
+            for (ConnectionBlockStates below : ConnectionBlockStates.values()) {
+                for (ConnectionBlockStates above : ConnectionBlockStates.values()) {
+                    String suffix = shape + this.ropeSuffix("below", below, "above", above);
+                    BlockModelBuilder model = models()
+                            .withExistingParent(modelName + suffix, modLoc("block/template_log_bridge_stairs" + suffix))
+                            .texture("side", sideTexture).texture("top", topTexture)
+                            .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture);
+
+                    if (!shape.isEmpty())
+                        model.texture("rope_knot", ropeKnotTexture);
+                    stairModels.put(suffix, model);
+                }
             }
         }
 
-        ModelFile modelInner = models()
-                .withExistingParent(modelName + "_inner", modLoc("block/template_log_bridge_stairs_inner"))
-                .texture("side", sideTexture).texture("top", topTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
-                .texture("rope_knot", ropeKnotTexture);
-        ModelFile modelOuter = models()
-                .withExistingParent(modelName + "_outer", modLoc("block/template_log_bridge_stairs_outer"))
-                .texture("side", sideTexture).texture("top", topTexture)
-                .texture("rope", ropeTexture).texture("rope_side", ropeSideTexture)
-                .texture("rope_knot", ropeKnotTexture);
-
-        this.simpleBlockItem(block, straightModels.get(""));
-        this.bridgeStairsBlockState(block, straightModels, modelInner, modelOuter);
+        this.simpleBlockItem(block, stairModels.get(""));
+        this.bridgeStairsBlockState(block, stairModels);
     }
 
     private void coralTowerModel(Block block, ResourceLocation crossTexture) {
@@ -3747,7 +3737,7 @@ public class BlockStateGen extends BlockStateProvider {
         }, BridgeBlock.WATERLOGGED);
     }
 
-    private void bridgeStairsBlockState(Block block, Map<String, ModelFile> straightModels, ModelFile modelInner, ModelFile modelOuter) {
+    private void bridgeStairsBlockState(Block block, Map<String, ModelFile> stairModels) {
         this.getVariantBuilder(block)
                 .forAllStatesExcept(state -> {
                     Direction facing = state.getValue(StairBlock.FACING);
@@ -3761,12 +3751,12 @@ public class BlockStateGen extends BlockStateProvider {
                         yRot += 90;
                     yRot %= 360;
 
-                    ModelFile model = shape == StairsShape.STRAIGHT
-                            ? straightModels.get(this.ropeSuffix("below", state.getValue(LogBridgeStairBlock.BELOW),
-                                    "above", state.getValue(LogBridgeStairBlock.ABOVE)))
-                            : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? modelInner : modelOuter;
+                    String shapeSuffix = shape == StairsShape.STRAIGHT
+                            ? "" : shape == StairsShape.INNER_LEFT || shape == StairsShape.INNER_RIGHT ? "_inner" : "_outer";
+                    String ropeSuffix = this.ropeSuffix("below", state.getValue(LogBridgeStairBlock.BELOW),
+                            "above", state.getValue(LogBridgeStairBlock.ABOVE));
 
-                    return ConfiguredModel.builder().modelFile(model)
+                    return ConfiguredModel.builder().modelFile(stairModels.get(shapeSuffix + ropeSuffix))
                             .rotationX(half == Half.BOTTOM ? 0 : 180).rotationY(yRot).uvLock(false).build();
                 }, StairBlock.WATERLOGGED);
     }
