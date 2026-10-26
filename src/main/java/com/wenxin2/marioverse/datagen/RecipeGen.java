@@ -697,6 +697,7 @@ public class RecipeGen extends RecipeUtils {
 
             dyeItemRecipe(1, "parkour_blocks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.NORMAL_PARKOUR_BLOCK_ITEMS, false, output);
             parkourBlockRecipe(4, entry.getValue(), TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER, dyeItemTag, output);
+            stonecutting(1, entry.getValue(), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.get(dyeColor), output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.entrySet()) {
