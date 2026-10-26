@@ -835,8 +835,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
         for (Entity entity : entities) {
             boolean controlledLocally = entity instanceof Player player ? player.isLocalPlayer() : !this.level().isClientSide;
-            if (controlledLocally && !entity.isRemoved())
+            if (controlledLocally && !entity.isRemoved()) {
+                boolean wasOnGround = entity.onGround();
                 entity.move(MoverType.SHULKER, movement);
+                entity.setOnGround(wasOnGround || entity.onGround());
+            }
         }
     }
 
