@@ -20,6 +20,7 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.PorcupufferEntity;
+import com.wenxin2.marioverse.entities.ai.goals.BeePollinatesEntityGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ChaseTargetGoal;
 import com.wenxin2.marioverse.entities.ai.goals.CollectBlockGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
@@ -87,6 +88,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
@@ -306,6 +308,9 @@ public class MarioverseEventHandlers {
                 }
             } else entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
         }
+
+        if (entity instanceof Bee bee && !bee.level().isClientSide)
+            bee.goalSelector.addGoal(5, new BeePollinatesEntityGoal(bee, 5.0));
 
         if (entity instanceof Mob mob) {
             if (mob.getType().is(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)

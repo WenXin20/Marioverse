@@ -5,6 +5,8 @@
   "refmap": "marioverse.refmap.json",
   "minVersion": "0.8",
   "mixins": [
+    "BeeAccessor",
+    "BeePollinateGoalAccessor",
     "BlockMixin",
     "BlockStateBaseMixin",
     "ContainersMixin",

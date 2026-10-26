@@ -101,6 +101,10 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(EntityTypeTags.UNDEAD)
                 .add(EntityRegistry.BOO.get());
 
+        tag(TagRegistry.BEE_CAN_POLLINATE)
+                .add(EntityRegistry.FIRE_FLOWER.get())
+                .add(EntityRegistry.ICE_FLOWER.get());
+
         tag(TagRegistry.BOO_CAN_ATTACK)
                 .add(EntityType.PLAYER);
 

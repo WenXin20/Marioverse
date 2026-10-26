@@ -99,6 +99,7 @@
 - Improved log bridges and log bridge stairs
 - Improved riding ice cubes, mobs & players can now move with it when it slides
 - Improved ice cube texture
+- Bees can collect pollen from power up flowers
 - Changed pipe junction recipe
 - Fixed flammability of Log Stairs
 - Fixed Supplementaries soap not working with some dyed blocks
