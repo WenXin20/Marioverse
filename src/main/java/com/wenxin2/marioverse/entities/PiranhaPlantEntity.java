@@ -591,7 +591,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
 
     @Override
     public boolean isPushable() {
-        return true;
+        return this.getAttachedSide() == null;
     }
 
     @Override
