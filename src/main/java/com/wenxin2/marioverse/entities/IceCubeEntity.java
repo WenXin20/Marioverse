@@ -42,6 +42,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -177,7 +178,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Override
     public void tick() {
+        List<Entity> entitiesOnTop = this.getEntitiesOnTop();
+        Vec3 previousPosition = this.position();
         super.tick();
+        Vec3 movement = this.position().subtract(previousPosition);
+        this.carryEntitiesOnTop(entitiesOnTop, movement);
         Level world = this.level();
 
         if (!this.leftOwner)
@@ -194,8 +199,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (!this.onGround() && this.getTicksInAir() > 0)
             this.setTicksInAir(this.getTicksInAir() - 1);
 
-        if (this.getDeltaMovement().horizontalDistance() > 0.1)
-            this.spawnSnowParticles();
+        if (movement.horizontalDistance() > 0.1)
+            this.spawnSnowParticles(movement);
 
         if (this.getFrozenEntityData() != null && !this.dimensionsInitialized) {
             float height = this.getFrozenEntityData().getFloat("Height") * 1.55F;
@@ -818,17 +823,57 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         }
     }
 
+    private List<Entity> getEntitiesOnTop() {
+        AABB box = this.getBoundingBox();
+        AABB topBox = new AABB(box.minX, box.maxY - 0.1, box.minZ, box.maxX, box.maxY + 0.1, box.maxZ);
+        return this.level().getEntities(this, topBox, this::isEntityOnTop);
+    }
+
+    private void carryEntitiesOnTop(List<Entity> entities, Vec3 movement) {
+        if (movement.lengthSqr() < 1.0E-7)
+            return;
+
+        for (Entity entity : entities) {
+            boolean controlledLocally = entity instanceof Player player ? player.isLocalPlayer() : !this.level().isClientSide;
+            if (controlledLocally && !entity.isRemoved())
+                entity.move(MoverType.SHULKER, movement);
+        }
+    }
+
+    public boolean isEntityOnTop(Entity entity) {
+        AABB box = entity.getBoundingBox();
+        AABB iceCubeBox = this.getBoundingBox();
+        return entity != this && !entity.isPassenger() && !entity.noPhysics && !entity.isSpectator()
+                && Math.abs(box.minY - iceCubeBox.maxY) <= 0.1
+                && box.maxX > iceCubeBox.minX && box.minX < iceCubeBox.maxX
+                && box.maxZ > iceCubeBox.minZ && box.minZ < iceCubeBox.maxZ;
+    }
+
+    public boolean isStill() {
+        return Mth.lengthSquared(this.getX() - this.xo, this.getZ() - this.zo) < 1.0E-6;
+    }
+
+    public static boolean isStandingOnStillIceCube(Entity entity) {
+        if (!entity.onGround())
+            return false;
+
+        AABB box = entity.getBoundingBox();
+        AABB feetBox = new AABB(box.minX, box.minY - 0.1, box.minZ, box.maxX, box.minY + 0.1, box.maxZ);
+        return !entity.level().getEntitiesOfClass(IceCubeEntity.class, feetBox,
+                iceCube -> iceCube.isEntityOnTop(entity) && iceCube.isStill()).isEmpty();
+    }
+
     private boolean isOnSolidGround() {
         BlockPos posBelow = this.blockPosition().below();
         return this.level().getBlockState(posBelow).isSolidRender(this.level(), posBelow);
     }
 
-    protected void spawnSnowParticles() {
+    protected void spawnSnowParticles(Vec3 movement) {
         BlockPos posLegacy = this.getOnPosLegacy();
         BlockState state = this.level().getBlockState(posLegacy);
         if (!state.addRunningEffects(this.level(), posLegacy, this)) {
             if (state.getRenderShape() != RenderShape.INVISIBLE) {
-                Vec3 vec3 = this.getDeltaMovement();
+                Vec3 vec3 = movement;
                 BlockPos pos = this.blockPosition();
                 double x = this.getX() + (this.random.nextDouble() - 0.5) * this.getSize().x;
                 double z = this.getZ() + (this.random.nextDouble() - 0.5) * this.getSize().x;

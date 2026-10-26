@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
@@ -37,7 +36,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
@@ -177,8 +175,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             this.playStepSound(pos, state);
             this.nextStep = this.nextStep();
         }
-
-        mv$rideIceCube(entity);
 
         for (Direction facing : Direction.values()) {
             BlockPos posOffset = pos.relative(facing);
@@ -380,30 +376,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
         AttributeMap attributemap = livingEntity.getAttributes();
         return attributemap == null ? 1.0F : this.mv$sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
-    }
-
-    @Unique
-    private static void mv$rideIceCube(Entity entity) {
-        Entity belowEntity = null;
-        for (Entity e : entity.level().getEntities(entity, entity.getBoundingBox().move(0, -1, 0))) {
-            if (e instanceof IceCubeEntity) {
-                belowEntity = e;
-                break;
-            }
-        }
-
-        if (belowEntity instanceof IceCubeEntity iceCube) {
-            Vec3 iceMovement = iceCube.getDeltaMovement();
-
-            if (!iceMovement.equals(Vec3.ZERO)) {
-                entity.setDeltaMovement(iceMovement.x, 0, iceMovement.z);
-                entity.move(MoverType.SELF, iceMovement);
-
-                if (entity instanceof Mob mob) {
-                    mob.getNavigation().stop();
-                }
-            }
-        }
     }
 
     @Unique
