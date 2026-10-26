@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_magenta_parkour_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:magenta_parkour_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:magenta_rhombus_parkour_block_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_magenta_parkour_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:magenta_rhombus_parkour_block_stonecutting"
+    ]
+  }
+}
