@@ -334,7 +334,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Override
     public void push(Entity entity) {
-        if (!(entity instanceof IceCubeEntity)) {
+        if (!(entity instanceof IceCubeEntity) && !this.isEntityOnTop(entity)) {
             if (!entity.noPhysics && !this.noPhysics) {
                 double d0 = entity.getX() - this.getX();
                 double d1 = entity.getZ() - this.getZ();
@@ -846,8 +846,9 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     public boolean isEntityOnTop(Entity entity) {
         AABB box = entity.getBoundingBox();
         AABB iceCubeBox = this.getBoundingBox();
+        double overlapTolerance = 0.1 + Math.abs(this.getY() - this.yo);
         return entity != this && !entity.isPassenger() && !entity.noPhysics && !entity.isSpectator()
-                && Math.abs(box.minY - iceCubeBox.maxY) <= 0.1
+                && box.minY >= iceCubeBox.maxY - overlapTolerance && box.minY <= iceCubeBox.maxY + 0.1
                 && box.maxX > iceCubeBox.minX && box.minX < iceCubeBox.maxX
                 && box.maxZ > iceCubeBox.minZ && box.minZ < iceCubeBox.maxZ;
     }
