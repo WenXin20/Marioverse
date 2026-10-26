@@ -1746,11 +1746,13 @@ public class BlockRegistry {
 
         MUSHROOT_LOG_PLATFORM = registerBlock("mushroot_log_platform",
                 () -> new LogPlatformBlock(BlockRegistry.MUSHROOT_LOG.get(), BlockBehaviour.Properties
-                        .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
+                        .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)
+                        .isSuffocating(BlockRegistry::never)));
 
         STRIPPED_MUSHROOT_LOG_PLATFORM = registerBlock("stripped_mushroot_log_platform",
                 () -> new LogPlatformBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), BlockBehaviour.Properties
-                        .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
+                        .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)
+                        .isSuffocating(BlockRegistry::never)));
 
         MUSHROOT_BOARDS = registerBlock("mushroot_boards",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())));
@@ -1896,11 +1898,13 @@ public class BlockRegistry {
 
         SPOOKROOT_LOG_PLATFORM = registerBlock("spookroot_log_platform",
                 () -> new LogPlatformBlock(BlockRegistry.SPOOKROOT_LOG.get(), BlockBehaviour.Properties
-                        .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.COLOR_LIGHT_GRAY)));
+                        .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.COLOR_LIGHT_GRAY)
+                        .isSuffocating(BlockRegistry::never)));
 
         STRIPPED_SPOOKROOT_LOG_PLATFORM = registerBlock("stripped_spookroot_log_platform",
                 () -> new LogPlatformBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), BlockBehaviour.Properties
-                        .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.METAL)));
+                        .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.METAL)
+                        .isSuffocating(BlockRegistry::never)));
 
         SPOOKROOT_BOARDS = registerBlock("spookroot_boards",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())));
