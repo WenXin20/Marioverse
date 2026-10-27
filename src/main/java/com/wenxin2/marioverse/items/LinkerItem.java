@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
@@ -47,6 +48,7 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 
@@ -284,6 +286,10 @@ public class LinkerItem extends TieredItem {
     }
 
     public void clearItemComponents(ItemStack stack) {
+        stack.remove(DataComponentRegistry.WARP_BLOCK.get());
+        stack.remove(DataComponentRegistry.WARP_BLOCK_TYPE.get());
+        stack.remove(DataComponentRegistry.WARP_ENTITY.get());
+        stack.remove(DataComponentRegistry.WARP_PAINTING.get());
         setWarpPos(stack, null);
         setWarpDimension(stack, "");
         setWarpUUID(stack, null);
@@ -448,6 +454,10 @@ public class LinkerItem extends TieredItem {
                                             target.getName(), ConfigRegistry.WARP_PAINTING_FUEL_AMT.getAsInt() - target.getData(DataAttachmentRegistry.WARP_FUEL_COUNT.get()))
                                     .withStyle(ChatFormatting.RED).withStyle(ChatFormatting.BOLD), true);
                         } else if (!getIsBound(stack)) {
+                            stack.remove(DataComponentRegistry.WARP_ENTITY.get());
+                            stack.remove(DataComponentRegistry.WARP_PAINTING.get());
+                            Marioverse.LOGGER.info("[Marioverse link debug] bound {} uuid={} at {} in {}", target, uuid, target.position(), level.dimension().location());
+
                             if (target instanceof Painting painting) {
                                 int width = painting.getVariant().value().width();
                                 Direction direction = target.getDirection();
@@ -505,6 +515,8 @@ public class LinkerItem extends TieredItem {
                             UUID warpUUID = getWarpUUID(stack);
                             //  if (dimension.equals(getWarpDimension(stack))) {
                             Entity warpEntity = LinkerItem.findEntity(serverWorld, warpUUID);
+                            Marioverse.LOGGER.info("[Marioverse link debug] linking {} to stored uuid={} pos={} found={} matchingNearPos={}", target, warpUUID, warpPos, warpEntity,
+                                    warpPos == null || warpUUID == null ? "n/a" : serverWorld.getEntities((Entity) null, new AABB(warpPos).inflate(3), e -> e.getUUID().equals(warpUUID)));
                             if (warpEntity == null) {
                                 WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(warpUUID);
                                 if (warpTarget != null)

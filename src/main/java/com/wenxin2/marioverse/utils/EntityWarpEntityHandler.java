@@ -29,6 +29,7 @@ public interface EntityWarpEntityHandler {
         List<Entity> nearbyEntities = world.getEntitiesOfClass(Entity.class, entity.getBoundingBox().inflate(0.1, 0, 0.1));
         for (Entity warpEntity : nearbyEntities) {
             if (warpEntity != entity && warpEntity.isAlive() && warpEntity instanceof WarpLinkableEntity linkableEntity
+                    && linkableEntity.mv$getWarpUUID() != null
                     && !warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get())) {
                 int entityId = entity.getId();
 
@@ -36,8 +37,8 @@ public interface EntityWarpEntityHandler {
                     WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
 
                 this.enterWarpPainting(entity, world, linkableEntity, warpEntity);
+                break;
             }
-            break;
         }
     }
 
