@@ -198,6 +198,35 @@ public interface BlockWarpEntityHandler {
     default void warp(Entity entity, Level level, BlockPos pos, BlockState state, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
         float pitch = 1.0F + level.random.nextFloat() * 0.2F;
 
+        if (ModList.get().isLoaded("sable")) {
+            if (warpBE.destinationSubLevel != null && warpBE.destinationSubLevelPos != null) {
+                if (!(level instanceof ServerLevel serverLevel))
+                    return;
+
+                BlockPos resolvedPos = SableProvider.resolveSubLevelPos(serverLevel, warpBE.destinationSubLevel, warpBE.destinationSubLevelPos);
+
+                if (resolvedPos == null) {
+                    if (SableProvider.queueSubLevelWarp(serverLevel, warpBE.destinationSubLevel, warpBE.destinationSubLevelPos, entity,
+                            () -> this.warp(entity, level, pos, state, warpBE.destinationPos, warpBE))) {
+                        if (entity instanceof Player player)
+                            player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_loading"), true);
+                    } else if (entity instanceof Player player)
+                        BlockWarpEntityHandler.displayDestinationMissingMessage(player);
+                    return;
+                }
+
+                if (!resolvedPos.equals(warpPos)) {
+                    warpBE.destinationPos = resolvedPos;
+                    warpBE.setChanged();
+                    warpPos = resolvedPos;
+                }
+            } else if (warpPos != null && level instanceof ServerLevel) {
+                warpBE.updateDestinationSubLevel(warpPos);
+                if (warpBE.destinationSubLevel != null)
+                    warpBE.setChanged();
+            }
+        }
+
         if (warpPos != null && !(level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
                 && entity instanceof Player player)
             BlockWarpEntityHandler.displayDestinationMissingMessage(player);

@@ -106,6 +106,7 @@
 - Improved riding ice cubes, mobs & players can now move with it when it slides
 - Improved ice cube texture
 - Improved ice cube sliding to slide up stairs and slabs
+- Fixed teleporting to unloaded sublevels via warp pipe
 - Fixed rotation of mobs frozen in the ice cube
 - Fixed ice cubes sometimes freezing client-only & disappearing
 - Fixed getting stuck on floating ice cubes

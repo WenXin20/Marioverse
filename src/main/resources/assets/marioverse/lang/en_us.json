@@ -2563,6 +2563,7 @@
   "display.marioverse.warp_painting_cooldown": "§cPainting warping on cooldown!",
   "display.marioverse.warp_painting_cooldown.ticks": "§cPainting warping on cooldown for §r%1$s §cticks!",
 
+  "display.marioverse.warp_destination_loading": "§eWarp destination is loading...",
   "display.marioverse.warp_destination_missing": "§cWarp destination not found!",
 
   "advancements.marioverse.abilities_galore.description": "Craft all 8 ability blocks",
@@ -2874,6 +2875,7 @@
   "configuration.marioverse.stomp_bounce_height": "Bounce Height",
   "configuration.marioverse.stomp_bounce_height_jump": "Bounce Height when Jumping",
   "configuration.marioverse.stomp_damage": "Damage",
+  "configuration.marioverse.stomp_different_mobs_required": "Stomp Different Mobs for Reward",
   "configuration.marioverse.super_mushroom_health_healed": "Health Healed",
   "configuration.marioverse.super_mushroom_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.super_star_damage": "Damage",
