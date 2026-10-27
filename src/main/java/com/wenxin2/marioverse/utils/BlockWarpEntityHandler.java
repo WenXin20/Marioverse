@@ -232,6 +232,11 @@ public interface BlockWarpEntityHandler {
 
         if (warpPos != null && level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity) {
             BlockState warpState = level.getBlockState(warpPos);
+            int xpCost = WarpXpCost.getCost(entity, level, pos, warpPos, WarpXpCost.getBlockMultiplier(state));
+            Vec3 startPos = entity.position();
+
+            if (!WarpXpCost.canAfford(entity, xpCost))
+                return;
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
                 WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, doorblock, warpBE);
@@ -242,10 +247,16 @@ public interface BlockWarpEntityHandler {
             if (state.getBlock() instanceof WarpPipeBlock)
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
+            WarpXpCost.chargeIfWarped(entity, startPos, xpCost);
         } else if (warpBE.getUUID() != null && warpBE.getWarpUuid() != null
                 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID()) != null) {
             warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID());
             BlockState warpState = level.getBlockState(warpPos);
+            int xpCost = WarpXpCost.getCost(entity, level, pos, warpPos, WarpXpCost.getBlockMultiplier(state));
+            Vec3 startPos = entity.position();
+
+            if (!WarpXpCost.canAfford(entity, xpCost))
+                return;
 
             if (warpState.getBlock() instanceof DoorBlock doorblock)
                 WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, doorblock, warpBE);
@@ -256,6 +267,7 @@ public interface BlockWarpEntityHandler {
             if (state.getBlock() instanceof WarpPipeBlock)
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
+            WarpXpCost.chargeIfWarped(entity, startPos, xpCost);
 
             warpBE.setDestinationPos(warpPos);
             if (level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity destBE)

@@ -20,6 +20,7 @@ import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 
 public interface EntityWarpEntityHandler {
@@ -63,6 +64,29 @@ public interface EntityWarpEntityHandler {
         if (world instanceof ServerLevel serverWorld && warpLinkableEntity.mv$getWarpUUID() != null) {
             UUID warpUUID = warpLinkableEntity.mv$getWarpUUID();
             Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.mv$getWarpUUID());
+            BlockPos xpDestination = null;
+
+            if (warpEntity != null)
+                xpDestination = warpEntity.blockPosition();
+            else if (warpLinkableEntity.mv$getWarpTarget() != null)
+                xpDestination = warpLinkableEntity.mv$getWarpTarget().pos();
+            else if (WarpLinkableEntity.getWarpPos(warpUUID) != null)
+                xpDestination = WarpLinkableEntity.getWarpPos(warpUUID).pos();
+
+            Vec3 enteredPos = warpLinkableEntity instanceof Entity enteredWarp ? enteredWarp.position() : entity.position();
+            boolean isWarpPainting = warpLinkableEntity instanceof Painting
+                    || (warpLinkableEntity instanceof Entity enteredEntity && (enteredEntity.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
+                    || enteredEntity.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
+                    || enteredEntity.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
+                    || enteredEntity.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
+                    || enteredEntity.getType() == CompatRegistry.MAGIC_PAINTING.get()));
+            int xpCost = WarpXpCost.getCost(entity, world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting
+                    ? ConfigRegistry.WARP_PAINTING_XP_COST_MULTIPLIER.get() : ConfigRegistry.WARP_ENTITY_XP_COST_MULTIPLIER.get());
+            Vec3 startPos = entity.position();
+
+            if (!WarpXpCost.canAfford(entity, xpCost))
+                return;
+
             if (warpEntity != null) {
                 boolean isImmersivePainting = warpEntity.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
                         || warpEntity.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
@@ -142,6 +166,8 @@ public interface EntityWarpEntityHandler {
                     }
                 }
             }
+
+            WarpXpCost.chargeIfWarped(entity, startPos, xpCost);
         }
     }
 

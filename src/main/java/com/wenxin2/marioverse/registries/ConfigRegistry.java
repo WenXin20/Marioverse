@@ -269,6 +269,11 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue WARIO_ABILITY_RUNNING_JUMP_BOOST;
     public static ModConfigSpec.DoubleValue WARIO_ABILITY_SAFE_FALL_DISTANCE;
     public static ModConfigSpec.DoubleValue WARIO_ABILITY_WIDTH_SCALE;
+    public static ModConfigSpec.DoubleValue WARP_DOOR_XP_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_ENTITY_XP_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_PAINTING_XP_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_PIPE_XP_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_TRAPDOOR_XP_COST_MULTIPLIER;
 
     public static ModConfigSpec.IntValue BOO_LIGHT_SENSITIVITY;
     public static ModConfigSpec.IntValue BOO_SUN_EXPOSURE_LIMIT;
@@ -774,6 +779,10 @@ public class ConfigRegistry {
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("warp_door_cooldown", 70, 0, 72000);
+                    WARP_DOOR_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_door_xp_cost_multiplier")
+                            .comment("Experience points a player spends per block of distance when teleporting.")
+                            .comment("§6[Set to 0 to disable]")
+                            .defineInRange("warp_door_xp_cost_multiplier", 0.0, 0.0, 100.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PAINTINGS);
@@ -788,6 +797,10 @@ public class ConfigRegistry {
                     WARP_PAINTING_FUEL_AMT = BUILDER.translation("configuration.marioverse.warp_painting_fuel_amt")
                             .comment("Amount of fuel required to create a warp painting.§b")
                             .defineInRange("warp_painting_fuel_amt", 4, 0, 64);
+                    WARP_PAINTING_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_painting_xp_cost_multiplier")
+                            .comment("Experience points a player spends per block of distance when warping.")
+                            .comment("§6[Set to 0 to disable]")
+                            .defineInRange("warp_painting_xp_cost_multiplier", 0.0, 0.0, 100.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PIPES);
@@ -799,6 +812,10 @@ public class ConfigRegistry {
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("warp_pipe_cooldown", 50, 0, 72000);
+                    WARP_PIPE_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_pipe_xp_cost_multiplier")
+                            .comment("Experience points a player spends per block of distance when teleporting")
+                            .comment("§6[Set to 0 to disable]")
+                            .defineInRange("warp_pipe_xp_cost_multiplier", 0.0, 0.0, 100.0);
                     WARP_PIPE_SPAWNS_MOBS = BUILDER.translation("configuration.marioverse.warp_pipe_spawns_mobs")
                             .comment("Allow warp pipes to spawn mobs.")
                             .comment("§9[Default: true]")
@@ -842,6 +859,10 @@ public class ConfigRegistry {
                             .comment("Cooldown between teleports in ticks for trapdoors.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("warp_trapdoor_cooldown", 70, 0, 72000);
+                    WARP_TRAPDOOR_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_trapdoor_xp_cost_multiplier")
+                            .comment("Experience points a player spends per block of distance when teleporting.")
+                            .comment("§6[Set to 0 to disable]")
+                            .defineInRange("warp_trapdoor_xp_cost_multiplier", 0.0, 0.0, 100.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WATER_SPOUTS);
@@ -1458,6 +1479,11 @@ public class ConfigRegistry {
                         .comment("Allow players to teleport.")
                         .comment("§9[Default: true]")
                         .define("teleport_players", true);
+                WARP_ENTITY_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_entity_xp_cost_multiplier")
+                        .comment("Experience points a player spends per block of distance when warping through a linked entity.")
+                        .comment("§6[Set to 0 to disable]")
+                        .comment("§9[Default: 0.0]§b")
+                        .defineInRange("warp_entity_xp_cost_multiplier", 0.0, 0.0, 1000.0);
                 WAX_DISABLES_WARP_LINKING = BUILDER.translation("configuration.marioverse.wax_disables_warp_linking")
                         .comment("Allow waxing warp blocks to disable warp linking.")
                         .comment("§9[Default: true]")
