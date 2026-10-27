@@ -20,6 +20,7 @@ import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.PorcupufferEntity;
+import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.ai.goals.BeePollinatesEntityGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ChaseTargetGoal;
 import com.wenxin2.marioverse.entities.ai.goals.CollectBlockGoal;
@@ -53,6 +54,7 @@ import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
+import com.wenxin2.marioverse.world.PendingWarpLinkSavedData;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -230,6 +232,10 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
+
+        if (entity instanceof WarpLinkableEntity && event.getLevel().getServer() != null)
+            PendingWarpLinkSavedData.get(event.getLevel().getServer()).applyLink(entity);
+
         if (!(entity instanceof LivingEntity)) return;
         CompoundTag tag = entity.getPersistentData();
 

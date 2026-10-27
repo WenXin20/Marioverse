@@ -127,6 +127,10 @@ public class DataComponentRegistry {
             Marioverse.COMPONENTS.register("warp_block", () -> DataComponentType.<WarpTarget>builder()
                     .persistent(WarpTarget.CODEC).networkSynchronized(WarpTarget.STREAM_CODEC).build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> WARP_BLOCK_TYPE =
+            Marioverse.COMPONENTS.register("warp_block_type", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_ENTITY =
             Marioverse.COMPONENTS.register("warp_entity", () -> DataComponentType.<WarpTarget>builder()
                     .persistent(WarpTarget.CODEC).networkSynchronized(WarpTarget.STREAM_CODEC).build());

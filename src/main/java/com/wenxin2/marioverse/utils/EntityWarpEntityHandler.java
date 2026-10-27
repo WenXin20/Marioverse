@@ -75,6 +75,7 @@ public interface EntityWarpEntityHandler {
                     BlockPos basePos = painting.getPos();
 
                     this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
+                    warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
 
                     if (painting.getData(DataAttachmentRegistry.BREAK.get()))
                         painting.discard();
@@ -88,6 +89,7 @@ public interface EntityWarpEntityHandler {
                     BlockPos basePos = blockAttachedEntity.getPos();
 
                     this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
+                    warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
 
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
@@ -101,6 +103,7 @@ public interface EntityWarpEntityHandler {
                     BlockPos basePos = blockAttachedEntity.getPos();
 
                     this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
+                    warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
 
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
@@ -114,7 +117,9 @@ public interface EntityWarpEntityHandler {
                         warpEntity.discard();
                 }
             } else {
-                WarpLinkableEntity.WarpTarget savedTarget = WarpLinkableEntity.getWarpPos(warpUUID);
+                WarpLinkableEntity.WarpTarget savedTarget = warpLinkableEntity.mv$getWarpTarget();
+                if (savedTarget == null)
+                    savedTarget = WarpLinkableEntity.getWarpPos(warpUUID);
 
                 if (savedTarget != null) {
                     BlockPos basePos = savedTarget.pos();

@@ -14,8 +14,10 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import com.wenxin2.marioverse.world.PendingWarpLinkSavedData;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,6 +43,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -260,6 +263,22 @@ public class LinkerItem extends TieredItem {
                 WarpLinkableEntity.setWarpPos(secondUuid, secondPos, dir, width);
             } else WarpLinkableEntity.setWarpPos(secondUuid, secondPos, Direction.NORTH, 1);
 
+            UUID firstUuid = firstEntity != null ? firstEntity.getUUID() : LinkerItem.getWarpUUID(stack);
+            WarpLinkableEntity.WarpTarget firstTarget = firstUuid != null ? WarpLinkableEntity.getWarpPos(firstUuid) : null;
+            WarpLinkableEntity.WarpTarget secondTarget = WarpLinkableEntity.getWarpPos(secondUuid);
+
+            boolean firstIsBlock = stack.has(DataComponentRegistry.WARP_BLOCK.get());
+
+            if (firstTarget != null || firstIsBlock)
+                secondWarpEntity.mv$setWarpTarget(firstTarget);
+            else secondWarpEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(firstPos, Direction.NORTH, 1));
+
+            if (firstEntity instanceof WarpLinkableEntity firstWarpEntity)
+                firstWarpEntity.mv$setWarpTarget(secondTarget);
+            else if (firstUuid != null && !firstIsBlock && secondEntity.getServer() != null)
+                PendingWarpLinkSavedData.get(secondEntity.getServer()).addLink(firstUuid,
+                        new PendingWarpLinkSavedData.PendingLink(secondPos, secondWarpEntity.mv$getDestinationDim(), secondUuid, secondTarget));
+
             clearItemComponents(stack);
         }
     }
@@ -293,6 +312,18 @@ public class LinkerItem extends TieredItem {
     public static void setWarpBlock(ItemStack stack, BlockPos warpPos, BlockState blockState) {
         String blockName = blockState.getBlock().getName().getString();
         stack.set(DataComponentRegistry.WARP_BLOCK.get(), new DataComponentRegistry.WarpTarget(warpPos, blockName));
+
+        if (blockState.getBlock() instanceof WarpPipeBlock)
+            stack.set(DataComponentRegistry.WARP_BLOCK_TYPE.get(), "pipe");
+        else if (blockState.getBlock() instanceof DoorBlock)
+            stack.set(DataComponentRegistry.WARP_BLOCK_TYPE.get(), "door");
+        else if (blockState.getBlock() instanceof TrapDoorBlock)
+            stack.set(DataComponentRegistry.WARP_BLOCK_TYPE.get(), "trapdoor");
+        else stack.remove(DataComponentRegistry.WARP_BLOCK_TYPE.get());
+    }
+
+    public static String getWarpBlockType(ItemStack stack) {
+        return stack.getOrDefault(DataComponentRegistry.WARP_BLOCK_TYPE.get(), "");
     }
 
     public static DataComponentRegistry.WarpTarget getWarpEntity(ItemStack stack) {
@@ -463,6 +494,7 @@ public class LinkerItem extends TieredItem {
                             setWarpUUID(stack, uuid);
                             setBound(stack, true);
                             stack.remove(DataComponentRegistry.WARP_BLOCK.get());
+                            stack.remove(DataComponentRegistry.WARP_BLOCK_TYPE.get());
 
                             WarpLinkableEntity.WARP_ENTITY_LOCATIONS.put(pos, target);
 
@@ -472,7 +504,7 @@ public class LinkerItem extends TieredItem {
                             BlockPos warpPos = getWarpPos(stack);
                             UUID warpUUID = getWarpUUID(stack);
                             //  if (dimension.equals(getWarpDimension(stack))) {
-                            Entity warpEntity = serverWorld.getEntity(warpUUID);
+                            Entity warpEntity = LinkerItem.findEntity(serverWorld, warpUUID);
                             if (warpEntity == null) {
                                 WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(warpUUID);
                                 if (warpTarget != null)
@@ -509,22 +541,24 @@ public class LinkerItem extends TieredItem {
                                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
                                     target.getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
 
-                            linker.link(stack, warpEntity, target, warpPos);
+                            if (warpEntity == null) {
+                                if (stack.has(DataComponentRegistry.WARP_BLOCK.get()) && warpPos != null && serverWorld.isLoaded(warpPos))
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_warp_block",
+                                            target.getName(), serverWorld.getBlockState(warpPos).getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+                                else {
+                                    String unloadedType = "warp";
 
-                            // TODO: Fix paintings not linking in unloaded chunks
-//                            if (target.level() instanceof ServerLevel && target.getServer() != null) {
-//                                final ServerLevel serverLevel = target.getServer().getLevel(target.level().dimension());
-//                                if (serverLevel != null) {
-//                                    ChunkAccess chunk = serverLevel.getChunk(warpPos.getX() >> 4, warpPos.getZ() >> 4, ChunkStatus.FULL, true);
-//                                    serverLevel.getChunk(warpPos);
-//
-//                                    final AABB box = new AABB(warpPos).inflate(1);
-//                                    final List<Painting> list = serverLevel.getEntitiesOfClass(Painting.class, box);
-//                                    for (final Painting warpPainting : list) {
-//                                        linker.link(stack, warpPainting, target, warpPos);
-//                                    }
-//                                }
-//                            }
+                                    if (stack.has(DataComponentRegistry.WARP_BLOCK.get()) && !LinkerItem.getWarpBlockType(stack).isEmpty())
+                                        unloadedType = LinkerItem.getWarpBlockType(stack);
+                                    else if (stack.has(DataComponentRegistry.WARP_ENTITY.get()))
+                                        unloadedType = "painting";
+
+                                    player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.linked_unloaded_" + unloadedType,
+                                            target.getName()).withStyle(ChatFormatting.GOLD), true);
+                                }
+                            }
+
+                            linker.link(stack, warpEntity, target, warpPos);
 
                             ServerParticleUtils.spawnParticlesOnEntityRandomly(ParticleTypes.ENCHANT, serverWorld, target, 0.5, 128); // TODO: fix pos
                             linker.playSound(level, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, pitch);
@@ -536,5 +570,22 @@ public class LinkerItem extends TieredItem {
                 }
             }
         }
+    }
+
+    @Nullable
+    public static Entity findEntity(ServerLevel level, @Nullable UUID uuid) {
+        if (uuid == null)
+            return null;
+
+        Entity entity = level.getEntity(uuid);
+        if (entity != null)
+            return entity;
+
+        for (ServerLevel otherLevel : level.getServer().getAllLevels()) {
+            entity = otherLevel.getEntity(uuid);
+            if (entity != null)
+                return entity;
+        }
+        return null;
     }
 }

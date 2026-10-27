@@ -78,12 +78,17 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Unique private static final String WARP_DIMENSION = "Dimension";
     @Unique private static final String WARP_POS = "WarpPos";
     @Unique private static final String WARP_UUID = "WarpUUID";
+    @Unique private static final String WARP_TARGET = "WarpTarget";
+    @Unique private static final String WARP_TARGET_POS = "Pos";
+    @Unique private static final String WARP_TARGET_DIRECTION = "Direction";
+    @Unique private static final String WARP_TARGET_WIDTH = "Width";
 
     @Unique public BlockPos mv$destinationPos;
     @Unique public Entity mv$warpEntity;
     @Unique public String mv$dimensionTag;
     @Unique public UUID mv$UUID;
     @Unique public UUID mv$warpUUID;
+    @Unique public WarpTarget mv$warpTarget;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
 
@@ -117,6 +122,14 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
         if (this.mv$warpUUID != null)
             tag.putUUID(WARP_UUID, this.mv$getWarpUUID());
+
+        if (this.mv$warpTarget != null) {
+            CompoundTag targetTag = new CompoundTag();
+            targetTag.putLong(WARP_TARGET_POS, this.mv$warpTarget.pos().asLong());
+            targetTag.putInt(WARP_TARGET_DIRECTION, this.mv$warpTarget.direction().get3DDataValue());
+            targetTag.putInt(WARP_TARGET_WIDTH, this.mv$warpTarget.width());
+            tag.put(WARP_TARGET, targetTag);
+        }
     }
 
     @Inject(method = "load", at = @At("TAIL"))
@@ -136,6 +149,12 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
         if (tag.contains(WARP_UUID))
             this.mv$warpUUID = tag.getUUID(WARP_UUID);
+
+        if (tag.contains(WARP_TARGET)) {
+            CompoundTag targetTag = tag.getCompound(WARP_TARGET);
+            this.mv$warpTarget = new WarpTarget(BlockPos.of(targetTag.getLong(WARP_TARGET_POS)),
+                    Direction.from3DDataValue(targetTag.getInt(WARP_TARGET_DIRECTION)), targetTag.getInt(WARP_TARGET_WIDTH));
+        }
     }
 
     @Inject(method = "move", at = @At("HEAD"))
@@ -541,5 +560,15 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public void mv$setWarpEntity(Entity entity) {
         this.mv$warpEntity = entity;
+    }
+
+    @Override
+    public WarpTarget mv$getWarpTarget() {
+        return this.mv$warpTarget;
+    }
+
+    @Override
+    public void mv$setWarpTarget(WarpTarget target) {
+        this.mv$warpTarget = target;
     }
 }

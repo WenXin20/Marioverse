@@ -48,6 +48,10 @@ public interface WarpLinkableEntity {
 
     void mv$setWarpEntity(Entity entity);
 
+    @Nullable WarpTarget mv$getWarpTarget();
+
+    void mv$setWarpTarget(@Nullable WarpTarget target);
+
     static @Nullable WarpTarget getWarpPos(UUID uuid) {
         return WARP_LOCATIONS.get(uuid);
     }
