@@ -47,7 +47,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -193,8 +192,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, level, pos, pos, state, null);
 
-        if (ModList.get().isLoaded("sable")) {
-            SableProvider.SableContext context = SableProvider.getContext(level, entity);
+        SableProvider.SableContext sableContext = SableProvider.isLoaded() ? SableProvider.getContext(level, entity) : null;
+
+        if (SableProvider.isLoaded()) {
+            SableProvider.SableContext context = sableContext;
             BlockPos posEmbedded;
             BlockPos posWorld;
             BlockState statePlot;
@@ -244,9 +245,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             }
         }
 
-        Object object = null;
-        if (ModList.get().isLoaded("sable"))
-            object = SableProvider.getContext(level, entity);
+        Object object = sableContext;
 
         for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
             BlockState stateAbove = level.getBlockState(posAbove);

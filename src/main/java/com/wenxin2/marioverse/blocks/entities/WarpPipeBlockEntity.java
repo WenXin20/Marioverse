@@ -105,7 +105,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.ContainerSingleItem;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaterniondc;
@@ -742,7 +741,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         Vec3 vec3 = Vec3.atLowerCornerOf(facing.getNormal());
 
         Object object = null;
-        if (ModList.get().isLoaded("sable"))
+        if (SableProvider.isLoaded())
             object = SableProvider.getContext(level, entity);
 
         if (object instanceof SableProvider.SableContext context) {

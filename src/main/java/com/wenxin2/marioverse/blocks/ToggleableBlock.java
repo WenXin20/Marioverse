@@ -14,7 +14,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.fml.ModList;
 
 public interface ToggleableBlock {
     default void onPlaceSavedData(Level level, BlockPos pos) {
@@ -43,7 +42,7 @@ public interface ToggleableBlock {
     static void toggle(ServerLevel level, BlockPos switchPos, Entity entity) {
         BlockState stateSwitch = level.getBlockState(switchPos);
 
-        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+        if (SableProvider.isLoaded() && SableProvider.getContext(level, entity) != null) {
             SableProvider.SableContext context = SableProvider.getContext(level, entity);
             stateSwitch = context.accessor.getBlockState(switchPos);
             if (level instanceof ServerLevel)

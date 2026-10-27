@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -109,7 +108,7 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         BlockState state = level.getBlockState(pos);
 
-        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+        if (SableProvider.isLoaded() && SableProvider.getContext(level, entity) != null) {
             SableProvider.SableContext context = SableProvider.getContext(level, entity);
             state = context.accessor.getBlockState(pos);
             if (level instanceof ServerLevel)

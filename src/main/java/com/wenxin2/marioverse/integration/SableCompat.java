@@ -97,6 +97,11 @@ public class SableCompat {
         SableProvider.set((level, entity) -> {
             if (entity == null)
                 return null;
+
+            SubLevelContainer container = SubLevelContainer.getContainer(level);
+            if (container == null || container.getLoadedCount() == 0)
+                return null;
+
             SubLevelAccess access = SableCompanion.INSTANCE.getContaining(entity);
             if (!(access instanceof SubLevel))
                 access = SableCompanion.INSTANCE.getLastTrackingSubLevel(entity);
@@ -107,8 +112,6 @@ public class SableCompat {
                 if (isInsideSublevel(entity, sub))
                     return buildContext(entity, sub);
             }
-
-            SubLevelContainer container = SubLevelContainer.getContainer(level);
 
             if (!level.isClientSide && container instanceof ServerSubLevelContainer) {
                 for (SubLevel sub : container.queryIntersecting(new BoundingBox3d(entity.getBoundingBox()))) {

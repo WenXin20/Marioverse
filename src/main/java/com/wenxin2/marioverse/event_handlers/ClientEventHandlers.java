@@ -82,7 +82,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -485,7 +484,7 @@ public class ClientEventHandlers {
                 BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
 
                 Object object = null;
-                if (ModList.get().isLoaded("sable"))
+                if (SableProvider.isLoaded())
                     object = SableProvider.getContext(level, player);
 
                 for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {

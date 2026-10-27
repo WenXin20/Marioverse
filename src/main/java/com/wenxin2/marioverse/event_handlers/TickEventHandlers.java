@@ -57,7 +57,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
@@ -248,14 +247,6 @@ public class TickEventHandlers {
         level.playSound(null, entity.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(), soundSource, 1.0F, pitch);
     }
 
-    private static Boolean sableLoaded;
-
-    private static boolean isSableLoaded() {
-        if (sableLoaded == null)
-            sableLoaded = ModList.get().isLoaded("sable");
-        return sableLoaded;
-    }
-
 //    public static final List<AABB> DEBUG_BOXES = new ArrayList<>();
 
     private static boolean shapeIntersects(Level level, BlockPos pos, BlockState state, AABB box) {
@@ -305,7 +296,7 @@ public class TickEventHandlers {
         boolean isMovingHorizontal = motion.horizontalDistance() > 0.01 || moveX * moveX + moveZ * moveZ > 1.0E-4;
 
         if (canHitAbove && !level.isClientSide && canGrief && isAscending && !entity.isSpectator()) {
-            Object object = TickEventHandlers.isSableLoaded() ? SableProvider.getContext(entity.level(), entity) : null;
+            Object object = SableProvider.isLoaded() ? SableProvider.getContext(entity.level(), entity) : null;
             AABB entityBox = entity.getBoundingBox();
             AABB hitBox = new AABB(entityBox.minX, entityBox.maxY, entityBox.minZ,
                     entityBox.maxX, entityBox.maxY + Math.max(motion.y, 0) + 0.02, entityBox.maxZ);
@@ -478,7 +469,7 @@ public class TickEventHandlers {
             BlockPos min = new BlockPos(minX, minY, minZ);
             BlockPos max = new BlockPos(maxX, maxY, maxZ);
 
-            SableProvider.SableContext sableContext = TickEventHandlers.isSableLoaded() ? SableProvider.getContext(level, entity) : null;
+            SableProvider.SableContext sableContext = SableProvider.isLoaded() ? SableProvider.getContext(level, entity) : null;
 
             for (BlockPos posTarget : BlockPos.betweenClosed(min, max)) {
                 BlockState targetState = level.getBlockState(posTarget);

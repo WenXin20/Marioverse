@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaterniondc;
 import org.joml.Vector3d;
@@ -44,7 +43,7 @@ public interface BlockWarpEntityHandler {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockPos warpPos;
 
-        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+        if (SableProvider.isLoaded() && object instanceof SableProvider.SableContext context) {
             state = context.accessor.getBlockState(posEmbedded);
             blockEntity = context.accessor.getBlockEntity(posEmbedded);
             if (world instanceof ServerLevel) {
@@ -100,7 +99,7 @@ public interface BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+        if (SableProvider.isLoaded() && object instanceof SableProvider.SableContext context) {
             Quaterniondc rotation = context.subLevel.logicalPose().orientation();
             Vector3d localLook = rotation.transformInverse(new Vector3d(look.x, look.y, look.z));
             look = new Vec3(localLook.x, localLook.y, localLook.z).normalize();
@@ -167,7 +166,7 @@ public interface BlockWarpEntityHandler {
         for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
             BlockState stateAbove = level.getBlockState(posAbove);
 
-            if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+            if (SableProvider.isLoaded() && object instanceof SableProvider.SableContext context) {
                 BlockPos posEmbedded = context.posEmbedded.above(Math.round(entity.getBbHeight()))
                         .offset(posAbove.getX() - min.getX(), posAbove.getY() - max.getY(), posAbove.getZ() - min.getZ());
                 stateAbove = context.accessor.getBlockState(posEmbedded);
@@ -198,7 +197,7 @@ public interface BlockWarpEntityHandler {
     default void warp(Entity entity, Level level, BlockPos pos, BlockState state, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
         float pitch = 1.0F + level.random.nextFloat() * 0.2F;
 
-        if (ModList.get().isLoaded("sable")) {
+        if (SableProvider.isLoaded()) {
             if (warpBE.destinationSubLevel != null && warpBE.destinationSubLevelPos != null) {
                 if (!(level instanceof ServerLevel serverLevel))
                     return;

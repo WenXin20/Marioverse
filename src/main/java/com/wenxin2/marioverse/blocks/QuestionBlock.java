@@ -88,7 +88,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import org.jetbrains.annotations.NotNull;
@@ -784,7 +783,7 @@ public class QuestionBlock extends BaseEntityBlock {
     }
 
     private static BlockState getHitState(Level level, BlockPos pos, Entity entity) {
-        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+        if (SableProvider.isLoaded() && SableProvider.getContext(level, entity) != null) {
             SableProvider.SableContext context = SableProvider.getContext(level, entity);
             return level instanceof ServerLevel ? context.accessor.getServerBlockState(pos) : context.accessor.getBlockState(pos);
         }

@@ -20,7 +20,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.fml.ModList;
 
 public class SmashableBrickBlock extends Block {
     public SmashableBrickBlock(Properties properties) {
@@ -31,7 +30,7 @@ public class SmashableBrickBlock extends Block {
         BlockState stateAbove = level.getBlockState(pos.above());
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
-        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+        if (SableProvider.isLoaded() && SableProvider.getContext(level, entity) != null) {
             SableProvider.SableContext context = SableProvider.getContext(level, entity);
             stateAbove = context.accessor.getBlockState(pos.above());
             if (level instanceof ServerLevel)

@@ -11,11 +11,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 public class SableProvider {
     private static ContextGetter CONTEXT_GETTER = (l, e) -> null;
+    private static Boolean sableLoaded;
 
     public interface SafeAccessor {
         BlockState getBlockState(BlockPos pos);
@@ -63,6 +65,12 @@ public class SableProvider {
 
     public interface ContextGetter {
         SableContext get(Level level, Entity entity);
+    }
+
+    public static boolean isLoaded() {
+        if (sableLoaded == null)
+            sableLoaded = ModList.get().isLoaded("sable");
+        return sableLoaded;
     }
 
     public static SableContext getContext(Level level, Entity entity) {

@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 
 public class BaseWarpBlockEntity extends BlockEntity {
@@ -230,7 +229,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
             return;
         }
 
-        if (this.level == null || this.level.isClientSide || !ModList.get().isLoaded("sable"))
+        if (this.level == null || this.level.isClientSide || !SableProvider.isLoaded())
             return;
 
         SableProvider.SubLevelAnchor anchor = SableProvider.getAnchor(this.level, pos);

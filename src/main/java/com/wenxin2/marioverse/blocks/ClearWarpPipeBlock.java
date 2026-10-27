@@ -62,7 +62,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaterniondc;
@@ -359,10 +358,10 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         int blockZ = pos.getZ();
 
         Object object = null;
-        if (ModList.get().isLoaded("sable"))
+        if (SableProvider.isLoaded())
             object = SableProvider.getContext(level, player);
 
-        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+        if (SableProvider.isLoaded() && object instanceof SableProvider.SableContext context) {
             Quaterniondc rotation = context.subLevel.logicalPose().orientation();
             Vector3d localLook = rotation.transformInverse(new Vector3d(look.x, look.y, look.z));
             look = new Vec3(localLook.x, localLook.y, localLook.z).normalize();
