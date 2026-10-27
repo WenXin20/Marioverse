@@ -6,13 +6,13 @@ import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.LootTableRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
-import java.util.Map;
 import java.util.Optional;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -26,6 +26,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import software.bernie.geckolib.animatable.GeoEntity;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -46,6 +50,11 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity, Po
     public static void consecutiveReward(LivingEntity attackingEntity, LivingEntity damagedEntity, int consecutiveBounces) {
         Level level = damagedEntity.level();
         int oneUpsRewarded = attackingEntity.getData(DataAttachmentRegistry.ONE_UPS_REWARDED);
+
+        if (ConfigRegistry.STOMP_DIFFERENT_MOBS_REQUIRED.get()
+                && !attackingEntity.getData(DataAttachmentRegistry.STOMPED_MOBS).add(damagedEntity.getUUID()))
+            return;
+
         attackingEntity.setData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES, consecutiveBounces + 1);
 
         if (damagedEntity instanceof PiranhaPlantEntity piranhaPlant && piranhaPlant.isHiding())
@@ -109,23 +118,29 @@ public class OneUpMushroomEntity extends MushroomEntity implements GeoEntity, Po
 
     public static void bounceReward(LivingEntity entity) {
         float pitch = 0.9F + entity.level().random.nextFloat() * 0.2F;
-        ItemLike item = ItemRegistry.ONE_UP_MUSHROOM;
 
-        if (!entity.isSpectator()
+        if (!entity.isSpectator() && entity.level() instanceof ServerLevel serverLevel
                 && (ConfigRegistry.ONE_UP_HEALS_ALL_MOBS.get() || entity.getType().is(TagRegistry.CAN_CONSUME_ONE_UPS))) {
+            LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(LootTableRegistry.CONSECUTIVE_BOUNCE_REWARD);
+            LootParams lootParams = new LootParams.Builder(serverLevel)
+                    .withParameter(LootContextParams.ORIGIN, entity.position())
+                    .withParameter(LootContextParams.THIS_ENTITY, entity)
+                    .create(LootContextParamSets.GIFT);
+
             Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(entity);
-            ItemStack offhandStack = entity.getOffhandItem();
-
             ICurioStacksHandler slotCharm = curiosInventory.map(handler -> handler.getCurios().get("charm")).orElse(null);
-            ItemStack stackCharm = slotCharm != null ? slotCharm.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
-            boolean equippedInCurios = curiosInventory.map(handler -> handler.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())).orElse(false);
 
-            if (slotCharm != null && !equippedInCurios && stackCharm.isEmpty())
-                slotCharm.getStacks().setStackInSlot(0, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
-            else if (offhandStack.isEmpty())
-                entity.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item));
-            else if (offhandStack.getCount() >= 1 && entity instanceof Player player)
-                player.addItem(new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()));
+            for (ItemStack stack : lootTable.getRandomItems(lootParams)) {
+                ItemStack stackCharm = slotCharm != null ? slotCharm.getStacks().getStackInSlot(0) : ItemStack.EMPTY;
+                boolean equippedInCurios = curiosInventory.map(handler -> handler.isEquipped(ItemRegistry.ONE_UP_MUSHROOM.get())).orElse(false);
+
+                if (stack.is(ItemRegistry.ONE_UP_MUSHROOM.get()) && slotCharm != null && !equippedInCurios && stackCharm.isEmpty())
+                    slotCharm.getStacks().setStackInSlot(0, stack);
+                else if (entity.getOffhandItem().isEmpty())
+                    entity.setItemSlot(EquipmentSlot.OFFHAND, stack);
+                else if (entity instanceof Player player && !player.addItem(stack))
+                    player.drop(stack, false);
+            }
             entity.level().playSound(null, entity.blockPosition(), SoundRegistry.ONE_UP_COLLECTED.get(),
                     SoundSource.PLAYERS, 1.0F, pitch);
         }

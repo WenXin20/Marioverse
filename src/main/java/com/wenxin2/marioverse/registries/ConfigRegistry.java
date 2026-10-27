@@ -160,6 +160,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
+    public static ModConfigSpec.BooleanValue STOMP_DIFFERENT_MOBS_REQUIRED;
     public static ModConfigSpec.BooleanValue ROSALINA_ABILITY_DOUBLE_JUMP;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
@@ -876,6 +877,10 @@ public class ConfigRegistry {
                             .comment("Disable consecutive bouncing, including the reward.")
                             .comment("§9[Default: false]")
                             .define("disable_consecutive_bouncing", false);
+                    STOMP_DIFFERENT_MOBS_REQUIRED = BUILDER.translation("configuration.marioverse.stomp_different_mobs_required")
+                            .comment("Require stomping 8 different mobs in a row to get the consecutive bounce reward.")
+                            .comment("§9[Default: false]")
+                            .define("stomp_different_mobs_required", false);
                     STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
                             .comment("The approx height mobs will bounce when stomping enemies.§b")
                             .defineInRange("stomp_bounce_height", 1.5, 0.0, 100.0);

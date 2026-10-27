@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.registries.LootTableRegistry;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -89,7 +90,7 @@ public class PottedHedgeBlock extends FlowerPotBlock implements BonemealableBloc
                 stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
 
             if (level instanceof ServerLevel serverLevel) {
-                LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(HedgeBlock.SNOW_LOOT_TABLE);
+                LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(LootTableRegistry.HEDGE_SNOW);
                 LootParams lootParams = new LootParams.Builder(serverLevel)
                         .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
                         .withParameter(LootContextParams.THIS_ENTITY, player)

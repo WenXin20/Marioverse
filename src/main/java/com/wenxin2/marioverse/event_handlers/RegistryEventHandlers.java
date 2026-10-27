@@ -14,7 +14,7 @@ import com.wenxin2.marioverse.datagen.ArrowItemSpriteSourceGen;
 import com.wenxin2.marioverse.datagen.DataMapGen;
 import com.wenxin2.marioverse.datagen.BannerPatternTagsGen;
 import com.wenxin2.marioverse.datagen.BiomeTagsGen;
-import com.wenxin2.marioverse.datagen.BlockLootTableGen;
+import com.wenxin2.marioverse.datagen.LootTableGen;
 import com.wenxin2.marioverse.datagen.EnchantmentTagsGen;
 import com.wenxin2.marioverse.datagen.RecipeGen;
 import com.wenxin2.marioverse.datagen.BlockStateGen;
@@ -413,7 +413,7 @@ public class RegistryEventHandlers {
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BiomeTagsGen(output, provider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new BlockLootTableGen(output, provider));
+        generator.addProvider(event.includeServer(), new LootTableGen(output, provider));
         generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeServer(), new EnchantmentTagsGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, provider, existingFileHelper));

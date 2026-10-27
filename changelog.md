@@ -96,6 +96,8 @@
   - Saves to the block entity now
   - Reduces states from 192 to 48
 - Added the ability to increase stomp damage using armor boots, +0.5 damage for each armor point
+- Added a config to require stomping different mobs to get a 1-Up, default is false
+- Change the 1-Up reward to a loot table
 - Improved bouncing on bouncy blocks
 - Improved bounce sound
 - Improved log bridges and log bridge stairs

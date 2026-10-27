@@ -28,6 +28,7 @@ import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.LootTableRegistry;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,15 +70,16 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockLootTableGen extends LootTableProvider {
+public class LootTableGen extends LootTableProvider {
     protected static final float[] NORMAL_LEAVES_SAPLING_CHANCES = new float[]{0.05F, 0.0625F, 0.083333336F, 0.1F};
     protected static final float[] HALVED_LEAVES_SAPLING_CHANCES = new float[]{0.025F, 0.03125F, 0.041666668F, 0.05F};
     protected static final float[] DOUBLED_LEAVES_SAPLING_CHANCES = new float[]{0.1F, 0.125F, 0.16666667F, 0.2F};
 
-    public BlockLootTableGen(PackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
+    public LootTableGen(PackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, Set.of(), List.of(
                 new LootTableProvider.SubProviderEntry(BlockSubProvider::new, LootContextParamSets.BLOCK),
-                new LootTableProvider.SubProviderEntry(HedgeSnowLootSubProvider::new, LootContextParamSets.BLOCK_USE)),
+                new LootTableProvider.SubProviderEntry(HedgeSnowLootSubProvider::new, LootContextParamSets.BLOCK_USE),
+                new LootTableProvider.SubProviderEntry(BounceRewardLootSubProvider::new, LootContextParamSets.GIFT)),
                 completableFuture);
     }
 
@@ -87,10 +89,22 @@ public class BlockLootTableGen extends LootTableProvider {
 
         @Override
         public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
-            output.accept(HedgeBlock.SNOW_LOOT_TABLE, LootTable.lootTable()
+            output.accept(LootTableRegistry.HEDGE_SNOW, LootTable.lootTable()
                     .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                             .add(LootItem.lootTableItem(Items.SNOWBALL)
                                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))));
+        }
+    }
+
+    public static class BounceRewardLootSubProvider implements LootTableSubProvider {
+        public BounceRewardLootSubProvider(HolderLookup.Provider provider) {
+        }
+
+        @Override
+        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
+            output.accept(LootTableRegistry.CONSECUTIVE_BOUNCE_REWARD, LootTable.lootTable()
+                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(ItemRegistry.ONE_UP_MUSHROOM.get()))));
         }
     }
 

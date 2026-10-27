@@ -1,15 +1,13 @@
 package com.wenxin2.marioverse.blocks;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.entities.SnowPokeyBodyEntity;
 import com.wenxin2.marioverse.entities.SnowPokeyEntity;
+import com.wenxin2.marioverse.registries.LootTableRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -55,8 +53,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterloggedBlock {
-    public static final ResourceKey<LootTable> SNOW_LOOT_TABLE =
-            ResourceKey.create(Registries.LOOT_TABLE, Marioverse.id("gameplay/hedge_snow"));
     public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
     public static final BooleanProperty TOP = BlockStatePropertyRegistry.TOP;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -189,7 +185,7 @@ public class HedgeBlock extends Block implements BonemealableBlock, SimpleWaterl
                 stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
 
             if (level instanceof ServerLevel serverLevel) {
-                LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(SNOW_LOOT_TABLE);
+                LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(LootTableRegistry.HEDGE_SNOW);
                 LootParams lootParams = new LootParams.Builder(serverLevel)
                         .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
                         .withParameter(LootContextParams.THIS_ENTITY, player)

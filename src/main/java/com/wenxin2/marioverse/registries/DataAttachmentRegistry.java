@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.registries;
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.core.UUIDUtil;
@@ -303,6 +305,8 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<UUID>> OWNER_UUID = Marioverse.ATTACHMENT_TYPES
             .register("owner_uuid", () -> AttachmentType.<UUID>builder(() -> null).serialize(UUIDUtil.CODEC)
                     .sync(UUIDUtil.STREAM_CODEC).build());
+    public static final Supplier<AttachmentType<Set<UUID>>> STOMPED_MOBS = Marioverse.ATTACHMENT_TYPES
+            .register("stomped_mobs", () -> AttachmentType.<Set<UUID>>builder(() -> new HashSet<>()).build());
     public static final Supplier<AttachmentType<UUID>> VEHICLE_UUID = Marioverse.ATTACHMENT_TYPES
             .register("vehicle_uuid", () -> AttachmentType.<UUID>builder(() -> null).serialize(UUIDUtil.CODEC)
                     .sync(UUIDUtil.STREAM_CODEC).build());

@@ -84,8 +84,10 @@ public class TickEventHandlers {
                 && (entity.onGround() || entity.isInWaterOrBubble())
                 && !TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_SUPER_STAR)
                 && (entity.getType().is(TagRegistry.CAN_STOMP_ENEMIES) || ConfigRegistry.ALL_MOBS_CAN_STOMP.get()
-                    || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP)))
+                    || level.getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))) {
             entity.setData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES, 0);
+            entity.removeData(DataAttachmentRegistry.STOMPED_MOBS);
+        }
 
         if (!level.isClientSide && !entity.isSpectator() && !entity.isShiftKeyDown()
                 && TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MEGA_MUSHROOM)) {
