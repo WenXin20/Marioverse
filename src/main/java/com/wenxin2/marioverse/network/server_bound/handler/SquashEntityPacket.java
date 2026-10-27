@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
@@ -129,7 +130,7 @@ public class SquashEntityPacket {
                                         || damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
-                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), AbilitiesHandler.getStompDamage(stompingEntity));
                             }
 
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get()

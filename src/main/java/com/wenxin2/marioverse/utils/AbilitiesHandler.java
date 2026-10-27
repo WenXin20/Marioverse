@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.utils;
 
+import com.google.common.collect.Multimap;
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.entities.power_ups.MegaMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
@@ -14,9 +16,10 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import java.util.Map;
 import java.util.Optional;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,14 +27,18 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
@@ -260,5 +267,43 @@ public interface AbilitiesHandler extends CostumeHandler {
             this.applyCostumeChange(entity, source);
             source.removePowerUpEntity();
         }
+    }
+
+    static float getStompDamage(LivingEntity stompingEntity) {
+        double multiplier = ConfigRegistry.STOMP_BOOT_DAMAGE_MULTIPLIER.get();
+        if (multiplier <= 0.0)
+            return ConfigRegistry.STOMP_DAMAGE.get().floatValue();
+
+        double bootArmor = 0.0;
+
+        for (ItemAttributeModifiers.Entry entry : stompingEntity.getItemBySlot(EquipmentSlot.FEET).getAttributeModifiers().modifiers()) {
+            if (entry.slot().test(EquipmentSlot.FEET) && entry.attribute().is(Attributes.ARMOR)
+                    && entry.modifier().operation() == AttributeModifier.Operation.ADD_VALUE)
+                bootArmor += entry.modifier().amount();
+        }
+
+        Optional<ICuriosItemHandler> curiosInventory = CuriosApi.getCuriosInventory(stompingEntity);
+        if (curiosInventory.isPresent()) {
+            ICurioStacksHandler slotShoes = curiosInventory.get().getCurios().get("costume_shoes");
+
+            if (slotShoes != null) {
+                for (int i = 0; i < slotShoes.getSlots(); i++) {
+                    ItemStack stackShoes = slotShoes.getStacks().getStackInSlot(i);
+                    if (stackShoes.isEmpty())
+                        continue;
+
+                    SlotContext slotContext = new SlotContext("costume_shoes", stompingEntity, i, false, true);
+                    Multimap<Holder<Attribute>, AttributeModifier> modifiers = CuriosApi.getAttributeModifiers(slotContext,
+                            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "stomp_boots_" + i), stackShoes);
+
+                    for (AttributeModifier modifier : modifiers.get(Attributes.ARMOR)) {
+                        if (modifier.operation() == AttributeModifier.Operation.ADD_VALUE)
+                            bootArmor += modifier.amount();
+                    }
+                }
+            }
+        }
+
+        return ConfigRegistry.STOMP_DAMAGE.get().floatValue() + (float) (bootArmor * multiplier);
     }
 }

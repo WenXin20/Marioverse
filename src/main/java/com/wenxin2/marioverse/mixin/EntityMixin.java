@@ -17,6 +17,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.UUID;
@@ -476,7 +477,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                                         || damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
-                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), AbilitiesHandler.getStompDamage(stompingEntity));
                             }
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 OneUpMushroomEntity.consecutiveReward(stompingEntity, damagedEntity, stompingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));

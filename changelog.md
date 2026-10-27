@@ -95,6 +95,7 @@
 - Removed the bubbles & water_spout blockstates from warp pipes
   - Saves to the block entity now
   - Reduces states from 192 to 48
+- Added the ability to increase stomp damage using armor boots, +0.5 damage for each armor point
 - Improved bouncing on bouncy blocks
 - Improved bounce sound
 - Improved log bridges and log bridge stairs

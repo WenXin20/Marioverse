@@ -38,6 +38,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_ROSALINA_ABILITY_BLOCK = "rosalina_ability_block";
     public static final String CATEGORY_SPIKE_PANELS = "spike_panels";
     public static final String CATEGORY_STAR_COINS = "star_coins";
+    public static final String CATEGORY_STOMPING = "stomping";
     public static final String CATEGORY_WALUIGI_ABILITY_BLOCK = "waluigi_ability_block";
     public static final String CATEGORY_WARIO_ABILITY_BLOCK = "wario_ability_block";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
@@ -248,6 +249,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue SHRINK_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue SPIKE_PANEL_DAMAGE;
     public static ModConfigSpec.DoubleValue SPINY_CHEEP_CHEEP_LURE_RADIUS;
+    public static ModConfigSpec.DoubleValue STOMP_BOOT_DAMAGE_MULTIPLIER;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
@@ -851,6 +853,41 @@ public class ConfigRegistry {
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_GAMEPLAY);
+
+                BUILDER.push(CATEGORY_STOMPING);
+                    ENABLE_STOMPABLE_ENEMIES = BUILDER.translation("configuration.marioverse.enable_stompable_enemies")
+                            .comment("Enable mobs to stomp other mobs.")
+                            .comment("§cMobs must whitelisted in the entity tag \"marioverse:can_stomp_enemies\".")
+                            .comment("§9[Default: true]")
+                            .define("enable_stompable_enemies", true);
+                    ALL_MOBS_CAN_STOMP = BUILDER.translation("configuration.marioverse.all_mobs_can_stomp")
+                            .comment("Allow all mobs to stomp other mobs.")
+                            .comment("§9[Default: false]")
+                            .define("all_mobs_can_stomp", false);
+                    STOMP_ALL_MOBS = BUILDER.translation("configuration.marioverse.stomp_all_mobs")
+                            .comment("Allow all mobs to be stomped on.")
+                            .comment("§9[Default: false]")
+                            .define("stomp_all_mobs", false);
+                    STOMP_DAMAGE = BUILDER.translation("configuration.marioverse.stomp_damage")
+                            .comment("Amount of damage stomping causes.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
+                    DISABLE_CONSECUTIVE_BOUNCING = BUILDER.translation("configuration.marioverse.disable_consecutive_bouncing")
+                            .comment("Disable consecutive bouncing, including the reward.")
+                            .comment("§9[Default: false]")
+                            .define("disable_consecutive_bouncing", false);
+                    STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
+                            .comment("The approx height mobs will bounce when stomping enemies.§b")
+                            .defineInRange("stomp_bounce_height", 1.5, 0.0, 100.0);
+                    STOMP_BOUNCE_HEIGHT_JUMP = BUILDER.translation("configuration.marioverse.stomp_bounce_height_jump")
+                            .comment("The approx height players will bounce when stomping enemies while pressing the jump key.§b")
+                            .defineInRange("stomp_bounce_height_jump", 5.5, 0.0, 100.0);
+                    STOMP_BOOT_DAMAGE_MULTIPLIER = BUILDER.translation("configuration.marioverse.stomp_boot_damage_multiplier")
+                            .comment("Extra stomp damage added per armor point of boots.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("stomp_boot_damage_multiplier", 0.5, 0.0, 5.0);
+                BUILDER.pop();
+
                 EQUIP_COSTUMES_PLAYERS = BUILDER.translation("configuration.marioverse.equip_costumes_players")
                         .comment("Equips power up costumes on Players.")
                         .comment("§9[Default: true]")
@@ -874,37 +911,11 @@ public class ConfigRegistry {
                         .comment("The width multiplier shrinking will resize the user with.§b")
                         .comment("§6[1.0 is normal width§b")
                         .defineInRange("shrink_width_scale", 0.75, 0.3, 20.0);
-                ENABLE_STOMPABLE_ENEMIES = BUILDER.translation("configuration.marioverse.enable_stompable_enemies")
-                        .comment("Enable mobs to stomp other mobs.")
-                        .comment("§cMobs must whitelisted in the entity tag \"marioverse:can_stomp_enemies\".")
-                        .comment("§9[Default: true]")
-                        .define("enable_stompable_enemies", true);
-                ALL_MOBS_CAN_STOMP = BUILDER.translation("configuration.marioverse.all_mobs_can_stomp")
-                        .comment("Allow all mobs to stomp other mobs.")
-                        .comment("§9[Default: false]")
-                        .define("all_mobs_can_stomp", false);
-                STOMP_ALL_MOBS = BUILDER.translation("configuration.marioverse.stomp_all_mobs")
-                        .comment("Allow all mobs to be stomped on.")
-                        .comment("§9[Default: false]")
-                        .define("stomp_all_mobs", false);
-                DISABLE_CONSECUTIVE_BOUNCING = BUILDER.translation("configuration.marioverse.disable_consecutive_bouncing")
-                        .comment("Disable consecutive bouncing, including the reward.")
-                        .comment("§9[Default: false]")
-                        .define("disable_consecutive_bouncing", false);
-                STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
-                        .comment("The approx height mobs will bounce when stomping enemies.§b")
-                        .defineInRange("stomp_bounce_height", 1.5, 0.0, 100.0);
-                STOMP_BOUNCE_HEIGHT_JUMP = BUILDER.translation("configuration.marioverse.stomp_bounce_height_jump")
-                        .comment("The approx height players will bounce when stomping enemies while pressing the jump key.§b")
-                        .defineInRange("stomp_bounce_height_jump", 5.5, 0.0, 100.0);
-                STOMP_DAMAGE = BUILDER.translation("configuration.marioverse.stomp_damage")
-                        .comment("Amount of damage stomping causes.")
-                        .comment("§6[1 point = 1/2 Heart]§b")
-                                .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
                 PLAY_BOUNCE_SOUND = BUILDER.translation("configuration.marioverse.play_bounce_sound")
                         .comment("Plays a bounce sound when bouncing on mushroom blocks.")
                         .comment("§9[Default: true]")
                         .define("play_bounce_sound", true);
+
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_HOLIDAY);
