@@ -95,6 +95,7 @@
 - Removed the bubbles & water_spout blockstates from warp pipes
   - Saves to the block entity now
   - Reduces states from 192 to 48
+- Added a config option to charge xp for teleporting with warp pipes, doors, trapdoors, & paintings. 0 by defalut
 - Added the ability to increase stomp damage using armor boots, +0.5 damage for each armor point
 - Added a config to require stomping different mobs to get a 1-Up, default is false
 - Change the 1-Up reward to a loot table
@@ -106,7 +107,8 @@
 - Improved riding ice cubes, mobs & players can now move with it when it slides
 - Improved ice cube texture
 - Improved ice cube sliding to slide up stairs and slabs
-- Fixed teleporting to unloaded sublevels via warp pipe
+- Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
+- Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
 - Fixed linking of paintings in unloaded chunks using a wrench
 - Fixed rotation of mobs frozen in the ice cube
 - Fixed ice cubes sometimes freezing client-only & disappearing

@@ -89,6 +89,7 @@ public class SableProvider {
         @Nullable BlockPos resolve(Level level, UUID subLevel, BlockPos localPos);
         boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Runnable onLoaded);
         @Nullable BlockPos toWorldPos(Level level, BlockPos pos);
+        @Nullable Vec3 toWorldVec(Level level, Vec3 pos);
     }
 
     private static WarpResolver WARP_RESOLVER = new WarpResolver() {
@@ -116,6 +117,11 @@ public class SableProvider {
         public BlockPos toWorldPos(Level level, BlockPos pos) {
             return pos;
         }
+
+        @Override
+        public Vec3 toWorldVec(Level level, Vec3 pos) {
+            return pos;
+        }
     };
 
     public static void setWarpResolver(WarpResolver resolver) {
@@ -139,6 +145,11 @@ public class SableProvider {
     @Nullable
     public static BlockPos toWorldPos(Level level, BlockPos pos) {
         return WARP_RESOLVER.toWorldPos(level, pos);
+    }
+
+    @Nullable
+    public static Vec3 toWorldVec(Level level, Vec3 pos) {
+        return WARP_RESOLVER.toWorldVec(level, pos);
     }
 
     public static boolean queueSubLevelWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Runnable onLoaded) {

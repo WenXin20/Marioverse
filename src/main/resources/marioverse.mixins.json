@@ -7,6 +7,7 @@
   "mixins": [
     "BeeAccessor",
     "BeePollinateGoalAccessor",
+    "BeePollinateGoalMixin",
     "BlockMixin",
     "BlockStateBaseMixin",
     "ContainersMixin",

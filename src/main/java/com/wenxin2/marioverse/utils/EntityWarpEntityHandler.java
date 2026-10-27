@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.utils;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityProvider;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -14,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.BlockAttachedEntity;
 import net.minecraft.world.entity.decoration.Painting;
@@ -99,45 +101,48 @@ public interface EntityWarpEntityHandler {
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = painting.getPos();
 
-                    this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
+                    if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
+                        return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
 
                     if (painting.getData(DataAttachmentRegistry.BREAK.get()))
                         painting.discard();
-                    entity.setXRot(direction.toYRot());
-                    entity.setYRot(direction.toYRot());
-                    entity.setYHeadRot(direction.toYRot());
                 } else if (ModList.get().isLoaded("immersive_paintings")
                         && isImmersivePainting && warpEntity instanceof BlockAttachedEntity blockAttachedEntity) {
                     int width = PaintingEntityProvider.getPaintingWidth(warpEntity);
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = blockAttachedEntity.getPos();
 
-                    this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
+                    if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
+                        return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
 
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
-                    entity.setXRot(direction.toYRot());
-                    entity.setYRot(direction.toYRot());
-                    entity.setYHeadRot(direction.toYRot());
                 } else if (ModList.get().isLoaded("twilightforest")
                         && isMagicPainting && warpEntity instanceof BlockAttachedEntity blockAttachedEntity) {
                     int width = MagicPaintingEntityProvider.getPaintingWidth(warpEntity);
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = blockAttachedEntity.getPos();
 
-                    this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
+                    if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
+                        return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
 
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
-                    entity.setXRot(direction.toYRot());
-                    entity.setYRot(direction.toYRot());
-                    entity.setYHeadRot(direction.toYRot());
                 } else {
                     BlockPos warpPos = warpEntity.blockPosition();
-                    WarpLinkableEntity.warp(world, entity, warpPos.getX(), warpPos.getY(), warpPos.getZ());
+                    Vec3 worldWarpPos = SableProvider.isLoaded()
+                            ? SableProvider.toWorldVec(world, Vec3.atLowerCornerOf(warpPos)) : Vec3.atLowerCornerOf(warpPos);
+
+                    if (worldWarpPos == null) {
+                        if (entity instanceof Player player)
+                            BlockWarpEntityHandler.displayDestinationMissingMessage(player);
+                        return;
+                    }
+
+                    WarpLinkableEntity.warp(world, entity, worldWarpPos.x, worldWarpPos.y, worldWarpPos.z);
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
                 }
@@ -151,10 +156,8 @@ public interface EntityWarpEntityHandler {
                     Direction direction = savedTarget.direction();
                     int width = savedTarget.width();
 
-                    this.warpPaintingDirection(basePos, direction, width, entity, warpEntity, world);
-                    entity.setXRot(direction.toYRot());
-                    entity.setYRot(direction.toYRot());
-                    entity.setYHeadRot(direction.toYRot());
+                    if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
+                        return;
 
                     List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
                     for (Entity targetEntity : entitiesAtPos) {
@@ -171,7 +174,7 @@ public interface EntityWarpEntityHandler {
         }
     }
 
-    private void warpPaintingDirection(BlockPos basePos, Direction direction, double width, Entity entity, Entity warpEntity, Level world) {
+    private boolean warpPaintingDirection(BlockPos basePos, Direction direction, double width, Entity entity, Level world) {
         double centerX = basePos.getX();
         double centerY = basePos.getY();
         double centerZ = basePos.getZ();
@@ -183,7 +186,30 @@ public interface EntityWarpEntityHandler {
             case WEST  -> { centerZ += width / 2; centerX += 0.5; }
         }
 
-        WarpLinkableEntity.warp(world, entity, centerX, centerY, centerZ);
+        Vec3 center = new Vec3(centerX, centerY, centerZ);
+        Vec3 worldCenter = center;
+        float yaw = direction.toYRot();
+
+        if (SableProvider.isLoaded()) {
+            worldCenter = SableProvider.toWorldVec(world, center);
+            Vec3 worldFacing = SableProvider.toWorldVec(world, center.add(direction.getStepX(), 0.0, direction.getStepZ()));
+
+            if (worldCenter == null || worldFacing == null) {
+                if (entity instanceof Player player)
+                    BlockWarpEntityHandler.displayDestinationMissingMessage(player);
+                return false;
+            }
+
+            Vec3 facing = worldFacing.subtract(worldCenter);
+            if (facing.horizontalDistanceSqr() > 1.0E-6)
+                yaw = (float) (Mth.atan2(-facing.x, facing.z) * Mth.RAD_TO_DEG);
+        }
+
+        WarpLinkableEntity.warp(world, entity, worldCenter.x, worldCenter.y, worldCenter.z);
+        entity.setXRot(yaw);
+        entity.setYRot(yaw);
+        entity.setYHeadRot(yaw);
+        return true;
     }
 
     private void displayCooldownMessage(Player player, Entity warpEntity) {

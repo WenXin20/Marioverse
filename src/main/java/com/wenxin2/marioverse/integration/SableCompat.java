@@ -187,6 +187,22 @@ public class SableCompat {
                 Vector3d worldPos = plot.getSubLevel().logicalPose().transformPosition(new Vector3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
                 return BlockPos.containing(worldPos.x, worldPos.y, worldPos.z);
             }
+
+            @Override
+            public Vec3 toWorldVec(Level level, Vec3 pos) {
+                SubLevelContainer container = SubLevelContainer.getContainer(level);
+                BlockPos blockPos = BlockPos.containing(pos);
+
+                if (container == null || !container.inBounds(blockPos))
+                    return pos;
+
+                LevelPlot plot = container.getPlot(new ChunkPos(blockPos));
+                if (plot == null || plot.getSubLevel() == null)
+                    return null;
+
+                Vector3d worldPos = plot.getSubLevel().logicalPose().transformPosition(new Vector3d(pos.x, pos.y, pos.z));
+                return new Vec3(worldPos.x, worldPos.y, worldPos.z);
+            }
         });
     }
 
