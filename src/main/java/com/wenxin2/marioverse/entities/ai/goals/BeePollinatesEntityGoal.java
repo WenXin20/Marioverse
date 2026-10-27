@@ -3,10 +3,12 @@ package com.wenxin2.marioverse.entities.ai.goals;
 import com.wenxin2.marioverse.mixin.BeeAccessor;
 import com.wenxin2.marioverse.mixin.BeePollinateGoalAccessor;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nullable;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +22,7 @@ public class BeePollinatesEntityGoal extends Goal {
     private static final int MIN_FIND_FLOWER_RETRY_COOLDOWN = 20;
     private static final int MAX_FIND_FLOWER_RETRY_COOLDOWN = 60;
     private static final int COOLDOWN_AFTER_POLLINATING = 200;
+    private static final float CHOOSE_FLOWER_CHANCE = 0.25F;
     private static final double ARRIVAL_THRESHOLD = 0.1;
     private static final int POSITION_CHANGE_CHANCE = 25;
     private static final float SPEED_MODIFIER = 0.35F;
@@ -30,6 +33,7 @@ public class BeePollinatesEntityGoal extends Goal {
     private final double searchRange;
     @Nullable private final BeePollinateGoalAccessor vanillaPollinateGoal;
     @Nullable private Entity flower;
+    @Nullable private Entity preferredFlower;
     @Nullable private Vec3 hoverPos;
     private int successfulPollinatingTicks;
     private int lastSoundPlayedTick;
@@ -45,11 +49,24 @@ public class BeePollinatesEntityGoal extends Goal {
                 .filter(goal -> goal instanceof BeePollinateGoalAccessor)
                 .map(goal -> (BeePollinateGoalAccessor) goal)
                 .findFirst().orElse(null);
+        this.remainingCooldownBeforeLocatingNewFlower = Mth.nextInt(bee.getRandom(),
+                MIN_FIND_FLOWER_RETRY_COOLDOWN, MAX_FIND_FLOWER_RETRY_COOLDOWN);
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
 
     @Override
     public boolean canUse() {
+        if (this.preferredFlower != null) {
+            Entity preferred = this.preferredFlower;
+            this.preferredFlower = null;
+
+            if (!this.bee.isAngry() && this.isFlowerValid(preferred)) {
+                this.flower = preferred;
+                this.navigateToFlower(preferred);
+                return true;
+            }
+        }
+
         if (this.remainingCooldownBeforeLocatingNewFlower > 0) {
             this.remainingCooldownBeforeLocatingNewFlower--;
             return false;
@@ -58,10 +75,9 @@ public class BeePollinatesEntityGoal extends Goal {
 
         Optional<Entity> optional = this.findNearbyFlower();
 
-        if (optional.isPresent()) {
+        if (optional.isPresent() && this.bee.getRandom().nextFloat() < CHOOSE_FLOWER_CHANCE) {
             this.flower = optional.get();
-            Vec3 target = this.getFlowerHoverPos(this.flower);
-            this.bee.getNavigation().moveTo(target.x(), target.y(), target.z(), 1.2F);
+            this.navigateToFlower(this.flower);
             return true;
         } else {
             this.remainingCooldownBeforeLocatingNewFlower = Mth.nextInt(this.bee.getRandom(),
@@ -118,6 +134,7 @@ public class BeePollinatesEntityGoal extends Goal {
         if (this.flower == null)
             return;
 
+        ((BeeAccessor) this.bee).mv$setRemainingCooldownBeforeLocatingNewFlower(COOLDOWN_AFTER_POLLINATING);
         this.pollinatingTicks++;
 
         if (this.pollinatingTicks > MAX_POLLINATING_TICKS) {
@@ -179,9 +196,12 @@ public class BeePollinatesEntityGoal extends Goal {
     }
 
     private Optional<Entity> findNearbyFlower() {
-        return this.bee.level().getEntitiesOfClass(Entity.class, this.bee.getBoundingBox().inflate(this.searchRange),
-                        entity -> entity.isAlive() && entity.getType().is(TagRegistry.BEE_CAN_POLLINATE))
-                .stream().min(Comparator.comparingDouble(this.bee::distanceToSqr));
+        BlockPos beePos = this.bee.blockPosition();
+        List<Entity> flowers = this.bee.level().getEntitiesOfClass(Entity.class, this.bee.getBoundingBox().inflate(this.searchRange),
+                entity -> entity.isAlive() && entity.getType().is(TagRegistry.BEE_CAN_POLLINATE)
+                        && beePos.closerThan(entity.blockPosition(), this.searchRange));
+
+        return flowers.isEmpty() ? Optional.empty() : Optional.of(Util.getRandom(flowers, this.bee.getRandom()));
     }
 
     private Vec3 getFlowerHoverPos(Entity flower) {
@@ -195,5 +215,32 @@ public class BeePollinatesEntityGoal extends Goal {
 
     private float getOffset() {
         return (this.bee.getRandom().nextFloat() * 2.0F - 1.0F) * HOVER_POS_OFFSET;
+    }
+
+    private void navigateToFlower(Entity flower) {
+        Vec3 target = this.getFlowerHoverPos(flower);
+        this.bee.getNavigation().moveTo(target.x(), target.y(), target.z(), 1.2F);
+    }
+
+    public boolean tryPreferEntityFlower() {
+        if (this.bee.isAngry())
+            return false;
+
+        Optional<Entity> optional = this.findNearbyFlower();
+
+        if (optional.isPresent() && this.bee.getRandom().nextBoolean()) {
+            this.preferredFlower = optional.get();
+            return true;
+        }
+        return false;
+    }
+
+    @Nullable
+    public static BeePollinatesEntityGoal getFrom(Bee bee) {
+        return bee.goalSelector.getAvailableGoals().stream()
+                .map(WrappedGoal::getGoal)
+                .filter(goal -> goal instanceof BeePollinatesEntityGoal)
+                .map(goal -> (BeePollinatesEntityGoal) goal)
+                .findFirst().orElse(null);
     }
 }
