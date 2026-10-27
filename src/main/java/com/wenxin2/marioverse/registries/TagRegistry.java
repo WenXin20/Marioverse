@@ -343,6 +343,7 @@ public class TagRegistry {
 
     public static final TagKey<EntityType<?>> BEE_CAN_POLLINATE = entityTypeTags("bee_can_pollinate");
     public static final TagKey<EntityType<?>> BOO_CAN_ATTACK = entityTypeTags("boo_can_attack");
+    public static final TagKey<EntityType<?>> CANNOT_BE_STOMPED = entityTypeTags("cannot_be_stomped");
     public static final TagKey<EntityType<?>> CANNOT_BOUNCE_ON_BLOCKS = entityTypeTags("cannot_bounce_on_blocks");
     public static final TagKey<EntityType<?>> CANNOT_CHANGE_MAX_HEALTH = entityTypeTags("cannot_change_max_health");
     public static final TagKey<EntityType<?>> CANNOT_CONSUME_POWER_UPS = entityTypeTags("cannot_consume_power_ups");

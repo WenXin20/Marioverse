@@ -108,6 +108,17 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(TagRegistry.BOO_CAN_ATTACK)
                 .add(EntityType.PLAYER);
 
+        tag(TagRegistry.CANNOT_BE_STOMPED)
+                .addTag(TagRegistry.POKEY_ENTITIES)
+                .add(EntityRegistry.PIRANHA_PLANT.get())
+                .add(EntityRegistry.PORCUPUFFER.get())
+                .add(EntityRegistry.SNOW_POKEY_BODY.get())
+                .add(EntityRegistry.SPINY_CHEEP_CHEEP.get())
+                .add(EntityRegistry.SUPER_STAR.get())
+                .add(EntityType.ELDER_GUARDIAN)
+                .add(EntityType.GUARDIAN)
+                .add(EntityType.PUFFERFISH);
+
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
         tag(TagRegistry.CANNOT_CHANGE_MAX_HEALTH)

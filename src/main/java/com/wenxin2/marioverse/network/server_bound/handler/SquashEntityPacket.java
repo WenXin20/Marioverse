@@ -59,6 +59,7 @@ public class SquashEntityPacket {
                             || stompingEntity.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
 
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
+                        && !damagedEntity.getType().is(TagRegistry.CANNOT_BE_STOMPED)
 
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                             || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)

@@ -91,6 +91,7 @@
   - Mushroot & Spookroot Saplings
   - Shroomgrass Blocks
 - Added new creative tabs
+- Added an entity tag `cannot_be_stomped` to prevent stomping even when the config "Stomp All Mobs" is enabled
 - Removed the bubbles & water_spout blockstates from warp pipes
   - Saves to the block entity now
   - Reduces states from 192 to 48
