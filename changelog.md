@@ -97,10 +97,13 @@
 - Improved bouncing on bouncy blocks
 - Improved bounce sound
 - Improved log bridges and log bridge stairs
-- Improved riding ice cubes, mobs & players can now move with it when it slides
-- Improved ice cube texture
 - Bees can collect pollen from power up flowers
 - Changed pipe junction recipe
+- Improved riding ice cubes, mobs & players can now move with it when it slides
+- Improved ice cube texture
+- Fixed rotation of mobs frozen in the ice cube
+- Fixed ice cubes sometimes freezing client-only & disappearing
+- Fixed getting stuck on floating ice cubes
 - Fixed flammability of Log Stairs
 - Fixed Supplementaries soap not working with some dyed blocks
 - Fixed peaceful difficulty causing some blocks/enemies to not do damage

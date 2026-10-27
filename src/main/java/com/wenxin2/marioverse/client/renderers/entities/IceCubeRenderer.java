@@ -55,7 +55,7 @@ public class IceCubeRenderer extends GeoEntityRenderer<IceCubeEntity> {
             if (frozenHeight >= frozenWidth * 3)
                 width *= 2.0F;
 
-            frozenEntity.setYRot(entity.getBodyRotation());
+            entity.applyFrozenRotation(frozenEntity);
 
             poseStack.pushPose();
 

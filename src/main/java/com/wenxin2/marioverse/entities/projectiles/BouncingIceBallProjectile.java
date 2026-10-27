@@ -254,6 +254,9 @@ public class BouncingIceBallProjectile extends ThrowableProjectile implements Ge
     @Override
     protected void onHitEntity(EntityHitResult hit) {
         Level level = this.level();
+        if (level.isClientSide)
+            return;
+
         Entity entity = hit.getEntity();
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
 
