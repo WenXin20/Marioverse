@@ -376,6 +376,30 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     }
 
     @Override
+    public float maxUpStep() {
+        return 0.6F;
+    }
+
+    @Override
+    public void move(MoverType type, Vec3 movement) {
+        int steps = Mth.ceil(movement.horizontalDistance() / 0.25);
+        if (type != MoverType.SELF || steps <= 1) {
+            super.move(type, movement);
+            return;
+        }
+
+        Vec3 velocity = this.getDeltaMovement();
+        Vec3 stepMovement = movement.scale(1.0 / steps);
+
+        for (int i = 0; i < steps; i++) {
+            this.setDeltaMovement(velocity);
+            super.move(type, stepMovement);
+            if (this.horizontalCollision || this.isRemoved())
+                break;
+        }
+    }
+
+    @Override
     protected double getDefaultGravity() {
         return 0.06;
     }

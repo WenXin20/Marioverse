@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks.entities;
 
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 
 public class BaseWarpBlockEntity extends BlockEntity {
@@ -29,7 +31,11 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public static final String UUID = "UUID";
     public static final String PREVENT_WARP = "PreventWarp";
     public static final String IS_WAXED = "IsWaxed";
+    public static final String WARP_SUB_LEVEL = "WarpSubLevel";
+    public static final String WARP_SUB_LEVEL_POS = "WarpSubLevelPos";
     public BlockPos destinationPos;
+    public UUID destinationSubLevel;
+    public BlockPos destinationSubLevelPos;
     public String dimensionTag;
     public boolean preventWarp = Boolean.FALSE;
     public boolean isWaxed;
@@ -61,6 +67,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
 
     public void setDestinationPos(@Nullable BlockPos pos) {
         this.destinationPos = pos;
+        this.updateDestinationSubLevel(pos);
         this.setChanged();
         if (this.level != null && pos != null) {
             BlockState state = this.getBlockState();
@@ -146,6 +153,11 @@ public class BaseWarpBlockEntity extends BlockEntity {
 
         if (tag.contains(WARP_UUID))
             this.warpUuid = tag.getUUID(WARP_UUID);
+
+        if (tag.contains(WARP_SUB_LEVEL) && tag.contains(WARP_SUB_LEVEL_POS)) {
+            this.destinationSubLevel = tag.getUUID(WARP_SUB_LEVEL);
+            this.destinationSubLevelPos = NbtUtils.readBlockPos(tag, WARP_SUB_LEVEL_POS).orElse(null);
+        }
     }
 
     @Override
@@ -165,6 +177,11 @@ public class BaseWarpBlockEntity extends BlockEntity {
 
         if (this.warpUuid != null)
             tag.putUUID(WARP_UUID, this.getWarpUuid());
+
+        if (this.destinationSubLevel != null && this.destinationSubLevelPos != null) {
+            tag.putUUID(WARP_SUB_LEVEL, this.destinationSubLevel);
+            tag.put(WARP_SUB_LEVEL_POS, NbtUtils.writeBlockPos(this.destinationSubLevelPos));
+        }
     }
 
     @Override
@@ -204,5 +221,26 @@ public class BaseWarpBlockEntity extends BlockEntity {
 
     public static BlockPos findMatchingUUID(UUID uuid) {
         return WARP_LOCATIONS.getOrDefault(uuid, null);
+    }
+
+    public void updateDestinationSubLevel(@Nullable BlockPos pos) {
+        if (pos == null) {
+            this.destinationSubLevel = null;
+            this.destinationSubLevelPos = null;
+            return;
+        }
+
+        if (this.level == null || this.level.isClientSide || !ModList.get().isLoaded("sable"))
+            return;
+
+        SableProvider.SubLevelAnchor anchor = SableProvider.getAnchor(this.level, pos);
+
+        if (anchor != null) {
+            this.destinationSubLevel = anchor.subLevel();
+            this.destinationSubLevelPos = anchor.localPos();
+        } else if (!SableProvider.isPlotPos(this.level, pos)) {
+            this.destinationSubLevel = null;
+            this.destinationSubLevelPos = null;
+        }
     }
 }
