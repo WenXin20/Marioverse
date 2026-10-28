@@ -10,6 +10,8 @@ import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
 import com.wenxin2.marioverse.blocks.RedMushroomTrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
@@ -41,7 +43,9 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
@@ -58,8 +62,10 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -106,6 +112,9 @@ public class ClientEventHandlers {
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/red_quicksand_overlay.png");
     public static final ResourceLocation SPLUNKIN_OVERLAY = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/splunkin_pumpkin_blur.png");
+    private static final List<CooldownSmoke> COOLDOWN_PIPE_ENTRANCES = new ArrayList<>();
+    private static BlockPos cooldownScanCenter;
+    private static long cooldownScanTime;
 
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
@@ -559,6 +568,9 @@ public class ClientEventHandlers {
                     else PacketDistributor.sendToServer(new SquashEntityPayload(false, motion.y, minY));
                 }
             }
+
+            if (player.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0 && level.getGameTime() % 4 == 0)
+                ClientEventHandlers.spawnWarpCooldownParticles(level, player);
         }
     }
 
@@ -720,5 +732,33 @@ public class ClientEventHandlers {
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    private record CooldownSmoke(Vec3 pos, Vec3 speed) {}
+
+    private static void spawnWarpCooldownParticles(Level level, Player player) {
+        BlockPos playerPos = player.blockPosition();
+
+        if (!playerPos.equals(cooldownScanCenter) || level.getGameTime() - cooldownScanTime >= 20) {
+            cooldownScanCenter = playerPos;
+            cooldownScanTime = level.getGameTime();
+            COOLDOWN_PIPE_ENTRANCES.clear();
+
+            for (BlockPos pos : BlockPos.betweenClosed(playerPos.offset(-3, -3, -3), playerPos.offset(3, 3, 3))) {
+                BlockState state = level.getBlockState(pos);
+
+                if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE) && !state.getValue(WarpPipeBlock.CLOSED)
+                        && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE && warpBE.hasDestinationPos()) {
+                    Direction facing = state.getValue(WarpPipeBlock.FACING);
+                    COOLDOWN_PIPE_ENTRANCES.add(new CooldownSmoke(
+                            Vec3.atCenterOf(pos).add(facing.getStepX() * 0.5, facing.getStepY() * 0.5, facing.getStepZ() * 0.5),
+                            new Vec3(facing.getStepX() * 0.02, facing.getStepY() * 0.02 + 0.01, facing.getStepZ() * 0.02)));
+                }
+            }
+        }
+
+        for (CooldownSmoke smoke : COOLDOWN_PIPE_ENTRANCES)
+            level.addParticle(ParticleTypes.SMOKE, smoke.pos().x, smoke.pos().y, smoke.pos().z,
+                    smoke.speed().x, smoke.speed().y, smoke.speed().z);
     }
 }
