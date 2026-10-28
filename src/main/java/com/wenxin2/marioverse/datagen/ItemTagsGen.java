@@ -577,6 +577,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(TagRegistry.PORCUPUFFER_FOOD)
                 .addTag(ItemTags.FISHES);
 
+        tag(TagRegistry.WARP_FUEL)
+                .add(BlockRegistry.COIN.asItem())
+                .add(ItemRegistry.STAR_COIN.get());
+
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN_ITEMS)
                 .addTag(Tags.Items.DYES)
                 .addTag(Tags.Items.TOOLS_WRENCH)

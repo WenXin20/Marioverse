@@ -320,6 +320,7 @@ public class TagRegistry {
     public static final TagKey<Item> SUPER_MUSHROOM_CAP_ITEMS = itemTags("super_mushroom_caps");
     public static final TagKey<Item> SUPER_MUSHROOM_STEM_ITEMS = itemTags("super_mushroom_stems");
     public static final TagKey<Item> WARP_DOOR_ITEMS = itemTags("warp_doors");
+    public static final TagKey<Item> WARP_FUEL = itemTags("warp_fuel");
     public static final TagKey<Item> WARP_PIPE_CANNOT_SPAWN_ITEMS = itemTags("warp_pipe_cannot_spawn");
     public static final TagKey<Item> WARP_PIPE_ITEMS = itemTags("warp_pipes");
     public static final TagKey<Item> WARP_TRAPDOOR_ITEMS = itemTags("warp_trapdoors");

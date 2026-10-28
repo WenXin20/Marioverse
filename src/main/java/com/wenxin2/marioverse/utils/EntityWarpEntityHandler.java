@@ -20,6 +20,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.BlockAttachedEntity;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -82,11 +83,10 @@ public interface EntityWarpEntityHandler {
                     || enteredEntity.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
                     || enteredEntity.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
                     || enteredEntity.getType() == CompatRegistry.MAGIC_PAINTING.get()));
-            int xpCost = WarpXpCost.getCost(entity, world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting
-                    ? ConfigRegistry.WARP_PAINTING_XP_COST_MULTIPLIER.get() : ConfigRegistry.WARP_ENTITY_XP_COST_MULTIPLIER.get());
+            WarpCost.Cost warpCost = WarpCost.getEntityCost(entity, world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting);
             Vec3 startPos = entity.position();
 
-            if (!WarpXpCost.canAfford(entity, xpCost))
+            if (!WarpCost.canAfford(entity, warpCost))
                 return;
 
             if (warpEntity != null) {
@@ -153,6 +153,12 @@ public interface EntityWarpEntityHandler {
 
                 if (savedTarget != null) {
                     BlockPos basePos = savedTarget.pos();
+
+                    if (serverWorld.areEntitiesLoaded(ChunkPos.asLong(basePos))) {
+                        if (entity instanceof Player player)
+                            BlockWarpEntityHandler.displayDestinationMissingMessage(player);
+                        return;
+                    }
                     Direction direction = savedTarget.direction();
                     int width = savedTarget.width();
 
@@ -170,7 +176,7 @@ public interface EntityWarpEntityHandler {
                 }
             }
 
-            WarpXpCost.chargeIfWarped(entity, startPos, xpCost);
+            WarpCost.chargeIfWarped(entity, startPos, warpCost);
         }
     }
 

@@ -1,7 +1,8 @@
-// 1.21.1	2026-10-26T01:05:37.8696364	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-10-27T12:48:25.7698377	Tags for minecraft:entity_type mod id marioverse
 44f403a7e81a606f61a6f18750ca7a1519500e02 data/c/tags/entity_type/boats.json
 565fad8ac5d7043b657fb6d5f66cc6edc5095988 data/marioverse/tags/entity_type/bee_can_pollinate.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
+7c8ac6aa48db55e2039defb0080ff1a8e48bb529 data/marioverse/tags/entity_type/cannot_be_stomped.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/marioverse/tags/entity_type/cannot_bounce_on_blocks.json
 1e2a0ae8bf8400e3e19bc81b5d620e0274442111 data/marioverse/tags/entity_type/cannot_change_max_health.json
 ec501a4a4c09a743c57693e13c9605359b09a997 data/marioverse/tags/entity_type/cannot_consume_power_ups.json
