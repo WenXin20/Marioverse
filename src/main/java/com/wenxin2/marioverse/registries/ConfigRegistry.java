@@ -787,11 +787,11 @@ public class ConfigRegistry {
                     WARP_DOOR_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_door_xp_cost_multiplier")
                             .comment("Experience points a player spends per block of distance when teleporting.")
                             .comment("§6[Set to 0 to disable]§b")
-                            .defineInRange("warp_door_xp_cost_multiplier", 0.0, 0.0, 100.0);
+                            .defineInRange("warp_door_xp_cost_multiplier", 0.0, 0.0, 5.0);
                     WARP_DOOR_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_door_fuel_cost_multiplier")
                             .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
                             .comment("§6[Set to 0 to disable]§b")
-                            .defineInRange("warp_door_fuel_cost_multiplier", 0.0, 0.0, 100.0);
+                            .defineInRange("warp_door_fuel_cost_multiplier", 0.0, 0.0, 1.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PAINTINGS);
@@ -809,11 +809,11 @@ public class ConfigRegistry {
                     WARP_PAINTING_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_painting_xp_cost_multiplier")
                             .comment("Experience points a player spends per block of distance when warping.")
                             .comment("§6[Set to 0 to disable]§b")
-                            .defineInRange("warp_painting_xp_cost_multiplier", 0.0, 0.0, 100.0);
+                            .defineInRange("warp_painting_xp_cost_multiplier", 0.0, 0.0, 5.0);
                     WARP_PAINTING_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_painting_fuel_cost_multiplier")
                             .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
                             .comment("§6[Set to 0 to disable]§b")
-                            .defineInRange("warp_painting_fuel_cost_multiplier", 0.0, 0.0, 100.0);
+                            .defineInRange("warp_painting_fuel_cost_multiplier", 0.0, 0.0, 1.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PIPES);
@@ -828,11 +828,11 @@ public class ConfigRegistry {
                     WARP_PIPE_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_pipe_xp_cost_multiplier")
                             .comment("Experience points a player spends per block of distance when teleporting")
                             .comment("§6[Set to 0 to disable]§b")
-                            .defineInRange("warp_pipe_xp_cost_multiplier", 0.0, 0.0, 100.0);
+                            .defineInRange("warp_pipe_xp_cost_multiplier", 0.0, 0.0, 5.0);
                     WARP_PIPE_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_pipe_fuel_cost_multiplier")
                             .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
                             .comment("§6[Set to 0 to disable]§b")
-                            .defineInRange("warp_pipe_fuel_cost_multiplier", 0.0, 0.0, 100.0);
+                            .defineInRange("warp_pipe_fuel_cost_multiplier", 0.0, 0.0, 1.0);
                     WARP_PIPE_SPAWNS_MOBS = BUILDER.translation("configuration.marioverse.warp_pipe_spawns_mobs")
                             .comment("Allow warp pipes to spawn mobs.")
                             .comment("§9[Default: true]")
@@ -879,11 +879,11 @@ public class ConfigRegistry {
                     WARP_TRAPDOOR_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_trapdoor_xp_cost_multiplier")
                             .comment("Experience points a player spends per block of distance when teleporting.")
                             .comment("§6[Set to 0 to disable]§b")
-                            .defineInRange("warp_trapdoor_xp_cost_multiplier", 0.0, 0.0, 100.0);
+                            .defineInRange("warp_trapdoor_xp_cost_multiplier", 0.0, 0.0, 5.0);
                     WARP_TRAPDOOR_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_trapdoor_fuel_cost_multiplier")
                             .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
                             .comment("§6[Set to 0 to disable]§b")
-                            .defineInRange("warp_trapdoor_fuel_cost_multiplier", 0.0, 0.0, 100.0);
+                            .defineInRange("warp_trapdoor_fuel_cost_multiplier", 0.0, 0.0, 1.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WATER_SPOUTS);

@@ -10,6 +10,9 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,6 +34,8 @@ import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 
 public interface BlockWarpEntityHandler {
+    Map<Entity, Long> AWAITING_RELEASE = Collections.synchronizedMap(new WeakHashMap<>());
+
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
 
     static boolean getShiftKeyForEntity(Entity entity) {
@@ -141,12 +146,13 @@ public interface BlockWarpEntityHandler {
                 else canEnterPipe = getShiftKeyForEntity(entity);
 
                 if (insideFaceBounds && canEnterPipe) {
-                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
+                    if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0) {
                         this.warp(entity, world, pos, state, warpPos, warpBE);
-                    else if (entity instanceof Player player) {
+                        AWAITING_RELEASE.put(entity, entity.level().getGameTime());
+                    } else if (entity instanceof Player player) {
                         if (warpBE.preventWarp)
                             this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos())
+                        else if (warpBE.hasDestinationPos() && !this.isStillEnteringAfterWarp(entity))
                             this.displayCooldownMessage(player, state);
                     }
                 }
@@ -180,12 +186,13 @@ public interface BlockWarpEntityHandler {
             if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
                 if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                     if (stateAbove.hasProperty(WarpPipeBlock.FACING) && stateAbove.getValue(WarpPipeBlock.FACING) == Direction.DOWN) {
-                        if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
+                        if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0) {
                             this.warp(entity, level, pos, stateAbove, warpPos, warpBE);
-                        else if (entity instanceof Player player) {
+                            AWAITING_RELEASE.put(entity, entity.level().getGameTime());
+                        } else if (entity instanceof Player player) {
                             if (warpBE.preventWarp)
                                 this.displayWarpDisruptedMessage(player, stateAbove);
-                            else if (warpBE.hasDestinationPos())
+                            else if (warpBE.hasDestinationPos() && !this.isStillEnteringAfterWarp(entity))
                                 this.displayCooldownMessage(player, stateAbove);
                         }
                     }
@@ -347,5 +354,18 @@ public interface BlockWarpEntityHandler {
 
     static void displayDestinationMissingMessage(Player player) {
         player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_missing"), true);
+    }
+
+    private boolean isStillEnteringAfterWarp(Entity entity) {
+        Long lastTick = AWAITING_RELEASE.get(entity);
+        long gameTime = entity.level().getGameTime();
+
+        if (lastTick != null && gameTime - lastTick <= 1) {
+            AWAITING_RELEASE.put(entity, gameTime);
+            return true;
+        }
+
+        AWAITING_RELEASE.remove(entity);
+        return false;
     }
 }
