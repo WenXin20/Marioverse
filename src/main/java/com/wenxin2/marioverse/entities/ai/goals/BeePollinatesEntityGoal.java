@@ -26,6 +26,7 @@ public class BeePollinatesEntityGoal extends Goal {
     private static final double ARRIVAL_THRESHOLD = 0.1;
     private static final int POSITION_CHANGE_CHANCE = 25;
     private static final float SPEED_MODIFIER = 0.35F;
+    private static final float TRAVEL_SPEED_MODIFIER = 1.0F;
     private static final float HOVER_HEIGHT_ABOVE_FLOWER = 0.4F;
     private static final float HOVER_POS_OFFSET = 0.33333334F;
     private static final int MAX_POLLINATING_TICKS = 600;
@@ -146,7 +147,7 @@ public class BeePollinatesEntityGoal extends Goal {
 
         if (target.distanceTo(this.bee.position()) > 1.0) {
             this.hoverPos = target;
-            this.setWantedPos();
+            this.setWantedPos(TRAVEL_SPEED_MODIFIER);
         } else {
             if (this.hoverPos == null)
                 this.hoverPos = target;
@@ -164,7 +165,7 @@ public class BeePollinatesEntityGoal extends Goal {
             }
 
             if (shouldMove)
-                this.setWantedPos();
+                this.setWantedPos(SPEED_MODIFIER);
 
             this.successfulPollinatingTicks++;
 
@@ -208,9 +209,9 @@ public class BeePollinatesEntityGoal extends Goal {
         return new Vec3(flower.getX(), flower.getY() + flower.getBbHeight() + HOVER_HEIGHT_ABOVE_FLOWER, flower.getZ());
     }
 
-    private void setWantedPos() {
+    private void setWantedPos(float speedModifier) {
         if (this.hoverPos != null)
-            this.bee.getMoveControl().setWantedPosition(this.hoverPos.x(), this.hoverPos.y(), this.hoverPos.z(), SPEED_MODIFIER);
+            this.bee.getMoveControl().setWantedPosition(this.hoverPos.x(), this.hoverPos.y(), this.hoverPos.z(), speedModifier);
     }
 
     private float getOffset() {
