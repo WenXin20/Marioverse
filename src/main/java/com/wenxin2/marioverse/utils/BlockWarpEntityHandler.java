@@ -35,6 +35,7 @@ import org.joml.Vector3d;
 
 public interface BlockWarpEntityHandler {
     Map<Entity, Long> AWAITING_RELEASE = Collections.synchronizedMap(new WeakHashMap<>());
+    int RELEASE_GRACE_TICKS = 10;
 
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
 
@@ -321,7 +322,7 @@ public interface BlockWarpEntityHandler {
     }
 
     default void displayCooldownMessage(Player player, BlockState state) {
-        if (player.getData(DataAttachmentRegistry.WARP_COOLDOWN) >= 10) {
+        if (!player.level().isClientSide && player.getData(DataAttachmentRegistry.WARP_COOLDOWN) >= 10) {
             if (state.getBlock() instanceof WarpPipeBlock) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
@@ -360,7 +361,7 @@ public interface BlockWarpEntityHandler {
         Long lastTick = AWAITING_RELEASE.get(entity);
         long gameTime = entity.level().getGameTime();
 
-        if (lastTick != null && gameTime - lastTick <= 1) {
+        if (lastTick != null && gameTime - lastTick <= RELEASE_GRACE_TICKS) {
             AWAITING_RELEASE.put(entity, gameTime);
             return true;
         }
