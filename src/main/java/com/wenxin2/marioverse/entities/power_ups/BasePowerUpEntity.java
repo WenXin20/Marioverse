@@ -34,6 +34,11 @@ public class BasePowerUpEntity extends PathfinderMob {
     }
 
     @Override
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        return false;
+    }
+
+    @Override
     public void jumpInFluid(FluidType type) {
         this.jumpInLiquidInternal(() -> super.jumpInFluid(type));
     }
