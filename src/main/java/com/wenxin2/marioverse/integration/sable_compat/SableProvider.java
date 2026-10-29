@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.integration.sable_compat;
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
 import java.util.UUID;
+import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -87,7 +88,7 @@ public class SableProvider {
         @Nullable SubLevelAnchor getAnchor(Level level, BlockPos pos);
         boolean isPlotPos(Level level, BlockPos pos);
         @Nullable BlockPos resolve(Level level, UUID subLevel, BlockPos localPos);
-        boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Runnable onLoaded);
+        boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Predicate<BlockPos> isReady, Runnable onLoaded);
         @Nullable BlockPos toWorldPos(Level level, BlockPos pos);
         @Nullable Vec3 toWorldVec(Level level, Vec3 pos);
     }
@@ -109,7 +110,7 @@ public class SableProvider {
         }
 
         @Override
-        public boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Runnable onLoaded) {
+        public boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Predicate<BlockPos> isReady, Runnable onLoaded) {
             return false;
         }
 
@@ -152,7 +153,8 @@ public class SableProvider {
         return WARP_RESOLVER.toWorldVec(level, pos);
     }
 
-    public static boolean queueSubLevelWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Runnable onLoaded) {
-        return WARP_RESOLVER.queueWarp(level, subLevel, localPos, entity, onLoaded);
+    public static boolean queueSubLevelWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity,
+                                            Predicate<BlockPos> isReady, Runnable onLoaded) {
+        return WARP_RESOLVER.queueWarp(level, subLevel, localPos, entity, isReady, onLoaded);
     }
 }

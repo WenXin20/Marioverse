@@ -82,6 +82,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Unique private static final String WARP_TARGET_POS = "Pos";
     @Unique private static final String WARP_TARGET_DIRECTION = "Direction";
     @Unique private static final String WARP_TARGET_WIDTH = "Width";
+    @Unique private static final String WARP_SUB_LEVEL = "WarpSubLevel";
+    @Unique private static final String WARP_SUB_LEVEL_POS = "WarpSubLevelPos";
 
     @Unique public BlockPos mv$destinationPos;
     @Unique public Entity mv$warpEntity;
@@ -89,6 +91,8 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Unique public UUID mv$UUID;
     @Unique public UUID mv$warpUUID;
     @Unique public WarpTarget mv$warpTarget;
+    @Unique public UUID mv$warpSubLevel;
+    @Unique public BlockPos mv$warpSubLevelPos;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
 
@@ -130,6 +134,11 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             targetTag.putInt(WARP_TARGET_WIDTH, this.mv$warpTarget.width());
             tag.put(WARP_TARGET, targetTag);
         }
+
+        if (this.mv$warpSubLevel != null && this.mv$warpSubLevelPos != null) {
+            tag.putUUID(WARP_SUB_LEVEL, this.mv$warpSubLevel);
+            tag.putLong(WARP_SUB_LEVEL_POS, this.mv$warpSubLevelPos.asLong());
+        }
     }
 
     @Inject(method = "load", at = @At("TAIL"))
@@ -154,6 +163,11 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             CompoundTag targetTag = tag.getCompound(WARP_TARGET);
             this.mv$warpTarget = new WarpTarget(BlockPos.of(targetTag.getLong(WARP_TARGET_POS)),
                     Direction.from3DDataValue(targetTag.getInt(WARP_TARGET_DIRECTION)), targetTag.getInt(WARP_TARGET_WIDTH));
+        }
+
+        if (tag.contains(WARP_SUB_LEVEL) && tag.contains(WARP_SUB_LEVEL_POS)) {
+            this.mv$warpSubLevel = tag.getUUID(WARP_SUB_LEVEL);
+            this.mv$warpSubLevelPos = BlockPos.of(tag.getLong(WARP_SUB_LEVEL_POS));
         }
     }
 
@@ -570,5 +584,21 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public void mv$setWarpTarget(WarpTarget target) {
         this.mv$warpTarget = target;
+    }
+
+    @Override
+    public UUID mv$getWarpSubLevel() {
+        return this.mv$warpSubLevel;
+    }
+
+    @Override
+    public BlockPos mv$getWarpSubLevelPos() {
+        return this.mv$warpSubLevelPos;
+    }
+
+    @Override
+    public void mv$setWarpSubLevel(UUID subLevel, BlockPos localPos) {
+        this.mv$warpSubLevel = subLevel;
+        this.mv$warpSubLevelPos = localPos;
     }
 }

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -52,12 +53,30 @@ public interface WarpLinkableEntity {
 
     void mv$setWarpTarget(@Nullable WarpTarget target);
 
+    @Nullable UUID mv$getWarpSubLevel();
+
+    @Nullable BlockPos mv$getWarpSubLevelPos();
+
+    void mv$setWarpSubLevel(@Nullable UUID subLevel, @Nullable BlockPos localPos);
+
     static @Nullable WarpTarget getWarpPos(UUID uuid) {
         return WARP_LOCATIONS.get(uuid);
     }
 
     static void setWarpPos(UUID uuid, BlockPos pos, Direction direction, int width) {
         WARP_LOCATIONS.put(uuid, new WarpTarget(pos, direction, width));
+    }
+
+    static void updateWarpSubLevel(Level level, WarpLinkableEntity warpLinkableEntity, BlockPos destination) {
+        if (level.isClientSide || !SableProvider.isLoaded())
+            return;
+
+        SableProvider.SubLevelAnchor anchor = SableProvider.getAnchor(level, destination);
+
+        if (anchor != null)
+            warpLinkableEntity.mv$setWarpSubLevel(anchor.subLevel(), anchor.localPos());
+        else if (!SableProvider.isPlotPos(level, destination))
+            warpLinkableEntity.mv$setWarpSubLevel(null, null);
     }
 
     static void markEntityTeleported(Entity entity) {

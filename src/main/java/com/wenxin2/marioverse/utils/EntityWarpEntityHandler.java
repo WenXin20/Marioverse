@@ -104,6 +104,7 @@ public interface EntityWarpEntityHandler {
                     if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
+                    WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
 
                     if (painting.getData(DataAttachmentRegistry.BREAK.get()))
                         painting.discard();
@@ -116,6 +117,7 @@ public interface EntityWarpEntityHandler {
                     if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
+                    WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
 
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
@@ -128,6 +130,7 @@ public interface EntityWarpEntityHandler {
                     if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
+                    WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
 
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
@@ -143,16 +146,33 @@ public interface EntityWarpEntityHandler {
                     }
 
                     WarpLinkableEntity.warp(world, entity, worldWarpPos.x, worldWarpPos.y, worldWarpPos.z);
+                    WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, warpPos);
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
                 }
             } else {
+                UUID warpSubLevel = warpLinkableEntity.mv$getWarpSubLevel();
+                BlockPos warpSubLevelPos = warpLinkableEntity.mv$getWarpSubLevelPos();
+                BlockPos subLevelPos = SableProvider.isLoaded() && warpSubLevel != null && warpSubLevelPos != null
+                        ? SableProvider.resolveSubLevelPos(world, warpSubLevel, warpSubLevelPos) : null;
+
+                if (SableProvider.isLoaded() && warpSubLevel != null && warpSubLevelPos != null && subLevelPos == null) {
+                    if (SableProvider.queueSubLevelWarp(serverWorld, warpSubLevel, warpSubLevelPos, entity,
+                            loadedPos -> serverWorld.getEntity(warpUUID) != null,
+                            () -> this.warp(entity, world, warpLinkableEntity))) {
+                        if (entity instanceof Player player)
+                            player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_loading"), true);
+                    } else if (entity instanceof Player player)
+                        BlockWarpEntityHandler.displayDestinationMissingMessage(player);
+                    return;
+                }
+
                 WarpLinkableEntity.WarpTarget savedTarget = warpLinkableEntity.mv$getWarpTarget();
                 if (savedTarget == null)
                     savedTarget = WarpLinkableEntity.getWarpPos(warpUUID);
 
                 if (savedTarget != null) {
-                    BlockPos basePos = savedTarget.pos();
+                    BlockPos basePos = subLevelPos != null ? subLevelPos : savedTarget.pos();
 
                     if (serverWorld.areEntitiesLoaded(ChunkPos.asLong(basePos))) {
                         if (entity instanceof Player player)

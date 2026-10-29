@@ -1,7 +1,6 @@
 package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.integration.sable_compat.SubLevelLocationSavedData;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
@@ -28,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
+import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.server.level.ServerLevel;
@@ -55,7 +55,8 @@ public class SableCompat {
     private static final int MAX_TICKETED_CHUNKS = 256;
     private static final int LOCATION_UPDATE_INTERVAL = 100;
 
-    private record PendingWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Runnable onLoaded, long deadline) {}
+    private record PendingWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Predicate<BlockPos> isReady,
+                               Runnable onLoaded, long deadline) {}
 
     private static final SubLevelObserver LOCATION_OBSERVER = new SubLevelObserver() {
         @Override
@@ -149,7 +150,7 @@ public class SableCompat {
             }
 
             @Override
-            public boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Runnable onLoaded) {
+            public boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Predicate<BlockPos> isReady, Runnable onLoaded) {
                 if (PENDING_WARPS.containsKey(entity.getId()))
                     return true;
 
@@ -168,7 +169,7 @@ public class SableCompat {
                         ticketedChunks++;
                     }
                 }
-                PENDING_WARPS.put(entity.getId(), new PendingWarp(level, subLevel, localPos, entity, onLoaded,
+                PENDING_WARPS.put(entity.getId(), new PendingWarp(level, subLevel, localPos, entity, isReady, onLoaded,
                         level.getGameTime() + PENDING_WARP_TIMEOUT));
                 return true;
             }
@@ -330,7 +331,7 @@ public class SableCompat {
 
             BlockPos resolvedPos = SableCompat.resolveSubLevelPos(level, warp.subLevel(), warp.localPos());
 
-            if (resolvedPos != null && level.getBlockEntity(resolvedPos) instanceof BaseWarpBlockEntity) {
+            if (resolvedPos != null && warp.isReady().test(resolvedPos)) {
                 iterator.remove();
                 readyWarps.add(warp);
             } else if (level.getGameTime() > warp.deadline()) {

@@ -275,9 +275,12 @@ public class LinkerItem extends TieredItem {
                 secondWarpEntity.mv$setWarpTarget(firstTarget);
             else secondWarpEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(firstPos, Direction.NORTH, 1));
 
-            if (firstEntity instanceof WarpLinkableEntity firstWarpEntity)
+            WarpLinkableEntity.updateWarpSubLevel(secondEntity.level(), secondWarpEntity, firstPos);
+
+            if (firstEntity instanceof WarpLinkableEntity firstWarpEntity) {
                 firstWarpEntity.mv$setWarpTarget(secondTarget);
-            else if (firstUuid != null && !firstIsBlock && secondEntity.getServer() != null)
+                WarpLinkableEntity.updateWarpSubLevel(firstEntity.level(), firstWarpEntity, secondPos);
+            } else if (firstUuid != null && !firstIsBlock && secondEntity.getServer() != null)
                 PendingWarpLinkSavedData.get(secondEntity.getServer()).addLink(firstUuid,
                         new PendingWarpLinkSavedData.PendingLink(secondPos, secondWarpEntity.mv$getDestinationDim(), secondUuid, secondTarget));
 

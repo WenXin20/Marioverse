@@ -214,6 +214,7 @@ public interface BlockWarpEntityHandler {
 
                 if (resolvedPos == null) {
                     if (SableProvider.queueSubLevelWarp(serverLevel, warpBE.destinationSubLevel, warpBE.destinationSubLevelPos, entity,
+                            loadedPos -> serverLevel.getBlockEntity(loadedPos) instanceof BaseWarpBlockEntity,
                             () -> this.warp(entity, level, pos, state, warpBE.destinationPos, warpBE))) {
                         if (entity instanceof Player player)
                             player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_loading"), true);
