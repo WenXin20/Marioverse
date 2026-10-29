@@ -249,15 +249,15 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
-        event.register((stack, tintIndex) -> tintIndex == 0 ? 0x12FC29 : -1,
+        event.register((stack, tintIndex) -> tintIndex == 0 ? GrassColor.getDefaultColor() : -1,
                 BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
                 BlockRegistry.GRASSY_FORTSTONE.get(),
                 BlockRegistry.GRASSY_FUNGAL_STONE.get(),
                 BlockRegistry.SHROOMGRASS_BLOCK.get(),
                 BlockRegistry.SHORT_SHROOMGRASS.get(),
                 BlockRegistry.SHROOMGRASS.get(),
-                BlockRegistry.TALL_SHROOMGRASS.get(),
-                BlockRegistry.SHRUBROOM.get());
+                BlockRegistry.SHRUBROOM.get(),
+                BlockRegistry.TALL_SHROOMGRASS.get());
 
         event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
                 BlockRegistry.MUSHROOT_LEAVES.get());
