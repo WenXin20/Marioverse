@@ -905,18 +905,18 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CHISELED_CALCITE_BRICKS, true, true);
             addDyedBlocks(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_PEDESTALS, true, true);
             addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_LOOPHOLES, true, true);
-            add(event, BlockRegistry.CALCITE_STAIRS);
-            add(event, BlockRegistry.CALCITE_SLAB);
-            add(event, BlockRegistry.CALCITE_WALL);
-            add(event, BlockRegistry.CALCITE_PRESSURE_PLATE);
-            add(event, BlockRegistry.CALCITE_BUTTON);
-            add(event, BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS);
-            add(event, BlockRegistry.POLISHED_WHITE_CALCITE_SLAB);
-            add(event, BlockRegistry.POLISHED_WHITE_CALCITE_WALL);
-            add(event, BlockRegistry.WHITE_CALCITE_BRICK_STAIRS);
-            add(event, BlockRegistry.WHITE_CALCITE_BRICK_SLAB);
-            add(event, BlockRegistry.WHITE_CALCITE_BRICK_WALL);
-            addDyedBlocks(event, BlockRegistry.WHITE_CALCITE_BRICK_WALL, BlockRegistry.CALCITE_BRIDGES, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.PINK), BlockRegistry.CALCITE_STAIRS, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_STAIRS.get(DyeColor.PINK), BlockRegistry.CALCITE_SLABS, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_SLABS.get(DyeColor.PINK), BlockRegistry.CALCITE_WALLS, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_WALLS.get(DyeColor.PINK), BlockRegistry.CALCITE_PRESSURE_PLATES, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_PRESSURE_PLATES.get(DyeColor.PINK), BlockRegistry.CALCITE_BUTTONS, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_BUTTONS.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE_STAIRS, true, true);
+            addDyedBlocks(event, BlockRegistry.POLISHED_CALCITE_STAIRS.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE_SLABS, true, true);
+            addDyedBlocks(event, BlockRegistry.POLISHED_CALCITE_SLABS.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE_WALLS, true, true);
+            addDyedBlocks(event, BlockRegistry.POLISHED_CALCITE_WALLS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_STAIRS, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_STAIRS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_SLABS, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_SLABS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_WALLS, true, true);
+            addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_WALLS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRIDGES, true, true);
 
             add(event, BlockRegistry.CALCITE_CHECKERED_TILES);
             add(event, BlockRegistry.CALCITE_CHECKERED_TILE_SLAB);
@@ -1621,7 +1621,18 @@ public class MarioverseCreativeTabs {
                 addDyedBlocks(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.STORAGE_CALCITE_BRICKS, true, true);
                 addDyedBlocks(event, BlockRegistry.STORAGE_CALCITE_BRICKS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_PEDESTALS, true, true);
                 addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_LOOPHOLES, true, true);
-                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.PINK), BlockRegistry.CALCITE_BRIDGES, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.PINK), BlockRegistry.CALCITE_STAIRS, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_STAIRS.get(DyeColor.PINK), BlockRegistry.CALCITE_SLABS, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_SLABS.get(DyeColor.PINK), BlockRegistry.CALCITE_WALLS, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_WALLS.get(DyeColor.PINK), BlockRegistry.CALCITE_PRESSURE_PLATES, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_PRESSURE_PLATES.get(DyeColor.PINK), BlockRegistry.CALCITE_BUTTONS, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_BUTTONS.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE_STAIRS, true, true);
+                addDyedBlocks(event, BlockRegistry.POLISHED_CALCITE_STAIRS.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE_SLABS, true, true);
+                addDyedBlocks(event, BlockRegistry.POLISHED_CALCITE_SLABS.get(DyeColor.PINK), BlockRegistry.POLISHED_CALCITE_WALLS, true, true);
+                addDyedBlocks(event, BlockRegistry.POLISHED_CALCITE_WALLS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_STAIRS, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_STAIRS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_SLABS, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_SLABS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRICK_WALLS, true, true);
+                addDyedBlocks(event, BlockRegistry.CALCITE_BRICK_WALLS.get(DyeColor.PINK), BlockRegistry.CALCITE_BRIDGES, true, true);
                 addDyedBlockPairs(event, BlockRegistry.CALCITE_BRIDGES.get(DyeColor.PINK), BlockRegistry.PICKET_FENCES, BlockRegistry.PICKET_FENCE_GATES);
 
                 addAfter(event, Blocks.PINK_SHULKER_BOX, BlockRegistry.CLEAR_WARP_PIPE);
@@ -2238,22 +2249,22 @@ public class MarioverseCreativeTabs {
                 addAfter(event, BlockRegistry.MOSSY_STONE_BRIDGE, BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS);
 
                 addAfter(event, Blocks.REINFORCED_DEEPSLATE, Blocks.CALCITE);
-                addAfter(event, Blocks.CALCITE, BlockRegistry.CALCITE_STAIRS);
-                addAfter(event, BlockRegistry.CALCITE_STAIRS, BlockRegistry.CALCITE_SLAB);
-                addAfter(event, BlockRegistry.CALCITE_SLAB, BlockRegistry.CALCITE_WALL);
-                addAfter(event, BlockRegistry.CALCITE_WALL, BlockRegistry.CALCITE_PRESSURE_PLATE);
-                addAfter(event, BlockRegistry.CALCITE_PRESSURE_PLATE, BlockRegistry.CALCITE_BUTTON);
+                addAfter(event, Blocks.CALCITE, BlockRegistry.CALCITE_STAIRS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_STAIRS.get(DyeColor.WHITE), BlockRegistry.CALCITE_SLABS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_SLABS.get(DyeColor.WHITE), BlockRegistry.CALCITE_WALLS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_WALLS.get(DyeColor.WHITE), BlockRegistry.CALCITE_PRESSURE_PLATES.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_PRESSURE_PLATES.get(DyeColor.WHITE), BlockRegistry.CALCITE_BUTTONS.get(DyeColor.WHITE));
 
-                addAfter(event, BlockRegistry.CALCITE_BUTTON, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE));
-                addAfter(event, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS);
-                addAfter(event, BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS, BlockRegistry.POLISHED_WHITE_CALCITE_SLAB);
-                addAfter(event, BlockRegistry.POLISHED_WHITE_CALCITE_SLAB, BlockRegistry.POLISHED_WHITE_CALCITE_WALL);
-                addAfter(event, BlockRegistry.POLISHED_WHITE_CALCITE_WALL, BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_BUTTONS.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE_STAIRS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.POLISHED_CALCITE_STAIRS.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE_SLABS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.POLISHED_CALCITE_SLABS.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE_WALLS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.POLISHED_CALCITE_WALLS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE));
 
-                addAfter(event, BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE), BlockRegistry.WHITE_CALCITE_BRICK_STAIRS);
-                addAfter(event, BlockRegistry.WHITE_CALCITE_BRICK_STAIRS, BlockRegistry.WHITE_CALCITE_BRICK_SLAB);
-                addAfter(event, BlockRegistry.WHITE_CALCITE_BRICK_SLAB, BlockRegistry.WHITE_CALCITE_BRICK_WALL);
-                addAfter(event, BlockRegistry.WHITE_CALCITE_BRICK_WALL, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICK_STAIRS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_BRICK_STAIRS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICK_SLABS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_BRICK_SLABS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICK_WALLS.get(DyeColor.WHITE));
+                addAfter(event, BlockRegistry.CALCITE_BRICK_WALLS.get(DyeColor.WHITE), BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE));
                 addAfter(event, BlockRegistry.CHISELED_CALCITE_BRICKS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.WHITE));
                 addAfter(event, BlockRegistry.CALCITE_BRICK_PEDESTALS.get(DyeColor.WHITE), BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(DyeColor.WHITE));
 

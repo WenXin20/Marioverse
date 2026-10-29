@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:storage_calcite_bricks_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/blue"
+    },
+    {
+      "tag": "marioverse:storage_calcite_bricks"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:storage_blue_calcite_bricks"
+  }
+}

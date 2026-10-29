@@ -7,11 +7,11 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_yellow_calcite_bricks": {
+    "has_yellow_calcite_brick_slab": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:yellow_calcite_bricks"
+            "items": "marioverse:yellow_calcite_brick_slab"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_yellow_calcite_bricks"
+      "has_yellow_calcite_brick_slab"
     ]
   ],
   "rewards": {

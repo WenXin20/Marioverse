@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:polished_calcite_stairs_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/green"
+    },
+    {
+      "tag": "marioverse:polished_calcite_stairs"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:polished_green_calcite_stairs"
+  }
+}

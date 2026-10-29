@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "marioverse:block/orange_calcite_bricks"
+  }
+}

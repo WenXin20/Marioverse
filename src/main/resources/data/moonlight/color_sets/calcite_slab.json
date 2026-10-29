@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:calcite_slab",
+  "colors": {
+    "default": "marioverse:calcite_slab",
+    "white": "marioverse:calcite_slab",
+    "orange": "marioverse:orange_calcite_slab",
+    "magenta": "marioverse:magenta_calcite_slab",
+    "light_blue": "marioverse:light_blue_calcite_slab",
+    "yellow": "marioverse:yellow_calcite_slab",
+    "lime": "marioverse:lime_calcite_slab",
+    "pink": "marioverse:pink_calcite_slab",
+    "gray": "marioverse:gray_calcite_slab",
+    "light_gray": "marioverse:light_gray_calcite_slab",
+    "cyan": "marioverse:cyan_calcite_slab",
+    "purple": "marioverse:purple_calcite_slab",
+    "blue": "marioverse:blue_calcite_slab",
+    "brown": "marioverse:brown_calcite_slab",
+    "green": "marioverse:green_calcite_slab",
+    "red": "marioverse:red_calcite_slab",
+    "black": "marioverse:black_calcite_slab"
+  },
+  "replace": true
+}

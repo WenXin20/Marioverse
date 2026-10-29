@@ -659,6 +659,111 @@ public class RecipeGen extends RecipeUtils {
             dyeItemRecipe(1, "chiseled_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS, false, output);
         }
 
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BUTTONS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_buttons_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BUTTON_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_PRESSURE_PLATES.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_pressure_plates_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_PRESSURE_PLATE_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_SLABS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_slabs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_SLAB_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_STAIRS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_stairs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_STAIR_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_WALLS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_walls_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_WALL_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.POLISHED_CALCITE_SLABS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "polished_calcite_slabs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_SLAB_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.POLISHED_CALCITE_STAIRS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "polished_calcite_stairs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_STAIR_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.POLISHED_CALCITE_WALLS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "polished_calcite_walls_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_WALL_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_SLABS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_slabs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_SLAB_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_STAIRS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_stairs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_STAIR_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_WALLS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_walls_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_WALL_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.STORAGE_CALCITE_BRICKS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "storage_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.STORAGE_CALCITE_BRICK_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_PEDESTALS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_pedestals_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_PEDESTAL_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_LOOPHOLES.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_loopholes_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_LOOPHOLE_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRIDGES.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_bridges_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRIDGE_ITEMS, false, output);
+        }
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());

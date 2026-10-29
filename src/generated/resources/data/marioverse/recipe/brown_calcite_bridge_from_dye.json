@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:calcite_bridges_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/brown"
+    },
+    {
+      "tag": "marioverse:calcite_bridges"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:brown_calcite_bridge"
+  }
+}

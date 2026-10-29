@@ -47,8 +47,33 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRICK_PEDESTALS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRICK_LOOPHOLES.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_SLABS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_SLAB_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_STAIRS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_STAIR_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_WALLS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_WALL_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_SLABS.values().forEach(block -> tag(BlockTags.SLABS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_SLABS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_STAIRS.values().forEach(block -> tag(BlockTags.STAIRS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_STAIRS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_WALLS.values().forEach(block -> tag(BlockTags.WALLS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_WALLS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
         BlockRegistry.CALCITE_BRIDGES.values().forEach(block -> tag(TagRegistry.STONE_BRIDGES).add(block.get()));
         BlockRegistry.CALCITE_BRIDGES.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_BRIDGES.values().forEach(block -> tag(TagRegistry.CALCITE_BRIDGE_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BUTTONS.values().forEach(block -> tag(TagRegistry.CALCITE_BUTTON_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_PRESSURE_PLATES.values().forEach(block -> tag(TagRegistry.CALCITE_PRESSURE_PLATE_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_SLABS.values().forEach(block -> tag(TagRegistry.CALCITE_SLAB_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_STAIRS.values().forEach(block -> tag(TagRegistry.CALCITE_STAIR_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_WALLS.values().forEach(block -> tag(TagRegistry.CALCITE_WALL_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BUTTONS.values().forEach(block -> tag(BlockTags.STONE_BUTTONS).add(block.get()));
+        BlockRegistry.CALCITE_BUTTONS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_PRESSURE_PLATES.values().forEach(block -> tag(BlockTags.STONE_PRESSURE_PLATES).add(block.get()));
+        BlockRegistry.CALCITE_PRESSURE_PLATES.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_SLABS.values().forEach(block -> tag(BlockTags.SLABS).add(block.get()));
+        BlockRegistry.CALCITE_SLABS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_STAIRS.values().forEach(block -> tag(BlockTags.STAIRS).add(block.get()));
+        BlockRegistry.CALCITE_STAIRS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_WALLS.values().forEach(block -> tag(BlockTags.WALLS).add(block.get()));
+        BlockRegistry.CALCITE_WALLS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
         BlockRegistry.CHISELED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
@@ -58,6 +83,15 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.PICKET_FENCE_GATES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCE_GATES).add(block.get()));
         BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_SLABS.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_SLAB_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_STAIRS.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_STAIR_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_WALLS.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_WALL_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_SLABS.values().forEach(block -> tag(BlockTags.SLABS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_SLABS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_STAIRS.values().forEach(block -> tag(BlockTags.STAIRS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_STAIRS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_WALLS.values().forEach(block -> tag(BlockTags.WALLS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_WALLS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
         BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.values().forEach(block -> tag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS).add(block.get()));
         BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
@@ -68,6 +102,14 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(color).get())
                     .add(BlockRegistry.CALCITE_BRIDGES.get(color).get())
                     .add(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_SLABS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_STAIRS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_WALLS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BUTTONS.get(color).get())
+                    .add(BlockRegistry.CALCITE_PRESSURE_PLATES.get(color).get())
+                    .add(BlockRegistry.CALCITE_SLABS.get(color).get())
+                    .add(BlockRegistry.CALCITE_STAIRS.get(color).get())
+                    .add(BlockRegistry.CALCITE_WALLS.get(color).get())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
                     .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
@@ -77,6 +119,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                     .add(BlockRegistry.PICKET_FENCE_GATES.get(color).get())
                     .add(BlockRegistry.PIPE_JUNCTION.get(color).get())
                     .add(BlockRegistry.POLISHED_CALCITE.get(color).get())
+                    .add(BlockRegistry.POLISHED_CALCITE_SLABS.get(color).get())
+                    .add(BlockRegistry.POLISHED_CALCITE_STAIRS.get(color).get())
+                    .add(BlockRegistry.POLISHED_CALCITE_WALLS.get(color).get())
                     .add(BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.get(color).get())
                     .add(BlockRegistry.STORAGE_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
@@ -1580,7 +1625,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
-                .add(BlockRegistry.CALCITE_SLAB.get())
                 .add(BlockRegistry.COBBLED_FORTSTONE_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_SLAB.get())
@@ -1604,13 +1648,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FORTSTONE_TILE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.ROCKY_FORTSTONE_SLAB.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get());
 
         tag(BlockTags.SMALL_FLOWERS)
                 .addTag(TagRegistry.BLOOMFLOWERS);
@@ -1637,7 +1679,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
-                .add(BlockRegistry.CALCITE_STAIRS.get())
                 .add(BlockRegistry.COBBLED_FORTSTONE_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_STAIRS.get())
@@ -1661,13 +1702,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FORTSTONE_TILE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.ROCKY_FORTSTONE_STAIRS.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get());
 
         tag(BlockTags.STANDING_SIGNS)
                 .add(BlockRegistry.MUSHROOT_SIGN.get())
@@ -1675,14 +1714,12 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.STONE_BUTTONS)
                 .add(BlockRegistry.AMETHYST_BUTTON.get())
-                .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
                 .add(BlockRegistry.FORTSTONE_BUTTON.get())
                 .add(BlockRegistry.FUNGAL_STONE_BUTTON.get());
 
         tag(BlockTags.STONE_PRESSURE_PLATES)
                 .add(BlockRegistry.AMETHYST_PRESSURE_PLATE.get())
-                .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FORTSTONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
@@ -1735,7 +1772,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_BRICK_WALL.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
-                .add(BlockRegistry.CALCITE_WALL.get())
                 .add(BlockRegistry.COBBLED_FORTSTONE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_WALL.get())
@@ -1764,12 +1800,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.ROCKY_FUNGAL_STONE_WALL.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+                .add(BlockRegistry.SANDSTONE_BRICK_WALL.get());
 
         tag(BlockTags.WOLVES_SPAWNABLE_ON)
                 .addTag(TagRegistry.GRASSY_STONES)
@@ -1867,15 +1901,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.BLOCK_SPAWNER.get())
                 .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
                 .add(BlockRegistry.BRICK_BRIDGE.get())
-                .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILES.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
-                .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
-                .add(BlockRegistry.CALCITE_SLAB.get())
-                .add(BlockRegistry.CALCITE_STAIRS.get())
-                .add(BlockRegistry.CALCITE_WALL.get())
                 .add(BlockRegistry.CHISELED_AMETHYST_BRICKS.get())
                 .add(BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CHISELED_FORTSTONE_BRICKS.get())
@@ -2016,9 +2045,6 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.PRISMARINE_BRIDGE.get())
                 .add(BlockRegistry.PURPUR_BRIDGE.get())
                 .add(BlockRegistry.QUARTZ_BRIDGE.get())
@@ -2054,10 +2080,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE.get())
                 .add(BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE.get())
                 .add(BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE.get())
-                .add(BlockRegistry.WEATHERED_COPPER_BRIDGE.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+                .add(BlockRegistry.WEATHERED_COPPER_BRIDGE.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(BlockRegistry.DEEP_WET_MUD.get())

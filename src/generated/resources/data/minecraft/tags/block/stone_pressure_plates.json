@@ -1,7 +1,22 @@
 {
   "values": [
-    "marioverse:amethyst_pressure_plate",
     "marioverse:calcite_pressure_plate",
+    "marioverse:orange_calcite_pressure_plate",
+    "marioverse:magenta_calcite_pressure_plate",
+    "marioverse:light_blue_calcite_pressure_plate",
+    "marioverse:yellow_calcite_pressure_plate",
+    "marioverse:lime_calcite_pressure_plate",
+    "marioverse:pink_calcite_pressure_plate",
+    "marioverse:gray_calcite_pressure_plate",
+    "marioverse:light_gray_calcite_pressure_plate",
+    "marioverse:cyan_calcite_pressure_plate",
+    "marioverse:purple_calcite_pressure_plate",
+    "marioverse:blue_calcite_pressure_plate",
+    "marioverse:brown_calcite_pressure_plate",
+    "marioverse:green_calcite_pressure_plate",
+    "marioverse:red_calcite_pressure_plate",
+    "marioverse:black_calcite_pressure_plate",
+    "marioverse:amethyst_pressure_plate",
     "marioverse:deep_fungal_stone_pressure_plate",
     "marioverse:fortstone_pressure_plate",
     "marioverse:fungal_stone_pressure_plate"

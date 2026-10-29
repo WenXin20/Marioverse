@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_orange_calcite_bricks": {
+    "has_orange_calcite_brick_slab": {
       "conditions": {
         "items": [
           {
-            "items": "marioverse:orange_calcite_bricks"
+            "items": "marioverse:orange_calcite_brick_slab"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_orange_calcite_bricks"
+      "has_orange_calcite_brick_slab"
     ]
   ],
   "rewards": {

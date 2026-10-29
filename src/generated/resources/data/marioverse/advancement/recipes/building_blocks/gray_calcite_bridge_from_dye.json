@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_calcite_bridges": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:calcite_bridges"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dyes/gray": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/gray"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:gray_calcite_bridge_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dyes/gray",
+      "has_calcite_bridges"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:gray_calcite_bridge_from_dye"
+    ]
+  }
+}

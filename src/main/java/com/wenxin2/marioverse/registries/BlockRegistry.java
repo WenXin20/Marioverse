@@ -170,6 +170,22 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_LOOPHOLES =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_SLABS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_STAIRS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_WALLS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BUTTONS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_PRESSURE_PLATES =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_SLABS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_STAIRS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_WALLS =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHISELED_CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CRACKED_CALCITE_BRICKS =
@@ -189,6 +205,12 @@ public class BlockRegistry {
     public static final EnumMap<DyeColor, DeferredBlock<Block>> RHOMBUS_PARKOUR_BLOCKS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE_SLABS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE_STAIRS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE_WALLS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> STORAGE_CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
@@ -251,16 +273,11 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BUBBLE_CORAL_TOWER;
-    public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_SLAB;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_STAIRS;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_WALL;
-    public static final DeferredBlock<Block> CALCITE_PRESSURE_PLATE;
     public static final DeferredBlock<Block> CALCITE_QUESTION_BLOCK;
-    public static final DeferredBlock<Block> CALCITE_SLAB;
-    public static final DeferredBlock<Block> CALCITE_STAIRS;
-    public static final DeferredBlock<Block> CALCITE_WALL;
     public static final DeferredBlock<Block> CHERRY_ARROW_SIGN;
     public static final DeferredBlock<Block> CHERRY_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE;
@@ -688,9 +705,6 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_WALL;
-    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_SLAB;
-    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_STAIRS;
-    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
     public static final DeferredBlock<Block> POTTED_BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> POTTED_BLUE_MEGA_MUSHROOM;
     public static final DeferredBlock<Block> POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
@@ -1003,9 +1017,6 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> WET_MUD;
     public static final DeferredBlock<Block> WET_MUD_FARMLAND;
     public static final DeferredBlock<Block> WHITE_BLOOMFLOWER;
-    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_SLAB;
-    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
-    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
     public static final DeferredBlock<Block> WHITE_ROSE_HEDGE;
     public static final DeferredBlock<Block> YELLOW_BLOOMFLOWER;
     public static final DeferredBlock<Block> YELLOW_MEGA_MUSHROOM;
@@ -2985,29 +2996,6 @@ public class BlockRegistry {
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
 
 
-        CALCITE_BUTTON = registerBlock("calcite_button", () -> button(Blocks.CALCITE, BlockSetType.STONE, 10));
-
-        CALCITE_PRESSURE_PLATE = registerBlock("calcite_pressure_plate", () -> pressurePlate(Blocks.CALCITE, BlockSetType.STONE));
-
-        CALCITE_SLAB = registerBlock("calcite_slab", () -> slab(Blocks.CALCITE));
-
-        CALCITE_STAIRS = registerBlock("calcite_stairs", () -> stair(Blocks.CALCITE));
-
-        CALCITE_WALL = registerBlock("calcite_wall", () -> wall(Blocks.CALCITE));
-
-        POLISHED_WHITE_CALCITE_SLAB = registerBlock("polished_white_calcite_slab", () -> slab(Blocks.CALCITE));
-
-        POLISHED_WHITE_CALCITE_STAIRS = registerBlock("polished_white_calcite_stairs", () -> stair(Blocks.CALCITE));
-
-        POLISHED_WHITE_CALCITE_WALL = registerBlock("polished_white_calcite_wall", () -> wall(Blocks.CALCITE));
-
-        WHITE_CALCITE_BRICK_SLAB = registerBlock("white_calcite_brick_slab", () -> slab(Blocks.CALCITE));
-
-        WHITE_CALCITE_BRICK_STAIRS = registerBlock("white_calcite_brick_stairs", () -> stair(Blocks.CALCITE));
-
-        WHITE_CALCITE_BRICK_WALL = registerBlock("white_calcite_brick_wall", () -> wall(Blocks.CALCITE));
-
-
         CALCITE_QUESTION_BLOCK = registerBlock("calcite_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)));
 
@@ -3678,6 +3666,50 @@ public class BlockRegistry {
                 CALCITE_BRICK_LOOPHOLES.put(color, registerBlock(color.getName() + "_calcite_brick_loophole",
                         () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(CALCITE_BRICKS.get(color).get())))));
 
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BUTTONS.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_button",
+                        () -> button(BlockRegistry.dyedCalcite(color), BlockSetType.STONE, 10))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_PRESSURE_PLATES.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_pressure_plate",
+                        () -> pressurePlate(BlockRegistry.dyedCalcite(color), BlockSetType.STONE))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_SLABS.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_slab",
+                        () -> slab(BlockRegistry.dyedCalcite(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_STAIRS.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_stairs",
+                        () -> stair(BlockRegistry.dyedCalcite(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_WALLS.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_wall",
+                        () -> wall(BlockRegistry.dyedCalcite(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                POLISHED_CALCITE_SLABS.put(color, registerBlock("polished_" + color.getName() + "_calcite_slab",
+                        () -> slab(POLISHED_CALCITE.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                POLISHED_CALCITE_STAIRS.put(color, registerBlock("polished_" + color.getName() + "_calcite_stairs",
+                        () -> stair(POLISHED_CALCITE.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                POLISHED_CALCITE_WALLS.put(color, registerBlock("polished_" + color.getName() + "_calcite_wall",
+                        () -> wall(POLISHED_CALCITE.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_SLABS.put(color, registerBlock(color.getName() + "_calcite_brick_slab",
+                        () -> slab(CALCITE_BRICKS.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_STAIRS.put(color, registerBlock(color.getName() + "_calcite_brick_stairs",
+                        () -> stair(CALCITE_BRICKS.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_WALLS.put(color, registerBlock(color.getName() + "_calcite_brick_wall",
+                        () -> wall(CALCITE_BRICKS.get(color).get()))));
+
         CLASSIC_CHECKPOINT_FLAG = registerNoItemBlock("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlock(3, null, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.NETHERITE_BLOCK).isViewBlocking(BlockRegistry::never)
@@ -3863,6 +3895,10 @@ public class BlockRegistry {
 
     private static Block stair(Block block) {
         return new StairBlock(block.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(block));
+    }
+
+    private static Block dyedCalcite(DyeColor color) {
+        return color == DyeColor.WHITE ? Blocks.CALCITE : CALCITE.get(color).get();
     }
 
     private static Block wall(Block block) {

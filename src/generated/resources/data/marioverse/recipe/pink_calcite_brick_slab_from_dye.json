@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:calcite_brick_slabs_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/pink"
+    },
+    {
+      "tag": "marioverse:calcite_brick_slabs"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:pink_calcite_brick_slab"
+  }
+}

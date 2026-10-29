@@ -82,6 +82,7 @@
 - Added Shrubrooms
 - Added bloomflowers of various colors
 - Added stone bridge variants, a new semi-solid platform
+- Added dyed calcite stairs, slabs, & walls, like vanilla
 - Added the ability for plastic buckets to pickup lava if enchanted with Fire Protection
 - Added the ability for plastic buckets to pickup modded fluids
 - Added the ability for plastic buckets to milk cows

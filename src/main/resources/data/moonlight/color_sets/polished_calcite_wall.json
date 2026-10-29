@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:polished_calcite_wall",
+  "colors": {
+    "default": "marioverse:polished_white_calcite_wall",
+    "white": "marioverse:polished_white_calcite_wall",
+    "orange": "marioverse:polished_orange_calcite_wall",
+    "magenta": "marioverse:polished_magenta_calcite_wall",
+    "light_blue": "marioverse:polished_light_blue_calcite_wall",
+    "yellow": "marioverse:polished_yellow_calcite_wall",
+    "lime": "marioverse:polished_lime_calcite_wall",
+    "pink": "marioverse:polished_pink_calcite_wall",
+    "gray": "marioverse:polished_gray_calcite_wall",
+    "light_gray": "marioverse:polished_light_gray_calcite_wall",
+    "cyan": "marioverse:polished_cyan_calcite_wall",
+    "purple": "marioverse:polished_purple_calcite_wall",
+    "blue": "marioverse:polished_blue_calcite_wall",
+    "brown": "marioverse:polished_brown_calcite_wall",
+    "green": "marioverse:polished_green_calcite_wall",
+    "red": "marioverse:polished_red_calcite_wall",
+    "black": "marioverse:polished_black_calcite_wall"
+  },
+  "replace": true
+}

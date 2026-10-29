@@ -45,6 +45,15 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.CALCITE_BRICK_BLOCKS, TagRegistry.CALCITE_BRICK_ITEMS);
         copy(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS, TagRegistry.CALCITE_BRICK_PEDESTAL_ITEMS);
         copy(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS, TagRegistry.CALCITE_BRICK_LOOPHOLE_ITEMS);
+        copy(TagRegistry.CALCITE_BRICK_SLAB_BLOCKS, TagRegistry.CALCITE_BRICK_SLAB_ITEMS);
+        copy(TagRegistry.CALCITE_BRICK_STAIR_BLOCKS, TagRegistry.CALCITE_BRICK_STAIR_ITEMS);
+        copy(TagRegistry.CALCITE_BRICK_WALL_BLOCKS, TagRegistry.CALCITE_BRICK_WALL_ITEMS);
+        copy(TagRegistry.CALCITE_BRIDGE_BLOCKS, TagRegistry.CALCITE_BRIDGE_ITEMS);
+        copy(TagRegistry.CALCITE_BUTTON_BLOCKS, TagRegistry.CALCITE_BUTTON_ITEMS);
+        copy(TagRegistry.CALCITE_PRESSURE_PLATE_BLOCKS, TagRegistry.CALCITE_PRESSURE_PLATE_ITEMS);
+        copy(TagRegistry.CALCITE_SLAB_BLOCKS, TagRegistry.CALCITE_SLAB_ITEMS);
+        copy(TagRegistry.CALCITE_STAIR_BLOCKS, TagRegistry.CALCITE_STAIR_ITEMS);
+        copy(TagRegistry.CALCITE_WALL_BLOCKS, TagRegistry.CALCITE_WALL_ITEMS);
         copy(TagRegistry.CHECKPOINT_FLAG_BLOCKS, TagRegistry.CHECKPOINT_FLAG_ITEMS);
         copy(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS);
         copy(TagRegistry.CORAL_TOWER_BLOCKS, TagRegistry.CORAL_TOWERS);
@@ -102,6 +111,9 @@ public class ItemTagsGen extends ItemTagsProvider {
         copy(TagRegistry.PIPE_JUNCTION_BLOCKS, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS);
         copy(TagRegistry.PLATFORMS, TagRegistry.PLATFORM_ITEMS);
         copy(TagRegistry.POLISHED_CALCITE_BLOCKS, TagRegistry.POLISHED_CALCITE_ITEMS);
+        copy(TagRegistry.POLISHED_CALCITE_SLAB_BLOCKS, TagRegistry.POLISHED_CALCITE_SLAB_ITEMS);
+        copy(TagRegistry.POLISHED_CALCITE_STAIR_BLOCKS, TagRegistry.POLISHED_CALCITE_STAIR_ITEMS);
+        copy(TagRegistry.POLISHED_CALCITE_WALL_BLOCKS, TagRegistry.POLISHED_CALCITE_WALL_ITEMS);
         copy(TagRegistry.QUESTION_BLOCKS, TagRegistry.QUESTION_BLOCK_ITEMS);
         copy(TagRegistry.QUESTION_PANEL_BLOCKS, TagRegistry.QUESTION_PANELS_ITEMS);
         copy(TagRegistry.SCREWS, TagRegistry.SCREW_ITEMS);

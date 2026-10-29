@@ -77,20 +77,20 @@ public class StoneTypeCompat {
 
         BlockSetAPI.addDynamicRegistration(Marioverse.MOD_ID, registrator -> {
             StoneType calcite = VanillaStoneTypes.CALCITE;
-            calcite.addChild("brick_slab", BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
-            calcite.addChild("brick_stairs", BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
-            calcite.addChild("brick_wall", BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+            calcite.addChild("brick_slab", BlockRegistry.CALCITE_BRICK_SLABS.get(DyeColor.WHITE).get());
+            calcite.addChild("brick_stairs", BlockRegistry.CALCITE_BRICK_STAIRS.get(DyeColor.WHITE).get());
+            calcite.addChild("brick_wall", BlockRegistry.CALCITE_BRICK_WALLS.get(DyeColor.WHITE).get());
             calcite.addChild("bricks", BlockRegistry.CALCITE_BRICKS.get(DyeColor.WHITE).get());
-            calcite.addChild("button", BlockRegistry.CALCITE_BUTTON.get());
+            calcite.addChild("button", BlockRegistry.CALCITE_BUTTONS.get(DyeColor.WHITE).get());
             calcite.addChild("cracked_bricks", BlockRegistry.CRACKED_CALCITE_BRICKS.get(DyeColor.WHITE).get());
             calcite.addChild("polished", BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE).get());
-            calcite.addChild("polished_slab", BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get());
-            calcite.addChild("polished_stairs", BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get());
-            calcite.addChild("polished_wall", BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get());
-            calcite.addChild("pressure_plate", BlockRegistry.CALCITE_PRESSURE_PLATE.get());
-            calcite.addChild("slab", BlockRegistry.CALCITE_SLAB.get());
-            calcite.addChild("stairs", BlockRegistry.CALCITE_STAIRS.get());
-            calcite.addChild("wall", BlockRegistry.CALCITE_WALL.get());
+            calcite.addChild("polished_slab", BlockRegistry.POLISHED_CALCITE_SLABS.get(DyeColor.WHITE).get());
+            calcite.addChild("polished_stairs", BlockRegistry.POLISHED_CALCITE_STAIRS.get(DyeColor.WHITE).get());
+            calcite.addChild("polished_wall", BlockRegistry.POLISHED_CALCITE_WALLS.get(DyeColor.WHITE).get());
+            calcite.addChild("pressure_plate", BlockRegistry.CALCITE_PRESSURE_PLATES.get(DyeColor.WHITE).get());
+            calcite.addChild("slab", BlockRegistry.CALCITE_SLABS.get(DyeColor.WHITE).get());
+            calcite.addChild("stairs", BlockRegistry.CALCITE_STAIRS.get(DyeColor.WHITE).get());
+            calcite.addChild("wall", BlockRegistry.CALCITE_WALLS.get(DyeColor.WHITE).get());
         }, BuiltInRegistries.BLOCK);
     }
 

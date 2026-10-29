@@ -475,6 +475,13 @@ public class BlockStateGen extends BlockStateProvider {
         this.onOffMushroomStemModel(BlockRegistry.BLUE_ON_OFF_SUPER_MUSHROOM_STEM.get(), false);
         this.onOffMushroomStemModel(BlockRegistry.RED_ON_OFF_SUPER_MUSHROOM_STEM.get(), true);
 
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE.entrySet()) {
+            String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
+            ResourceLocation texture = modLoc("block/" + blockName);
+
+            this.cubeAllModel(entry.getValue().get(), texture);
+        }
+
         this.genArrowSigns();
         this.genButtons();
         this.genDoors();
@@ -501,13 +508,6 @@ public class BlockStateGen extends BlockStateProvider {
         this.genWalls();
         this.genWindowPanes();
         this.genWindows();
-
-        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE.entrySet()) {
-            String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
-            ResourceLocation texture = modLoc("block/" + blockName);
-
-            this.cubeAllModel(entry.getValue().get(), texture);
-        }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
             String blockName = BuiltInRegistries.BLOCK.getKey(entry.getValue().get()).getPath();
@@ -1180,7 +1180,7 @@ public class BlockStateGen extends BlockStateProvider {
                     this.slabDoubleBlock(slabBlock, texture, topTexture, topTexture);
                     this.itemModels().slab(blockName, texture, topTexture, topTexture);
                 } else if (block == BlockFamilyRegistry.POLISHED_AMETHYST.get(slab)
-                        || block == BlockFamilyRegistry.POLISHED_CALCITE.get(slab)
+                        || BlockRegistry.POLISHED_CALCITE_SLABS.values().stream().anyMatch(polishedSlab -> polishedSlab.get() == block)
                         || block == BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS.get(slab)
                         || block == BlockFamilyRegistry.POLISHED_FORTSTONE_TILES.get(slab)

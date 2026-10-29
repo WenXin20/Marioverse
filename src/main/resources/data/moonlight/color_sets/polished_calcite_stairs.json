@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:polished_calcite_stairs",
+  "colors": {
+    "default": "marioverse:polished_white_calcite_stairs",
+    "white": "marioverse:polished_white_calcite_stairs",
+    "orange": "marioverse:polished_orange_calcite_stairs",
+    "magenta": "marioverse:polished_magenta_calcite_stairs",
+    "light_blue": "marioverse:polished_light_blue_calcite_stairs",
+    "yellow": "marioverse:polished_yellow_calcite_stairs",
+    "lime": "marioverse:polished_lime_calcite_stairs",
+    "pink": "marioverse:polished_pink_calcite_stairs",
+    "gray": "marioverse:polished_gray_calcite_stairs",
+    "light_gray": "marioverse:polished_light_gray_calcite_stairs",
+    "cyan": "marioverse:polished_cyan_calcite_stairs",
+    "purple": "marioverse:polished_purple_calcite_stairs",
+    "blue": "marioverse:polished_blue_calcite_stairs",
+    "brown": "marioverse:polished_brown_calcite_stairs",
+    "green": "marioverse:polished_green_calcite_stairs",
+    "red": "marioverse:polished_red_calcite_stairs",
+    "black": "marioverse:polished_black_calcite_stairs"
+  },
+  "replace": true
+}

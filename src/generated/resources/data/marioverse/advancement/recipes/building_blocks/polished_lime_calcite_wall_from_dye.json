@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dyes/lime": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/lime"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_polished_calcite_walls": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:polished_calcite_walls"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:polished_lime_calcite_wall_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dyes/lime",
+      "has_polished_calcite_walls"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:polished_lime_calcite_wall_from_dye"
+    ]
+  }
+}
