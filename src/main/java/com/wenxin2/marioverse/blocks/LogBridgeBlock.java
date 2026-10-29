@@ -180,8 +180,13 @@ public class LogBridgeBlock extends BridgeBlock implements SimpleWaterloggedBloc
     public static ConnectionBlockStates ropeConnection(BlockState state, LevelAccessor level, BlockPos pos, Direction direction) {
         HalfBlockStates half = state.getValue(HALF);
         BlockPos sidePos = pos.relative(direction);
+        for (int dy = -1; dy <= 1; dy += 2) {
+            BlockPos stairPos = sidePos.above(dy);
+            if (LogBridgeStairBlock.ropeReaches(level.getBlockState(stairPos), level, stairPos, pos))
+                return ConnectionBlockStates.DIAGONAL;
+        }
+
         if (LogBridgeBlock.alignsWith(level.getBlockState(sidePos), direction, half)
-                || Block.canSupportCenter(level, sidePos, direction.getOpposite())
                 || LogBridgeStairBlock.ropeReaches(level.getBlockState(sidePos), level, sidePos, pos))
             return ConnectionBlockStates.FLAT;
 
@@ -189,11 +194,8 @@ public class LogBridgeBlock extends BridgeBlock implements SimpleWaterloggedBloc
         if (LogBridgeBlock.alignsWith(level.getBlockState(sidePos.above(top ? 1 : -1)), direction, top ? HalfBlockStates.BOTTOM : HalfBlockStates.TOP))
             return ConnectionBlockStates.DIAGONAL;
 
-        for (int dy = -1; dy <= 1; dy += 2) {
-            BlockPos stairPos = sidePos.above(dy);
-            if (LogBridgeStairBlock.ropeReaches(level.getBlockState(stairPos), level, stairPos, pos))
-                return ConnectionBlockStates.DIAGONAL;
-        }
+        if (Block.canSupportCenter(level, sidePos, direction.getOpposite()))
+            return ConnectionBlockStates.FLAT;
         return ConnectionBlockStates.NONE;
     }
 
