@@ -96,7 +96,8 @@
 - Removed the bubbles & water_spout blockstates from warp pipes
   - Saves to the block entity now
   - Reduces states from 192 to 48
-- Added a config option to charge xp for teleporting with warp pipes, doors, trapdoors, & paintings. 0 by defalut
+- Added a config option to charge xp for teleporting with warp pipes, doors, trapdoors, & paintings. 0 by default
+- Added the ability for warp pipes, doors, trapdoors, & paintings to teleport Aeronautics contraptions
 - Added the ability to increase stomp damage using armor boots, +0.5 damage for each armor point
 - Added a config to require stomping different mobs to get a 1-Up, default is false
 - Change the 1-Up reward to a loot table

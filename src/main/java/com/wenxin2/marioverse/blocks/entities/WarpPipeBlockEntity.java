@@ -23,6 +23,7 @@ import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.world.PipeSpawner;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -356,8 +357,10 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     public static void serverTick(Level world, BlockPos pos, BlockState state, WarpPipeBlockEntity warpPipeBE) {
-        if (world instanceof ServerLevel serverWorld)
+        if (world instanceof ServerLevel serverWorld) {
             warpPipeBE.pipeSpawner.serverTick(serverWorld, pos);
+            BaseWarpBlockEntity.LOADED_WARP_BLOCKS.computeIfAbsent(serverWorld, level -> new HashSet<>()).add(pos);
+        }
 
         if (state.hasProperty(WarpPipeBlock.CLOSED) && !state.getValue(WarpPipeBlock.CLOSED)) {
             if (warpPipeBE.spawnItemDelay > 0 && !warpPipeBE.getTheItem().isEmpty()) {

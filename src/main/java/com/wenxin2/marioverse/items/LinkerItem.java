@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityProvider;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -276,6 +277,11 @@ public class LinkerItem extends TieredItem {
             else secondWarpEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(firstPos, Direction.NORTH, 1));
 
             WarpLinkableEntity.updateWarpSubLevel(secondEntity.level(), secondWarpEntity, firstPos);
+            if (SableProvider.isLoaded() && !secondEntity.level().isClientSide) {
+                SableProvider.recordEntityAnchor(secondEntity);
+                if (firstEntity != null)
+                    SableProvider.recordEntityAnchor(firstEntity);
+            }
 
             if (firstEntity instanceof WarpLinkableEntity firstWarpEntity) {
                 firstWarpEntity.mv$setWarpTarget(secondTarget);

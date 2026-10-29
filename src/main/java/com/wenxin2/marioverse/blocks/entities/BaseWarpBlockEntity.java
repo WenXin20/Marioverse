@@ -2,8 +2,11 @@ package com.wenxin2.marioverse.blocks.entities;
 
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.WeakHashMap;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -41,6 +44,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public UUID uuid;
     public UUID warpUuid;
     public static final Map<UUID, BlockPos> WARP_LOCATIONS = new HashMap<>();
+    public static final Map<Level, Set<BlockPos>> LOADED_WARP_BLOCKS = new WeakHashMap<>();
     // Store a map to track whether entities have teleported or not
     public static final Map<Integer, Boolean> WARPED_ENTITIES = new HashMap<>();
 
@@ -187,6 +191,21 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public void onLoad() {
         super.onLoad();
         WARP_LOCATIONS.put(this.getWarpUuid(), this.getBlockPos());
+
+        if (this.level != null && !this.level.isClientSide)
+            LOADED_WARP_BLOCKS.computeIfAbsent(this.level, level -> new HashSet<>()).add(this.getBlockPos().immutable());
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+        this.unregisterLoadedWarpBlock();
+    }
+
+    @Override
+    public void onChunkUnloaded() {
+        super.onChunkUnloaded();
+        this.unregisterLoadedWarpBlock();
     }
 
     @NotNull
@@ -240,6 +259,14 @@ public class BaseWarpBlockEntity extends BlockEntity {
         } else if (!SableProvider.isPlotPos(this.level, pos)) {
             this.destinationSubLevel = null;
             this.destinationSubLevelPos = null;
+        }
+    }
+
+    private void unregisterLoadedWarpBlock() {
+        if (this.level != null && !this.level.isClientSide) {
+            Set<BlockPos> loadedBlocks = LOADED_WARP_BLOCKS.get(this.level);
+            if (loadedBlocks != null)
+                loadedBlocks.remove(this.getBlockPos());
         }
     }
 }

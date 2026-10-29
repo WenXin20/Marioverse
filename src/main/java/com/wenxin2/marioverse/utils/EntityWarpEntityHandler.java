@@ -90,6 +90,9 @@ public interface EntityWarpEntityHandler {
                 return;
 
             if (warpEntity != null) {
+                if (SableProvider.isLoaded())
+                    SableProvider.recordEntityAnchor(warpEntity);
+
                 boolean isImmersivePainting = warpEntity.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
                         || warpEntity.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
                         || warpEntity.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
@@ -153,6 +156,16 @@ public interface EntityWarpEntityHandler {
             } else {
                 UUID warpSubLevel = warpLinkableEntity.mv$getWarpSubLevel();
                 BlockPos warpSubLevelPos = warpLinkableEntity.mv$getWarpSubLevelPos();
+
+                if (SableProvider.isLoaded() && (warpSubLevel == null || warpSubLevelPos == null)) {
+                    SableProvider.SubLevelAnchor recordedAnchor = SableProvider.getEntityAnchor(world, warpUUID);
+
+                    if (recordedAnchor != null) {
+                        warpSubLevel = recordedAnchor.subLevel();
+                        warpSubLevelPos = recordedAnchor.localPos();
+                        warpLinkableEntity.mv$setWarpSubLevel(warpSubLevel, warpSubLevelPos);
+                    }
+                }
                 BlockPos subLevelPos = SableProvider.isLoaded() && warpSubLevel != null && warpSubLevelPos != null
                         ? SableProvider.resolveSubLevelPos(world, warpSubLevel, warpSubLevelPos) : null;
 

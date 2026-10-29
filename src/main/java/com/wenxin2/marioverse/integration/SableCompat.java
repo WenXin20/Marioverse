@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.integration;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.integration.sable_compat.SubLevelLocationSavedData;
+import com.wenxin2.marioverse.integration.sable_compat.SubLevelWarpHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
@@ -88,6 +89,7 @@ public class SableCompat {
                 }
 
                 SableCompat.processPendingWarps(level);
+                SubLevelWarpHandler.tick(serverContainer);
             }
         }
     };
@@ -187,6 +189,21 @@ public class SableCompat {
 
                 Vector3d worldPos = plot.getSubLevel().logicalPose().transformPosition(new Vector3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
                 return BlockPos.containing(worldPos.x, worldPos.y, worldPos.z);
+            }
+
+            @Override
+            public void recordEntityAnchor(Entity entity) {
+                if (entity.level() instanceof ServerLevel level) {
+                    SableProvider.SubLevelAnchor anchor = this.getAnchor(level, entity.blockPosition());
+
+                    if (anchor != null || !this.isPlotPos(level, entity.blockPosition()))
+                        SubLevelLocationSavedData.get(level).setEntityAnchor(entity.getUUID(), anchor);
+                }
+            }
+
+            @Override
+            public SableProvider.SubLevelAnchor getEntityAnchor(Level level, UUID entity) {
+                return level instanceof ServerLevel serverLevel ? SubLevelLocationSavedData.get(serverLevel).getEntityAnchor(entity) : null;
             }
 
             @Override

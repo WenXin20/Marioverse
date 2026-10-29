@@ -35,6 +35,7 @@ import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.LinkerItem;
@@ -233,8 +234,12 @@ public class MarioverseEventHandlers {
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
 
-        if (entity instanceof WarpLinkableEntity && event.getLevel().getServer() != null)
+        if (entity instanceof WarpLinkableEntity warpEntity && event.getLevel().getServer() != null) {
             PendingWarpLinkSavedData.get(event.getLevel().getServer()).applyLink(entity);
+
+            if (SableProvider.isLoaded() && warpEntity.mv$getWarpUUID() != null)
+                SableProvider.recordEntityAnchor(entity);
+        }
 
         if (!(entity instanceof LivingEntity)) return;
         CompoundTag tag = entity.getPersistentData();

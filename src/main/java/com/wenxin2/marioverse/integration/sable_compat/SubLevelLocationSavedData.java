@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.integration.sable_compat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -16,7 +17,11 @@ public class SubLevelLocationSavedData extends SavedData {
     private static final String LOCATIONS = "Locations";
     private static final String SUB_LEVEL = "SubLevel";
     private static final String CHUNK_BOUNDS = "ChunkBounds";
+    private static final String ENTITY_ANCHORS = "EntityAnchors";
+    private static final String ENTITY = "Entity";
+    private static final String LOCAL_POS = "LocalPos";
     private final Map<UUID, ChunkBounds> locations = new HashMap<>();
+    private final Map<UUID, SableProvider.SubLevelAnchor> entityAnchors = new HashMap<>();
 
     public record ChunkBounds(int minX, int minZ, int maxX, int maxZ) {}
 
@@ -42,6 +47,21 @@ public class SubLevelLocationSavedData extends SavedData {
         return this.locations.get(subLevel);
     }
 
+    public void setEntityAnchor(UUID entity, @Nullable SableProvider.SubLevelAnchor anchor) {
+        if (anchor == null) {
+            if (this.entityAnchors.remove(entity) != null)
+                this.setDirty();
+        } else if (!anchor.equals(this.entityAnchors.get(entity))) {
+            this.entityAnchors.put(entity, anchor);
+            this.setDirty();
+        }
+    }
+
+    @Nullable
+    public SableProvider.SubLevelAnchor getEntityAnchor(UUID entity) {
+        return this.entityAnchors.get(entity);
+    }
+
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
         ListTag list = new ListTag();
@@ -56,6 +76,19 @@ public class SubLevelLocationSavedData extends SavedData {
         }
 
         tag.put(LOCATIONS, list);
+
+        ListTag anchorList = new ListTag();
+
+        for (Map.Entry<UUID, SableProvider.SubLevelAnchor> entry : this.entityAnchors.entrySet()) {
+            CompoundTag entryTag = new CompoundTag();
+
+            entryTag.putUUID(ENTITY, entry.getKey());
+            entryTag.putUUID(SUB_LEVEL, entry.getValue().subLevel());
+            entryTag.putLong(LOCAL_POS, entry.getValue().localPos().asLong());
+            anchorList.add(entryTag);
+        }
+
+        tag.put(ENTITY_ANCHORS, anchorList);
         return tag;
     }
 
@@ -69,6 +102,14 @@ public class SubLevelLocationSavedData extends SavedData {
 
             if (bounds.length == 4)
                 data.locations.put(entryTag.getUUID(SUB_LEVEL), new ChunkBounds(bounds[0], bounds[1], bounds[2], bounds[3]));
+        }
+
+        ListTag anchorList = tag.getList(ENTITY_ANCHORS, Tag.TAG_COMPOUND);
+
+        for (int i = 0; i < anchorList.size(); i++) {
+            CompoundTag entryTag = anchorList.getCompound(i);
+            data.entityAnchors.put(entryTag.getUUID(ENTITY), new SableProvider.SubLevelAnchor(entryTag.getUUID(SUB_LEVEL),
+                    BlockPos.of(entryTag.getLong(LOCAL_POS))));
         }
         return data;
     }
