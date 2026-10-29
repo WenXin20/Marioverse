@@ -19,6 +19,7 @@
     "PowderSnowBlockMixin",
     "ProjectileMixin",
     "ServerPlayerMixin",
+    "StructureTemplateMixin",
     "WallBlockMixin",
     "iris.IdMapMixin"
   ],
