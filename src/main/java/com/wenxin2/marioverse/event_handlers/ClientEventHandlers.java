@@ -569,7 +569,8 @@ public class ClientEventHandlers {
                 }
             }
 
-            if (player.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0 && level.getGameTime() % 4 == 0)
+            if (!ConfigRegistry.DISABLE_WARP_COOLDOWN_PARTICLES.get() && player.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0
+                    && level.getGameTime() % 4 == 0)
                 ClientEventHandlers.spawnWarpCooldownParticles(level, player);
         }
     }

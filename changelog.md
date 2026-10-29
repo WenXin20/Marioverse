@@ -107,6 +107,7 @@
 - Improved riding ice cubes, mobs & players can now move with it when it slides
 - Improved ice cube texture
 - Improved ice cube sliding to slide up stairs and slabs
+- Improved warp cooldown, warp pipes emit smoke while on cooldown. Configurable
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
 - Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
 - Fixed linking of paintings in unloaded chunks using a wrench

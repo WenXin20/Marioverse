@@ -2744,6 +2744,7 @@
   "configuration.marioverse.disable_reward_particles": "Disable Reward Particles",
   "configuration.marioverse.disable_text": "Disable Text",
   "configuration.marioverse.disable_vanilla_tabs": "Disable Items in Vanilla Tabs",
+  "configuration.marioverse.disable_warp_cooldown_particles": "Disable Warp Cooldown Particles",
   "configuration.marioverse.disable_warp_doors": "Disable Warp Doors",
   "configuration.marioverse.disable_warp_paintings": "Disable Warp Paintings",
   "configuration.marioverse.disable_warp_trapdoors": "Disable Warp Trapdoors",

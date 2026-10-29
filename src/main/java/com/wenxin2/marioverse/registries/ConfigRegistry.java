@@ -128,6 +128,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
     public static ModConfigSpec.BooleanValue DISABLE_VANILLA_TABS;
+    public static ModConfigSpec.BooleanValue DISABLE_WARP_COOLDOWN_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_DOORS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_PAINTINGS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_TRAPDOORS;
@@ -383,6 +384,10 @@ public class ConfigRegistry {
                     .comment("Disable text rendering on pipes.")
                     .comment("§9[Default: false]")
                     .define("disable_text", false);
+            DISABLE_WARP_COOLDOWN_PARTICLES = BUILDER.translation("configuration.marioverse.disable_warp_cooldown_particles")
+                    .comment("Disable the smoke particles at warp pipe entrances while on warp cooldown.")
+                    .comment("§9[Default: false]")
+                    .define("disable_warp_cooldown_particles", false);
             DISPLAY_BUTTON_TOOLTIP = BUILDER.translation("configuration.marioverse.display_button_tooltip")
                     .comment("Display \"ticks to stay pressed\" on button tooltips.")
                     .comment("§9[Default: true]")
