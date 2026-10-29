@@ -241,7 +241,7 @@ public interface BlockWarpEntityHandler {
 
         if (warpPos != null && level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity) {
             BlockState warpState = level.getBlockState(warpPos);
-            WarpCost.Cost warpCost = WarpCost.getBlockCost(entity, level, pos, warpPos, state);
+            WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
             Vec3 startPos = entity.position();
 
             if (!WarpCost.canAfford(entity, warpCost))
@@ -261,7 +261,7 @@ public interface BlockWarpEntityHandler {
                 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID()) != null) {
             warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID());
             BlockState warpState = level.getBlockState(warpPos);
-            WarpCost.Cost warpCost = WarpCost.getBlockCost(entity, level, pos, warpPos, state);
+            WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
             Vec3 startPos = entity.position();
 
             if (!WarpCost.canAfford(entity, warpCost))

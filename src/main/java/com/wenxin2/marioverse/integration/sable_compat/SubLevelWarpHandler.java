@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.utils.WarpCost;
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
@@ -23,6 +24,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.BlockAttachedEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -44,7 +46,7 @@ public class SubLevelWarpHandler {
     public static void tick(ServerSubLevelContainer container) {
         ServerLevel level = container.getLevel();
 
-        if (level.getGameTime() % 2 != 0 || container.getLoadedCount() == 0)
+        if (!ConfigRegistry.TELEPORT_CONTRAPTIONS.get() || level.getGameTime() % 2 != 0 || container.getLoadedCount() == 0)
             return;
 
         Set<BlockPos> loadedWarpBlocks = BaseWarpBlockEntity.LOADED_WARP_BLOCKS.get(level);
@@ -105,10 +107,18 @@ public class SubLevelWarpHandler {
                 continue;
             }
 
+            List<Player> passengers = SubLevelWarpHandler.getPassengers(level, bounds);
+            WarpCost.Cost warpCost = WarpCost.getBlockCost(entrance.center().distanceTo(exit.center()), state);
+
+            if (!WarpCost.canAfford(passengers, warpCost))
+                continue;
+
             if (!SubLevelWarpHandler.warp(sub, entrance, inDirection, exit)) {
                 SubLevelWarpHandler.debugLog(level, sub, "touching " + pos + " but teleport failed (invalid rigid body)");
                 continue;
             }
+
+            WarpCost.charge(passengers, warpCost);
 
             int cooldown = isPipe ? ConfigRegistry.WARP_PIPE_COOLDOWN.get()
                     : state.getBlock() instanceof DoorBlock ? ConfigRegistry.WARP_DOOR_COOLDOWN.get()
@@ -141,8 +151,16 @@ public class SubLevelWarpHandler {
                 continue;
 
             WarpPoint exit = SubLevelWarpHandler.getEntityWarpPoint(level, destination);
-            if (exit == null || !SubLevelWarpHandler.warp(sub, entrance, inDirection, exit))
+            if (exit == null)
                 continue;
+
+            List<Player> passengers = SubLevelWarpHandler.getPassengers(level, bounds);
+            WarpCost.Cost warpCost = WarpCost.getEntityCost(entrance.center().distanceTo(exit.center()), true);
+
+            if (!WarpCost.canAfford(passengers, warpCost) || !SubLevelWarpHandler.warp(sub, entrance, inDirection, exit))
+                continue;
+
+            WarpCost.charge(passengers, warpCost);
 
             WARP_COOLDOWNS.put(sub.getUniqueId(), level.getGameTime() + ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
             return;
@@ -207,6 +225,16 @@ public class SubLevelWarpHandler {
         if (worldCenter == null || worldFacing == null)
             return null;
         return new WarpPoint(worldCenter, worldFacing.subtract(worldCenter).normalize());
+    }
+
+    private static List<Player> getPassengers(ServerLevel level, AABB bounds) {
+        List<Player> passengers = new ArrayList<>();
+
+        for (Player player : level.players()) {
+            if (!player.isSpectator() && bounds.intersects(player.getBoundingBox()))
+                passengers.add(player);
+        }
+        return passengers;
     }
 
     private static boolean isOnSubLevel(Level level, BlockPos pos, ServerSubLevel sub) {

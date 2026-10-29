@@ -83,7 +83,7 @@ public interface EntityWarpEntityHandler {
                     || enteredEntity.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
                     || enteredEntity.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
                     || enteredEntity.getType() == CompatRegistry.MAGIC_PAINTING.get()));
-            WarpCost.Cost warpCost = WarpCost.getEntityCost(entity, world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting);
+            WarpCost.Cost warpCost = WarpCost.getEntityCost(world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting);
             Vec3 startPos = entity.position();
 
             if (!WarpCost.canAfford(entity, warpCost))
