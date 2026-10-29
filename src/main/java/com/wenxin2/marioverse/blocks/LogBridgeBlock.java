@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -51,6 +52,10 @@ public class LogBridgeBlock extends BridgeBlock implements SimpleWaterloggedBloc
     protected static final VoxelShape BOTTOM_COLLISION = Block.box(0.0, 1.0, 0.0, 16.0, 8.0, 16.0);
 
     protected static final VoxelShape TOP_COLLISION = Block.box(0.0, 9.0, 0.0, 16.0, 16.0, 16.0);
+
+    protected static final VoxelShape BOTTOM_ROPE_SUPPORT = Block.box(0.0, 0.0, 0.0, 16.0, 2.0, 16.0);
+
+    protected static final VoxelShape TOP_ROPE_SUPPORT = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
 
     public LogBridgeBlock(Block logBlock, Properties properties) {
         super(properties);
@@ -194,12 +199,17 @@ public class LogBridgeBlock extends BridgeBlock implements SimpleWaterloggedBloc
         if (LogBridgeBlock.alignsWith(level.getBlockState(sidePos.above(top ? 1 : -1)), direction, top ? HalfBlockStates.BOTTOM : HalfBlockStates.TOP))
             return ConnectionBlockStates.DIAGONAL;
 
-        if (Block.canSupportCenter(level, sidePos, direction.getOpposite()))
+        if (LogBridgeBlock.supportsRope(level, sidePos, direction.getOpposite(), top))
             return ConnectionBlockStates.FLAT;
         return ConnectionBlockStates.NONE;
     }
 
     public static boolean alignsWith(BlockState state, Direction direction, HalfBlockStates half) {
         return state.getBlock() instanceof LogBridgeBlock && state.getValue(AXIS) == direction.getAxis() && state.getValue(HALF) == half;
+    }
+
+    public static boolean supportsRope(LevelAccessor level, BlockPos pos, Direction face, boolean top) {
+        VoxelShape faceShape = level.getBlockState(pos).getBlockSupportShape(level, pos).getFaceShape(face);
+        return !Shapes.joinIsNotEmpty(top ? TOP_ROPE_SUPPORT : BOTTOM_ROPE_SUPPORT, faceShape, BooleanOp.ONLY_FIRST);
     }
 }

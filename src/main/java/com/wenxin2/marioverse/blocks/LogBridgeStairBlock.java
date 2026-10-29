@@ -263,7 +263,7 @@ public class LogBridgeStairBlock extends StairBlock implements SimpleWaterlogged
         if (LogBridgeBlock.alignsWith(diagonalState, direction, dy > 0 ? HalfBlockStates.BOTTOM : HalfBlockStates.TOP))
             return ConnectionBlockStates.DIAGONAL;
 
-        if (Block.canSupportCenter(level, sidePos, direction.getOpposite()))
+        if (LogBridgeBlock.supportsRope(level, sidePos, direction.getOpposite(), dy > 0))
             return ConnectionBlockStates.FLAT;
         return ConnectionBlockStates.NONE;
     }
