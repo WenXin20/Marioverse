@@ -172,6 +172,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
     public static ModConfigSpec.BooleanValue SUPER_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue SUPER_STAR_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue TELEPORT_CONTRAPTIONS;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
@@ -1493,6 +1494,10 @@ public class ConfigRegistry {
                         .comment("Warping gives the player a brief blindness effect.")
                         .comment("§9[Default: true]")
                         .define("blindness_effect", true);
+                TELEPORT_CONTRAPTIONS = BUILDER.translation("configuration.marioverse.teleport_contraptions")
+                        .comment("Allow Sable contraptions to teleport.")
+                        .comment("§9[Default: true]")
+                        .define("teleport_contraptions", true);
                 TELEPORT_MOBS = BUILDER.translation("configuration.marioverse.teleport_mobs")
                         .comment("Allow mobs to teleport.")
                         .comment("§9[Default: true]")
