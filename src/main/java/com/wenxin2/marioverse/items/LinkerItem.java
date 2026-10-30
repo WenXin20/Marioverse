@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
@@ -17,7 +16,12 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.PendingWarpLinkSavedData;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
@@ -49,11 +53,14 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.phys.AABB;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 
 public class LinkerItem extends TieredItem {
+    private static final int MAX_PIPE_GROUP_SIZE = 64;
+
+    private record PipePair(BlockPos first, BlockPos second, double distance) {}
+
     public LinkerItem(final Properties properties, Tier tier) {
         super(tier, properties);
     }
@@ -160,7 +167,8 @@ public class LinkerItem extends TieredItem {
                         if (firstBE instanceof BaseWarpBlockEntity firstWarpBE) {
 
                             // Perform the linking logic
-                            this.link(stack, firstWarpBE, warpBE);
+                            if (!LinkerItem.linkPipeGroups(this, stack, level, firstPos, firstState, pos, state))
+                                this.link(stack, firstWarpBE, warpBE);
 
                             if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
                                 BlockEntity firstBEAbove = level.getBlockEntity(firstPos.above());
@@ -465,8 +473,6 @@ public class LinkerItem extends TieredItem {
                         } else if (!getIsBound(stack)) {
                             stack.remove(DataComponentRegistry.WARP_ENTITY.get());
                             stack.remove(DataComponentRegistry.WARP_PAINTING.get());
-                            Marioverse.LOGGER.info("[Marioverse link debug] bound {} uuid={} at {} in {}", target, uuid, target.position(), level.dimension().location());
-
                             if (target instanceof Painting painting) {
                                 int width = painting.getVariant().value().width();
                                 Direction direction = target.getDirection();
@@ -524,8 +530,6 @@ public class LinkerItem extends TieredItem {
                             UUID warpUUID = getWarpUUID(stack);
                             //  if (dimension.equals(getWarpDimension(stack))) {
                             Entity warpEntity = LinkerItem.findEntity(serverWorld, warpUUID);
-                            Marioverse.LOGGER.info("[Marioverse link debug] linking {} to stored uuid={} pos={} found={} matchingNearPos={}", target, warpUUID, warpPos, warpEntity,
-                                    warpPos == null || warpUUID == null ? "n/a" : serverWorld.getEntities((Entity) null, new AABB(warpPos).inflate(3), e -> e.getUUID().equals(warpUUID)));
                             if (warpEntity == null) {
                                 WarpLinkableEntity.WarpTarget warpTarget = WarpLinkableEntity.WARP_LOCATIONS.get(warpUUID);
                                 if (warpTarget != null)
@@ -608,5 +612,95 @@ public class LinkerItem extends TieredItem {
                 return entity;
         }
         return null;
+    }
+
+    public static boolean linkPipeGroups(LinkerItem linker, ItemStack stack, Level level, BlockPos firstPos, BlockState firstState,
+                                         BlockPos secondPos, BlockState secondState) {
+        List<BlockPos> firstGroup = LinkerItem.getPipeEntranceGroup(level, firstPos, firstState);
+        List<BlockPos> secondGroup = LinkerItem.getPipeEntranceGroup(level, secondPos, secondState);
+
+        if (firstGroup.isEmpty() || secondGroup.isEmpty() || (firstGroup.size() == 1 && secondGroup.size() == 1))
+            return false;
+
+        Direction firstFacing = firstState.getValue(WarpPipeBlock.FACING);
+        Direction secondFacing = secondState.getValue(WarpPipeBlock.FACING);
+        List<PipePair> pairs = new ArrayList<>();
+
+        for (BlockPos first : firstGroup) {
+            double[] firstOffset = LinkerItem.getLocalPipeOffset(first.subtract(firstPos), firstFacing, true);
+
+            for (BlockPos second : secondGroup) {
+                double[] secondOffset = LinkerItem.getLocalPipeOffset(second.subtract(secondPos), secondFacing, false);
+                pairs.add(new PipePair(first, second, Math.hypot(firstOffset[0] - secondOffset[0], firstOffset[1] - secondOffset[1])));
+            }
+        }
+
+        pairs.sort(Comparator.comparingDouble(PipePair::distance));
+        Set<BlockPos> linkedFirst = new HashSet<>();
+        Set<BlockPos> linkedSecond = new HashSet<>();
+
+        for (PipePair pair : pairs) {
+            if (linkedFirst.contains(pair.first()) || linkedSecond.contains(pair.second())
+                    || !(level.getBlockEntity(pair.first()) instanceof BaseWarpBlockEntity firstBE)
+                    || !(level.getBlockEntity(pair.second()) instanceof BaseWarpBlockEntity secondBE))
+                continue;
+
+            if (!level.isClientSide) {
+                if (firstBE.getUUID() == null)
+                    firstBE.setUUID(UUID.randomUUID());
+                if (secondBE.getUUID() == null)
+                    secondBE.setUUID(UUID.randomUUID());
+            }
+
+            linker.link(stack, firstBE, secondBE);
+            linkedFirst.add(pair.first());
+            linkedSecond.add(pair.second());
+        }
+        return true;
+    }
+
+    private static List<BlockPos> getPipeEntranceGroup(Level level, BlockPos start, BlockState startState) {
+        List<BlockPos> group = new ArrayList<>();
+        if (!(startState.getBlock() instanceof WarpPipeBlock) || startState.getBlock() instanceof ClearWarpPipeBlock)
+            return group;
+
+        Direction facing = startState.getValue(WarpPipeBlock.FACING);
+        Set<BlockPos> visited = new HashSet<>(Set.of(start));
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>(List.of(start));
+
+        while (!queue.isEmpty() && group.size() < MAX_PIPE_GROUP_SIZE) {
+            BlockPos pos = queue.poll();
+            BlockState state = level.getBlockState(pos);
+
+            if (!(state.getBlock() instanceof WarpPipeBlock) || state.getBlock() instanceof ClearWarpPipeBlock
+                    || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
+                    || !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity))
+                continue;
+
+            group.add(pos);
+            for (Direction direction : Direction.values()) {
+                BlockPos next = pos.relative(direction);
+                if (direction.getAxis() != facing.getAxis() && visited.add(next))
+                    queue.add(next);
+            }
+        }
+        return group;
+    }
+
+    private static double[] getLocalPipeOffset(BlockPos offset, Direction facing, boolean entering) {
+        Direction right;
+        Direction up;
+
+        if (facing.getAxis().isHorizontal()) {
+            right = entering ? facing.getClockWise() : facing.getCounterClockWise();
+            up = Direction.UP;
+        } else {
+            right = entering ? Direction.EAST : Direction.WEST;
+            up = Direction.SOUTH;
+        }
+
+        return new double[] {
+                offset.getX() * right.getStepX() + offset.getY() * right.getStepY() + offset.getZ() * right.getStepZ(),
+                offset.getX() * up.getStepX() + offset.getY() * up.getStepY() + offset.getZ() * up.getStepZ()};
     }
 }

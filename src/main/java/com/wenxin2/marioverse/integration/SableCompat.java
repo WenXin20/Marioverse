@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.integration;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.integration.sable_compat.SubLevelLocationSavedData;
 import com.wenxin2.marioverse.integration.sable_compat.SubLevelWarpHandler;
@@ -21,11 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 import java.util.function.Predicate;
@@ -51,7 +48,6 @@ public class SableCompat {
     private static final Map<SubLevel, SableProvider.SafeAccessor> ACCESSOR_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
     private static final TicketType<ChunkPos> WARP_TICKET = TicketType.create("marioverse_warp", Comparator.comparingLong(ChunkPos::toLong), 400);
     private static final Map<Integer, PendingWarp> PENDING_WARPS = new HashMap<>();
-    private static final Set<UUID> UNKNOWN_LOCATION_WARNINGS = new HashSet<>();
     private static final int PENDING_WARP_TIMEOUT = 300;
     private static final int MAX_TICKETED_CHUNKS = 256;
     private static final int LOCATION_UPDATE_INTERVAL = 100;
@@ -167,11 +163,8 @@ public class SableCompat {
             @Override
             public boolean requestSubLevelLoad(ServerLevel level, UUID subLevel) {
                 SubLevelLocationSavedData.ChunkBounds bounds = SubLevelLocationSavedData.get(level).getLocation(subLevel);
-                if (bounds == null) {
-                    if (UNKNOWN_LOCATION_WARNINGS.add(subLevel))
-                        Marioverse.LOGGER.warn("Cannot load warp destination sub-level {}: its last location is unknown", subLevel);
+                if (bounds == null)
                     return false;
-                }
 
                 int ticketedChunks = 0;
                 for (int chunkX = bounds.minX(); chunkX <= bounds.maxX(); chunkX++) {
@@ -361,8 +354,6 @@ public class SableCompat {
                 readyWarps.add(warp);
             } else if (level.getGameTime() > warp.deadline()) {
                 iterator.remove();
-                Marioverse.LOGGER.warn("Timed out loading warp destination sub-level {} (loaded: {}, bounds: {})", warp.subLevel(),
-                        resolvedPos != null, SubLevelLocationSavedData.get(level).getLocation(warp.subLevel()));
                 if (warp.entity() instanceof Player player)
                     BlockWarpEntityHandler.displayDestinationMissingMessage(player);
             }
