@@ -113,6 +113,7 @@
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
 - Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
 - Fixed linking of paintings in unloaded chunks using a wrench
+- Fixed warp doors & trapdoors close
 - Fixed cooldown message displaying immediately after teleporting
 - Fixed power up mobs despawning when far away
 - Fixed rotation of mobs frozen in the ice cube

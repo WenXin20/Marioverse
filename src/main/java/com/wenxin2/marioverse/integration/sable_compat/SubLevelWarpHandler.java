@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.integration.sable_compat;
 
-import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
@@ -40,7 +39,6 @@ public class SubLevelWarpHandler {
     private static final double MIN_ENTRY_SPEED = 0.25;
     private static final double EXIT_CLEARANCE = 1.0;
     private static final Map<UUID, Long> WARP_COOLDOWNS = new HashMap<>();
-    private static final Map<UUID, Long> DEBUG_LOG_TIMES = new HashMap<>();
     private static final Map<UUID, Vector3d> LAST_VELOCITIES = new HashMap<>();
     private static final Map<UUID, PendingLoad> PENDING_LOADS = new HashMap<>();
     private static final int PENDING_LOAD_TIMEOUT = 300;
@@ -110,10 +108,8 @@ public class SubLevelWarpHandler {
                 continue;
 
             boolean isPipe = state.getBlock() instanceof WarpPipeBlock;
-            if (!SubLevelWarpHandler.isTouching(sub, entrance, !isPipe)) {
-                SubLevelWarpHandler.debugLog(level, sub, "near " + pos + " but no contraption block at its entrance");
+            if (!SubLevelWarpHandler.isTouching(sub, entrance, !isPipe))
                 continue;
-            }
 
             List<Vector3d> entryVelocities = new ArrayList<>(velocities);
             PendingLoad pendingLoad = PENDING_LOADS.get(sub.getUniqueId());
@@ -121,10 +117,8 @@ public class SubLevelWarpHandler {
                 entryVelocities.add(pendingLoad.velocity());
 
             EntryMotion motion = SubLevelWarpHandler.getEntryMotion(level, pos, entrance, isPipe, entryVelocities);
-            if (motion == null) {
-                SubLevelWarpHandler.debugLog(level, sub, "touching " + pos + " but not moving into it fast enough");
+            if (motion == null)
                 continue;
-            }
 
             WarpPoint exit = SubLevelWarpHandler.getBlockDestination(level, warpBE, sub);
             if (exit == null && warpBE.destinationSubLevel != null && warpBE.destinationSubLevelPos != null
@@ -134,21 +128,11 @@ public class SubLevelWarpHandler {
                 if (pendingLoad == null || !pendingLoad.entrancePos().equals(pos))
                     PENDING_LOADS.put(sub.getUniqueId(), new PendingLoad(pos.immutable(), new Vector3d(motion.velocity()),
                             level.getGameTime() + PENDING_LOAD_TIMEOUT));
-                SubLevelWarpHandler.debugLog(level, sub, "touching " + pos + " and loading destination contraption " + warpBE.destinationSubLevel);
                 continue;
             }
 
-            if (exit == null) {
-                BlockPos resolved = warpBE.destinationSubLevel != null && warpBE.destinationSubLevelPos != null
-                        ? SableProvider.resolveSubLevelPos(level, warpBE.destinationSubLevel, warpBE.destinationSubLevelPos) : null;
-                BlockPos matching = warpBE.getUUID() != null ? BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID()) : null;
-                SubLevelWarpHandler.debugLog(level, sub, "touching " + pos + " but no destination: destinationPos=" + warpBE.destinationPos
-                        + " hasBE=" + (warpBE.destinationPos != null && level.getBlockEntity(warpBE.destinationPos) instanceof BaseWarpBlockEntity)
-                        + " subLevel=" + warpBE.destinationSubLevel + " subLevelPos=" + warpBE.destinationSubLevelPos
-                        + " resolved=" + resolved + " resolvedHasBE=" + (resolved != null && level.getBlockEntity(resolved) instanceof BaseWarpBlockEntity)
-                        + " uuidMatch=" + matching + " uuidMatchHasBE=" + (matching != null && level.getBlockEntity(matching) instanceof BaseWarpBlockEntity));
+            if (exit == null)
                 continue;
-            }
 
             List<Player> passengers = SubLevelWarpHandler.getPassengers(level, bounds);
             WarpCost.Cost warpCost = WarpCost.getBlockCost(entrance.center().distanceTo(exit.center()), state);
@@ -156,10 +140,8 @@ public class SubLevelWarpHandler {
             if (!WarpCost.canAfford(passengers, warpCost))
                 continue;
 
-            if (!SubLevelWarpHandler.warp(sub, entrance, motion, exit)) {
-                SubLevelWarpHandler.debugLog(level, sub, "touching " + pos + " but teleport failed (invalid rigid body)");
+            if (!SubLevelWarpHandler.warp(sub, entrance, motion, exit))
                 continue;
-            }
 
             WarpCost.charge(passengers, warpCost);
             PENDING_LOADS.remove(sub.getUniqueId());
@@ -377,14 +359,5 @@ public class SubLevelWarpHandler {
 
     private static AABB toAabb(BoundingBox3dc bounds) {
         return new AABB(bounds.minX(), bounds.minY(), bounds.minZ(), bounds.maxX(), bounds.maxY(), bounds.maxZ());
-    }
-
-    private static void debugLog(ServerLevel level, ServerSubLevel sub, String message) {
-        Long lastLog = DEBUG_LOG_TIMES.get(sub.getUniqueId());
-
-        if (lastLog == null || level.getGameTime() - lastLog >= 40) {
-            DEBUG_LOG_TIMES.put(sub.getUniqueId(), level.getGameTime());
-            Marioverse.LOGGER.info("[Marioverse contraption warp debug] {}: {}", sub.getUniqueId(), message);
-        }
     }
 }

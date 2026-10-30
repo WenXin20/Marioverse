@@ -36,6 +36,7 @@ import org.joml.Vector3d;
 public interface BlockWarpEntityHandler {
     Map<Entity, Long> AWAITING_RELEASE = Collections.synchronizedMap(new WeakHashMap<>());
     int RELEASE_GRACE_TICKS = 10;
+    int WARP_DOOR_CLOSE_DELAY = 10;
 
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
 
@@ -297,12 +298,8 @@ public interface BlockWarpEntityHandler {
             if (warpBE instanceof WarpTrapDoorBlockEntity warpTrapdoorBE && warpTrapdoorBE.breakTrapdoor)
                 WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, level);
 
-            if (state.getBlock() instanceof DoorBlock)
-                level.setBlock(pos, state.setValue(DoorBlock.OPEN, Boolean.FALSE)
-                        .setValue(DoorBlock.FACING, state.getValue(DoorBlock.FACING)), 10);
-            if (state.getBlock() instanceof TrapDoorBlock)
-                level.setBlock(pos, state.setValue(TrapDoorBlock.OPEN, Boolean.FALSE)
-                        .setValue(TrapDoorBlock.FACING, state.getValue(TrapDoorBlock.FACING)), 10);
+            if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
+                level.scheduleTick(pos, state.getBlock(), WARP_DOOR_CLOSE_DELAY);
 
             if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
                 level.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
@@ -313,13 +310,9 @@ public interface BlockWarpEntityHandler {
         }
 
         if (blockEntity instanceof BaseWarpBlockEntity warpDoorBE) {
-            if (state.getBlock() instanceof DoorBlock doorBlock)
-                warpDoorBE.playDoorSounds(null, level, pos, state.getValue(DoorBlock.OPEN), doorBlock.type());
             if (warpState.getBlock() instanceof DoorBlock doorBlock)
                 warpDoorBE.playDoorSounds(null, level, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
 
-            if (state.getBlock() instanceof TrapDoorBlock trapdoorBlock)
-                warpDoorBE.playDoorSounds(null, level, pos, state.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
                 warpDoorBE.playDoorSounds(null, level, warpPos, warpState.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
         }
