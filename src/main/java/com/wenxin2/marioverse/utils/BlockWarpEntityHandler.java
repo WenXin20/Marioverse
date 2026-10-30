@@ -46,6 +46,9 @@ public interface BlockWarpEntityHandler {
 
     default void enterWarp(Entity entity, Level world, BlockPos pos, BlockPos posEmbedded, BlockState state,
                            @Nullable Object object) {
+        if (entity.isSpectator())
+            return;
+
         BlockEntity blockEntity = world.getBlockEntity(pos);
         BlockPos warpPos;
 
@@ -352,6 +355,19 @@ public interface BlockWarpEntityHandler {
     default void displayWarpDisruptedMessage(Player player, BlockState state) {
         player.displayClientMessage(Component.translatable("display.marioverse.warp_disrupted",
                 state.getBlock().getName()).withStyle(ChatFormatting.RED), true);
+    }
+
+    default boolean spectatorWarp(Entity entity, Level level, BlockPos pos, BlockState state, BaseWarpBlockEntity warpBE) {
+        boolean isWarpBlock = state.getBlock() instanceof WarpPipeBlock || state.getBlock() instanceof DoorBlock
+                || state.getBlock() instanceof TrapDoorBlock;
+
+        if (!isWarpBlock || warpBE.preventWarp || !warpBE.hasDestinationPos() || entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0)
+            return false;
+        if (state.getBlock() instanceof WarpPipeBlock && (!state.getValue(WarpPipeBlock.ENTRANCE) || state.getValue(WarpPipeBlock.CLOSED)))
+            return false;
+
+        this.warp(entity, level, pos, state, warpBE.destinationPos, warpBE);
+        return true;
     }
 
     static void displayDestinationMissingMessage(Player player) {

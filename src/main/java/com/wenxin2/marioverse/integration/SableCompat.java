@@ -156,6 +156,16 @@ public class SableCompat {
                 if (PENDING_WARPS.containsKey(entity.getId()))
                     return true;
 
+                if (!this.requestSubLevelLoad(level, subLevel))
+                    return false;
+
+                PENDING_WARPS.put(entity.getId(), new PendingWarp(level, subLevel, localPos, entity, isReady, onLoaded,
+                        level.getGameTime() + PENDING_WARP_TIMEOUT));
+                return true;
+            }
+
+            @Override
+            public boolean requestSubLevelLoad(ServerLevel level, UUID subLevel) {
                 SubLevelLocationSavedData.ChunkBounds bounds = SubLevelLocationSavedData.get(level).getLocation(subLevel);
                 if (bounds == null) {
                     if (UNKNOWN_LOCATION_WARNINGS.add(subLevel))
@@ -171,8 +181,6 @@ public class SableCompat {
                         ticketedChunks++;
                     }
                 }
-                PENDING_WARPS.put(entity.getId(), new PendingWarp(level, subLevel, localPos, entity, isReady, onLoaded,
-                        level.getGameTime() + PENDING_WARP_TIMEOUT));
                 return true;
             }
 

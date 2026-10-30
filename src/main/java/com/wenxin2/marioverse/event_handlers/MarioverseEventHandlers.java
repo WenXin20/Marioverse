@@ -52,6 +52,8 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
@@ -696,6 +698,13 @@ public class MarioverseEventHandlers {
         Player player = event.getEntity();
         Direction.Axis axis = event.getEntity().getDirection().getAxis();
 
+        if (player.isSpectator() && !level.isClientSide && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
+                && ((BlockWarpEntityHandler) player).spectatorWarp(player, level, pos, state, warpBE)) {
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            return;
+        }
+
         if (heldItem.getItem() instanceof PiranhaPlantPodItem plantPodItem
                 && state.getBlock() instanceof FlowerPotBlock flowerPot
                 && !(state.getBlock() instanceof PottedPiranhaPlantBlock)
@@ -885,6 +894,21 @@ public class MarioverseEventHandlers {
                 event.setCancellationResult(InteractionResult.SUCCESS);
                 event.setCanceled(true);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityInteractSpecific(PlayerInteractEvent.EntityInteractSpecific event) {
+        Player player = event.getEntity();
+        Entity target = event.getTarget();
+
+        if (player.isSpectator() && target instanceof WarpLinkableEntity linkable && linkable.mv$getWarpUUID() != null) {
+            if (!event.getLevel().isClientSide && !target.getData(DataAttachmentRegistry.PREVENT_WARP)
+                    && player.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
+                ((EntityWarpEntityHandler) player).warp(player, event.getLevel(), linkable);
+
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
         }
     }
 

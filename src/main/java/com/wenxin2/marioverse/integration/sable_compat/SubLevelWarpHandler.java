@@ -15,6 +15,7 @@ import dev.ryanhcode.sable.companion.math.Pose3d;
 import dev.ryanhcode.sable.sublevel.ServerSubLevel;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,8 +41,15 @@ public class SubLevelWarpHandler {
     private static final double EXIT_CLEARANCE = 1.0;
     private static final Map<UUID, Long> WARP_COOLDOWNS = new HashMap<>();
     private static final Map<UUID, Long> DEBUG_LOG_TIMES = new HashMap<>();
+    private static final Map<UUID, Vector3d> LAST_VELOCITIES = new HashMap<>();
+    private static final Map<UUID, PendingLoad> PENDING_LOADS = new HashMap<>();
+    private static final int PENDING_LOAD_TIMEOUT = 300;
 
     private record WarpPoint(Vec3 center, Vec3 normal) {}
+
+    private record EntryMotion(Vec3 direction, Vector3d velocity) {}
+
+    private record PendingLoad(BlockPos entrancePos, Vector3d velocity, long deadline) {}
 
     public static void tick(ServerSubLevelContainer container) {
         ServerLevel level = container.getLevel();
@@ -52,9 +60,27 @@ public class SubLevelWarpHandler {
         Set<BlockPos> loadedWarpBlocks = BaseWarpBlockEntity.LOADED_WARP_BLOCKS.get(level);
         List<BlockPos> warpBlocks = loadedWarpBlocks == null ? List.of() : new ArrayList<>(loadedWarpBlocks);
 
+        if (level.getGameTime() % 100 == 0) {
+            Set<UUID> loadedSubLevels = new HashSet<>();
+            for (ServerSubLevel sub : container.getAllSubLevels())
+                loadedSubLevels.add(sub.getUniqueId());
+            LAST_VELOCITIES.keySet().retainAll(loadedSubLevels);
+            PENDING_LOADS.keySet().retainAll(loadedSubLevels);
+        }
+
         for (ServerSubLevel sub : new ArrayList<>(container.getAllSubLevels())) {
             if (sub.isRemoved())
                 continue;
+
+            RigidBodyHandle handle = RigidBodyHandle.of(sub);
+            if (handle == null || !handle.isValid())
+                continue;
+
+            Vector3d currentVelocity = handle.getLinearVelocity(new Vector3d());
+            Vector3d previousVelocity = LAST_VELOCITIES.put(sub.getUniqueId(), new Vector3d(currentVelocity));
+            List<Vector3d> velocities = new ArrayList<>(List.of(currentVelocity));
+            if (previousVelocity != null)
+                velocities.add(previousVelocity);
 
             Long cooldownEnd = WARP_COOLDOWNS.get(sub.getUniqueId());
             if (cooldownEnd != null) {
@@ -65,12 +91,13 @@ public class SubLevelWarpHandler {
 
             AABB bounds = SubLevelWarpHandler.toAabb(sub.boundingBox()).inflate(1.0);
 
-            if (!SubLevelWarpHandler.tryWarpThroughBlocks(level, sub, bounds, warpBlocks))
-                SubLevelWarpHandler.tryWarpThroughPaintings(level, sub, bounds);
+            if (!SubLevelWarpHandler.tryWarpThroughBlocks(level, sub, bounds, warpBlocks, velocities))
+                SubLevelWarpHandler.tryWarpThroughPaintings(level, sub, bounds, velocities);
         }
     }
 
-    private static boolean tryWarpThroughBlocks(ServerLevel level, ServerSubLevel sub, AABB bounds, List<BlockPos> warpBlocks) {
+    private static boolean tryWarpThroughBlocks(ServerLevel level, ServerSubLevel sub, AABB bounds, List<BlockPos> warpBlocks,
+                                                List<Vector3d> velocities) {
         for (BlockPos pos : warpBlocks) {
             if (!(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE) || warpBE.preventWarp || !warpBE.hasDestinationPos()
                     || SubLevelWarpHandler.isOnSubLevel(level, pos, sub))
@@ -88,13 +115,29 @@ public class SubLevelWarpHandler {
                 continue;
             }
 
-            Vec3 inDirection = SubLevelWarpHandler.getInDirection(level, sub, pos, entrance, isPipe);
-            if (inDirection == null) {
+            List<Vector3d> entryVelocities = new ArrayList<>(velocities);
+            PendingLoad pendingLoad = PENDING_LOADS.get(sub.getUniqueId());
+            if (pendingLoad != null && pendingLoad.entrancePos().equals(pos) && level.getGameTime() <= pendingLoad.deadline())
+                entryVelocities.add(pendingLoad.velocity());
+
+            EntryMotion motion = SubLevelWarpHandler.getEntryMotion(level, pos, entrance, isPipe, entryVelocities);
+            if (motion == null) {
                 SubLevelWarpHandler.debugLog(level, sub, "touching " + pos + " but not moving into it fast enough");
                 continue;
             }
 
             WarpPoint exit = SubLevelWarpHandler.getBlockDestination(level, warpBE, sub);
+            if (exit == null && warpBE.destinationSubLevel != null && warpBE.destinationSubLevelPos != null
+                    && !warpBE.destinationSubLevel.equals(sub.getUniqueId())
+                    && SableProvider.resolveSubLevelPos(level, warpBE.destinationSubLevel, warpBE.destinationSubLevelPos) == null
+                    && SableProvider.requestSubLevelLoad(level, warpBE.destinationSubLevel)) {
+                if (pendingLoad == null || !pendingLoad.entrancePos().equals(pos))
+                    PENDING_LOADS.put(sub.getUniqueId(), new PendingLoad(pos.immutable(), new Vector3d(motion.velocity()),
+                            level.getGameTime() + PENDING_LOAD_TIMEOUT));
+                SubLevelWarpHandler.debugLog(level, sub, "touching " + pos + " and loading destination contraption " + warpBE.destinationSubLevel);
+                continue;
+            }
+
             if (exit == null) {
                 BlockPos resolved = warpBE.destinationSubLevel != null && warpBE.destinationSubLevelPos != null
                         ? SableProvider.resolveSubLevelPos(level, warpBE.destinationSubLevel, warpBE.destinationSubLevelPos) : null;
@@ -113,12 +156,13 @@ public class SubLevelWarpHandler {
             if (!WarpCost.canAfford(passengers, warpCost))
                 continue;
 
-            if (!SubLevelWarpHandler.warp(sub, entrance, inDirection, exit)) {
+            if (!SubLevelWarpHandler.warp(sub, entrance, motion, exit)) {
                 SubLevelWarpHandler.debugLog(level, sub, "touching " + pos + " but teleport failed (invalid rigid body)");
                 continue;
             }
 
             WarpCost.charge(passengers, warpCost);
+            PENDING_LOADS.remove(sub.getUniqueId());
 
             int cooldown = isPipe ? ConfigRegistry.WARP_PIPE_COOLDOWN.get()
                     : state.getBlock() instanceof DoorBlock ? ConfigRegistry.WARP_DOOR_COOLDOWN.get()
@@ -129,7 +173,7 @@ public class SubLevelWarpHandler {
         return false;
     }
 
-    private static void tryWarpThroughPaintings(ServerLevel level, ServerSubLevel sub, AABB bounds) {
+    private static void tryWarpThroughPaintings(ServerLevel level, ServerSubLevel sub, AABB bounds, List<Vector3d> velocities) {
         List<Entity> warpEntities = level.getEntities((Entity) null, bounds, entity -> entity instanceof BlockAttachedEntity
                 && entity instanceof WarpLinkableEntity linkable && linkable.mv$getWarpUUID() != null
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP));
@@ -142,8 +186,8 @@ public class SubLevelWarpHandler {
             if (entrance == null || !SubLevelWarpHandler.isTouching(sub, entrance, false))
                 continue;
 
-            Vec3 inDirection = SubLevelWarpHandler.getInDirection(level, sub, warpEntity.blockPosition(), entrance, true);
-            if (inDirection == null)
+            EntryMotion motion = SubLevelWarpHandler.getEntryMotion(level, warpEntity.blockPosition(), entrance, true, velocities);
+            if (motion == null)
                 continue;
 
             Entity destination = level.getEntity(((WarpLinkableEntity) warpEntity).mv$getWarpUUID());
@@ -157,7 +201,7 @@ public class SubLevelWarpHandler {
             List<Player> passengers = SubLevelWarpHandler.getPassengers(level, bounds);
             WarpCost.Cost warpCost = WarpCost.getEntityCost(entrance.center().distanceTo(exit.center()), true);
 
-            if (!WarpCost.canAfford(passengers, warpCost) || !SubLevelWarpHandler.warp(sub, entrance, inDirection, exit))
+            if (!WarpCost.canAfford(passengers, warpCost) || !SubLevelWarpHandler.warp(sub, entrance, motion, exit))
                 continue;
 
             WarpCost.charge(passengers, warpCost);
@@ -257,37 +301,48 @@ public class SubLevelWarpHandler {
     }
 
     @Nullable
-    private static Vec3 getInDirection(ServerLevel level, ServerSubLevel sub, BlockPos entrancePos, WarpPoint entrance, boolean requireMotion) {
-        RigidBodyHandle handle = RigidBodyHandle.of(sub);
-        if (handle == null || !handle.isValid())
-            return null;
-
-        Vector3d velocity = handle.getLinearVelocity(new Vector3d());
+    private static EntryMotion getEntryMotion(ServerLevel level, BlockPos entrancePos, WarpPoint entrance, boolean requireMotion,
+                                              List<Vector3d> velocities) {
+        Vector3d entranceVelocity = new Vector3d();
         SableProvider.SubLevelAnchor entranceAnchor = SableProvider.getAnchor(level, entrancePos);
 
         if (entranceAnchor != null && SubLevelContainer.getContainer(level).getSubLevel(entranceAnchor.subLevel()) instanceof ServerSubLevel entranceSub) {
             RigidBodyHandle entranceHandle = RigidBodyHandle.of(entranceSub);
             if (entranceHandle != null && entranceHandle.isValid())
-                velocity.sub(entranceHandle.getLinearVelocity(new Vector3d()));
+                entranceHandle.getLinearVelocity(entranceVelocity);
         }
 
-        double speedIntoEntrance = -(velocity.x * entrance.normal().x + velocity.y * entrance.normal().y + velocity.z * entrance.normal().z);
+        Vector3d bestVelocity = null;
+        double bestSpeed = -Double.MAX_VALUE;
 
+        for (Vector3d velocity : velocities) {
+            Vector3d relativeVelocity = new Vector3d(velocity).sub(entranceVelocity);
+            double speedIntoEntrance = -(relativeVelocity.x * entrance.normal().x + relativeVelocity.y * entrance.normal().y
+                    + relativeVelocity.z * entrance.normal().z);
+
+            if (speedIntoEntrance > bestSpeed) {
+                bestSpeed = speedIntoEntrance;
+                bestVelocity = velocity;
+            }
+        }
+
+        if (bestVelocity == null)
+            return null;
         if (requireMotion)
-            return speedIntoEntrance >= MIN_ENTRY_SPEED ? entrance.normal().scale(-1.0) : null;
-        if (velocity.lengthSquared() > MIN_ENTRY_SPEED * MIN_ENTRY_SPEED)
-            return new Vec3(velocity.x, velocity.y, velocity.z).normalize();
-        return entrance.normal().scale(-1.0);
+            return bestSpeed >= MIN_ENTRY_SPEED ? new EntryMotion(entrance.normal().scale(-1.0), bestVelocity) : null;
+        if (bestVelocity.lengthSquared() > MIN_ENTRY_SPEED * MIN_ENTRY_SPEED)
+            return new EntryMotion(new Vec3(bestVelocity.x, bestVelocity.y, bestVelocity.z).normalize(), bestVelocity);
+        return new EntryMotion(entrance.normal().scale(-1.0), bestVelocity);
     }
 
-    private static boolean warp(ServerSubLevel sub, WarpPoint entrance, Vec3 inDirection, WarpPoint exit) {
+    private static boolean warp(ServerSubLevel sub, WarpPoint entrance, EntryMotion motion, WarpPoint exit) {
         RigidBodyHandle handle = RigidBodyHandle.of(sub);
         if (handle == null || !handle.isValid())
             return false;
 
-        Vector3d velocity = handle.getLinearVelocity(new Vector3d());
+        Vector3d velocity = new Vector3d(motion.velocity());
         Vector3d angularVelocity = handle.getAngularVelocity(new Vector3d());
-        Vector3d in = new Vector3d(inDirection.x, inDirection.y, inDirection.z).normalize();
+        Vector3d in = new Vector3d(motion.direction().x, motion.direction().y, motion.direction().z).normalize();
         Vector3d out = new Vector3d(exit.normal().x, exit.normal().y, exit.normal().z).normalize();
         Vector3d entranceCenter = new Vector3d(entrance.center().x, entrance.center().y, entrance.center().z);
         boolean isHorizontalWarp = Math.abs(in.y) < 0.5 && Math.abs(out.y) < 0.5;

@@ -80,7 +80,7 @@ public class WarpCost {
         boolean missingCoins = false;
 
         for (Player player : players) {
-            if (player.getAbilities().instabuild)
+            if (player.getAbilities().instabuild || player.isSpectator())
                 continue;
             if (cost.xp() > 0 && WarpCost.getTotalExperience(player) < cost.xp())
                 missingXp = true;
@@ -106,7 +106,7 @@ public class WarpCost {
 
     public static void charge(List<Player> players, Cost cost) {
         for (Player player : players) {
-            if (player.level().isClientSide || player.getAbilities().instabuild)
+            if (player.level().isClientSide || player.getAbilities().instabuild || player.isSpectator())
                 continue;
             if (cost.xp() > 0)
                 player.giveExperiencePoints(-cost.xp());

@@ -30,6 +30,9 @@ public interface EntityWarpEntityHandler {
     boolean mv$getEntityWarpTeleportConfig();
 
     default void enterWarp(Entity entity, Level world) {
+        if (entity.isSpectator())
+            return;
+
         List<Entity> nearbyEntities = world.getEntitiesOfClass(Entity.class, entity.getBoundingBox().inflate(0.1, 0, 0.1));
         for (Entity warpEntity : nearbyEntities) {
             if (warpEntity != entity && warpEntity.isAlive() && warpEntity instanceof WarpLinkableEntity linkableEntity
