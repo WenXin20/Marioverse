@@ -28,6 +28,7 @@ import org.joml.Vector3f;
 public class WarpLinkParticles {
     private static final double[] EDGE_STEPS = {-0.5, -0.25, 0.0, 0.25, 0.5};
     private static final double FACE_OFFSET = 0.51;
+    private static final double OUTLINE_SPACING = 0.25;
     private static final int MAX_VIBRATION_TICKS = 40;
     private static final int SWIRL_PARTICLES = 16;
     private static final int MAX_SWIRL_PARTICLES = 64;
@@ -41,22 +42,20 @@ public class WarpLinkParticles {
 
     public static void outlineWarp(ServerLevel level, BlockPos pos, @Nullable ServerPlayer viewer) {
         BlockState state = level.getBlockState(pos);
-        List<BlockPos> blocks;
-        Direction facing;
 
-        if (state.getBlock() instanceof WarpPipeBlock) {
-            facing = state.getValue(WarpPipeBlock.FACING);
-            blocks = state.getBlock() instanceof ClearWarpPipeBlock ? List.of(pos) : WarpPipeBlock.getEntranceGroup(level, pos, state);
-            if (blocks.isEmpty())
-                blocks = List.of(pos);
-        } else if (state.getBlock() instanceof DoorBlock) {
-            facing = state.getValue(DoorBlock.FACING);
-            BlockPos lowerPos = state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos : pos.below();
-            blocks = List.of(lowerPos, lowerPos.above());
-        } else {
-            facing = Direction.UP;
-            blocks = List.of(pos);
+        if (!(state.getBlock() instanceof WarpPipeBlock)) {
+            if (state.getBlock() instanceof DoorBlock) {
+                BlockPos lowerPos = state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos : pos.below();
+                WarpLinkParticles.outlineShape(level, viewer, lowerPos);
+                WarpLinkParticles.outlineShape(level, viewer, lowerPos.above());
+            } else WarpLinkParticles.outlineShape(level, viewer, pos);
+            return;
         }
+
+        Direction facing = state.getValue(WarpPipeBlock.FACING);
+        List<BlockPos> blocks = state.getBlock() instanceof ClearWarpPipeBlock ? List.of(pos) : WarpPipeBlock.getEntranceGroup(level, pos, state);
+        if (blocks.isEmpty())
+            blocks = List.of(pos);
 
         Set<BlockPos> group = new HashSet<>(blocks);
 
@@ -79,26 +78,7 @@ public class WarpLinkParticles {
     }
 
     public static void outlineEntity(ServerLevel level, Entity entity, @Nullable ServerPlayer viewer) {
-        AABB bounds = entity.getBoundingBox();
-        double[] xs = {bounds.minX, bounds.maxX};
-        double[] ys = {bounds.minY, bounds.maxY};
-        double[] zs = {bounds.minZ, bounds.maxZ};
-
-        for (double step = 0.0; step <= 1.0; step += 0.25) {
-            double x = bounds.minX + (bounds.maxX - bounds.minX) * step;
-            double y = bounds.minY + (bounds.maxY - bounds.minY) * step;
-            double z = bounds.minZ + (bounds.maxZ - bounds.minZ) * step;
-
-            for (double edgeA : ys)
-                for (double edgeB : zs)
-                    WarpLinkParticles.sendOutlineParticle(level, viewer, new Vec3(x, edgeA, edgeB));
-            for (double edgeA : xs)
-                for (double edgeB : zs)
-                    WarpLinkParticles.sendOutlineParticle(level, viewer, new Vec3(edgeA, y, edgeB));
-            for (double edgeA : xs)
-                for (double edgeB : ys)
-                    WarpLinkParticles.sendOutlineParticle(level, viewer, new Vec3(edgeA, edgeB, z));
-        }
+        WarpLinkParticles.outlineBox(level, viewer, entity.getBoundingBox());
     }
 
     public static void sendLinkVibration(ServerLevel level, Vec3 from, Vec3 to) {
@@ -117,9 +97,9 @@ public class WarpLinkParticles {
         WarpFace entrance = WarpLinkParticles.getWarpFace(level, from, fromState);
         WarpFace exit = WarpLinkParticles.getWarpFace(level, to, toState);
 
-        if (entrance != null)
+        if (entrance != null && fromState.getBlock() instanceof WarpPipeBlock)
             WarpLinkParticles.spawnSwirl(level, entrance);
-        if (exit != null)
+        if (exit != null && toState.getBlock() instanceof WarpPipeBlock)
             WarpLinkParticles.spawnPuff(level, exit);
     }
 
@@ -218,6 +198,33 @@ public class WarpLinkParticles {
         Vec3 reference = Math.abs(normal.y) > 0.9 ? new Vec3(1.0, 0.0, 0.0) : new Vec3(0.0, 1.0, 0.0);
         Vec3 first = reference.cross(normal).normalize();
         return new Vec3[] {first, normal.cross(first).normalize()};
+    }
+
+    private static void outlineShape(ServerLevel level, @Nullable ServerPlayer viewer, BlockPos pos) {
+        for (AABB box : level.getBlockState(pos).getShape(level, pos).toAabbs())
+            WarpLinkParticles.outlineBox(level, viewer, box.move(pos));
+    }
+
+    private static void outlineBox(ServerLevel level, @Nullable ServerPlayer viewer, AABB box) {
+        double[] xs = {box.minX, box.maxX};
+        double[] ys = {box.minY, box.maxY};
+        double[] zs = {box.minZ, box.maxZ};
+        int xSteps = Math.max(1, (int) Math.ceil(box.getXsize() / OUTLINE_SPACING));
+        int ySteps = Math.max(1, (int) Math.ceil(box.getYsize() / OUTLINE_SPACING));
+        int zSteps = Math.max(1, (int) Math.ceil(box.getZsize() / OUTLINE_SPACING));
+
+        for (int i = 0; i <= xSteps; i++)
+            for (double y : ys)
+                for (double z : zs)
+                    WarpLinkParticles.sendOutlineParticle(level, viewer, new Vec3(box.minX + box.getXsize() * i / xSteps, y, z));
+        for (int i = 0; i <= ySteps; i++)
+            for (double x : xs)
+                for (double z : zs)
+                    WarpLinkParticles.sendOutlineParticle(level, viewer, new Vec3(x, box.minY + box.getYsize() * i / ySteps, z));
+        for (int i = 0; i <= zSteps; i++)
+            for (double x : xs)
+                for (double y : ys)
+                    WarpLinkParticles.sendOutlineParticle(level, viewer, new Vec3(x, y, box.minZ + box.getZsize() * i / zSteps));
     }
 
     private static void sendOutlineParticle(ServerLevel level, @Nullable ServerPlayer viewer, Vec3 pos) {

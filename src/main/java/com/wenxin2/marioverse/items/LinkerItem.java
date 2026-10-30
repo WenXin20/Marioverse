@@ -690,6 +690,27 @@ public class LinkerItem extends TieredItem {
             linkedFirst.add(pair.first());
             linkedSecond.add(pair.second());
         }
+
+        for (PipePair pair : pairs) {
+            if (linkedFirst.contains(pair.first()) || !linkedSecond.contains(pair.second())
+                    || !(level.getBlockEntity(pair.first()) instanceof BaseWarpBlockEntity firstBE)
+                    || !(level.getBlockEntity(pair.second()) instanceof BaseWarpBlockEntity secondBE))
+                continue;
+
+            if (!level.isClientSide && firstBE.getUUID() == null)
+                firstBE.setUUID(UUID.randomUUID());
+
+            firstBE.setDestinationPos(pair.second());
+            if (secondBE.getDestinationDim() != null)
+                firstBE.setDestinationDim(secondBE.getDestinationDim());
+            if (secondBE.getUUID() != null)
+                firstBE.setWarpUuid(secondBE.getUUID());
+            firstBE.markUpdated();
+
+            if (level instanceof ServerLevel serverLevel)
+                WarpLinkParticles.sendLinkVibration(serverLevel, Vec3.atCenterOf(pair.first()), Vec3.atCenterOf(pair.second()));
+            linkedFirst.add(pair.first());
+        }
         return true;
     }
 
