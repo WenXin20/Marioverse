@@ -261,6 +261,9 @@ public interface BlockWarpEntityHandler {
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
             WarpCost.chargeIfWarped(entity, startPos, warpCost);
+
+            if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))
+                WarpLinkParticles.spawnWarpTransition(serverLevel, pos, state, warpPos, warpState);
         } else if (warpBE.getUUID() != null && warpBE.getWarpUuid() != null
                 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID()) != null) {
             warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID());
@@ -281,6 +284,9 @@ public interface BlockWarpEntityHandler {
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
             WarpCost.chargeIfWarped(entity, startPos, warpCost);
+
+            if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))
+                WarpLinkParticles.spawnWarpTransition(serverLevel, pos, state, warpPos, warpState);
 
             warpBE.setDestinationPos(warpPos);
             if (level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity destBE)

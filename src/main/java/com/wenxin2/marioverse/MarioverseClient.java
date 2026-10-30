@@ -14,6 +14,8 @@ import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementItemParticle;
 import com.wenxin2.marioverse.client.particles.PollenParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
+import com.wenxin2.marioverse.client.particles.WarpLinkParticle;
+import com.wenxin2.marioverse.client.particles.WarpStarParticle;
 import com.wenxin2.marioverse.client.renderers.blocks.ArrowSignBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.curios.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
@@ -457,6 +459,8 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.RED_STAR.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.SUSPENDED_FIRE.get(), GlowingSuspendedTownParticle.FireProvider::new);
+        event.registerSpriteSet(ParticleRegistry.WARP_LINK.get(), WarpLinkParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.WARP_STAR.get(), WarpStarParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
     }
 

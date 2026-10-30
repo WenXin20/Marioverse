@@ -11,8 +11,12 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -78,6 +82,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 public class WarpPipeBlock extends BaseEntityDirectionalBlock {
+    public static final int MAX_ENTRANCE_GROUP_SIZE = 64;
     public static final MapCodec<WarpPipeBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(DyeColor.CODEC.optionalFieldOf("color")
                             .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
@@ -656,5 +661,33 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     public static boolean hasWaterSpout(BlockGetter blockGetter, BlockPos pos) {
         return blockGetter.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.hasWaterSpout();
+    }
+
+    public static List<BlockPos> getEntranceGroup(Level level, BlockPos start, BlockState startState) {
+        List<BlockPos> group = new ArrayList<>();
+        if (!(startState.getBlock() instanceof WarpPipeBlock) || startState.getBlock() instanceof ClearWarpPipeBlock)
+            return group;
+
+        Direction facing = startState.getValue(WarpPipeBlock.FACING);
+        Set<BlockPos> visited = new HashSet<>(Set.of(start));
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>(List.of(start));
+
+        while (!queue.isEmpty() && group.size() < MAX_ENTRANCE_GROUP_SIZE) {
+            BlockPos pos = queue.poll();
+            BlockState state = level.getBlockState(pos);
+
+            if (!(state.getBlock() instanceof WarpPipeBlock) || state.getBlock() instanceof ClearWarpPipeBlock
+                    || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
+                    || !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity))
+                continue;
+
+            group.add(pos);
+            for (Direction direction : Direction.values()) {
+                BlockPos next = pos.relative(direction);
+                if (direction.getAxis() != facing.getAxis() && visited.add(next))
+                    queue.add(next);
+            }
+        }
+        return group;
     }
 }

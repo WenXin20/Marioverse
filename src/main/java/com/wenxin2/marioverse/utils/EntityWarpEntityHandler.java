@@ -213,6 +213,9 @@ public interface EntityWarpEntityHandler {
             }
 
             WarpCost.chargeIfWarped(entity, startPos, warpCost);
+
+            if (!entity.position().equals(startPos) && warpLinkableEntity instanceof Entity enteredWarpEntity)
+                WarpLinkParticles.spawnEntityWarpTransition(serverWorld, enteredWarpEntity, entity);
         }
     }
 

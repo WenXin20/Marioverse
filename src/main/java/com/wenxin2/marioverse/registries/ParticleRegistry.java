@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.registries;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.particles.WarpLinkParticleOption;
+import com.wenxin2.marioverse.particles.WarpStarParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -33,6 +35,8 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RED_STAR;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUPER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUSPENDED_FIRE;
+    public static final DeferredHolder<ParticleType<?>, ParticleType<WarpLinkParticleOption>> WARP_LINK;
+    public static final DeferredHolder<ParticleType<?>, ParticleType<WarpStarParticleOption>> WARP_STAR;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> WONDERFUL;
 
     static {
@@ -69,6 +73,30 @@ public class ParticleRegistry {
             @Override
             public StreamCodec<? super RegistryFriendlyByteBuf, ItemParticleOption> streamCodec() {
                 return ItemParticleOption.streamCodec(this);
+            }
+        });
+
+        WARP_STAR = Marioverse.PARTICLES.register("warp_star", () -> new ParticleType<WarpStarParticleOption>(false) {
+            @Override
+            public MapCodec<WarpStarParticleOption> codec() {
+                return WarpStarParticleOption.CODEC;
+            }
+
+            @Override
+            public StreamCodec<? super RegistryFriendlyByteBuf, WarpStarParticleOption> streamCodec() {
+                return WarpStarParticleOption.STREAM_CODEC;
+            }
+        });
+
+        WARP_LINK = Marioverse.PARTICLES.register("warp_link", () -> new ParticleType<WarpLinkParticleOption>(true) {
+            @Override
+            public MapCodec<WarpLinkParticleOption> codec() {
+                return WarpLinkParticleOption.CODEC;
+            }
+
+            @Override
+            public StreamCodec<? super RegistryFriendlyByteBuf, WarpLinkParticleOption> streamCodec() {
+                return WarpLinkParticleOption.STREAM_CODEC;
             }
         });
     }

@@ -760,16 +760,16 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         float pitch = 1.0F + level.random.nextFloat() * 0.2F;
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
-        double x = warpPos.getX();
+        List<BlockPos> entranceGroup = WarpPipeBlock.getEntranceGroup(level, warpPos, level.getBlockState(warpPos));
+        double x = entranceGroup.size() > 1 ? entranceGroup.stream().mapToInt(BlockPos::getX).average().orElse(warpPos.getX()) : warpPos.getX();
         double y = warpPos.getY();
-        double z = warpPos.getZ();
+        double z = entranceGroup.size() > 1 ? entranceGroup.stream().mapToInt(BlockPos::getZ).average().orElse(warpPos.getZ()) : warpPos.getZ();
 
         if (!level.isClientSide && !entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
                 Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
 
                 if (entity instanceof Player player) {
-                    level.broadcastEntityEvent(entity, (byte) 120); // Enchant teleport particles TODO new particles
                     entity.unRide();
 
                     if (entity instanceof ServerPlayer serverPlayer)
@@ -790,7 +790,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
-                    level.broadcastEntityEvent(entity, (byte) 120);
 
                     if (entity instanceof ServerPlayer serverPlayer)
                         serverPlayer.teleportTo((ServerLevel) level, x + 0.5, y - 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
@@ -819,7 +818,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
 
                 if (entity instanceof Player player) {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
 
                     if (entity instanceof ServerPlayer serverPlayer)
@@ -840,7 +838,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
-                    level.broadcastEntityEvent(entity, (byte) 120);
 
                     if (entity instanceof ServerPlayer serverPlayer)
                         serverPlayer.teleportTo((ServerLevel) level, x + 0.5, y + 1.0, z + 0.5, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
@@ -868,7 +865,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
 
                 if (entity instanceof Player player) {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
 
                     if (entity instanceof ServerPlayer serverPlayer)
@@ -890,7 +886,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.teleportTo(x + 0.5, y - entity.getBbHeight(), z + 0.5);
                     entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PIPE_COOLDOWN.get());
 
@@ -914,7 +909,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
 
                 if (entity instanceof Player player) {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(warpYaw);
                     entity.setYHeadRot(warpYaw);
@@ -943,7 +937,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.setYRot(warpYaw);
                     entity.setYHeadRot(warpYaw);
                     entity.setYBodyRot(warpYaw);
@@ -973,7 +966,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
 
                 if (entity instanceof Player player) {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(warpYaw);
                     entity.setYHeadRot(warpYaw);
@@ -1002,7 +994,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.setYRot(warpYaw);
                     entity.setYHeadRot(warpYaw);
                     entity.setYBodyRot(warpYaw);
@@ -1032,7 +1023,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
 
                 if (entity instanceof Player player) {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(warpYaw);
                     entity.setYHeadRot(warpYaw);
@@ -1061,7 +1051,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.setYRot(warpYaw);
                     entity.setYHeadRot(warpYaw);
                     entity.setYBodyRot(warpYaw);
@@ -1091,7 +1080,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 Set<RelativeMovement> flags = EnumSet.noneOf(RelativeMovement.class);
 
                 if (entity instanceof Player player) {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.unRide();
                     entity.setYRot(warpYaw);
                     entity.setYHeadRot(warpYaw);
@@ -1120,7 +1108,6 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                         entity.setData(DataAttachmentRegistry.RIDE_VEHICLE_COUNTDOWN, 10);
                     }
                 } else {
-                    level.broadcastEntityEvent(entity, (byte) 120);
                     entity.setYRot(warpYaw);
                     entity.setYHeadRot(warpYaw);
                     entity.setYBodyRot(warpYaw);
