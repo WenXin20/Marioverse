@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -45,11 +46,17 @@ public class WarpLinkParticles {
         BlockState state = level.getBlockState(pos);
 
         if (!(state.getBlock() instanceof WarpPipeBlock)) {
+            AABB panel = WarpLinkParticles.getShapeBounds(level, pos);
+
             if (state.getBlock() instanceof DoorBlock) {
                 BlockPos lowerPos = state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos : pos.below();
-                WarpLinkParticles.outlineShape(level, viewer, lowerPos);
-                WarpLinkParticles.outlineShape(level, viewer, lowerPos.above());
-            } else WarpLinkParticles.outlineShape(level, viewer, pos);
+                AABB lowerPanel = WarpLinkParticles.getShapeBounds(level, lowerPos);
+                AABB upperPanel = WarpLinkParticles.getShapeBounds(level, lowerPos.above());
+                panel = lowerPanel == null ? upperPanel : upperPanel == null ? lowerPanel : lowerPanel.minmax(upperPanel);
+            }
+
+            if (panel != null)
+                WarpLinkParticles.outlineFace(level, viewer, panel);
             return;
         }
 
@@ -102,25 +109,6 @@ public class WarpLinkParticles {
             WarpLinkParticles.spawnSwirl(level, entrance);
         if (exit != null && toState.getBlock() instanceof WarpPipeBlock)
             WarpLinkParticles.spawnPuff(level, exit);
-    }
-
-    public static void spawnEntityWarpTransition(ServerLevel level, Entity entered, Entity traveler) {
-        Direction facing = entered.getDirection();
-        AABB bounds = entered.getBoundingBox();
-        Vec3 normal = new Vec3(facing.getStepX(), facing.getStepY(), facing.getStepZ());
-        Vec3[] basis = WarpLinkParticles.getFaceBasis(normal);
-        double radiusA = WarpLinkParticles.getBoxExtent(bounds, basis[0]);
-        double radiusB = WarpLinkParticles.getBoxExtent(bounds, basis[1]);
-        WarpFace enteredFace = WarpLinkParticles.toWorldFace(level, bounds.getCenter(), normal, radiusA, radiusB);
-
-        if (enteredFace != null)
-            WarpLinkParticles.spawnSwirl(level, enteredFace);
-
-        Vec3 exitNormal = Vec3.directionFromRotation(0.0F, traveler.getYRot());
-        Vec3[] exitBasis = WarpLinkParticles.getFaceBasis(exitNormal);
-        double exitRadius = Math.max(traveler.getBbWidth(), 0.5);
-        WarpLinkParticles.spawnPuff(level, new WarpFace(traveler.position().add(0.0, traveler.getBbHeight() * 0.5, 0.0), exitNormal,
-                exitBasis[0], exitBasis[1], exitRadius, exitRadius));
     }
 
     private static void spawnSwirl(ServerLevel level, WarpFace face) {
@@ -224,9 +212,26 @@ public class WarpLinkParticles {
         return new Vec3[] {first, normal.cross(first).normalize()};
     }
 
-    private static void outlineShape(ServerLevel level, @Nullable ServerPlayer viewer, BlockPos pos) {
-        for (AABB box : level.getBlockState(pos).getShape(level, pos).toAabbs())
-            WarpLinkParticles.outlineBox(level, viewer, box.move(pos));
+    @Nullable
+    private static AABB getShapeBounds(ServerLevel level, BlockPos pos) {
+        VoxelShape shape = level.getBlockState(pos).getShape(level, pos);
+        return shape.isEmpty() ? null : shape.bounds().move(pos);
+    }
+
+    private static void outlineFace(ServerLevel level, @Nullable ServerPlayer viewer, AABB box) {
+        Direction.Axis thinAxis = Direction.Axis.X;
+        if (box.getYsize() < box.max(thinAxis) - box.min(thinAxis))
+            thinAxis = Direction.Axis.Y;
+        if (box.getZsize() < box.max(thinAxis) - box.min(thinAxis))
+            thinAxis = Direction.Axis.Z;
+
+        double middle = (box.min(thinAxis) + box.max(thinAxis)) * 0.5;
+        AABB face = switch (thinAxis) {
+            case X -> new AABB(middle, box.minY, box.minZ, middle, box.maxY, box.maxZ);
+            case Y -> new AABB(box.minX, middle, box.minZ, box.maxX, middle, box.maxZ);
+            case Z -> new AABB(box.minX, box.minY, middle, box.maxX, box.maxY, middle);
+        };
+        WarpLinkParticles.outlineBox(level, viewer, face);
     }
 
     private static void outlineBox(ServerLevel level, @Nullable ServerPlayer viewer, AABB box) {

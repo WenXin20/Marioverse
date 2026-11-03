@@ -25,8 +25,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
+import org.jetbrains.annotations.Nullable;
 
 public interface EntityWarpEntityHandler {
+    double PAINTING_EXIT_DISTANCE = 0.6;
+
     boolean mv$getEntityWarpTeleportConfig();
 
     default void enterWarp(Entity entity, Level world) {
@@ -107,7 +110,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = painting.getPos();
 
-                    if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
+                    if (!this.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
                     WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
@@ -120,7 +123,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = blockAttachedEntity.getPos();
 
-                    if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
+                    if (!this.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
                     WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
@@ -133,7 +136,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = blockAttachedEntity.getPos();
 
-                    if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
+                    if (!this.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
                     WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
@@ -198,7 +201,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = savedTarget.direction();
                     int width = savedTarget.width();
 
-                    if (!this.warpPaintingDirection(basePos, direction, width, entity, world))
+                    if (!this.warpPaintingDirection(null, basePos, direction, width, entity, world))
                         return;
 
                     List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
@@ -213,25 +216,28 @@ public interface EntityWarpEntityHandler {
             }
 
             WarpCost.chargeIfWarped(entity, startPos, warpCost);
-
-            if (!entity.position().equals(startPos) && warpLinkableEntity instanceof Entity enteredWarpEntity)
-                WarpLinkParticles.spawnEntityWarpTransition(serverWorld, enteredWarpEntity, entity);
         }
     }
 
-    private boolean warpPaintingDirection(BlockPos basePos, Direction direction, double width, Entity entity, Level world) {
-        double centerX = basePos.getX();
-        double centerY = basePos.getY();
-        double centerZ = basePos.getZ();
+    private boolean warpPaintingDirection(@Nullable Entity destination, BlockPos basePos, Direction direction, double width,
+                                          Entity entity, Level world) {
+        Vec3 paintingCenter;
+        double footY;
 
-        switch (direction) {
-            case NORTH -> centerZ += 0.5;
-            case SOUTH -> { centerX += width / 2; centerZ += 0.5; }
-            case EAST  -> centerX += 0.5;
-            case WEST  -> { centerZ += width / 2; centerX += 0.5; }
+        if (destination != null) {
+            AABB bounds = destination.getBoundingBox();
+            paintingCenter = bounds.getCenter();
+            footY = bounds.minY;
+        } else {
+            Direction alongPainting = direction.getCounterClockWise();
+            double offset = width % 2 == 0 ? 0.5 : 0.0;
+            paintingCenter = Vec3.atCenterOf(basePos).add(direction.getStepX() * -0.46875, 0.0, direction.getStepZ() * -0.46875)
+                    .add(alongPainting.getStepX() * offset, 0.0, alongPainting.getStepZ() * offset);
+            footY = basePos.getY();
         }
 
-        Vec3 center = new Vec3(centerX, centerY, centerZ);
+        Vec3 center = new Vec3(paintingCenter.x + direction.getStepX() * PAINTING_EXIT_DISTANCE, footY,
+                paintingCenter.z + direction.getStepZ() * PAINTING_EXIT_DISTANCE);
         Vec3 worldCenter = center;
         float yaw = direction.toYRot();
 
@@ -250,10 +256,7 @@ public interface EntityWarpEntityHandler {
                 yaw = (float) (Mth.atan2(-facing.x, facing.z) * Mth.RAD_TO_DEG);
         }
 
-        WarpLinkableEntity.warp(world, entity, worldCenter.x, worldCenter.y, worldCenter.z);
-        entity.setXRot(yaw);
-        entity.setYRot(yaw);
-        entity.setYHeadRot(yaw);
+        WarpLinkableEntity.warp(world, entity, worldCenter.x, worldCenter.y, worldCenter.z, yaw);
         return true;
     }
 

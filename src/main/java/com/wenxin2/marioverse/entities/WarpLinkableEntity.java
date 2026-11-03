@@ -85,6 +85,10 @@ public interface WarpLinkableEntity {
     }
 
     static void warp(Level level, Entity entity, double x, double y, double z) {
+        WarpLinkableEntity.warp(level, entity, x, y, z, entity.getYRot());
+    }
+
+    static void warp(Level level, Entity entity, double x, double y, double z, float yaw) {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
@@ -95,9 +99,11 @@ public interface WarpLinkableEntity {
                 entity.unRide();
 
                 if (entity instanceof ServerPlayer serverPlayer)
-                    serverPlayer.teleportTo((ServerLevel) level, x, y, z, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    serverPlayer.teleportTo((ServerLevel) level, x, y, z, flags, yaw, serverPlayer.getXRot());
                 else entity.teleportTo(x, y, z);
 
+                entity.setYRot(yaw);
+                entity.setYHeadRot(yaw);
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
 
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -111,6 +117,8 @@ public interface WarpLinkableEntity {
                 }
             } else {
                 entity.teleportTo(x, y, z);
+                entity.setYRot(yaw);
+                entity.setYHeadRot(yaw);
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
 
                 if (passengerEntity instanceof Player player) {
