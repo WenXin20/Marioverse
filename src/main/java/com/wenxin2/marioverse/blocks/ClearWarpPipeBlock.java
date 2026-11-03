@@ -65,11 +65,13 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaterniondc;
-import org.joml.Vector3d;
 
 public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock, SubLevelEntityCollisionBlock {
     private static final String PIPE_DIRECTION = "PipeDirection";
+    private static final String PIPE_PREVIOUS_DIRECTION = "PipePreviousDirection";
+    private static final String PIPE_ENTRY_DIRECTION = "PipeEntryDirection";
+    private static final String PIPE_ROUTE_TIME = "PipeRouteTime";
+    private static final int PIPE_ROUTE_TIMEOUT = 10;
     private static final double PIPE_CENTERING = 0.4;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty ENTRANCE = WarpPipeBlock.ENTRANCE;
@@ -115,14 +117,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             Block.box(0, 0, 0, 16, 3, 16)).optimize();
     public static final VoxelShape PIPE_ALL = Shapes.or(
             Block.box(4, 4, 4, 12, 12, 12)).optimize();
-    public static final Map<Direction, VoxelShape> ENTRANCE_FACE = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), enumMap -> {
-        enumMap.put(Direction.UP, Block.box(0, 15, 0, 16, 16, 16));
-        enumMap.put(Direction.DOWN, Block.box(0, 0, 0, 16, 1, 16));
-        enumMap.put(Direction.NORTH, Block.box(0, 0, 0, 16, 16, 1));
-        enumMap.put(Direction.SOUTH, Block.box(0, 0, 15, 16, 16, 16));
-        enumMap.put(Direction.EAST, Block.box(15, 0, 0, 16, 16, 16));
-        enumMap.put(Direction.WEST, Block.box(0, 0, 0, 1, 16, 16));
-    }));
 
     public ClearWarpPipeBlock(@Nullable DyeColor color, Properties properties) {
         super(color, properties);
@@ -240,8 +234,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
                 if (player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES))
                     shape = Shapes.block();
-                else if (state.getValue(ENTRANCE) && player.getMainHandItem().isEmpty())
-                    shape = Shapes.or(shape, ENTRANCE_FACE.get(state.getValue(FACING)));
             }
 
             if (!state.getValue(ENTRANCE) && state.getValue(UP) && state.getValue(DOWN) && state.getValue(NORTH)
@@ -372,17 +364,15 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        Object object = null;
-        if (SableProvider.isLoaded())
-            object = SableProvider.getContext(level, player);
+        if (SableProvider.isLoaded() && SableProvider.isPlotPos(level, pos)) {
+            Vec3 localPos = SableProvider.toLocalVec(level, pos, player.position());
+            if (localPos == null)
+                return super.useWithoutItem(state, level, pos, player, hitResult);
 
-        if (SableProvider.isLoaded() && object instanceof SableProvider.SableContext context) {
-            Quaterniondc rotation = context.subLevel.logicalPose().orientation();
-            Vector3d localLook = rotation.transformInverse(new Vector3d(look.x, look.y, look.z));
-            look = new Vec3(localLook.x, localLook.y, localLook.z).normalize();
-            entityX = context.posLocal.x;
-            entityY = context.posLocal.y;
-            entityZ = context.posLocal.z;
+            look = SableProvider.toLocalDirection(level, pos, look).normalize();
+            entityX = localPos.x;
+            entityY = localPos.y;
+            entityZ = localPos.z;
         }
 
         if (state.hasProperty(ENTRANCE) && state.getValue(ENTRANCE) && heldItem.isEmpty()) {
@@ -685,42 +675,48 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             return;
 
         CompoundTag tag = entity.getPersistentData();
+        long gameTime = entity.level().getGameTime();
+        boolean openEntrance = state.hasProperty(ENTRANCE) && state.getValue(ENTRANCE)
+                && state.hasProperty(CLOSED) && !state.getValue(CLOSED);
+        boolean continuingRoute = tag.contains(PIPE_DIRECTION) && gameTime - tag.getLong(PIPE_ROUTE_TIME) <= PIPE_ROUTE_TIMEOUT;
         Direction direction;
+        Direction previousDirection = null;
+        Direction entryDirection;
 
-        if (tag.contains(PIPE_DIRECTION))
+        if (continuingRoute) {
             direction = Direction.from3DDataValue(tag.getInt(PIPE_DIRECTION));
-        else {
-            Vec3 motion = entity.getDeltaMovement();
-            if (onSubLevel)
-                motion = SableProvider.toLocalDirection(entity.level(), pos, motion);
-            direction = Direction.getNearest(motion.x, motion.y, motion.z);
+            if (tag.contains(PIPE_PREVIOUS_DIRECTION))
+                previousDirection = Direction.from3DDataValue(tag.getInt(PIPE_PREVIOUS_DIRECTION));
+            entryDirection = tag.contains(PIPE_ENTRY_DIRECTION) ? Direction.from3DDataValue(tag.getInt(PIPE_ENTRY_DIRECTION)) : direction;
+        } else {
+            if (openEntrance)
+                direction = state.getValue(FACING).getOpposite();
+            else {
+                Vec3 motion = entity.getDeltaMovement();
+                if (onSubLevel)
+                    motion = SableProvider.toLocalDirection(entity.level(), pos, motion);
+                direction = Direction.getNearest(motion.x, motion.y, motion.z);
 
-            if (!connections.contains(direction))
-                direction = connections.getFirst();
+                if (!connections.contains(direction))
+                    direction = connections.getFirst();
+            }
+            entryDirection = direction;
         }
 
         Direction nextDirection = direction;
-        boolean openEntrance = state.hasProperty(ENTRANCE) && state.getValue(ENTRANCE)
-                && state.hasProperty(CLOSED) && !state.getValue(CLOSED);
 
-        if (!openEntrance) {
-            if (connections.contains(direction))
-                nextDirection = direction;
-            else {
-                List<Direction> possibleDirections = new ArrayList<>();
+        if (!openEntrance && !connections.contains(direction))
+            nextDirection = ClearWarpPipeBlock.chooseNextDirection(entity, connections, direction, previousDirection, entryDirection);
 
-                for (Direction connected : connections) {
-                    if (connected != direction.getOpposite())
-                        possibleDirections.add(connected);
-                }
+        if (nextDirection != direction)
+            previousDirection = direction;
 
-                if (!possibleDirections.isEmpty())
-                    nextDirection = possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
-                else nextDirection = direction.getOpposite();
-            }
-        }
-
-        tag.putInt(PIPE_DIRECTION, nextDirection.ordinal());
+        tag.putInt(PIPE_DIRECTION, nextDirection.get3DDataValue());
+        tag.putInt(PIPE_ENTRY_DIRECTION, entryDirection.get3DDataValue());
+        tag.putLong(PIPE_ROUTE_TIME, gameTime);
+        if (previousDirection != null)
+            tag.putInt(PIPE_PREVIOUS_DIRECTION, previousDirection.get3DDataValue());
+        else tag.remove(PIPE_PREVIOUS_DIRECTION);
 
         Vec3 motion = entity.getDeltaMovement();
         Vec3 forwardMotion = new Vec3(nextDirection.getStepX() * speed,
@@ -866,5 +862,28 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
         BlockState neighborFront = level.getBlockState(neighborPos.relative(facing));
         return !(neighborFront.is(TagRegistry.PIPE_JUNCTION_BLOCKS) || neighborFront.getBlock() instanceof WarpPipeBlock);
+    }
+
+    private static Direction chooseNextDirection(Entity entity, List<Direction> connections, Direction direction,
+                                                 @Nullable Direction previousDirection, Direction entryDirection) {
+        List<Set<Direction>> exclusions = new ArrayList<>();
+        Set<Direction> strict = EnumSet.of(direction.getOpposite(), entryDirection.getOpposite());
+        Set<Direction> relaxed = EnumSet.of(direction.getOpposite());
+
+        if (previousDirection != null) {
+            strict.add(previousDirection.getOpposite());
+            relaxed.add(previousDirection.getOpposite());
+        }
+        exclusions.add(strict);
+        exclusions.add(relaxed);
+        exclusions.add(EnumSet.of(direction.getOpposite()));
+
+        for (Set<Direction> excluded : exclusions) {
+            List<Direction> possibleDirections = connections.stream().filter(connected -> !excluded.contains(connected)).toList();
+
+            if (!possibleDirections.isEmpty())
+                return possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
+        }
+        return direction.getOpposite();
     }
 }

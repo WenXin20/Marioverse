@@ -121,8 +121,12 @@ public class ClientEventHandlers {
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
         event.registerShader(new ShaderInstance(event.getResourceProvider(),
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_shader"),
-                DefaultVertexFormat.POSITION_TEX_COLOR),
+                DefaultVertexFormat.NEW_ENTITY),
                 shader -> SuperStarRenderType.SUPER_STAR_SHADER = shader);
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_glow_shader"),
+                DefaultVertexFormat.NEW_ENTITY),
+                shader -> SuperStarRenderType.SUPER_STAR_GLOW_SHADER = shader);
     }
 
     @SubscribeEvent

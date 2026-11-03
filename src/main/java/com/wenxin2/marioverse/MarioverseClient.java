@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse;
 
-import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.client.BlockSpawnerScreen;
@@ -49,8 +48,6 @@ import com.wenxin2.marioverse.client.renderers.entities.PorcupufferRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SpinyCheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SplunkinRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.WoodTypeBoatRenderer;
-import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer;
-import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.DashMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.IceFlowerRenderer;
@@ -70,9 +67,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
@@ -82,12 +77,8 @@ import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -97,10 +88,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -127,8 +115,6 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
-import software.bernie.geckolib.animatable.GeoAnimatable;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 @OnlyIn(Dist.CLIENT)
@@ -479,53 +465,6 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.WARP_LINK.get(), WarpLinkParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.WARP_STAR.get(), WarpStarParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
-    }
-
-    @SubscribeEvent
-    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
-        List<EntityType<? extends LivingEntity>> entityTypes = ImmutableList.copyOf(
-                BuiltInRegistries.ENTITY_TYPE.stream()
-                        .filter(DefaultAttributes::hasSupplier)
-                        .map(entityType -> (EntityType<LivingEntity>) entityType)
-                        .collect(Collectors.toList()));
-        entityTypes.forEach((entityType -> {
-//            addLayerIfApplicable(entityType, event);
-            EntityRenderer<?> renderer = event.getRenderer(entityType);
-            if (renderer instanceof LivingEntityRenderer<?, ?> entityRenderer) {
-                entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
-            } else if (renderer instanceof GeoEntityRenderer<?> geoRendererRaw) {
-                addGeoSuperStarLayer(geoRendererRaw);
-            } else if (entityType != EntityType.PLAYER) {
-                Marioverse.LOGGER.warn("Could not apply super star layer to {}, " +
-                                "has custom renderer that is not LivingEntityRenderer nor GeoEntityRenderer.",
-                        BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
-            }
-        }));
-
-        for (PlayerSkin.Model skinType : event.getSkins()){
-            var skinRenderer = event.getSkin(skinType);
-            if (skinRenderer instanceof LivingEntityRenderer<?, ?> entityRenderer)
-                entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
-        }
-    }
-
-    private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
-        EntityRenderer<?> renderer = event.getRenderer(entityType);
-        if (renderer instanceof LivingEntityRenderer<?, ?> entityRenderer) {
-            entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
-        } else if (renderer instanceof GeoEntityRenderer<?> geoRendererRaw) {
-            addGeoSuperStarLayer(geoRendererRaw);
-        } else if (entityType != EntityType.PLAYER) {
-            Marioverse.LOGGER.warn("Could not apply super star layer to {}, " +
-                            "has custom renderer that is not LivingEntityRenderer nor GeoEntityRenderer.",
-                    BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends LivingEntity & GeoAnimatable> void addGeoSuperStarLayer(GeoEntityRenderer<?> geoRendererRaw) {
-        GeoEntityRenderer<T> geoRenderer = (GeoEntityRenderer<T>) geoRendererRaw;
-        geoRenderer.addRenderLayer(new SuperStarGeoLayer<>(geoRenderer));
     }
 
     public static void addPackFinder(final AddPackFindersEvent event) {

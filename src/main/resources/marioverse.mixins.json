@@ -28,6 +28,9 @@
   "client": [
     "ButtonBlockMixin",
     "CameraMixin",
+    "CompositeRenderTypeAccessor",
+    "CompositeStateAccessor",
+    "EmptyTextureStateShardAccessor",
     "EntityRenderDispatcherMixin",
     "EntityRendererMixin",
     "GeoEntityRendererMixin",
