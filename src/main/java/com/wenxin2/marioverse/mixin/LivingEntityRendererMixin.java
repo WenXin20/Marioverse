@@ -1,6 +1,9 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.wenxin2.marioverse.client.PipeTravelRotations;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,5 +25,14 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         float widthScale = (float) attributemap.getValue(AttributesRegistry.WIDTH_SCALE);
 
         poseStack.scale(widthScale, heightScale, widthScale);
+    }
+
+    @WrapOperation(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;setupRotations(Lnet/minecraft/world/entity/LivingEntity;Lcom/mojang/blaze3d/vertex/PoseStack;FFFF)V"),
+            require = 0)
+    private void mv$setupPipeRotations(LivingEntityRenderer<T, M> renderer, T entity, PoseStack poseStack, float bob, float bodyRot,
+                                       float partialTick, float scale, Operation<Void> original) {
+        if (!PipeTravelRotations.applyRotations(entity, poseStack, partialTick, scale))
+            original.call(renderer, entity, poseStack, bob, bodyRot, partialTick, scale);
     }
 }

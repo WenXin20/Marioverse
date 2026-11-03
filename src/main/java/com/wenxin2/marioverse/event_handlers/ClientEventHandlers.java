@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.client.PipeTravelRotations;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
@@ -658,14 +659,17 @@ public class ClientEventHandlers {
         Entity entity = event.getEntity();
         UUID uuid = entity.getUUID();
         Level level = entity.level();
-        BlockPos pos = entity.blockPosition();
-        BlockState state = level.getBlockState(pos);
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-        boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
-        boolean isEntrance = state.hasProperty(ClearWarpPipeBlock.ENTRANCE) && state.getValue(ClearWarpPipeBlock.ENTRANCE);
 
         if (!(entity.level() instanceof ClientLevel))
             return;
+
+        BlockState state = PipeTravelRotations.getClearPipeState(entity);
+        boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
+        boolean isEntrance = state.hasProperty(ClearWarpPipeBlock.ENTRANCE) && state.getValue(ClearWarpPipeBlock.ENTRANCE);
+
+        if (entity instanceof LivingEntity livingEntity)
+            PipeTravelRotations.tick(livingEntity, inClearPipe);
 
         if (entity instanceof LivingEntity livingEntity && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME)) {

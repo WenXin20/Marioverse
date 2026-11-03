@@ -3,6 +3,7 @@
   "compatibilityLevel": "JAVA_21",
   "package": "com.wenxin2.marioverse.mixin",
   "refmap": "marioverse.refmap.json",
+  "plugin": "com.wenxin2.marioverse.integration.MixinCompatPlugin",
   "minVersion": "0.8",
   "mixins": [
     "BeeAccessor",
@@ -30,10 +31,13 @@
     "EntityRendererMixin",
     "GeoEntityRendererMixin",
     "HumanoidArmorLayerMixin",
+    "immersive_paintings.ImmersivePaintingEntityRendererMixin",
     "InventoryScreenMixin",
     "LivingEntityClientMixin",
     "LivingEntityRendererAccessor",
-    "LivingEntityRendererMixin"
+    "LivingEntityRendererMixin",
+    "PaintingRendererMixin",
+    "twilightforest.MagicPaintingRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

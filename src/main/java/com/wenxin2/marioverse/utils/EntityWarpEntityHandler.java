@@ -216,6 +216,12 @@ public interface EntityWarpEntityHandler {
             }
 
             WarpCost.chargeIfWarped(entity, startPos, warpCost);
+
+            if (!entity.position().equals(startPos)) {
+                if (warpLinkableEntity instanceof Entity enteredWarp)
+                    PaintingRipples.sendRipple(enteredWarp);
+                PaintingRipples.sendRipple(serverWorld.getEntity(warpUUID));
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
+import com.wenxin2.marioverse.utils.PaintingRipples;
 import com.wenxin2.marioverse.utils.WarpCost;
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
@@ -187,6 +188,8 @@ public class SubLevelWarpHandler {
                 continue;
 
             WarpCost.charge(passengers, warpCost);
+            PaintingRipples.sendRipple(warpEntity);
+            PaintingRipples.sendRipple(destination);
 
             WARP_COOLDOWNS.put(sub.getUniqueId(), level.getGameTime() + ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
             return;

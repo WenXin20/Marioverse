@@ -100,6 +100,7 @@
 - Added the ability for warp pipes, doors, trapdoors, & paintings to teleport Aeronautics contraptions
 - Added new linking and warping particles
 - Added an enchant glow to wrenches when bound to a block or painting
+- Added a warping shader to paintings
 - Improved warp cooldown, warp pipes emit smoke while on cooldown. Configurable
 - Added the ability to increase stomp damage using armor boots, +0.5 damage for each armor point
 - Added a config to require stomping different mobs to get a 1-Up, default is false
@@ -114,6 +115,7 @@
 - Improved ice cube sliding to slide up stairs and slabs
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
 - Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
+- Fixed paintings not warping you to the center or facing away from it.
 - Fixed linking of paintings in unloaded chunks using a wrench
 - Fixed warp doors & trapdoors close
 - Fixed cooldown message displaying immediately after teleporting

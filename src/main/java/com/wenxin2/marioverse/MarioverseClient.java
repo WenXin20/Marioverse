@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.client.BlockSpawnerScreen;
 import com.wenxin2.marioverse.blocks.client.QuestionBlockScreen;
@@ -16,6 +17,7 @@ import com.wenxin2.marioverse.client.particles.PollenParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
 import com.wenxin2.marioverse.client.particles.WarpLinkParticle;
 import com.wenxin2.marioverse.client.particles.WarpStarParticle;
+import com.wenxin2.marioverse.client.renderers.PaintingRippleRenderTypes;
 import com.wenxin2.marioverse.client.renderers.blocks.ArrowSignBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.curios.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
@@ -79,6 +81,7 @@ import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.PlayerSkin;
@@ -118,6 +121,7 @@ import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -342,6 +346,19 @@ public class MarioverseClient {
     @SubscribeEvent
     private static void registerReloadListeners(final RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(ArrowAtlas.get());
+    }
+
+    @SubscribeEvent
+    private static void registerShaders(final RegisterShadersEvent event) {
+        PaintingRippleRenderTypes.ripplingPaintingShader = null;
+
+        try {
+            event.registerShader(new ShaderInstance(event.getResourceProvider(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "rendertype_rippling_painting"), DefaultVertexFormat.NEW_ENTITY),
+                    shader -> PaintingRippleRenderTypes.ripplingPaintingShader = shader);
+        } catch (Exception exception) {
+            Marioverse.LOGGER.error("Failed to load the rippling painting shader", exception);
+        }
     }
 
     @SubscribeEvent
