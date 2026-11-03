@@ -29,6 +29,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -69,6 +70,7 @@ import org.joml.Vector3d;
 
 public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock {
     private static final String PIPE_DIRECTION = "PipeDirection";
+    private static final double PIPE_CENTERING = 0.4;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty ENTRANCE = WarpPipeBlock.ENTRANCE;
     public static final BooleanProperty CLOSED = WarpPipeBlock.CLOSED;
@@ -113,6 +115,14 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             Block.box(0, 0, 0, 16, 3, 16)).optimize();
     public static final VoxelShape PIPE_ALL = Shapes.or(
             Block.box(4, 4, 4, 12, 12, 12)).optimize();
+    public static final Map<Direction, VoxelShape> ENTRANCE_FACE = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), enumMap -> {
+        enumMap.put(Direction.UP, Block.box(0, 15, 0, 16, 16, 16));
+        enumMap.put(Direction.DOWN, Block.box(0, 0, 0, 16, 1, 16));
+        enumMap.put(Direction.NORTH, Block.box(0, 0, 0, 16, 16, 1));
+        enumMap.put(Direction.SOUTH, Block.box(0, 0, 15, 16, 16, 16));
+        enumMap.put(Direction.EAST, Block.box(15, 0, 0, 16, 16, 16));
+        enumMap.put(Direction.WEST, Block.box(0, 0, 0, 1, 16, 16));
+    }));
 
     public ClearWarpPipeBlock(@Nullable DyeColor color, Properties properties) {
         super(color, properties);
@@ -230,6 +240,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
                 if (player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_CLEAR_WARP_PIPES))
                     shape = Shapes.block();
+                else if (state.getValue(ENTRANCE) && player.getMainHandItem().isEmpty())
+                    shape = Shapes.or(shape, ENTRANCE_FACE.get(state.getValue(FACING)));
             }
 
             if (!state.getValue(ENTRANCE) && state.getValue(UP) && state.getValue(DOWN) && state.getValue(NORTH)
@@ -256,6 +268,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (collisionContext instanceof EntityCollisionContext context && context.getEntity() != null
+                && ClearWarpPipeBlock.isTravelingThroughSubLevelPipe(context.getEntity(), pos))
+            return Shapes.empty();
         return this.voxelShape(state);
     }
 
@@ -402,10 +417,22 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 canEnterPipe = entityY + height <= blockY;
 
             if (insideFaceBounds && canEnterPipe) {
+                Vec3 entryPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+
+                if (SableProvider.isLoaded() && SableProvider.isPlotPos(level, pos)) {
+                    entryPos = SableProvider.toWorldVec(level, Vec3.atCenterOf(pos));
+                    if (entryPos == null)
+                        return super.useWithoutItem(state, level, pos, player, hitResult);
+
+                    player.setSwimming(true);
+                    player.setPose(Pose.SWIMMING);
+                    entryPos = entryPos.subtract(0.0, player.getBbHeight() * 0.5, 0.0);
+                }
+
                 if (player instanceof ServerPlayer serverPlayer)
-                    serverPlayer.teleportTo((ServerLevel) level, pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5,
+                    serverPlayer.teleportTo((ServerLevel) level, entryPos.x, entryPos.y, entryPos.z,
                             flags, serverPlayer.getYRot(), serverPlayer.getXRot());
-                else player.moveTo(pos.getX() + 0.5, pos.getY() + 0.25, pos.getZ() + 0.5);
+                else player.moveTo(entryPos.x, entryPos.y, entryPos.z);
 
                 if (facing.getAxis().isHorizontal())
                     player.setSwimming(true);
@@ -580,9 +607,23 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         Direction facing = state.getValue(FACING);
+        boolean onSubLevel = SableProvider.isLoaded() && SableProvider.isPlotPos(world, pos);
+        Vec3 localPos = entity.position();
+        Vec3 pipeCenterOffset = Vec3.ZERO;
+
+        if (onSubLevel) {
+            Vec3 localCenter = SableProvider.toLocalVec(world, pos, entity.getBoundingBox().getCenter());
+            localPos = SableProvider.toLocalVec(world, pos, entity.position());
+
+            if (localCenter == null || localPos == null || !ClearWarpPipeBlock.isInsidePipe(pos, localCenter))
+                return;
+            pipeCenterOffset = Vec3.atCenterOf(pos).subtract(localCenter);
+        }
 
         if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
-            if ((facing == Direction.UP || facing == Direction.DOWN)) {
+            if (onSubLevel)
+                entity.setSwimming(true);
+            else if ((facing == Direction.UP || facing == Direction.DOWN)) {
                 if (state.getValue(NORTH) || state.getValue(SOUTH)
                         || state.getValue(EAST) || state.getValue(WEST)) {
                     entity.setSwimming(true);
@@ -593,9 +634,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 this.spawnTrailParticles(world, livingEntity);
 
             if (entity instanceof Player player) {
-                Direction moveDirection = this.getDirectionFromLook(player);
-                this.movePlayerInPipe(player, moveDirection);
-            } else this.moveEntityInPipe(entity, state, pos);
+                Direction moveDirection = this.getDirectionFromLook(player, world, pos, onSubLevel);
+                this.movePlayerInPipe(player, moveDirection, world, pos, onSubLevel, pipeCenterOffset);
+            } else this.moveEntityInPipe(entity, state, pos, localPos, onSubLevel, pipeCenterOffset);
             super.entityInside(state, world, pos, entity);
         }
     }
@@ -624,7 +665,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         }
     }
 
-    private void moveEntityInPipe(Entity entity, BlockState state, BlockPos pos) {
+    private void moveEntityInPipe(Entity entity, BlockState state, BlockPos pos, Vec3 localPos, boolean onSubLevel, Vec3 pipeCenterOffset) {
         double speed = 0.35D;
         double wallStrength = 0.08D;
         List<Direction> connections = new ArrayList<>();
@@ -646,6 +687,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             direction = Direction.from3DDataValue(tag.getInt(PIPE_DIRECTION));
         else {
             Vec3 motion = entity.getDeltaMovement();
+            if (onSubLevel)
+                motion = SableProvider.toLocalDirection(entity.level(), pos, motion);
             direction = Direction.getNearest(motion.x, motion.y, motion.z);
 
             if (!connections.contains(direction))
@@ -684,9 +727,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         double pushY = 0;
         double pushZ = 0;
 
-        double localX = entity.getX() - pos.getX();
-        double localY = entity.getY() - pos.getY();
-        double localZ = entity.getZ() - pos.getZ();
+        double localX = localPos.x - pos.getX();
+        double localY = localPos.y - pos.getY();
+        double localZ = localPos.z - pos.getZ();
 
         double padding = entity.getBbWidth() * 0.5 + 0.1;
 
@@ -734,13 +777,17 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             }
         }
 
-        entity.setDeltaMovement(motion.x * 0.75 + forwardMotion.x + pushX,
-                motion.y * 0.75 + forwardMotion.y + pushY,
-                motion.z * 0.75 + forwardMotion.z + pushZ);
+        Vec3 pipeMotion = forwardMotion.add(pushX, pushY, pushZ);
+        if (onSubLevel)
+            pipeMotion = ClearWarpPipeBlock.toSubLevelPipeMotion(entity, pos, pipeMotion, nextDirection, pipeCenterOffset);
+
+        entity.setDeltaMovement(motion.x * 0.75 + pipeMotion.x,
+                motion.y * 0.75 + pipeMotion.y,
+                motion.z * 0.75 + pipeMotion.z);
         entity.resetFallDistance();
     }
 
-    public void movePlayerInPipe(Entity entity, Direction direction) {
+    public void movePlayerInPipe(Entity entity, Direction direction, Level level, BlockPos pos, boolean onSubLevel, Vec3 pipeCenterOffset) {
         Vec3 motion = switch (direction) {
             case NORTH -> new Vec3(0, 0, -0.75);
             case SOUTH -> new Vec3(0, 0, 0.75);
@@ -750,12 +797,17 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             case DOWN -> new Vec3(0, -0.3, 0);
         };
 
+        if (onSubLevel)
+            motion = ClearWarpPipeBlock.toSubLevelPipeMotion(entity, pos, motion, direction, pipeCenterOffset);
+
         entity.setDeltaMovement(motion);
         entity.resetFallDistance();
     }
 
-    private Direction getDirectionFromLook(Entity entity) {
+    private Direction getDirectionFromLook(Entity entity, Level level, BlockPos pos, boolean onSubLevel) {
         Vec3 lookVec = entity.getLookAngle().normalize();
+        if (onSubLevel)
+            lookVec = SableProvider.toLocalDirection(level, pos, lookVec).normalize();
         Direction bestDirection = null;
         double bestDot = -1; // -1 picks the most aligned direction
 
@@ -769,5 +821,32 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             }
         }
         return bestDirection;
+    }
+
+    private static boolean isInsidePipe(BlockPos pos, Vec3 localPos) {
+        return localPos.x >= pos.getX() && localPos.x <= pos.getX() + 1.0
+                && localPos.y >= pos.getY() && localPos.y <= pos.getY() + 1.0
+                && localPos.z >= pos.getZ() && localPos.z <= pos.getZ() + 1.0;
+    }
+
+    private static Vec3 toSubLevelPipeMotion(Entity entity, BlockPos pos, Vec3 localMotion, Direction direction, Vec3 pipeCenterOffset) {
+        Vec3 centering = switch (direction.getAxis()) {
+            case X -> new Vec3(0.0, pipeCenterOffset.y, pipeCenterOffset.z);
+            case Y -> new Vec3(pipeCenterOffset.x, 0.0, pipeCenterOffset.z);
+            case Z -> new Vec3(pipeCenterOffset.x, pipeCenterOffset.y, 0.0);
+        };
+        Vec3 worldMotion = SableProvider.toWorldDirection(entity.level(), pos, localMotion.add(centering.scale(PIPE_CENTERING)));
+        return worldMotion.add(0.0, entity.getGravity(), 0.0);
+    }
+
+    private static boolean isTravelingThroughSubLevelPipe(Entity entity, BlockPos pos) {
+        if (!SableProvider.isLoaded() || !SableProvider.isPlotPos(entity.level(), pos))
+            return false;
+
+        Vec3 localCenter = SableProvider.toLocalVec(entity.level(), pos, entity.getBoundingBox().getCenter());
+        if (localCenter == null || Math.abs(localCenter.x - (pos.getX() + 0.5)) > 1.5
+                || Math.abs(localCenter.y - (pos.getY() + 0.5)) > 1.5 || Math.abs(localCenter.z - (pos.getZ() + 0.5)) > 1.5)
+            return false;
+        return entity.level().getBlockState(BlockPos.containing(localCenter)).getBlock() instanceof ClearWarpPipeBlock;
     }
 }

@@ -42,6 +42,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 public class SableCompat {
@@ -222,6 +223,36 @@ public class SableCompat {
                 Vector3d worldPos = plot.getSubLevel().logicalPose().transformPosition(new Vector3d(pos.x, pos.y, pos.z));
                 return new Vec3(worldPos.x, worldPos.y, worldPos.z);
             }
+
+            @Override
+            public Vec3 toLocalVec(Level level, BlockPos plotPos, Vec3 worldPos) {
+                SubLevel sub = SableCompat.getPlotSubLevel(level, plotPos);
+                if (sub == null)
+                    return SableCompat.isOutsidePlots(level, plotPos) ? worldPos : null;
+
+                Vector3d localPos = sub.logicalPose().transformPositionInverse(new Vector3d(worldPos.x, worldPos.y, worldPos.z));
+                return new Vec3(localPos.x, localPos.y, localPos.z);
+            }
+
+            @Override
+            public Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection) {
+                SubLevel sub = SableCompat.getPlotSubLevel(level, plotPos);
+                if (sub == null)
+                    return localDirection;
+
+                Vector3d direction = sub.logicalPose().orientation().transform(new Vector3d(localDirection.x, localDirection.y, localDirection.z));
+                return new Vec3(direction.x, direction.y, direction.z);
+            }
+
+            @Override
+            public Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection) {
+                SubLevel sub = SableCompat.getPlotSubLevel(level, plotPos);
+                if (sub == null)
+                    return worldDirection;
+
+                Vector3d direction = sub.logicalPose().orientation().transformInverse(new Vector3d(worldDirection.x, worldDirection.y, worldDirection.z));
+                return new Vec3(direction.x, direction.y, direction.z);
+            }
         });
     }
 
@@ -310,6 +341,21 @@ public class SableCompat {
         return entityBox.maxX > bb.minX() && entityBox.minX < bb.maxX()
                 && entityBox.maxY > bb.minY() && entityBox.minY < bb.maxY()
                 && entityBox.maxZ > bb.minZ() && entityBox.minZ < bb.maxZ();
+    }
+
+    @Nullable
+    private static SubLevel getPlotSubLevel(Level level, BlockPos plotPos) {
+        SubLevelContainer container = SubLevelContainer.getContainer(level);
+        if (container == null || !container.inBounds(plotPos))
+            return null;
+
+        LevelPlot plot = container.getPlot(new ChunkPos(plotPos));
+        return plot == null ? null : plot.getSubLevel();
+    }
+
+    private static boolean isOutsidePlots(Level level, BlockPos pos) {
+        SubLevelContainer container = SubLevelContainer.getContainer(level);
+        return container == null || !container.inBounds(pos);
     }
 
     private static SubLevelLocationSavedData.ChunkBounds getChunkBounds(SubLevel sub) {

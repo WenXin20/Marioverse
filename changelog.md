@@ -115,9 +115,10 @@
 - Improved ice cube sliding to slide up stairs and slabs
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
 - Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
+- Fixed clear pipes not working correctly on sable contraptions
 - Fixed paintings not warping you to the center or facing away from it.
 - Fixed linking of paintings in unloaded chunks using a wrench
-- Fixed warp doors & trapdoors close
+- Fixed warp doors & trapdoors closing before the player can teleport
 - Fixed cooldown message displaying immediately after teleporting
 - Fixed power up mobs despawning when far away
 - Fixed rotation of mobs frozen in the ice cube

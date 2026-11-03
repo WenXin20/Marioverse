@@ -92,6 +92,9 @@ public class SableProvider {
         boolean requestSubLevelLoad(ServerLevel level, UUID subLevel);
         @Nullable BlockPos toWorldPos(Level level, BlockPos pos);
         @Nullable Vec3 toWorldVec(Level level, Vec3 pos);
+        @Nullable Vec3 toLocalVec(Level level, BlockPos plotPos, Vec3 worldPos);
+        Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection);
+        Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection);
         void recordEntityAnchor(Entity entity);
         @Nullable SubLevelAnchor getEntityAnchor(Level level, UUID entity);
     }
@@ -133,6 +136,21 @@ public class SableProvider {
         }
 
         @Override
+        public Vec3 toLocalVec(Level level, BlockPos plotPos, Vec3 worldPos) {
+            return worldPos;
+        }
+
+        @Override
+        public Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection) {
+            return localDirection;
+        }
+
+        @Override
+        public Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection) {
+            return worldDirection;
+        }
+
+        @Override
         public void recordEntityAnchor(Entity entity) {
         }
 
@@ -168,6 +186,19 @@ public class SableProvider {
     @Nullable
     public static Vec3 toWorldVec(Level level, Vec3 pos) {
         return WARP_RESOLVER.toWorldVec(level, pos);
+    }
+
+    @Nullable
+    public static Vec3 toLocalVec(Level level, BlockPos plotPos, Vec3 worldPos) {
+        return WARP_RESOLVER.toLocalVec(level, plotPos, worldPos);
+    }
+
+    public static Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection) {
+        return WARP_RESOLVER.toWorldDirection(level, plotPos, localDirection);
+    }
+
+    public static Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection) {
+        return WARP_RESOLVER.toLocalDirection(level, plotPos, worldDirection);
     }
 
     public static void recordEntityAnchor(Entity entity) {
