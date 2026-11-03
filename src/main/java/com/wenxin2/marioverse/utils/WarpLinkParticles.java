@@ -16,7 +16,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
@@ -38,7 +37,9 @@ public class WarpLinkParticles {
     private static final float SWIRL_SPIN = 0.45F;
     private static final float PUFF_SPIN = 0.12F;
 
-    private record WarpFace(Vec3 center, Vec3 normal, double radius) {}
+    private static final double FACE_HEIGHT = 0.1;
+
+    private record WarpFace(Vec3 center, Vec3 normal, Vec3 axisA, Vec3 axisB, double radiusA, double radiusB) {}
 
     public static void outlineWarp(ServerLevel level, BlockPos pos, @Nullable ServerPlayer viewer) {
         BlockState state = level.getBlockState(pos);
@@ -106,92 +107,115 @@ public class WarpLinkParticles {
     public static void spawnEntityWarpTransition(ServerLevel level, Entity entered, Entity traveler) {
         Direction facing = entered.getDirection();
         AABB bounds = entered.getBoundingBox();
-        Vec3 center = bounds.getCenter();
-        Vec3 worldCenter = WarpLinkParticles.toWorld(level, center);
-        Vec3 worldFacing = WarpLinkParticles.toWorld(level, center.add(facing.getStepX(), facing.getStepY(), facing.getStepZ()));
+        Vec3 normal = new Vec3(facing.getStepX(), facing.getStepY(), facing.getStepZ());
+        Vec3[] basis = WarpLinkParticles.getFaceBasis(normal);
+        double radiusA = WarpLinkParticles.getBoxExtent(bounds, basis[0]);
+        double radiusB = WarpLinkParticles.getBoxExtent(bounds, basis[1]);
+        WarpFace enteredFace = WarpLinkParticles.toWorldFace(level, bounds.getCenter(), normal, radiusA, radiusB);
 
-        if (worldCenter != null && worldFacing != null)
-            WarpLinkParticles.spawnSwirl(level, new WarpFace(worldCenter, worldFacing.subtract(worldCenter).normalize(),
-                    Math.max(bounds.getXsize(), Math.max(bounds.getYsize(), bounds.getZsize())) * 0.5));
+        if (enteredFace != null)
+            WarpLinkParticles.spawnSwirl(level, enteredFace);
 
-        WarpLinkParticles.spawnPuff(level, new WarpFace(traveler.position().add(0.0, traveler.getBbHeight() * 0.5, 0.0),
-                Vec3.directionFromRotation(0.0F, traveler.getYRot()), Math.max(traveler.getBbWidth(), 0.5)));
+        Vec3 exitNormal = Vec3.directionFromRotation(0.0F, traveler.getYRot());
+        Vec3[] exitBasis = WarpLinkParticles.getFaceBasis(exitNormal);
+        double exitRadius = Math.max(traveler.getBbWidth(), 0.5);
+        WarpLinkParticles.spawnPuff(level, new WarpFace(traveler.position().add(0.0, traveler.getBbHeight() * 0.5, 0.0), exitNormal,
+                exitBasis[0], exitBasis[1], exitRadius, exitRadius));
     }
 
     private static void spawnSwirl(ServerLevel level, WarpFace face) {
-        Vec3[] basis = WarpLinkParticles.getFaceBasis(face.normal());
-        double ringRadius = Math.max(MIN_SWIRL_RADIUS, face.radius() * 1.1);
-        double scale = ringRadius / MIN_SWIRL_RADIUS;
-        int count = Math.min(MAX_SWIRL_PARTICLES, (int) Math.round(SWIRL_PARTICLES * scale));
-        WarpStarParticleOption option = WarpLinkParticles.getStarOption(face.normal(), SWIRL_SPIN);
+        double ringA = Math.max(MIN_SWIRL_RADIUS, face.radiusA() * 1.1);
+        double ringB = Math.max(MIN_SWIRL_RADIUS, face.radiusB() * 1.1);
+        int count = Math.min(MAX_SWIRL_PARTICLES, (int) Math.round(SWIRL_PARTICLES * (ringA + ringB) * 0.5 / MIN_SWIRL_RADIUS));
+        Vec3 semiAxis = face.axisA().scale(ringA);
+        Vec3 center = face.center().add(face.normal().scale(FACE_HEIGHT));
+        WarpStarParticleOption option = new WarpStarParticleOption(WarpLinkParticles.toVector(face.normal()), SWIRL_SPIN, true,
+                WarpLinkParticles.toVector(semiAxis), (float) (ringB / ringA));
 
         for (int i = 0; i < count; i++) {
             double angle = Math.PI * 2.0 * i / count;
-            Vec3 radial = basis[0].scale(Math.cos(angle)).add(basis[1].scale(Math.sin(angle)));
-            Vec3 tangent = face.normal().cross(radial);
-            Vec3 pos = face.center().add(radial.scale(ringRadius)).add(face.normal().scale(0.3));
-            Vec3 velocity = radial.scale(-0.12 * scale).add(tangent.scale(0.1 * scale)).add(face.normal().scale(-0.03));
+            Vec3 pos = center.add(semiAxis.scale(Math.cos(angle))).add(face.axisB().scale(ringB * Math.sin(angle)));
+            Vec3 toCenter = center.subtract(pos);
 
-            level.sendParticles(option, pos.x, pos.y, pos.z, 0, velocity.x, velocity.y, velocity.z, 1.0);
+            level.sendParticles(option, pos.x, pos.y, pos.z, 0, toCenter.x, toCenter.y, toCenter.z, 1.0);
         }
     }
 
     private static void spawnPuff(ServerLevel level, WarpFace face) {
-        Vec3[] basis = WarpLinkParticles.getFaceBasis(face.normal());
         RandomSource random = level.getRandom();
-        double scale = Math.max(1.0, face.radius() / 0.5);
+        double scale = Math.max(1.0, (face.radiusA() + face.radiusB()) / 1.0);
         int count = Math.min(MAX_PUFF_PARTICLES, (int) Math.round(PUFF_PARTICLES * scale));
-        WarpStarParticleOption option = WarpLinkParticles.getStarOption(face.normal(), PUFF_SPIN);
+        Vec3 center = face.center().add(face.normal().scale(FACE_HEIGHT));
+        WarpStarParticleOption option = new WarpStarParticleOption(WarpLinkParticles.toVector(face.normal()), PUFF_SPIN, false,
+                new Vector3f(), 1.0F);
 
         for (int i = 0; i < count; i++) {
             double angle = random.nextDouble() * Math.PI * 2.0;
-            double distance = Math.sqrt(random.nextDouble()) * face.radius() * 0.7;
-            Vec3 radial = basis[0].scale(Math.cos(angle)).add(basis[1].scale(Math.sin(angle)));
-            Vec3 pos = face.center().add(radial.scale(distance)).add(face.normal().scale(0.3));
-            Vec3 velocity = face.normal().scale(0.25 + random.nextDouble() * 0.15).add(radial.scale(0.06 * scale));
+            double distance = Math.sqrt(random.nextDouble()) * 0.7;
+            Vec3 radial = face.axisA().scale(face.radiusA() * Math.cos(angle)).add(face.axisB().scale(face.radiusB() * Math.sin(angle)));
+            Vec3 pos = center.add(radial.scale(distance));
+            Vec3 velocity = face.normal().scale(0.25 + random.nextDouble() * 0.15).add(radial.scale(0.06));
 
             level.sendParticles(option, pos.x, pos.y, pos.z, 0, velocity.x, velocity.y, velocity.z, 1.0);
         }
-    }
-
-    private static WarpStarParticleOption getStarOption(Vec3 normal, float spin) {
-        return new WarpStarParticleOption(new Vector3f((float) normal.x, (float) normal.y, (float) normal.z), spin);
     }
 
     @Nullable
     private static WarpFace getWarpFace(ServerLevel level, BlockPos pos, BlockState state) {
         Vec3 center = Vec3.atCenterOf(pos);
         Direction facing = Direction.UP;
-        double radius = 0.5;
+        List<BlockPos> blocks = List.of(pos);
 
         if (state.getBlock() instanceof WarpPipeBlock) {
             facing = state.getValue(WarpPipeBlock.FACING);
             List<BlockPos> group = state.getBlock() instanceof ClearWarpPipeBlock ? List.of(pos) : WarpPipeBlock.getEntranceGroup(level, pos, state);
 
-            if (group.size() > 1) {
-                center = new Vec3(group.stream().mapToInt(BlockPos::getX).average().orElse(pos.getX()) + 0.5,
-                        group.stream().mapToInt(BlockPos::getY).average().orElse(pos.getY()) + 0.5,
-                        group.stream().mapToInt(BlockPos::getZ).average().orElse(pos.getZ()) + 0.5);
-
-                for (BlockPos block : group)
-                    radius = Math.max(radius, Vec3.atCenterOf(block).distanceTo(center) + 0.5);
-            }
-            center = center.add(facing.getStepX() * 0.5, facing.getStepY() * 0.5, facing.getStepZ() * 0.5);
+            if (!group.isEmpty())
+                blocks = group;
+            center = new Vec3(blocks.stream().mapToInt(BlockPos::getX).average().orElse(pos.getX()) + 0.5,
+                    blocks.stream().mapToInt(BlockPos::getY).average().orElse(pos.getY()) + 0.5,
+                    blocks.stream().mapToInt(BlockPos::getZ).average().orElse(pos.getZ()) + 0.5);
         } else if (state.getBlock() instanceof DoorBlock) {
             facing = state.getValue(DoorBlock.FACING);
-            radius = 1.0;
-            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
-                center = center.add(0.0, 0.5, 0.0);
-            else center = center.add(0.0, -0.5, 0.0);
-        } else if (state.getBlock() instanceof TrapDoorBlock)
-            center = center.add(0.0, 0.5, 0.0);
+            BlockPos lowerPos = state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos : pos.below();
+            blocks = List.of(lowerPos, lowerPos.above());
+            center = Vec3.atCenterOf(lowerPos).add(0.0, 0.5, 0.0);
+        }
 
+        Vec3 normal = new Vec3(facing.getStepX(), facing.getStepY(), facing.getStepZ());
+        Vec3[] basis = WarpLinkParticles.getFaceBasis(normal);
+        double radiusA = 0.5;
+        double radiusB = 0.5;
+
+        for (BlockPos block : blocks) {
+            Vec3 offset = Vec3.atCenterOf(block).subtract(center);
+            radiusA = Math.max(radiusA, Math.abs(offset.dot(basis[0])) + 0.5);
+            radiusB = Math.max(radiusB, Math.abs(offset.dot(basis[1])) + 0.5);
+        }
+
+        return WarpLinkParticles.toWorldFace(level, center.add(normal.scale(0.5)), normal, radiusA, radiusB);
+    }
+
+    @Nullable
+    private static WarpFace toWorldFace(ServerLevel level, Vec3 center, Vec3 normal, double radiusA, double radiusB) {
+        Vec3[] basis = WarpLinkParticles.getFaceBasis(normal);
         Vec3 worldCenter = WarpLinkParticles.toWorld(level, center);
-        Vec3 worldFacing = WarpLinkParticles.toWorld(level, center.add(facing.getStepX(), facing.getStepY(), facing.getStepZ()));
+        Vec3 worldNormal = WarpLinkParticles.toWorld(level, center.add(normal));
+        Vec3 worldAxisA = WarpLinkParticles.toWorld(level, center.add(basis[0]));
+        Vec3 worldAxisB = WarpLinkParticles.toWorld(level, center.add(basis[1]));
 
-        if (worldCenter == null || worldFacing == null)
+        if (worldCenter == null || worldNormal == null || worldAxisA == null || worldAxisB == null)
             return null;
-        return new WarpFace(worldCenter, worldFacing.subtract(worldCenter).normalize(), radius);
+        return new WarpFace(worldCenter, worldNormal.subtract(worldCenter).normalize(), worldAxisA.subtract(worldCenter).normalize(),
+                worldAxisB.subtract(worldCenter).normalize(), radiusA, radiusB);
+    }
+
+    private static double getBoxExtent(AABB box, Vec3 axis) {
+        return (box.getXsize() * Math.abs(axis.x) + box.getYsize() * Math.abs(axis.y) + box.getZsize() * Math.abs(axis.z)) * 0.5;
+    }
+
+    private static Vector3f toVector(Vec3 vec) {
+        return new Vector3f((float) vec.x, (float) vec.y, (float) vec.z);
     }
 
     private static Vec3[] getFaceBasis(Vec3 normal) {
