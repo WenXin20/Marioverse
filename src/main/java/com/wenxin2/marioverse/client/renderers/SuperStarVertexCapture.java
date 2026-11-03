@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
@@ -11,16 +12,22 @@ import net.minecraft.util.FastColor;
 public class SuperStarVertexCapture implements VertexConsumer {
     private static final int STRIDE = 8;
     private final ResourceLocation texture;
+    private final RenderStateShard.LayeringStateShard layering;
     private final FloatArrayList vertices = new FloatArrayList();
     private final IntArrayList colors = new IntArrayList();
     private int currentVertex = -1;
 
-    public SuperStarVertexCapture(ResourceLocation texture) {
+    public SuperStarVertexCapture(ResourceLocation texture, RenderStateShard.LayeringStateShard layering) {
         this.texture = texture;
+        this.layering = layering;
     }
 
     public ResourceLocation getTexture() {
         return this.texture;
+    }
+
+    public RenderStateShard.LayeringStateShard getLayering() {
+        return this.layering;
     }
 
     @Override

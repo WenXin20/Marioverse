@@ -16,10 +16,16 @@ import java.util.Optional;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 public class SuperStarBufferSource implements MultiBufferSource {
+    @Nullable
+    private static SuperStarBufferSource active;
+    @Nullable
+    private final SuperStarBufferSource previous;
     private final LivingEntity entity;
     private final MultiBufferSource delegate;
     private final float partialTicks;
@@ -29,6 +35,8 @@ public class SuperStarBufferSource implements MultiBufferSource {
         this.entity = entity;
         this.delegate = delegate;
         this.partialTicks = partialTicks;
+        this.previous = active;
+        active = this;
     }
 
     @Override
@@ -37,10 +45,9 @@ public class SuperStarBufferSource implements MultiBufferSource {
         SuperStarVertexCapture capture = this.captures.get(renderType);
 
         if (capture == null) {
-            Optional<ResourceLocation> texture = SuperStarBufferSource.getCapturableTexture(renderType);
-            if (texture.isEmpty())
+            capture = SuperStarBufferSource.createCapture(renderType);
+            if (capture == null)
                 return buffer;
-            capture = new SuperStarVertexCapture(texture.get());
             this.captures.put(renderType, capture);
         }
         return VertexMultiConsumer.create(capture, buffer);
@@ -52,6 +59,11 @@ public class SuperStarBufferSource implements MultiBufferSource {
                         && "jeb_".equals(entity.getName().getString()));
     }
 
+    @Nullable
+    public static SuperStarBufferSource getActive(@Nullable Entity entity) {
+        return active != null && active.entity == entity ? active : null;
+    }
+
     public static MultiBufferSource wrap(LivingEntity entity, MultiBufferSource bufferSource, float partialTicks) {
         if (bufferSource instanceof SuperStarBufferSource || entity.isInvisible() || !SuperStarBufferSource.hasSuperStarEffect(entity))
             return bufferSource;
@@ -59,7 +71,11 @@ public class SuperStarBufferSource implements MultiBufferSource {
     }
 
     public void flush(LivingEntity renderedEntity, PoseStack poseStack) {
-        if (renderedEntity != this.entity || this.captures.isEmpty())
+        if (renderedEntity != this.entity)
+            return;
+
+        active = this.previous;
+        if (this.captures.isEmpty())
             return;
 
         if (this.delegate instanceof MultiBufferSource.BufferSource bufferSource)
@@ -70,22 +86,25 @@ public class SuperStarBufferSource implements MultiBufferSource {
         SuperStarRenderType.setUniforms(time, scale > 1.0E-4F ? 1.0F / scale : 1.0F);
 
         for (SuperStarVertexCapture capture : this.captures.values())
-            capture.replay(this.delegate.getBuffer(SuperStarRenderType.superStar(capture.getTexture())));
+            capture.replay(this.delegate.getBuffer(SuperStarRenderType.superStar(capture.getTexture(), capture.getLayering())));
 
         if (SuperStarGlowRenderer.isCapturing()) {
             MultiBufferSource glowBuffers = SuperStarGlowRenderer.getGlowBuffers();
             for (SuperStarVertexCapture capture : this.captures.values())
-                capture.replay(glowBuffers.getBuffer(SuperStarRenderType.superStarGlow(capture.getTexture())));
+                capture.replay(glowBuffers.getBuffer(SuperStarRenderType.superStarGlow(capture.getTexture(), capture.getLayering())));
         }
 
         this.captures.clear();
     }
 
-    private static Optional<ResourceLocation> getCapturableTexture(RenderType renderType) {
+    @Nullable
+    private static SuperStarVertexCapture createCapture(RenderType renderType) {
         if (renderType.format() != DefaultVertexFormat.NEW_ENTITY || renderType.mode() != VertexFormat.Mode.QUADS
                 || !(renderType instanceof CompositeRenderTypeAccessor composite))
-            return Optional.empty();
-        return ((EmptyTextureStateShardAccessor) ((CompositeStateAccessor) (Object) composite.mv$getState())
-                .mv$getTextureState()).mv$cutoutTexture();
+            return null;
+
+        CompositeStateAccessor state = (CompositeStateAccessor) (Object) composite.mv$getState();
+        Optional<ResourceLocation> texture = ((EmptyTextureStateShardAccessor) state.mv$getTextureState()).mv$cutoutTexture();
+        return texture.map(location -> new SuperStarVertexCapture(location, state.mv$getLayeringState())).orElse(null);
     }
 }

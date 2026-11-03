@@ -131,6 +131,10 @@ public class ClientEventHandlers {
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_glow_shader"),
                 DefaultVertexFormat.NEW_ENTITY),
                 shader -> SuperStarRenderType.SUPER_STAR_GLOW_SHADER = shader);
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_particle_shader"),
+                DefaultVertexFormat.PARTICLE),
+                shader -> SuperStarRenderType.SUPER_STAR_PARTICLE_SHADER = shader);
     }
 
     @SubscribeEvent

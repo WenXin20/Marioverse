@@ -9,4 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface CompositeStateAccessor {
     @Accessor("textureState")
     RenderStateShard.EmptyTextureStateShard mv$getTextureState();
+
+    @Accessor("layeringState")
+    RenderStateShard.LayeringStateShard mv$getLayeringState();
 }
