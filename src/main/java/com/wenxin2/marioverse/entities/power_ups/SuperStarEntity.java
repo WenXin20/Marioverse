@@ -20,6 +20,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.util.RandomSource;
+import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.fluids.FluidType;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -83,6 +84,9 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, Pow
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
             ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.COIN_GLINT.get(), this, true, 5, rand.nextDouble() * this.getBbHeight(), 0.1);
         }
+
+        if (!this.level().isClientSide && !this.isInvulnerable())
+            this.collideWithUnpushableEntities();
     }
 
     @Override
@@ -119,6 +123,17 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, Pow
     @Override
     protected int getSpawnDuration() {
         return 20;
+    }
+
+    private void collideWithUnpushableEntities() {
+        for (Entity entity : this.level().getEntities(this, this.getBoundingBox(), entity -> !entity.isSpectator() && !entity.isPushable())) {
+            if (this.isRemoved())
+                return;
+
+            Entity target = entity instanceof PartEntity<?> part ? part.getParent() : entity;
+            if (target != this)
+                this.collideWithEntity(target);
+        }
     }
 
     private void applyToRiders(Level world, Entity firstEntity) {

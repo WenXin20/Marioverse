@@ -115,6 +115,7 @@
 - Improved ice cube texture
 - Improved ice cube sliding to slide up stairs and slabs
 - Fixed the super star shader not working with armor or curios
+- Fixed the super star mob not applying its effects to mobs that cannot be pushed
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
 - Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
 - Fixed clear pipes not working correctly on sable contraptions
