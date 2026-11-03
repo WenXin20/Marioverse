@@ -98,10 +98,12 @@
   - Reduces states from 192 to 48
 - Added a config option to charge xp for teleporting with warp pipes, doors, trapdoors, & paintings. 0 by default
 - Added the ability for warp pipes, doors, trapdoors, & paintings to teleport Aeronautics contraptions
-- Added new linking and warping particles 
+- Added new linking and warping particles
+- Added an enchant glow to wrenches when bound to a block or painting
+- Improved warp cooldown, warp pipes emit smoke while on cooldown. Configurable
 - Added the ability to increase stomp damage using armor boots, +0.5 damage for each armor point
 - Added a config to require stomping different mobs to get a 1-Up, default is false
-- Change the 1-Up reward to a loot table
+- Changed the 1-Up reward to a loot table
 - Improved bouncing on bouncy blocks
 - Improved bounce sound
 - Improved log bridges and log bridge stairs
@@ -110,7 +112,6 @@
 - Improved riding ice cubes, mobs & players can now move with it when it slides
 - Improved ice cube texture
 - Improved ice cube sliding to slide up stairs and slabs
-- Improved warp cooldown, warp pipes emit smoke while on cooldown. Configurable
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
 - Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
 - Fixed linking of paintings in unloaded chunks using a wrench

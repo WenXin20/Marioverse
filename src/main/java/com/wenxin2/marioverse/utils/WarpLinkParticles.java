@@ -154,7 +154,7 @@ public class WarpLinkParticles {
             double distance = Math.sqrt(random.nextDouble()) * 0.7;
             Vec3 radial = face.axisA().scale(face.radiusA() * Math.cos(angle)).add(face.axisB().scale(face.radiusB() * Math.sin(angle)));
             Vec3 pos = center.add(radial.scale(distance));
-            Vec3 velocity = face.normal().scale(0.25 + random.nextDouble() * 0.15).add(radial.scale(0.06));
+            Vec3 velocity = face.normal().scale(0.125 + random.nextDouble() * 0.075).add(radial.scale(0.03));
 
             level.sendParticles(option, pos.x, pos.y, pos.z, 0, velocity.x, velocity.y, velocity.z, 1.0);
         }

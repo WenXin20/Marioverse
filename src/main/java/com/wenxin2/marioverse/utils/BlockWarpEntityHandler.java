@@ -133,9 +133,9 @@ public interface BlockWarpEntityHandler {
                 double lookDot = flatX * facing.getStepX() + flatZ * facing.getStepZ();
                 boolean facingIntoPipe = lookDot < -0.65;
 
-                boolean withinX = entityX > blockX && entityX < blockX + 1;
+                boolean withinX = entityX >= blockX && entityX < blockX + 1;
                 boolean withinY = entityY >= blockY && entityY < blockY + 1;
-                boolean withinZ = entityZ > blockZ && entityZ < blockZ + 1;
+                boolean withinZ = entityZ >= blockZ && entityZ < blockZ + 1;
                 boolean insideFaceBounds;
 
                 switch (facing.getAxis()) {
