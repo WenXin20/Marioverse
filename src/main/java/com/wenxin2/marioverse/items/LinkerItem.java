@@ -528,7 +528,7 @@ public class LinkerItem extends TieredItem {
                                 player.displayClientMessage(Component.translatable(stack.getDescriptionId() + ".message.bound",
                                         target.getName()).withStyle(ChatFormatting.GREEN), true);
                             } else if (ModList.get().isLoaded("twilightforest") && isMagicPainting) {
-                                int width = PaintingEntityProvider.getPaintingWidth(target);
+                                int width = MagicPaintingEntityProvider.getPaintingWidth(target);
                                 Direction direction = target.getDirection();
                                 WarpLinkableEntity.setWarpPos(uuid, pos, direction, width);
                                 setWarpPos(stack, pos);
