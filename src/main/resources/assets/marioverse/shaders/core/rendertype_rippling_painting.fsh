@@ -48,7 +48,7 @@ void main() {
         vec2 edges = smoothstep(0.0, 0.12, localPos) * smoothstep(0.0, 0.12, 1.0 - localPos);
         float strength = envelope * edges.x * edges.y;
 
-        float twist = strength * (1.0 + 3.5 * closeness * closeness);
+        float twist = strength * (0.5 + 1.75 * closeness * closeness);
         float pull = strength * 0.55;
         depth = strength * closeness;
 
