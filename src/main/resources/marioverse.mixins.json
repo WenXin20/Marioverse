@@ -22,7 +22,8 @@
     "ServerPlayerMixin",
     "StructureTemplateMixin",
     "WallBlockMixin",
-    "iris.IdMapMixin"
+    "iris.IdMapMixin",
+    "sable.SubLevelEntityCollisionMixin"
   ],
   "client": [
     "ButtonBlockMixin",

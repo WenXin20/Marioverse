@@ -42,7 +42,7 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LogBridgeStairBlock extends StairBlock implements SimpleWaterloggedBlock {
+public class LogBridgeStairBlock extends StairBlock implements SimpleWaterloggedBlock, SubLevelEntityCollisionBlock {
     public static final EnumProperty<ConnectionBlockStates> ABOVE = BlockStatePropertyRegistry.ABOVE;
     public static final EnumProperty<ConnectionBlockStates> BELOW = BlockStatePropertyRegistry.BELOW;
     public Block logBlock; 

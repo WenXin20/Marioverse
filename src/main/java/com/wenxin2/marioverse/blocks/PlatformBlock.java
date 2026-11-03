@@ -37,7 +37,7 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PlatformBlock extends SlabBlock {
+public class PlatformBlock extends SlabBlock implements SubLevelEntityCollisionBlock {
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
 
     protected static final VoxelShape BOTTOM_COLLISION = Block

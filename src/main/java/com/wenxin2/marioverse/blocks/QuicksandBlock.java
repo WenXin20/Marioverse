@@ -46,7 +46,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup, SimpleWaterloggedBlock {
+public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup, SimpleWaterloggedBlock, SubLevelEntityCollisionBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape FALLING_COLLISION_SHAPE =

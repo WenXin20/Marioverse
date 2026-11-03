@@ -53,7 +53,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWaterloggedBlock {
+public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWaterloggedBlock, SubLevelEntityCollisionBlock {
     public static final MapCodec<InvisibleQuestionBlock> CODEC = simpleCodec(InvisibleQuestionBlock::new);
     public static final BooleanProperty INVISIBLE = BlockStatePropertyRegistry.INVISIBLE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
