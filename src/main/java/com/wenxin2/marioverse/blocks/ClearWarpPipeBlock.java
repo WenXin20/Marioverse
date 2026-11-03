@@ -68,7 +68,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 
-public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock {
+public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock, SubLevelEntityCollisionBlock {
     private static final String PIPE_DIRECTION = "PipeDirection";
     private static final double PIPE_CENTERING = 0.4;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -567,7 +567,11 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     public BlockState calculateEntrance(BlockState state, LevelAccessor level, BlockPos pos) {
         BlockState newState = super.calculateEntrance(state, level, pos);
-        long connections = PROPERTY_BY_DIRECTION.values().stream().filter(newState::getValue).count();
+        Direction facing = newState.getValue(FACING);
+        long connections = PROPERTY_BY_DIRECTION.entrySet().stream()
+                .filter(entry -> newState.getValue(entry.getValue())
+                        && !ClearWarpPipeBlock.isSameEntranceGroup(level, pos, entry.getKey(), facing))
+                .count();
 
         if (newState.getValue(ENTRANCE) && connections > 1)
             return newState.setValue(ENTRANCE, false);
@@ -848,5 +852,19 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 || Math.abs(localCenter.y - (pos.getY() + 0.5)) > 1.5 || Math.abs(localCenter.z - (pos.getZ() + 0.5)) > 1.5)
             return false;
         return entity.level().getBlockState(BlockPos.containing(localCenter)).getBlock() instanceof ClearWarpPipeBlock;
+    }
+
+    private static boolean isSameEntranceGroup(LevelAccessor level, BlockPos pos, Direction direction, Direction facing) {
+        if (direction.getAxis() == facing.getAxis())
+            return false;
+
+        BlockPos neighborPos = pos.relative(direction);
+        BlockState neighborState = level.getBlockState(neighborPos);
+
+        if (!(neighborState.getBlock() instanceof ClearWarpPipeBlock) || neighborState.getValue(FACING) != facing)
+            return false;
+
+        BlockState neighborFront = level.getBlockState(neighborPos.relative(facing));
+        return !(neighborFront.is(TagRegistry.PIPE_JUNCTION_BLOCKS) || neighborFront.getBlock() instanceof WarpPipeBlock);
     }
 }
