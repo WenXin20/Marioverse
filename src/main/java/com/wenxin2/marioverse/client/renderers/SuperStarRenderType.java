@@ -58,6 +58,7 @@ public class SuperStarRenderType extends RenderType {
                     .setDepthTestState(LEQUAL_DEPTH_TEST)
                     .setLightmapState(LIGHTMAP)
                     .setOutputState(SUPER_STAR_GLOW_TARGET)
+                    .setLayeringState(POLYGON_OFFSET_LAYERING)
                     .setShaderState(new ShaderStateShard(() -> SUPER_STAR_GLOW_SHADER))
                     .setTextureState(new TextureStateShard(texture, false, false))
                     .setTransparencyState(NO_TRANSPARENCY)
