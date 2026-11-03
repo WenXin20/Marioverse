@@ -1,8 +1,11 @@
 package com.wenxin2.marioverse.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.utils.BlockWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.EntityWarpPlayerHandler;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -23,5 +26,10 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
     @Override
     public boolean mv$getEntityWarpTeleportConfig() {
         return ConfigRegistry.TELEPORT_PLAYERS.get();
+    }
+
+    @WrapMethod(method = "updatePlayerPose")
+    private void mv$trackPoseCollidingEntity(Operation<Void> original) {
+        SubLevelCollision.runWithCollidingEntity(this, original::call);
     }
 }

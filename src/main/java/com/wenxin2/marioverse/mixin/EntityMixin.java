@@ -1,6 +1,8 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
@@ -19,6 +21,7 @@ import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
@@ -185,6 +188,11 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 && !(entity instanceof Player)
                 && !entity.isSpectator())
             this.mv$squashEntity(livingEntity);
+    }
+
+    @WrapMethod(method = "move")
+    private void mv$trackCollidingEntity(MoverType type, Vec3 movement, Operation<Void> original) {
+        SubLevelCollision.runWithCollidingEntity((Entity) (Object) this, () -> original.call(type, movement));
     }
 
     @Inject(at = @At("TAIL"), method = "tick")

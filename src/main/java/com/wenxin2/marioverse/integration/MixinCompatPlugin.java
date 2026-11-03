@@ -13,7 +13,6 @@ public class MixinCompatPlugin implements IMixinConfigPlugin {
     private static final Map<String, List<String>> COMPAT_PACKAGES = Map.of(
             "iris.", List.of("iris", "oculus"),
             "immersive_paintings.", List.of("immersive_paintings"),
-            "sable.", List.of("sable"),
             "twilightforest.", List.of("twilightforest"));
 
     @Override

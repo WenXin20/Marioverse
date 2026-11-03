@@ -29,7 +29,6 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.ItemAbilities;
@@ -37,7 +36,7 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PlatformBlock extends SlabBlock implements SubLevelEntityCollisionBlock {
+public class PlatformBlock extends SlabBlock {
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
 
     protected static final VoxelShape BOTTOM_COLLISION = Block
@@ -62,19 +61,24 @@ public class PlatformBlock extends SlabBlock implements SubLevelEntityCollisionB
         super.appendHoverText(stack, context, list, options);
     }
 
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
+    }
+
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
         SlabType stateValue = state.getValue(TYPE);
 
-        if (collisionContext instanceof EntityCollisionContext context && context.getEntity() != null) {
+        if (SubLevelCollision.getCollisionEntity(collisionContext) != null) {
             if (stateValue == SlabType.TOP) {
-                if (!SubLevelCollision.isAbove(context, BOTTOM_COLLISION, pos))
+                if (!SubLevelCollision.isAbove(collisionContext, BOTTOM_COLLISION, pos, super.getCollisionShape(state, blockGetter, pos, collisionContext), pos))
                     return Shapes.empty();
             } else if (stateValue == SlabType.BOTTOM) {
-                if (!SubLevelCollision.isAbove(context, TOP_COLLISION, pos.below()))
+                if (!SubLevelCollision.isAbove(collisionContext, TOP_COLLISION, pos.below(), super.getCollisionShape(state, blockGetter, pos, collisionContext), pos))
                     return Shapes.empty();
-            } else if (!SubLevelCollision.isAbove(context, TOP_COLLISION, pos.below()))
+            } else if (!SubLevelCollision.isAbove(collisionContext, TOP_COLLISION, pos.below(), super.getCollisionShape(state, blockGetter, pos, collisionContext), pos))
                 return Shapes.empty();
         }
         return super.getCollisionShape(state, blockGetter, pos, collisionContext);

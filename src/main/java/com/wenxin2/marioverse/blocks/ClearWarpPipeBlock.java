@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -66,7 +67,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock, SubLevelEntityCollisionBlock {
+public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, SimpleWaterloggedBlock {
     private static final String PIPE_DIRECTION = "PipeDirection";
     private static final String PIPE_PREVIOUS_DIRECTION = "PipePreviousDirection";
     private static final String PIPE_ENTRY_DIRECTION = "PipeEntryDirection";
@@ -257,11 +258,16 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         return shape.optimize();
     }
 
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
+    }
+
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        if (collisionContext instanceof EntityCollisionContext context && context.getEntity() != null
-                && ClearWarpPipeBlock.isTravelingThroughSubLevelPipe(context.getEntity(), pos))
+        if (SubLevelCollision.getCollisionEntity(collisionContext) instanceof Entity entity
+                && ClearWarpPipeBlock.isTravelingThroughSubLevelPipe(entity, pos))
             return Shapes.empty();
         return this.voxelShape(state);
     }

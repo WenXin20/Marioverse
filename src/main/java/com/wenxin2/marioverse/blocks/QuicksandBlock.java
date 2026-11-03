@@ -41,12 +41,11 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup, SimpleWaterloggedBlock, SubLevelEntityCollisionBlock {
+public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape FALLING_COLLISION_SHAPE =
@@ -73,18 +72,23 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup,
         return Shapes.empty();
     }
 
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
+    }
+
     @NotNull
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        if (context instanceof EntityCollisionContext entityCollisionContext) {
-            Entity entity = entityCollisionContext.getEntity();
+        {
+            Entity entity = SubLevelCollision.getCollisionEntity(context);
             if (entity != null) {
                 if (entity.fallDistance > 2.5F)
                     return FALLING_COLLISION_SHAPE;
 
                 boolean flag = entity instanceof FallingBlockEntity;
                 if (flag || canEntityWalkOnQuicksand(entity)
-                        && SubLevelCollision.isAbove(entityCollisionContext, Shapes.block(), pos) && !context.isDescending())
+                        && SubLevelCollision.isAbove(context, Shapes.block(), pos) && !entity.isDescending())
                     return super.getCollisionShape(state, blockGetter, pos, context);
             }
         }

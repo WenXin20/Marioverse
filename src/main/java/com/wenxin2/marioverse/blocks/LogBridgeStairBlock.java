@@ -34,7 +34,6 @@ import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.ItemAbilities;
@@ -42,7 +41,7 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LogBridgeStairBlock extends StairBlock implements SimpleWaterloggedBlock, SubLevelEntityCollisionBlock {
+public class LogBridgeStairBlock extends StairBlock implements SimpleWaterloggedBlock {
     public static final EnumProperty<ConnectionBlockStates> ABOVE = BlockStatePropertyRegistry.ABOVE;
     public static final EnumProperty<ConnectionBlockStates> BELOW = BlockStatePropertyRegistry.BELOW;
     public Block logBlock; 
@@ -175,12 +174,17 @@ public class LogBridgeStairBlock extends StairBlock implements SimpleWaterlogged
         return SHAPES.get(state.getValue(FACING)).get(state.getValue(HALF)).get(state.getValue(SHAPE));
     }
 
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
+    }
+
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
         VoxelShape shape = this.getShape(state, blockGetter, pos, collisionContext);
 
-        if (collisionContext instanceof EntityCollisionContext context && context.getEntity() instanceof LivingEntity livingEntity) {
+        if (SubLevelCollision.getCollisionEntity(collisionContext) instanceof LivingEntity livingEntity) {
             double stepHeight = livingEntity.getAttributeValue(Attributes.STEP_HEIGHT);
             double feetY = SubLevelCollision.getFeetY(livingEntity, pos);
 
