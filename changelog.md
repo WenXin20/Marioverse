@@ -116,6 +116,7 @@
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
 - Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
 - Fixed clear pipes not working correctly on sable contraptions
+- Fixed semi-solid blocks not working on sable contraptions
 - Fixed paintings not warping you to the center or facing away from it.
 - Fixed linking of paintings in unloaded chunks using a wrench
 - Fixed warp doors & trapdoors closing before the player can teleport

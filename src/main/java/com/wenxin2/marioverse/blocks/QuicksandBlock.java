@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -83,7 +84,7 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup,
 
                 boolean flag = entity instanceof FallingBlockEntity;
                 if (flag || canEntityWalkOnQuicksand(entity)
-                        && context.isAbove(Shapes.block(), pos, false) && !context.isDescending())
+                        && SubLevelCollision.isAbove(entityCollisionContext, Shapes.block(), pos) && !context.isDescending())
                     return super.getCollisionShape(state, blockGetter, pos, context);
             }
         }

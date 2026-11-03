@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import com.wenxin2.marioverse.utils.VoxelShapeUtils;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -91,10 +92,10 @@ public class BridgeBlock extends Block implements SimpleWaterloggedBlock {
 
         if (collisionContext instanceof EntityCollisionContext context && context.getEntity() != null) {
             if (stateValue == HalfBlockStates.TOP) {
-                if (!context.isAbove(BOTTOM_COLLISION, pos, false))
+                if (!SubLevelCollision.isAbove(context, BOTTOM_COLLISION, pos))
                     return Shapes.empty();
             } else if (stateValue == HalfBlockStates.BOTTOM) {
-                if (!context.isAbove(TOP_COLLISION, pos.below(), false))
+                if (!SubLevelCollision.isAbove(context, TOP_COLLISION, pos.below()))
                     return Shapes.empty();
             }
         }

@@ -4,6 +4,7 @@ import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ConnectionBlockStates;
 import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import com.wenxin2.marioverse.utils.VoxelShapeUtils;
 import java.util.EnumMap;
 import java.util.List;
@@ -181,7 +182,7 @@ public class LogBridgeStairBlock extends StairBlock implements SimpleWaterlogged
 
         if (collisionContext instanceof EntityCollisionContext context && context.getEntity() instanceof LivingEntity livingEntity) {
             double stepHeight = livingEntity.getAttributeValue(Attributes.STEP_HEIGHT);
-            double feetY = livingEntity.getBoundingBox().minY;
+            double feetY = SubLevelCollision.getFeetY(livingEntity, pos);
 
             for (AABB box : shape.toAabbs()) {
                 double boxTopWorld = pos.getY() + box.maxY;

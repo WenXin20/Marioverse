@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -116,7 +117,7 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         else if (state.getValue(INVISIBLE) && collisionContext instanceof EntityCollisionContext entityCollisionContext) {
             if (entityCollisionContext.getEntity() != null
                     && entityCollisionContext.getEntity().getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)) {
-                if (entityCollisionContext.getEntity().getY() + entityCollisionContext.getEntity().getBbHeight() < pos.getY()) {
+                if (SubLevelCollision.getFeetY(entityCollisionContext.getEntity(), pos) + entityCollisionContext.getEntity().getBbHeight() < pos.getY()) {
                     return Shapes.block();
                 }
             }

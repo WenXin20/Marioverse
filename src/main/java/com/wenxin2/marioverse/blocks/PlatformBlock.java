@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.List;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -68,12 +69,12 @@ public class PlatformBlock extends SlabBlock {
 
         if (collisionContext instanceof EntityCollisionContext context && context.getEntity() != null) {
             if (stateValue == SlabType.TOP) {
-                if (!context.isAbove(BOTTOM_COLLISION, pos, false))
+                if (!SubLevelCollision.isAbove(context, BOTTOM_COLLISION, pos))
                     return Shapes.empty();
             } else if (stateValue == SlabType.BOTTOM) {
-                if (!context.isAbove(TOP_COLLISION, pos.below(), false))
+                if (!SubLevelCollision.isAbove(context, TOP_COLLISION, pos.below()))
                     return Shapes.empty();
-            } else if (!context.isAbove(TOP_COLLISION, pos.below(), false))
+            } else if (!SubLevelCollision.isAbove(context, TOP_COLLISION, pos.below()))
                 return Shapes.empty();
         }
         return super.getCollisionShape(state, blockGetter, pos, collisionContext);
