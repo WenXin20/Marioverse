@@ -108,6 +108,7 @@
 - Improved bouncing on bouncy blocks
 - Improved bounce sound
 - Improved log bridges and log bridge stairs
+- Improved the super star shader
 - Bees can collect pollen from power up flowers
 - Changed pipe junction recipe
 - Improved riding ice cubes, mobs & players can now move with it when it slides

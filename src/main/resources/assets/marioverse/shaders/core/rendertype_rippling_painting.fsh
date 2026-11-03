@@ -18,7 +18,10 @@ flat in vec3 rippleData;
 
 out vec4 fragColor;
 
-const int SWIRL_TAPS = 12;
+const float RING_FREQUENCY = 42.0;
+const float RING_DECAY = 3.5;
+const float RING_STRENGTH = 0.045;
+const float RING_SHADING = 0.22;
 
 void main() {
     float progress = rippleData.x;
@@ -30,7 +33,7 @@ void main() {
     float determinantValue = determinant(localToScreen);
 
     vec4 texColor;
-    float depth = 0.0;
+    float shading = 0.0;
 
     if (abs(determinantValue) > 1.0e-12) {
         mat2 localToTex = texToScreen * inverse(localToScreen);
@@ -41,29 +44,22 @@ void main() {
         vec2 centered = (localPos - 0.5) * scale;
         float radius = length(centered);
         float maxRadius = length(0.5 * scale);
-        float closeness = 1.0 - clamp(radius / maxRadius, 0.0, 1.0);
 
-        float envelope = sin(3.14159265 * progress);
-        envelope *= envelope;
+        float front = progress * (maxRadius + 0.35) * 1.15;
+        float behindFront = front - radius;
+        float packet = smoothstep(-0.02, 0.04, behindFront) * exp(-max(behindFront, 0.0) * RING_DECAY);
+        float amplitude = smoothstep(0.0, 0.08, progress) * pow(1.0 - progress, 1.5);
         vec2 edges = smoothstep(0.0, 0.12, localPos) * smoothstep(0.0, 0.12, 1.0 - localPos);
-        float strength = envelope * edges.x * edges.y;
+        float strength = packet * amplitude * edges.x * edges.y;
 
-        float twist = strength * (0.5 + 1.75 * closeness * closeness);
-        float pull = strength * 0.55;
-        depth = strength * closeness;
+        float phase = behindFront * RING_FREQUENCY;
+        vec2 direction = radius > 1.0e-4 ? centered / radius : vec2(0.0);
+        vec2 offset = direction * sin(phase) * strength * RING_STRENGTH;
+        shading = cos(phase) * strength;
 
-        texColor = vec4(0.0);
-        for (int i = 0; i < SWIRL_TAPS; i++) {
-            float tapStep = float(i) / float(SWIRL_TAPS - 1);
-            float angle = twist * (0.55 + 0.45 * tapStep);
-            float c = cos(angle);
-            float s = sin(angle);
-            vec2 rotated = mat2(c, s, -s, c) * centered * (1.0 + pull * (0.4 + 0.6 * tapStep));
-            vec2 sampleLocal = clamp(rotated / scale + 0.5, vec2(0.002), vec2(0.998));
-            vec2 sampleUv = clamp(texCoord0 + localToTex * (sampleLocal - localPos), uvMin, uvMax);
-            texColor += texture(Sampler0, sampleUv);
-        }
-        texColor /= float(SWIRL_TAPS);
+        vec2 sampleLocal = clamp((centered + offset) / scale + 0.5, vec2(0.002), vec2(0.998));
+        vec2 sampleUv = clamp(texCoord0 + localToTex * (sampleLocal - localPos), uvMin, uvMax);
+        texColor = texture(Sampler0, sampleUv);
     } else {
         texColor = texture(Sampler0, texCoord0);
     }
@@ -74,7 +70,7 @@ void main() {
     if (!translucent)
         color.a = 1.0;
 
-    color.rgb *= 1.0 - depth * 0.35;
+    color.rgb *= 1.0 + shading * RING_SHADING;
     color *= lightMapColor;
     fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, FogColor);
 }

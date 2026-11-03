@@ -12,12 +12,18 @@ public class SubLevelCollision {
     private static final double SUB_LEVEL_TOLERANCE = 0.1;
 
     public static boolean isAbove(EntityCollisionContext context, VoxelShape shape, BlockPos pos) {
+        return SubLevelCollision.isAbove(context, shape, pos, shape, pos);
+    }
+
+    public static boolean isAbove(EntityCollisionContext context, VoxelShape shape, BlockPos pos, VoxelShape solidShape, BlockPos solidPos) {
         Entity entity = context.getEntity();
         Vec3 localFeet = entity != null ? SubLevelCollision.getLocalFeet(entity, pos) : null;
 
         if (localFeet == null)
             return context.isAbove(shape, pos, false);
-        return localFeet.y > pos.getY() + shape.max(Direction.Axis.Y) - SUB_LEVEL_TOLERANCE;
+        if (solidShape.isEmpty())
+            return false;
+        return localFeet.y > solidPos.getY() + solidShape.max(Direction.Axis.Y) - SUB_LEVEL_TOLERANCE;
     }
 
     public static double getFeetY(Entity entity, BlockPos pos) {

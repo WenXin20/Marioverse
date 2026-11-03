@@ -14,11 +14,10 @@ out vec3 viewPos;
 out vec3 viewNormal;
 
 void main() {
-    vec4 pos = ModelViewMat * vec4(Position, 1.0);
-    gl_Position = ProjMat * pos;
+    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 
     vertexColor = Color;
     texCoord0 = UV0;
-    viewPos = pos.xyz;
+    viewPos = (ModelViewMat * vec4(Position, 1.0)).xyz;
     viewNormal = mat3(ModelViewMat) * Normal;
 }
