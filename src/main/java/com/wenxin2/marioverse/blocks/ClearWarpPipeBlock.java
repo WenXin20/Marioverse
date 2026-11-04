@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -258,17 +257,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         return shape.optimize();
     }
 
-    @Override
-    public boolean hasDynamicShape() {
-        return true;
-    }
-
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        if (SubLevelCollision.getCollisionEntity(collisionContext) instanceof Entity entity
-                && ClearWarpPipeBlock.isTravelingThroughSubLevelPipe(entity, pos))
-            return Shapes.empty();
         return this.voxelShape(state);
     }
 
@@ -843,17 +834,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         };
         Vec3 worldMotion = SableProvider.toWorldDirection(entity.level(), pos, localMotion.add(centering.scale(PIPE_CENTERING)));
         return worldMotion.add(0.0, entity.getGravity(), 0.0);
-    }
-
-    private static boolean isTravelingThroughSubLevelPipe(Entity entity, BlockPos pos) {
-        if (!SableProvider.isLoaded() || !SableProvider.isPlotPos(entity.level(), pos))
-            return false;
-
-        Vec3 localCenter = SableProvider.toLocalVec(entity.level(), pos, entity.getBoundingBox().getCenter());
-        if (localCenter == null || Math.abs(localCenter.x - (pos.getX() + 0.5)) > 1.5
-                || Math.abs(localCenter.y - (pos.getY() + 0.5)) > 1.5 || Math.abs(localCenter.z - (pos.getZ() + 0.5)) > 1.5)
-            return false;
-        return entity.level().getBlockState(BlockPos.containing(localCenter)).getBlock() instanceof ClearWarpPipeBlock;
     }
 
     private static boolean isSameEntranceGroup(LevelAccessor level, BlockPos pos, Direction direction, Direction facing) {
