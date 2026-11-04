@@ -24,7 +24,7 @@ public class RipplingPaintingVertexConsumer implements VertexConsumer {
     public VertexConsumer addVertex(float x, float y, float z) {
         this.context.inverseOrigin().transformPosition(x, y, z, this.localPos);
         this.delegate.addVertex(x, y, z);
-        this.delegate.setUv1(this.context.encodeU(this.localPos), this.context.encodeV(this.localPos, this.translucent));
+        this.delegate.setUv1(this.context.encodeU(this.localPos), this.context.encodeV(this.localPos));
         return this;
     }
 
@@ -51,7 +51,7 @@ public class RipplingPaintingVertexConsumer implements VertexConsumer {
     @NotNull
     @Override
     public VertexConsumer setUv2(int u, int v) {
-        this.delegate.setUv2(u, v);
+        this.delegate.setUv2(this.context.encodeBlockLight(u), this.context.encodeSkyLight(v, this.translucent));
         return this;
     }
 

@@ -29,8 +29,8 @@ public class PaintingRippleRenderer {
         if (PaintingRippleRenderTypes.ripplingPaintingShader == null)
             return;
 
-        float progress = PaintingRipples.getProgress(painting, partialTick);
-        if (progress < 0.0F || PaintingRippleRenderer.isShaderPackInUse())
+        float[] progresses = PaintingRipples.getProgresses(painting, partialTick);
+        if (progresses.length == 0 || PaintingRippleRenderer.isShaderPackInUse())
             return;
 
         Direction facing = painting.getDirection();
@@ -43,9 +43,13 @@ public class PaintingRippleRenderer {
         float height = (float) Math.max(bounds.max(vAxis) - bounds.min(vAxis), 0.0625);
         int aspect = Mth.clamp(Math.round(((float) (Math.log(width / height) / Math.log(2.0)) + 4.0F) * ASPECT_STEPS), 0, 63);
 
+        int[] encodedProgresses = new int[PaintingRipples.MAX_RIPPLES];
+        for (int i = 0; i < progresses.length && i < encodedProgresses.length; i++)
+            encodedProgresses[i] = 1 + Mth.clamp(Math.round(progresses[i] * 254.0F), 0, 254);
+
         current = new RippleContext(new Matrix4f(poseStack.last().pose()).invert(),
                 new Vector3f((float) center.x, (float) center.y, (float) center.z), uAxis, vAxis, width, height,
-                Mth.clamp((int) (progress * 127.0F), 0, 127), aspect);
+                encodedProgresses, aspect);
     }
 
     public static void end() {
@@ -76,17 +80,25 @@ public class PaintingRippleRenderer {
     }
 
     public record RippleContext(Matrix4f inverseOrigin, Vector3f center, Direction.Axis uAxis, Direction.Axis vAxis,
-                                float width, float height, int progress, int aspect) {
+                                float width, float height, int[] progresses, int aspect) {
         public int encodeU(Vector3f localPos) {
             float u = (PaintingRippleRenderer.component(localPos, this.uAxis) - PaintingRippleRenderer.component(this.center, this.uAxis))
                     / this.width + 0.5F;
-            return Mth.clamp(Math.round(u * 255.0F), 0, 255) | (this.progress << 8);
+            return Mth.clamp(Math.round(u * 255.0F), 0, 255) | (this.progresses[0] << 8);
         }
 
-        public int encodeV(Vector3f localPos, boolean translucent) {
+        public int encodeV(Vector3f localPos) {
             float v = (PaintingRippleRenderer.component(localPos, this.vAxis) - PaintingRippleRenderer.component(this.center, this.vAxis))
                     / this.height + 0.5F;
-            return Mth.clamp(Math.round(v * 255.0F), 0, 255) | ((translucent ? 1 : 0) << 8) | (this.aspect << 9);
+            return Mth.clamp(Math.round(v * 255.0F), 0, 255) | (this.progresses[1] << 8);
+        }
+
+        public int encodeBlockLight(int blockLight) {
+            return (blockLight & 255) | (this.progresses[2] << 8);
+        }
+
+        public int encodeSkyLight(int skyLight, boolean translucent) {
+            return (skyLight & 255) | (((translucent ? 1 : 0) | (this.aspect << 1)) << 8);
         }
     }
 

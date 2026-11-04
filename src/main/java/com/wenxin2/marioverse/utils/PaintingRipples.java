@@ -2,7 +2,11 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.network.client_bound.data.PaintingRipplePayload;
+import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 import net.minecraft.server.level.ServerLevel;
@@ -13,7 +17,9 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class PaintingRipples {
     public static final float RIPPLE_TICKS = 60.0F;
-    private static final Map<Entity, Long> RIPPLE_STARTS = Collections.synchronizedMap(new WeakHashMap<>());
+    public static final int MAX_RIPPLES = 3;
+    private static final float[] NO_RIPPLES = new float[0];
+    private static final Map<Entity, Deque<Long>> RIPPLE_STARTS = Collections.synchronizedMap(new WeakHashMap<>());
 
     public static boolean isRipplePainting(Entity entity) {
         if (entity instanceof Painting)
@@ -34,22 +40,35 @@ public class PaintingRipples {
     }
 
     public static void start(Entity painting) {
-        RIPPLE_STARTS.put(painting, painting.level().getGameTime());
+        Deque<Long> starts = RIPPLE_STARTS.computeIfAbsent(painting, entity -> new ArrayDeque<>());
+        starts.addLast(painting.level().getGameTime());
+
+        while (starts.size() > MAX_RIPPLES)
+            starts.removeFirst();
     }
 
-    public static float getProgress(Entity painting, float partialTick) {
+    public static float[] getProgresses(Entity painting, float partialTick) {
         if (RIPPLE_STARTS.isEmpty())
-            return -1.0F;
+            return NO_RIPPLES;
 
-        Long start = RIPPLE_STARTS.get(painting);
-        if (start == null)
-            return -1.0F;
+        Deque<Long> starts = RIPPLE_STARTS.get(painting);
+        if (starts == null)
+            return NO_RIPPLES;
 
-        float progress = (painting.level().getGameTime() - start + partialTick) / RIPPLE_TICKS;
-        if (progress >= 1.0F || progress < 0.0F) {
-            RIPPLE_STARTS.remove(painting);
-            return -1.0F;
+        float[] progresses = new float[starts.size()];
+        int count = 0;
+        Iterator<Long> iterator = starts.iterator();
+
+        while (iterator.hasNext()) {
+            float progress = (painting.level().getGameTime() - iterator.next() + partialTick) / RIPPLE_TICKS;
+
+            if (progress >= 1.0F || progress < 0.0F)
+                iterator.remove();
+            else progresses[count++] = progress;
         }
-        return progress;
+
+        if (starts.isEmpty())
+            RIPPLE_STARTS.remove(painting);
+        return count == progresses.length ? progresses : Arrays.copyOf(progresses, count);
     }
 }
