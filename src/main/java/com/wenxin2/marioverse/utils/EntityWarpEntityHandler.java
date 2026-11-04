@@ -56,9 +56,10 @@ public interface EntityWarpEntityHandler {
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
                 if (!warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get()) && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0
-                        && !entity.isShiftKeyDown())
+                        && !entity.isShiftKeyDown()) {
                     this.warp(entity, world, warpLinkableEntity);
-                else if (entity instanceof Player player) {
+                    BlockWarpEntityHandler.AWAITING_RELEASE.put(entity, entity.level().getGameTime());
+                } else if (entity instanceof Player player && !BlockWarpEntityHandler.isStillEnteringAfterWarp(entity)) {
                     if (warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get()) && warpLinkableEntity instanceof Painting warpPainting)
                         this.displayWarpDisruptedMessage(player, warpPainting);
                     else if (warpLinkableEntity.mv$hasDestinationPos())

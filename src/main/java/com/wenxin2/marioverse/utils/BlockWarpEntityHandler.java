@@ -86,9 +86,10 @@ public interface BlockWarpEntityHandler {
 
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (this.mv$getBlockWarpTeleportConfig(entity) && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
-                if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0 && !entity.isShiftKeyDown())
+                if (!warpBE.preventWarp && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0 && !entity.isShiftKeyDown()) {
                     this.warp(entity, world, pos, state, warpPos, warpBE);
-                else if (warpBE.preventWarp && entity instanceof Player player)
+                    AWAITING_RELEASE.put(entity, entity.level().getGameTime());
+                } else if (warpBE.preventWarp && entity instanceof Player player && !BlockWarpEntityHandler.isStillEnteringAfterWarp(entity))
                     this.displayWarpDisruptedMessage(player, state);
             }
         }
@@ -155,9 +156,12 @@ public interface BlockWarpEntityHandler {
                         this.warp(entity, world, pos, state, warpPos, warpBE);
                         AWAITING_RELEASE.put(entity, entity.level().getGameTime());
                     } else if (entity instanceof Player player) {
+                        if (BlockWarpEntityHandler.isStillEnteringAfterWarp(entity))
+                            return;
+
                         if (warpBE.preventWarp)
                             this.displayWarpDisruptedMessage(player, state);
-                        else if (warpBE.hasDestinationPos() && !this.isStillEnteringAfterWarp(entity))
+                        else if (warpBE.hasDestinationPos())
                             this.displayCooldownMessage(player, state);
                     }
                 }
@@ -195,9 +199,12 @@ public interface BlockWarpEntityHandler {
                             this.warp(entity, level, pos, stateAbove, warpPos, warpBE);
                             AWAITING_RELEASE.put(entity, entity.level().getGameTime());
                         } else if (entity instanceof Player player) {
+                            if (BlockWarpEntityHandler.isStillEnteringAfterWarp(entity))
+                                continue;
+
                             if (warpBE.preventWarp)
                                 this.displayWarpDisruptedMessage(player, stateAbove);
-                            else if (warpBE.hasDestinationPos() && !this.isStillEnteringAfterWarp(entity))
+                            else if (warpBE.hasDestinationPos())
                                 this.displayCooldownMessage(player, stateAbove);
                         }
                     }
@@ -373,7 +380,7 @@ public interface BlockWarpEntityHandler {
         player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_missing"), true);
     }
 
-    private boolean isStillEnteringAfterWarp(Entity entity) {
+    static boolean isStillEnteringAfterWarp(Entity entity) {
         Long lastTick = AWAITING_RELEASE.get(entity);
         long gameTime = entity.level().getGameTime();
 

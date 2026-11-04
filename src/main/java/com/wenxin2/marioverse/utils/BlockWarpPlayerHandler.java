@@ -126,6 +126,9 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
     }
 
     private void displayNoTeleportMessage(Player player, BlockState state) {
+        if (BlockWarpEntityHandler.isStillEnteringAfterWarp(player))
+            return;
+
         if (!this.mv$getBlockWarpTeleportConfig(player) || player.getType().is(TagRegistry.CANNOT_WARP)) {
             if (state.getBlock() instanceof WarpPipeBlock) {
                 player.displayClientMessage(Component.translatable("display.marioverse.pipes_cannot_teleport_players"), true);
