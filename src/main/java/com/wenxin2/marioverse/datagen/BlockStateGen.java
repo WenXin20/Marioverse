@@ -3200,36 +3200,42 @@ public class BlockStateGen extends BlockStateProvider {
                 .texture("#top")
                 .uvs(getU1(blockDir, Direction.UP), getV1(blockDir, Direction.UP),
                         getU2(blockDir, Direction.UP), getV2(blockDir, Direction.UP))
+                .cullface(Direction.UP)
                 .end()
 
                 .face(Direction.DOWN)
                 .texture("#bottom")
                 .uvs(getU1(blockDir, Direction.DOWN), getV1(blockDir, Direction.DOWN),
                         getU2(blockDir, Direction.DOWN), getV2(blockDir, Direction.DOWN))
+                .cullface(Direction.DOWN)
                 .end()
 
                 .face(Direction.NORTH)
                 .texture("#side")
                 .uvs(getU1(blockDir, Direction.NORTH), getV1(blockDir, Direction.NORTH),
                         getU2(blockDir, Direction.NORTH), getV2(blockDir, Direction.NORTH))
+                .cullface(Direction.NORTH)
                 .end()
 
                 .face(Direction.SOUTH)
                 .texture("#side")
                 .uvs(getU1(blockDir, Direction.SOUTH), getV1(blockDir, Direction.SOUTH),
                         getU2(blockDir, Direction.SOUTH), getV2(blockDir, Direction.SOUTH))
+                .cullface(Direction.SOUTH)
                 .end()
 
                 .face(Direction.WEST)
                 .texture("#side")
                 .uvs(getU1(blockDir, Direction.WEST), getV1(blockDir, Direction.WEST),
                         getU2(blockDir, Direction.WEST), getV2(blockDir, Direction.WEST))
+                .cullface(Direction.WEST)
                 .end()
 
                 .face(Direction.EAST)
                 .texture("#side")
                 .uvs(getU1(blockDir, Direction.EAST), getV1(blockDir, Direction.EAST),
                         getU2(blockDir, Direction.EAST), getV2(blockDir, Direction.EAST))
+                .cullface(Direction.EAST)
                 .end()
                 .end();
     }
