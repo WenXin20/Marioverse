@@ -39,6 +39,11 @@ public class BasePowerUpEntity extends PathfinderMob {
     }
 
     @Override
+    public boolean canDrownInFluidType(FluidType type) {
+        return false;
+    }
+
+    @Override
     public void jumpInFluid(FluidType type) {
         this.jumpInLiquidInternal(() -> super.jumpInFluid(type));
     }

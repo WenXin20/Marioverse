@@ -130,6 +130,7 @@
 - Fixed warp doors & trapdoors closing before the player can teleport
 - Fixed cooldown message displaying immediately after teleporting
 - Fixed power up mobs despawning when far away
+- Fixed power up mobs drowning
 - Fixed rotation of mobs frozen in the ice cube
 - Fixed ice cubes sometimes freezing client-only & disappearing
 - Fixed getting stuck on floating ice cubes
