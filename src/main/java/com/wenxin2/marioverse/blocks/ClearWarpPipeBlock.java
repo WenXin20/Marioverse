@@ -686,8 +686,11 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 previousDirection = Direction.from3DDataValue(tag.getInt(PIPE_PREVIOUS_DIRECTION));
             entryDirection = tag.contains(PIPE_ENTRY_DIRECTION) ? Direction.from3DDataValue(tag.getInt(PIPE_ENTRY_DIRECTION)) : direction;
         } else {
-            if (openEntrance)
-                direction = state.getValue(FACING).getOpposite();
+            Direction inward = openEntrance ? state.getValue(FACING).getOpposite()
+                    : ClearWarpPipeBlock.getAdjacentEntranceInward(entity.level(), pos);
+
+            if (inward != null && (openEntrance || connections.contains(inward)))
+                direction = inward;
             else {
                 Vec3 motion = entity.getDeltaMovement();
                 if (onSubLevel)
@@ -697,8 +700,11 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 if (!connections.contains(direction))
                     direction = connections.getFirst();
             }
-            entryDirection = direction;
+            entryDirection = inward != null ? inward : direction;
         }
+
+        if (openEntrance && direction.getAxis() != state.getValue(FACING).getAxis())
+            direction = state.getValue(FACING).getOpposite();
 
         Direction nextDirection = direction;
 
@@ -871,5 +877,17 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 return possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
         }
         return direction.getOpposite();
+    }
+
+    @Nullable
+    private static Direction getAdjacentEntranceInward(Level level, BlockPos pos) {
+        for (Direction direction : Direction.values()) {
+            BlockState neighborState = level.getBlockState(pos.relative(direction));
+
+            if (neighborState.getBlock() instanceof ClearWarpPipeBlock && neighborState.getValue(ENTRANCE)
+                    && !neighborState.getValue(CLOSED) && neighborState.getValue(FACING) == direction)
+                return direction.getOpposite();
+        }
+        return null;
     }
 }
