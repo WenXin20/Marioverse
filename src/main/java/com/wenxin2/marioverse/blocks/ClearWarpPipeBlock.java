@@ -7,6 +7,8 @@ import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ClearPipeTravel;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -29,6 +31,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -57,6 +60,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -70,7 +74,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     private static final String PIPE_DIRECTION = "PipeDirection";
     private static final String PIPE_PREVIOUS_DIRECTION = "PipePreviousDirection";
     private static final String PIPE_ENTRY_DIRECTION = "PipeEntryDirection";
-    private static final String PIPE_ROUTE_TIME = "PipeRouteTime";
+    public static final String PIPE_ROUTE_TIME = "PipeRouteTime";
     private static final int PIPE_ROUTE_TIMEOUT = 10;
     private static final double PIPE_CENTERING = 0.4;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -260,7 +264,24 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+        if (state.getValue(ENTRANCE) && !state.getValue(CLOSED) && state.getValue(FACING).getAxis().isHorizontal()
+                && SubLevelCollision.getCollisionEntity(collisionContext) instanceof Mob mob
+                && ClearPipeTravel.fitsEntrance(mob.level(), pos, state, mob))
+            return this.voxelShape(state.setValue(UP, Boolean.TRUE));
         return this.voxelShape(state);
+    }
+
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public PathType getBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @Nullable Mob mob) {
+        if (state.getValue(ENTRANCE) && !state.getValue(CLOSED) && state.getValue(FACING) != Direction.DOWN)
+            return PathType.OPEN;
+        return super.getBlockPathType(state, level, pos, mob);
     }
 
     @NotNull
@@ -611,6 +632,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             pipeCenterOffset = Vec3.atCenterOf(pos).subtract(localCenter);
         }
 
+        if (entity instanceof Mob && !ClearPipeTravel.canEnter(world, pos, state, entity))
+            return;
+
         if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
             if (onSubLevel)
                 entity.setSwimming(true);
@@ -623,6 +647,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
             if (entity instanceof LivingEntity livingEntity)
                 this.spawnTrailParticles(world, livingEntity);
+
+            if (entity instanceof Mob mob)
+                ClearPipeTravel.shrink(mob);
 
             if (entity instanceof Player player) {
                 Direction moveDirection = this.getDirectionFromLook(player, world, pos, onSubLevel);
@@ -701,6 +728,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                     direction = connections.getFirst();
             }
             entryDirection = inward != null ? inward : direction;
+            ClearPipeTravel.recordTarget(entity);
         }
 
         if (openEntrance && direction.getAxis() != state.getValue(FACING).getAxis())
@@ -709,7 +737,12 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         Direction nextDirection = direction;
 
         if (!openEntrance && !connections.contains(direction))
-            nextDirection = ClearWarpPipeBlock.chooseNextDirection(entity, connections, direction, previousDirection, entryDirection);
+            nextDirection = ClearWarpPipeBlock.chooseNextDirection(entity, pos, connections, direction, previousDirection, entryDirection);
+        else if (!openEntrance) {
+            Direction steered = ClearPipeTravel.steerAtJunction(entity, pos, connections, direction, nextDirection);
+            if (steered != null)
+                nextDirection = steered;
+        }
 
         if (nextDirection != direction)
             previousDirection = direction;
@@ -856,7 +889,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         return !(neighborFront.is(TagRegistry.PIPE_JUNCTION_BLOCKS) || neighborFront.getBlock() instanceof WarpPipeBlock);
     }
 
-    private static Direction chooseNextDirection(Entity entity, List<Direction> connections, Direction direction,
+    private static Direction chooseNextDirection(Entity entity, BlockPos pos, List<Direction> connections, Direction direction,
                                                  @Nullable Direction previousDirection, Direction entryDirection) {
         List<Set<Direction>> exclusions = new ArrayList<>();
         Set<Direction> strict = EnumSet.of(direction.getOpposite(), entryDirection.getOpposite());
@@ -873,8 +906,10 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         for (Set<Direction> excluded : exclusions) {
             List<Direction> possibleDirections = connections.stream().filter(connected -> !excluded.contains(connected)).toList();
 
-            if (!possibleDirections.isEmpty())
-                return possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
+            if (!possibleDirections.isEmpty()) {
+                Direction steered = ClearPipeTravel.steerTowardTarget(entity, pos, possibleDirections);
+                return steered != null ? steered : possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
+            }
         }
         return direction.getOpposite();
     }

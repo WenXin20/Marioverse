@@ -19,6 +19,7 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ClearPipeTravel;
 import it.unimi.dsi.fastutil.longs.Long2LongMap;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
@@ -183,6 +184,9 @@ public class TickEventHandlers {
                 TickEventHandlers.megaMushroomScale(livingEntity);
                 TickEventHandlers.miniMushroomScale(livingEntity);
                 TickEventHandlers.superMushroomScale(livingEntity);
+
+                if (livingEntity instanceof Mob mob)
+                    ClearPipeTravel.tick(mob);
             }
         }
 

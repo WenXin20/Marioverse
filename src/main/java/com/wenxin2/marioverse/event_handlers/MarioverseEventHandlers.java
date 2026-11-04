@@ -54,6 +54,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.utils.ClearPipeTravel;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
@@ -127,6 +128,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -148,6 +150,12 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
+    @SubscribeEvent
+    public static void onEntitySize(EntityEvent.Size event) {
+        if (ClearPipeTravel.isShrunk(event.getEntity(), event.getPose()))
+            event.setNewSize(ClearPipeTravel.getShrunkDimensions(event.getNewSize()));
+    }
+
     @SubscribeEvent
     public static void onPlayLevelSound(PlayLevelSoundEvent.AtEntity event) {
         if (event.getSound() != null && event.getSound().value() == SoundRegistry.MUD_STEP.get()) {
