@@ -44,6 +44,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
@@ -273,7 +274,8 @@ public class TickEventHandlers {
         if (!canHitAbove && !canHitSide)
             return;
 
-        Vec3 motion = entity.getDeltaMovement();
+        Vec3 motion = entity instanceof Projectile
+                ? entity.position().subtract(entity.xOld, entity.yOld, entity.zOld) : entity.getDeltaMovement();
         float pitch = 0.8F + level.random.nextFloat() * 0.2F;
         boolean canGrief = EventHooks.canEntityGrief(level, entity)
                 || (entity instanceof Player player && !player.getAbilities().flying);
