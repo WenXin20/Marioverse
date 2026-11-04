@@ -3,12 +3,14 @@ package com.wenxin2.marioverse.blocks.entities;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -43,7 +45,7 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public boolean isWaxed;
     public UUID uuid;
     public UUID warpUuid;
-    public static final Map<UUID, BlockPos> WARP_LOCATIONS = new HashMap<>();
+    public static final Map<UUID, Set<GlobalPos>> WARP_LOCATIONS = new HashMap<>();
     public static final Map<Level, Set<BlockPos>> LOADED_WARP_BLOCKS = new WeakHashMap<>();
     // Store a map to track whether entities have teleported or not
     public static final Map<Integer, Boolean> WARPED_ENTITIES = new HashMap<>();
@@ -190,7 +192,8 @@ public class BaseWarpBlockEntity extends BlockEntity {
     @Override
     public void onLoad() {
         super.onLoad();
-        WARP_LOCATIONS.put(this.getWarpUuid(), this.getBlockPos());
+        if (this.level != null)
+            BaseWarpBlockEntity.registerWarpLocation(this.getWarpUuid(), this.level, this.getBlockPos());
 
         if (this.level != null && !this.level.isClientSide)
             LOADED_WARP_BLOCKS.computeIfAbsent(this.level, level -> new HashSet<>()).add(this.getBlockPos().immutable());
@@ -237,8 +240,43 @@ public class BaseWarpBlockEntity extends BlockEntity {
             WARPED_ENTITIES.put(entity.getId(), true);
     }
 
-    public static BlockPos findMatchingUUID(UUID uuid) {
-        return WARP_LOCATIONS.getOrDefault(uuid, null);
+    public static void registerWarpLocation(@Nullable UUID uuid, Level level, BlockPos pos) {
+        if (uuid != null)
+            WARP_LOCATIONS.computeIfAbsent(uuid, key -> new HashSet<>()).add(GlobalPos.of(level.dimension(), pos.immutable()));
+    }
+
+    @Nullable
+    public static BlockPos findMatchingUUID(UUID uuid, Level level, BlockPos origin) {
+        Set<GlobalPos> positions = WARP_LOCATIONS.get(uuid);
+        if (positions == null)
+            return null;
+
+        BlockPos nearest = null;
+        double nearestDistance = Double.MAX_VALUE;
+        Iterator<GlobalPos> iterator = positions.iterator();
+
+        while (iterator.hasNext()) {
+            GlobalPos globalPos = iterator.next();
+            BlockPos pos = globalPos.pos();
+
+            if (globalPos.dimension() != level.dimension() || pos.equals(origin))
+                continue;
+
+            if (level.isLoaded(pos) && !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE && uuid.equals(warpBE.getWarpUuid()))) {
+                iterator.remove();
+                continue;
+            }
+
+            double distance = pos.distSqr(origin);
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearest = pos;
+            }
+        }
+
+        if (positions.isEmpty())
+            WARP_LOCATIONS.remove(uuid);
+        return nearest;
     }
 
     public void updateDestinationSubLevel(@Nullable BlockPos pos) {

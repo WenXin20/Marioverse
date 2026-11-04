@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.DyeColumnBlock;
+import com.wenxin2.marioverse.blocks.GoalPoleBlock;
 import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
@@ -701,6 +702,13 @@ public class MarioverseEventHandlers {
         if (player.isSpectator() && !level.isClientSide && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
                 && ((BlockWarpEntityHandler) player).spectatorWarp(player, level, pos, state, warpBE)) {
             event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            return;
+        }
+
+        if (state.getBlock() instanceof GoalPoleBlock goalPole && goalPole.canResetFlag(state, player, event.getHand())) {
+            goalPole.resetFlag(state, level, pos);
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             event.setCanceled(true);
             return;
         }

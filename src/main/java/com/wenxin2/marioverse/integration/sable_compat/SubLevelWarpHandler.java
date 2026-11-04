@@ -207,7 +207,7 @@ public class SubLevelWarpHandler {
         }
 
         if ((destination == null || !(level.getBlockEntity(destination) instanceof BaseWarpBlockEntity)) && warpBE.getUUID() != null) {
-            destination = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID());
+            destination = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID(), level, warpBE.getBlockPos());
 
             if (destination != null && level.getBlockEntity(destination) instanceof BaseWarpBlockEntity) {
                 warpBE.destinationPos = destination;

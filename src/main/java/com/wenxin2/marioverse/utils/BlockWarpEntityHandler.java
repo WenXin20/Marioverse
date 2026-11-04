@@ -265,8 +265,8 @@ public interface BlockWarpEntityHandler {
             if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))
                 WarpLinkParticles.spawnWarpTransition(serverLevel, pos, state, warpPos, warpState);
         } else if (warpBE.getUUID() != null && warpBE.getWarpUuid() != null
-                && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID()) != null) {
-            warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID());
+                && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID(), level, pos) != null) {
+            warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID(), level, pos);
             BlockState warpState = level.getBlockState(warpPos);
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
             Vec3 startPos = entity.position();

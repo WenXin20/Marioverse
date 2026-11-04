@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -471,7 +470,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 UUID uuid = UUID.randomUUID();
                 pipeBE.setUUID(uuid);
                 pipeBE.setChanged();
-                BaseWarpBlockEntity.WARP_LOCATIONS.put(uuid, pos);
+                BaseWarpBlockEntity.registerWarpLocation(uuid, serverWorld, pos);
             }
 
             if (pipeBE.hasWaterSpout() && state.getValue(FACING) == Direction.UP && serverWorld.dimension() != Level.NETHER) {

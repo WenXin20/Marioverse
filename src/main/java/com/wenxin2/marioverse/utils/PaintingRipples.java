@@ -22,11 +22,12 @@ public class PaintingRipples {
     private static final Map<Entity, Deque<Long>> RIPPLE_STARTS = Collections.synchronizedMap(new WeakHashMap<>());
 
     public static boolean isRipplePainting(Entity entity) {
-        if (entity instanceof Painting)
-            return true;
+        return entity instanceof Painting || PaintingRipples.isRipplePaintingType(entity.getType());
+    }
 
-        EntityType<?> type = entity.getType();
-        return type == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
+    public static boolean isRipplePaintingType(EntityType<?> type) {
+        return type == EntityType.PAINTING
+                || type == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
                 || type == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
                 || type == CompatRegistry.IMMERSIVE_GRAFFITI.get()
                 || type == CompatRegistry.IMMERSIVE_PAINTING.get()
