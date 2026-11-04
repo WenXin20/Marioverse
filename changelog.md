@@ -114,6 +114,7 @@
 - Improved riding ice cubes, mobs & players can now move with it when it slides
 - Improved ice cube texture
 - Improved ice cube sliding to slide up stairs and slabs
+- Updated structures to use some of the new blocks
 - Fixed the super star shader not working with armor or curios
 - Fixed the super star mob not applying its effects to mobs that cannot be pushed
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
