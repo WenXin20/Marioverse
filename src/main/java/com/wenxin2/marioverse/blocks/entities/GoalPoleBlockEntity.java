@@ -59,10 +59,13 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     private boolean playedDisappearAnim;
     private boolean renderWonderFlag;
     private boolean renderAmericanFlag;
-    private long flagRaiseStart = Long.MIN_VALUE / 2;
-    private float flagRaiseFrom;
-    private float flagRaiseTo;
-    private boolean flagLowering;
+    private long flagAnimStart = Long.MIN_VALUE / 2;
+    private float flagPreFrom;
+    private float flagSwapOffset;
+    private float flagFrom;
+    private float flagTo;
+    private boolean flagSwap;
+    private boolean pendingSwapPoof;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -121,11 +124,13 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.playedDisappearAnim = tag.getBoolean("playedDisappearAnim");
         this.renderWonderFlag = tag.getBoolean("renderWonderFlag");
         this.renderAmericanFlag = tag.getBoolean("renderAmericanFlag");
-        if (tag.contains("flagRaiseStart"))
-            this.flagRaiseStart = tag.getLong("flagRaiseStart");
-        this.flagRaiseFrom = tag.getFloat("flagRaiseFrom");
-        this.flagRaiseTo = tag.getFloat("flagRaiseTo");
-        this.flagLowering = tag.getBoolean("flagLowering");
+        if (tag.contains("flagAnimStart"))
+            this.flagAnimStart = tag.getLong("flagAnimStart");
+        this.flagPreFrom = tag.getFloat("flagPreFrom");
+        this.flagSwapOffset = tag.getFloat("flagSwapOffset");
+        this.flagFrom = tag.getFloat("flagFrom");
+        this.flagTo = tag.getFloat("flagTo");
+        this.flagSwap = tag.getBoolean("flagSwap");
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
@@ -295,55 +300,54 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return this.renderAmericanFlag;
     }
 
-    public void startFlagRaise(long gameTime, float from, float to) {
-        this.flagRaiseStart = gameTime;
-        this.flagRaiseFrom = Math.max(from, 0.0F);
-        this.flagRaiseTo = Mth.clamp(to, 0.0F, this.flagRaiseFrom);
-        this.flagLowering = false;
-        this.markUpdated();
+    public void startFlagSwap(long gameTime, float preFrom, float swapOffset, float from, float to) {
+        this.startFlagAnimation(gameTime, true, preFrom, swapOffset, from, to);
     }
 
-    public void startFlagLower(long gameTime, float to) {
-        this.flagRaiseStart = gameTime;
-        this.flagRaiseFrom = 0.0F;
-        this.flagRaiseTo = Math.max(to, 0.0F);
-        this.flagLowering = true;
-        this.markUpdated();
+    public void startFlagMove(long gameTime, float from, float to) {
+        this.startFlagAnimation(gameTime, false, from, from, from, to);
     }
 
     public float getFlagMaxOffset() {
-        return Math.max(this.flagRaiseFrom, this.flagRaiseTo);
+        return Math.max(Math.max(this.flagPreFrom, this.flagSwapOffset), Math.max(this.flagFrom, this.flagTo));
     }
 
-    public float getFlagRaiseElapsed(float partialTick) {
+    public float getFlagElapsed(float partialTick) {
         if (this.level == null)
             return Float.MAX_VALUE;
-        return (float) (this.level.getGameTime() - this.flagRaiseStart) + partialTick;
+        return (float) (this.level.getGameTime() - this.flagAnimStart) + partialTick;
     }
 
-    public boolean isShowingOriginalFlag(float partialTick) {
-        return !this.flagLowering && this.getFlagRaiseElapsed(partialTick) < FLAG_DISAPPEAR_TICKS;
-    }
-
-    public float getFlagRaiseOffset(float partialTick) {
-        float elapsed = this.getFlagRaiseElapsed(partialTick);
-        float delay = this.flagLowering ? 0.0F : FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS;
-        if (elapsed < FLAG_DISAPPEAR_TICKS && !this.flagLowering)
+    public float getFlagPreMoveTicks() {
+        if (!this.flagSwap || this.flagPreFrom == this.flagSwapOffset)
             return 0.0F;
-        if (elapsed < delay)
-            return this.flagRaiseFrom;
-
-        float distance = this.flagRaiseTo - this.flagRaiseFrom;
-        float moveTicks = Math.max(Math.abs(distance) * FLAG_RISE_TICKS_PER_BLOCK, 1.0F);
-        float progress = Mth.clamp((elapsed - delay) / moveTicks, 0.0F, 1.0F);
-        float eased = this.flagLowering ? progress * progress : 1.0F - (1.0F - progress) * (1.0F - progress);
-        return this.flagRaiseFrom + distance * eased;
+        return GoalPoleBlockEntity.getMoveTicks(this.flagPreFrom, this.flagSwapOffset);
     }
 
-    public float getFlagRaiseScale(float partialTick) {
-        if (this.flagLowering)
+    public boolean isSwappingOutFlag(float partialTick) {
+        return this.flagSwap && this.getFlagElapsed(partialTick) < this.getFlagPreMoveTicks() + FLAG_DISAPPEAR_TICKS;
+    }
+
+    public float getFlagOffset(float partialTick) {
+        float elapsed = this.getFlagElapsed(partialTick);
+        if (!this.flagSwap)
+            return GoalPoleBlockEntity.getMovedOffset(this.flagFrom, this.flagTo, elapsed);
+
+        float preMoveTicks = this.getFlagPreMoveTicks();
+        if (elapsed < preMoveTicks)
+            return GoalPoleBlockEntity.getMovedOffset(this.flagPreFrom, this.flagSwapOffset, elapsed);
+        if (elapsed < preMoveTicks + FLAG_DISAPPEAR_TICKS)
+            return this.flagSwapOffset;
+        return GoalPoleBlockEntity.getMovedOffset(this.flagFrom, this.flagTo,
+                elapsed - preMoveTicks - FLAG_DISAPPEAR_TICKS - FLAG_APPEAR_TICKS);
+    }
+
+    public float getFlagScale(float partialTick) {
+        if (!this.flagSwap)
             return 1.0F;
-        float elapsed = this.getFlagRaiseElapsed(partialTick);
+        float elapsed = this.getFlagElapsed(partialTick) - this.getFlagPreMoveTicks();
+        if (elapsed < 0.0F)
+            return 1.0F;
         if (elapsed < FLAG_DISAPPEAR_TICKS)
             return GoalPoleBlockEntity.sampleKeyframes(DISAPPEAR_TIMES, DISAPPEAR_SCALES, elapsed / FLAG_DISAPPEAR_TICKS);
         if (elapsed < FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS)
@@ -351,15 +355,49 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return 1.0F;
     }
 
+    public void setPendingSwapPoof(boolean pendingSwapPoof) {
+        this.pendingSwapPoof = pendingSwapPoof;
+    }
+
+    public boolean hasPendingSwapPoof() {
+        return this.pendingSwapPoof;
+    }
+
+    private void startFlagAnimation(long gameTime, boolean swap, float preFrom, float swapOffset, float from, float to) {
+        this.flagAnimStart = gameTime;
+        this.flagSwap = swap;
+        this.flagPreFrom = Math.max(preFrom, 0.0F);
+        this.flagSwapOffset = Math.max(swapOffset, 0.0F);
+        this.flagFrom = Math.max(from, 0.0F);
+        this.flagTo = Math.max(to, 0.0F);
+        this.pendingSwapPoof = false;
+        this.markUpdated();
+    }
+
     private void writeSyncedData(CompoundTag tag) {
         tag.putBoolean("playedAppearAnim", this.playedAppearAnim);
         tag.putBoolean("playedDisappearAnim", this.playedDisappearAnim);
         tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
         tag.putBoolean("renderAmericanFlag", this.renderAmericanFlag);
-        tag.putLong("flagRaiseStart", this.flagRaiseStart);
-        tag.putFloat("flagRaiseFrom", this.flagRaiseFrom);
-        tag.putFloat("flagRaiseTo", this.flagRaiseTo);
-        tag.putBoolean("flagLowering", this.flagLowering);
+        tag.putLong("flagAnimStart", this.flagAnimStart);
+        tag.putFloat("flagPreFrom", this.flagPreFrom);
+        tag.putFloat("flagSwapOffset", this.flagSwapOffset);
+        tag.putFloat("flagFrom", this.flagFrom);
+        tag.putFloat("flagTo", this.flagTo);
+        tag.putBoolean("flagSwap", this.flagSwap);
+    }
+
+    private static float getMoveTicks(float from, float to) {
+        return Math.max(Math.abs(to - from) * FLAG_RISE_TICKS_PER_BLOCK, 1.0F);
+    }
+
+    private static float getMovedOffset(float from, float to, float elapsed) {
+        if (elapsed <= 0.0F)
+            return from;
+        float distance = to - from;
+        float progress = Mth.clamp(elapsed / GoalPoleBlockEntity.getMoveTicks(from, to), 0.0F, 1.0F);
+        float eased = distance > 0.0F ? progress * progress : 1.0F - (1.0F - progress) * (1.0F - progress);
+        return from + distance * eased;
     }
 
     private static float sampleKeyframes(float[] times, float[] values, float time) {

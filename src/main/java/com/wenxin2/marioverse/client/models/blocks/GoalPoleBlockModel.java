@@ -66,7 +66,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
                 return this.AMERICAN_FLAG_SMALL_TEXTURE;
             else if (!blockEntity.hasWonderFlag() && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 return this.CLASSIC_FLAG_SMALL_TEXTURE;
-            else if (state.getValue(GoalPoleBlock.LOWERED) && !GoalPoleBlockModel.isShowingOriginalFlag(blockEntity))
+            else if (GoalPoleBlockModel.showsLoweredFlag(blockEntity))
                 return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, texturePath + colorName + "_flag_small.png");
             else if (blockEntity.hasWonderFlag())
                 return this.WONDER_FLAG_SMALL_TEXTURE;
@@ -78,7 +78,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         else if (!blockEntity.hasWonderFlag() && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
             return this.CLASSIC_FLAG_TEXTURE;
 
-        else if (state.getValue(GoalPoleBlock.LOWERED) && !GoalPoleBlockModel.isShowingOriginalFlag(blockEntity)) {
+        else if (GoalPoleBlockModel.showsLoweredFlag(blockEntity)) {
             if (blockEntity.hasWonderFlag() && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 return this.WONDER_FLAG_TEXTURE;
             else if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
@@ -111,27 +111,29 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         Optional<GeoBone> poleBone = getBone("pole");
         poleBone.ifPresent(geoBone -> geoBone.setRotY((float) Math.toRadians(rotationDegrees)));
 
-        if (GoalPoleBlockModel.usesAnimatedFlag(animatable)) {
-            float partialTick = animationState.getPartialTick();
-            float offset = animatable.getFlagRaiseOffset(partialTick);
-            float scale = animatable.getFlagRaiseScale(partialTick);
+        boolean animated = GoalPoleBlockModel.usesAnimatedFlag(animatable);
+        float partialTick = animationState.getPartialTick();
+        float offset = animated ? animatable.getFlagOffset(partialTick) : 0.0F;
+        float scale = animated ? animatable.getFlagScale(partialTick) : 1.0F;
 
-            getBone("flag").ifPresent(geoBone -> {
-                geoBone.setPosY(-offset * 16.0F);
-                geoBone.setScaleX(scale);
-                geoBone.setScaleY(scale);
-                geoBone.setScaleZ(scale);
-            });
-        }
+        getBone("flag").ifPresent(geoBone -> {
+            geoBone.setPosX(0.0F);
+            geoBone.setPosY(-offset * 16.0F);
+            geoBone.setPosZ(0.0F);
+            geoBone.setScaleX(scale);
+            geoBone.setScaleY(scale);
+            geoBone.setScaleZ(scale);
+        });
     }
 
-    public static boolean isShowingOriginalFlag(GoalPoleBlockEntity blockEntity) {
-        return GoalPoleBlockModel.usesAnimatedFlag(blockEntity) && blockEntity.isShowingOriginalFlag(0.0F);
+    public static boolean showsLoweredFlag(GoalPoleBlockEntity blockEntity) {
+        boolean lowered = blockEntity.getBlockState().getValue(GoalPoleBlock.LOWERED);
+        if (GoalPoleBlockModel.usesAnimatedFlag(blockEntity) && blockEntity.isSwappingOutFlag(0.0F))
+            return !lowered;
+        return lowered;
     }
 
     public static boolean usesAnimatedFlag(GoalPoleBlockEntity blockEntity) {
-        BlockState state = blockEntity.getBlockState();
-        return state.getValue(GoalPoleBlock.LOWERED)
-                && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE;
+        return blockEntity.getBlockState().getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE;
     }
 }

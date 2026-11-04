@@ -211,6 +211,17 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
             if (goalPoleBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 goalPoleBE.stopTriggeredAnim("appear_controller", "appear");
             else goalPoleBE.stopTriggeredAnim("switch_controller", "switch");
+
+            if (goalPoleBE.hasPendingSwapPoof()) {
+                int ticksUntilSwap = Mth.ceil(goalPoleBE.getFlagPreMoveTicks() - goalPoleBE.getFlagElapsed(0.0F));
+                if (ticksUntilSwap > 0)
+                    serverWorld.scheduleTick(pos, this, ticksUntilSwap);
+                else {
+                    goalPoleBE.setPendingSwapPoof(false);
+                    ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld,
+                            pos.below(1 + Mth.floor(goalPoleBE.getFlagOffset(0.0F))), 0.5D, 10);
+                }
+            }
         }
         super.tick(state, serverWorld, pos, random);
     }
@@ -238,18 +249,15 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 }
 
                 if (level.getBlockEntity(posTop) != null && level.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
-                    goalPoleTopBE.markUpdated();
-                    if (level instanceof ServerLevel serverWorld)
-                        ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 0.5D, 10);
-
-                    if ((goalPoleTopBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
-                        goalPoleTopBE.stopTriggeredAnim("appear_controller", "appear");
-                        goalPoleTopBE.startFlagLower(level.getGameTime(), (float) (flagRestTop - flagStartTop));
-                    } else {
-                        goalPoleTopBE.stopTriggeredAnim("switch_controller", "switch");
-                        goalPoleTopBE.startFlagRaise(level.getGameTime(),
-                                (float) (flagRestTop - flagStartTop),
-                                (float) (flagRestTop - flagTargetTop));
+                    float currentOffset = goalPoleTopBE.getFlagOffset(0.0F);
+                    if (goalPoleTopBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
+                        goalPoleTopBE.startFlagMove(level.getGameTime(), currentOffset, (float) (flagRestTop - flagStartTop));
+                    else {
+                        if (level instanceof ServerLevel serverWorld)
+                            ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld,
+                                    posTop.below(1 + Mth.floor(currentOffset)), 0.5D, 10);
+                        goalPoleTopBE.startFlagSwap(level.getGameTime(), currentOffset, currentOffset,
+                                (float) (flagRestTop - flagStartTop), (float) (flagRestTop - flagTargetTop));
                     }
                 }
 
@@ -296,37 +304,32 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         BlockPos posTop = this.findTopOfGoalPole(world, pos);
         BlockState stateTop = world.getBlockState(posTop);
 
-        if (world instanceof ServerLevel serverWorld) {
-            ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 0.5D, 10);
+        if (world instanceof ServerLevel)
             this.updateConnectedFlags(world, pos, false);
-        }
 
         if (world.getBlockEntity(posTop) != null && world.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
-            goalPoleTopBE.markUpdated();
-            if ((goalPoleTopBE.isAmericanFlag() || stateTop.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
-                    && stateTop.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
-                goalPoleTopBE.stopTriggeredAnim("disappear_controller", "disappear");
-                goalPoleTopBE.stopTriggeredAnim("appear_controller", "appear");
-                goalPoleTopBE.triggerAnim("appear_controller", "appear");
-                goalPoleTopBE.updateConnectedDisappearFlags(world, posTop, false);
+            float currentOffset = goalPoleTopBE.getFlagOffset(0.0F);
+            if (goalPoleTopBE.isAmericanFlag() || stateTop.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
+                goalPoleTopBE.startFlagMove(world.getGameTime(), currentOffset, 0.0F);
+            else {
+                float lowestOffset = this.getLowestFlagOffset(posTop, this.findBottomOfGoalPole(world, pos));
+                goalPoleTopBE.startFlagSwap(world.getGameTime(), currentOffset, lowestOffset, lowestOffset, 0.0F);
+                goalPoleTopBE.setPendingSwapPoof(true);
+                world.scheduleTick(posTop, this, Math.max(Mth.ceil(goalPoleTopBE.getFlagPreMoveTicks()), 1));
             }
-            world.scheduleTick(posTop, this, 20);
         }
 
-        if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
+        if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE)
             goalPoleBE.markUpdated();
-
-            if ((goalPoleBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
-                    && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
-                goalPoleBE.stopTriggeredAnim("disappear_controller", "disappear");
-                goalPoleBE.triggerAnim("appear_controller", "appear");
-                goalPoleBE.updateConnectedDisappearFlags(world, pos, false);
-            } else if (!goalPoleBE.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
-                goalPoleBE.triggerAnim("switch_controller", "switch");
-        }
 
         world.scheduleTick(pos, this, 20);
         world.setBlock(pos, state.setValue(LOWERED, false), 3);
+    }
+
+    private float getLowestFlagOffset(BlockPos posTop, BlockPos posBottom) {
+        double flagRestTop = posTop.getY() + GoalPoleBlock.FLAG_TOP_OFFSET;
+        double flagStartTop = Math.min(posBottom.getY() + GoalPoleBlock.FLAG_HEIGHT + GoalPoleBlock.FLAG_BOTTOM_MARGIN, flagRestTop);
+        return (float) (flagRestTop - flagStartTop);
     }
 
     private BlockPos findTopOfGoalPole(Level world, BlockPos pos) {
