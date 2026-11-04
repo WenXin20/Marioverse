@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.PaintingRipples;
 import com.wenxin2.marioverse.utils.WarpCost;
+import com.wenxin2.marioverse.utils.WarpLinkParticles;
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
@@ -44,7 +45,7 @@ public class SubLevelWarpHandler {
     private static final Map<UUID, PendingLoad> PENDING_LOADS = new HashMap<>();
     private static final int PENDING_LOAD_TIMEOUT = 300;
 
-    private record WarpPoint(Vec3 center, Vec3 normal) {}
+    private record WarpPoint(BlockPos pos, Vec3 center, Vec3 normal) {}
 
     private record EntryMotion(Vec3 direction, Vector3d velocity) {}
 
@@ -146,6 +147,7 @@ public class SubLevelWarpHandler {
 
             WarpCost.charge(passengers, warpCost);
             PENDING_LOADS.remove(sub.getUniqueId());
+            WarpLinkParticles.spawnWarpTransition(level, pos, state, exit.pos(), level.getBlockState(exit.pos()));
 
             int cooldown = isPipe ? ConfigRegistry.WARP_PIPE_COOLDOWN.get()
                     : state.getBlock() instanceof DoorBlock ? ConfigRegistry.WARP_DOOR_COOLDOWN.get()
@@ -244,22 +246,22 @@ public class SubLevelWarpHandler {
             facing = state.getValue(TrapDoorBlock.FACING);
         else return null;
 
-        return SubLevelWarpHandler.toWorldWarpPoint(level, center, facing);
+        return SubLevelWarpHandler.toWorldWarpPoint(level, pos, center, facing);
     }
 
     @Nullable
     private static WarpPoint getEntityWarpPoint(Level level, Entity entity) {
-        return SubLevelWarpHandler.toWorldWarpPoint(level, entity.position(), entity.getDirection());
+        return SubLevelWarpHandler.toWorldWarpPoint(level, entity.blockPosition(), entity.position(), entity.getDirection());
     }
 
     @Nullable
-    private static WarpPoint toWorldWarpPoint(Level level, Vec3 center, Direction facing) {
+    private static WarpPoint toWorldWarpPoint(Level level, BlockPos pos, Vec3 center, Direction facing) {
         Vec3 worldCenter = SableProvider.toWorldVec(level, center);
         Vec3 worldFacing = SableProvider.toWorldVec(level, center.add(facing.getStepX(), facing.getStepY(), facing.getStepZ()));
 
         if (worldCenter == null || worldFacing == null)
             return null;
-        return new WarpPoint(worldCenter, worldFacing.subtract(worldCenter).normalize());
+        return new WarpPoint(pos.immutable(), worldCenter, worldFacing.subtract(worldCenter).normalize());
     }
 
     private static List<Player> getPassengers(ServerLevel level, AABB bounds) {
