@@ -478,6 +478,7 @@ public class TagRegistry {
     public static final TagKey<EntityType<?>> SPINY_CHEEP_CHEEP_CAN_ATTACK = entityTypeTags("spiny_cheep_cheep_can_attack");
     public static final TagKey<EntityType<?>> SPLUNKIN_CAN_ATTACK = entityTypeTags("splunkin_can_attack");
     public static final TagKey<EntityType<?>> SUPER_STAR_IMMUNE = entityTypeTags("super_star_immune");
+    public static final TagKey<EntityType<?>> TRAVELS_HEAD_FIRST_IN_PIPES = entityTypeTags("travels_head_first_in_pipes");
     public static final TagKey<EntityType<?>> WARP_PIPE_CANNOT_SPAWN = entityTypeTags("warp_pipe_cannot_spawn");
 
     private static TagKey<BannerPattern> bannerPatternTags(String name) {

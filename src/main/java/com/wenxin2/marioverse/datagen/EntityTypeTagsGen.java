@@ -1002,6 +1002,14 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.SNOW_POKEY_ENTITIES)
                 .add(EntityRegistry.PORCUPUFFER.get());
 
+        tag(TagRegistry.TRAVELS_HEAD_FIRST_IN_PIPES)
+                .add(EntityRegistry.FIRE_GOOMBA.get())
+                .add(EntityRegistry.GOOMBA.get())
+                .add(EntityRegistry.HEFTY_GOOMBA.get())
+                .add(EntityRegistry.MEGA_GOOMBA.get())
+                .add(EntityRegistry.MINI_GOOMBA.get())
+                .add(EntityRegistry.SPLUNKIN.get());
+
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN);
     }
 }

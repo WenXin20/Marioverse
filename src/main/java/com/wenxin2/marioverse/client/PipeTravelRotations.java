@@ -3,9 +3,8 @@ package com.wenxin2.marioverse.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
-import com.wenxin2.marioverse.entities.GoombaEntity;
-import com.wenxin2.marioverse.entities.SplunkinEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import java.util.WeakHashMap;
 import net.minecraft.util.Mth;
@@ -95,7 +94,7 @@ public class PipeTravelRotations {
     }
 
     private static boolean travelsHeadFirst(LivingEntity entity) {
-        return entity.getBbHeight() > entity.getBbWidth() || entity instanceof GoombaEntity || entity instanceof SplunkinEntity;
+        return entity.getBbHeight() > entity.getBbWidth() || entity.getType().is(TagRegistry.TRAVELS_HEAD_FIRST_IN_PIPES);
     }
 
     private static class PipeRotation {
