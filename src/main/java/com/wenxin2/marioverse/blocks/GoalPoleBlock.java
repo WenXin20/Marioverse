@@ -24,7 +24,6 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -51,7 +50,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -217,51 +215,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
         super.tick(state, serverWorld, pos, random);
     }
 
-    @NotNull
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (player.getType().is(TagRegistry.CAN_LOWER_FLAGS) && state.getValue(LOWERED)
-                && player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
-            BlockPos posTop = this.findTopOfGoalPole(world, pos);
-            BlockState stateTop = world.getBlockState(posTop);
-
-            if (world instanceof ServerLevel serverWorld) {
-                ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 0.5D, 10);
-                this.updateConnectedFlags(world, pos, false);
-            }
-
-            if (world.getBlockEntity(posTop) != null && world.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
-                goalPoleTopBE.markUpdated();
-                if ((goalPoleTopBE.isAmericanFlag() || stateTop.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
-                        && stateTop.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
-                    goalPoleTopBE.stopTriggeredAnim("disappear_controller", "disappear");
-                    goalPoleTopBE.stopTriggeredAnim("appear_controller", "appear");
-                    goalPoleTopBE.triggerAnim("appear_controller", "appear");
-                    goalPoleTopBE.updateConnectedDisappearFlags(world, posTop, false);
-                }
-                world.scheduleTick(posTop, this, 20);
-            }
-
-            if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
-                goalPoleBE.markUpdated();
-
-                if ((goalPoleBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
-                        && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
-                    goalPoleBE.stopTriggeredAnim("disappear_controller", "disappear");
-                    goalPoleBE.triggerAnim("appear_controller", "appear");
-                    goalPoleBE.updateConnectedDisappearFlags(world, pos, false);
-                } else if (!goalPoleBE.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
-                    goalPoleBE.triggerAnim("switch_controller", "switch");
-            }
-
-            world.scheduleTick(pos, this, 20);
-            world.setBlock(pos, state.setValue(LOWERED, false), 3);
-            return InteractionResult.SUCCESS;
-        }
-
-        return super.useWithoutItem(state, world, pos, player, hitResult);
-    }
-
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity.getType().is(TagRegistry.CAN_LOWER_FLAGS)) {
@@ -290,8 +243,8 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                         ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 0.5D, 10);
 
                     if ((goalPoleTopBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
-                        goalPoleTopBE.triggerAnim("disappear_controller", "disappear");
-                        goalPoleTopBE.updateConnectedDisappearFlags(level, posTop, false);
+                        goalPoleTopBE.stopTriggeredAnim("appear_controller", "appear");
+                        goalPoleTopBE.startFlagLower(level.getGameTime(), (float) (flagRestTop - flagStartTop));
                     } else {
                         goalPoleTopBE.stopTriggeredAnim("switch_controller", "switch");
                         goalPoleTopBE.startFlagRaise(level.getGameTime(),
@@ -300,14 +253,8 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                     }
                 }
 
-                if (level.getBlockEntity(pos) != null && level.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
+                if (level.getBlockEntity(pos) != null && level.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE)
                     goalPoleBE.markUpdated();
-
-                    if ((goalPoleBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
-                        goalPoleBE.triggerAnim("disappear_controller", "disappear");
-                        goalPoleBE.updateConnectedDisappearFlags(level, pos, false);
-                    }
-                }
 
                 level.scheduleTick(pos, this, 20);
                 level.setBlock(pos, state.setValue(LOWERED, true), 3);
@@ -337,6 +284,49 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
         super.appendHoverText(stack, tooltipContext, list, options);
         list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+    }
+
+    public boolean canResetFlag(BlockState state, Player player, InteractionHand hand) {
+        return hand == InteractionHand.MAIN_HAND && player.isSecondaryUseActive()
+                && player.getType().is(TagRegistry.CAN_LOWER_FLAGS) && state.getValue(LOWERED)
+                && player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty();
+    }
+
+    public void resetFlag(BlockState state, Level world, BlockPos pos) {
+        BlockPos posTop = this.findTopOfGoalPole(world, pos);
+        BlockState stateTop = world.getBlockState(posTop);
+
+        if (world instanceof ServerLevel serverWorld) {
+            ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld, posTop.below(), 0.5D, 10);
+            this.updateConnectedFlags(world, pos, false);
+        }
+
+        if (world.getBlockEntity(posTop) != null && world.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
+            goalPoleTopBE.markUpdated();
+            if ((goalPoleTopBE.isAmericanFlag() || stateTop.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
+                    && stateTop.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
+                goalPoleTopBE.stopTriggeredAnim("disappear_controller", "disappear");
+                goalPoleTopBE.stopTriggeredAnim("appear_controller", "appear");
+                goalPoleTopBE.triggerAnim("appear_controller", "appear");
+                goalPoleTopBE.updateConnectedDisappearFlags(world, posTop, false);
+            }
+            world.scheduleTick(posTop, this, 20);
+        }
+
+        if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
+            goalPoleBE.markUpdated();
+
+            if ((goalPoleBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())
+                    && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE) {
+                goalPoleBE.stopTriggeredAnim("disappear_controller", "disappear");
+                goalPoleBE.triggerAnim("appear_controller", "appear");
+                goalPoleBE.updateConnectedDisappearFlags(world, pos, false);
+            } else if (!goalPoleBE.isAmericanFlag() && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get())
+                goalPoleBE.triggerAnim("switch_controller", "switch");
+        }
+
+        world.scheduleTick(pos, this, 20);
+        world.setBlock(pos, state.setValue(LOWERED, false), 3);
     }
 
     private BlockPos findTopOfGoalPole(Level world, BlockPos pos) {
@@ -430,30 +420,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 }
             }
 
-            if (isFlagLowered) {
-                if (world.getBlockState(pos).getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get()
-                        || (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity
-                        && blockEntity.isAmericanFlag())) {
-                    if (world.getBlockState(pos).getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
-                        if (world.getBlockState(pos.above()).getValue(COLUMN) == ColumnBlockStates.MIDDLE
-                                && world.getBlockState(pos.above(2)).getValue(COLUMN) == ColumnBlockStates.MIDDLE
-                                && world.getBlockEntity(pos.above()) instanceof GoalPoleBlockEntity goalPoleBE) {
-                            goalPoleBE.stopTriggeredAnim("disappear_controller", "disappear");
-                            goalPoleBE.triggerAnim("appear_controller", "appear");
-                            world.setBlock(pos.above(), world.getBlockState(pos.above()).setValue(FLAG, true), 3);
-                        }
-                    }
-
-                    if (world.getBlockState(pos).getValue(COLUMN) == ColumnBlockStates.MIDDLE) {
-                        if (world.getBlockState(pos.above()).getValue(COLUMN) == ColumnBlockStates.MIDDLE
-                                && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
-                            goalPoleBE.stopTriggeredAnim("disappear_controller", "disappear");
-                            goalPoleBE.triggerAnim("appear_controller", "appear");
-                            world.setBlock(pos, world.getBlockState(pos).setValue(FLAG, true), 3);
-                        }
-                    }
-                }
-            }
             posAbove = posAbove.above();
         }
 
@@ -463,18 +429,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
             if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity)
                 blockEntity.markUpdated();
 
-            if (isFlagLowered) {
-                if (world.getBlockState(pos).getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get()
-                        || (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof GoalPoleBlockEntity blockEntity
-                        && blockEntity.isAmericanFlag())) {
-                    if (world.getBlockState(pos).getValue(COLUMN) == ColumnBlockStates.BOTTOM
-                            || world.getBlockState(posBelow).getValue(COLUMN) == ColumnBlockStates.BOTTOM) {
-                        if (world.getBlockState(posBelow.above()).getValue(COLUMN) == ColumnBlockStates.MIDDLE
-                                && world.getBlockState(posBelow.above(2)).getValue(COLUMN) == ColumnBlockStates.MIDDLE)
-                            world.setBlock(posBelow.above(), world.getBlockState(posBelow.above()).setValue(FLAG, true), 3);
-                    }
-                }
-            }
             posBelow = posBelow.below();
         }
     }

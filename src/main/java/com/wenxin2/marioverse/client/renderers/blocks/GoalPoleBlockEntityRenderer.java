@@ -25,7 +25,7 @@ public class GoalPoleBlockEntityRenderer extends GeoBlockRenderer<GoalPoleBlockE
 
         if (state.getValue(GoalPoleBlock.FLAG) && animatable.getLevel() != null) {
             int light = packedLight;
-            if (GoalPoleBlockModel.usesRisingFlag(animatable)) {
+            if (GoalPoleBlockModel.usesAnimatedFlag(animatable)) {
                 int blocksDown = Mth.floor(animatable.getFlagRaiseOffset(partialTicks) + 0.5F);
                 if (blocksDown > 0)
                     light = LevelRenderer.getLightColor(animatable.getLevel(), animatable.getBlockPos().below(blocksDown));
@@ -40,10 +40,10 @@ public class GoalPoleBlockEntityRenderer extends GeoBlockRenderer<GoalPoleBlockE
         BlockState state = animatable.getBlockState();
 
         if (state.getValue(GoalPoleBlock.FLAG)) {
-            if (GoalPoleBlockModel.usesRisingFlag(animatable))
+            if (GoalPoleBlockModel.usesAnimatedFlag(animatable))
                 return new AABB(
                         animatable.getBlockPos().getX() - 0.8,
-                        animatable.getBlockPos().getY() - 0.8 - animatable.getFlagRaiseFrom(),
+                        animatable.getBlockPos().getY() - 0.8 - animatable.getFlagMaxOffset(),
                         animatable.getBlockPos().getZ() - 0.8,
                         animatable.getBlockPos().getX() + 1.8,
                         animatable.getBlockPos().getY() + 0.6,

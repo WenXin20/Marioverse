@@ -79,8 +79,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
             return this.CLASSIC_FLAG_TEXTURE;
 
         else if (state.getValue(GoalPoleBlock.LOWERED) && !GoalPoleBlockModel.isShowingOriginalFlag(blockEntity)) {
-            if (blockEntity.hasWonderFlag() && state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE
-                    && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
+            if (blockEntity.hasWonderFlag() && block == BlockRegistry.CLASSIC_GOAL_POLE.get())
                 return this.WONDER_FLAG_TEXTURE;
             else if (state.getValue(GoalPoleBlock.COLUMN) == ColumnBlockStates.MIDDLE)
                 return this.BOWSER_FLAG_TEXTURE;
@@ -112,7 +111,7 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
         Optional<GeoBone> poleBone = getBone("pole");
         poleBone.ifPresent(geoBone -> geoBone.setRotY((float) Math.toRadians(rotationDegrees)));
 
-        if (GoalPoleBlockModel.usesRisingFlag(animatable)) {
+        if (GoalPoleBlockModel.usesAnimatedFlag(animatable)) {
             float partialTick = animationState.getPartialTick();
             float offset = animatable.getFlagRaiseOffset(partialTick);
             float scale = animatable.getFlagRaiseScale(partialTick);
@@ -127,14 +126,12 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
     }
 
     public static boolean isShowingOriginalFlag(GoalPoleBlockEntity blockEntity) {
-        return GoalPoleBlockModel.usesRisingFlag(blockEntity) && blockEntity.isShowingOriginalFlag(0.0F);
+        return GoalPoleBlockModel.usesAnimatedFlag(blockEntity) && blockEntity.isShowingOriginalFlag(0.0F);
     }
 
-    public static boolean usesRisingFlag(GoalPoleBlockEntity blockEntity) {
+    public static boolean usesAnimatedFlag(GoalPoleBlockEntity blockEntity) {
         BlockState state = blockEntity.getBlockState();
         return state.getValue(GoalPoleBlock.LOWERED)
-                && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE
-                && !blockEntity.hasAmericanFlag()
-                && state.getBlock() != BlockRegistry.CLASSIC_GOAL_POLE.get();
+                && state.getValue(GoalPoleBlock.COLUMN) != ColumnBlockStates.MIDDLE;
     }
 }

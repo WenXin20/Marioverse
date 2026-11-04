@@ -62,6 +62,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     private long flagRaiseStart = Long.MIN_VALUE / 2;
     private float flagRaiseFrom;
     private float flagRaiseTo;
+    private boolean flagLowering;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -124,6 +125,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
             this.flagRaiseStart = tag.getLong("flagRaiseStart");
         this.flagRaiseFrom = tag.getFloat("flagRaiseFrom");
         this.flagRaiseTo = tag.getFloat("flagRaiseTo");
+        this.flagLowering = tag.getBoolean("flagLowering");
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
@@ -297,11 +299,20 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.flagRaiseStart = gameTime;
         this.flagRaiseFrom = Math.max(from, 0.0F);
         this.flagRaiseTo = Mth.clamp(to, 0.0F, this.flagRaiseFrom);
+        this.flagLowering = false;
         this.markUpdated();
     }
 
-    public float getFlagRaiseFrom() {
-        return this.flagRaiseFrom;
+    public void startFlagLower(long gameTime, float to) {
+        this.flagRaiseStart = gameTime;
+        this.flagRaiseFrom = 0.0F;
+        this.flagRaiseTo = Math.max(to, 0.0F);
+        this.flagLowering = true;
+        this.markUpdated();
+    }
+
+    public float getFlagMaxOffset() {
+        return Math.max(this.flagRaiseFrom, this.flagRaiseTo);
     }
 
     public float getFlagRaiseElapsed(float partialTick) {
@@ -311,24 +322,27 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     }
 
     public boolean isShowingOriginalFlag(float partialTick) {
-        return this.getFlagRaiseElapsed(partialTick) < FLAG_DISAPPEAR_TICKS;
+        return !this.flagLowering && this.getFlagRaiseElapsed(partialTick) < FLAG_DISAPPEAR_TICKS;
     }
 
     public float getFlagRaiseOffset(float partialTick) {
         float elapsed = this.getFlagRaiseElapsed(partialTick);
-        if (elapsed < FLAG_DISAPPEAR_TICKS)
+        float delay = this.flagLowering ? 0.0F : FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS;
+        if (elapsed < FLAG_DISAPPEAR_TICKS && !this.flagLowering)
             return 0.0F;
-        if (elapsed < FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS)
+        if (elapsed < delay)
             return this.flagRaiseFrom;
 
-        float distance = this.flagRaiseFrom - this.flagRaiseTo;
-        float riseTicks = Math.max(distance * FLAG_RISE_TICKS_PER_BLOCK, 1.0F);
-        float progress = Mth.clamp((elapsed - FLAG_DISAPPEAR_TICKS - FLAG_APPEAR_TICKS) / riseTicks, 0.0F, 1.0F);
-        float eased = 1.0F - (1.0F - progress) * (1.0F - progress);
-        return this.flagRaiseFrom - distance * eased;
+        float distance = this.flagRaiseTo - this.flagRaiseFrom;
+        float moveTicks = Math.max(Math.abs(distance) * FLAG_RISE_TICKS_PER_BLOCK, 1.0F);
+        float progress = Mth.clamp((elapsed - delay) / moveTicks, 0.0F, 1.0F);
+        float eased = this.flagLowering ? progress * progress : 1.0F - (1.0F - progress) * (1.0F - progress);
+        return this.flagRaiseFrom + distance * eased;
     }
 
     public float getFlagRaiseScale(float partialTick) {
+        if (this.flagLowering)
+            return 1.0F;
         float elapsed = this.getFlagRaiseElapsed(partialTick);
         if (elapsed < FLAG_DISAPPEAR_TICKS)
             return GoalPoleBlockEntity.sampleKeyframes(DISAPPEAR_TIMES, DISAPPEAR_SCALES, elapsed / FLAG_DISAPPEAR_TICKS);
@@ -345,6 +359,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         tag.putLong("flagRaiseStart", this.flagRaiseStart);
         tag.putFloat("flagRaiseFrom", this.flagRaiseFrom);
         tag.putFloat("flagRaiseTo", this.flagRaiseTo);
+        tag.putBoolean("flagLowering", this.flagLowering);
     }
 
     private static float sampleKeyframes(float[] times, float[] values, float time) {
