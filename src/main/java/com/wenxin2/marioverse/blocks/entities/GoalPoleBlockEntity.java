@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -42,6 +43,13 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     protected static final RawAnimation WINDY_RAIN = RawAnimation.begin().thenLoop("animation.goal_pole.windy_rain");
     protected static final RawAnimation WINDY_THUNDER = RawAnimation.begin().thenLoop("animation.goal_pole.windy_thunder");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    public static final int FLAG_DISAPPEAR_TICKS = 10;
+    public static final int FLAG_APPEAR_TICKS = 10;
+    public static final float FLAG_RISE_TICKS_PER_BLOCK = 4.0F;
+    private static final float[] DISAPPEAR_TIMES = {0.0F, 0.25F, 0.6667F, 1.0F};
+    private static final float[] DISAPPEAR_SCALES = {1.0F, 1.1875F, 0.7F, 0.0F};
+    private static final float[] APPEAR_TIMES = {0.0F, 0.3333F, 0.6667F, 0.9167F};
+    private static final float[] APPEAR_SCALES = {0.0F, 0.7F, 1.1875F, 1.0F};
 
     private static final Component DEFAULT_NAME = Component.translatable("menu.marioverse.goal_pole");
     public static final String CUSTOM_NAME = "CustomName";
@@ -51,6 +59,9 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     private boolean playedDisappearAnim;
     private boolean renderWonderFlag;
     private boolean renderAmericanFlag;
+    private long flagRaiseStart = Long.MIN_VALUE / 2;
+    private float flagRaiseFrom;
+    private float flagRaiseTo;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -91,10 +102,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
-        tag.putBoolean("playedAppearAnim", this.playedAppearAnim);
-        tag.putBoolean("playedDisappearAnim", this.playedDisappearAnim);
-        tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
-        tag.putBoolean("renderAmericanFlag", this.renderAmericanFlag);
+        this.writeSyncedData(tag);
 
         if (this.name != null) {
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
@@ -112,6 +120,10 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.playedDisappearAnim = tag.getBoolean("playedDisappearAnim");
         this.renderWonderFlag = tag.getBoolean("renderWonderFlag");
         this.renderAmericanFlag = tag.getBoolean("renderAmericanFlag");
+        if (tag.contains("flagRaiseStart"))
+            this.flagRaiseStart = tag.getLong("flagRaiseStart");
+        this.flagRaiseFrom = tag.getFloat("flagRaiseFrom");
+        this.flagRaiseTo = tag.getFloat("flagRaiseTo");
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
@@ -138,6 +150,14 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @NotNull
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        CompoundTag tag = new CompoundTag();
+        this.writeSyncedData(tag);
+        return tag;
     }
 
     @Override
@@ -271,5 +291,69 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     public boolean hasAmericanFlag() {
         return this.renderAmericanFlag;
+    }
+
+    public void startFlagRaise(long gameTime, float from, float to) {
+        this.flagRaiseStart = gameTime;
+        this.flagRaiseFrom = Math.max(from, 0.0F);
+        this.flagRaiseTo = Mth.clamp(to, 0.0F, this.flagRaiseFrom);
+        this.markUpdated();
+    }
+
+    public float getFlagRaiseFrom() {
+        return this.flagRaiseFrom;
+    }
+
+    public float getFlagRaiseElapsed(float partialTick) {
+        if (this.level == null)
+            return Float.MAX_VALUE;
+        return (float) (this.level.getGameTime() - this.flagRaiseStart) + partialTick;
+    }
+
+    public boolean isShowingOriginalFlag(float partialTick) {
+        return this.getFlagRaiseElapsed(partialTick) < FLAG_DISAPPEAR_TICKS;
+    }
+
+    public float getFlagRaiseOffset(float partialTick) {
+        float elapsed = this.getFlagRaiseElapsed(partialTick);
+        if (elapsed < FLAG_DISAPPEAR_TICKS)
+            return 0.0F;
+        if (elapsed < FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS)
+            return this.flagRaiseFrom;
+
+        float distance = this.flagRaiseFrom - this.flagRaiseTo;
+        float riseTicks = Math.max(distance * FLAG_RISE_TICKS_PER_BLOCK, 1.0F);
+        float progress = Mth.clamp((elapsed - FLAG_DISAPPEAR_TICKS - FLAG_APPEAR_TICKS) / riseTicks, 0.0F, 1.0F);
+        float eased = 1.0F - (1.0F - progress) * (1.0F - progress);
+        return this.flagRaiseFrom - distance * eased;
+    }
+
+    public float getFlagRaiseScale(float partialTick) {
+        float elapsed = this.getFlagRaiseElapsed(partialTick);
+        if (elapsed < FLAG_DISAPPEAR_TICKS)
+            return GoalPoleBlockEntity.sampleKeyframes(DISAPPEAR_TIMES, DISAPPEAR_SCALES, elapsed / FLAG_DISAPPEAR_TICKS);
+        if (elapsed < FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS)
+            return GoalPoleBlockEntity.sampleKeyframes(APPEAR_TIMES, APPEAR_SCALES, (elapsed - FLAG_DISAPPEAR_TICKS) / FLAG_APPEAR_TICKS);
+        return 1.0F;
+    }
+
+    private void writeSyncedData(CompoundTag tag) {
+        tag.putBoolean("playedAppearAnim", this.playedAppearAnim);
+        tag.putBoolean("playedDisappearAnim", this.playedDisappearAnim);
+        tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
+        tag.putBoolean("renderAmericanFlag", this.renderAmericanFlag);
+        tag.putLong("flagRaiseStart", this.flagRaiseStart);
+        tag.putFloat("flagRaiseFrom", this.flagRaiseFrom);
+        tag.putFloat("flagRaiseTo", this.flagRaiseTo);
+    }
+
+    private static float sampleKeyframes(float[] times, float[] values, float time) {
+        if (time <= times[0])
+            return values[0];
+        for (int i = 1; i < times.length; i++) {
+            if (time <= times[i])
+                return Mth.lerp((time - times[i - 1]) / (times[i] - times[i - 1]), values[i - 1], values[i]);
+        }
+        return values[values.length - 1];
     }
 }

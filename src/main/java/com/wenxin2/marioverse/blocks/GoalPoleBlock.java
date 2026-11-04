@@ -68,6 +68,9 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final int MAX = RotationSegment.getMaxSegmentIndex();
     private static final int ROTATIONS = MAX + 1;
+    private static final double FLAG_TOP_OFFSET = 0.625;
+    private static final double FLAG_HEIGHT = 1.375;
+    private static final double FLAG_BOTTOM_MARGIN = 0.125;
 
     protected static final VoxelShape GOAL_POLE_MIDDLE = Block.box(6.0, 0.0, 6.0, 10.0, 16.0, 10.0).optimize();
     protected static final VoxelShape GOAL_POLE_TOP = Shapes.or(
@@ -270,12 +273,16 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
             relativeHeight = Mth.clamp(relativeHeight, 0.0, 1.0);
 
             if (!state.getValue(LOWERED)) {
-                level.addParticle(this.getParticleForHeight(relativeHeight),
-                        entity.getX(), entity.getY() + entity.getBbHeight() + 1.0, entity.getZ(),
-                        0, 0, 0);
+                double flagRestTop = posTop.getY() + GoalPoleBlock.FLAG_TOP_OFFSET;
+                double flagStartTop = Math.min(posBottom.getY() + GoalPoleBlock.FLAG_HEIGHT + GoalPoleBlock.FLAG_BOTTOM_MARGIN, flagRestTop);
+                double flagTargetTop = Mth.clamp(entity.getY() + entity.getBbHeight(), flagStartTop, flagRestTop);
 
-                if (!level.isClientSide())
+                if (level instanceof ServerLevel serverWorld) {
+                    double particleY = Mth.clamp(entity.getY() + entity.getBbHeight(), posBottom.getY(), posTop.getY() + 1.0) + 0.75;
+                    serverWorld.sendParticles(this.getParticleForHeight(relativeHeight),
+                            posTop.getX() + 0.5, particleY, posTop.getZ() + 0.5, 1, 0.0, 0.0, 0.0, 0.0);
                     this.updateConnectedFlags(level, pos, true);
+                }
 
                 if (level.getBlockEntity(posTop) != null && level.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE) {
                     goalPoleTopBE.markUpdated();
@@ -285,8 +292,12 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                     if ((goalPoleTopBE.isAmericanFlag() || state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get())) {
                         goalPoleTopBE.triggerAnim("disappear_controller", "disappear");
                         goalPoleTopBE.updateConnectedDisappearFlags(level, posTop, false);
+                    } else {
+                        goalPoleTopBE.stopTriggeredAnim("switch_controller", "switch");
+                        goalPoleTopBE.startFlagRaise(level.getGameTime(),
+                                (float) (flagRestTop - flagStartTop),
+                                (float) (flagRestTop - flagTargetTop));
                     }
-                    else goalPoleTopBE.triggerAnim("switch_controller", "switch");
                 }
 
                 if (level.getBlockEntity(pos) != null && level.getBlockEntity(pos) instanceof GoalPoleBlockEntity goalPoleBE) {
@@ -296,7 +307,6 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                         goalPoleBE.triggerAnim("disappear_controller", "disappear");
                         goalPoleBE.updateConnectedDisappearFlags(level, pos, false);
                     }
-                    else goalPoleBE.triggerAnim("switch_controller", "switch");
                 }
 
                 level.scheduleTick(pos, this, 20);
