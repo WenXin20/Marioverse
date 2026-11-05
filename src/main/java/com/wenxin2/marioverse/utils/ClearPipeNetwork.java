@@ -31,6 +31,8 @@ public class ClearPipeNetwork {
     private static final int CACHE_TICKS = 100;
     private static final int SPAN_CACHE_TICKS = 20;
     private static final double JUMP_REACH = 1.2;
+    private static final double APPROACH_HEIGHT_TOLERANCE = 0.6;
+    private static final double APPROACH_REACHED_DISTANCE = 0.5;
     private static final int MAX_EXIT_DROP = 4;
     private static final Map<Level, Map<BlockPos, Cached<List<ExitLink>>>> EXIT_CACHE = new WeakHashMap<>();
     private static final Map<Level, Map<BlockPos, Cached<Map<BlockPos, Integer>>>> DISTANCE_CACHE = new WeakHashMap<>();
@@ -84,10 +86,26 @@ public class ClearPipeNetwork {
         return null;
     }
 
+    public static boolean isEnteringPipe(Entity entity) {
+        return entity.getPersistentData().contains(TRAVEL_EXIT) || ClearPipeNetwork.isTravelingInPipe(entity);
+    }
+
     @Nullable
     public static PipeEntry resolveEntrance(Level level, BlockPos approach, Entity entity) {
         if (ClearPipeNetwork.isUsableEntrance(level.getBlockState(approach)))
             return new PipeEntry(approach.immutable(), false);
+
+        BlockState below = level.getBlockState(approach.below());
+        if (ClearPipeNetwork.isUsableEntrance(below) && below.getValue(ClearWarpPipeBlock.FACING) == Direction.UP)
+            return new PipeEntry(approach.below().immutable(), false);
+
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BlockPos beside = approach.relative(direction);
+            BlockState besideState = level.getBlockState(beside);
+
+            if (ClearPipeNetwork.isUsableEntrance(besideState) && besideState.getValue(ClearWarpPipeBlock.FACING) == direction.getOpposite())
+                return new PipeEntry(beside.immutable(), false);
+        }
 
         BlockPos downPipe = ClearPipeNetwork.findReachableDownPipe(level, approach, entity, ClearPipeNetwork::isOpenDownEntrance);
         return downPipe != null ? new PipeEntry(downPipe, true) : null;
@@ -219,6 +237,18 @@ public class ClearPipeNetwork {
                 return beside.immutable();
         }
         return null;
+    }
+
+    public static boolean isNearApproach(Entity entity, PipeStep step, double distance) {
+        Vec3 approach = Vec3.atBottomCenterOf(step.approach());
+        return Math.abs(entity.getY() - approach.y) < APPROACH_HEIGHT_TOLERANCE
+                && entity.position().subtract(approach).horizontalDistanceSqr() <= distance * distance;
+    }
+
+    public static Vec3 getStepTarget(Level level, Entity entity, PipeStep step) {
+        if (step.jump() || !ClearPipeNetwork.isNearApproach(entity, step, APPROACH_REACHED_DISTANCE))
+            return Vec3.atBottomCenterOf(step.approach());
+        return ClearPipeNetwork.getEntryPoint(level, step.entrance());
     }
 
     public static Vec3 getEntryPoint(Level level, BlockPos entrance) {

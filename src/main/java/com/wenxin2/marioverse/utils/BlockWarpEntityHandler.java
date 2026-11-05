@@ -268,6 +268,7 @@ public interface BlockWarpEntityHandler {
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
             WarpCost.chargeIfWarped(entity, startPos, warpCost);
+            WarpReturn.onWarped(entity, warpPos, startPos);
 
             if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))
                 WarpLinkParticles.spawnWarpTransition(serverLevel, pos, state, warpPos, warpState);
@@ -291,6 +292,7 @@ public interface BlockWarpEntityHandler {
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
             WarpCost.chargeIfWarped(entity, startPos, warpCost);
+            WarpReturn.onWarped(entity, warpPos, startPos);
 
             if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))
                 WarpLinkParticles.spawnWarpTransition(serverLevel, pos, state, warpPos, warpState);

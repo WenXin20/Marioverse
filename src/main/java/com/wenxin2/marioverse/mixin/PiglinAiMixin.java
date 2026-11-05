@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.google.common.collect.ImmutableList;
+import com.wenxin2.marioverse.entities.ai.behaviors.ReturnThroughWarp;
 import com.wenxin2.marioverse.entities.ai.behaviors.UseClearPipe;
 import com.wenxin2.marioverse.entities.ai.behaviors.UseWarpLink;
 import net.minecraft.world.entity.ai.Brain;
@@ -16,6 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PiglinAiMixin {
     @Inject(method = "initCoreActivity", at = @At("TAIL"))
     private static void mv$initCoreActivity(Brain<Piglin> brain, CallbackInfo ci) {
-        brain.addActivity(Activity.CORE, 0, ImmutableList.of(new UseClearPipe(), new UseWarpLink()));
+        brain.addActivity(Activity.CORE, 0, ImmutableList.of(new UseClearPipe(), new UseWarpLink(), new ReturnThroughWarp()));
     }
 }

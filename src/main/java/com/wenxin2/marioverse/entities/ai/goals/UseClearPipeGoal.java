@@ -36,7 +36,7 @@ public class UseClearPipeGoal extends Goal {
 
         return this.step != null
                 && (ClearPipeNetwork.isTravelingInPipe(this.mob)
-                    || this.mob.distanceToSqr(Vec3.atBottomCenterOf(this.step.approach())) <= START_DISTANCE * START_DISTANCE)
+                    || ClearPipeNetwork.isNearApproach(this.mob, this.step, START_DISTANCE))
                 && ClearPipeNetwork.fitsEntrance(this.mob.level(), this.step.entrance(), this.mob.level().getBlockState(this.step.entrance()), this.mob);
     }
 
@@ -79,8 +79,7 @@ public class UseClearPipeGoal extends Goal {
         }
 
         if (this.step != null) {
-            Vec3 entry = this.step.jump() ? Vec3.atBottomCenterOf(this.step.approach())
-                    : ClearPipeNetwork.getEntryPoint(this.mob.level(), this.step.entrance());
+            Vec3 entry = ClearPipeNetwork.getStepTarget(this.mob.level(), this.mob, this.step);
             this.mob.getMoveControl().setWantedPosition(entry.x, entry.y, entry.z, this.speed);
 
             boolean alignedUnderPipe = this.step.jump() && this.mob.position().subtract(entry).horizontalDistanceSqr() < JUMP_ALIGN_DISTANCE * JUMP_ALIGN_DISTANCE;

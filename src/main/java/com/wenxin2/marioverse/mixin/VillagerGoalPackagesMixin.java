@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.mixin;
 import com.google.common.collect.ImmutableList;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.datafixers.util.Pair;
+import com.wenxin2.marioverse.entities.ai.behaviors.ReturnThroughWarp;
 import com.wenxin2.marioverse.entities.ai.behaviors.UseClearPipe;
 import com.wenxin2.marioverse.entities.ai.behaviors.UseWarpLink;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
@@ -21,6 +22,7 @@ public abstract class VillagerGoalPackagesMixin {
                 .addAll(behaviors)
                 .add(Pair.of(0, new UseClearPipe()))
                 .add(Pair.of(0, new UseWarpLink()))
+                .add(Pair.of(0, new ReturnThroughWarp()))
                 .build();
     }
 }

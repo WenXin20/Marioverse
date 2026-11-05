@@ -62,7 +62,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -129,6 +128,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             Block.box(0, 0, 0, 16, 3, 16)).optimize();
     public static final VoxelShape PIPE_ALL = Shapes.or(
             Block.box(4, 4, 4, 12, 12, 12)).optimize();
+    public static final VoxelShape UP_ENTRANCE_COVER = Block.box(0, 15, 0, 16, 16, 16);
 
     public ClearWarpPipeBlock(@Nullable DyeColor color, Properties properties) {
         super(color, properties);
@@ -272,9 +272,15 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        if (ClearPipeNetwork.isOpenEntrance(state) && SubLevelCollision.getCollisionEntity(collisionContext) instanceof Mob mob
-                && ClearPipeNetwork.fitsEntrance(mob.level(), pos, state, mob)) {
+        if (ClearPipeNetwork.isOpenEntrance(state) && SubLevelCollision.getCollisionEntity(collisionContext) instanceof Mob mob) {
             Direction facing = state.getValue(FACING);
+            boolean entering = ClearPipeNetwork.isEnteringPipe(mob);
+
+            if (facing == Direction.UP && !entering)
+                return Shapes.or(this.voxelShape(state), UP_ENTRANCE_COVER);
+
+            if (!entering || !ClearPipeNetwork.fitsEntrance(mob.level(), pos, state, mob))
+                return this.voxelShape(state);
 
             if (facing.getAxis() == Direction.Axis.Y)
                 return this.voxelShape(state.setValue(NORTH, Boolean.TRUE).setValue(SOUTH, Boolean.TRUE)
@@ -291,14 +297,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @Override
     public boolean hasDynamicShape() {
         return true;
-    }
-
-    @Nullable
-    @Override
-    public PathType getBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @Nullable Mob mob) {
-        if (state.getValue(ENTRANCE) && !state.getValue(CLOSED) && state.getValue(FACING) != Direction.DOWN)
-            return PathType.OPEN;
-        return super.getBlockPathType(state, level, pos, mob);
     }
 
     @NotNull
@@ -649,6 +647,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             pipeCenterOffset = Vec3.atCenterOf(pos).subtract(localCenter);
         }
 
+        if (!(entity instanceof Player) && !pos.equals(ClearWarpPipeBlock.getRoutingPipe(world, pos, entity, onSubLevel)))
+            return;
+
         if (entity instanceof Mob && !ClearPipeNetwork.canEnter(world, pos, state, entity))
             return;
 
@@ -952,6 +953,34 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         if (landing.equals(pos.above()) || horizontal.lengthSqr() < 1.0E-4)
             return Vec3.ZERO;
         return horizontal.normalize().scale(EXIT_SIDE_PUSH);
+    }
+
+    private static BlockPos getRoutingPipe(Level level, BlockPos pos, Entity entity, boolean onSubLevel) {
+        Vec3 center = entity.getBoundingBox().getCenter();
+        if (onSubLevel) {
+            center = SableProvider.toLocalVec(level, pos, center);
+            if (center == null)
+                return pos;
+        }
+
+        double halfWidth = entity.getBbWidth() * 0.5;
+        double halfHeight = entity.getBbHeight() * 0.5;
+        BlockPos min = BlockPos.containing(center.x - halfWidth, center.y - halfHeight, center.z - halfWidth);
+        BlockPos max = BlockPos.containing(center.x + halfWidth, center.y + halfHeight, center.z + halfWidth);
+        BlockPos routingPipe = pos;
+        double nearest = Double.MAX_VALUE;
+
+        for (BlockPos candidate : BlockPos.betweenClosed(min, max)) {
+            if (!(level.getBlockState(candidate).getBlock() instanceof ClearWarpPipeBlock))
+                continue;
+
+            double distance = Vec3.atCenterOf(candidate).distanceToSqr(center);
+            if (distance < nearest) {
+                nearest = distance;
+                routingPipe = candidate.immutable();
+            }
+        }
+        return routingPipe;
     }
 
     private static boolean isStraightAhead(Level level, BlockPos pos, Direction direction, int distance) {

@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.entities.ai.goals;
 import com.wenxin2.marioverse.mixin.MobAccessor;
 import com.wenxin2.marioverse.mixin.PathNavigationAccessor;
 import com.wenxin2.marioverse.utils.WarpLinkPathing;
+import com.wenxin2.marioverse.utils.WarpReturn;
 import java.util.EnumSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.PathfinderMob;
@@ -46,6 +47,7 @@ public class UseWarpLinkGoal extends Goal {
         this.destination = path != null ? path.getTarget() : null;
         this.speed = ((PathNavigationAccessor) navigation).mv$getSpeedModifier();
         this.waitTicks = 0;
+        this.mob.getPersistentData().putBoolean(WarpReturn.WARP_INTENT, true);
         navigation.stop();
     }
 
@@ -77,6 +79,8 @@ public class UseWarpLinkGoal extends Goal {
 
     @Override
     public void stop() {
+        this.mob.getPersistentData().remove(WarpReturn.WARP_INTENT);
+
         if (this.hasArrived() && this.destination != null)
             this.mob.getNavigation().moveTo(this.destination.getX() + 0.5, this.destination.getY(), this.destination.getZ() + 0.5, this.speed);
 

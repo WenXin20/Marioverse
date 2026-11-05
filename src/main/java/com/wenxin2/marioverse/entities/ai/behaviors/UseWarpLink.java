@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.entities.ai.behaviors;
 
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.utils.WarpLinkPathing;
+import com.wenxin2.marioverse.utils.WarpReturn;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
@@ -46,6 +47,7 @@ public class UseWarpLink extends Behavior<Mob> {
         this.savedWalkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).orElse(null);
         this.speed = this.savedWalkTarget != null ? this.savedWalkTarget.getSpeedModifier() : 0.5F;
         this.waitTicks = 0;
+        mob.getPersistentData().putBoolean(WarpReturn.WARP_INTENT, true);
 
         brain.eraseMemory(MemoryModuleType.WALK_TARGET);
         brain.eraseMemory(MemoryModuleType.PATH);
@@ -78,6 +80,8 @@ public class UseWarpLink extends Behavior<Mob> {
 
     @Override
     protected void stop(ServerLevel level, Mob mob, long gameTime) {
+        mob.getPersistentData().remove(WarpReturn.WARP_INTENT);
+
         if (this.savedWalkTarget != null && !mob.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET))
             mob.getBrain().setMemory(MemoryModuleType.WALK_TARGET, this.savedWalkTarget);
 
