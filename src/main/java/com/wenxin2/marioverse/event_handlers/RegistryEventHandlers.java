@@ -698,6 +698,7 @@ public class RegistryEventHandlers {
 
         Block[] soils = {
                 BlockRegistry.SHROOMGRASS_BLOCK.get(), BlockRegistry.SHROOMSOIL.get(),
+                BlockRegistry.COARSE_SHROOMSOIL.get(), BlockRegistry.ROCKY_SHROOMSOIL.get(),
                 BlockRegistry.WET_MUD.get()
         };
 

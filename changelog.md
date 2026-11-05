@@ -75,6 +75,7 @@
 - Added Rhombus Parkour Blocks in all 16 colors
 - Added Shroomsoil and Shroomgrass Block
 - Added Shroomsoil Farmland & Path
+- Added Coarse & Rocky Shroomsoil
 - Added Wet Mud, smelts into vanilla mud
 - Added Deep Wet Mud, super slippery
 - Added Wet Mud Farmland, always moist
