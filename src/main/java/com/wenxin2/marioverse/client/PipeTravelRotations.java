@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,7 +22,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class PipeTravelRotations {
     private static final double MIN_TRAVEL_SPEED_SQR = 0.0025;
-    private static final float TURN_SPEED = 0.45F;
+    private static final float TURN_SPEED = 0.8F;
+    private static final float HEAD_FIRST_HEIGHT_RATIO = 1.75F;
     private static final Map<Entity, PipeRotation> ROTATIONS = new WeakHashMap<>();
 
     public static BlockState getClearPipeState(Entity entity) {
@@ -85,16 +88,18 @@ public class PipeTravelRotations {
             return true;
         }
 
-        float halfHeight = entity.getBbHeight() * 0.5F / scale;
-        poseStack.translate(0.0F, halfHeight, 0.0F);
+        EntityDimensions standingSize = entity.getDimensions(Pose.STANDING);
+        float hitboxCenter = entity.getBbHeight() * 0.5F / scale;
+        float modelCenter = standingSize.height() * 0.5F / scale;
+        poseStack.translate(0.0F, hitboxCenter, 0.0F);
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - yaw));
-        poseStack.mulPose(Axis.XP.rotationDegrees(PipeTravelRotations.travelsHeadFirst(entity) ? -90.0F - pitch : -pitch));
-        poseStack.translate(0.0F, -halfHeight, 0.0F);
+        poseStack.mulPose(Axis.XP.rotationDegrees(PipeTravelRotations.travelsHeadFirst(entity, standingSize) ? -90.0F - pitch : -pitch));
+        poseStack.translate(0.0F, -modelCenter, 0.0F);
         return true;
     }
 
-    private static boolean travelsHeadFirst(LivingEntity entity) {
-        return entity.getBbHeight() > entity.getBbWidth() || entity.getType().is(TagRegistry.TRAVELS_HEAD_FIRST_IN_PIPES);
+    private static boolean travelsHeadFirst(LivingEntity entity, EntityDimensions standingSize) {
+        return standingSize.height() > standingSize.width() * HEAD_FIRST_HEIGHT_RATIO || entity.getType().is(TagRegistry.TRAVELS_HEAD_FIRST_IN_PIPES);
     }
 
     private static class PipeRotation {

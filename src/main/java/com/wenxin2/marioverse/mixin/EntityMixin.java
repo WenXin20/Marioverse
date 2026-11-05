@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
@@ -38,6 +39,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
@@ -391,8 +393,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
-                float height = entity.getDimensions(entity.getPose()).height();
-                cir.setReturnValue(height);
+                EntityDimensions dimensions = entity.getDimensions(entity.getPose());
+                if (ClearWarpPipeBlock.isShrunkPose(entity, entity.getPose()))
+                    dimensions = ClearWarpPipeBlock.getShrunkDimensions(dimensions);
+                cir.setReturnValue(dimensions.height());
             }
         }
     }
@@ -403,8 +407,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
-                float width = entity.getDimensions(entity.getPose()).width();
-                cir.setReturnValue(width);
+                EntityDimensions dimensions = entity.getDimensions(entity.getPose());
+                if (ClearWarpPipeBlock.isShrunkPose(entity, entity.getPose()))
+                    dimensions = ClearWarpPipeBlock.getShrunkDimensions(dimensions);
+                cir.setReturnValue(dimensions.width());
             }
         }
     }

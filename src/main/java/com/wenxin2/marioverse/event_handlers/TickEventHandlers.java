@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
@@ -19,7 +20,6 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.ClearPipeTravel;
 import it.unimi.dsi.fastutil.longs.Long2LongMap;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
@@ -186,7 +186,7 @@ public class TickEventHandlers {
                 TickEventHandlers.superMushroomScale(livingEntity);
 
                 if (livingEntity instanceof Mob mob)
-                    ClearPipeTravel.tick(mob);
+                    ClearWarpPipeBlock.restoreShrunkMob(mob);
             }
         }
 

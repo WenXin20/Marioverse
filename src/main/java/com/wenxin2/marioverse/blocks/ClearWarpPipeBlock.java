@@ -7,7 +7,7 @@ import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
-import com.wenxin2.marioverse.utils.ClearPipeTravel;
+import com.wenxin2.marioverse.utils.ClearPipeNetwork;
 import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -30,11 +30,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.DiggerItem;
@@ -75,6 +77,10 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     private static final String PIPE_PREVIOUS_DIRECTION = "PipePreviousDirection";
     private static final String PIPE_ENTRY_DIRECTION = "PipeEntryDirection";
     public static final String PIPE_ROUTE_TIME = "PipeRouteTime";
+    private static final String PIPE_SHRUNK = "PipeShrunk";
+    private static final float SHRUNK_WIDTH_SCALE = 0.85F;
+    private static final float SHRUNK_INTERIOR_CLEARANCE = 0.95F;
+    private static final double PIPE_WALL_CENTERING = 0.5;
     private static final int PIPE_ROUTE_TIMEOUT = 10;
     private static final double PIPE_CENTERING = 0.4;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -264,10 +270,19 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
-        if (state.getValue(ENTRANCE) && !state.getValue(CLOSED) && state.getValue(FACING).getAxis().isHorizontal()
-                && SubLevelCollision.getCollisionEntity(collisionContext) instanceof Mob mob
-                && ClearPipeTravel.fitsEntrance(mob.level(), pos, state, mob))
-            return this.voxelShape(state.setValue(UP, Boolean.TRUE));
+        if (ClearPipeNetwork.isOpenEntrance(state) && SubLevelCollision.getCollisionEntity(collisionContext) instanceof Mob mob
+                && ClearPipeNetwork.fitsEntrance(mob.level(), pos, state, mob)) {
+            Direction facing = state.getValue(FACING);
+
+            if (facing == Direction.DOWN)
+                return this.voxelShape(state.setValue(NORTH, Boolean.TRUE).setValue(SOUTH, Boolean.TRUE)
+                        .setValue(EAST, Boolean.TRUE).setValue(WEST, Boolean.TRUE));
+
+            if (facing.getAxis().isHorizontal())
+                return this.voxelShape(state.setValue(UP, Boolean.TRUE)
+                        .setValue(PROPERTY_BY_DIRECTION.get(facing.getClockWise()), Boolean.TRUE)
+                        .setValue(PROPERTY_BY_DIRECTION.get(facing.getCounterClockWise()), Boolean.TRUE));
+        }
         return this.voxelShape(state);
     }
 
@@ -632,7 +647,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             pipeCenterOffset = Vec3.atCenterOf(pos).subtract(localCenter);
         }
 
-        if (entity instanceof Mob && !ClearPipeTravel.canEnter(world, pos, state, entity))
+        if (entity instanceof Mob && !ClearPipeNetwork.canEnter(world, pos, state, entity))
             return;
 
         if (!entity.isShiftKeyDown() && ConfigRegistry.ALLOW_FAST_TRAVEL.get() && !entity.getType().is(TagRegistry.CANNOT_QUICK_TRAVEL)) {
@@ -649,7 +664,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 this.spawnTrailParticles(world, livingEntity);
 
             if (entity instanceof Mob mob)
-                ClearPipeTravel.shrink(mob);
+                ClearWarpPipeBlock.shrinkMob(mob);
 
             if (entity instanceof Player player) {
                 Direction moveDirection = this.getDirectionFromLook(player, world, pos, onSubLevel);
@@ -728,7 +743,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                     direction = connections.getFirst();
             }
             entryDirection = inward != null ? inward : direction;
-            ClearPipeTravel.recordTarget(entity);
         }
 
         if (openEntrance && direction.getAxis() != state.getValue(FACING).getAxis())
@@ -739,7 +753,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         if (!openEntrance && !connections.contains(direction))
             nextDirection = ClearWarpPipeBlock.chooseNextDirection(entity, pos, connections, direction, previousDirection, entryDirection);
         else if (!openEntrance) {
-            Direction steered = ClearPipeTravel.steerAtJunction(entity, pos, connections, direction, nextDirection);
+            Direction steered = ClearPipeNetwork.steerAtJunction(entity, pos, connections, direction, nextDirection);
             if (steered != null)
                 nextDirection = steered;
         }
@@ -759,59 +773,13 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 nextDirection.getStepY() * speed,
                 nextDirection.getStepZ() * speed);
 
-        double pushX = 0;
-        double pushY = 0;
-        double pushZ = 0;
-
-        double localX = localPos.x - pos.getX();
-        double localY = localPos.y - pos.getY();
-        double localZ = localPos.z - pos.getZ();
-
-        double padding = entity.getBbWidth() * 0.5 + 0.1;
-
-        switch (nextDirection.getAxis()) {
-            case X -> {
-                if (localY < padding)
-                    pushY += wallStrength;
-
-                if (localY > 1 - padding)
-                    pushY -= wallStrength;
-
-                if (localZ < padding)
-                    pushZ += wallStrength;
-
-                if (localZ > 1 - padding)
-                    pushZ -= wallStrength;
-            }
-
-            case Y -> {
-                if (localX < padding)
-                    pushX += wallStrength;
-
-                if (localX > 1 - padding)
-                    pushX -= wallStrength;
-
-                if (localZ < padding)
-                    pushZ += wallStrength;
-
-                if (localZ > 1 - padding)
-                    pushZ -= wallStrength;
-            }
-
-            case Z -> {
-                if (localX < padding)
-                    pushX += wallStrength;
-
-                if (localX > 1 - padding)
-                    pushX -= wallStrength;
-
-                if (localY < padding)
-                    pushY += wallStrength;
-
-                if (localY > 1 - padding)
-                    pushY -= wallStrength;
-            }
-        }
+        Direction.Axis travelAxis = nextDirection.getAxis();
+        double centerX = localPos.x - pos.getX() - 0.5;
+        double centerY = localPos.y + entity.getBbHeight() * 0.5 - pos.getY() - 0.5;
+        double centerZ = localPos.z - pos.getZ() - 0.5;
+        double pushX = travelAxis == Direction.Axis.X ? 0.0 : Mth.clamp(-centerX * PIPE_WALL_CENTERING, -wallStrength, wallStrength);
+        double pushY = travelAxis == Direction.Axis.Y ? 0.0 : Mth.clamp(-centerY * PIPE_WALL_CENTERING, -wallStrength, wallStrength);
+        double pushZ = travelAxis == Direction.Axis.Z ? 0.0 : Mth.clamp(-centerZ * PIPE_WALL_CENTERING, -wallStrength, wallStrength);
 
         Vec3 pipeMotion = forwardMotion.add(pushX, pushY, pushZ);
         if (onSubLevel)
@@ -907,7 +875,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             List<Direction> possibleDirections = connections.stream().filter(connected -> !excluded.contains(connected)).toList();
 
             if (!possibleDirections.isEmpty()) {
-                Direction steered = ClearPipeTravel.steerTowardTarget(entity, pos, possibleDirections);
+                Direction steered = ClearPipeNetwork.steerToExit(entity, pos, possibleDirections);
                 return steered != null ? steered : possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
             }
         }
@@ -924,5 +892,34 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 return direction.getOpposite();
         }
         return null;
+    }
+
+    public static boolean isShrunkPose(Entity entity, Pose pose) {
+        return pose == Pose.SWIMMING && entity instanceof Mob && !(entity instanceof WaterAnimal);
+    }
+
+    public static EntityDimensions getShrunkDimensions(EntityDimensions dimensions) {
+        int pipeSpan = Math.max(1, Mth.ceil(dimensions.width() - 1.0E-4F));
+        float interior = (float) (pipeSpan - ClearPipeNetwork.PIPE_WALL_THICKNESS * 2.0) * SHRUNK_INTERIOR_CLEARANCE;
+        float width = Math.min(dimensions.width() * SHRUNK_WIDTH_SCALE, interior);
+        return EntityDimensions.scalable(width, Math.min(dimensions.height(), width));
+    }
+
+    public static void restoreShrunkMob(Mob mob) {
+        CompoundTag tag = mob.getPersistentData();
+
+        if (tag.getBoolean(PIPE_SHRUNK) && !ClearPipeNetwork.isTravelingInPipe(mob)) {
+            tag.remove(PIPE_SHRUNK);
+            if (mob.getPose() == Pose.SWIMMING)
+                mob.setPose(Pose.STANDING);
+        }
+    }
+
+    private static void shrinkMob(Mob mob) {
+        if (mob.level().isClientSide || mob.getPose() == Pose.SWIMMING || mob instanceof WaterAnimal)
+            return;
+
+        mob.getPersistentData().putBoolean(PIPE_SHRUNK, true);
+        mob.setPose(Pose.SWIMMING);
     }
 }

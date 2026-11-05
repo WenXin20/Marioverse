@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BloomflowerBlock;
@@ -28,6 +29,7 @@ import com.wenxin2.marioverse.entities.ai.goals.CollectBlockGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
+import com.wenxin2.marioverse.entities.ai.goals.UseClearPipeGoal;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
@@ -54,7 +56,6 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
-import com.wenxin2.marioverse.utils.ClearPipeTravel;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
@@ -95,6 +96,8 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
@@ -152,8 +155,8 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onEntitySize(EntityEvent.Size event) {
-        if (ClearPipeTravel.isShrunk(event.getEntity(), event.getPose()))
-            event.setNewSize(ClearPipeTravel.getShrunkDimensions(event.getNewSize()));
+        if (ClearWarpPipeBlock.isShrunkPose(event.getEntity(), event.getPose()))
+            event.setNewSize(ClearWarpPipeBlock.getShrunkDimensions(event.getNewSize()));
     }
 
     @SubscribeEvent
@@ -244,6 +247,10 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
+
+        if (!event.getLevel().isClientSide() && entity instanceof PathfinderMob pathfinderMob
+                && !pathfinderMob.getBrain().checkMemory(MemoryModuleType.PATH, MemoryStatus.REGISTERED))
+            UseClearPipeGoal.addTo(pathfinderMob);
 
         if (entity instanceof WarpLinkableEntity warpEntity && event.getLevel().getServer() != null) {
             PendingWarpLinkSavedData.get(event.getLevel().getServer()).applyLink(entity);
