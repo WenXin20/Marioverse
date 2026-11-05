@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/coarse_shroomsoil",
+    "side": "marioverse:block/coarse_shroomsoil",
+    "top": "marioverse:block/coarse_shroomsoil_top"
+  }
+}

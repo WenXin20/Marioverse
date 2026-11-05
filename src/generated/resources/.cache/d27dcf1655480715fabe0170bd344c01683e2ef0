@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-29T00:44:47.5565312	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-11-05T12:12:07.5219229	Tags for minecraft:block mod id marioverse
 0d273a477729e70532eef1b6b2aedbc5fe7c59e2 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -174,12 +174,12 @@ d9a77714ed93ca0d4e6dfc312f8e6a1b6b82b3b2 data/marioverse/tags/block/wrench_effic
 d202548d9cb77338ead303338605006602dbedd7 data/minecraft/tags/block/ancient_city_replaceable.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/animals_spawnable_on.json
 39995742f261f459d47e9cf36b556492a79bed7d data/minecraft/tags/block/base_stone_overworld.json
-e9ed280a523a34d5da1a046244b1a0cd49645407 data/minecraft/tags/block/big_dripleaf_placeable.json
+52e9f2dfb926be34f22a1c8bcf619e8a215a069a data/minecraft/tags/block/big_dripleaf_placeable.json
 cdb6632c40766661d822c90fed1656cd9fd0baf9 data/minecraft/tags/block/ceiling_hanging_signs.json
-4e2ef9b74a3cf54b4b01cbf660f5a09df3ac672c data/minecraft/tags/block/convertable_to_mud.json
+0979f1cccf7b9c7d67daf6e84fd78b5813e49195 data/minecraft/tags/block/convertable_to_mud.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/minecraft/tags/block/corals.json
 92fa123661cbe8fb51c2c895c20574ba4446495b data/minecraft/tags/block/crystal_sound_blocks.json
-e9ed280a523a34d5da1a046244b1a0cd49645407 data/minecraft/tags/block/dirt.json
+52e9f2dfb926be34f22a1c8bcf619e8a215a069a data/minecraft/tags/block/dirt.json
 eb99005c0e65d188fb044eee6165534e04d33897 data/minecraft/tags/block/dragon_immune.json
 5503abf14e0f38ff24cfd28b7507eea819e39b20 data/minecraft/tags/block/enderman_holdable.json
 d78f56a04291b3be7552c6f9fb78154ac1f1ee74 data/minecraft/tags/block/features_cannot_replace.json
@@ -200,7 +200,7 @@ f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_root
 4c370547d2bd30c94878ccfac05a24ed3d599ff4 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
 f2a5b9617087942714315ab00f7ab1c4bce11048 data/minecraft/tags/block/mineable/pickaxe.json
-95e4c25615d95838082475b740d03652b99843ab data/minecraft/tags/block/mineable/shovel.json
+900948a7d4e0c2a6119b39bd9d042459a1b8d280 data/minecraft/tags/block/mineable/shovel.json
 11bf9914a37f97368e3320edbd090ecc24c07476 data/minecraft/tags/block/needs_iron_tool.json
 6b500a6588c30ade65410a28900865f0cae5a247 data/minecraft/tags/block/needs_stone_tool.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/parrots_spawnable_on.json
@@ -213,7 +213,7 @@ ed158f201be3d237816bcc1ec512d70bc456d951 data/minecraft/tags/block/saplings.json
 d202548d9cb77338ead303338605006602dbedd7 data/minecraft/tags/block/sculk_replaceable_world_gen.json
 a41419142f109a683c5639f5bab74427d0ae5d3e data/minecraft/tags/block/slabs.json
 89f0f43762bc29eae4e4568d5f3978ebad3f6297 data/minecraft/tags/block/small_flowers.json
-d3d641ef4d334e015d8a8bc9f8cca3a0fb5e5cda data/minecraft/tags/block/sniffer_diggable_block.json
+c997f657023ba8a696c0f48b19555f908edbe349 data/minecraft/tags/block/sniffer_diggable_block.json
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/snow_layer_can_survive_on.json
 21524516886cd246e843897442f6dc5daece1546 data/minecraft/tags/block/stairs.json
 9c91187db353ba8f36c3701f190299a12a12a4ff data/minecraft/tags/block/standing_signs.json

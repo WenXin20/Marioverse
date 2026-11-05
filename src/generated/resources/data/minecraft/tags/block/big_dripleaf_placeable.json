@@ -1,6 +1,8 @@
 {
   "values": [
     "#marioverse:grassy/stone",
+    "marioverse:coarse_shroomsoil",
+    "marioverse:rocky_shroomsoil",
     "marioverse:shroomgrass_block",
     "marioverse:shroomsoil",
     "marioverse:wet_mud"

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.registries;
 
+import com.wenxin2.marioverse.blocks.CoarseShroomsoilBlock;
 import com.wenxin2.marioverse.blocks.LogBridgeStairBlock;
 import com.wenxin2.marioverse.blocks.ScrewBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperScrewBlock;
@@ -830,6 +831,8 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SHROOMSOIL;
     public static final DeferredBlock<Block> SHROOMSOIL_FARMLAND;
     public static final DeferredBlock<Block> SHROOMSOIL_PATH;
+    public static final DeferredBlock<Block> COARSE_SHROOMSOIL;
+    public static final DeferredBlock<Block> ROCKY_SHROOMSOIL;
     public static final DeferredBlock<Block> SHRUBROOM;
     public static final DeferredBlock<Block> SMASHABLE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
@@ -1629,6 +1632,12 @@ public class BlockRegistry {
 
         SHROOMSOIL_PATH = registerBlock("shroomsoil_path",
                 () -> new ShroomsoilPathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH).mapColor(MapColor.SAND)));
+
+        COARSE_SHROOMSOIL = registerBlock("coarse_shroomsoil",
+                () -> new CoarseShroomsoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT).mapColor(MapColor.SAND)));
+
+        ROCKY_SHROOMSOIL = registerBlock("rocky_shroomsoil",
+                () -> new CoarseShroomsoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT).mapColor(MapColor.SAND)));
 
         SHROOMGRASS_BLOCK = registerBlock("shroomgrass_block",
                 () -> new ShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).mapColor(MapColor.GRASS)));
@@ -4235,6 +4244,10 @@ public class BlockRegistry {
                 .parse("superbb:red_shroom"), ORANGE_SUPER_MUSHROOM.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation
                 .parse("superbb:red_shroom"), ORANGE_SUPER_MUSHROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:rocky_mushdirt"), ROCKY_SHROOMSOIL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:rocky_mushdirt"), ROCKY_SHROOMSOIL.getId());
         Marioverse.BLOCKS.addAlias(ResourceLocation
                 .parse("superbb:shroom"), RED_SUPER_MUSHROOM.getId());
         Marioverse.ITEMS.addAlias(ResourceLocation

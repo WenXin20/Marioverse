@@ -41,6 +41,7 @@
   "menu.marioverse.warp_pipe": "Warp Pipe",
 
   "block.marioverse.block_spawner": "Block Spawner",
+  "block.marioverse.coarse_shroomsoil": "Coarse Shroomsoil",
   "block.marioverse.coin": "Coin",
   "block.marioverse.daisy_ability_block": "Daisy Ability Block",
   "block.marioverse.death_block": "Death Block",
@@ -57,6 +58,7 @@
   "block.marioverse.player_death_block": "Player Death Block",
   "block.marioverse.quicksand": "Quicksand",
   "block.marioverse.red_quicksand": "Red Quicksand",
+  "block.marioverse.rocky_shroomsoil": "Rocky Shroomsoil",
   "block.marioverse.rosalina_ability_block": "Rosalina Ability Block",
   "block.marioverse.shroomgrass_block": "Shroomgrass Block",
   "block.marioverse.shroomsoil": "Shroomsoil",

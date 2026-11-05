@@ -289,6 +289,10 @@ public class BlockStateGen extends BlockStateProvider {
 
         this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
                 blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
+        this.cubeBottomTopModel(BlockRegistry.COARSE_SHROOMSOIL.get(), blockTexture(BlockRegistry.COARSE_SHROOMSOIL.get()),
+                blockTexture(BlockRegistry.COARSE_SHROOMSOIL.get()), texture(BlockRegistry.COARSE_SHROOMSOIL.get(), "_top"));
+        this.cubeBottomTopModel(BlockRegistry.ROCKY_SHROOMSOIL.get(), blockTexture(BlockRegistry.ROCKY_SHROOMSOIL.get()),
+                blockTexture(BlockRegistry.ROCKY_SHROOMSOIL.get()), texture(BlockRegistry.ROCKY_SHROOMSOIL.get(), "_top"));
         this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));
         this.bloomflowerModel(BlockRegistry.BLUE_BLOOMFLOWER.get(),
                 modLoc("block/blue_bloomflower_back"), modLoc("block/blue_bloomflower_front"));

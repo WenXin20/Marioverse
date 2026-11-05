@@ -238,6 +238,8 @@ public class MarioverseCreativeTabs {
         if (tab == MARIOVERSE_NATURAL_TAB.getKey() && !disableModTabs) {
             add(event, BlockRegistry.SHROOMGRASS_BLOCK);
             add(event, BlockRegistry.SHROOMSOIL);
+            add(event, BlockRegistry.COARSE_SHROOMSOIL);
+            add(event, BlockRegistry.ROCKY_SHROOMSOIL);
             add(event, BlockRegistry.SHROOMSOIL_FARMLAND);
             add(event, BlockRegistry.SHROOMSOIL_PATH);
             add(event, BlockRegistry.WET_MUD);
@@ -1487,7 +1489,9 @@ public class MarioverseCreativeTabs {
                 addAfter(event, Blocks.FARMLAND, BlockRegistry.SHROOMSOIL);
                 addAfter(event, BlockRegistry.SHROOMSOIL, BlockRegistry.SHROOMSOIL_FARMLAND);
                 addAfter(event, BlockRegistry.SHROOMSOIL_FARMLAND, BlockRegistry.SHROOMSOIL_PATH);
-                addAfter(event, BlockRegistry.SHROOMSOIL_PATH, BlockRegistry.WET_MUD);
+                addAfter(event, BlockRegistry.SHROOMSOIL_PATH, BlockRegistry.COARSE_SHROOMSOIL);
+                addAfter(event, BlockRegistry.COARSE_SHROOMSOIL, BlockRegistry.ROCKY_SHROOMSOIL);
+                addAfter(event, BlockRegistry.ROCKY_SHROOMSOIL, BlockRegistry.WET_MUD);
                 addAfter(event, BlockRegistry.WET_MUD, BlockRegistry.WET_MUD_FARMLAND);
                 addAfter(event, BlockRegistry.WET_MUD_FARMLAND, BlockRegistry.DEEP_WET_MUD);
 

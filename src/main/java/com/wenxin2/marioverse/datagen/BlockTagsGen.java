@@ -1340,6 +1340,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.BIG_DRIPLEAF_PLACEABLE)
                 .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
                 .add(BlockRegistry.SHROOMSOIL.get())
                 .add(BlockRegistry.WET_MUD.get());
@@ -1349,6 +1351,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SPOOKROOT_HANGING_SIGN.get());
 
         tag(BlockTags.CONVERTABLE_TO_MUD)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
                 .add(BlockRegistry.SHROOMSOIL.get());
 
         tag(BlockTags.CORALS);
@@ -1375,6 +1379,8 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(BlockTags.DIRT)
                 .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
                 .add(BlockRegistry.SHROOMSOIL.get())
                 .add(BlockRegistry.WET_MUD.get());
@@ -1658,6 +1664,8 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.BLOOMFLOWERS);
 
         tag(BlockTags.SNIFFER_DIGGABLE_BLOCK)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
                 .add(BlockRegistry.SHROOMSOIL.get())
                 .add(BlockRegistry.WET_MUD.get());
@@ -2083,9 +2091,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WEATHERED_COPPER_BRIDGE.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
                 .add(BlockRegistry.DEEP_WET_MUD.get())
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
                 .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
                 .add(BlockRegistry.SHROOMSOIL.get())
                 .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
