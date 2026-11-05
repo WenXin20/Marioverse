@@ -30,6 +30,7 @@ import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
 import com.wenxin2.marioverse.entities.ai.goals.UseClearPipeGoal;
+import com.wenxin2.marioverse.entities.ai.goals.UseWarpLinkGoal;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
@@ -249,8 +250,10 @@ public class MarioverseEventHandlers {
         Entity entity = event.getEntity();
 
         if (!event.getLevel().isClientSide() && entity instanceof PathfinderMob pathfinderMob
-                && !pathfinderMob.getBrain().checkMemory(MemoryModuleType.PATH, MemoryStatus.REGISTERED))
+                && !pathfinderMob.getBrain().checkMemory(MemoryModuleType.PATH, MemoryStatus.REGISTERED)) {
             UseClearPipeGoal.addTo(pathfinderMob);
+            UseWarpLinkGoal.addTo(pathfinderMob);
+        }
 
         if (entity instanceof WarpLinkableEntity warpEntity && event.getLevel().getServer() != null) {
             PendingWarpLinkSavedData.get(event.getLevel().getServer()).applyLink(entity);

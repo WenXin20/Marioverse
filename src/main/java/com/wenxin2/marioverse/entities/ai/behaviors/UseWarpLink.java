@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.entities.ai.behaviors;
 
 import com.google.common.collect.ImmutableMap;
-import com.wenxin2.marioverse.utils.WarpPipePathing;
+import com.wenxin2.marioverse.utils.WarpLinkPathing;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
@@ -13,28 +13,28 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class UseWarpPipe extends Behavior<Mob> {
+public class UseWarpLink extends Behavior<Mob> {
     private static final int MAX_DURATION = 200;
     private static final int WARP_TIMEOUT = 100;
     private static final double START_DISTANCE = 1.5;
     private static final double ARRIVAL_DISTANCE = 3.0;
     private static final double JUMP_ALIGN_DISTANCE = 0.35;
-    @Nullable private WarpPipePathing.WarpLink link;
+    @Nullable private WarpLinkPathing.WarpLink link;
     @Nullable private WalkTarget savedWalkTarget;
     private float speed;
     private int waitTicks;
 
-    public UseWarpPipe() {
+    public UseWarpLink() {
         super(ImmutableMap.of(MemoryModuleType.PATH, MemoryStatus.VALUE_PRESENT), MAX_DURATION);
     }
 
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, Mob mob) {
-        if (!WarpPipePathing.canPathThroughWarpPipes(mob))
+        if (!WarpLinkPathing.canPathThroughWarps(mob))
             return false;
 
         Path path = mob.getBrain().getMemory(MemoryModuleType.PATH).orElse(null);
-        this.link = WarpPipePathing.findWarpStep(level, path, mob);
+        this.link = WarpLinkPathing.findWarpStep(level, path, mob);
 
         return this.link != null && mob.distanceToSqr(Vec3.atBottomCenterOf(this.link.trigger())) <= START_DISTANCE * START_DISTANCE;
     }
@@ -66,6 +66,8 @@ public class UseWarpPipe extends Behavior<Mob> {
         brain.eraseMemory(MemoryModuleType.PATH);
 
         if (this.link != null) {
+            WarpLinkPathing.openDoor(level, mob, this.link);
+
             Vec3 trigger = Vec3.atBottomCenterOf(this.link.trigger());
             mob.getMoveControl().setWantedPosition(trigger.x, trigger.y, trigger.z, this.speed);
 

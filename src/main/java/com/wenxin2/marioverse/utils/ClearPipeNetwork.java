@@ -49,6 +49,10 @@ public class ClearPipeNetwork {
                 && entity.level().getGameTime() - entity.getPersistentData().getLong(ClearWarpPipeBlock.PIPE_ROUTE_TIME) <= ROUTE_GRACE_TICKS;
     }
 
+    public static boolean canPathThroughClearPipes(Mob mob) {
+        return mob.getNavigation().getNodeEvaluator().canOpenDoors();
+    }
+
     public static boolean isUsableEntrance(BlockState state) {
         return state.getBlock() instanceof ClearWarpPipeBlock && state.getValue(ClearWarpPipeBlock.ENTRANCE)
                 && !state.getValue(ClearWarpPipeBlock.CLOSED) && state.getValue(ClearWarpPipeBlock.FACING) != Direction.DOWN;

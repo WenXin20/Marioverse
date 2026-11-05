@@ -3,7 +3,7 @@ package com.wenxin2.marioverse.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.wenxin2.marioverse.entities.ai.PipeLinkNodeEvaluator;
 import com.wenxin2.marioverse.utils.ClearPipeNetwork;
-import com.wenxin2.marioverse.utils.WarpPipePathing;
+import com.wenxin2.marioverse.utils.WarpLinkPathing;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
@@ -28,21 +28,18 @@ public abstract class WalkNodeEvaluatorMixin extends NodeEvaluator implements Pi
     @Unique private final Map<Long, Float> mv$pipeLinkCosts = new HashMap<>();
 
     @Inject(method = "prepare", at = @At("HEAD"))
-    private void mv$clearPipeLinks(PathNavigationRegion region, Mob mob, CallbackInfo ci) {
+    private void mv$prepare(PathNavigationRegion region, Mob mob, CallbackInfo ci) {
         this.mv$pipeLinkCosts.clear();
     }
 
     @ModifyReturnValue(method = "getNeighbors", at = @At("RETURN"))
-    private int mv$addPipeLinks(int count, Node[] neighbors, Node node) {
-        if (this.mob == null)
-            return count;
-
+    private int mv$prepare(int count, Node[] neighbors, Node node) {
         Level level = this.mob.level();
         BlockPos approach = node.asBlockPos();
         int added = 0;
 
-        if (WarpPipePathing.canPathThroughWarpPipes(this.mob)) {
-            for (WarpPipePathing.WarpLink link : WarpPipePathing.getWarpLinks(level, approach, this.mob)) {
+        if (WarpLinkPathing.canPathThroughWarps(this.mob)) {
+            for (WarpLinkPathing.WarpLink link : WarpLinkPathing.getWarpLinks(level, approach, this.mob)) {
                 if (count >= neighbors.length || added >= MAX_PIPE_LINKS)
                     break;
 
@@ -50,11 +47,14 @@ public abstract class WalkNodeEvaluatorMixin extends NodeEvaluator implements Pi
                 if (exitNode == null)
                     continue;
 
-                this.mv$pipeLinkCosts.put(WalkNodeEvaluatorMixin.mv$linkKey(node, exitNode), WarpPipePathing.WARP_LINK_COST);
+                this.mv$pipeLinkCosts.put(WalkNodeEvaluatorMixin.mv$linkKey(node, exitNode), WarpLinkPathing.WARP_LINK_COST);
                 neighbors[count++] = exitNode;
                 added++;
             }
         }
+
+        if (!ClearPipeNetwork.canPathThroughClearPipes(this.mob))
+            return count;
 
         ClearPipeNetwork.PipeEntry entry = ClearPipeNetwork.resolveEntrance(level, approach, this.mob);
         if (entry == null || !ClearPipeNetwork.fitsEntrance(level, entry.entrance(), level.getBlockState(entry.entrance()), this.mob))
