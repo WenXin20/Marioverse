@@ -15,7 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Node;
@@ -96,7 +96,7 @@ public class ClearPipeNetwork {
     }
 
     public static boolean canEnter(Level level, BlockPos pos, BlockState state, Entity entity) {
-        return entity.getPose() == Pose.SWIMMING || ClearPipeNetwork.fitsEntrance(level, pos, state, entity);
+        return ClearWarpPipeBlock.isShrunkPose(entity, entity.getPose()) || ClearPipeNetwork.fitsEntrance(level, pos, state, entity);
     }
 
     public static List<ExitLink> getExitLinks(Level level, BlockPos entrance) {
@@ -116,7 +116,7 @@ public class ClearPipeNetwork {
             return null;
 
         int next = path.getNextNodeIndex();
-        for (int index = Math.max(0, next - 1); index <= next && index + 1 < path.getNodeCount(); index++) {
+        for (int index = Math.max(0, next - 2); index <= next + 1 && index + 1 < path.getNodeCount(); index++) {
             Node approachNode = path.getNode(index);
             BlockPos approach = approachNode.asBlockPos();
             PipeEntry entry = ClearPipeNetwork.resolveEntrance(level, approach, entity);
@@ -131,6 +131,15 @@ public class ClearPipeNetwork {
             }
         }
         return null;
+    }
+
+    public static void assignTravelExit(Mob mob) {
+        if (mob.getPersistentData().contains(TRAVEL_EXIT))
+            return;
+
+        PipeStep step = ClearPipeNetwork.findPipeStep(mob.level(), mob.getNavigation().getPath(), mob);
+        if (step != null)
+            mob.getPersistentData().putLong(TRAVEL_EXIT, step.link().exit().asLong());
     }
 
     @Nullable
@@ -178,6 +187,12 @@ public class ClearPipeNetwork {
         Direction facing = state.getValue(ClearWarpPipeBlock.FACING);
         BlockPos stand = exit.relative(facing);
 
+        if (facing == Direction.UP) {
+            BlockPos landing = ClearPipeNetwork.findLandingSide(level, exit);
+            if (landing != null)
+                return landing;
+        }
+
         if (facing == Direction.DOWN) {
             for (int drop = 0; drop < MAX_EXIT_DROP; drop++) {
                 BlockPos below = stand.below();
@@ -187,6 +202,19 @@ public class ClearPipeNetwork {
             }
         }
         return stand.immutable();
+    }
+
+    @Nullable
+    public static BlockPos findLandingSide(Level level, BlockPos exit) {
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BlockPos beside = exit.relative(direction);
+
+            if (ClearPipeNetwork.isStandable(level, beside.above()))
+                return beside.above().immutable();
+            if (ClearPipeNetwork.isStandable(level, beside))
+                return beside.immutable();
+        }
+        return null;
     }
 
     public static Vec3 getEntryPoint(Level level, BlockPos entrance) {
@@ -314,5 +342,13 @@ public class ClearPipeNetwork {
             }
         }
         return distances;
+    }
+
+    private static boolean isStandable(Level level, BlockPos pos) {
+        BlockPos below = pos.below();
+        return level.getBlockState(pos).getCollisionShape(level, pos).isEmpty()
+                && level.getBlockState(pos.above()).getCollisionShape(level, pos.above()).isEmpty()
+                && !(level.getBlockState(below).getBlock() instanceof ClearWarpPipeBlock)
+                && !level.getBlockState(below).getCollisionShape(level, below).isEmpty();
     }
 }

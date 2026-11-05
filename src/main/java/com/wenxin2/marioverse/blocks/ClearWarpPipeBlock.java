@@ -81,6 +81,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     private static final float SHRUNK_WIDTH_SCALE = 0.85F;
     private static final float SHRUNK_INTERIOR_CLEARANCE = 0.95F;
     private static final double PIPE_WALL_CENTERING = 0.5;
+    private static final Pose VERTICAL_SHRUNK_POSE = Pose.FALL_FLYING;
+    private static final double EXIT_SIDE_PUSH = 0.25;
     private static final int PIPE_ROUTE_TIMEOUT = 10;
     private static final double PIPE_CENTERING = 0.4;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -274,7 +276,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 && ClearPipeNetwork.fitsEntrance(mob.level(), pos, state, mob)) {
             Direction facing = state.getValue(FACING);
 
-            if (facing == Direction.DOWN)
+            if (facing.getAxis() == Direction.Axis.Y)
                 return this.voxelShape(state.setValue(NORTH, Boolean.TRUE).setValue(SOUTH, Boolean.TRUE)
                         .setValue(EAST, Boolean.TRUE).setValue(WEST, Boolean.TRUE));
 
@@ -663,8 +665,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             if (entity instanceof LivingEntity livingEntity)
                 this.spawnTrailParticles(world, livingEntity);
 
-            if (entity instanceof Mob mob)
-                ClearWarpPipeBlock.shrinkMob(mob);
 
             if (entity instanceof Player player) {
                 Direction moveDirection = this.getDirectionFromLook(player, world, pos, onSubLevel);
@@ -743,6 +743,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                     direction = connections.getFirst();
             }
             entryDirection = inward != null ? inward : direction;
+
+            if (entity instanceof Mob mob)
+                ClearPipeNetwork.assignTravelExit(mob);
         }
 
         if (openEntrance && direction.getAxis() != state.getValue(FACING).getAxis())
@@ -760,6 +763,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
         if (nextDirection != direction)
             previousDirection = direction;
+
+        if (entity instanceof Mob mob)
+            ClearWarpPipeBlock.shrinkMob(mob, pos, nextDirection);
 
         tag.putInt(PIPE_DIRECTION, nextDirection.get3DDataValue());
         tag.putInt(PIPE_ENTRY_DIRECTION, entryDirection.get3DDataValue());
@@ -782,6 +788,9 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         double pushZ = travelAxis == Direction.Axis.Z ? 0.0 : Mth.clamp(-centerZ * PIPE_WALL_CENTERING, -wallStrength, wallStrength);
 
         Vec3 pipeMotion = forwardMotion.add(pushX, pushY, pushZ);
+        if (openEntrance && state.getValue(FACING) == Direction.UP && nextDirection == Direction.UP)
+            pipeMotion = pipeMotion.add(ClearWarpPipeBlock.getExitSidePush(entity.level(), pos, state, localPos));
+
         if (onSubLevel)
             pipeMotion = ClearWarpPipeBlock.toSubLevelPipeMotion(entity, pos, pipeMotion, nextDirection, pipeCenterOffset);
 
@@ -859,6 +868,11 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
     private static Direction chooseNextDirection(Entity entity, BlockPos pos, List<Direction> connections, Direction direction,
                                                  @Nullable Direction previousDirection, Direction entryDirection) {
+        List<Direction> forward = connections.stream().filter(connected -> connected != direction.getOpposite()).toList();
+        Direction steered = ClearPipeNetwork.steerToExit(entity, pos, forward.isEmpty() ? connections : forward);
+        if (steered != null)
+            return steered;
+
         List<Set<Direction>> exclusions = new ArrayList<>();
         Set<Direction> strict = EnumSet.of(direction.getOpposite(), entryDirection.getOpposite());
         Set<Direction> relaxed = EnumSet.of(direction.getOpposite());
@@ -874,10 +888,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         for (Set<Direction> excluded : exclusions) {
             List<Direction> possibleDirections = connections.stream().filter(connected -> !excluded.contains(connected)).toList();
 
-            if (!possibleDirections.isEmpty()) {
-                Direction steered = ClearPipeNetwork.steerToExit(entity, pos, possibleDirections);
-                return steered != null ? steered : possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
-            }
+            if (!possibleDirections.isEmpty())
+                return possibleDirections.get(entity.level().random.nextInt(possibleDirections.size()));
         }
         return direction.getOpposite();
     }
@@ -895,14 +907,15 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     }
 
     public static boolean isShrunkPose(Entity entity, Pose pose) {
-        return pose == Pose.SWIMMING && entity instanceof Mob && !(entity instanceof WaterAnimal);
+        return (pose == Pose.SWIMMING || pose == VERTICAL_SHRUNK_POSE) && entity instanceof Mob && !(entity instanceof WaterAnimal);
     }
 
-    public static EntityDimensions getShrunkDimensions(EntityDimensions dimensions) {
+    public static EntityDimensions getShrunkDimensions(EntityDimensions dimensions, Pose pose) {
         int pipeSpan = Math.max(1, Mth.ceil(dimensions.width() - 1.0E-4F));
         float interior = (float) (pipeSpan - ClearPipeNetwork.PIPE_WALL_THICKNESS * 2.0) * SHRUNK_INTERIOR_CLEARANCE;
         float width = Math.min(dimensions.width() * SHRUNK_WIDTH_SCALE, interior);
-        return EntityDimensions.scalable(width, Math.min(dimensions.height(), width));
+        float height = pose == VERTICAL_SHRUNK_POSE ? dimensions.height() : Math.min(dimensions.height(), width);
+        return EntityDimensions.scalable(width, height);
     }
 
     public static void restoreShrunkMob(Mob mob) {
@@ -910,16 +923,47 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
 
         if (tag.getBoolean(PIPE_SHRUNK) && !ClearPipeNetwork.isTravelingInPipe(mob)) {
             tag.remove(PIPE_SHRUNK);
-            if (mob.getPose() == Pose.SWIMMING)
+            tag.remove(ClearPipeNetwork.TRAVEL_EXIT);
+            if (ClearWarpPipeBlock.isShrunkPose(mob, mob.getPose()))
                 mob.setPose(Pose.STANDING);
         }
     }
 
-    private static void shrinkMob(Mob mob) {
-        if (mob.level().isClientSide || mob.getPose() == Pose.SWIMMING || mob instanceof WaterAnimal)
+    private static void shrinkMob(Mob mob, BlockPos pos, Direction travelDirection) {
+        if (mob.level().isClientSide || mob instanceof WaterAnimal)
+            return;
+
+        int reach = Mth.ceil(mob.getDimensions(Pose.STANDING).height());
+        Pose pose = travelDirection.getAxis() == Direction.Axis.Y
+                && ClearWarpPipeBlock.isStraightAhead(mob.level(), pos, travelDirection, reach) ? VERTICAL_SHRUNK_POSE : Pose.SWIMMING;
+
+        if (mob.getPose() == pose)
             return;
 
         mob.getPersistentData().putBoolean(PIPE_SHRUNK, true);
-        mob.setPose(Pose.SWIMMING);
+        mob.setPose(pose);
+    }
+
+    private static Vec3 getExitSidePush(Level level, BlockPos pos, BlockState state, Vec3 localPos) {
+        BlockPos landing = ClearPipeNetwork.getStandPos(level, pos, state);
+        Vec3 toLanding = Vec3.atBottomCenterOf(landing).subtract(localPos);
+        Vec3 horizontal = new Vec3(toLanding.x, 0.0, toLanding.z);
+
+        if (landing.equals(pos.above()) || horizontal.lengthSqr() < 1.0E-4)
+            return Vec3.ZERO;
+        return horizontal.normalize().scale(EXIT_SIDE_PUSH);
+    }
+
+    private static boolean isStraightAhead(Level level, BlockPos pos, Direction direction, int distance) {
+        for (int step = 1; step <= distance; step++) {
+            BlockState state = level.getBlockState(pos.relative(direction, step));
+
+            if (!(state.getBlock() instanceof ClearWarpPipeBlock)
+                    || (state.getValue(ENTRANCE) && !state.getValue(CLOSED) && state.getValue(FACING) == direction))
+                return true;
+            if (!state.getValue(PROPERTY_BY_DIRECTION.get(direction)))
+                return false;
+        }
+        return true;
     }
 }

@@ -34,7 +34,8 @@ public class UseClearPipe extends Behavior<Mob> {
         this.step = ClearPipeNetwork.findPipeStep(level, path, mob);
 
         return this.step != null
-                && mob.distanceToSqr(Vec3.atBottomCenterOf(this.step.approach())) <= START_DISTANCE * START_DISTANCE
+                && (ClearPipeNetwork.isTravelingInPipe(mob)
+                    || mob.distanceToSqr(Vec3.atBottomCenterOf(this.step.approach())) <= START_DISTANCE * START_DISTANCE)
                 && ClearPipeNetwork.fitsEntrance(level, this.step.entrance(), level.getBlockState(this.step.entrance()), mob);
     }
 
@@ -45,7 +46,7 @@ public class UseClearPipe extends Behavior<Mob> {
         this.savedWalkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).orElse(null);
         this.speed = this.savedWalkTarget != null ? this.savedWalkTarget.getSpeedModifier() : 0.5F;
         this.enterTicks = 0;
-        this.entered = false;
+        this.entered = ClearPipeNetwork.isTravelingInPipe(mob);
 
         if (this.step != null)
             mob.getPersistentData().putLong(ClearPipeNetwork.TRAVEL_EXIT, this.step.link().exit().asLong());
@@ -81,7 +82,8 @@ public class UseClearPipe extends Behavior<Mob> {
             Vec3 entry = this.step.jump() ? Vec3.atBottomCenterOf(this.step.approach()) : ClearPipeNetwork.getEntryPoint(level, this.step.entrance());
             mob.getMoveControl().setWantedPosition(entry.x, entry.y, entry.z, this.speed);
 
-            if (this.step.jump() && mob.onGround() && mob.position().subtract(entry).horizontalDistanceSqr() < JUMP_ALIGN_DISTANCE * JUMP_ALIGN_DISTANCE)
+            boolean alignedUnderPipe = this.step.jump() && mob.position().subtract(entry).horizontalDistanceSqr() < JUMP_ALIGN_DISTANCE * JUMP_ALIGN_DISTANCE;
+            if (mob.onGround() && (alignedUnderPipe || mob.horizontalCollision))
                 mob.getJumpControl().jump();
         }
     }
