@@ -128,7 +128,6 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             Block.box(0, 0, 0, 16, 3, 16)).optimize();
     public static final VoxelShape PIPE_ALL = Shapes.or(
             Block.box(4, 4, 4, 12, 12, 12)).optimize();
-    public static final VoxelShape UP_ENTRANCE_COVER = Block.box(0, 15, 0, 16, 16, 16);
 
     public ClearWarpPipeBlock(@Nullable DyeColor color, Properties properties) {
         super(color, properties);
@@ -277,7 +276,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             boolean entering = ClearPipeNetwork.isEnteringPipe(mob);
 
             if (facing == Direction.UP && !entering)
-                return Shapes.or(this.voxelShape(state), UP_ENTRANCE_COVER);
+                return this.voxelShape(state.setValue(CLOSED, Boolean.TRUE));
 
             if (!entering || !ClearPipeNetwork.fitsEntrance(mob.level(), pos, state, mob))
                 return this.voxelShape(state);
