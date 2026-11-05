@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.Locale;
 import javax.annotation.Nullable;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
@@ -46,6 +47,9 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public static final int FLAG_DISAPPEAR_TICKS = 10;
     public static final int FLAG_APPEAR_TICKS = 10;
     public static final float FLAG_RISE_TICKS_PER_BLOCK = 4.0F;
+    private static final long MILLIS_PER_TICK = 50L;
+    private static final long MAX_SYNCED_ELAPSED_TICKS = 1_000_000L;
+    private static final long FLAG_RESYNC_TICKS = 10L;
     private static final float[] DISAPPEAR_TIMES = {0.0F, 0.25F, 0.6667F, 1.0F};
     private static final float[] DISAPPEAR_SCALES = {1.0F, 1.1875F, 0.7F, 0.0F};
     private static final float[] APPEAR_TIMES = {0.0F, 0.3333F, 0.6667F, 0.9167F};
@@ -65,7 +69,12 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     private float flagFrom;
     private float flagTo;
     private boolean flagSwap;
+    private boolean flagSwapToLowered;
     private boolean pendingSwapPoof;
+    private long clientFlagAnimStart = Util.getMillis() - MAX_SYNCED_ELAPSED_TICKS * MILLIS_PER_TICK;
+    private int clientFlagAnimId;
+    private int soundedFlagAnimId;
+    private int soundedFlagPhases;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -124,6 +133,12 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.playedDisappearAnim = tag.getBoolean("playedDisappearAnim");
         this.renderWonderFlag = tag.getBoolean("renderWonderFlag");
         this.renderAmericanFlag = tag.getBoolean("renderAmericanFlag");
+        boolean sameFlagAnimation = this.flagSwap == tag.getBoolean("flagSwap")
+                && this.flagSwapToLowered == tag.getBoolean("flagSwapToLowered")
+                && GoalPoleBlockEntity.isCloseOffset(this.flagPreFrom, tag.getFloat("flagPreFrom"))
+                && GoalPoleBlockEntity.isCloseOffset(this.flagSwapOffset, tag.getFloat("flagSwapOffset"))
+                && GoalPoleBlockEntity.isCloseOffset(this.flagFrom, tag.getFloat("flagFrom"))
+                && GoalPoleBlockEntity.isCloseOffset(this.flagTo, tag.getFloat("flagTo"));
         if (tag.contains("flagAnimStart"))
             this.flagAnimStart = tag.getLong("flagAnimStart");
         this.flagPreFrom = tag.getFloat("flagPreFrom");
@@ -131,6 +146,14 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.flagFrom = tag.getFloat("flagFrom");
         this.flagTo = tag.getFloat("flagTo");
         this.flagSwap = tag.getBoolean("flagSwap");
+        this.flagSwapToLowered = tag.getBoolean("flagSwapToLowered");
+        if (tag.contains("flagElapsedAtSync")) {
+            long syncedStart = Util.getMillis() - tag.getLong("flagElapsedAtSync") * MILLIS_PER_TICK;
+            if (!sameFlagAnimation)
+                this.clientFlagAnimId++;
+            if (!sameFlagAnimation || Math.abs(syncedStart - this.clientFlagAnimStart) > FLAG_RESYNC_TICKS * MILLIS_PER_TICK)
+                this.clientFlagAnimStart = syncedStart;
+        }
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
@@ -164,6 +187,8 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
         this.writeSyncedData(tag);
+        if (this.level != null)
+            tag.putLong("flagElapsedAtSync", Mth.clamp(this.level.getGameTime() - this.flagAnimStart, 0L, MAX_SYNCED_ELAPSED_TICKS));
         return tag;
     }
 
@@ -300,7 +325,8 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         return this.renderAmericanFlag;
     }
 
-    public void startFlagSwap(long gameTime, float preFrom, float swapOffset, float from, float to) {
+    public void startFlagSwap(long gameTime, boolean swapToLowered, float preFrom, float swapOffset, float from, float to) {
+        this.flagSwapToLowered = swapToLowered;
         this.startFlagAnimation(gameTime, true, preFrom, swapOffset, from, to);
     }
 
@@ -315,6 +341,8 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     public float getFlagElapsed(float partialTick) {
         if (this.level == null)
             return Float.MAX_VALUE;
+        if (this.level.isClientSide())
+            return (float) ((double) (Util.getMillis() - this.clientFlagAnimStart) / MILLIS_PER_TICK);
         return (float) (this.level.getGameTime() - this.flagAnimStart) + partialTick;
     }
 
@@ -322,6 +350,50 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         if (!this.flagSwap || this.flagPreFrom == this.flagSwapOffset)
             return 0.0F;
         return GoalPoleBlockEntity.getMoveTicks(this.flagPreFrom, this.flagSwapOffset);
+    }
+
+    public boolean showsLoweredFlag(boolean lowered) {
+        if (!this.flagSwap)
+            return lowered;
+        return this.isSwappingOutFlag(0.0F) != this.flagSwapToLowered;
+    }
+
+    public float getFlagMainMoveStart() {
+        return this.flagSwap ? this.getFlagPreMoveTicks() + FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS : 0.0F;
+    }
+
+    public float getFlagMainMoveTicks() {
+        if (this.flagFrom == this.flagTo)
+            return 0.0F;
+        return GoalPoleBlockEntity.getMoveTicks(this.flagFrom, this.flagTo);
+    }
+
+    public boolean isFlagPreMoveLowering() {
+        return this.flagSwapOffset > this.flagPreFrom;
+    }
+
+    public boolean isFlagMainMoveLowering() {
+        return this.flagTo > this.flagFrom;
+    }
+
+    public boolean isFlagResetting() {
+        return this.flagSwap ? !this.flagSwapToLowered : this.flagTo < this.flagFrom;
+    }
+
+    public int getClientFlagAnimId() {
+        return this.clientFlagAnimId;
+    }
+
+    public boolean claimFlagSoundPhase(int phase) {
+        if (this.soundedFlagAnimId != this.clientFlagAnimId) {
+            this.soundedFlagAnimId = this.clientFlagAnimId;
+            this.soundedFlagPhases = 0;
+        }
+        int bit = 1 << phase;
+        if ((this.soundedFlagPhases & bit) != 0)
+            return false;
+        this.soundedFlagPhases |= bit;
+        return true;
     }
 
     public boolean isSwappingOutFlag(float partialTick) {
@@ -365,6 +437,8 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     private void startFlagAnimation(long gameTime, boolean swap, float preFrom, float swapOffset, float from, float to) {
         this.flagAnimStart = gameTime;
+        this.clientFlagAnimStart = Util.getMillis();
+        this.clientFlagAnimId++;
         this.flagSwap = swap;
         this.flagPreFrom = Math.max(preFrom, 0.0F);
         this.flagSwapOffset = Math.max(swapOffset, 0.0F);
@@ -385,6 +459,11 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         tag.putFloat("flagFrom", this.flagFrom);
         tag.putFloat("flagTo", this.flagTo);
         tag.putBoolean("flagSwap", this.flagSwap);
+        tag.putBoolean("flagSwapToLowered", this.flagSwapToLowered);
+    }
+
+    private static boolean isCloseOffset(float a, float b) {
+        return Math.abs(a - b) < 0.25F;
     }
 
     private static float getMoveTicks(float from, float to) {

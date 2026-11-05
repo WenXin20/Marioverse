@@ -156,7 +156,7 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onEntitySize(EntityEvent.Size event) {
         if (ClearWarpPipeBlock.isShrunkPose(event.getEntity(), event.getPose()))
-            event.setNewSize(ClearWarpPipeBlock.getShrunkDimensions(event.getNewSize()));
+            event.setNewSize(ClearWarpPipeBlock.getShrunkDimensions(event.getNewSize(), event.getPose()));
     }
 
     @SubscribeEvent

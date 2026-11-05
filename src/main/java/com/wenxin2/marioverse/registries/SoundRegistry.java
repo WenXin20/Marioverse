@@ -45,6 +45,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> GLASS_FALL;
     public static final DeferredHolder<SoundEvent, SoundEvent> GLASS_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOAL_POLE_FINISH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOAL_POLE_RESET;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_AMBIENT;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_BUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_DEATH;
@@ -205,6 +206,8 @@ public class SoundRegistry {
 
         GOAL_POLE_FINISH = Marioverse.SOUNDS.register("block.goal_pole_finish",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.goal_pole_finish")));
+        GOAL_POLE_RESET = Marioverse.SOUNDS.register("block.goal_pole_reset",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.goal_pole_reset")));
 
         ITEM_SPAWNS = Marioverse.SOUNDS.register("block.item_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.item_spawns")));

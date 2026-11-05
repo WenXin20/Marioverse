@@ -128,8 +128,8 @@ public class GoalPoleBlockModel extends GeoModel<GoalPoleBlockEntity> {
 
     public static boolean showsLoweredFlag(GoalPoleBlockEntity blockEntity) {
         boolean lowered = blockEntity.getBlockState().getValue(GoalPoleBlock.LOWERED);
-        if (GoalPoleBlockModel.usesAnimatedFlag(blockEntity) && blockEntity.isSwappingOutFlag(0.0F))
-            return !lowered;
+        if (GoalPoleBlockModel.usesAnimatedFlag(blockEntity))
+            return blockEntity.showsLoweredFlag(lowered);
         return lowered;
     }
 

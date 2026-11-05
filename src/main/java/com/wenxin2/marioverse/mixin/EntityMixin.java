@@ -395,7 +395,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             if (attributeMap != null) {
                 EntityDimensions dimensions = entity.getDimensions(entity.getPose());
                 if (ClearWarpPipeBlock.isShrunkPose(entity, entity.getPose()))
-                    dimensions = ClearWarpPipeBlock.getShrunkDimensions(dimensions);
+                    dimensions = ClearWarpPipeBlock.getShrunkDimensions(dimensions, entity.getPose());
                 cir.setReturnValue(dimensions.height());
             }
         }
@@ -409,7 +409,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             if (attributeMap != null) {
                 EntityDimensions dimensions = entity.getDimensions(entity.getPose());
                 if (ClearWarpPipeBlock.isShrunkPose(entity, entity.getPose()))
-                    dimensions = ClearWarpPipeBlock.getShrunkDimensions(dimensions);
+                    dimensions = ClearWarpPipeBlock.getShrunkDimensions(dimensions, entity.getPose());
                 cir.setReturnValue(dimensions.width());
             }
         }

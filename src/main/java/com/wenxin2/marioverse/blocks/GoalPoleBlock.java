@@ -4,10 +4,12 @@ import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.GoalPoleBlockEntity;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
+import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.sounds.GoalPoleFlagSoundInstance;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -41,6 +43,8 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -131,6 +135,14 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new GoalPoleBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+        if (!world.isClientSide() || type != BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get())
+            return null;
+        return (lvl, pos, st, be) -> GoalPoleFlagSoundInstance.tickFlagSounds((GoalPoleBlockEntity) be);
     }
 
     @Override
@@ -256,7 +268,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                         if (level instanceof ServerLevel serverWorld)
                             ServerParticleUtils.spawnParticleRingOnBlock(ParticleTypes.POOF, serverWorld,
                                     posTop.below(1 + Mth.floor(currentOffset)), 0.5D, 10);
-                        goalPoleTopBE.startFlagSwap(level.getGameTime(), currentOffset, currentOffset,
+                        goalPoleTopBE.startFlagSwap(level.getGameTime(), true, currentOffset, currentOffset,
                                 (float) (flagRestTop - flagStartTop), (float) (flagRestTop - flagTargetTop));
                     }
                 }
@@ -266,8 +278,11 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
 
                 level.scheduleTick(pos, this, 20);
                 level.setBlock(pos, state.setValue(LOWERED, true), 3);
-                level.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(),
-                        SoundSource.BLOCKS, 1.0F, pitch);
+                boolean slidingFlag = state.getBlock() == BlockRegistry.CLASSIC_GOAL_POLE.get()
+                        || (level.getBlockEntity(posTop) instanceof GoalPoleBlockEntity goalPoleTopBE && goalPoleTopBE.isAmericanFlag());
+                if (!slidingFlag)
+                    level.playSound(null, entity.blockPosition(), SoundRegistry.GOAL_POLE_FINISH.get(),
+                            SoundSource.BLOCKS, 1.0F, pitch);
             }
 
             if (!entity.onGround() && !(entity.getDeltaMovement().y > 0))
@@ -313,7 +328,7 @@ public class GoalPoleBlock extends Block implements SimpleWaterloggedBlock, Enti
                 goalPoleTopBE.startFlagMove(world.getGameTime(), currentOffset, 0.0F);
             else {
                 float lowestOffset = this.getLowestFlagOffset(posTop, this.findBottomOfGoalPole(world, pos));
-                goalPoleTopBE.startFlagSwap(world.getGameTime(), currentOffset, lowestOffset, lowestOffset, 0.0F);
+                goalPoleTopBE.startFlagSwap(world.getGameTime(), false, currentOffset, lowestOffset, lowestOffset, 0.0F);
                 goalPoleTopBE.setPendingSwapPoof(true);
                 world.scheduleTick(posTop, this, Math.max(Mth.ceil(goalPoleTopBE.getFlagPreMoveTicks()), 1));
             }
