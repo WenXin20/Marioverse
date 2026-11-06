@@ -85,7 +85,7 @@ dependencies {
     compileOnly "maven.modrinth:grassier-grass:1.4.5-neoforge"
     implementation "curse.maven:guard-villagers-360203:6066966"
     implementation "curse.maven:hole-filler-mod-440585:6583948"
-    implementation "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
+    compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
     implementation "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"

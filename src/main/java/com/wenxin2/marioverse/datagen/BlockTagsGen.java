@@ -834,23 +834,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(Blocks.WALL_TORCH);
 
         tag(TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE)
-                .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
-                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
-                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
-                .addTag(BlockTags.CANDLES)
-                .addTag(BlockTags.CAVE_VINES)
-                .addTag(BlockTags.CROPS)
-                .addTag(BlockTags.FLOWERS)
                 .add(Blocks.FROSTED_ICE)
-                .add(Blocks.ICE)
-                .add(Blocks.SHORT_GRASS)
-                .add(Blocks.TALL_GRASS)
-                .add(Blocks.TORCH)
-                .add(Blocks.WALL_TORCH);
+                .add(Blocks.ICE);
 
         tag(TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING)
                 .addTag(Tags.Blocks.GLASS_BLOCKS)
@@ -2214,6 +2202,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SHROOMGRASS.get())
                 .add(BlockRegistry.SHRUBROOM.get())
                 .add(BlockRegistry.TALL_SHROOMGRASS.get());
+
+        tag(TagRegistry.blockTags("the_bumblezone", "hanging_garden/allowed_flowers"))
+                .addTag(TagRegistry.HEDGE_ROSE_BLOCKS);
 
         tag(TagRegistry.blockTags("twilightforest", "portal/edge"))
                 .add(BlockRegistry.DEEP_WET_MUD.get())

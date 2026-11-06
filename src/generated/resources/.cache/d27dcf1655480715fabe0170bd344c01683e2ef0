@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-05T12:12:07.5219229	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-11-06T15:13:57.212176	Tags for minecraft:block mod id marioverse
 0d273a477729e70532eef1b6b2aedbc5fe7c59e2 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -113,7 +113,7 @@ c9c0d5f98a850952e1add89566aa29e2b435214f data/marioverse/tags/block/hedges/snowy
 fdee9523679ade0cb634851cbec5187425399208 data/marioverse/tags/block/loopholes.json
 4adb581af786842a171895339169abfbb3010219 data/marioverse/tags/block/mega_mushrooms.json
 94a6ea364d801c0b3e4694b8d5355a82344abcdd data/marioverse/tags/block/mega_mushroom_can_break.json
-44fbb1dfa7779572aac31488b47a0d6a2dde5856 data/marioverse/tags/block/mega_mushroom_can_break/adventure_mode.json
+4eb63b9bd82d5302ad8aec98d763d4020a20118d data/marioverse/tags/block/mega_mushroom_can_break/adventure_mode.json
 11bcfbe303c6dc312dda58598be28d186e443594 data/marioverse/tags/block/mega_mushroom_can_break/falling.json
 e6a968de6c4bf32c65f2aaf5943a8af49adefda7 data/marioverse/tags/block/melts.json
 5deb9af770fdad544511740089e3a3075ff82b32 data/marioverse/tags/block/melts_ice_cube.json
@@ -240,6 +240,7 @@ b0912048c89580c07a2df0672eb46f4bec762438 data/sable/tags/block/end_stones.json
 ed8318623af15718a46a312178a6a298f2fee8c8 data/sable/tags/block/light.json
 a22e372c23fd9460c3ce7f162266214db78e75ad data/sable/tags/block/quarter_volume.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/sable/tags/block/super_light.json
+16c6699f558ca6dd9f54fb9e831adfa01305ac4d data/the_bumblezone/tags/block/hanging_garden/allowed_flowers.json
 b528fbecabf9bcba876ae2ce7faa657942e07a15 data/twilightforest/tags/block/portal/decoration.json
 3dd49e38be3de7a0909353812e7c2465e571d6b6 data/twilightforest/tags/block/portal/edge.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/twilightforest/tags/block/portal/generated_decoration.json

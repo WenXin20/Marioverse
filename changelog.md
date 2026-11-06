@@ -108,6 +108,7 @@
 - Added the ability to increase stomp damage using armor boots, +0.5 damage for each armor point
 - Added a config to require stomping different mobs to get a 1-Up, default is false
 - Changed the 1-Up reward to a loot table
+- Changed mega mushroom to only break question blocks, storage bricks, & smashable blocks in adventure mode
 - Improved bouncing on bouncy blocks
 - Improved bounce sound
 - Improved log bridges and log bridge stairs
