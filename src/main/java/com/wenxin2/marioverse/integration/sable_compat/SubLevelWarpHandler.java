@@ -235,9 +235,8 @@ public class SubLevelWarpHandler {
             facing = state.getValue(WarpPipeBlock.FACING);
             if (!requireEntrance) {
                 List<BlockPos> entranceGroup = WarpPipeBlock.getEntranceGroup(level, pos, state);
-                if (entranceGroup.size() > 1)
-                    center = new Vec3(entranceGroup.stream().mapToInt(BlockPos::getX).average().orElse(pos.getX()) + 0.5, center.y,
-                            entranceGroup.stream().mapToInt(BlockPos::getZ).average().orElse(pos.getZ()) + 0.5);
+                Vec3 groupCorner = WarpPipeBlock.getEntranceGroupCorner(pos, entranceGroup);
+                center = new Vec3(groupCorner.x + 0.5, center.y, groupCorner.z + 0.5);
             }
             center = center.add(facing.getStepX() * 0.5, facing.getStepY() * 0.5, facing.getStepZ() * 0.5);
         } else if (state.getBlock() instanceof DoorBlock)

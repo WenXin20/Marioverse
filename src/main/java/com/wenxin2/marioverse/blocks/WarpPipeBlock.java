@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -696,5 +697,20 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             }
         }
         return group;
+    }
+
+    public static Vec3 getEntranceGroupCorner(BlockPos warpPos, List<BlockPos> group) {
+        if (group.size() <= 1)
+            return Vec3.atLowerCornerOf(warpPos);
+
+        double x = group.stream().mapToInt(BlockPos::getX).average().orElse(warpPos.getX());
+        double z = group.stream().mapToInt(BlockPos::getZ).average().orElse(warpPos.getZ());
+        Vec3 center = new Vec3(x + 0.5, warpPos.getY() + 0.5, z + 0.5);
+
+        if (group.contains(BlockPos.containing(center)))
+            return new Vec3(x, warpPos.getY(), z);
+
+        BlockPos nearest = group.stream().min(Comparator.comparingDouble(pos -> Vec3.atCenterOf(pos).distanceToSqr(center))).orElse(warpPos);
+        return new Vec3(nearest.getX(), warpPos.getY(), nearest.getZ());
     }
 }

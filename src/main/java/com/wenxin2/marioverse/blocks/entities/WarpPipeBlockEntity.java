@@ -761,9 +761,10 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
         List<BlockPos> entranceGroup = WarpPipeBlock.getEntranceGroup(level, warpPos, level.getBlockState(warpPos));
-        double x = entranceGroup.size() > 1 ? entranceGroup.stream().mapToInt(BlockPos::getX).average().orElse(warpPos.getX()) : warpPos.getX();
+        Vec3 groupCorner = WarpPipeBlock.getEntranceGroupCorner(warpPos, entranceGroup);
+        double x = groupCorner.x;
         double y = warpPos.getY();
-        double z = entranceGroup.size() > 1 ? entranceGroup.stream().mapToInt(BlockPos::getZ).average().orElse(warpPos.getZ()) : warpPos.getZ();
+        double z = groupCorner.z;
 
         if (!level.isClientSide && !entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE)) {
