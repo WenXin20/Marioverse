@@ -653,6 +653,10 @@ public class LinkerItem extends TieredItem {
         List<BlockPos> firstGroup = WarpPipeBlock.getEntranceGroup(level, firstPos, firstState);
         List<BlockPos> secondGroup = WarpPipeBlock.getEntranceGroup(level, secondPos, secondState);
 
+        if (firstGroup.isEmpty() != secondGroup.isEmpty() && Math.max(firstGroup.size(), secondGroup.size()) > 1)
+            return LinkerItem.linkPipeGroupToWarp(linker, stack, level, firstGroup.isEmpty() ? secondPos : firstPos,
+                    firstGroup.isEmpty() ? secondGroup : firstGroup, firstGroup.isEmpty() ? firstPos : secondPos);
+
         if (firstGroup.isEmpty() || secondGroup.isEmpty() || (firstGroup.size() == 1 && secondGroup.size() == 1))
             return false;
 
@@ -710,6 +714,41 @@ public class LinkerItem extends TieredItem {
             if (level instanceof ServerLevel serverLevel)
                 WarpLinkParticles.sendLinkVibration(serverLevel, Vec3.atCenterOf(pair.first()), Vec3.atCenterOf(pair.second()));
             linkedFirst.add(pair.first());
+        }
+        return true;
+    }
+
+    private static boolean linkPipeGroupToWarp(LinkerItem linker, ItemStack stack, Level level, BlockPos pipePos,
+                                               List<BlockPos> group, BlockPos warpPos) {
+        if (!(level.getBlockEntity(pipePos) instanceof BaseWarpBlockEntity pipeBE)
+                || !(level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity warpBE))
+            return false;
+
+        if (!level.isClientSide) {
+            if (pipeBE.getUUID() == null)
+                pipeBE.setUUID(UUID.randomUUID());
+            if (warpBE.getUUID() == null)
+                warpBE.setUUID(UUID.randomUUID());
+        }
+
+        linker.link(stack, pipeBE, warpBE);
+
+        for (BlockPos pos : group) {
+            if (pos.equals(pipePos) || !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity groupBE))
+                continue;
+
+            if (!level.isClientSide && groupBE.getUUID() == null)
+                groupBE.setUUID(UUID.randomUUID());
+
+            groupBE.setDestinationPos(warpPos);
+            if (pipeBE.getDestinationDim() != null)
+                groupBE.setDestinationDim(pipeBE.getDestinationDim());
+            if (warpBE.getUUID() != null)
+                groupBE.setWarpUuid(warpBE.getUUID());
+            groupBE.markUpdated();
+
+            if (level instanceof ServerLevel serverLevel)
+                WarpLinkParticles.sendLinkVibration(serverLevel, Vec3.atCenterOf(pos), Vec3.atCenterOf(warpPos));
         }
         return true;
     }
