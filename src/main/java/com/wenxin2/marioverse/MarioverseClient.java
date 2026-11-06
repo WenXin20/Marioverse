@@ -464,7 +464,7 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.SUSPENDED_FIRE.get(), GlowingSuspendedTownParticle.FireProvider::new);
         event.registerSpriteSet(ParticleRegistry.WARP_LINK.get(), WarpLinkParticle.Provider::new);
-        event.registerSpriteSet(ParticleRegistry.WARP_STAR.get(), WarpStarParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.RAINBOW_STAR.get(), WarpStarParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
     }
 

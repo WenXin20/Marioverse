@@ -17,7 +17,10 @@ import org.joml.Vector3f;
 
 @OnlyIn(Dist.CLIENT)
 public class WarpStarParticle extends TextureSheetParticle {
+    private static final int STAR_VARIANTS = 8;
+    private static final int STAR_STAGES = 5;
     private final SpriteSet sprites;
+    private final int starVariant;
     private final Vector3f axis;
     private final float spin;
     private final boolean orbit;
@@ -29,7 +32,6 @@ public class WarpStarParticle extends TextureSheetParticle {
     protected WarpStarParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed,
                                WarpStarParticleOption option, SpriteSet sprites) {
         super(level, x, y, z);
-        this.sprites = sprites;
         this.axis = option.axis().lengthSquared() > 0.0F ? new Vector3f(option.axis()).normalize() : new Vector3f(0.0F, 1.0F, 0.0F);
         this.spin = option.spin();
         this.orbit = option.orbit();
@@ -65,7 +67,9 @@ public class WarpStarParticle extends TextureSheetParticle {
             this.friction = 0.88F;
             this.lifetime = 14 + this.random.nextInt(8);
         }
-        this.setSpriteFromAge(sprites);
+        this.sprites = sprites;
+        this.starVariant = this.random.nextInt(STAR_VARIANTS);
+        this.updateStarSprite();
     }
 
     @Override
@@ -91,7 +95,7 @@ public class WarpStarParticle extends TextureSheetParticle {
         this.oRoll = this.roll;
         this.roll += this.spin;
         super.tick();
-        this.setSpriteFromAge(this.sprites);
+        this.updateStarSprite();
     }
 
     private void tickOrbit() {
@@ -114,7 +118,7 @@ public class WarpStarParticle extends TextureSheetParticle {
         this.setPos(this.orbitCenter.x + this.orbitAxisA.x * cos + this.orbitAxisB.x * sin,
                 this.orbitCenter.y + this.orbitAxisA.y * cos + this.orbitAxisB.y * sin,
                 this.orbitCenter.z + this.orbitAxisA.z * cos + this.orbitAxisB.z * sin);
-        this.setSpriteFromAge(this.sprites);
+        this.updateStarSprite();
     }
 
     @NotNull
@@ -126,6 +130,11 @@ public class WarpStarParticle extends TextureSheetParticle {
     @Override
     public int getLightColor(float partialTick) {
         return LightTexture.FULL_BRIGHT;
+    }
+
+    private void updateStarSprite() {
+        int stage = Math.min(STAR_STAGES - 1, this.age * STAR_STAGES / Math.max(this.lifetime, 1));
+        this.setSprite(this.sprites.get(this.starVariant * STAR_STAGES + stage, STAR_VARIANTS * STAR_STAGES - 1));
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -36,7 +36,7 @@ public class ParticleRegistry {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUPER;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SUSPENDED_FIRE;
     public static final DeferredHolder<ParticleType<?>, ParticleType<WarpLinkParticleOption>> WARP_LINK;
-    public static final DeferredHolder<ParticleType<?>, ParticleType<WarpStarParticleOption>> WARP_STAR;
+    public static final DeferredHolder<ParticleType<?>, ParticleType<WarpStarParticleOption>> RAINBOW_STAR;
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> WONDERFUL;
 
     static {
@@ -76,7 +76,7 @@ public class ParticleRegistry {
             }
         });
 
-        WARP_STAR = Marioverse.PARTICLES.register("warp_star", () -> new ParticleType<WarpStarParticleOption>(false) {
+        RAINBOW_STAR = Marioverse.PARTICLES.register("rainbow_star", () -> new ParticleType<WarpStarParticleOption>(false) {
             @Override
             public MapCodec<WarpStarParticleOption> codec() {
                 return WarpStarParticleOption.CODEC;

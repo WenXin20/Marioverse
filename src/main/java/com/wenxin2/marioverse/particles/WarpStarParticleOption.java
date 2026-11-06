@@ -31,6 +31,6 @@ public record WarpStarParticleOption(Vector3f axis, float spin, boolean orbit, V
 
     @Override
     public ParticleType<?> getType() {
-        return ParticleRegistry.WARP_STAR.get();
+        return ParticleRegistry.RAINBOW_STAR.get();
     }
 }
