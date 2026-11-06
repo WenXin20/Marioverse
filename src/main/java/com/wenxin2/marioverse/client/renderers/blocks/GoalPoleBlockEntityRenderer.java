@@ -33,6 +33,11 @@ public class GoalPoleBlockEntityRenderer extends GeoBlockRenderer<GoalPoleBlockE
         }
     }
 
+    @Override
+    public boolean shouldRenderOffScreen(GoalPoleBlockEntity animatable) {
+        return animatable.getBlockState().getValue(GoalPoleBlock.FLAG);
+    }
+
     @NotNull
     @Override
     public AABB getRenderBoundingBox(GoalPoleBlockEntity animatable) {
