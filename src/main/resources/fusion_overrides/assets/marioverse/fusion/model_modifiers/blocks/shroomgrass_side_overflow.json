@@ -1,0 +1,11 @@
+{
+  "targets": [
+    "marioverse:coarse_shroomsoil",
+    "marioverse:rocky_shroomsoil",
+    "marioverse:shroomsoil",
+    "marioverse:wet_mud"
+  ],
+  "append_models": [
+    "marioverse:block/shroomgrass_side_overlay"
+  ]
+}
