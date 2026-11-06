@@ -265,7 +265,7 @@ public class TickEventHandlers {
     }
 
     private static void collideWithBlocks(Level level, Entity entity) {
-        if (entity instanceof AbstractWindCharge)
+        if (level.isClientSide || entity.isSpectator() || entity instanceof AbstractWindCharge)
             return;
 
         EntityType<?> type = entity.getType();
@@ -280,9 +280,21 @@ public class TickEventHandlers {
 
         Vec3 motion = entity instanceof Projectile
                 ? entity.position().subtract(entity.xOld, entity.yOld, entity.zOld) : entity.getDeltaMovement();
+        boolean onSubLevel = SableProvider.isLoaded() && SableProvider.getContext(level, entity) instanceof SableProvider.SableContext;
+        double moveX = entity.getX() - entity.xOld;
+        double moveZ = entity.getZ() - entity.zOld;
+        boolean isAscending = motion.y > 0 || entity.getY() > entity.yOld;
+        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01 || moveX * moveX + moveZ * moveZ > 1.0E-4;
+
+        if (!onSubLevel && !(canHitAbove && isAscending) && !(canHitSide && isMovingHorizontal))
+            return;
+
+        boolean canGrief = (entity instanceof Player player && !player.getAbilities().flying)
+                || EventHooks.canEntityGrief(level, entity);
+        if (!canGrief)
+            return;
+
         float pitch = 0.8F + level.random.nextFloat() * 0.2F;
-        boolean canGrief = EventHooks.canEntityGrief(level, entity)
-                || (entity instanceof Player player && !player.getAbilities().flying);
         long currentTick = level.getGameTime();
         Long2LongOpenHashMap hitMap = entity.getExistingDataOrNull(DataAttachmentRegistry.HIT_BLOCK_TIMESTAMPS);
 
@@ -293,14 +305,6 @@ public class TickEventHandlers {
                     it.remove();
             }
         }
-
-        double moveX = entity.getX() - entity.xOld;
-        double moveZ = entity.getZ() - entity.zOld;
-        boolean isAscending = motion.y > 0 || entity.getY() > entity.yOld;
-        boolean isMovingHorizontal = motion.horizontalDistance() > 0.01 || moveX * moveX + moveZ * moveZ > 1.0E-4;
-
-        if (level.isClientSide || !canGrief || entity.isSpectator())
-            return;
 
         if (canHitAbove && isAscending) {
             AABB entityBox = entity.getBoundingBox();
@@ -313,7 +317,7 @@ public class TickEventHandlers {
             TickEventHandlers.hitBlocksFromSide(level, entity, entity.getBoundingBox().inflate(0.1, 0, 0.1),
                     entity.getX(), entity.getZ(), currentTick);
 
-        if (SableProvider.isLoaded() && SableProvider.getContext(level, entity) instanceof SableProvider.SableContext context) {
+        if (onSubLevel && SableProvider.getContext(level, entity) instanceof SableProvider.SableContext context) {
             BlockPos plotPos = context.posWorld;
             Vec3 localCenter = SableProvider.toLocalVec(level, plotPos, entity.getBoundingBox().getCenter());
             if (localCenter == null)

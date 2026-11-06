@@ -22,6 +22,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
@@ -250,11 +251,17 @@ public interface BlockWarpEntityHandler {
                 && !(warpPos != null && level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
                 ? serverLevel.getEntity(warpBE.getWarpUuid()) : null;
 
-        if (linkedEntity != null) {
-            WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, linkedEntity.blockPosition(), state);
+        boolean useSavedTarget = linkedEntity == null && warpPos != null && warpBE.hasWarpEntityTarget()
+                && level instanceof ServerLevel serverLevel && !serverLevel.areEntitiesLoaded(ChunkPos.asLong(warpPos));
+
+        if (linkedEntity != null || useSavedTarget) {
+            WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos, state);
             Vec3 startPos = entity.position();
 
-            if (!WarpCost.canAfford(entity, warpCost) || !EntityWarpEntityHandler.warpToEntity(entity, level, linkedEntity))
+            if (!WarpCost.canAfford(entity, warpCost))
+                return;
+            if (linkedEntity != null ? !EntityWarpEntityHandler.warpToEntity(entity, level, linkedEntity)
+                    : !EntityWarpEntityHandler.warpToSavedTarget(entity, level, warpPos, warpBE.warpEntityDirection, warpBE.warpEntityWidth))
                 return;
 
             if (state.getBlock() instanceof WarpPipeBlock)
@@ -265,7 +272,7 @@ public interface BlockWarpEntityHandler {
             return;
         }
 
-        if (warpPos != null && !(level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
+        if (!level.isClientSide && warpPos != null && !(level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
                 && entity instanceof Player player)
             BlockWarpEntityHandler.displayDestinationMissingMessage(player);
 

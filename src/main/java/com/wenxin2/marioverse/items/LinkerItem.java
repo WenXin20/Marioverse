@@ -14,6 +14,7 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.WarpLinkParticles;
 import com.wenxin2.marioverse.world.PendingWarpLinkSavedData;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.BlockAttachedEntity;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -793,7 +795,9 @@ public class LinkerItem extends TieredItem {
                     state.getBlock().getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
             WarpLinkParticles.outlineEntity(serverLevel, warpEntity, null);
         } else {
-            LinkerItem.linkBlocksToEntity(level, entityUuid, entityPos, Vec3.atCenterOf(entityPos), pos, state);
+            WarpLinkableEntity.WarpTarget target = WarpLinkableEntity.getWarpPos(entityUuid);
+            LinkerItem.linkBlocksToEntity(level, entityUuid, target != null ? target.pos() : entityPos, Vec3.atCenterOf(entityPos),
+                    target != null ? target.direction() : Direction.NORTH, target != null ? target.width() : 0, pos, state);
             PendingWarpLinkSavedData.get(serverLevel.getServer()).addLink(entityUuid,
                     new PendingWarpLinkSavedData.PendingLink(pos, null, warpBE.getUUID(), null));
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_unloaded_painting",
@@ -810,7 +814,9 @@ public class LinkerItem extends TieredItem {
         if (!(entity instanceof WarpLinkableEntity warpEntity))
             return;
 
-        LinkerItem.linkBlocksToEntity(level, entity.getUUID(), entity.blockPosition(), entity.position(), pos, state);
+        int width = EntityWarpEntityHandler.getPaintingWidth(entity);
+        BlockPos entityPos = width > 0 && entity instanceof BlockAttachedEntity attached ? attached.getPos() : entity.blockPosition();
+        LinkerItem.linkBlocksToEntity(level, entity.getUUID(), entityPos, entity.position(), entity.getDirection(), width, pos, state);
         if (!(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE))
             return;
 
@@ -822,7 +828,8 @@ public class LinkerItem extends TieredItem {
             SableProvider.recordEntityAnchor(entity);
     }
 
-    private static void linkBlocksToEntity(Level level, UUID entityUuid, BlockPos entityPos, Vec3 entityCenter, BlockPos pos, BlockState state) {
+    private static void linkBlocksToEntity(Level level, UUID entityUuid, BlockPos entityPos, Vec3 entityCenter, Direction direction, int width,
+                                           BlockPos pos, BlockState state) {
         List<BlockPos> blocks = new ArrayList<>(WarpPipeBlock.getEntranceGroup(level, pos, state));
         if (blocks.isEmpty())
             blocks.add(pos);
@@ -838,6 +845,7 @@ public class LinkerItem extends TieredItem {
 
             blockBE.setDestinationPos(entityPos);
             blockBE.setWarpUuid(entityUuid);
+            blockBE.setWarpEntityTarget(direction, width);
             blockBE.markUpdated();
 
             if (level instanceof ServerLevel serverLevel)

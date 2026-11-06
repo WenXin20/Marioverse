@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.WeakHashMap;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -37,6 +38,8 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public static final String IS_WAXED = "IsWaxed";
     public static final String WARP_SUB_LEVEL = "WarpSubLevel";
     public static final String WARP_SUB_LEVEL_POS = "WarpSubLevelPos";
+    public static final String WARP_ENTITY_DIRECTION = "WarpEntityDirection";
+    public static final String WARP_ENTITY_WIDTH = "WarpEntityWidth";
     public BlockPos destinationPos;
     public UUID destinationSubLevel;
     public BlockPos destinationSubLevelPos;
@@ -45,6 +48,8 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public boolean isWaxed;
     public UUID uuid;
     public UUID warpUuid;
+    @Nullable public Direction warpEntityDirection;
+    public int warpEntityWidth;
     public static final Map<UUID, Set<GlobalPos>> WARP_LOCATIONS = new HashMap<>();
     public static final Map<Level, Set<BlockPos>> LOADED_WARP_BLOCKS = new WeakHashMap<>();
     // Store a map to track whether entities have teleported or not
@@ -72,6 +77,8 @@ public class BaseWarpBlockEntity extends BlockEntity {
 
     public void setDestinationPos(@Nullable BlockPos pos) {
         this.destinationPos = pos;
+        this.warpEntityDirection = null;
+        this.warpEntityWidth = 0;
         this.updateDestinationSubLevel(pos);
         this.setChanged();
         if (this.level != null && pos != null) {
@@ -131,6 +138,16 @@ public class BaseWarpBlockEntity extends BlockEntity {
         this.onLoad();
     }
 
+    public void setWarpEntityTarget(Direction direction, int width) {
+        this.warpEntityDirection = direction;
+        this.warpEntityWidth = width;
+        this.setChanged();
+    }
+
+    public boolean hasWarpEntityTarget() {
+        return this.warpEntityDirection != null;
+    }
+
     public void markUpdated() {
         this.setChanged();
         if (this.level != null)
@@ -163,6 +180,11 @@ public class BaseWarpBlockEntity extends BlockEntity {
             this.destinationSubLevel = tag.getUUID(WARP_SUB_LEVEL);
             this.destinationSubLevelPos = NbtUtils.readBlockPos(tag, WARP_SUB_LEVEL_POS).orElse(null);
         }
+
+        if (tag.contains(WARP_ENTITY_DIRECTION)) {
+            this.warpEntityDirection = Direction.from3DDataValue(tag.getInt(WARP_ENTITY_DIRECTION));
+            this.warpEntityWidth = tag.getInt(WARP_ENTITY_WIDTH);
+        }
     }
 
     @Override
@@ -186,6 +208,11 @@ public class BaseWarpBlockEntity extends BlockEntity {
         if (this.destinationSubLevel != null && this.destinationSubLevelPos != null) {
             tag.putUUID(WARP_SUB_LEVEL, this.destinationSubLevel);
             tag.put(WARP_SUB_LEVEL_POS, NbtUtils.writeBlockPos(this.destinationSubLevelPos));
+        }
+
+        if (this.warpEntityDirection != null) {
+            tag.putInt(WARP_ENTITY_DIRECTION, this.warpEntityDirection.get3DDataValue());
+            tag.putInt(WARP_ENTITY_WIDTH, this.warpEntityWidth);
         }
     }
 

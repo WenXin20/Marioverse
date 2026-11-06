@@ -316,6 +316,22 @@ public interface EntityWarpEntityHandler {
         return true;
     }
 
+    static boolean warpToSavedTarget(Entity entity, Level world, BlockPos basePos, Direction direction, int width) {
+        if (width > 0)
+            return EntityWarpEntityHandler.warpPaintingDirection(null, basePos, direction, width, entity, world);
+
+        Vec3 bottomCenter = Vec3.atBottomCenterOf(basePos);
+        Vec3 worldPos = SableProvider.isLoaded() ? SableProvider.toWorldVec(world, bottomCenter) : bottomCenter;
+
+        if (worldPos == null) {
+            if (entity instanceof Player player)
+                BlockWarpEntityHandler.displayDestinationMissingMessage(player);
+            return false;
+        }
+        WarpLinkableEntity.warp(world, entity, worldPos.x, worldPos.y, worldPos.z);
+        return true;
+    }
+
     @Nullable
     private static BlockPos getLinkedBlock(ServerLevel level, WarpLinkableEntity warpLinkableEntity, UUID warpUUID) {
         BlockPos destination = warpLinkableEntity.mv$getDestinationPos();
@@ -325,7 +341,7 @@ public interface EntityWarpEntityHandler {
         return null;
     }
 
-    private static int getPaintingWidth(Entity entity) {
+    static int getPaintingWidth(Entity entity) {
         if (entity instanceof Painting painting)
             return painting.getVariant().value().width();
         if (ModList.get().isLoaded("immersive_paintings") && (entity.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()

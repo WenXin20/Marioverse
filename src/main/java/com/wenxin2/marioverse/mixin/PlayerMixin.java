@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.utils.BlockWarpPlayerHandler;
 import com.wenxin2.marioverse.utils.EntityWarpPlayerHandler;
@@ -30,6 +31,16 @@ public abstract class PlayerMixin extends Entity implements BlockWarpPlayerHandl
 
     @WrapMethod(method = "updatePlayerPose")
     private void mv$trackPoseCollidingEntity(Operation<Void> original) {
-        SubLevelCollision.runWithCollidingEntity(this, original::call);
+        if (!SableProvider.isLoaded()) {
+            original.call();
+            return;
+        }
+
+        Entity previous = SubLevelCollision.pushCollidingEntity(this);
+        try {
+            original.call();
+        } finally {
+            SubLevelCollision.popCollidingEntity(previous);
+        }
     }
 }

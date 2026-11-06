@@ -684,8 +684,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             BlockPos pos = queue.poll();
             BlockState state = level.getBlockState(pos);
 
-            if (!(state.getBlock() instanceof WarpPipeBlock) || state.getBlock() instanceof ClearWarpPipeBlock
-                    || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
+            if (state.getBlock() != startState.getBlock() || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
                     || !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity))
                 continue;
 

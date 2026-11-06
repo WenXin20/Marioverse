@@ -14,15 +14,15 @@ public class SubLevelCollision {
     private static final double SUB_LEVEL_TOLERANCE = 0.1;
     private static final ThreadLocal<Entity> COLLIDING_ENTITY = new ThreadLocal<>();
 
-    public static void runWithCollidingEntity(Entity entity, Runnable action) {
+    @Nullable
+    public static Entity pushCollidingEntity(Entity entity) {
         Entity previous = COLLIDING_ENTITY.get();
         COLLIDING_ENTITY.set(entity);
+        return previous;
+    }
 
-        try {
-            action.run();
-        } finally {
-            COLLIDING_ENTITY.set(previous);
-        }
+    public static void popCollidingEntity(@Nullable Entity previous) {
+        COLLIDING_ENTITY.set(previous);
     }
 
     @Nullable

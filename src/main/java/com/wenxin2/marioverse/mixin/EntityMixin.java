@@ -194,7 +194,17 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
     @WrapMethod(method = "move")
     private void mv$trackCollidingEntity(MoverType type, Vec3 movement, Operation<Void> original) {
-        SubLevelCollision.runWithCollidingEntity((Entity) (Object) this, () -> original.call(type, movement));
+        if (!SableProvider.isLoaded()) {
+            original.call(type, movement);
+            return;
+        }
+
+        Entity previous = SubLevelCollision.pushCollidingEntity((Entity) (Object) this);
+        try {
+            original.call(type, movement);
+        } finally {
+            SubLevelCollision.popCollidingEntity(previous);
+        }
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
