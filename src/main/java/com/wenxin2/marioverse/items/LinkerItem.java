@@ -35,6 +35,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -163,7 +164,9 @@ public class LinkerItem extends TieredItem {
 
                   //  if (dimension.equals(getWarpDimension(stack))) {
                         BlockEntity firstBE = level.getBlockEntity(firstPos);
-                        if (firstBE instanceof BaseWarpBlockEntity firstWarpBE) {
+                        if (!stack.has(DataComponentRegistry.WARP_BLOCK.get()))
+                            this.linkBoundEntityToBlock(stack, level, player, pos, state, useOnContext.getHand());
+                        else if (firstBE instanceof BaseWarpBlockEntity firstWarpBE) {
 
                             // Perform the linking logic
                             if (!LinkerItem.linkPipeGroups(this, stack, level, firstPos, firstState, pos, state))
@@ -615,7 +618,11 @@ public class LinkerItem extends TieredItem {
                                 }
                             }
 
+                            boolean firstIsBlock = stack.has(DataComponentRegistry.WARP_BLOCK.get());
                             linker.link(stack, warpEntity, target, warpPos);
+
+                            if (firstIsBlock && warpEntity == null && warpPos != null)
+                                LinkerItem.linkEntityToBlocks(serverWorld, target, warpPos, serverWorld.getBlockState(warpPos));
 
                             WarpLinkParticles.outlineEntity(serverWorld, target, null);
                             if (warpEntity != null)
@@ -768,5 +775,73 @@ public class LinkerItem extends TieredItem {
         return new double[] {
                 offset.getX() * right.getStepX() + offset.getY() * right.getStepY() + offset.getZ() * right.getStepZ(),
                 offset.getX() * up.getStepX() + offset.getY() * up.getStepY() + offset.getZ() * up.getStepZ()};
+    }
+
+    private void linkBoundEntityToBlock(ItemStack stack, Level level, Player player, BlockPos pos, BlockState state, InteractionHand hand) {
+        UUID entityUuid = LinkerItem.getWarpUUID(stack);
+        BlockPos entityPos = LinkerItem.getWarpPos(stack);
+
+        if (!(level instanceof ServerLevel serverLevel) || entityUuid == null || entityPos == null
+                || !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE))
+            return;
+
+        Entity warpEntity = LinkerItem.findEntity(serverLevel, entityUuid);
+
+        if (warpEntity != null && warpEntity.level() == level) {
+            LinkerItem.linkEntityToBlocks(level, warpEntity, pos, state);
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_warp_block",
+                    state.getBlock().getName(), warpEntity.getName()).withStyle(ChatFormatting.GOLD), true);
+            WarpLinkParticles.outlineEntity(serverLevel, warpEntity, null);
+        } else {
+            LinkerItem.linkBlocksToEntity(level, entityUuid, entityPos, Vec3.atCenterOf(entityPos), pos, state);
+            PendingWarpLinkSavedData.get(serverLevel.getServer()).addLink(entityUuid,
+                    new PendingWarpLinkSavedData.PendingLink(pos, null, warpBE.getUUID(), null));
+            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_unloaded_painting",
+                    state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
+        }
+
+        this.clearItemComponents(stack);
+        WarpLinkParticles.outlineWarp(serverLevel, pos, null);
+        this.playSound(level, pos, SoundRegistry.WRENCH_WARP_CREATED.get(), SoundSource.BLOCKS, 1.0F, 0.9F + level.random.nextFloat() * 0.2F);
+        stack.hurtAndBreak(2, player, LivingEntity.getSlotForHand(hand));
+    }
+
+    private static void linkEntityToBlocks(Level level, Entity entity, BlockPos pos, BlockState state) {
+        if (!(entity instanceof WarpLinkableEntity warpEntity))
+            return;
+
+        LinkerItem.linkBlocksToEntity(level, entity.getUUID(), entity.blockPosition(), entity.position(), pos, state);
+        if (!(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE))
+            return;
+
+        warpEntity.mv$setDestinationPos(pos);
+        warpEntity.mv$setWarpUuid(warpBE.getUUID());
+        warpEntity.mv$setWarpTarget(null);
+        WarpLinkableEntity.updateWarpSubLevel(entity.level(), warpEntity, pos);
+        if (SableProvider.isLoaded())
+            SableProvider.recordEntityAnchor(entity);
+    }
+
+    private static void linkBlocksToEntity(Level level, UUID entityUuid, BlockPos entityPos, Vec3 entityCenter, BlockPos pos, BlockState state) {
+        List<BlockPos> blocks = new ArrayList<>(WarpPipeBlock.getEntranceGroup(level, pos, state));
+        if (blocks.isEmpty())
+            blocks.add(pos);
+        if (state.getBlock() instanceof DoorBlock)
+            blocks.add(state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos.below());
+
+        for (BlockPos blockPos : blocks) {
+            if (!(level.getBlockEntity(blockPos) instanceof BaseWarpBlockEntity blockBE))
+                continue;
+
+            if (blockBE.getUUID() == null)
+                blockBE.setUUID(UUID.randomUUID());
+
+            blockBE.setDestinationPos(entityPos);
+            blockBE.setWarpUuid(entityUuid);
+            blockBE.markUpdated();
+
+            if (level instanceof ServerLevel serverLevel)
+                WarpLinkParticles.sendLinkVibration(serverLevel, Vec3.atCenterOf(blockPos), entityCenter);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityProvider;
@@ -82,6 +83,8 @@ public interface EntityWarpEntityHandler {
                 xpDestination = warpLinkableEntity.mv$getWarpTarget().pos();
             else if (WarpLinkableEntity.getWarpPos(warpUUID) != null)
                 xpDestination = WarpLinkableEntity.getWarpPos(warpUUID).pos();
+            else if (warpLinkableEntity.mv$hasDestinationPos())
+                xpDestination = warpLinkableEntity.mv$getDestinationPos();
 
             Vec3 enteredPos = warpLinkableEntity instanceof Entity enteredWarp ? enteredWarp.position() : entity.position();
             boolean isWarpPainting = warpLinkableEntity instanceof Painting
@@ -111,7 +114,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = painting.getPos();
 
-                    if (!this.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
+                    if (!EntityWarpEntityHandler.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
                     WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
@@ -124,7 +127,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = blockAttachedEntity.getPos();
 
-                    if (!this.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
+                    if (!EntityWarpEntityHandler.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
                     WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
@@ -137,7 +140,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = warpEntity.getDirection();
                     BlockPos basePos = blockAttachedEntity.getPos();
 
-                    if (!this.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
+                    if (!EntityWarpEntityHandler.warpPaintingDirection(warpEntity, basePos, direction, width, entity, world))
                         return;
                     warpLinkableEntity.mv$setWarpTarget(new WarpLinkableEntity.WarpTarget(basePos, direction, width));
                     WarpLinkableEntity.updateWarpSubLevel(world, warpLinkableEntity, basePos);
@@ -160,6 +163,8 @@ public interface EntityWarpEntityHandler {
                     if (warpEntity.getData(DataAttachmentRegistry.BREAK.get()))
                         warpEntity.discard();
                 }
+            } else if (EntityWarpEntityHandler.getLinkedBlock(serverWorld, warpLinkableEntity, warpUUID) != null) {
+                BlockWarpEntityHandler.warpIntoBlock(serverWorld, EntityWarpEntityHandler.getLinkedBlock(serverWorld, warpLinkableEntity, warpUUID), entity);
             } else {
                 UUID warpSubLevel = warpLinkableEntity.mv$getWarpSubLevel();
                 BlockPos warpSubLevelPos = warpLinkableEntity.mv$getWarpSubLevelPos();
@@ -202,7 +207,7 @@ public interface EntityWarpEntityHandler {
                     Direction direction = savedTarget.direction();
                     int width = savedTarget.width();
 
-                    if (!this.warpPaintingDirection(null, basePos, direction, width, entity, world))
+                    if (!EntityWarpEntityHandler.warpPaintingDirection(null, basePos, direction, width, entity, world))
                         return;
 
                     List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
@@ -226,7 +231,7 @@ public interface EntityWarpEntityHandler {
         }
     }
 
-    private boolean warpPaintingDirection(@Nullable Entity destination, BlockPos basePos, Direction direction, double width,
+    private static boolean warpPaintingDirection(@Nullable Entity destination, BlockPos basePos, Direction direction, double width,
                                           Entity entity, Level world) {
         Vec3 paintingCenter;
         double footY;
@@ -286,5 +291,50 @@ public interface EntityWarpEntityHandler {
                     Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                     warpPainting.getName()).withStyle(ChatFormatting.RED), true);
         }
+    }
+
+    static boolean warpToEntity(Entity entity, Level world, Entity destination) {
+        int width = EntityWarpEntityHandler.getPaintingWidth(destination);
+
+        if (width > 0 && destination instanceof BlockAttachedEntity attached) {
+            if (!EntityWarpEntityHandler.warpPaintingDirection(destination, attached.getPos(), destination.getDirection(), width, entity, world))
+                return false;
+        } else {
+            Vec3 worldPos = SableProvider.isLoaded() ? SableProvider.toWorldVec(world, destination.position()) : destination.position();
+
+            if (worldPos == null) {
+                if (entity instanceof Player player)
+                    BlockWarpEntityHandler.displayDestinationMissingMessage(player);
+                return false;
+            }
+            WarpLinkableEntity.warp(world, entity, worldPos.x, worldPos.y, worldPos.z);
+        }
+
+        PaintingRipples.sendRipple(destination);
+        if (destination.getData(DataAttachmentRegistry.BREAK.get()))
+            destination.discard();
+        return true;
+    }
+
+    @Nullable
+    private static BlockPos getLinkedBlock(ServerLevel level, WarpLinkableEntity warpLinkableEntity, UUID warpUUID) {
+        BlockPos destination = warpLinkableEntity.mv$getDestinationPos();
+
+        if (destination != null && level.getBlockEntity(destination) instanceof BaseWarpBlockEntity warpBE && warpUUID.equals(warpBE.getUUID()))
+            return destination;
+        return null;
+    }
+
+    private static int getPaintingWidth(Entity entity) {
+        if (entity instanceof Painting painting)
+            return painting.getVariant().value().width();
+        if (ModList.get().isLoaded("immersive_paintings") && (entity.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
+                || entity.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
+                || entity.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
+                || entity.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()))
+            return PaintingEntityProvider.getPaintingWidth(entity);
+        if (ModList.get().isLoaded("twilightforest") && entity.getType() == CompatRegistry.MAGIC_PAINTING.get())
+            return MagicPaintingEntityProvider.getPaintingWidth(entity);
+        return 0;
     }
 }

@@ -246,6 +246,25 @@ public interface BlockWarpEntityHandler {
             }
         }
 
+        Entity linkedEntity = level instanceof ServerLevel serverLevel && warpBE.getWarpUuid() != null
+                && !(warpPos != null && level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
+                ? serverLevel.getEntity(warpBE.getWarpUuid()) : null;
+
+        if (linkedEntity != null) {
+            WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, linkedEntity.blockPosition(), state);
+            Vec3 startPos = entity.position();
+
+            if (!WarpCost.canAfford(entity, warpCost) || !EntityWarpEntityHandler.warpToEntity(entity, level, linkedEntity))
+                return;
+
+            if (state.getBlock() instanceof WarpPipeBlock)
+                level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
+            if (!level.isClientSide && (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock))
+                level.scheduleTick(pos, state.getBlock(), WARP_DOOR_CLOSE_DELAY);
+            WarpCost.chargeIfWarped(entity, startPos, warpCost);
+            return;
+        }
+
         if (warpPos != null && !(level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
                 && entity instanceof Player player)
             BlockWarpEntityHandler.displayDestinationMissingMessage(player);
@@ -393,5 +412,33 @@ public interface BlockWarpEntityHandler {
 
         AWAITING_RELEASE.remove(entity);
         return false;
+    }
+
+    static void warpIntoBlock(Level level, BlockPos warpPos, Entity entity) {
+        if (!(level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity destBE))
+            return;
+
+        BlockState warpState = level.getBlockState(warpPos);
+
+        if (warpState.getBlock() instanceof DoorBlock doorBlock)
+            WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, doorBlock, destBE);
+        else if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
+            WarpTrapDoorBlockEntity.warp(level, warpPos, warpState, entity, trapdoorBlock, destBE);
+        else if (warpState.getBlock() instanceof WarpPipeBlock)
+            WarpPipeBlockEntity.warp(level, warpPos, warpState, entity);
+        else return;
+
+        if (level.isClientSide)
+            return;
+
+        if (destBE instanceof WarpDoorBlockEntity doorBE && doorBE.breakDoor)
+            WarpDoorBlockEntity.breakDoor(warpPos, level);
+        else if (destBE instanceof WarpDoorBlockEntity)
+            level.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE), 10);
+
+        if (destBE instanceof WarpTrapDoorBlockEntity trapdoorBE && trapdoorBE.breakTrapdoor)
+            WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, level);
+        else if (destBE instanceof WarpTrapDoorBlockEntity)
+            level.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE), 10);
     }
 }
