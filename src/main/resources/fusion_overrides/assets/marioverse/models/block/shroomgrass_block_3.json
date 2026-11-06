@@ -11,6 +11,12 @@
     "particle": "#bottom"
   },
   "connections": {
-    "default": { "type": "is_same_block" }
+    "default": {
+      "type": "and",
+      "predicates": [
+        { "type": "match_block", "blocks": [ "marioverse:shroomgrass_block" ] },
+        { "type": "is_face_visible" }
+      ]
+    }
   }
 }
