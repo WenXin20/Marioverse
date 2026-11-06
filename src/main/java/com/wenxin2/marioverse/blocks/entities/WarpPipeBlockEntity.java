@@ -362,7 +362,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             BaseWarpBlockEntity.LOADED_WARP_BLOCKS.computeIfAbsent(serverWorld, level -> new HashSet<>()).add(pos);
         }
 
-        if (state.hasProperty(WarpPipeBlock.CLOSED) && !state.getValue(WarpPipeBlock.CLOSED)) {
+        if (state.hasProperty(WarpPipeBlock.CLOSED) && !state.getValue(WarpPipeBlock.CLOSED)
+                && state.hasProperty(WarpPipeBlock.ENTRANCE) && state.getValue(WarpPipeBlock.ENTRANCE)) {
             if (warpPipeBE.spawnItemDelay > 0 && !warpPipeBE.getTheItem().isEmpty()) {
                 warpPipeBE.spawnItemDelay--;
             } else if (!warpPipeBE.getTheItem().isEmpty()) {

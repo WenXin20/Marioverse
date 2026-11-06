@@ -125,6 +125,8 @@
 - Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
 - Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
 - Fixed warp pipes placed in structures during world gen sometimes teleporting to other structures
+- Fixed warp pipes still spawning items when the pipe is not an entrance
+- Fixed warp pipes not teleporting when standing on dirt paths
 - Fixed clear pipes not working correctly on sable contraptions
 - Fixed warp pipes not cullfacing
 - Fixed items and mobs exiting the same entrance on wider pipes

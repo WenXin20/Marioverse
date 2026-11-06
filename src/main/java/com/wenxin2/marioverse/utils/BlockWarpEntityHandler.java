@@ -38,6 +38,7 @@ public interface BlockWarpEntityHandler {
     Map<Entity, Long> AWAITING_RELEASE = Collections.synchronizedMap(new WeakHashMap<>());
     int RELEASE_GRACE_TICKS = 10;
     int WARP_DOOR_CLOSE_DELAY = 10;
+    double LOWERED_FLOOR_TOLERANCE = 0.25;
 
     boolean mv$getBlockWarpTeleportConfig(Entity entity);
 
@@ -136,7 +137,7 @@ public interface BlockWarpEntityHandler {
                 boolean facingIntoPipe = lookDot < -0.65;
 
                 boolean withinX = entityX >= blockX && entityX < blockX + 1;
-                boolean withinY = entityY >= blockY && entityY < blockY + 1;
+                boolean withinY = entityY + LOWERED_FLOOR_TOLERANCE >= blockY && entityY < blockY + 1;
                 boolean withinZ = entityZ >= blockZ && entityZ < blockZ + 1;
                 boolean insideFaceBounds;
 
@@ -406,6 +407,11 @@ public interface BlockWarpEntityHandler {
 
     static void displayDestinationMissingMessage(Player player) {
         player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_missing"), true);
+    }
+
+    static boolean isOnLoweredFloor(double feetY) {
+        double fraction = feetY - Math.floor(feetY);
+        return fraction > 0.0 && fraction >= 1.0 - LOWERED_FLOOR_TOLERANCE;
     }
 
     static boolean isStillEnteringAfterWarp(Entity entity) {

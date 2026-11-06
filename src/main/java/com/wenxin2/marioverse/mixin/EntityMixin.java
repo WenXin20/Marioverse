@@ -238,6 +238,14 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                     this.enterWarp(entity, level, posOffset, posOffset, stateOffset, null);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
                     this.enterWarp(entity, level, pos, pos, state, null);
+
+                if (facing.getAxis().isHorizontal() && BlockWarpEntityHandler.isOnLoweredFloor(entity.getY())) {
+                    BlockPos liftedOffset = pos.above().relative(facing);
+                    BlockState liftedState = level.getBlockState(liftedOffset);
+
+                    if (liftedState.getBlock() instanceof WarpPipeBlock && !liftedState.getValue(WarpPipeBlock.CLOSED))
+                        this.enterWarp(entity, level, liftedOffset, liftedOffset, liftedState, null);
+                }
             }
         }
 
@@ -294,6 +302,20 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                         this.enterWarp(entity, level, worldOffset, embeddedOffset, stateOffset, context);
                     if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
                         this.enterWarp(entity, level, posWorld, posWorld, state, context);
+
+                    if (context != null && facing.getAxis().isHorizontal() && BlockWarpEntityHandler.isOnLoweredFloor(context.posLocal.y)) {
+                        BlockPos liftedEmbedded = context.posEmbedded.above().relative(facing);
+                        BlockPos liftedWorld = context.toWorld(liftedEmbedded);
+                        BlockState liftedState = context.accessor.getBlockState(liftedEmbedded);
+
+                        if (level instanceof ServerLevel) {
+                            liftedEmbedded = context.posWorld.above().relative(facing);
+                            liftedState = context.accessor.getServerBlockState(liftedEmbedded);
+                        }
+
+                        if (liftedState.getBlock() instanceof WarpPipeBlock && !liftedState.getValue(WarpPipeBlock.CLOSED))
+                            this.enterWarp(entity, level, liftedWorld, liftedEmbedded, liftedState, context);
+                    }
                 }
             }
         }
