@@ -1,0 +1,27 @@
+{
+  "textures": {
+    "side": "marioverse:block/shroomgrass_block_side_overlay"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 14, 16 ],
+      "faces": {
+        "north": { "uv": [ 0, 1, 16, 16 ], "texture": "#side", "cullface": "north" },
+        "south": { "uv": [ 0, 1, 16, 16 ], "texture": "#side", "cullface": "south" },
+        "east": { "uv": [ 0, 1, 16, 16 ], "texture": "#side", "cullface": "east" },
+        "west": { "uv": [ 0, 1, 16, 16 ], "texture": "#side", "cullface": "west" }
+      }
+    },
+    {
+      "from": [ 0, 14, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "north": { "uv": [ 0, 0, 16, 1 ], "texture": "#side", "cullface": "north" },
+        "south": { "uv": [ 0, 0, 16, 1 ], "texture": "#side", "cullface": "south" },
+        "east": { "uv": [ 0, 0, 16, 1 ], "texture": "#side", "cullface": "east" },
+        "west": { "uv": [ 0, 0, 16, 1 ], "texture": "#side", "cullface": "west" }
+      }
+    }
+  ]
+}

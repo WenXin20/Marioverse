@@ -1,6 +1,7 @@
 {
   "targets": [
     "marioverse:coarse_shroomsoil",
+    "marioverse:deep_wet_mud",
     "marioverse:rocky_shroomsoil",
     "marioverse:shroomsoil",
     "marioverse:shroomsoil_path",

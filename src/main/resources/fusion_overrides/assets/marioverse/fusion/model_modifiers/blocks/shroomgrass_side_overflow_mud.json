@@ -1,0 +1,8 @@
+{
+  "targets": [
+    "marioverse:deep_wet_mud"
+  ],
+  "append_models": [
+    "marioverse:block/shroomgrass_side_overlay_mud"
+  ]
+}
