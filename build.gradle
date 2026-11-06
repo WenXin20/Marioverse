@@ -78,11 +78,9 @@ dependencies {
     implementation "curse.maven:create-328085:7963363"
     implementation "curse.maven:create-aeronautics-676721:8763471" // Requires Create, Sable, Incompatible w/ Embeddium
     implementation "curse.maven:create-coasters-simulated-1601871:8655742" // Requires Create, Sable
-    compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
     compileOnly "curse.maven:framedblocks-441647:7584453"
     implementation "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
-    compileOnly "maven.modrinth:grassier-grass:1.4.5-neoforge"
     implementation "curse.maven:guard-villagers-360203:6066966"
     implementation "curse.maven:hole-filler-mod-440585:6583948"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
@@ -95,12 +93,9 @@ dependencies {
     compileOnly "curse.maven:packs-editor-1606070:8432925"
     compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     compileOnly "curse.maven:roughly-enough-items-${rei_version}"
-    compileOnly "curse.maven:slabbed-1457462:9029709"
-    compileOnly "curse.maven:spatial-gui-1676741:9085092"
     implementation "curse.maven:spark-${spark_version}"
-    implementation "curse.maven:the-bumblezone-forge-362479:9302166" // Requires Resourceful Lib
     implementation "curse.maven:the-twilight-forest-227639:7797302"
-    implementation "curse.maven:the-undergarden-379849:7862546"
+    compileOnly "curse.maven:the-undergarden-379849:7862546"
     implementation "curse.maven:treechop-421377:6254465"
     implementation "curse.maven:tree-physics-1522010:8448844"
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
@@ -118,7 +113,6 @@ dependencies {
     implementation "curse.maven:framework-549225:7530361"
     implementation "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    implementation "curse.maven:resourceful-lib-570073:5973188"
     implementation "curse.maven:sable-${sable_version}" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
     compileOnly "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
