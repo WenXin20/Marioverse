@@ -1,7 +1,62 @@
 {
   "variants": {
-    "": {
-      "model": "marioverse:block/shroomsoil"
-    }
+    "axis=x": [
+      {
+        "model": "marioverse:block/shroomsoil",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/shroomsoil_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/shroomsoil",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/shroomsoil_mirrored",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "marioverse:block/shroomsoil"
+      },
+      {
+        "model": "marioverse:block/shroomsoil_mirrored"
+      },
+      {
+        "model": "marioverse:block/shroomsoil",
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/shroomsoil_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "marioverse:block/shroomsoil",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/shroomsoil_mirrored",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/shroomsoil",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/shroomsoil_mirrored",
+        "x": 90,
+        "y": 180
+      }
+    ]
   }
 }

@@ -3,13 +3,13 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.Nullable;
 
-public class CoarseShroomsoilBlock extends Block {
+public class CoarseShroomsoilBlock extends RotatedPillarBlock {
     public CoarseShroomsoilBlock(Properties properties) {
         super(properties);
     }
@@ -20,7 +20,7 @@ public class CoarseShroomsoilBlock extends Block {
         if (context.getClickedFace() != Direction.DOWN
                 && context.getLevel().getBlockState(context.getClickedPos().above()).isAir()) {
             if (itemAbility.equals(ItemAbilities.HOE_TILL))
-                return BlockRegistry.SHROOMSOIL.get().defaultBlockState();
+                return BlockRegistry.SHROOMSOIL.get().defaultBlockState().setValue(AXIS, state.getValue(AXIS));
             else if (itemAbility.equals(ItemAbilities.SHOVEL_FLATTEN))
                 return BlockRegistry.SHROOMSOIL_PATH.get().defaultBlockState();
         }

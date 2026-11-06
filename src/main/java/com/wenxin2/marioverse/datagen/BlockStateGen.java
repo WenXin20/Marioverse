@@ -167,6 +167,31 @@ public class BlockStateGen extends BlockStateProvider {
         }
     }
 
+    private void topEndAxisBlocks(Block... blocks) {
+        for (Block block : blocks) {
+            String name = this.name(block);
+            ModelFile model = models().cubeColumn(name, blockTexture(block), texture(block, "_top"));
+            ModelFile mirroredModel = models().withExistingParent(name + "_mirrored", mcLoc("block/cube_column_mirrored"))
+                    .texture("side", blockTexture(block))
+                    .texture("end", texture(block, "_top"));
+
+            this.getVariantBuilder(block).forAllStates(state -> {
+                Direction.Axis axis = state.getValue(RotatedPillarBlock.AXIS);
+                int x = axis == Direction.Axis.Y ? 0 : 90;
+                int y = axis == Direction.Axis.X ? 90 : 0;
+                int flippedY = axis == Direction.Axis.X ? 90 : 180;
+
+                return ConfiguredModel.builder()
+                        .modelFile(model).rotationX(x).rotationY(y)
+                        .nextModel().modelFile(mirroredModel).rotationX(x).rotationY(y)
+                        .nextModel().modelFile(model).rotationX(x).rotationY(flippedY)
+                        .nextModel().modelFile(mirroredModel).rotationX(x).rotationY(flippedY)
+                        .build();
+            });
+            this.simpleBlockItem(block, model);
+        }
+    }
+
     private void logBlocks(Block... blocks) {
         for (Block block : blocks) {
             ModelFile.UncheckedModelFile model = new ModelFile.UncheckedModelFile(modLoc("block/" + this.name(block)));
@@ -287,12 +312,8 @@ public class BlockStateGen extends BlockStateProvider {
                 BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get(),
                 BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
 
-        this.cubeBottomTopModel(BlockRegistry.SHROOMSOIL.get(), blockTexture(BlockRegistry.SHROOMSOIL.get()),
-                blockTexture(BlockRegistry.SHROOMSOIL.get()), texture(BlockRegistry.SHROOMSOIL.get(), "_top"));
-        this.cubeBottomTopModel(BlockRegistry.COARSE_SHROOMSOIL.get(), blockTexture(BlockRegistry.COARSE_SHROOMSOIL.get()),
-                blockTexture(BlockRegistry.COARSE_SHROOMSOIL.get()), texture(BlockRegistry.COARSE_SHROOMSOIL.get(), "_top"));
-        this.cubeBottomTopModel(BlockRegistry.ROCKY_SHROOMSOIL.get(), blockTexture(BlockRegistry.ROCKY_SHROOMSOIL.get()),
-                blockTexture(BlockRegistry.ROCKY_SHROOMSOIL.get()), texture(BlockRegistry.ROCKY_SHROOMSOIL.get(), "_top"));
+        this.topEndAxisBlocks(BlockRegistry.SHROOMSOIL.get(), BlockRegistry.COARSE_SHROOMSOIL.get(),
+                BlockRegistry.ROCKY_SHROOMSOIL.get());
         this.blockSpawnerBlockModel(spawner, texture(spawner, "_top"), blockTexture(spawner), texture(spawner, "_top"));
         this.bloomflowerModel(BlockRegistry.BLUE_BLOOMFLOWER.get(),
                 modLoc("block/blue_bloomflower_back"), modLoc("block/blue_bloomflower_front"));
