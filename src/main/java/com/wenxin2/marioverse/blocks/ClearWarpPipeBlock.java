@@ -14,6 +14,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -128,6 +129,8 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
             Block.box(0, 0, 0, 16, 3, 16)).optimize();
     public static final VoxelShape PIPE_ALL = Shapes.or(
             Block.box(4, 4, 4, 12, 12, 12)).optimize();
+    private final Map<BlockState, VoxelShape> shapeCache = new ConcurrentHashMap<>();
+    private final Map<BlockState, VoxelShape> selectionShapeCache = new ConcurrentHashMap<>();
 
     public ClearWarpPipeBlock(@Nullable DyeColor color, Properties properties) {
         super(color, properties);
@@ -144,77 +147,7 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     }
 
     public VoxelShape voxelShape(BlockState state) {
-        VoxelShape shape = Shapes.empty();
-        VoxelShape shapeDown = Shapes.empty();
-
-        if (state.getValue(FACING) == Direction.DOWN && state.getValue(ENTRANCE) && !state.getValue(CLOSED)) {
-            if (!state.getValue(DOWN) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.DOWN))) {
-                shapeDown = Shapes.or(shapeDown, PIPE_FACING_DOWN);
-            }
-            if (!state.getValue(UP)) {
-                shapeDown = Shapes.or(shapeDown, PIPE_FACING_UP);
-            }
-            if (!state.getValue(NORTH)) {
-                shapeDown = Shapes.or(shapeDown, PIPE_FACING_NORTH);
-            }
-            if (!state.getValue(EAST)) {
-                shapeDown = Shapes.or(shapeDown, PIPE_FACING_EAST);
-            }
-            if (!state.getValue(SOUTH)) {
-                shapeDown = Shapes.or(shapeDown, PIPE_FACING_SOUTH);
-            }
-            if (!state.getValue(WEST)) {
-                shapeDown = Shapes.or(shapeDown, PIPE_FACING_WEST);
-            }
-            else {
-                Shapes.box(2, 2, 2, 14, 14, 14);
-            }
-            return shapeDown.optimize();
-        }
-
-        // Combine shapes based on the directional block states
-        if (!(state.getValue(FACING) == Direction.DOWN && state.getValue(ENTRANCE) && !state.getValue(CLOSED))) {
-            if (!state.getValue(DOWN) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.DOWN))) {
-                shape = Shapes.or(shape, PIPE_DOWN);
-            }
-            if (!state.getValue(UP) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.UP))) {
-                shape = Shapes.or(shape, PIPE_UP);
-            }
-            if (!state.getValue(NORTH) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.NORTH))) {
-                shape = Shapes.or(shape, PIPE_NORTH);
-            }
-            if (!state.getValue(EAST) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.EAST))) {
-                shape = Shapes.or(shape, PIPE_EAST);
-            }
-            if (!state.getValue(SOUTH) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.SOUTH))) {
-                shape = Shapes.or(shape, PIPE_SOUTH);
-            }
-            if (!state.getValue(WEST) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.WEST))) {
-                shape = Shapes.or(shape, PIPE_WEST);
-            }
-        }
-
-        if (state.getValue(ENTRANCE)) {
-            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.UP) {
-                shape = Shapes.or(shape, PIPE_UP);
-            }
-            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.DOWN) {
-                shape = Shapes.or(shape, PIPE_DOWN);
-            }
-            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.NORTH) {
-                shape = Shapes.or(shape, PIPE_NORTH);
-            }
-            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.SOUTH) {
-                shape = Shapes.or(shape, PIPE_SOUTH);
-            }
-            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.EAST) {
-                shape = Shapes.or(shape, PIPE_EAST);
-            }
-            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.WEST) {
-                shape = Shapes.or(shape, PIPE_WEST);
-            }
-        }
-        return shape.optimize();
+        return this.shapeCache.computeIfAbsent(state, this::computeVoxelShape);
     }
 
     public VoxelShape noCollisionShape(BlockState state, CollisionContext context) {
@@ -264,6 +197,10 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
     @NotNull
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        if (!(context instanceof EntityCollisionContext entityContext && entityContext.getEntity() instanceof Player))
+            return this.selectionShapeCache.computeIfAbsent(state,
+                    cachedState -> Shapes.or(this.voxelShape(cachedState), this.noCollisionShape(cachedState, context)).optimize());
+
         VoxelShape shape = Shapes.or(this.voxelShape(state), this.noCollisionShape(state, context));
         return shape.optimize();
     }
@@ -993,5 +930,79 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
                 return false;
         }
         return true;
+    }
+
+    private VoxelShape computeVoxelShape(BlockState state) {
+        VoxelShape shape = Shapes.empty();
+        VoxelShape shapeDown = Shapes.empty();
+
+        if (state.getValue(FACING) == Direction.DOWN && state.getValue(ENTRANCE) && !state.getValue(CLOSED)) {
+            if (!state.getValue(DOWN) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.DOWN))) {
+                shapeDown = Shapes.or(shapeDown, PIPE_FACING_DOWN);
+            }
+            if (!state.getValue(UP)) {
+                shapeDown = Shapes.or(shapeDown, PIPE_FACING_UP);
+            }
+            if (!state.getValue(NORTH)) {
+                shapeDown = Shapes.or(shapeDown, PIPE_FACING_NORTH);
+            }
+            if (!state.getValue(EAST)) {
+                shapeDown = Shapes.or(shapeDown, PIPE_FACING_EAST);
+            }
+            if (!state.getValue(SOUTH)) {
+                shapeDown = Shapes.or(shapeDown, PIPE_FACING_SOUTH);
+            }
+            if (!state.getValue(WEST)) {
+                shapeDown = Shapes.or(shapeDown, PIPE_FACING_WEST);
+            }
+            else {
+                Shapes.box(2, 2, 2, 14, 14, 14);
+            }
+            return shapeDown.optimize();
+        }
+
+        // Combine shapes based on the directional block states
+        if (!(state.getValue(FACING) == Direction.DOWN && state.getValue(ENTRANCE) && !state.getValue(CLOSED))) {
+            if (!state.getValue(DOWN) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.DOWN))) {
+                shape = Shapes.or(shape, PIPE_DOWN);
+            }
+            if (!state.getValue(UP) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.UP))) {
+                shape = Shapes.or(shape, PIPE_UP);
+            }
+            if (!state.getValue(NORTH) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.NORTH))) {
+                shape = Shapes.or(shape, PIPE_NORTH);
+            }
+            if (!state.getValue(EAST) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.EAST))) {
+                shape = Shapes.or(shape, PIPE_EAST);
+            }
+            if (!state.getValue(SOUTH) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.SOUTH))) {
+                shape = Shapes.or(shape, PIPE_SOUTH);
+            }
+            if (!state.getValue(WEST) && !(state.getValue(ENTRANCE) && (state.getValue(FACING) == Direction.WEST))) {
+                shape = Shapes.or(shape, PIPE_WEST);
+            }
+        }
+
+        if (state.getValue(ENTRANCE)) {
+            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.UP) {
+                shape = Shapes.or(shape, PIPE_UP);
+            }
+            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.DOWN) {
+                shape = Shapes.or(shape, PIPE_DOWN);
+            }
+            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.NORTH) {
+                shape = Shapes.or(shape, PIPE_NORTH);
+            }
+            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.SOUTH) {
+                shape = Shapes.or(shape, PIPE_SOUTH);
+            }
+            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.EAST) {
+                shape = Shapes.or(shape, PIPE_EAST);
+            }
+            if (state.getValue(CLOSED) && state.getValue(FACING) == Direction.WEST) {
+                shape = Shapes.or(shape, PIPE_WEST);
+            }
+        }
+        return shape.optimize();
     }
 }
