@@ -1,4 +1,7 @@
 ## Update 1.12.0
+### Thanks to @Boenndal for many textures
+#### Most new blocks need to crafted or traded for with wandering traders. 
+#### This will be changed and prepares for a future update
 - Improved Fungal Stone sets
   - Added new textures
   - Added Fungal Cobblestone sets
@@ -122,8 +125,10 @@
 - Updated structures to use some of the new blocks
 - Fixed the super star shader not working with armor or curios
 - Fixed the super star mob not applying its effects to mobs that cannot be pushed
-- Fixed teleporting to unloaded create aeronautics contraptions via warp pipe
-- Fixed teleporting via warp paintings not working correctly on create aeronautics contraptions
+- Fixed water spouts not pushing in the direction of the tilt on create aeronautics contraptions
+- Fixed bouncy blocks not bouncing in the direction of the tilt on contraptions
+- Fixed teleporting to unloaded contraptions via warp pipe
+- Fixed teleporting via warp paintings not working correctly on contraptions
 - Fixed warp pipes placed in structures during world gen sometimes teleporting to other structures
 - Fixed warp pipes still spawning items when the pipe is not an entrance
 - Fixed warp pipes not teleporting when standing on dirt paths

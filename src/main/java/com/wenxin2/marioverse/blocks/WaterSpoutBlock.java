@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -187,7 +188,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         if (stateAbove.isAir()) {
             if (entity instanceof Boat boat) {
                 boat.onAboveBubbleCol(Boolean.FALSE);
-            } else this.onAboveUpBubbleCol(entity);
+            } else this.onAboveUpBubbleCol(entity, world, pos);
             if (!world.isClientSide) {
                 ServerLevel serverWorld = (ServerLevel)world;
 
@@ -199,7 +200,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
                 }
             }
         } else {
-            this.onInsideUpBubbleColumn(entity);
+            this.onInsideUpBubbleColumn(entity, world, pos);
             if (!world.isClientSide) {
                 ServerLevel serverWorld = (ServerLevel)world;
 
@@ -221,18 +222,20 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
        }
     }
 
-    public void onAboveUpBubbleCol(Entity entity) {
+    public void onAboveUpBubbleCol(Entity entity, Level world, BlockPos pos) {
         Vec3 vec3 = entity.getDeltaMovement();
-        double d0 = Math.min(1.8D, vec3.y + 0.1D);
+        Vec3 up = SubLevelCollision.getUpDirection(world, pos);
+        double d0 = Math.min(1.8D, vec3.dot(up) + 0.1D);
 
-        entity.setDeltaMovement(vec3.x, d0, vec3.z);
+        entity.setDeltaMovement(SubLevelCollision.withSpeedAlong(vec3, up, d0));
     }
 
-    public void onInsideUpBubbleColumn(Entity entity) {
+    public void onInsideUpBubbleColumn(Entity entity, Level world, BlockPos pos) {
         Vec3 vec3 = entity.getDeltaMovement();
-        double d0 = Math.min(0.5D, vec3.y + 0.04D);
+        Vec3 up = SubLevelCollision.getUpDirection(world, pos);
+        double d0 = Math.min(0.5D, vec3.dot(up) + 0.04D);
 
-        entity.setDeltaMovement(vec3.x, d0 + 0.05D, vec3.z);
+        entity.setDeltaMovement(SubLevelCollision.withSpeedAlong(vec3, up, d0 + 0.05D));
         entity.resetFallDistance();
     }
 
