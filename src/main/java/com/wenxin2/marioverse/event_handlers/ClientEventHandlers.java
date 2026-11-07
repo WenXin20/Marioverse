@@ -521,6 +521,8 @@ public class ClientEventHandlers {
 
                 for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
                     BlockState stateBelow = level.getBlockState(posBelow);
+                    BlockPos bouncePos = posBelow.immutable();
+                    AABB standBox = player.getBoundingBox();
 
                     if (object instanceof SableProvider.SableContext context) {
                         BlockPos posEmbedded = context.posEmbedded.below()
@@ -535,6 +537,11 @@ public class ClientEventHandlers {
 
                         if (level instanceof ServerLevel)
                             stateBelow = context.accessor.getServerBlockState(posWorld);
+
+                        double halfWidth = player.getBbWidth() * 0.5;
+                        bouncePos = posWorld.immutable();
+                        standBox = new AABB(context.posLocal.x - halfWidth, context.posLocal.y - 0.001, context.posLocal.z - halfWidth,
+                                context.posLocal.x + halfWidth, context.posLocal.y - 0.001 + player.getBbHeight(), context.posLocal.z + halfWidth);
                     }
 
                     Block blockBelow = stateBelow.getBlock();
@@ -560,10 +567,10 @@ public class ClientEventHandlers {
                             && !player.getAbilities().flying);
 
                     if (canBounce) {
-                        if (minY >= posBelow.getY() + 0.9 && player.getBoundingBox().deflate(0.05, 0.0, 0.05)
-                                .move(0.0, -0.2, 0.0).intersects(new AABB(posBelow)))
+                        if (standBox.minY >= bouncePos.getY() + 0.9 && standBox.deflate(0.05, 0.0, 0.05)
+                                .move(0.0, -0.2, 0.0).intersects(new AABB(bouncePos)))
                             player.setOnGround(false);
-                        PacketDistributor.sendToServer(new BouncePayload(posBelow, Minecraft.getInstance().options.keyJump.isDown(), motion.y));
+                        PacketDistributor.sendToServer(new BouncePayload(bouncePos, Minecraft.getInstance().options.keyJump.isDown(), motion.y));
                         break;
                     }
                 }

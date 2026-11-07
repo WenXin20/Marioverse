@@ -1,13 +1,18 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -19,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 public class MushroomTrampolineCapBlock extends SuperMushroomCapBlock {
     public MushroomTrampolineCapBlock(Properties properties) {
@@ -49,20 +55,24 @@ public class MushroomTrampolineCapBlock extends SuperMushroomCapBlock {
         if (entity instanceof Player player && player.getAbilities().flying)
             return false;
 
-        double motionY = (entity instanceof Player) ? clientMotionY : vec3.y;
+        Vec3 up = SubLevelCollision.getUpDirection(level, pos);
+        double motionY = (entity instanceof Player) ? clientMotionY : vec3.dot(up);
 
         if (motionY >= 0.0)
             return false;
 
+        AABB entityBox = MushroomTrampolineCapBlock.getStandingBox(level, pos, entity);
+        if (entityBox == null)
+            return false;
+
         VoxelShape shape = level.getBlockState(pos).getCollisionShape(level, pos);
         double blockTopY = pos.getY() + (shape.isEmpty() ? 1.0 : shape.max(Direction.Axis.Y));
-        double entityMinY = entity.getBoundingBox().minY;
+        double entityMinY = entityBox.minY;
         double verticalEpsilon = 0.1;
 
         if (entityMinY < blockTopY - verticalEpsilon || entityMinY > blockTopY + verticalEpsilon)
             return false;
 
-        AABB entityBox = entity.getBoundingBox();
         double horizontalEpsilon = 0.05;
         boolean overlapsX = entityBox.maxX > pos.getX() + horizontalEpsilon
                 && entityBox.minX < pos.getX() + 1.0 - horizontalEpsilon;
@@ -100,7 +110,52 @@ public class MushroomTrampolineCapBlock extends SuperMushroomCapBlock {
                     SoundSource.BLOCKS, 1.0F, pitch);
 
         entity.resetFallDistance();
-        entity.setDeltaMovement(vec3.x, newY, vec3.z);
+        entity.setDeltaMovement(SubLevelCollision.withSpeedAlong(vec3, up, newY));
         return true;
+    }
+
+    @Nullable
+    public static BlockPos findSubLevelTrampoline(Level level, Entity entity) {
+        if (!SableProvider.isLoaded() || !(SableProvider.getContext(level, entity) instanceof SableProvider.SableContext context))
+            return null;
+
+        Vec3 local = context.posLocal;
+        double halfWidth = entity.getBbWidth() * 0.5;
+        int y = Mth.floor(local.y - 0.05);
+
+        for (int x = Mth.floor(local.x - halfWidth); x <= Mth.floor(local.x + halfWidth); x++) {
+            for (int z = Mth.floor(local.z - halfWidth); z <= Mth.floor(local.z + halfWidth); z++) {
+                BlockPos pos = new BlockPos(x, y, z);
+                if (MushroomTrampolineCapBlock.isBouncyFor(level.getBlockState(pos), entity))
+                    return pos;
+            }
+        }
+        return null;
+    }
+
+    private static boolean isBouncyFor(BlockState state, Entity entity) {
+        if (entity.isSuppressingBounce() || entity.isNoGravity())
+            return false;
+        if (state.is(TagRegistry.BOUNCY_BLOCKS))
+            return !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
+        if (state.getBlock() instanceof BlueMushroomTrampolineCapBlock)
+            return state.hasProperty(BlockStatePropertyRegistry.ACTIVE) && !state.getValue(BlockStatePropertyRegistry.ACTIVE);
+        if (state.getBlock() instanceof RedMushroomTrampolineCapBlock)
+            return state.hasProperty(BlockStatePropertyRegistry.ACTIVE) && state.getValue(BlockStatePropertyRegistry.ACTIVE);
+        return state.getBlock() instanceof MushroomTrampolineCapBlock;
+    }
+
+    @Nullable
+    private static AABB getStandingBox(Level level, BlockPos pos, Entity entity) {
+        if (!SableProvider.isLoaded() || !SableProvider.isPlotPos(level, pos))
+            return entity.getBoundingBox();
+
+        Vec3 local = SableProvider.toLocalVec(level, pos, entity.position());
+        if (local == null)
+            return null;
+
+        double halfWidth = entity.getBbWidth() * 0.5;
+        return new AABB(local.x - halfWidth, local.y, local.z - halfWidth,
+                local.x + halfWidth, local.y + entity.getBbHeight(), local.z + halfWidth);
     }
 }

@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -27,6 +28,16 @@ public class BlockMixin {
     @Inject(method = "updateEntityAfterFallOn", at = @At("HEAD"), cancellable = true)
     private void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity, CallbackInfo ci) {
         BlockPos pos = entity.getOnPos();
+
+        if (!(entity instanceof Player) && !entity.level().isClientSide && SableProvider.isLoaded()) {
+            BlockPos subLevelPos = MushroomTrampolineCapBlock.findSubLevelTrampoline(entity.level(), entity);
+
+            if (subLevelPos != null && MushroomTrampolineCapBlock.bounceEntity(entity.level(), subLevelPos, entity,
+                    false, entity.getDeltaMovement().y)) {
+                ci.cancel();
+                return;
+            }
+        }
 
         if (blockGetter.getBlockState(entity.blockPosition().below()).is(TagRegistry.BOUNCY_BLOCKS)
                 && !entity.getType().is(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS)
